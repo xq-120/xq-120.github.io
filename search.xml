@@ -114,8 +114,7 @@
 <p>代码高亮</p>
 </blockquote>
 <p>吐槽一点,要想OC代码高亮需要写objc,不能写objective-c,否则不会高亮渲染.我佛了,还以为配置有问题忙活半天.</p>
-<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line">​```objc</span><br><span class="line"><span class="keyword">signed</span> <span class="keyword">char</span> rs = <span class="number">240</span>;</span><br><span class="line"><span class="built_in">BOOL</span> rs1 = <span class="number">240</span>;</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"%d %d"</span>, rs, rs1);</span><br><span class="line">​</span><br></pre></td></tr></table></figure>
-<p>```</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><figure class="highlight objc"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">​```objc</span><br><span class="line"><span class="keyword">signed</span> <span class="keyword">char</span> rs = <span class="number">240</span>;</span><br><span class="line"><span class="built_in">BOOL</span> rs1 = <span class="number">240</span>;</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"%d %d"</span>, rs, rs1);</span><br><span class="line">​</span><br></pre></td></tr></table></figure></h2><p>```</p>
 <h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><p><a href="https://cuiqingcai.com/7625.html" target="_blank" rel="noopener">利用 GitHub + Hexo + Next 从零搭建一个博客</a></p>
 <p><a href="https://blog.csdn.net/u011475210/article/details/79023429" target="_blank" rel="noopener">我的个人博客之旅：从jekyll到hexo</a></p>
 <p><a href="https://theme-next.iissnan.com/" target="_blank" rel="noopener">next配置官方说明</a></p>
