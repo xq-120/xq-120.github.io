@@ -248,9 +248,9 @@
 
       
         <h2 id="UITextField笔记"><a href="#UITextField笔记" class="headerlink" title="UITextField笔记"></a>UITextField笔记</h2><h3 id="监听文本输入变化"><a href="#监听文本输入变化" class="headerlink" title="监听文本输入变化"></a>监听文本输入变化</h3><p>方法1: addTarget — UIControlEventValueChanged</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[self.passwordTextField addTarget:self action:@selector(passwordTextFieldTextDidChanged:) forControlEvents:UIControlEventValueChanged];</span><br></pre></td></tr></table></figure>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[self.passwordTextField <span class="string">addTarget:</span>self <span class="string">action:</span><span class="meta">@selector</span>(<span class="string">passwordTextFieldTextDidChanged:</span>) <span class="string">forControlEvents:</span>UIControlEventValueChanged];</span><br></pre></td></tr></table></figure>
 <p>方法2: 注册通知 — UITextFieldTextDidChangeNotification</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(passwordTextFieldTextDidChanged:) name:UITextFieldTextDidChangeNotification object:nil];</span><br></pre></td></tr></table></figure>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[NSNotificationCenter defaultCenter] <span class="string">addObserver:</span>self <span class="string">selector:</span><span class="meta">@selector</span>(<span class="string">passwordTextFieldTextDidChanged:</span>) <span class="string">name:</span>UITextFieldTextDidChangeNotification <span class="string">object:</span>nil];</span><br></pre></td></tr></table></figure>
 <p>note:</p>
 <ol>
 <li>当点击清空按钮时,只有注册通知的方案,回调方法被调用了.</li>
