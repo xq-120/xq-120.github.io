@@ -4,13 +4,17 @@ date: 2020-02-29 21:37:50
 tags:
 ---
 
-参考:
 
-[[利用 GitHub + Hexo + Next 从零搭建一个博客](https://cuiqingcai.com/7625.html)](https://cuiqingcai.com/7625.html)
 
-[我的个人博客之旅：从jekyll到hexo](https://blog.csdn.net/u011475210/article/details/79023429)
+#### 主要步骤
 
-步骤:
+* 安装环境
+* 初始化项目
+* 部署
+* 配置站点信息
+* 配置主题信息
+
+下面是具体的步骤:
 
 > 安装环境
 
@@ -63,37 +67,114 @@ git remote add origin "https://github.com/xxx/xxx.github.io.git"
 git push origin source
 ```
 
+
+
 > 配置站点信息
+
+站点简介修改
 
 
 
 > 修改主题
 
-使用next主题.
+选择一个主题使用.这里选择next主题.
 
 
 
 > 主题配置
 
+主题显示效果配置
+
 
 
 > 写文章
+
+新增文章
+
+`hexo new "name"`
+
+创建的文章会出现在 `source/_posts` 文件夹下，是 MarkDown 格式。
+
+在文章开头通过如下格式添加必要信息：
+
+```
+---
+title: 标题 # 自动创建，如 hello-world
+date: 日期 # 自动创建，如 2020-03-01 13:30:15
+tags: 
+- 标签1
+- 标签2
+- 标签3
+categories:
+- 分类1
+- 分类2
+---
+```
 
 
 
 > 标签
 
+增加标签页面
+
+`hexo new page tags`
+
 
 
 > 分类
+
+增加分类页面
+
+`hexo new page categories`
 
 
 
 > 搜索页
 
+安装搜索插件
+
+`npm install hexo-generator-searchdb --save`
+
+在项目的 _config.yml 里面添加搜索设置:
+
+```
+search:
+  path: search.xml
+  field: post
+  format: html
+  limit: 10000
+```
+
+在主题的 _config.yml 里面修改如下:
+
+```
+# Local search
+# Dependencies: https://github.com/wzpan/hexo-generator-search
+local_search:
+  enable: true
+  # If auto, trigger search by changing input.
+  # If manual, trigger search by pressing enter key or search button.
+  trigger: auto
+  # Show top n results per article, show all results by setting to -1
+  top_n_per_article: 5
+  # Unescape html strings to the readable one.
+  unescape: false
+  # Preload the search data when the page loads.
+  preload: false
+```
+
 
 
 > 404页面
 
+设置自定义的404页面
 
+其他还有很多可以配置的如评论系统,统计系统.
 
+#### 参考
+
+[[利用 GitHub + Hexo + Next 从零搭建一个博客](https://cuiqingcai.com/7625.html)](https://cuiqingcai.com/7625.html)
+
+[我的个人博客之旅：从jekyll到hexo](https://blog.csdn.net/u011475210/article/details/79023429)
+
+[next作者博客](https://notes.iissnan.com/)

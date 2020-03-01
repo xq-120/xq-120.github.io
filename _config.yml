@@ -101,3 +101,10 @@ deploy:
   type: git
   repo: https://github.com/xq-120/xq-120.github.io.git
   branch: master
+
+# Search
+search:
+  path: search.xml
+  field: post
+  format: html
+  limit: 10000
