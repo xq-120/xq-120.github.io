@@ -187,6 +187,37 @@ local_search:
 
 安装:`npm install hexo-excerpt --save`
 
+
+
+> RSS订阅
+
+安装插件:
+
+`npm install hexo-generator-feed --save`
+
+然后在主题配置文件social一栏中新增一行`RSS: /atom.xml || rss`,就可以让rss显示在侧边栏了.注意不是`follow_me:`那里(害我搞了好久).
+
+```yaml
+# Social Links
+# Usage: `Key: permalink || icon`
+# Key is the link label showing to end users.
+# Value before `||` delimiter is the target permalink, value after `||` delimiter is the name of Font Awesome icon.
+social:
+  GitHub: https://github.com/xq-120 || github
+  #E-Mail: mailto:yourname@gmail.com || envelope
+  #Weibo: https://weibo.com/yourname || weibo
+  #Google: https://plus.google.com/yourname || google
+  #Twitter: https://twitter.com/yourname || twitter
+  #FB Page: https://www.facebook.com/yourname || facebook
+  StackOverflow: https://stackoverflow.com/yourname || stack-overflow
+  #YouTube: https://youtube.com/yourname || youtube
+  #Instagram: https://instagram.com/yourname || instagram
+  #Skype: skype:yourname?call|chat || skype
+  RSS: /atom.xml || rss
+```
+
+
+
 #### 参考
 
 [[利用 GitHub + Hexo + Next 从零搭建一个博客](https://cuiqingcai.com/7625.html)](https://cuiqingcai.com/7625.html)
