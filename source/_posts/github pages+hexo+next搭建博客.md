@@ -223,11 +223,11 @@ social:
 吐槽一点,要想OC代码高亮需要写objc,不能写objective-c,否则不会高亮渲染.我佛了,还以为配置有问题忙活半天.
 
 ```objc
-​```objc
+"```objc"
 signed char rs = 240;
 BOOL rs1 = 240;
 NSLog(@"%d %d", rs, rs1);
-​```
+"```"
 ```
 
 
