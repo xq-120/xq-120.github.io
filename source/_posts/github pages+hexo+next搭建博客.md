@@ -14,6 +14,8 @@ tags:
 * 配置站点信息
 * 配置主题信息
 
+
+
 下面是具体的步骤:
 
 > 安装环境
@@ -28,7 +30,7 @@ tags:
 
 使用 Hexo 的命令行创建一个项目.
 
-hexo init "name"`
+`hexo init "name"`
 
 调用 Hexo 的 generate 命令，将 Hexo 编译生成 HTML 代码.
 
@@ -171,10 +173,28 @@ local_search:
 
 其他还有很多可以配置的如评论系统,统计系统.
 
+
+
+> 文章摘要
+
+官方的推荐:在文章中使用 `<!-- more -->` 手动进行截断.建议使用 ``<!-- more -->``（即第一种方式），除了可以精确控制需要显示的摘录内容以外， 这种方式也可以让 Hexo 中的插件更好的识别。
+
+不过以前的文章也不可能一一设置,可以使用下面的自动设置.
+
+自动生成摘要的插件:
+
+[Automatic excerpt generator for Hexo](https://github.com/chekun/hexo-excerpt)
+
+安装:`npm install hexo-excerpt --save`
+
 #### 参考
 
 [[利用 GitHub + Hexo + Next 从零搭建一个博客](https://cuiqingcai.com/7625.html)](https://cuiqingcai.com/7625.html)
 
 [我的个人博客之旅：从jekyll到hexo](https://blog.csdn.net/u011475210/article/details/79023429)
 
+[next配置官方说明](https://theme-next.iissnan.com/)
+
 [next作者博客](https://notes.iissnan.com/)
+
+[Hexo-NexT 主题个性优化](https://guanqr.com/tech/website/hexo-theme-next-customization/):这个很详细.
