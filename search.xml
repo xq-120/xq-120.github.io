@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>Hello World</title>
+    <url>/2020/03/01/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>github pages+hexo+next搭建博客</title>
+    <url>/2020/02/29/github%20pages+hexo+next%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</url>
+    <content><![CDATA[<p>参考:</p>
+<p><a href="https://cuiqingcai.com/7625.html" target="_blank" rel="noopener"><a href="https://cuiqingcai.com/7625.html" target="_blank" rel="noopener">利用 GitHub + Hexo + Next 从零搭建一个博客</a></a></p>
+<p><a href="https://blog.csdn.net/u011475210/article/details/79023429" target="_blank" rel="noopener">我的个人博客之旅：从jekyll到hexo</a></p>
+<p>步骤:</p>
+<blockquote>
+<p>安装环境</p>
+</blockquote>
+<p>安装node.js</p>
+<p>安装hexo</p>
+<blockquote>
+<p>初始化项目</p>
+</blockquote>
+<p>使用 Hexo 的命令行创建一个项目.</p>
+<p>hexo init “name”`</p>
+<p>调用 Hexo 的 generate 命令，将 Hexo 编译生成 HTML 代码.</p>
+<p><code>hexo generate</code></p>
+<p>利用 Hexo 提供的 server 命令让博客在本地运行起来.</p>
+<p><code>hexo server</code></p>
+<blockquote>
+<p>部署</p>
+</blockquote>
+<p>安装一个支持 Git 的部署插件，名字叫做 hexo-deployer-git，有了它我们才可以顺利将其部署到 GitHub 上面，如果不安装的话，在执行部署命令时会报错误.</p>
+<p><code>npm install hexo-deployer-git --save</code></p>
+<p>部署</p>
+<p><code>hexo deploy</code></p>
+<p>部署成功之后,Hexo会将编译之后的静态页面内容推送到 GitHub 仓库的 master 分支.</p>
+<p>需要注意的是里面是没有博客源码的.如果我们换了电脑就需要将以前的博客拷贝回来.这样显然很不方便,因此我们需要将博客源码也托管到 GitHub 上面.</p>
+<p><strong>将博客源码托管到 GitHub 上面</strong></p>
+<p>可以新建一个source分支,用于博客源码的管理.</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git init</span><br><span class="line">git checkout -b source</span><br><span class="line">git add -A</span><br><span class="line">git commit -m &quot;init blog&quot;</span><br><span class="line">git remote add origin &quot;https:&#x2F;&#x2F;github.com&#x2F;xxx&#x2F;xxx.github.io.git&quot;</span><br><span class="line">git push origin source</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>配置站点信息</p>
+<p>修改主题</p>
+</blockquote>
+<p>使用next主题.</p>
+<blockquote>
+<p>主题配置</p>
+<p>写文章</p>
+<p>标签</p>
+<p>分类</p>
+<p>搜索页</p>
+<p>404页面</p>
+</blockquote>
+]]></content>
+  </entry>
+</search>
