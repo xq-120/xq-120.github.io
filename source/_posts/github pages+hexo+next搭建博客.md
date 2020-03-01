@@ -113,6 +113,8 @@ categories:
 ---
 ```
 
+默认只有title和date,tags字段.可以打开`\scaffolds\post.md`文件增加一些字段,以后就不要重复写了.
+
 
 
 > 标签
