@@ -246,3 +246,5 @@ NSLog(@"%d %d", rs, rs1);
 
 [Hexo-NexT 主题个性优化](https://guanqr.com/tech/website/hexo-theme-next-customization/):这个很详细.
 
+[篇Ⅱ：NexT主题的配置和优化指南]([https://strivebo.com/2019/02/17/%E7%AF%87%E2%85%A1%EF%BC%9ANexT%E4%B8%BB%E9%A2%98%E7%9A%84%E9%85%8D%E7%BD%AE%E5%92%8C%E4%BC%98%E5%8C%96%E6%8C%87%E5%8D%97/](https://strivebo.com/2019/02/17/篇Ⅱ：NexT主题的配置和优化指南/))
+
