@@ -195,7 +195,7 @@ local_search:
 
 `npm install hexo-generator-feed --save`
 
-然后在主题配置文件social一栏中新增一行`RSS: /atom.xml || rss`,就可以让rss显示在侧边栏了.注意不是`follow_me:`那里(害我搞了好久).
+然后在主题配置文件social一栏中新增一行`RSS: /atom.xml || rss`,就可以让rss显示在侧边栏了.注意不是`follow_me:`那里(这里开始时没明白,很多文章写的也不是很清楚,浪费了个把小时).
 
 ```yaml
 # Social Links
@@ -218,9 +218,23 @@ social:
 
 
 
+> 代码高亮
+
+吐槽一点,要想OC代码高亮需要写objc,不能写objective-c,否则不会高亮渲染.我佛了,还以为配置有问题忙活半天.
+
+```objc
+​```objc
+signed char rs = 240;
+BOOL rs1 = 240;
+NSLog(@"%d %d", rs, rs1);
+​```
+```
+
+
+
 #### 参考
 
-[[利用 GitHub + Hexo + Next 从零搭建一个博客](https://cuiqingcai.com/7625.html)](https://cuiqingcai.com/7625.html)
+[利用 GitHub + Hexo + Next 从零搭建一个博客](https://cuiqingcai.com/7625.html)
 
 [我的个人博客之旅：从jekyll到hexo](https://blog.csdn.net/u011475210/article/details/79023429)
 
@@ -229,3 +243,4 @@ social:
 [next作者博客](https://notes.iissnan.com/)
 
 [Hexo-NexT 主题个性优化](https://guanqr.com/tech/website/hexo-theme-next-customization/):这个很详细.
+
