@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="博客小屋">
+<meta property="og:url" content="http://yoursite.com/page/5/index.html">
+<meta property="og:site_name" content="博客小屋">
+<meta property="og:description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="jekyttt">
+<meta property="article:tag" content="Objective-C">
+<meta property="article:tag" content=" Swift">
+<meta property="article:tag" content=" C">
+<meta property="article:tag" content=" iOS开发">
+<meta property="article:tag" content=" 移动开发">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/page/5/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false
+  };
+</script>
+
+  <title>博客小屋</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="博客小屋" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">博客小屋</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">知识就是力量</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/xq-120/xq-120.github.io" class="github-corner" title="XQ on GitHub" aria-label="XQ on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/09/2018-07-09-SCLAlertView%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="博客小屋">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/07/09/2018-07-09-SCLAlertView%E4%BD%BF%E7%94%A8/" class="post-title-link" itemprop="url">SCLAlertView使用</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-07-09 15:26:27" itemprop="dateCreated datePublished" datetime="2018-07-09T15:26:27+08:00">2018-07-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2018-07-15 08:47:28" itemprop="dateModified" datetime="2018-07-15T08:47:28+08:00">2018-07-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%BD%BF%E7%94%A8/" itemprop="url" rel="index"><span itemprop="name">第三方库使用</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="SCLAlertView使用"><a href="#SCLAlertView使用" class="headerlink" title="SCLAlertView使用"></a>SCLAlertView使用</h2><p>SCLAlertView设置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">- (void)showPopView</span><br><span class="line">&#123;</span><br><span class="line">    &#x2F;&#x2F;提交成功</span><br><span class="line">    SCLAlertView *alertView &#x3D; [[SCLAlertView alloc] initWithNewWindowWidth:310];</span><br><span class="line">    &#x2F;&#x2F;去掉顶部圆圈</span><br><span class="line">    [alertView removeTopCircle];</span><br><span class="line">    &#x2F;&#x2F;按钮水平放置</span><br><span class="line">    [alertView setHorizontalButtons:YES];</span><br><span class="line">    &#x2F;&#x2F;设置出现动画</span><br><span class="line">    alertView.showAnimationType &#x3D; SCLAlertViewShowAnimationSimplyAppear;</span><br><span class="line">    alertView.shouldDismissOnTapOutside &#x3D; NO;</span><br><span class="line">    </span><br><span class="line">    &#x2F;&#x2F;设置title的字体和颜色</span><br><span class="line">    alertView.labelTitle.font &#x3D; [UIFont pingFangSCWithSize:16];</span><br><span class="line">    alertView.labelTitle.textColor &#x3D; [UIColor blackColor];</span><br><span class="line">    </span><br><span class="line">    &#x2F;&#x2F;设置富文本的subTitle</span><br><span class="line">    alertView.attributedFormatBlock &#x3D; ^NSAttributedString *(NSString *value) &#123;</span><br><span class="line">        return [NSString attributeString:value subString:@&quot;13812341234&quot; subStrColor:kRedColorRegular font:[UIFont pingFangSCWithSize:16] otherStrColor:[UIColor colorWithHexString:@&quot;#818181&quot;]];</span><br><span class="line">    &#125;;</span><br><span class="line">    [alertView setBodyTextFontFamily:@&quot;PingFangSC-Regular&quot; withSize:16];</span><br><span class="line">    &#x2F;&#x2F;设置普通文本的subTitle</span><br><span class="line">&#x2F;&#x2F;    alertView.viewText.font &#x3D; [UIFont pingFangSCWithSize:16];</span><br><span class="line">&#x2F;&#x2F;    alertView.viewText.textColor &#x3D; [UIColor colorWithHexString:@&quot;#818181&quot;];</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;设置Buttons, top circle and borders的颜色简便方法</span><br><span class="line">    alertView.customViewColor &#x3D; [UIColor redColor];</span><br><span class="line">    &#x2F;&#x2F;统一设置按钮的配置强大方法</span><br><span class="line">    alertView.buttonFormatBlock &#x3D; ^ NSDictionary *&#123;</span><br><span class="line">        return @&#123;@&quot;backgroundColor&quot;: [UIColor cyanColor]&#125;;</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    SCLButton *authPersonalBtn &#x3D; [alertView addButton:@&quot;取消&quot; actionBlock:^(void) &#123;</span><br><span class="line">        DLog(@&quot;取消按钮被按下&quot;);</span><br><span class="line">    &#125;];</span><br><span class="line">    authPersonalBtn.titleLabel.font &#x3D; [UIFont pingFangSCWithSize:16];</span><br><span class="line">    authPersonalBtn.buttonFormatBlock &#x3D; ^ NSDictionary *&#123;</span><br><span class="line">        return @&#123;@&quot;backgroundColor&quot;: [UIColor whiteColor], @&quot;textColor&quot;: [UIColor colorWithHexString:@&quot;#818181&quot;], @&quot;borderWidth&quot;: @0&#125;;</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    SCLButton *authCompanyBtn &#x3D; [alertView addButton:@&quot;去注册&quot; actionBlock:^(void) &#123;</span><br><span class="line">        DLog(@&quot;去注册按钮被按下&quot;);</span><br><span class="line">    &#125;];</span><br><span class="line">    authCompanyBtn.titleLabel.font &#x3D; [UIFont pingFangSCWithSize:16];</span><br><span class="line">    &#x2F;&#x2F;单独设置某个按钮的配置</span><br><span class="line">    authCompanyBtn.buttonFormatBlock &#x3D; ^ NSDictionary *&#123;</span><br><span class="line">        return @&#123;@&quot;backgroundColor&quot;: [UIColor whiteColor], @&quot;textColor&quot;: [UIColor blackColor], @&quot;borderWidth&quot;: @0&#125;;</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    [alertView showSuccess:self title:@&quot;手机号码未注册&quot; subTitle:@&quot;手机号码 13812341234 未注册， 请注册后再登录。&quot; closeButtonTitle:nil duration:0.0f];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/09/2018-07-09-UITextField%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="博客小屋">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/07/09/2018-07-09-UITextField%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">UITextField笔记</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-07-09 15:18:50" itemprop="dateCreated datePublished" datetime="2018-07-09T15:18:50+08:00">2018-07-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2018-07-15 08:47:28" itemprop="dateModified" datetime="2018-07-15T08:47:28+08:00">2018-07-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/UITextField/" itemprop="url" rel="index"><span itemprop="name">UITextField</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="UITextField笔记"><a href="#UITextField笔记" class="headerlink" title="UITextField笔记"></a>UITextField笔记</h2><h3 id="监听文本输入变化"><a href="#监听文本输入变化" class="headerlink" title="监听文本输入变化"></a>监听文本输入变化</h3><p>方法1: addTarget — UIControlEventValueChanged</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[self.passwordTextField addTarget:self action:@selector(passwordTextFieldTextDidChanged:) forControlEvents:UIControlEventValueChanged];</span><br></pre></td></tr></table></figure>
+<p>方法2: 注册通知 — UITextFieldTextDidChangeNotification</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(passwordTextFieldTextDidChanged:) name:UITextFieldTextDidChangeNotification object:nil];</span><br></pre></td></tr></table></figure>
+<p>note:</p>
+<ol>
+<li>当点击清空按钮时,只有注册通知的方案,回调方法被调用了.</li>
+<li>直接对textField的text属性赋值,<code>textField.text = @&quot;dfsfsd&quot;;</code>是不会触发UIControlEventValueChanged事件,和UITextFieldTextDidChangeNotification通知回调的.可以使用<code>textField.text = @&quot;&quot;;[textField insertText:newString];</code></li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/09/2018-07-09-%E5%9F%9F%E5%90%8D%E7%AE%80%E4%BB%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="博客小屋">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/07/09/2018-07-09-%E5%9F%9F%E5%90%8D%E7%AE%80%E4%BB%8B/" class="post-title-link" itemprop="url">域名简介</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-07-09 15:14:07" itemprop="dateCreated datePublished" datetime="2018-07-09T15:14:07+08:00">2018-07-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2018-07-15 08:47:28" itemprop="dateModified" datetime="2018-07-15T08:47:28+08:00">2018-07-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">网络</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="顶级域名-TLDs"><a href="#顶级域名-TLDs" class="headerlink" title="顶级域名(TLDs)"></a>顶级域名(TLDs)</h4><p>Top-level domains，first-level domains.<br>顶级域名是域名的最后一个部分，即是域名最后一点之后的字母，例如在example.com这个域名中，顶级域是.com（或.COM），大小写视为相同。</p>
+<h4 id="二级域名-SLD"><a href="#二级域名-SLD" class="headerlink" title="二级域名(SLD)"></a>二级域名(SLD)</h4><p>second-level domain,最靠近顶级域名左侧的字段。如：zh.wikipedia.org中，wikipedia就是二级域名.</p>
+<h4 id="父域名、子域名"><a href="#父域名、子域名" class="headerlink" title="父域名、子域名"></a>父域名、子域名</h4><p>这是一个相对概念.<br>如 www.sina.com.cn  和 news.sina.com.cn 都是 sina.com.cn 的子域名（或称为二级域名）， sina.com.cn 就是父域名。</p>
+<p>同样，sina.com.cn 其实又可以看作是 .com.cn 的子域名；而 com.cn 又是 .cn 的一个子域名。</p>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><p><a href="https://www.jianshu.com/p/88c8ba682ac7" target="_blank" rel="noopener">3分钟搞懂顶级域名|二级域名|子域名|父域名的区别</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/07/2018-07-07-NSData%E4%B8%8E%E5%AE%83%E7%9A%84%E5%B1%9E%E6%80%A7bytes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="博客小屋">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/07/07/2018-07-07-NSData%E4%B8%8E%E5%AE%83%E7%9A%84%E5%B1%9E%E6%80%A7bytes/" class="post-title-link" itemprop="url">NSData与它的属性bytes</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2018-07-07 17:39:16 / 修改时间：18:44:23" itemprop="dateCreated datePublished" datetime="2018-07-07T17:39:16+08:00">2018-07-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/NSData/" itemprop="url" rel="index"><span itemprop="name">NSData</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="NSData与它的属性bytes"><a href="#NSData与它的属性bytes" class="headerlink" title="NSData与它的属性bytes"></a>NSData与它的属性bytes</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">NSString* enString&#x3D; @&quot;abc&quot;;</span><br><span class="line">NSData* utf8EnData &#x3D; [enString dataUsingEncoding:NSUTF8StringEncoding];</span><br></pre></td></tr></table></figure>
+<p>bytes属性:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;*</span><br><span class="line"> The -bytes method returns a pointer to a contiguous region of memory managed by the receiver.</span><br><span class="line"> If the regions of memory represented by the receiver are already contiguous, it does so in O(1) time, otherwise it may take longer</span><br><span class="line"> Using -enumerateByteRangesUsingBlock: will be efficient for both contiguous and discontiguous data.</span><br><span class="line"> *&#x2F;</span><br><span class="line">@property (readonly) const void *bytes NS_RETURNS_INNER_POINTER;</span><br></pre></td></tr></table></figure>
+<p>bytes属性指向的是NSData对象装载的内容.NSData装载的二进制内容在内存中的分布可能是连续的一片,也可能是不连续的.使用<code>- (void) enumerateByteRangesUsingBlock:(void (NS_NOESCAPE ^)(const void *bytes, NSRange byteRange, BOOL *stop))block</code>遍历所有的分布区域.</p>
+<p>NSData对象本身的地址与装载的二进制内容的地址,如下图:<br><img src="http://7xqoji.com1.z0.glb.clouddn.com/NSData%E4%B8%8Ebytes%E5%B1%9E%E6%80%A7%E7%9A%84%E5%85%B3%E7%B3%BB@2x.png" alt=""><br>可以看到NSData对象本身的地址与二进制内容所在的地址是不同的.二者内存位置相距还挺远的.</p>
+<p>查看NSData对象装载的二进制内容方法:<br><img src="http://7xqoji.com1.z0.glb.clouddn.com/%E6%9F%A5%E7%9C%8BNSData%E7%9A%84%E5%86%85%E5%AD%98%E6%95%B0%E6%8D%AE%E6%96%B9%E6%B3%95@2x.png" alt=""></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/10/2018-06-10-UITableView%E5%AE%9E%E8%B7%B5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="博客小屋">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/06/10/2018-06-10-UITableView%E5%AE%9E%E8%B7%B5/" class="post-title-link" itemprop="url">UITableView实践</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-06-10 18:12:34" itemprop="dateCreated datePublished" datetime="2018-06-10T18:12:34+08:00">2018-06-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2018-07-22 17:16:23" itemprop="dateModified" datetime="2018-07-22T17:16:23+08:00">2018-07-22</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/UITableView/" itemprop="url" rel="index"><span itemprop="name">UITableView</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="UITableView实践"><a href="#UITableView实践" class="headerlink" title="UITableView实践"></a>UITableView实践</h3><h4 id="contentInset"><a href="#contentInset" class="headerlink" title="contentInset"></a>contentInset</h4><p>设置contentInset,会影响plain模式的组头位置.利用该特性取消plain模式组头吸顶效果.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;设置contentInset,会影响plain模式的组头位置.</span><br><span class="line">self.tableView.contentInset &#x3D; UIEdgeInsetsMake(-20, 0, 0, 0);</span><br></pre></td></tr></table></figure>
+<p>在设置界面,cell上的分割线显示是个头疼的问题.UI经常设计为组头第一个cell顶部,组尾最后一个cell底部不显示分割线.虽然plain模式刚好是这个效果,但是plain模式中组头具有吸顶效果,这里又不用它吸顶.使用group模式分割线的显示隐藏更蛋疼,自定义cell又有点麻烦.</p>
+<p>示意图:</p>
+<p><img src="http://7xqoji.com1.z0.glb.clouddn.com/UITableView%E5%AE%9E%E8%B7%B5_%20contentInset_%E5%8F%96%E6%B6%88%E5%90%B8%E9%A1%B6.PNG" width="160" hegiht="284" /></p>
+<p>利用上面的办法就可以取消plain模式组头吸顶效果.</p>
+<p>实现代码如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">- (void)scrollViewDidScroll:(UIScrollView *)scrollView</span><br><span class="line">&#123;</span><br><span class="line">    if (scrollView &#x3D;&#x3D; _tableView) &#123;</span><br><span class="line">        &#x2F;&#x2F;去掉UItableview的section的headerview黏性</span><br><span class="line">        CGFloat sectionHeaderHeight &#x3D; 10;</span><br><span class="line">        if (scrollView.contentOffset.y &lt;&#x3D; sectionHeaderHeight &amp;&amp; scrollView.contentOffset.y &gt;&#x3D; 0) &#123;</span><br><span class="line">            scrollView.contentInset &#x3D; UIEdgeInsetsMake(-scrollView.contentOffset.y, 0, 0, 0);</span><br><span class="line">        &#125; else if (scrollView.contentOffset.y &gt;&#x3D; sectionHeaderHeight) &#123;</span><br><span class="line">            scrollView.contentInset &#x3D; UIEdgeInsetsMake(-sectionHeaderHeight, 0, 0, 0);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset</span><br><span class="line">&#123;</span><br><span class="line">    CGFloat sectionHeaderHeight &#x3D; 10;</span><br><span class="line">    &#x2F;&#x2F;解决停止时,第一个组头不出现的bug.</span><br><span class="line">    if ((*targetContentOffset).y &#x3D;&#x3D; sectionHeaderHeight) &#123;</span><br><span class="line">        &#x2F;&#x2F;计算UIScrollView结束拖动所需的时间？这里暂时写死为0.85</span><br><span class="line">        [UIView animateWithDuration:0.85 delay:0 usingSpringWithDamping:1 initialSpringVelocity:velocity.y options:UIViewAnimationOptionTransitionNone animations:^&#123;</span><br><span class="line">            scrollView.contentOffset &#x3D; CGPointZero;</span><br><span class="line">        &#125; completion:^(BOOL finished) &#123;</span><br><span class="line"></span><br><span class="line">        &#125;];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>网上找到的大都只实现了scrollViewDidScroll方法.但是只实现scrollViewDidScroll方法有bug:一直往上滑,松手后,第一个组头会不出现.所以这里解决一下这个问题.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/10/2018-06-10-navigationBar%E5%AF%B9self.view%E7%9A%84frame%E5%BD%B1%E5%93%8D/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="博客小屋">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/06/10/2018-06-10-navigationBar%E5%AF%B9self.view%E7%9A%84frame%E5%BD%B1%E5%93%8D/" class="post-title-link" itemprop="url">navigationBar对self.view的frame影响</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-06-10 12:49:28" itemprop="dateCreated datePublished" datetime="2018-06-10T12:49:28+08:00">2018-06-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2018-07-15 08:47:28" itemprop="dateModified" datetime="2018-07-15T08:47:28+08:00">2018-07-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/UIViewController/" itemprop="url" rel="index"><span itemprop="name">UIViewController</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="navigationBar对self-view的frame影响"><a href="#navigationBar对self-view的frame影响" class="headerlink" title="navigationBar对self.view的frame影响"></a>navigationBar对self.view的frame影响</h3><p>在iOS7及以上系统,<code>self.navigationController.navigationBar.hidden = NO;</code>的情况下.</p>
+<p><strong>设置translucent为YES</strong>.即<code>self.navigationController.navigationBar.translucent = YES;</code></p>
+<blockquote>
+<p>不隐藏状态栏</p>
+</blockquote>
+<p>self.view的位置和大小如下:</p>
+<p><img src="http://7xqoji.com1.z0.glb.clouddn.com/self.view%E7%9A%84%E4%BD%8D%E7%BD%AE%E5%92%8C%E5%A4%A7%E5%B0%8F1@2x.png" alt=""></p>
+<blockquote>
+<p>隐藏状态栏</p>
+</blockquote>
+<p><img src="http://7xqoji.com1.z0.glb.clouddn.com/self.view%E7%9A%84%E4%BD%8D%E7%BD%AE%E5%92%8C%E5%A4%A7%E5%B0%8F2@2x.png" alt=""></p>
+<p>执行流:<br><img src="http://7xqoji.com1.z0.glb.clouddn.com/navigationBar%E5%AF%B9self.view%E7%9A%84frame%E5%BD%B1%E5%93%8D_3.png" alt=""></p>
+<p>translucent为YES时,可以在viewDidLoad中子视图可以使用self.view的frame信息.</p>
+<p><strong>设置translucent为NO</strong>,即<code>self.navigationController.navigationBar.translucent = NO;</code></p>
+<blockquote>
+<p>不隐藏状态栏</p>
+</blockquote>
+<p>self.view的位置和大小如下:</p>
+<p><img src="http://7xqoji.com1.z0.glb.clouddn.com/navigationBar%E5%AF%B9self.view%E7%9A%84frame%E5%BD%B1%E5%93%8D_4.png" alt=""></p>
+<blockquote>
+<p>隐藏状态栏</p>
+</blockquote>
+<p><img src="http://7xqoji.com1.z0.glb.clouddn.com/navigationBar%E5%AF%B9self.view%E7%9A%84frame%E5%BD%B1%E5%93%8D_5.png" alt=""></p>
+<p>执行流:</p>
+<p><img src="http://7xqoji.com1.z0.glb.clouddn.com/navigationBar%E5%AF%B9self.view%E7%9A%84frame%E5%BD%B1%E5%93%8D_6.png" alt=""></p>
+<p>self.view在viewDidLoad,viewWillAppear中的origin,size都不对.在viewWillLayoutSubviews,viewDidLayoutSubviews中size是对的,origin不对.在viewDidAppear中origin,size才都对.</p>
+<p>因此在这种情况下,self.view的子视图布局最好在viewWillLayoutSubviews中进行调整.</p>
+<p>当设置<code>self.navigationController.navigationBar.hidden = YES;</code>时,则navigationBar的translucent属性不再对self.view的frame产生影响.</p>
+<h4 id="translucent属性"><a href="#translucent属性" class="headerlink" title="translucent属性"></a>translucent属性</h4><p>由于translucent属性对self.view的frame会产生影响,所以有必要查看它的说明.</p>
+<p>官方说明:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">The default value is YES. If the navigation bar has a custom background image, the default is YES if any pixel of the image has an alpha value of less than 1.0, and NO otherwise.</span><br><span class="line"></span><br><span class="line">If you set this property to YES on a navigation bar with an opaque custom background image, the navigation bar applies a system-defined opacity of less than 1.0 to the image.</span><br><span class="line"></span><br><span class="line">If you set this property to NO on a navigation bar with a translucent custom background image, the navigation bar provides an opaque background for the image using black if the navigation bar has UIBarStyleBlack style, white if the navigation bar has UIBarStyleDefault, or the navigation bar’s barTintColor if a custom value is defined.</span><br></pre></td></tr></table></figure>
+<p>大意为:<br>该属性默认为YES.但是如果给导航栏设置了一张自定义的背景图片,如果该图片有一个alpha&lt;1的像素.那么该值就为YES,否则为NO.(设置导航栏的背景图片会影响translucent的默认值)</p>
+<p>另外如果手动设置了该属性,并且设置了导航栏的背景图,则系统可能会对背景图进行处理:</p>
+<ol>
+<li>如果设置该属性为YES,但是提供了一张不透明的背景图,系统会对该背景图进行半透明处理.</li>
+<li>如果设置该属性为NO,但是提供了一张半透明的背景图,则系统会对该背景图进行不透明处理.具体是根据导航栏的style或者barTintColor进行处理.</li>
+</ol>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>在iOS7及以上系统:</p>
+<ol>
+<li><p>当导航栏没有被隐藏时,且translucent属性设置为YES,那么,VC的self.view的位置是从(0,0)开始,大小是整个屏幕宽高.而当translucent属性设置为NO时,那么VC的self.view的位置是从导航栏左下角开始,宽是屏幕的宽,高是整个屏幕减去导航栏的CGRectGetMaxY.</p>
+</li>
+<li><p>导航栏的y值会随着状态栏隐藏与否而有20pt的偏移.</p>
+</li>
+<li><p>当导航栏被隐藏时,VC的self.view的位置是从(0,0)开始,大小是整个屏幕宽高.</p>
+</li>
+<li><p>self.view的子视图布局推荐在viewWillLayoutSubviews中进行.因为此时不管translucent为何值,self.view的size都是正确的.</p>
+</li>
+</ol>
+<hr>
+<p>吐槽Jekyll</p>
+<p>写在</p>
+<p>```</p>
+<p>Xcode的日志</p>
+<p>```</p>
+<p>这里面的日志,包含了View的frame打印,居然导致Jekyll构建页面失败,说什么变量未正确关闭,最后只好一张张截图.这解析功能也太差了吧.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/15/2018-04-15-%E5%88%B6%E4%BD%9CSDK%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="博客小屋">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/04/15/2018-04-15-%E5%88%B6%E4%BD%9CSDK%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/" class="post-title-link" itemprop="url">制作静态库注意事项</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-04-15 18:54:53" itemprop="dateCreated datePublished" datetime="2018-04-15T18:54:53+08:00">2018-04-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2018-07-15 08:47:28" itemprop="dateModified" datetime="2018-07-15T08:47:28+08:00">2018-07-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%9D%99%E6%80%81%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">静态库</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>制作静态库注意事项</p>
+<ol>
+<li><p>添加前缀防止冲突.<br> 类名,全局定义的变量(如全局变量,全局的枚举定义),类别方法名,宏,通知名称.需要添加前缀防止与宿主冲突.</p>
+</li>
+<li><p>使用static关键字限制作用域.<br> 对于全局变量,尽可能使用static限制作用域.否则容易与宿主重复定义导致编译错误.</p>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/12/2018-04-12-Swift%E9%9D%99%E6%80%81%E5%BA%93%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="博客小屋">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/04/12/2018-04-12-Swift%E9%9D%99%E6%80%81%E5%BA%93%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/" class="post-title-link" itemprop="url">Swift静态库注意事项</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-04-12 15:56:35" itemprop="dateCreated datePublished" datetime="2018-04-12T15:56:35+08:00">2018-04-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2018-07-15 08:47:28" itemprop="dateModified" datetime="2018-07-15T08:47:28+08:00">2018-07-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%9D%99%E6%80%81%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">静态库</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="Swift静态库注意事项"><a href="#Swift静态库注意事项" class="headerlink" title="Swift静态库注意事项"></a>Swift静态库注意事项</h3><p>工程是Swift,OC混编.开发完成后,需要将工程制作为一个静态库.制作完成测试使用时,发现一运行就崩溃.提示:<br>Unknown class KDLHomeLotteryKindCollectionCell in Interface Builder file.应该是宿主工程在加载静态库对应的bundle里的XIB文件时出问题了.</p>
+<p>原因分析及解决办法:<br>确定以及肯定的是系统在查找XIB对应的类时没有找到导致的.</p>
+<p>在制作静态库和Bundle时,类和XIB文件被分离到各自的target.而XIB文件是被拖入到bundle中的,因此需要更改XIB之前的默认Module设置,尤其是创建时选择Swift语言.否则系统在查找XIB的类时是在Bundle这个Module中找,当然是找不到的,从而在加载时崩溃.</p>
+<p>解决办法:<br>需要更改XIB对应类的所属Module为静态库的Module.或者不勾选Inherit Module From Target,并清空Module一栏.</p>
+<p>note:Swift创建的XIB默认是选中Inherit Module From Target的.OC创建的XIB文件系统默认没有勾选.</p>
+<p>eg:</p>
+<p><img src="http://7xqoji.com1.z0.glb.clouddn.com/Swift%E5%88%9B%E5%BB%BAXIB%E6%96%87%E4%BB%B6@2x.png" alt=""></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/09/2018-04-09-map%E5%92%8CflapMap%E7%9A%84%E4%B8%80%E7%82%B9%E5%8C%BA%E5%88%AB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="博客小屋">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/04/09/2018-04-09-map%E5%92%8CflapMap%E7%9A%84%E4%B8%80%E7%82%B9%E5%8C%BA%E5%88%AB/" class="post-title-link" itemprop="url">map和flapMap的一点区别</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-04-09 11:24:37" itemprop="dateCreated datePublished" datetime="2018-04-09T11:24:37+08:00">2018-04-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2018-07-15 08:47:28" itemprop="dateModified" datetime="2018-07-15T08:47:28+08:00">2018-07-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="map和flapMap的一点区别"><a href="#map和flapMap的一点区别" class="headerlink" title="map和flapMap的一点区别"></a>map和flapMap的一点区别</h3><p>map的声明:<br><code>public func map&lt;T&gt;(_ transform: (Element) throws -&gt; T) rethrows -&gt; [T]</code><br>它返回的是一个数组.闭包的返回值是一个新数组的元素.<br>如果闭包返回的是一个optional类型元素则map返回的也将是一个[optional(T)]数组.</p>
+<p>flapMap的声明:<br>头文件里只看到这一个</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@available(swift, deprecated: 4.1, renamed: &quot;compactMap(_:)&quot;, message: &quot;Please use compactMap(_:) for the case where closure returns an optional value&quot;)</span><br><span class="line">public func flatMap(_ transform: (Element) throws -&gt; String?) rethrows -&gt; [String]</span><br></pre></td></tr></table></figure>
+<p>提示器会有三个:<br><img src="http://7xqoji.com1.z0.glb.clouddn.com/flapMap%E5%A3%B0%E6%98%8E@2x.png" alt="flapMap声明"><br>虽然下面两种已经被废弃,但现在还能使用.<br>它返回的是一个数组.闭包的返回值可以是一个序列也可以是一个新数组的元素.</p>
+<p>区别:  </p>
+<ol>
+<li><p>flatMap可以用来展平一个数组:</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">let links: [[String]] &#x3D; [</span><br><span class="line">    [&quot;http:&#x2F;&#x2F;a1&quot;, &quot;http:&#x2F;&#x2F;a2&quot;, &quot;http:&#x2F;&#x2F;a3&quot;],</span><br><span class="line">    [&quot;http:&#x2F;&#x2F;b1&quot;, &quot;http:&#x2F;&#x2F;b2&quot;, &quot;http:&#x2F;&#x2F;b3&quot;],</span><br><span class="line">    [&quot;http:&#x2F;&#x2F;c1&quot;, &quot;http:&#x2F;&#x2F;c2&quot;, &quot;http:&#x2F;&#x2F;c3&quot;],</span><br><span class="line">]</span><br><span class="line">print(links)</span><br><span class="line"></span><br><span class="line">let flapLink &#x3D; links.flatMap &#123; (exlinks: [String]) -&gt; [String] in</span><br><span class="line">    return exlinks</span><br><span class="line">&#125;</span><br><span class="line">print(flapLink)  &#x2F;&#x2F;[&quot;http:&#x2F;&#x2F;a1&quot;, &quot;http:&#x2F;&#x2F;a2&quot;, &quot;http:&#x2F;&#x2F;a3&quot;, &quot;http:&#x2F;&#x2F;b1&quot;, &quot;http:&#x2F;&#x2F;b2&quot;, &quot;http:&#x2F;&#x2F;b3&quot;, &quot;http:&#x2F;&#x2F;c1&quot;, &quot;http:&#x2F;&#x2F;c2&quot;, &quot;http:&#x2F;&#x2F;c3&quot;]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>flatMap可以将转化失败的nil元素剔除,而map则不能:</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">let wq &#x3D; [&quot;123&quot;, &quot;fsd&quot;, &quot;dfsd&quot;, &quot;34&quot;]</span><br><span class="line">let wqm &#x3D; wq.map &#123; (element) -&gt; Int? in</span><br><span class="line">    return Int(element)</span><br><span class="line">&#125;</span><br><span class="line">print(wqm)  &#x2F;&#x2F;[Optional(123), nil, nil, Optional(34)]</span><br><span class="line"></span><br><span class="line">let wqfm &#x3D; wq.flatMap &#123; (element) -&gt; Int? in</span><br><span class="line">    return Int(element)</span><br><span class="line">&#125;</span><br><span class="line">print(wqfm) &#x2F;&#x2F;[123, 34]</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>由于最下面两种用法已经被废弃,Apple推荐使用compactMap,因此flatMap的用法主要是第一种了.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/04/2018-04-04-Allocation%20Type%E4%BB%8B%E7%BB%8D/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="博客小屋">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/04/04/2018-04-04-Allocation%20Type%E4%BB%8B%E7%BB%8D/" class="post-title-link" itemprop="url">Allocation Type介绍</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-04-04 14:06:54" itemprop="dateCreated datePublished" datetime="2018-04-04T14:06:54+08:00">2018-04-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2018-07-15 08:47:28" itemprop="dateModified" datetime="2018-07-15T08:47:28+08:00">2018-07-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Instruments%E4%BD%BF%E7%94%A8/" itemprop="url" rel="index"><span itemprop="name">Instruments使用</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="Allocation-Type介绍"><a href="#Allocation-Type介绍" class="headerlink" title="Allocation Type介绍"></a>Allocation Type介绍</h3><h4 id="官方文档"><a href="#官方文档" class="headerlink" title="官方文档"></a>官方文档</h4><p>The following allocation type display settings filter the allocations in the detail pane based on their type.</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Setting</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>All Heap &amp; Anonymous VM</td>
+<td>Shows all malloc heap allocations and interesting VM regions such as graphics- and Core Data-related. Hides mapped files, dylibs, and some large reserved VM regions.</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>All Heap Allocations</td>
+<td>Shows all malloc heap allocations but no VM regions.</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>All VM Regions</td>
+<td>Shows all VM regions, including mapped files, dylibs, and the VM regions that include the malloc heap.</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>参考:<a href="https://developer.apple.com/library/content/documentation/DeveloperTools/Conceptual/InstrumentsUserGuide/Instrument-Allocations.html" target="_blank" rel="noopener">Allocations Instrument</a></p>
+<h4 id="论坛上的解释"><a href="#论坛上的解释" class="headerlink" title="论坛上的解释"></a>论坛上的解释</h4><h4 id="1"><a href="#1" class="headerlink" title="1"></a>1</h4><p>All heap allocations consist of the memory allocations your application makes. This is the allocation type you should focus on in Instruments.</p>
+<p>All VM regions consist of the virtual memory the operating system reserves for your application. You cannot control the size of the virtual memory the operating system reserves.</p>
+<p>All heap and anonymous vm is the sum of the All Heap Allocations and All VM Regions columns.</p>
+<h4 id="2"><a href="#2" class="headerlink" title="2"></a>2</h4><p>While heap allocations are very important (that’s where all your Swift and Objective-C objects are created), you can’t ignore the importance of VM memory for most apps. I recommend investigating that category because it can grow rather large, and the memory being allocated there “by the operating system” is going to be in response to some task you’ve asked your application to perform.</p>
+<p>For instance, when you allocate a large CGImage, a tiny object is allocated on the heap, but the many megabytes of image data is allocated in a separate VM region. In an image-heavy application, your heap may be relatively small but your VM regions may be rather large. In that case, you’d need to take a closer look at the size and number of images your application has loaded at any given moment.</p>
+<p>So in general, you need to ensure you are optimizing <strong>all</strong> of your memory usage.</p>
+<p>参考:<a href="https://forums.developer.apple.com/thread/21463" target="_blank" rel="noopener">[Instruments] Allocation Types</a></p>
+<h4 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h4><p>All Heap Allocations:应用在堆上申请的内存空间,比如你自己的类alloc出来的对象.</p>
+<p>All VM Regions:操作系统为你的APP预留出来的虚拟内存.比如APP加载资源文件到内存时,占用的就是这些虚拟内存.因此如果你的APP图片比较多时,这部分内存占用会很大.</p>
+<h4 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h4><p>在一个页面上加载一张140kb的图片.使用Instruments查看实际消耗的内存:<br><img src="http://7xqoji.com1.z0.glb.clouddn.com/%E5%8A%A0%E8%BD%BD%E5%9B%BE%E7%89%87%E5%8D%A0%E7%94%A8%E7%9A%84%E5%86%85%E5%AD%98@2x.png" alt="加载图片占用的内存"><br>不知道为啥加载到内存后会比磁盘上要大36kb.</p>
+<p>加载了一张52kb的图片,Instruments显示消耗64kb.感觉要比原图多占用25%.</p>
+<h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><h5 id="Mac文件存储单位"><a href="#Mac文件存储单位" class="headerlink" title="Mac文件存储单位"></a>Mac文件存储单位</h5><p>Apple认为1GB=1 000 000 000字节，Microsoft认为1GB=1 073 741 824字节，网络上多用Microsoft的标准。<br>对于电脑而言，1 073 741 824是2的30次方，比1 000 000 000更方便处理，但硬件厂商生产硬盘等设备的时候是按后者来标注容量的。Apple希望用户买一块1TB的硬盘插到电脑上看到的就是1TB而不是931GB，这会带来更好的用户体验，于是Apple在显示容量时遵循了后者的标准。</p>
+<p><img src="http://7xqoji.com1.z0.glb.clouddn.com/Mac%E6%96%87%E4%BB%B6%E5%AD%98%E5%82%A8%E5%8D%95%E4%BD%8D@2x.png" width="264" height="451" /></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+  </div>
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">jekyttt</p>
+  <div class="site-description" itemprop="description">涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">91</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">39</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">43</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jekyttt</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.getAttribute('pjax') !== null) {
+      script.setAttribute('pjax', '');
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+    </div>
+</body>
+</html>

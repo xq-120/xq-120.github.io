@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="博客小屋">
+<meta property="og:url" content="http://yoursite.com/page/3/index.html">
+<meta property="og:site_name" content="博客小屋">
+<meta property="og:description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="jekyttt">
+<meta property="article:tag" content="Objective-C">
+<meta property="article:tag" content=" Swift">
+<meta property="article:tag" content=" C">
+<meta property="article:tag" content=" iOS开发">
+<meta property="article:tag" content=" 移动开发">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/page/3/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false
+  };
+</script>
+
+  <title>博客小屋</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="博客小屋" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">博客小屋</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">知识就是力量</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/xq-120/xq-120.github.io" class="github-corner" title="XQ on GitHub" aria-label="XQ on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/03/2019-03-03-%E4%BB%8EJSONSerialization%E5%B4%A9%E6%BA%83%E5%88%B0%E6%90%9E%E6%87%82Swift%E7%9A%84try-catch/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="博客小屋">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/03/03/2019-03-03-%E4%BB%8EJSONSerialization%E5%B4%A9%E6%BA%83%E5%88%B0%E6%90%9E%E6%87%82Swift%E7%9A%84try-catch/" class="post-title-link" itemprop="url">从JSONSerialization崩溃到搞懂Swift的try-catch</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2019-03-03 13:21:39 / 修改时间：13:21:42" itemprop="dateCreated datePublished" datetime="2019-03-03T13:21:39+08:00">2019-03-03</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>今天学习了下Swift中的try-catch,突然发现在json序列化时try-catch不好使了,下面的代码依然会导致崩溃,try-catch并不能catch住.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">import Foundation</span><br><span class="line"></span><br><span class="line">class People: NSObject, Decodable &#123;</span><br><span class="line">    @objc var firstName: String</span><br><span class="line">    @objc var lastName: String</span><br><span class="line">    @objc var age: Int &#x3D; 0</span><br><span class="line">    @objc var height: Float &#x3D; 0</span><br><span class="line">    @objc var weight: Float &#x3D; 0</span><br><span class="line">    @objc var sex: Bool &#x3D; false</span><br><span class="line">    </span><br><span class="line">    @objc init(firstName: String, lastName: String) &#123;</span><br><span class="line">        self.firstName &#x3D; firstName</span><br><span class="line">        self.lastName &#x3D; lastName</span><br><span class="line">        super.init()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let dict &#x3D; [&quot;one&quot;: People.init(firstName: &quot;x&quot;, lastName: &quot;q&quot;)]</span><br><span class="line">do &#123;</span><br><span class="line">    let jsonData &#x3D; try JSONSerialization.data(withJSONObject: dict, options: [])</span><br><span class="line">    print(jsonData)</span><br><span class="line">&#125; catch let error &#123;</span><br><span class="line">    print(error)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>看了下方法<code>class func data(withJSONObject obj: Any, options opt: JSONSerialization.WritingOptions = []) throws -&gt; Data</code>的说明:</p>
+<blockquote>
+<p>If obj will not produce valid JSON, an exception is thrown. This exception is thrown prior to parsing and represents a programming error, not an internal error. You should check whether the input will produce valid JSON before calling this method by using isValidJSONObject(_:).</p>
+</blockquote>
+<p>大意是如果obj参数不是一个合法的JSON,那么将抛出一个异常.该异常代表的是一个编程错误而不是解析时的内部错误,它在解析之前就被抛出了.估计这种异常是无法捕获的.所以最好先调用<code>isValidJSONObject</code>判断下是不是一个合法的JSON,再进行序列化.</p>
+<p>类似的这样的错误也是捕捉不到的.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var ot: String!</span><br><span class="line">do &#123;</span><br><span class="line">    let os &#x3D; try ot!</span><br><span class="line">    print(os)</span><br><span class="line">&#125; catch &#123;</span><br><span class="line">    print(error)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码依旧崩溃.</p>
+<p>看来以后使用try-catch得注意下了.</p>
+<h3 id="try-catch能够捕获什么样的错误呢"><a href="#try-catch能够捕获什么样的错误呢" class="headerlink" title="try-catch能够捕获什么样的错误呢?"></a>try-catch能够捕获什么样的错误呢?</h3><p>编程错误也就是异常都是不能捕获的.比如对nil强制解包,数组越界,非法参数等.<br>只有可恢复的错误才可以捕获.</p>
+<p><a href="https://stackoverflow.com/questions/24010569/error-handling-in-swift-language" target="_blank" rel="noopener">Error-Handling in Swift-Language
+</a></p>
+<p>但在OC中是可以捕获异常的:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">@try &#123;</span><br><span class="line">    NSLog(@&quot;@try&quot;);</span><br><span class="line">    </span><br><span class="line">    NSString *s &#x3D; @&quot;xx&quot;;</span><br><span class="line">    s &#x3D; [s stringByAppendingString:nil];</span><br><span class="line">    </span><br><span class="line">    NSLog(@&quot;%@&quot;, s);</span><br><span class="line">&#125;</span><br><span class="line">@catch (NSException *exception) &#123;</span><br><span class="line">    NSLog(@&quot;exception:%@&quot;, exception);</span><br><span class="line">&#125;</span><br><span class="line">@finally &#123;</span><br><span class="line">    NSLog(@&quot;@finally&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码加了try-catch后就不会崩溃.</p>
+<p>Swfit中的try-catch只是用来进行错误处理的,因此只能捕获错误,不能捕获异常.</p>
+<h3 id="Swift的错误处理（Error-handling）"><a href="#Swift的错误处理（Error-handling）" class="headerlink" title="Swift的错误处理（Error handling）"></a>Swift的错误处理（Error handling）</h3><p>错误处理（Error handling）是响应错误以及从错误中恢复的过程。Swift 提供了在运行时对可恢复错误的抛出、捕获、传递和操作的一等公民支持。</p>
+<p>某些操作无法保证总是执行完所有代码或总是生成有用的结果。可选类型可用来表示值缺失，但是当某个操作失败时，最好能得知失败的原因，从而可以作出相应的应对。</p>
+<p>举个例子，假如有个从磁盘上的某个文件读取数据并进行处理的任务，该任务会有多种可能失败的情况，包括指定路径下文件并不存在，文件不具有可读权限，或者文件编码格式不兼容。区分这些不同的失败情况可以让程序解决并处理某些错误，然后把它解决不了的错误报告给用户。</p>
+<blockquote>
+<p>Swift中的错误处理类似于其他语言中的异常处理,比如都使用try，catch和throw关键字。和其他语言中（包括 Objective-C ）的异常处理不同的是，Swift 中的错误处理并不涉及unwinding调用栈(即调用栈展开)，这是一个计算代价高昂的过程。就此而言，throw语句的性能是可以和return语句相媲美的。</p>
+</blockquote>
+<p>由此可见Swift中的错误处理和异常处理不是同一个东西,只不过使用的关键字相同.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/20/2018-12-20-%E9%9F%B3%E8%A7%86%E9%A2%91%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%92%8C%E9%9F%B3%E8%A7%86%E9%A2%91%E7%BC%96%E8%A7%A3%E7%A0%81%E6%A0%BC%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="博客小屋">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/12/20/2018-12-20-%E9%9F%B3%E8%A7%86%E9%A2%91%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%92%8C%E9%9F%B3%E8%A7%86%E9%A2%91%E7%BC%96%E8%A7%A3%E7%A0%81%E6%A0%BC%E5%BC%8F/" class="post-title-link" itemprop="url">音视频文件格式和音视频编解码格式</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2018-12-20 00:23:55 / 修改时间：00:27:26" itemprop="dateCreated datePublished" datetime="2018-12-20T00:23:55+08:00">2018-12-20</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/" itemprop="url" rel="index"><span itemprop="name">音视频</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="音视频文件格式和音视频编解码格式"><a href="#音视频文件格式和音视频编解码格式" class="headerlink" title="音视频文件格式和音视频编解码格式"></a>音视频文件格式和音视频编解码格式</h4><p>音视频文件格式它是一个容器,是一种封装格式,里面包含了音频,视频数据,字幕等.而对音频或视频数据进行编解码的算法才叫做音视频的编解码格式.二者不能搞混.因此同一种文件格式里面的音视频编码格式可能会不同.这样就有可能出现播放器有时能够播放某个文件格式,有时又播放不了.</p>
+<p>对于音频文件,虽然一种音频文件格式可以支持多种编码，例如AVI文件格式，但多数的音频文件仅支持一种音频编码。</p>
+<p>有两类主要的音频文件格式：</p>
+<ul>
+<li>无损格式，例如WAV，PCM，ALS，ALAC，TAK，FLAC，APE，WavPack(WV)</li>
+<li>有损格式，例如MP3，AAC，WMA，Ogg Vorbis</li>
+</ul>
+<p>iOS支持的音频文件格式  </p>
+<p>iOS supports the audio file formats listed in Table 2-1. For information on audio data formats available in iOS, see Codecs.</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Format name</th>
+<th>Format filename extensions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AIFF</td>
+<td>.aif, .aiff</td>
+</tr>
+<tr>
+<td>CAF</td>
+<td>.caf</td>
+</tr>
+<tr>
+<td>MPEG-1, layer 3</td>
+<td>.mp3</td>
+</tr>
+<tr>
+<td>MPEG-2 or MPEG-4 ADTS</td>
+<td>.aac</td>
+</tr>
+<tr>
+<td>MPEG-4</td>
+<td>.m4a, .mp4</td>
+</tr>
+<tr>
+<td>WAV</td>
+<td>.wav</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>In iOS, Core Audio capabilities include recording, playback, sound effects, positioning, format conversion, and file stream parsing.<br>Core Audio Overview is for all developers interested in creating audio software. Before reading this document you should have basic knowledge of <strong>general audio, digital audio, and MIDI terminology</strong>.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">#import &lt;CoreAudio&#x2F;CoreAudioTypes.h&gt;</span><br><span class="line">CF_ENUM(AudioFormatID)</span><br><span class="line">&#123;</span><br><span class="line">    kAudioFormatLinearPCM               &#x3D; &#39;lpcm&#39;,</span><br><span class="line">    kAudioFormatAC3                     &#x3D; &#39;ac-3&#39;,</span><br><span class="line">    kAudioFormat60958AC3                &#x3D; &#39;cac3&#39;,</span><br><span class="line">    kAudioFormatAppleIMA4               &#x3D; &#39;ima4&#39;,</span><br><span class="line">    kAudioFormatMPEG4AAC                &#x3D; &#39;aac &#39;,</span><br><span class="line">    kAudioFormatMPEG4CELP               &#x3D; &#39;celp&#39;,</span><br><span class="line">    kAudioFormatMPEG4HVXC               &#x3D; &#39;hvxc&#39;,</span><br><span class="line">    kAudioFormatMPEG4TwinVQ             &#x3D; &#39;twvq&#39;,</span><br><span class="line">    kAudioFormatMACE3                   &#x3D; &#39;MAC3&#39;,</span><br><span class="line">    kAudioFormatMACE6                   &#x3D; &#39;MAC6&#39;,</span><br><span class="line">    kAudioFormatULaw                    &#x3D; &#39;ulaw&#39;,</span><br><span class="line">    kAudioFormatALaw                    &#x3D; &#39;alaw&#39;,</span><br><span class="line">    kAudioFormatQDesign                 &#x3D; &#39;QDMC&#39;,</span><br><span class="line">    kAudioFormatQDesign2                &#x3D; &#39;QDM2&#39;,</span><br><span class="line">    kAudioFormatQUALCOMM                &#x3D; &#39;Qclp&#39;,</span><br><span class="line">    kAudioFormatMPEGLayer1              &#x3D; &#39;.mp1&#39;,</span><br><span class="line">    kAudioFormatMPEGLayer2              &#x3D; &#39;.mp2&#39;,</span><br><span class="line">    kAudioFormatMPEGLayer3              &#x3D; &#39;.mp3&#39;,</span><br><span class="line">    kAudioFormatTimeCode                &#x3D; &#39;time&#39;,</span><br><span class="line">    kAudioFormatMIDIStream              &#x3D; &#39;midi&#39;,</span><br><span class="line">    kAudioFormatParameterValueStream    &#x3D; &#39;apvs&#39;,</span><br><span class="line">    kAudioFormatAppleLossless           &#x3D; &#39;alac&#39;,</span><br><span class="line">    kAudioFormatMPEG4AAC_HE             &#x3D; &#39;aach&#39;,</span><br><span class="line">    kAudioFormatMPEG4AAC_LD             &#x3D; &#39;aacl&#39;,</span><br><span class="line">    kAudioFormatMPEG4AAC_ELD            &#x3D; &#39;aace&#39;,</span><br><span class="line">    kAudioFormatMPEG4AAC_ELD_SBR        &#x3D; &#39;aacf&#39;,</span><br><span class="line">    kAudioFormatMPEG4AAC_ELD_V2         &#x3D; &#39;aacg&#39;,    </span><br><span class="line">    kAudioFormatMPEG4AAC_HE_V2          &#x3D; &#39;aacp&#39;,</span><br><span class="line">    kAudioFormatMPEG4AAC_Spatial        &#x3D; &#39;aacs&#39;,</span><br><span class="line">    kAudioFormatAMR                     &#x3D; &#39;samr&#39;,</span><br><span class="line">    kAudioFormatAMR_WB                  &#x3D; &#39;sawb&#39;,</span><br><span class="line">    kAudioFormatAudible                 &#x3D; &#39;AUDB&#39;,</span><br><span class="line">    kAudioFormatiLBC                    &#x3D; &#39;ilbc&#39;,</span><br><span class="line">    kAudioFormatDVIIntelIMA             &#x3D; 0x6D730011,</span><br><span class="line">    kAudioFormatMicrosoftGSM            &#x3D; 0x6D730031,</span><br><span class="line">    kAudioFormatAES3                    &#x3D; &#39;aes3&#39;,</span><br><span class="line">    kAudioFormatEnhancedAC3             &#x3D; &#39;ec-3&#39;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><p><code>&lt;&lt;Getting Started with Audio and Video&gt;&gt;</code><br><code>&lt;&lt;Core Audio Essentials&gt;&gt;</code></p>
+<p><a href="https://blog.csdn.net/bsplover/article/details/7426480" target="_blank" rel="noopener">常见音频编码格式总结</a></p>
+<p><a href="http://blog.51cto.com/huangfu3342/1613795" target="_blank" rel="noopener">音视频封装格式、编码格式知识</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/19/2018-12-19-UIBarButtonItem%E5%9D%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="博客小屋">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/12/19/2018-12-19-UIBarButtonItem%E5%9D%91/" class="post-title-link" itemprop="url">UIBarButtonItem坑</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2018-12-19 21:34:06 / 修改时间：21:34:53" itemprop="dateCreated datePublished" datetime="2018-12-19T21:34:06+08:00">2018-12-19</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/UIKit/" itemprop="url" rel="index"><span itemprop="name">UIKit</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>使用系统设置,在iOS11.4上会出现点击时,文字变大,颜色变为蓝色.所以使用按钮还是靠谱些.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">UIBarButtonItem *allReadItem &#x3D; [[UIBarButtonItem alloc] initWithTitle:@&quot;全部已读&quot; style:UIBarButtonItemStylePlain target:self action:@selector(allReadItemDidClicked:)];</span><br><span class="line">[allReadItem setTitleTextAttributes:@&#123;NSFontAttributeName : [UIFont pingFangSCWithSize:14], NSForegroundColorAttributeName : [UIColor colorWithHexString:@&quot;#333333&quot;]&#125; forState:UIControlStateNormal];</span><br><span class="line">self.navigationItem.rightBarButtonItem &#x3D; allReadItem;</span><br></pre></td></tr></table></figure>
+<p>解决办法使用自定义按钮:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">UIButton *btn &#x3D; [UIButton buttonWithType:UIButtonTypeCustom];</span><br><span class="line">    btn.titleLabel.font &#x3D; [UIFont pingFangSCWithSize:14];</span><br><span class="line">    [btn setTitle:@&quot;全部已读&quot; forState:UIControlStateNormal];</span><br><span class="line">    [btn setTitleColor:[UIColor colorWithHexString:@&quot;#333333&quot;] forState:UIControlStateNormal];</span><br><span class="line">    [btn addTarget:self action:@selector(allReadItemDidClicked:) forControlEvents:UIControlEventTouchUpInside];</span><br><span class="line">    [btn sizeToFit]; &#x2F;&#x2F;需要设置一下否则在iOS10会没有大小.</span><br><span class="line">    UIBarButtonItem *allReadItem &#x3D; [[UIBarButtonItem alloc] initWithCustomView:btn];</span><br><span class="line">    self.navigationItem.rightBarButtonItem &#x3D; allReadItem;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/09/2018-12-09-APP%E7%8A%B6%E6%80%81%E5%8F%98%E5%8C%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="博客小屋">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/12/09/2018-12-09-APP%E7%8A%B6%E6%80%81%E5%8F%98%E5%8C%96/" class="post-title-link" itemprop="url">iOS APP运行状态变化</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2018-12-09 23:48:59 / 修改时间：23:49:09" itemprop="dateCreated datePublished" datetime="2018-12-09T23:48:59+08:00">2018-12-09</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>实验设备:iPhone5s,10.3.3系统.</p>
+<p>应用状态:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">typedef NS_ENUM(NSInteger, UIApplicationState) &#123;</span><br><span class="line">    UIApplicationStateActive, &#x2F;&#x2F;0</span><br><span class="line">    UIApplicationStateInactive, &#x2F;&#x2F;1</span><br><span class="line">    UIApplicationStateBackground &#x2F;&#x2F;2</span><br><span class="line">&#125; NS_ENUM_AVAILABLE_IOS(4_0);</span><br></pre></td></tr></table></figure>
+<p>APP未启动,点击图片执行顺序:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">默认	23:07:51.443320 +0800	pictureInMemory	-[AppDelegate application:didFinishLaunchingWithOptions:]  应用状态:1</span><br><span class="line"></span><br><span class="line">默认	23:07:51.515796 +0800	pictureInMemory	-[AppDelegate applicationDidBecomeActive:]  应用状态:0</span><br></pre></td></tr></table></figure>
+<p>在应用处于UIApplicationStateActive时,分别进行如下操作:</p>
+<h4 id="1-按下home键"><a href="#1-按下home键" class="headerlink" title="1.按下home键"></a>1.按下home键</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">默认	23:09:50.067690 +0800	pictureInMemory	-[AppDelegate applicationWillResignActive:]  应用状态:0</span><br><span class="line">默认	23:09:50.602224 +0800	pictureInMemory	-[AppDelegate applicationDidEnterBackground:]  应用状态:2</span><br></pre></td></tr></table></figure>
+<p>1.1处于后台时,再点击图标</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">默认	23:11:34.897752 +0800	pictureInMemory	-[AppDelegate applicationWillEnterForeground:]  应用状态:2</span><br><span class="line">默认	23:11:35.218295 +0800	pictureInMemory	-[AppDelegate applicationDidBecomeActive:]  应用状态:0</span><br></pre></td></tr></table></figure>
+<p>1.2处于后台时,双击home进入多任务界面点击自身</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">默认	23:19:12.051002 +0800	pictureInMemory	-[AppDelegate applicationWillEnterForeground:]  应用状态:2</span><br><span class="line">默认	23:19:13.286377 +0800	pictureInMemory	-[AppDelegate applicationDidBecomeActive:]  应用状态:0</span><br></pre></td></tr></table></figure>
+<h4 id="2-按下锁屏键"><a href="#2-按下锁屏键" class="headerlink" title="2. 按下锁屏键"></a>2. 按下锁屏键</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">默认	23:13:07.542846 +0800	pictureInMemory	-[AppDelegate applicationWillResignActive:]  应用状态:0</span><br><span class="line">默认	23:13:07.543049 +0800	pictureInMemory	-[AppDelegate applicationDidEnterBackground:]  应用状态:2</span><br></pre></td></tr></table></figure>
+<p>2.1解锁</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">默认	23:17:48.176320 +0800	pictureInMemory	-[AppDelegate applicationWillEnterForeground:]  应用状态:2</span><br><span class="line">默认	23:17:48.872183 +0800	pictureInMemory	-[AppDelegate applicationDidBecomeActive:]  应用状态:0</span><br></pre></td></tr></table></figure>
+<h4 id="3-双击home进入多任务界面"><a href="#3-双击home进入多任务界面" class="headerlink" title="3. 双击home进入多任务界面"></a>3. 双击home进入多任务界面</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">默认	23:14:28.340768 +0800	pictureInMemory	-[AppDelegate applicationWillResignActive:]  应用状态:0</span><br></pre></td></tr></table></figure>
+<p>3.1多任务点击其他APP</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">默认	23:15:14.853798 +0800	pictureInMemory	-[AppDelegate applicationDidEnterBackground:]  应用状态:2</span><br></pre></td></tr></table></figure>
+<p>3.2多任务点击自身</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">默认	23:15:53.643633 +0800	pictureInMemory	-[AppDelegate applicationDidBecomeActive:]  应用状态:0</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/09/2018-12-09-iOS%20App%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="博客小屋">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/12/09/2018-12-09-iOS%20App%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" class="post-title-link" itemprop="url">iOS APP生命周期</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-12-09 21:51:44" itemprop="dateCreated datePublished" datetime="2018-12-09T21:51:44+08:00">2018-12-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2018-12-15 09:59:49" itemprop="dateModified" datetime="2018-12-15T09:59:49+08:00">2018-12-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>问题:APP进入后台后大概三分钟就被系统kill掉了,再次进入都是重新启动,对用户体验有一定影响.</p>
+<p>为了解决这个问题,首先来了解一下一个APP的生命周期.</p>
+<h4 id="一、iOS-APP生命周期"><a href="#一、iOS-APP生命周期" class="headerlink" title="一、iOS APP生命周期"></a>一、iOS APP生命周期</h4><p>一个iOS APP生命周期大概有五种状态.</p>
+<p>如下图:</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/166109-fa48f62bf0ab9db6.png" alt="App State from Apple Document"></p>
+<ul>
+<li><strong>Not running</strong>:app还没运行.</li>
+<li><strong>Inactive</strong>:app运行在前台但不能接收事件.</li>
+<li><strong>Active</strong>:app运行在前台并且能够接收事件.</li>
+<li><strong>Backgroud</strong>:程序在后台并且能够执行代码,大多数程序进入这个状态后会在这个状态上停留一会(一般就几秒钟,如果有申请后台运行大概会停留180s).时间到之后会进入挂起状态(Suspended).但有几种特定类型的APP可以长期处于Backgroud状态.</li>
+<li><strong>Suspended</strong>:程序在后台不能执行代码.系统会自动把程序变成这个状态而且不会发出通知.当挂起时,程序还是停留在内存中的,当系统内存低时,系统就把挂起的程序清除掉,为前台程序提供更多的内存,并且不会发出任何通知.</li>
+</ul>
+<p>从上面的图可以看出如果挂起的应用还没有被系统清理,则点击APP图标时,应用会进入后台,然后进入前台,此时看到的仍然是上一次的界面.但当挂起的应用已经被系统清理,则点击APP图标时,相当于第一次启动.</p>
+<p>了解了APP的生命周期后,可以看到挂起的应用只有在内存紧张的情况下才会被系统清理,这种情况是我们无法控制的.因此出现上述bug极有可能是程序还在运行时就被系统kill掉了.系统主动kill掉一个APP的情况并不多见,主要有如下几种:</p>
+<ul>
+<li>APP出现闪退</li>
+<li>APP内存峰值过高</li>
+<li>APP长时间没有响应事件</li>
+<li>某些特殊API的错误使用</li>
+</ul>
+<p>由于APP是在后台运行一段时间后被kill掉的,因此极有可能是某些特殊API的错误使用导致的,最终发现是向系统申请后台运行时间的API错误使用导致.</p>
+<p><strong>可长期处于后台状态的应用类型</strong></p>
+<p>对于需要执行更多执行时间的任务，必须请求特定权限才能在后台运行它们而不会被挂起。在iOS中，只允许在后台运行特定的应用类型：</p>
+<ul>
+<li>在后台播放用户可听内容的应用，例如音乐播放器应用</li>
+<li>在后台录制音频内容的应用程序</li>
+<li>可让用户随时了解其位置的应用，例如导航应用</li>
+<li>支持互联网协议语音（VoIP）的应用</li>
+<li>需要定期下载和处理新内容的应用</li>
+<li>从外部配件接收定期更新的应用程序</li>
+</ul>
+<h4 id="二、如何向系统申请后台运行时间"><a href="#二、如何向系统申请后台运行时间" class="headerlink" title="二、如何向系统申请后台运行时间"></a>二、如何向系统申请后台运行时间</h4><p>相关方法:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- (UIBackgroundTaskIdentifier)beginBackgroundTaskWithExpirationHandler:(void(^ __nullable)(void))handler  NS_AVAILABLE_IOS(4_0) NS_REQUIRES_SUPER;</span><br><span class="line">- (UIBackgroundTaskIdentifier)beginBackgroundTaskWithName:(nullable NSString *)taskName expirationHandler:(void(^ __nullable)(void))handler NS_AVAILABLE_IOS(7_0) NS_REQUIRES_SUPER;</span><br><span class="line">- (void)endBackgroundTask:(UIBackgroundTaskIdentifier)identifier NS_AVAILABLE_IOS(4_0) NS_REQUIRES_SUPER;</span><br></pre></td></tr></table></figure>
+<p>通过<code>beginBackgroundTaskWithExpirationHandler:</code>方法可以向系统申请大约180s(iOS7)的后台运行时间,或者600s（iOS6）运行时间用以处理后台操作.</p>
+<p>示例:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">- (void)backgroundDoSomethings &#123;</span><br><span class="line">    UIApplication *application &#x3D; [UIApplication performSelector:@selector(sharedApplication)];</span><br><span class="line">    __block UIBackgroundTaskIdentifier bgTask &#x3D; [application beginBackgroundTaskWithExpirationHandler:^&#123;</span><br><span class="line">        &#x2F;&#x2F; Clean up any unfinished task business by marking where you</span><br><span class="line">        &#x2F;&#x2F; stopped or ending the task outright.</span><br><span class="line">        [application endBackgroundTask:bgTask];</span><br><span class="line">        bgTask &#x3D; UIBackgroundTaskInvalid;</span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">    &#x2F;&#x2F; Start the long-running task and return immediately.</span><br><span class="line">    [self doSomethingWithCompletionBlock:^&#123;</span><br><span class="line">        [application endBackgroundTask:bgTask];</span><br><span class="line">        bgTask &#x3D; UIBackgroundTaskInvalid;</span><br><span class="line">    &#125;];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)doSomethingWithCompletionBlock:(void (^)(void))completion</span><br><span class="line">&#123;</span><br><span class="line">    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^&#123;</span><br><span class="line">       </span><br><span class="line">        NSLog(@&quot;开始睡&quot;);</span><br><span class="line">        sleep(175);</span><br><span class="line">        NSLog(@&quot;睡醒&quot;);</span><br><span class="line">        </span><br><span class="line">        if (completion) &#123;</span><br><span class="line">            completion();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>特别注意</strong>:<br><code>beginBackgroundTaskWithExpirationHandler</code>一定要与<code>endBackgroundTask</code>配对使用,否则时间到后系统将直接kill掉你的APP,从而导致开头出现的问题.</p>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><p><a href="https://developer.apple.com/library/archive/documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/TheAppLifeCycle/TheAppLifeCycle.html#//apple_ref/doc/uid/TP40007072-CH2-SW1" target="_blank" rel="noopener">App Programming Guide for iOS</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/07/2018-12-07-%E6%B8%85%E7%90%86APP%E7%BC%93%E5%AD%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="博客小屋">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/12/07/2018-12-07-%E6%B8%85%E7%90%86APP%E7%BC%93%E5%AD%98/" class="post-title-link" itemprop="url">iOS APP缓存清理</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-12-07 14:13:47" itemprop="dateCreated datePublished" datetime="2018-12-07T14:13:47+08:00">2018-12-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2018-12-09 19:50:15" itemprop="dateModified" datetime="2018-12-09T19:50:15+08:00">2018-12-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="清理缓存"><a href="#清理缓存" class="headerlink" title="清理缓存"></a>清理缓存</h4><p>主要是删除/Caches目录下的内容.如果其他路径上的文件可以删除也可以包含进来.</p>
+<p>iOS 文件系统也得了解一下<br><a href="https://developer.apple.com/library/archive/documentation/FileManagement/Conceptual/FileSystemProgrammingGuide/FileSystemOverview/FileSystemOverview.html#//apple_ref/doc/uid/TP40010672-CH2-SW12" target="_blank" rel="noopener">iOS 文件系统</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">+ (NSUInteger)getCachesSize &#123;</span><br><span class="line">    NSUInteger size &#x3D; 0;</span><br><span class="line">    NSFileManager *fileManager &#x3D; [NSFileManager defaultManager];</span><br><span class="line">    NSString *cachePath &#x3D; [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject];</span><br><span class="line">    NSDirectoryEnumerator *fileEnumerator &#x3D; [fileManager enumeratorAtPath:cachePath]; &#x2F;&#x2F;枚举指定目录的所有文件包括文件夹.</span><br><span class="line">    for (NSString *fileName in fileEnumerator) &#123;</span><br><span class="line">        if ([fileName isEqualToString:@&quot;Snapshots&quot;]) &#123;  &#x2F;&#x2F;&quot;&#x2F;Snapshots&quot;是系统生成的,删了也会再自动创建,所以就不计算了.</span><br><span class="line">            continue;</span><br><span class="line">        &#125;</span><br><span class="line">        NSString *filePath &#x3D; [cachePath stringByAppendingPathComponent:fileName];</span><br><span class="line">        NSDictionary *attrs &#x3D; [fileManager attributesOfItemAtPath:filePath error:nil];</span><br><span class="line">&#x2F;&#x2F;        NSLog(@&quot;fileType:%@, fileName:%@&quot;, [attrs objectForKey:NSFileType], fileName);</span><br><span class="line">&#x2F;&#x2F;        NSLog(@&quot;filePath:%@&quot;, filePath);</span><br><span class="line">        size +&#x3D; [attrs fileSize];</span><br><span class="line">    &#125;</span><br><span class="line">    return size;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (void)clearCachesWithCompletionHandler:(void(^)(void))completionHandler &#123;</span><br><span class="line">    </span><br><span class="line">    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^&#123;</span><br><span class="line">        NSFileManager *fileManager &#x3D; [NSFileManager defaultManager];</span><br><span class="line">        NSString * cachePath &#x3D; [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject];</span><br><span class="line">        NSDirectoryEnumerator *fileEnumerator &#x3D; [fileManager enumeratorAtPath:cachePath];</span><br><span class="line">        for (NSString *fileName in fileEnumerator) &#123;</span><br><span class="line">            if ([fileName isEqualToString:@&quot;Snapshots&quot;]) &#123;</span><br><span class="line">                continue;</span><br><span class="line">            &#125;</span><br><span class="line">            NSString *filePath &#x3D; [cachePath stringByAppendingPathComponent:fileName];</span><br><span class="line">            BOOL removeRs &#x3D; [fileManager removeItemAtPath:filePath error:nil];</span><br><span class="line">            if (!removeRs) &#123;</span><br><span class="line">                NSDictionary *attrs &#x3D; [fileManager attributesOfItemAtPath:filePath error:nil];</span><br><span class="line">                DLog(@&quot;移除文件失败:fileType:%@, fileName:%@&quot;, [attrs objectForKey:NSFileType], fileName);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        dispatch_async(dispatch_get_main_queue(), ^&#123;</span><br><span class="line">            if (completionHandler) &#123;</span><br><span class="line">                completionHandler();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>/Library/Caches/Snapshots/com.AppName/UIApplicationAutomaticSnapshotDefault-LandscapeLeft.png</code><br>“/Snapshots”该目录保存的是按下home键时系统对当前屏幕生成的一张快照.</p>
+<p>参考:<a href="https://www.virtuesecurity.com/ios-background-screen-caching-2/" target="_blank" rel="noopener">IOS BACKGROUND SCREEN CACHING</a></p>
+<p><code>- (BOOL)removeItemAtPath:(NSString *)path error:(NSError * _Nullable *)error;</code>会移除文件或目录</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/05/2018-12-05-iOS%20crash%20%E6%97%A5%E5%BF%97%E5%A0%86%E6%A0%88%E8%A7%A3%E6%9E%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="博客小屋">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/12/05/2018-12-05-iOS%20crash%20%E6%97%A5%E5%BF%97%E5%A0%86%E6%A0%88%E8%A7%A3%E6%9E%90/" class="post-title-link" itemprop="url">iOS崩溃日志堆栈解析</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2018-12-05 22:38:58 / 修改时间：22:41:03" itemprop="dateCreated datePublished" datetime="2018-12-05T22:38:58+08:00">2018-12-05</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS-Crash/" itemprop="url" rel="index"><span itemprop="name">iOS Crash</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="iOS崩溃日志堆栈解析"><a href="#iOS崩溃日志堆栈解析" class="headerlink" title="iOS崩溃日志堆栈解析"></a>iOS崩溃日志堆栈解析</h3><p>本文只为自己查看方便.</p>
+<h4 id="dSYM-文件"><a href="#dSYM-文件" class="headerlink" title=".dSYM 文件"></a>.dSYM 文件</h4><p>我们调试的 symbols 会包含在这个文件中。</p>
+<p>每次编译项目的时候都会生成一个新的 dSYM 文件，我们应该保存每个正式发布版本的 dSYM 文件，以备我们更好的调试问题。一般是在我们 Archives 时保存对应的版本文件的，里面也有对应的 .dSYM 和 .app 文件。</p>
+<h4 id="符号解析"><a href="#符号解析" class="headerlink" title="符号解析"></a>符号解析</h4><p>注意:.dSYM 、.crash文件,二者的UUID必须一致解析才有意义.</p>
+<h5 id="获取-UUID"><a href="#获取-UUID" class="headerlink" title="获取 UUID"></a>获取 UUID</h5><p>.crash UUID</p>
+<p><code>grep --after-context=2 &quot;Binary Images:&quot; *crash</code></p>
+<p>.dSYM UUID</p>
+<p><code>dwarfdump --uuid myCrashDemo.app.dSYM</code></p>
+<p>.app UUID</p>
+<p><code>dwarfdump --uuid myCrashDemo.app/myCrashDemo</code></p>
+<h4 id="使用symbolicatecrash进行解析"><a href="#使用symbolicatecrash进行解析" class="headerlink" title="使用symbolicatecrash进行解析"></a>使用symbolicatecrash进行解析</h4><p>symbolicatecrash 是 Xcode 自带的 crash 日志分析工具.</p>
+<p>首先查找到它的路径:</p>
+<p><code>find /Applications/Xcode.app -name symbolicatecrash</code></p>
+<p>把 symbolicatecrash 拷贝出来，放到一个文件夹下。</p>
+<p>有两种方式解析:</p>
+<ol>
+<li><code>symbolicatecrash</code> + <code>.dSYM</code> + <code>.crash</code></li>
+<li><code>symbolicatecrash</code> + <code>.app</code> + <code>.crash</code></li>
+</ol>
+<p><strong>利用 dSYM</strong></p>
+<p>将 .dSYM 、.crash 及 symbolicatecrash 放到同一个文件下，执行命令：</p>
+<p><code>./symbolicatecrash .crash文件路径 .dSYM文件路径 &gt; 名字.crash</code></p>
+<p><strong>利用 app</strong></p>
+<p>将 .app 、.crash 及 symbolicatecrash 放到同一个文件下，执行命令：</p>
+<p><code>./symbolicatecrash .crash文件路径 .app/appName 路径 &gt; 名字.crash</code></p>
+<p>可能会报错误：</p>
+<p><code>Error: &quot;DEVELOPER_DIR&quot; is not defined at ./symbolicatecrash line 69.</code></p>
+<p>执行下命令就行：</p>
+<p><code>export DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer</code></p>
+<p>然后再重新生成下新的 .crash 文件就行。</p>
+<h4 id="使用命令行工具-atos"><a href="#使用命令行工具-atos" class="headerlink" title="使用命令行工具 atos"></a>使用命令行工具 atos</h4><p>同样也有两种方式</p>
+<ol>
+<li><code>.dSYM</code> + <code>.crash</code></li>
+<li><code>.app</code> + <code>.crash</code></li>
+</ol>
+<p>.dSYM方式</p>
+<p><code>xcrun atos -o ./myCrashDemo.app.dSYM/Contents/Resources/DWARF/myCrashDemo -arch 指令集(armv7或arm64) -l Slide地址</code></p>
+<p>接着输入错误的内存地址,即可看到.</p>
+<p>.app方式</p>
+<p><code>xcrun atos -o myCrashDemo.app/myCrashDemo -arch 指令集(armv7或arm64) -l Slide地址</code></p>
+<p>接着输入错误的内存地址.</p>
+<p>GitHub 上有个<code>dSYMTools</code>工具封装了<code>atos</code>命令，可以辅助我们解析.</p>
+<p>使用很方便,只要拖入dSYM文件,然后将错误地址以及Slide Address输入工具的文本框中即可.</p>
+<h4 id="Slide-address查看"><a href="#Slide-address查看" class="headerlink" title="Slide address查看"></a>Slide address查看</h4><p>在崩溃日志里面找到 Binary IImages: 这一块，Binary IImages: 下面第一行就是加载应用可执行文件的信息，大致如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Binary Images:</span><br><span class="line">0x100878000 - 0x10087ffff myCrashDemo arm64  &lt;dc8bc710db863d2ca08180537af8015e&gt; &#x2F;var&#x2F;containers&#x2F;Bundle&#x2F;Application&#x2F;3BCB5A1C-9BD8-44CD-84EE-39128C005B9F&#x2F;myCrashDemo.app&#x2F;myCrashDemo</span><br><span class="line">0x100938000 - 0x10099bfff dyld arm64  &lt;fc36be383ccf330abe42940868e68937&gt; &#x2F;usr&#x2F;lib&#x2F;dyld</span><br><span class="line">0x102478000 - 0x102483fff libobjc-trampolines.dylib arm64  &lt;a8cd788cc9113887ae254bd47d58c7c1&gt; &#x2F;usr&#x2F;lib&#x2F;libobjc-trampolines.dylib</span><br><span class="line">0x239546000 - 0x239547fff libSystem.B.dylib arm64  &lt;b3dbcc8e41b03e51b7e65d2800dcdea9&gt; &#x2F;usr&#x2F;lib&#x2F;libSystem.B.dylib</span><br><span class="line">0x239548000 - 0x2395a2fff libc++.1.dylib arm64  &lt;c406443c983a33829b164c441b7c2af4&gt; &#x2F;usr&#x2F;lib&#x2F;libc++.1.dylib</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>其中 0x100878000 就是 slide address。<br>arm64 指的是 arm64 架构下，uuid 是 dc8bc710db863d2ca08180537af8015e.</p>
+<h4 id="错误的内存地址查看"><a href="#错误的内存地址查看" class="headerlink" title="错误的内存地址查看"></a>错误的内存地址查看</h4><p>内存地址是 Last Exception Backtraces 中每一行的第一个地址，分析其他行的时候你要看下是不是自己应用可执行文件那行，因为你这个 slide address 只对应到自己那个可执行文件，系统的一些库的 slide address 都不一样的。<br>其实分析一个 crash 文件并不要很长时间，只需要找到自己可执行文件对应的那行内存地址，slide address，和 arch type 这三个信息就可以了，并不是每一行错误信息都需要看。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/25/2018-11-25-iOS%20APP%E5%90%8E%E5%8F%B0%E8%BF%90%E8%A1%8C%E6%97%B6%E9%97%B4%E6%8E%A2%E7%A9%B6%E5%8F%8A%E5%BB%B6%E9%95%BF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="博客小屋">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/11/25/2018-11-25-iOS%20APP%E5%90%8E%E5%8F%B0%E8%BF%90%E8%A1%8C%E6%97%B6%E9%97%B4%E6%8E%A2%E7%A9%B6%E5%8F%8A%E5%BB%B6%E9%95%BF/" class="post-title-link" itemprop="url">iOS APP后台运行时间探究及延长</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-11-25 22:53:35" itemprop="dateCreated datePublished" datetime="2018-11-25T22:53:35+08:00">2018-11-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2018-12-09 21:53:33" itemprop="dateModified" datetime="2018-12-09T21:53:33+08:00">2018-12-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>实验设备:iPhone7plus iOS12.1</p>
+<p>问题:发现市面上很多APP进入后台后,过了16min甚至20min后,再次点击APP,都能够保持在原来的页面.而我们自己的APP,进入后台过个三分钟就被kill掉了,再次进入都是重新启动.<br>网易新闻APP,主站APP,喜马拉雅APP都不会.为什么我们的APP在挂起后会这么快被系统从内存中清理?而别的APP却不会.</p>
+<p>目前app,没有做任何特别处理,申请的权限也很常规,如下:</p>
+<p><img src="https://portal.qiniu.com/" alt="APP后台模式"></p>
+<p>解决:经过不断的分析,最终发现是代码中在向系统申请后台运行时间错误使用导致,在调用<code>beginBackgroundTaskWithExpirationHandler</code>后,没有配对调用<code>endBackgroundTask:</code>.</p>
+<p>吐槽:有时候工程一大,出现一些BUG真的很难分析原因.</p>
+<h3 id="向系统申请后台运行时间"><a href="#向系统申请后台运行时间" class="headerlink" title="向系统申请后台运行时间"></a>向系统申请后台运行时间</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">- (void)backgroundDoSomethings &#123;</span><br><span class="line">    UIApplication *application &#x3D; [UIApplication performSelector:@selector(sharedApplication)];</span><br><span class="line">    __block UIBackgroundTaskIdentifier bgTask &#x3D; [application beginBackgroundTaskWithExpirationHandler:^&#123;</span><br><span class="line">        &#x2F;&#x2F; Clean up any unfinished task business by marking where you</span><br><span class="line">        &#x2F;&#x2F; stopped or ending the task outright.</span><br><span class="line">        [application endBackgroundTask:bgTask];</span><br><span class="line">        bgTask &#x3D; UIBackgroundTaskInvalid;</span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">    &#x2F;&#x2F; Start the long-running task and return immediately.</span><br><span class="line">    [self doSomethingWithCompletionBlock:^&#123;</span><br><span class="line">        [application endBackgroundTask:bgTask];</span><br><span class="line">        bgTask &#x3D; UIBackgroundTaskInvalid;</span><br><span class="line">    &#125;];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)doSomethingWithCompletionBlock:(void (^)(void))completion</span><br><span class="line">&#123;</span><br><span class="line">    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^&#123;</span><br><span class="line">       </span><br><span class="line">        NSLog(@&quot;开始睡&quot;);</span><br><span class="line">        sleep(175); &#x2F;&#x2F;200x 170√ 180x 175√</span><br><span class="line">        NSLog(@&quot;睡醒&quot;);</span><br><span class="line">        </span><br><span class="line">        if (completion) &#123;</span><br><span class="line">            completion();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>实测运行的时间大致在175s左右,小于180s.即通过<code>beginBackgroundTaskWithExpirationHandler:</code>方法可以向系统申请大约180s的后台运行时间.</p>
+<p>相关方法:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- (UIBackgroundTaskIdentifier)beginBackgroundTaskWithExpirationHandler:(void(^ __nullable)(void))handler  NS_AVAILABLE_IOS(4_0) NS_REQUIRES_SUPER;</span><br><span class="line">- (UIBackgroundTaskIdentifier)beginBackgroundTaskWithName:(nullable NSString *)taskName expirationHandler:(void(^ __nullable)(void))handler NS_AVAILABLE_IOS(7_0) NS_REQUIRES_SUPER;</span><br><span class="line">- (void)endBackgroundTask:(UIBackgroundTaskIdentifier)identifier NS_AVAILABLE_IOS(4_0) NS_REQUIRES_SUPER;</span><br></pre></td></tr></table></figure>
+<p><strong>特别注意</strong>:<br><code>beginBackgroundTaskWithExpirationHandler</code>一定要与<code>endBackgroundTask</code>配对使用,否则时间到后系统将直接kill掉你的APP.</p>
+<h3 id="如何延长APP后台运行时间-甚至无限长"><a href="#如何延长APP后台运行时间-甚至无限长" class="headerlink" title="如何延长APP后台运行时间?甚至无限长."></a>如何延长APP后台运行时间?甚至无限长.</h3><p>以后有空研究.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/25/2018-11-25-VPS%20shadowsocks%E6%90%AD%E5%BB%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="博客小屋">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/11/25/2018-11-25-VPS%20shadowsocks%E6%90%AD%E5%BB%BA/" class="post-title-link" itemprop="url">VPS shadowsocks搭建</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2018-11-25 22:19:02 / 修改时间：22:23:00" itemprop="dateCreated datePublished" datetime="2018-11-25T22:19:02+08:00">2018-11-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/vps/" itemprop="url" rel="index"><span itemprop="name">vps</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="VPS-shadowsocks搭建"><a href="#VPS-shadowsocks搭建" class="headerlink" title="VPS shadowsocks搭建"></a>VPS shadowsocks搭建</h4><p>本文主要是方便自己以后查找,如有侵权立删.</p>
+<p>主要参考:<br><a href="https://medium.com/@zoomyale/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91%E7%9A%84%E7%BB%88%E6%9E%81%E5%A7%BF%E5%8A%BF-%E5%9C%A8-vultr-vps-%E4%B8%8A%E6%90%AD%E5%BB%BA-shadowsocks-fd57c807d97e" target="_blank" rel="noopener">科学上网的终极姿势-在-vultr-vps-上搭建-shadowsocks</a></p>
+<h3 id="一、部署-Shadowsocks"><a href="#一、部署-Shadowsocks" class="headerlink" title="一、部署 Shadowsocks"></a>一、部署 Shadowsocks</h3><p>Shadowsocks 需要同时具备客户端和服务器端，所以它的部署也需要分两步。</p>
+<h4 id="1-1部署-Shadowsocks-服务器端"><a href="#1-1部署-Shadowsocks-服务器端" class="headerlink" title="1.1部署 Shadowsocks 服务器端"></a>1.1部署 Shadowsocks 服务器端</h4><h4 id="1-2-TCP-Fast-Open"><a href="#1-2-TCP-Fast-Open" class="headerlink" title="1.2 TCP Fast Open"></a>1.2 TCP Fast Open</h4><p>为了更好的连接速度，需要多做几步。首先是打开 TCP Fast Open.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;server&quot;:&quot;0.0.0.0&quot;,</span><br><span class="line">    &quot;local_address&quot;:&quot;127.0.0.1&quot;,</span><br><span class="line">    &quot;local_port&quot;:1080,</span><br><span class="line">    &quot;port_password&quot;:&#123;</span><br><span class="line">        &quot;1234&quot;:&quot;yourpassword&quot;,</span><br><span class="line">        &quot;2234&quot;:&quot;yourpassword&quot;,</span><br><span class="line">        &quot;3234&quot;:&quot;yourpassword&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;timeout&quot;:300,</span><br><span class="line">    &quot;method&quot;:&quot;aes-256-gcm&quot;,</span><br><span class="line">    &quot;fast_open&quot;:true</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="1-3安装-BBR"><a href="#1-3安装-BBR" class="headerlink" title="1.3安装 BBR"></a>1.3安装 BBR</h4><p>TCP BBR 是 Google 于 2016 年发布的，一种避免网络拥塞的算法。目的是要尽量跑满带宽, 并且尽可能避免排队的情况。</p>
+<p>实际使用下来，BBR 的速度提升效果并不比「锐速」（据说已倒闭）、kcptun（多倍发包耗流量）等差。而且 BBR 已植入 Linux 4.9+ 版本的内核中，服务器开启后就能有显著的效果提升。</p>
+<h4 id="二、安装期间的问题"><a href="#二、安装期间的问题" class="headerlink" title="二、安装期间的问题"></a>二、安装期间的问题</h4><p>主要是CentOS 7的防火墙,CentOS 7使用的是firewall防火墙,而博文里使用的是iptables防火墙.这在添加端口的方式有所不同.</p>
+<h4 id="附-CentOS-7-firewall-命令"><a href="#附-CentOS-7-firewall-命令" class="headerlink" title="附:CentOS 7 firewall 命令"></a>附:CentOS 7 firewall 命令</h4><p>查看firewall的状态<code>firewall-cmd --state</code> (关闭后显示notrunning，开启后显示running）</p>
+<p>查看已经开放的端口<code>firewall-cmd --list-ports</code>,更详细的检查防火墙规则<code>firewall-cmd --list-all</code></p>
+<p>开启端口<code>firewall-cmd --zone=public --add-port=80/tcp --permanent</code></p>
+<p>命令含义：</p>
+<p>–zone #作用域</p>
+<p>–add-port=80/tcp #添加端口，格式为：端口/通讯协议</p>
+<p>–permanent #永久生效，没有此参数重启后失效</p>
+<p>reload防火墙<code>firewall-cmd --reload #重启firewall</code></p>
+<p>对应的文件路径在<code>/etc/firewalld/zones/public.xml</code></p>
+<p>参考:<br><a href="https://blog.csdn.net/xlgen157387/article/details/52672988" target="_blank" rel="noopener">CentOS 7中firewall防火墙详解和配置以及切换为iptables防火墙</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/28/2018-09-28-%E6%95%B0%E7%BB%84%E5%8E%BB%E9%87%8D%E6%B7%BB%E5%8A%A0%E5%85%83%E7%B4%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="博客小屋">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/09/28/2018-09-28-%E6%95%B0%E7%BB%84%E5%8E%BB%E9%87%8D%E6%B7%BB%E5%8A%A0%E5%85%83%E7%B4%A0/" class="post-title-link" itemprop="url">数组去重添加元素Block方式实现</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-09-28 21:04:35" itemprop="dateCreated datePublished" datetime="2018-09-28T21:04:35+08:00">2018-09-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2018-09-29 00:13:34" itemprop="dateModified" datetime="2018-09-29T00:13:34+08:00">2018-09-29</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Foundation/" itemprop="url" rel="index"><span itemprop="name">Foundation</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>有时候我们需要该元素不在该数组中时才添加.</p>
+<p>由于使用场景还算比较多,所以自己简单封装了一下.这里用block作为过滤条件,使用还是很方便的.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">@interface NSMutableArray (Tool)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> 数组去重添加单个元素</span><br><span class="line"></span><br><span class="line"> @param anObject 被添加的元素</span><br><span class="line"> @param filterBlk 过滤条件.element为原数组的元素,anObject为被添加的元素.</span><br><span class="line"> *&#x2F;</span><br><span class="line">- (void)addObject:(id)anObject filter:(BOOL (^)(id element, id anObject))filterBlk;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> 数组去重添加一个数组里的元素</span><br><span class="line"></span><br><span class="line"> @param otherArray 被添加的数组</span><br><span class="line"> @param filterBlk 过滤条件.element为原数组的元素,anObject为被添加的数组的元素.</span><br><span class="line"> *&#x2F;</span><br><span class="line">- (void)addObjectsFromArray:(NSArray *)otherArray filter:(BOOL (^)(id element, id anObject))filterBlk;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation NSMutableArray (Tool)</span><br><span class="line"></span><br><span class="line">- (void)addObject:(id)anObject filter:(BOOL (^)(id, id))filterBlk</span><br><span class="line">&#123;</span><br><span class="line">    if (anObject &#x3D;&#x3D; nil) &#123;</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    BOOL isExist &#x3D; NO;</span><br><span class="line">    for (id obj in self) &#123;</span><br><span class="line">        if (!filterBlk(obj, anObject)) &#123;</span><br><span class="line">            isExist &#x3D; YES;</span><br><span class="line">            break;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    if (!isExist) &#123;</span><br><span class="line">        [self addObject:anObject];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)addObjectsFromArray:(NSArray *)otherArray filter:(BOOL (^)(id, id))filterBlk</span><br><span class="line">&#123;</span><br><span class="line">    if (otherArray.count &#x3D;&#x3D; 0) &#123;</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    for (id element in otherArray) &#123;</span><br><span class="line">        [self addObject:element filter:filterBlk];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>使用如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">NSMutableArray *mArr &#x3D; [@[@&quot;3&quot;, @&quot;4&quot;, @&quot;5&quot;, @&quot;33&quot;, @&quot;7&quot;] mutableCopy];</span><br><span class="line">[mArr addObject:@&quot;57&quot; filter:^BOOL(NSString *element, NSString *anObject) &#123;</span><br><span class="line">    return ![element isEqualToString:anObject]; &#x2F;&#x2F;不等于其中任何一个元素才添加</span><br><span class="line">&#125;];</span><br><span class="line">NSLog(@&quot;%@&quot;, mArr);</span><br><span class="line">    </span><br><span class="line">NSArray *arr &#x3D; @[@&quot;1&quot;, @&quot;2&quot;, @&quot;3&quot;, @&quot;13&quot;, @&quot;7&quot;];</span><br><span class="line">[mArr addObjectsFromArray:arr filter:^BOOL(NSString *element, NSString *anObject) &#123;</span><br><span class="line">    return ![element isEqualToString:anObject]; &#x2F;&#x2F;不等于其中任何一个元素才添加</span><br><span class="line">&#125;];</span><br><span class="line">NSLog(@&quot;%@&quot;, mArr);</span><br></pre></td></tr></table></figure>
+<p>打印如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">2018-09-28 20:52:39.060469+0800 testDemo[94995:18270135] (</span><br><span class="line">    3,</span><br><span class="line">    4,</span><br><span class="line">    5,</span><br><span class="line">    33,</span><br><span class="line">    7,</span><br><span class="line">    57</span><br><span class="line">)</span><br><span class="line">2018-09-28 20:52:39.060571+0800 testDemo[94995:18270135] (</span><br><span class="line">    3,</span><br><span class="line">    4,</span><br><span class="line">    5,</span><br><span class="line">    33,</span><br><span class="line">    7,</span><br><span class="line">    57,</span><br><span class="line">    1,</span><br><span class="line">    2,</span><br><span class="line">    13</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>也可以使用模型中的某个属性作为判断条件:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[audienceList addObjectsFromArray:self.audienceList filter:^BOOL(ZAEAudienceModel *element, ZAEAudienceModel *anObject) &#123;</span><br><span class="line">	return ![element.userID isEqualToString:anObject.userID];</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+  </div>
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">jekyttt</p>
+  <div class="site-description" itemprop="description">涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">91</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">39</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">43</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jekyttt</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.getAttribute('pjax') !== null) {
+      script.setAttribute('pjax', '');
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+    </div>
+</body>
+</html>

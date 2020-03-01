@@ -1,0 +1,1520 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="博客小屋">
+<meta property="og:url" content="http://yoursite.com/page/6/index.html">
+<meta property="og:site_name" content="博客小屋">
+<meta property="og:description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="jekyttt">
+<meta property="article:tag" content="Objective-C">
+<meta property="article:tag" content=" Swift">
+<meta property="article:tag" content=" C">
+<meta property="article:tag" content=" iOS开发">
+<meta property="article:tag" content=" 移动开发">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/page/6/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false
+  };
+</script>
+
+  <title>博客小屋</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="博客小屋" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">博客小屋</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">知识就是力量</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/xq-120/xq-120.github.io" class="github-corner" title="XQ on GitHub" aria-label="XQ on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/04/2018-04-04-%E6%A0%BC%E5%BC%8F%E5%8C%96%E8%BE%93%E5%87%BA%E5%AF%BC%E8%87%B4%E7%9A%84%E7%96%91%E4%BC%BCbug/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="博客小屋">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/04/04/2018-04-04-%E6%A0%BC%E5%BC%8F%E5%8C%96%E8%BE%93%E5%87%BA%E5%AF%BC%E8%87%B4%E7%9A%84%E7%96%91%E4%BC%BCbug/" class="post-title-link" itemprop="url">格式化输出导致的疑似bug</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-04-04 14:05:24" itemprop="dateCreated datePublished" datetime="2018-04-04T14:05:24+08:00">2018-04-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2018-07-15 08:47:28" itemprop="dateModified" datetime="2018-07-15T08:47:28+08:00">2018-07-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bug/" itemprop="url" rel="index"><span itemprop="name">Bug</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+           <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">NSString *str &#x3D; @&quot;123456a&quot;;</span><br><span class="line">NSData *dataStr &#x3D; [str dataUsingEncoding:NSUTF8StringEncoding];</span><br><span class="line">NSLog(@&quot;%s %s&quot;, [str UTF8String], dataStr.bytes);</span><br></pre></td></tr></table></figure>
+<p>iOS9.0模拟器.<br>输出:123456a 123456a–˝ã˘<br>dataStr.bytes的二进制内容:31 32 33 34 35 36 61 D0 1D 13 FD 8B F9 07 00 10<br>出现上述情况的原因:<br>需要了解%s是如何打印c字符串的.<br>%s打印的时候遇到\0就停止，[str UTF8String]转换的时候，自动在字符数组的最后面加上了\0(A null-terminated UTF8 representation of the string.)，但是data.bytes后面’不一定’是\0，所以打印data.bytes的时候会有额外的内容.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/22/2018-03-22-CocoaPods%E5%91%BD%E4%BB%A4%E4%BB%8B%E7%BB%8D/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="博客小屋">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/03/22/2018-03-22-CocoaPods%E5%91%BD%E4%BB%A4%E4%BB%8B%E7%BB%8D/" class="post-title-link" itemprop="url">CocoaPods命令介绍</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-03-22 16:42:24" itemprop="dateCreated datePublished" datetime="2018-03-22T16:42:24+08:00">2018-03-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-01-18 11:53:45" itemprop="dateModified" datetime="2020-01-18T11:53:45+08:00">2020-01-18</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CocoaPods/" itemprop="url" rel="index"><span itemprop="name">CocoaPods</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="pod-install和pod-update"><a href="#pod-install和pod-update" class="headerlink" title="pod install和pod update"></a>pod install和pod update</h3><h4 id="pod-install"><a href="#pod-install" class="headerlink" title="pod install"></a>pod install</h4><p>每次运行pod install命令，并且有下载、安装新的库时，CocoaPods会把这些安装的库的版本都写在Podfile.lock文件里面。这个文件记录你每个安装库的版本号，并且锁定了这些版本。</p>
+<p>后面再次运行的时候,它会解析Podfile.lock文件,对于存在在Podfile.lock文件中的则安装Podfile.lock文件中的版本的库而不会去检测该库是否有最新的版本可用,对于不在Podfile.lock文件中的,则根据Podfile文件指定的库版本下载安装.</p>
+<p>pod install不会去更新已存在的库的版本.</p>
+<h4 id="pod-update"><a href="#pod-update" class="headerlink" title="pod update"></a>pod update</h4><p>当你运行 pod update PODNAME 命令时，CocoaPods会帮你更新到这个库的新版本，此时CocoaPods 会忽略Podfile.lock里面的限制，它会更新到这个库尽可能的新版本，<strong>只要符合Podfile里面的版本限制</strong>。</p>
+<p>如果你运行pod update，后面没有跟库的名字，CocoaPods就会更新每一个Podfile里面的库到尽可能的最新版本。</p>
+<p>pod update默认是更新repo的，而pod install是不更新的。所以我们有时候pod update时会特别慢.</p>
+<p>举例:<br>当你在Podfile文件中新增一个库时,你应该使用pod install而不是pod update.(因为pod update会更新已存在的库而我们的目的只是想安装一个库所以应该使用pod install)</p>
+<p>你只有在想更新某个库的时候才使用pod update.</p>
+<h3 id="pod-setup"><a href="#pod-setup" class="headerlink" title="pod setup"></a>pod setup</h3><p>所有的项目的Podspec文件都托管在<code>https://github.com/CocoaPods/Specs</code>。第一次执行pod setup时，CocoaPods会将这些podspec文件clone到本地的 <code>~/.cocoapods/repos</code>目录下，这个文件比较大。所以第一次更新时非常慢，通常需要使用国内的镜像服务器或翻墙。如果clone已存在,则会更新repos文件.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">xuequandeMacBook-Pro:~ xuequan$ pod setup</span><br><span class="line">Setting up CocoaPods master repo</span><br><span class="line">  $ &#x2F;usr&#x2F;bin&#x2F;git -C &#x2F;Users&#x2F;xuequan&#x2F;.cocoapods&#x2F;repos&#x2F;master fetch origin</span><br><span class="line">  --progress</span><br><span class="line">  remote: Counting objects: 38172, done.        </span><br><span class="line">  remote: Compressing objects: 100% (117&#x2F;117), done.        </span><br><span class="line">  remote: Total 38172 (delta 13706), reused 13672 (delta 13672), pack-reused 24374        </span><br><span class="line">  Receiving objects: 100% (38172&#x2F;38172), 4.09 MiB | 560.00 KiB&#x2F;s, done.</span><br><span class="line">  Resolving deltas: 100% (26181&#x2F;26181), completed with 3595 local objects.</span><br><span class="line">  From https:&#x2F;&#x2F;github.com&#x2F;CocoaPods&#x2F;Specs</span><br><span class="line">     cc16dc96ff1..f42ce3f56e0  master     -&gt; origin&#x2F;master</span><br><span class="line">  $ &#x2F;usr&#x2F;bin&#x2F;git -C &#x2F;Users&#x2F;xuequan&#x2F;.cocoapods&#x2F;repos&#x2F;master rev-parse</span><br><span class="line">  --abbrev-ref HEAD</span><br><span class="line">  master</span><br><span class="line">  $ &#x2F;usr&#x2F;bin&#x2F;git -C &#x2F;Users&#x2F;xuequan&#x2F;.cocoapods&#x2F;repos&#x2F;master reset --hard</span><br><span class="line">  origin&#x2F;master</span><br><span class="line">  HEAD is now at f42ce3f56e0 [Add] HLDevice 1.0.0</span><br><span class="line">warning: inexact rename detection was skipped due to too many files.</span><br><span class="line">warning: you may want to set your diff.renameLimit variable to at least 3856 and retry the command.</span><br><span class="line"></span><br><span class="line">CocoaPods 1.4.0 is available.</span><br><span class="line">To update use: &#96;sudo gem install cocoapods&#96;</span><br><span class="line"></span><br><span class="line">For more information, see https:&#x2F;&#x2F;blog.cocoapods.org and the CHANGELOG for this version at https:&#x2F;&#x2F;github.com&#x2F;CocoaPods&#x2F;CocoaPods&#x2F;releases&#x2F;tag&#x2F;1.4.0</span><br><span class="line"></span><br><span class="line">Setup completed</span><br></pre></td></tr></table></figure>
+<h3 id="pod-search"><a href="#pod-search" class="headerlink" title="pod search"></a>pod search</h3><p>执行该命令后,CocoaPods会在<code>~/Library/Caches/CocoaPods</code>目录下创建<code>search_index.json</code>文件(目前16.6M).当你<code>pod search</code>一个内容时，就在这个本地目录下进行搜索。所以一些较新的pod库可能会搜索不到.比如目前刚出的<code>LKImageKit</code>.<br>解决办法:<br>删除<code>~/Library/Caches/CocoaPods</code>目录下的<code>search_index.json</code>文件.<br>再次执行<code>pod search &#39;xxx&#39;</code>, CocoaPods会重新创建该文件.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">xuequandeMacBook-Pro:~ xuequan$ pod search LKImageKit</span><br><span class="line">Creating search index for spec repo &#39;artsy&#39;.. Done!</span><br><span class="line">Creating search index for spec repo &#39;brion&#39;.. Done!</span><br><span class="line">Creating search index for spec repo &#39;master&#39;.. Done!</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">-&gt; LKImageKit (5.3.1)</span><br><span class="line">   LKImageKit</span><br><span class="line">   pod &#39;LKImageKit&#39;, &#39;~&gt; 5.3.1&#39;</span><br><span class="line">   - Homepage: https:&#x2F;&#x2F;github.com&#x2F;Tencent&#x2F;LKImageKit</span><br><span class="line">   - Source:   https:&#x2F;&#x2F;github.com&#x2F;Tencent&#x2F;LKImageKit.git</span><br><span class="line">   - Versions: 5.3.1 [master repo]</span><br><span class="line">(END)</span><br></pre></td></tr></table></figure>
+<h3 id="Podfile-lock文件"><a href="#Podfile-lock文件" class="headerlink" title="Podfile.lock文件"></a>Podfile.lock文件</h3><p>该文件在第一次运行pod install后生成,用于跟踪每一个安装的Pod库的版本.当修改了Podfile文件中某个库的版本或pod update被执行,将生成新的Podfile.lock文件.</p>
+<p>Q:如何保证项目中的成员使用的pod库版本一致?<br>A:提交Podfile.lock文件.As a reminder, even if your policy is not to commit the Pods folder into your shared repository, you should always commit &amp; push your Podfile.lock file.</p>
+<p>总结下就是:</p>
+<ul>
+<li>忽略Pods文件夹</li>
+<li>尽量在Podfile文件中指明库的版本</li>
+<li>提交Podfile.lock文件</li>
+</ul>
+<p>注意:仅在Podfile中写死库的版本并不能保证团队各成员使用的库的版本一致.这是因为第三方库自己有可能也依赖某个库.因此提交Podfile.lock文件才是正解.</p>
+<h3 id="Manifest-lock"><a href="#Manifest-lock" class="headerlink" title="Manifest.lock"></a>Manifest.lock</h3><p>Manifest.lock 是 Podfile.lock 的副本，每次只要生成 Podfile.lock 时就会生成一个一样的 Manifest.lock 存储在 Pods 文件夹下。在每次项目 Build 的时候，会跑一下脚本检查一下 Podfile.lock 和 Manifest.lock 是否一致：</p>
+<p>Build phases -&gt; [CP] Check Pods Manifest.lock</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">diff &quot;$&#123;PODS_PODFILE_DIR_PATH&#125;&#x2F;Podfile.lock&quot; &quot;$&#123;PODS_ROOT&#125;&#x2F;Manifest.lock&quot; &gt; &#x2F;dev&#x2F;null</span><br><span class="line">if [ $? !&#x3D; 0 ] ; then</span><br><span class="line">    # print error to STDERR</span><br><span class="line">    echo &quot;error: The sandbox is not in sync with the Podfile.lock. Run &#39;pod install&#39; or update your CocoaPods installation.&quot; &gt;&amp;2</span><br><span class="line">    exit 1</span><br><span class="line">fi</span><br><span class="line"># This output is used by Xcode &#39;outputs&#39; to avoid re-running this script phase.</span><br><span class="line">echo &quot;SUCCESS&quot; &gt; &quot;$&#123;SCRIPT_OUTPUT_FILE_0&#125;&quot;</span><br></pre></td></tr></table></figure>
+<p>因此如果你有提交Pods文件夹,那么Manifest.lock也有可能冲突.解决冲突的时候不要忘记它,并且确保Manifest.lock和Podfile.lock一致.</p>
+<h3 id="pod库版本号限定"><a href="#pod库版本号限定" class="headerlink" title="pod库版本号限定"></a>pod库版本号限定</h3><p>eg:<br><code>pod &#39;AFNetworking&#39;, &#39;~&gt; 1.0&#39;</code> 版本号可以是1.0，可以是1.1 … 1.9，但必须小于2.</p>
+<p>详细介绍如下:</p>
+<ul>
+<li><code>= 0.1 Version 0.1.</code></li>
+<li><code>&gt; 0.1 Any version higher than 0.1.</code></li>
+<li><code>&gt;= 0.1 Version 0.1 and any higher version.</code></li>
+<li><code>&lt; 0.1 Any version lower than 0.1.</code></li>
+<li><code>&lt;= 0.1 Version 0.1 and any lower version.</code></li>
+<li><code>~&gt; 0.1.2 Version 0.1.2 and the versions up to 0.2, not including 0.2. This operator works based on the last component that you specify in your version requirement. The example is equal to &gt;= 0.1.2 combined with &lt; 0.2.0 and will always match the latest known version matching your requirements.</code></li>
+</ul>
+<p><code>pod &#39;AFNetworking&#39;,</code>  // 不指定版本号，任何版本都可以</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://guides.cocoapods.org/using/pod-install-vs-update.html" target="_blank" rel="noopener">pod install vs. pod update</a></p>
+<p><a href="https://guides.cocoapods.org/syntax/podfile.html#pod" target="_blank" rel="noopener">podfile文件语法规则</a></p>
+<p><a href="https://objccn.io/issue-6-4/" target="_blank" rel="noopener">深入理解 CocoaPods</a>    </p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/22/2018-03-22-%E7%A7%81%E6%9C%89pod%E5%88%B6%E4%BD%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="博客小屋">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/03/22/2018-03-22-%E7%A7%81%E6%9C%89pod%E5%88%B6%E4%BD%9C/" class="post-title-link" itemprop="url">私有Pod制作</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-03-22 16:37:24" itemprop="dateCreated datePublished" datetime="2018-03-22T16:37:24+08:00">2018-03-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2018-07-15 08:47:28" itemprop="dateModified" datetime="2018-07-15T08:47:28+08:00">2018-07-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CocoaPods/" itemprop="url" rel="index"><span itemprop="name">CocoaPods</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="使用本地pod"><a href="#使用本地pod" class="headerlink" title="使用本地pod"></a>使用本地pod</h3><p>创建Podspec文件:<code>pod spec create XQPerson</code></p>
+<p>修改XQPerson.podspec文件:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">Pod::Spec.new do |s|</span><br><span class="line">    s.name         &#x3D; &quot;XQPerson&quot;</span><br><span class="line">    s.version      &#x3D; &quot;0.0.1&quot;</span><br><span class="line">    s.summary      &#x3D; &quot;Use XQPerson to print hello.&quot;</span><br><span class="line">    s.description  &#x3D; &lt;&lt;-DESC</span><br><span class="line">                        A pod used to print hello. this is just a simply pod.</span><br><span class="line">                     DESC</span><br><span class="line">    s.homepage     &#x3D; &quot;https:&#x2F;&#x2F;github.com&#x2F;tonymillion&#x2F;Reachability&quot;</span><br><span class="line">    s.license      &#x3D; &quot;MIT&quot;</span><br><span class="line">    s.author       &#x3D; &#123; &quot;xq_120&quot; &#x3D;&gt; &quot;xq_120455@yahoo.com&quot; &#125;</span><br><span class="line">    s.platform     &#x3D; :ios, &quot;7.0&quot;</span><br><span class="line">    s.source       &#x3D; &#123; :git &#x3D;&gt; &quot;&#x2F;Users&#x2F;xuequan&#x2F;Desktop&#x2F;XQPerson&#x2F;&quot;, :tag &#x3D;&gt; &quot;#&#123;s.version&#125;&quot; &#125;</span><br><span class="line">    s.source_files &#x3D; &quot;XQPerson&#x2F;*.&#123;h,m&#125;&quot;</span><br><span class="line"></span><br><span class="line">    s.framework  &#x3D; &quot;Foundation&quot;</span><br><span class="line"># s.frameworks &#x3D; &quot;SomeFramework&quot;, &quot;AnotherFramework&quot;</span><br><span class="line"></span><br><span class="line"># s.library   &#x3D; &quot;iconv&quot;</span><br><span class="line"># s.libraries &#x3D; &quot;iconv&quot;, &quot;xml2&quot;</span><br><span class="line"></span><br><span class="line">    s.requires_arc &#x3D; true</span><br><span class="line"></span><br><span class="line"># s.dependency &quot;JSONKit&quot;, &quot;~&gt; 1.4&quot;</span><br><span class="line"></span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p>验证Spec文件:<code>pod lib lint</code>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> -&gt; XQPerson (0.0.1)</span><br><span class="line"></span><br><span class="line">XQPerson passed validation.</span><br></pre></td></tr></table></figure>
+<p>准备好你的pod文件:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">xuequandeMacBook-Pro:XQPerson xuequan$ tree &#x2F;Users&#x2F;xuequan&#x2F;Desktop&#x2F;XQPerson -L 2</span><br><span class="line">&#x2F;Users&#x2F;xuequan&#x2F;Desktop&#x2F;XQPerson</span><br><span class="line">├── LICENSE</span><br><span class="line">├── XQPerson</span><br><span class="line">│   ├── XQPerson.h</span><br><span class="line">│   └── XQPerson.m</span><br><span class="line">├── XQPerson.podspec</span><br><span class="line">└── XQPersonDemo</span><br><span class="line">    ├── Podfile</span><br><span class="line">    ├── Podfile.lock</span><br><span class="line">    ├── Pods</span><br><span class="line">    ├── XQPersonDemo</span><br><span class="line">    ├── XQPersonDemo.xcodeproj</span><br><span class="line">    ├── XQPersonDemo.xcworkspace</span><br><span class="line">    ├── XQPersonDemoTests</span><br><span class="line">    └── XQPersonDemoUITests</span><br></pre></td></tr></table></figure>
+<p>打好tag.</p>
+<p>使用本地pods时,Podfile有两种写法:</p>
+<ol>
+<li>pod ‘XQPerson’, :podspec =&gt; ‘~/Desktop/XQPerson/XQPerson.podspec’  # 指定包含.podspec文件的路径</li>
+<li>pod ‘XQPerson’, :path =&gt; ‘~/Desktop/XQPerson’    # 指定podspec文件的路径</li>
+</ol>
+<p>不过如果<br><code>s.source       = { :git =&gt; &quot;~/Desktop/XQPerson&quot;, :tag =&gt; &quot;#{s.version}&quot; }</code><br>则指定podspec文件写法,pod install时会安装失败.而指定包含.podspec文件的路径写法不会.</p>
+<p>最后pod install:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Analyzing dependencies</span><br><span class="line">Downloading dependencies</span><br><span class="line">Using XQPerson (0.0.1)</span><br><span class="line">Generating Pods project</span><br><span class="line">Integrating client project</span><br><span class="line">Sending stats</span><br><span class="line">Pod installation complete! There is 1 dependency from the Podfile and 1 total pod installed.</span><br></pre></td></tr></table></figure>
+<p>至此使用本地pod就完成了.</p>
+<h3 id="提交本地pod至远程仓库"><a href="#提交本地pod至远程仓库" class="headerlink" title="提交本地pod至远程仓库"></a>提交本地pod至远程仓库</h3><p>在GitLab上创建一个私有工程XQPerson.</p>
+<p>修改<code>XQPerson.podspec</code>中的:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">s.homepage     &#x3D; &quot;https:&#x2F;&#x2F;gitlab.com&#x2F;xq_120&#x2F;XQPerson&quot;</span><br><span class="line">s.source       &#x3D; &#123; :git &#x3D;&gt; &quot;https:&#x2F;&#x2F;gitlab.com&#x2F;xq_120&#x2F;XQPerson.git&quot;, :tag &#x3D;&gt; &quot;#&#123;s.version&#125;&quot; &#125;</span><br></pre></td></tr></table></figure>
+<p>使用远程地址代替之前的本地路径.<br>重新验证一下<code>XQPerson.podspec</code>文件:<code>pod lib lint</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">xuequandeMacBook-Pro:XQPerson xuequan$ pod lib lint</span><br><span class="line"></span><br><span class="line"> -&gt; XQPerson (0.0.1)</span><br><span class="line"></span><br><span class="line">XQPerson passed validation.</span><br></pre></td></tr></table></figure>
+<p>提交文件到远程仓库:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ git add .</span><br><span class="line">$ git commit -s -m &quot;Initial Commit of Library&quot;</span><br><span class="line">$ git remote add origin git@gitlab.com:xq_120&#x2F;XQPerson.git  #添加远端仓库</span><br><span class="line">$ git push origin master     #提交到远端仓库</span><br></pre></td></tr></table></figure>
+<p>打好tag:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git tag -m &quot;first release&quot; 0.0.1</span><br><span class="line">$ git push --tags</span><br></pre></td></tr></table></figure>
+<h3 id="创建私有Spec-Repo"><a href="#创建私有Spec-Repo" class="headerlink" title="创建私有Spec Repo"></a>创建私有Spec Repo</h3><p>在GitLab上创建一个git远程仓库用于存储自己的私有podspec文件.其实这就有点类似CocoaPods的官方Spec repo.官方的地址是<code>https://github.com/CocoaPods/Specs.git</code>,只不过官方存储的都是公开的pod的podspec文件.而我们的git远程仓库由于是私有的,因此外部人员就无法访问到.</p>
+<p>创建完成之后在Terminal中执行如下命令:<br><code>$ pod repo add XQSpecs https://gitlab.com/xq_120/XQSpecs.git</code></p>
+<p>此时如果成功的话进入到<code>~/.cocoapods/repos</code>目录下就可以看到XQSpecs这个目录了。</p>
+<h3 id="向Spec-Repo提交podspec"><a href="#向Spec-Repo提交podspec" class="headerlink" title="向Spec Repo提交podspec"></a>向Spec Repo提交podspec</h3><p>向我们的私有Spec Repo提交podspec只需要一个命令:<br><code>$ pod repo push XQSpecs XQPerson.podspec</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">xuequandeMacBook-Pro:XQPerson xuequan$ pod repo push XQSpecs XQPerson.podspec</span><br><span class="line"></span><br><span class="line">Validating spec</span><br><span class="line"> -&gt; XQPerson (0.0.1)</span><br><span class="line"></span><br><span class="line">Updating the &#96;XQSpecs&#39; repo</span><br><span class="line"></span><br><span class="line">Already up-to-date.</span><br><span class="line"></span><br><span class="line">Adding the spec to the &#96;XQSpecs&#39; repo</span><br><span class="line"></span><br><span class="line"> - [No change] XQPerson (0.0.1)</span><br><span class="line"></span><br><span class="line">Pushing the &#96;XQSpecs&#39; repo</span><br><span class="line"></span><br><span class="line">xuequandeMacBook-Pro:XQPerson xuequan$</span><br></pre></td></tr></table></figure>
+<p>完成之后这个组件库就添加到我们的私有Spec Repo中了，可以进入到<code>~/.cocoapods/repos/XQSpecs</code>目录下查看:<code>tree . -l</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── XQPerson</span><br><span class="line">│   └── 0.0.1</span><br><span class="line">│       └── XQPerson.podspec</span><br></pre></td></tr></table></figure>
+<p>再去看我们的Spec Repo远端仓库，也有了一次提交，这个podspec也已经被Push上去了。</p>
+<p>至此，我们的这个组件库就已经制作添加完成了，使用pod search命令就可以查到我们自己的库了:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">-&gt; XQPerson (0.0.1)</span><br><span class="line">   Use XQPerson to print hello.</span><br><span class="line">   pod &#39;XQPerson&#39;, &#39;~&gt; 0.0.1&#39;</span><br><span class="line">   - Homepage: https:&#x2F;&#x2F;gitlab.com&#x2F;xq_120&#x2F;XQPerson</span><br><span class="line">   - Source:   https:&#x2F;&#x2F;gitlab.com&#x2F;xq_120&#x2F;XQPerson.git</span><br><span class="line">   - Versions: 0.0.1 [XQSpecs repo]</span><br><span class="line">(END)</span><br></pre></td></tr></table></figure>
+<p>搜索不到的,将<code>/Users/xuequan/Library/Caches/CocoaPods</code>路径下的<code>search_index.json</code>删除,然后重新搜索(可能需要先更新下Spec repo:<code>pod repo update</code>).</p>
+<h3 id="使用远程私有Pod"><a href="#使用远程私有Pod" class="headerlink" title="使用远程私有Pod"></a>使用远程私有Pod</h3><p>Podfile文件:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">platform :ios, &#39;9.0&#39;</span><br><span class="line"></span><br><span class="line">source &#39;https:&#x2F;&#x2F;github.com&#x2F;CocoaPods&#x2F;Specs.git&#39;</span><br><span class="line">source &#39;https:&#x2F;&#x2F;gitlab.com&#x2F;xq_120&#x2F;XQSpecs.git&#39;</span><br><span class="line"></span><br><span class="line">target &#39;tanwanlanyue&#39; do</span><br><span class="line"></span><br><span class="line">  pod &#39;XQPerson&#39;, &#39;~&gt; 0.0.1&#39;</span><br><span class="line">  pod &#39;AFNetworking&#39;, &#39;~&gt; 3.2.0&#39;</span><br><span class="line">  </span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p>执行pod install:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">xuequandeMacBook-Pro:tanwanlanyue xuequan$ pod install</span><br><span class="line">Analyzing dependencies</span><br><span class="line">Downloading dependencies</span><br><span class="line">Installing AFNetworking (3.2.0)</span><br><span class="line">Installing XQPerson (0.0.1)</span><br><span class="line">Generating Pods project</span><br><span class="line">Integrating client project</span><br><span class="line">Sending stats</span><br><span class="line">Pod installation complete! There are 2 dependencies from the Podfile and 2 total pods installed.</span><br><span class="line">xuequandeMacBook-Pro:tanwanlanyue xuequan$</span><br></pre></td></tr></table></figure>
+<p>使用:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;ViewController.h&quot;</span><br><span class="line">#import &lt;XQPerson.h&gt;</span><br><span class="line"></span><br><span class="line">@interface ViewController ()</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation ViewController</span><br><span class="line"></span><br><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    </span><br><span class="line">    XQPerson *p &#x3D; [XQPerson new];</span><br><span class="line">    [p printHello]; &#x2F;&#x2F;2018-03-22 11:34:17.434385+0800 tanwanlanyue[9186:96648] hello</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://blog.wtlucky.com/blog/2015/02/26/create-private-podspec/" target="_blank" rel="noopener">使用Cocoapods创建私有podspec</a></p>
+<p><a href="https://blog.cnbluebox.com/blog/2014/03/31/cocoapodsdai-ma-guan-li/" target="_blank" rel="noopener">Cocoapods代码管理</a></p>
+<p><a href="https://www.jianshu.com/p/5cb284934be2" target="_blank" rel="noopener">cocoapods进阶</a></p>
+<p><a href="https://www.jianshu.com/p/1e5927eeb341" target="_blank" rel="noopener">Cocoapods使用私有库中遇到的坑</a></p>
+<p><a href="https://www.jianshu.com/p/0c640821b36f" target="_blank" rel="noopener">CocoaPods 私有仓库的创建（超详细）</a></p>
+<p><a href="https://segmentfault.com/a/1190000007947371" target="_blank" rel="noopener">CocoaPods创建公有和私有Pod库方法总结</a></p>
+<hr>
+<p><a href="https://blog.zengrong.net/post/1746.html" target="_blank" rel="noopener">Git查看、删除、重命名远程分支和tag</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/19/2018-03-19-HTTPS(SSL:TLS)%E6%8F%A1%E6%89%8B%E8%BF%87%E7%A8%8B%E5%8F%8AAFNetWorking%E5%AF%B9HTTPS%E6%8F%A1%E6%89%8B%E7%9A%84%E5%AE%9E%E7%8E%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="博客小屋">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/03/19/2018-03-19-HTTPS(SSL:TLS)%E6%8F%A1%E6%89%8B%E8%BF%87%E7%A8%8B%E5%8F%8AAFNetWorking%E5%AF%B9HTTPS%E6%8F%A1%E6%89%8B%E7%9A%84%E5%AE%9E%E7%8E%B0/" class="post-title-link" itemprop="url">HTTPS(SSL/TLS)握手过程及AFNetWorking对HTTPS握手的实现</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-03-19 11:51:40" itemprop="dateCreated datePublished" datetime="2018-03-19T11:51:40+08:00">2018-03-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2018-07-15 08:47:28" itemprop="dateModified" datetime="2018-07-15T08:47:28+08:00">2018-07-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/https/" itemprop="url" rel="index"><span itemprop="name">https</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="HTTPS-SSL-TLS-握手过程"><a href="#HTTPS-SSL-TLS-握手过程" class="headerlink" title="HTTPS(SSL/TLS)握手过程"></a>HTTPS(SSL/TLS)握手过程</h3><p>整个SSL握手过程就是客户端,服务器端双方验证身份,以及生成对称加密密钥的过程.里面涉及到数字证书,对称加密、RSA非对称加密等一些知识.网上这方面的介绍也挺多的.可以参考<a href="http://www.ruanyifeng.com/blog/2014/02/ssl_tls.html" target="_blank" rel="noopener">SSL/TLS协议运行机制的概述</a></p>
+<p>详细过程:<br><img src="http://www.ruanyifeng.com/blogimg/asset/201402/bg2014020502.png" alt="SSL握手过程"></p>
+<h4 id="预备知识"><a href="#预备知识" class="headerlink" title="预备知识"></a>预备知识</h4><ul>
+<li>各种加解密算法如对称加密、RSA非对称加密,摘要算法.</li>
+<li>数字证书</li>
+</ul>
+<h3 id="AFNetWorking对HTTPS握手过程的实现"><a href="#AFNetWorking对HTTPS握手过程的实现" class="headerlink" title="AFNetWorking对HTTPS握手过程的实现"></a>AFNetWorking对HTTPS握手过程的实现</h3><p>AFNetWorking在HTTPS握手过程中,只是帮助我们完成了对服务器端证书的验证.</p>
+<blockquote>
+<p>AF的默认安全策略  </p>
+</blockquote>
+<p>self.securityPolicy = [AFSecurityPolicy defaultPolicy];<br>SSLPinningMode默认AFSSLPinningModeNone.<br>validatesDomainName默认YES,验证域名.<br>allowInvalidCertificates默认NO.不允许无效证书.</p>
+<p>在进行SSL握手时,系统会调用代理方法<code>URLSession:didReceiveChallenge:completionHandler:</code>.AFNetWorking在该代理方法中已经帮我们做了默认的处理,如果需要自定义处理则只需要给<code>sessionDidReceiveAuthenticationChallenge</code>Block赋值即可.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">- (void)URLSession:(NSURLSession *)session</span><br><span class="line">didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge</span><br><span class="line"> completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition disposition, NSURLCredential *credential))completionHandler</span><br><span class="line">&#123;</span><br><span class="line">    NSURLSessionAuthChallengeDisposition disposition &#x3D; NSURLSessionAuthChallengePerformDefaultHandling;</span><br><span class="line">    __block NSURLCredential *credential &#x3D; nil;</span><br><span class="line"></span><br><span class="line">    if (self.sessionDidReceiveAuthenticationChallenge) &#123;</span><br><span class="line">        disposition &#x3D; self.sessionDidReceiveAuthenticationChallenge(session, challenge, &amp;credential);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) &#123;</span><br><span class="line">            if ([self.securityPolicy evaluateServerTrust:challenge.protectionSpace.serverTrust forDomain:challenge.protectionSpace.host]) &#123;</span><br><span class="line">                credential &#x3D; [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust];</span><br><span class="line">                if (credential) &#123;</span><br><span class="line">                    disposition &#x3D; NSURLSessionAuthChallengeUseCredential;</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    disposition &#x3D; NSURLSessionAuthChallengePerformDefaultHandling;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                disposition &#x3D; NSURLSessionAuthChallengeCancelAuthenticationChallenge;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            disposition &#x3D; NSURLSessionAuthChallengePerformDefaultHandling;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (completionHandler) &#123;</span><br><span class="line">        completionHandler(disposition, credential);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="证书的验证"><a href="#证书的验证" class="headerlink" title="证书的验证"></a>证书的验证</h4><p>先看一下SSLPinningMode的三种模式:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">typedef NS_ENUM(NSUInteger, AFSSLPinningMode) &#123;</span><br><span class="line">    AFSSLPinningModeNone,</span><br><span class="line">    AFSSLPinningModePublicKey,</span><br><span class="line">    AFSSLPinningModeCertificate,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>AFSSLPinningModeNone:不使用pinned证书.<br>该模式下是否信任服务器端取决于allowInvalidCertificates=YES,或者SecTrustEvaluate()函数对证书验证是否通过.</p>
+<p>AFSSLPinningModePublicKey:验证PublicKey.使用工程里的证书和服务器端返回的证书对比PublicKey是否一致.</p>
+<p>AFSSLPinningModeCertificate:验证证书.使用工程里的证书和服务器端返回的证书对比二者是否一致.比上述只验证PublicKey要更加严格.</p>
+<p>先解释下pinnedCertificates,它表示的是我们拖入工程里的证书.可能是自签证书,也有可能是CA权威机构颁发的证书.</p>
+<p>AF主要帮我们实现了对服务器端证书的验证.具体的验证过程在方法<code>evaluateServerTrust: forDomain:</code>里.该方法会继续调用系统Security框架里的方法对证书进行验证.</p>
+<p>先来看下<code>evaluateServerTrust: forDomain:</code>的部分实现:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if (self.SSLPinningMode &#x3D;&#x3D; AFSSLPinningModeNone) &#123;</span><br><span class="line">    return self.allowInvalidCertificates || AFServerTrustIsValid(serverTrust);</span><br><span class="line">&#125; else if (!AFServerTrustIsValid(serverTrust) &amp;&amp; !self.allowInvalidCertificates) &#123;</span><br><span class="line">    return NO;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果SSLPinningMode等于AFSSLPinningModeNone.当allowInvalidCertificates=YES则表明证书验证通过,或者<code>AFServerTrustIsValid()</code>验证通过也表明证书验证通过.</p>
+<p><code>AFServerTrustIsValid()</code>的实现如下: </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">static BOOL AFServerTrustIsValid(SecTrustRef serverTrust) &#123;</span><br><span class="line">    BOOL isValid &#x3D; NO;</span><br><span class="line">    SecTrustResultType result;</span><br><span class="line">    __Require_noErr_Quiet(SecTrustEvaluate(serverTrust, &amp;result), _out);</span><br><span class="line"></span><br><span class="line">    isValid &#x3D; (result &#x3D;&#x3D; kSecTrustResultUnspecified || result &#x3D;&#x3D; kSecTrustResultProceed);</span><br><span class="line"></span><br><span class="line">_out:</span><br><span class="line">    return isValid;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>它调用的是系统的函数<br><code>OSStatus SecTrustEvaluate(SecTrustRef trust, SecTrustResultType * __nullable result)</code>.</p>
+<p>笔者发现在iOS<10.3.3时(iOS10.2.1 iPhone6),该函数对中间人Charles的证书验证结果是kSecTrustResultUnspecified即通过验证,而iOS>=10.3.3时验证结果是kSecTrustResultRecoverableTrustFailure验证失败.</p>
+<p>接下来就是对AFSSLPinningModeCertificate和AFSSLPinningModePublicKey两种模式的处理:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">switch (self.SSLPinningMode) &#123;</span><br><span class="line">        case AFSSLPinningModeNone:</span><br><span class="line">        default:</span><br><span class="line">            return NO;</span><br><span class="line">        case AFSSLPinningModeCertificate: &#123;</span><br><span class="line">            NSMutableArray *pinnedCertificates &#x3D; [NSMutableArray array];</span><br><span class="line">            for (NSData *certificateData in self.pinnedCertificates) &#123;</span><br><span class="line">                [pinnedCertificates addObject:(__bridge_transfer id)SecCertificateCreateWithData(NULL, (__bridge CFDataRef)certificateData)];</span><br><span class="line">            &#125;</span><br><span class="line">            SecTrustSetAnchorCertificates(serverTrust, (__bridge CFArrayRef)pinnedCertificates);</span><br><span class="line"></span><br><span class="line">            if (!AFServerTrustIsValid(serverTrust)) &#123;</span><br><span class="line">                return NO;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            &#x2F;&#x2F; obtain the chain after being validated, which *should* contain the pinned certificate in the last position (if it&#39;s the Root CA)</span><br><span class="line">            NSArray *serverCertificates &#x3D; AFCertificateTrustChainForServerTrust(serverTrust);</span><br><span class="line">            </span><br><span class="line">            for (NSData *trustChainCertificate in [serverCertificates reverseObjectEnumerator]) &#123;</span><br><span class="line">                if ([self.pinnedCertificates containsObject:trustChainCertificate]) &#123;</span><br><span class="line">                    return YES;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            return NO;</span><br><span class="line">        &#125;</span><br><span class="line">        case AFSSLPinningModePublicKey: &#123;</span><br><span class="line">            NSUInteger trustedPublicKeyCount &#x3D; 0;</span><br><span class="line">            NSArray *publicKeys &#x3D; AFPublicKeyTrustChainForServerTrust(serverTrust);</span><br><span class="line"></span><br><span class="line">            for (id trustChainPublicKey in publicKeys) &#123;</span><br><span class="line">                for (id pinnedPublicKey in self.pinnedPublicKeys) &#123;</span><br><span class="line">                    if (AFSecKeyIsEqualToKey((__bridge SecKeyRef)trustChainPublicKey, (__bridge SecKeyRef)pinnedPublicKey)) &#123;</span><br><span class="line">                        trustedPublicKeyCount +&#x3D; 1;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            return trustedPublicKeyCount &gt; 0;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h4 id="AFSSLPinningModeCertificate模式处理"><a href="#AFSSLPinningModeCertificate模式处理" class="headerlink" title="AFSSLPinningModeCertificate模式处理"></a>AFSSLPinningModeCertificate模式处理</h4><p>由于有可能使用的是自签证书,所以先将工程里的证书设置为锚点证书.然后调用SecTrustEvaluate()函数验证服务器端的证书,验证通过后继续验证证书链.如果证书链中包含pinnedCertificates证书则验证通过.否则验证失败.</p>
+<h4 id="AFSSLPinningModePublicKey模式处理"><a href="#AFSSLPinningModePublicKey模式处理" class="headerlink" title="AFSSLPinningModePublicKey模式处理"></a>AFSSLPinningModePublicKey模式处理</h4><p>pinnedPublicKeys和服务器端返回证书(若被中间人攻击这里的证书其实是中间人的证书)的PublicKey比较.</p>
+<p>最后验证完成.</p>
+<h3 id="抓包HTTPS数据"><a href="#抓包HTTPS数据" class="headerlink" title="抓包HTTPS数据"></a>抓包HTTPS数据</h3><p>通过上述分析,想要抓包iPhone上APP的HTTPS数据,若APP使用AFNetworking,则在iOS&lt;10.3.3下,AFNetworking的SSLPinningMode需要设置为AFSSLPinningModeNone,就可以抓到.</p>
+<p>在iOS&gt;=10.3.3,则需要SSLPinningMode需要设置为AFSSLPinningModeNone,且allowInvalidCertificates=YES,且validatesDomainName=NO,且info.plist需要设置NSAllowsArbitraryLoads=YES,才能使用中间人攻击的方式抓到数据.</p>
+<p>在使用HTTPS,iOS&gt;=10.3.3时,系统验证服务端证书是根据系统安装的CA证书进行验证的,对于自签证书默认验证是失败的.因此对于自签证书的验证需要调用SecTrustSetAnchorCertificates()设置锚点证书后再进行验证.</p>
+<p>伪代码:  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">NSString * cerPath &#x3D; [[NSBundle mainBundle] pathForResource:@&quot;Charles Proxy CA&quot; ofType:@&quot;cer&quot;]; &#x2F;&#x2F;证书的路径</span><br><span class="line">NSData * cerData &#x3D; [NSData dataWithContentsOfFile:cerPath];</span><br><span class="line">SecCertificateRef certificate &#x3D; SecCertificateCreateWithData(NULL, (__bridge CFDataRef)(cerData));</span><br><span class="line">if (certificate !&#x3D; NULL) &#123;</span><br><span class="line">    self.trustedCertificates &#x3D; @[CFBridgingRelease(certificate)];</span><br><span class="line">&#125;</span><br><span class="line">... </span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">SecTrustRef trust &#x3D; challenge.protectionSpace.serverTrust;</span><br><span class="line">SecTrustResultType result;</span><br><span class="line">SecTrustSetAnchorCertificates(trust, (__bridge CFArrayRef)self.trustedCertificates);</span><br><span class="line">OSStatus status &#x3D; SecTrustEvaluate(trust, &amp;result);</span><br><span class="line">if (status &#x3D;&#x3D; errSecSuccess &amp;&amp;</span><br><span class="line">        (result &#x3D;&#x3D; kSecTrustResultProceed ||</span><br><span class="line">         result &#x3D;&#x3D; kSecTrustResultUnspecified)) &#123;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;验证成功，生成NSURLCredential凭证cred，告知challenge使用这个凭证来继续连接</span><br><span class="line">    NSURLCredential *credential &#x3D; [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust];</span><br><span class="line">    completionHandler(NSURLSessionAuthChallengeUseCredential, credential);</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    &#x2F;&#x2F;验证失败，取消这次验证流程</span><br><span class="line">completionHandler(NSURLSessionAuthChallengeCancelAuthenticationChallenge, nil);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>打印SecCertificateRef对象:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">NSString * cerPath &#x3D; [[NSBundle mainBundle] pathForResource:@&quot;Charles Proxy CA&quot; ofType:@&quot;cer&quot;]; &#x2F;&#x2F;证书的路径</span><br><span class="line">NSData * cerData &#x3D; [NSData dataWithContentsOfFile:cerPath];</span><br><span class="line">SecCertificateRef certificate &#x3D; SecCertificateCreateWithData(NULL, (__bridge CFDataRef)(cerData));</span><br></pre></td></tr></table></figure>
+<p>这样创建出来的SecCertificateRef证书对象,打印日志为:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;cert(0x7ff365c07d20) s: Charles Proxy CA (25 九月 2016, appledeMacBook-Pro.local) i: Charles Proxy CA (25 九月 2016, appledeMacBook-Pro.local)&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="适配ATS"><a href="#适配ATS" class="headerlink" title="适配ATS"></a>适配ATS</h3><p>The NSAppTransportSecurity key is supported in iOS 9.0 and later and in macOS 10.11 and later, and is available in both apps and app extensions.</p>
+<p>Starting in iOS 10.0 and later and in macOS 10.12 and later, the following subkeys are supported:</p>
+<ul>
+<li><p>NSAllowsArbitraryLoadsForMedia</p>
+</li>
+<li><p>NSAllowsArbitraryLoadsInWebContent</p>
+</li>
+<li><p>NSRequiresCertificateTransparency</p>
+</li>
+<li><p>NSAllowsLocalNetworking</p>
+</li>
+</ul>
+<h4 id="ATS-Configuration-Basics"><a href="#ATS-Configuration-Basics" class="headerlink" title="ATS Configuration Basics"></a>ATS Configuration Basics</h4><p>App Transport Security (ATS) is enabled by default for apps linked against the iOS 9.0 or macOS 10.11 SDKs or later, as indicated by the default Boolean value of NO for the NSAllowsArbitraryLoads key. This key is at the root level of the NSAppTransportSecurity dictionary.</p>
+<p>ATS在iOS9.0 SDK及以后是默认开启的,即NSAllowsArbitraryLoads的值默认是NO.<br>通俗一点就是:iOS9以后,APP将访问不了HTTP资源.比如你想加载图片<code>http://sjbz.fd.zol-img.com.cn/t_s1080x1920c/g5/M00/0C/05/ChMkJlp5PRmIHSpjAAIImNBCzd8AAkr9gNyC5sAAgiw300.jpg</code>,但是系统会提示:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">App Transport Security has blocked a cleartext HTTP (http:&#x2F;&#x2F;) resource load since it is insecure. Temporary exceptions can be configured via your app&#39;s Info.plist file.</span><br><span class="line">Error Domain&#x3D;NSURLErrorDomain Code&#x3D;-1022 &quot;The resource could not be loaded because the App Transport Security policy requires the use of a secure connection.&quot;</span><br></pre></td></tr></table></figure>
+<p>如果APP内有需要访问HTTP资源的,有两种办法:</p>
+<ol>
+<li>在info.plist文件中设置NSAllowsArbitraryLoads=YES.</li>
+<li><p>在info.plist文件中添加白名单,即设置Exception Domains.</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;dict&gt;</span><br><span class="line">&lt;key&gt;sjbz.fd.zol-img.com.cn&lt;&#x2F;key&gt;</span><br><span class="line">&lt;dict&gt;</span><br><span class="line">	&lt;key&gt;NSIncludesSubdomains&lt;&#x2F;key&gt;</span><br><span class="line">	&lt;true&#x2F;&gt;</span><br><span class="line">	&lt;key&gt;NSTemporaryExceptionAllowsInsecureHTTPLoads&lt;&#x2F;key&gt;</span><br><span class="line">	&lt;true&#x2F;&gt;</span><br><span class="line">	&lt;key&gt;NSTemporaryExceptionMinimumTLSVersion&lt;&#x2F;key&gt;</span><br><span class="line">	&lt;string&gt;TLSv1.1&lt;&#x2F;string&gt;</span><br><span class="line">&lt;&#x2F;dict&gt;</span><br><span class="line">&lt;&#x2F;dict&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>完整NSAppTransportSecurity字典结构如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">NSAppTransportSecurity : Dictionary &#123;</span><br><span class="line"></span><br><span class="line">    NSAllowsArbitraryLoads : Boolean</span><br><span class="line"></span><br><span class="line">    NSAllowsArbitraryLoadsForMedia : Boolean</span><br><span class="line"></span><br><span class="line">    NSAllowsArbitraryLoadsInWebContent : Boolean</span><br><span class="line"></span><br><span class="line">    NSAllowsLocalNetworking : Boolean</span><br><span class="line"></span><br><span class="line">    NSExceptionDomains : Dictionary &#123;</span><br><span class="line"></span><br><span class="line">        &lt;domain-name-string&gt; : Dictionary &#123;</span><br><span class="line"></span><br><span class="line">            NSIncludesSubdomains : Boolean</span><br><span class="line"></span><br><span class="line">            NSExceptionAllowsInsecureHTTPLoads : Boolean</span><br><span class="line"></span><br><span class="line">            NSExceptionMinimumTLSVersion : String</span><br><span class="line"></span><br><span class="line">            NSExceptionRequiresForwardSecrecy : Boolean   &#x2F;&#x2F; Default value is YES</span><br><span class="line"></span><br><span class="line">            NSRequiresCertificateTransparency : Boolean</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="通过抓包软件观察实际SSL握手情况"><a href="#通过抓包软件观察实际SSL握手情况" class="headerlink" title="通过抓包软件观察实际SSL握手情况"></a>通过抓包软件观察实际SSL握手情况</h3><p>待续…</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://www.ruanyifeng.com/blog/2014/02/ssl_tls.html" target="_blank" rel="noopener">SSL/TLS协议运行机制的概述</a></p>
+<p><a href="http://oncenote.com/2014/10/21/Security-1-HTTPS/" target="_blank" rel="noopener">iOS安全系列之一：HTTPS</a></p>
+<p><a href="http://io.diveinedu.com/2016/01/09/iOS应用网络安全之HTTPS.html" target="_blank" rel="noopener">iOS应用网络安全之HTTPS</a></p>
+<p><a href="http://piglikeyoung.com/2017/01/26/AFNetworking-AFSecurityPolicy-5/" target="_blank" rel="noopener">AFSecurityPolicy 网络安全策略（五）</a></p>
+<p><a href="https://www.jianshu.com/p/7158568e4867" target="_blank" rel="noopener">SSL/TLS 握手过程详解</a></p>
+<p><a href="https://developer.apple.com/library/content/documentation/General/Reference/InfoPlistKeyReference/Articles/CocoaKeys.html#//apple_ref/doc/uid/TP40009251-SW33" target="_blank" rel="noopener">NSAppTransportSecurity Reference</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/10/2018-03-10-SDWebImage%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="博客小屋">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/03/10/2018-03-10-SDWebImage%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" class="post-title-link" itemprop="url">SDWebImage源码分析</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-03-10 21:08:37" itemprop="dateCreated datePublished" datetime="2018-03-10T21:08:37+08:00">2018-03-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2018-07-15 08:47:28" itemprop="dateModified" datetime="2018-07-15T08:47:28+08:00">2018-07-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%BD%BF%E7%94%A8/" itemprop="url" rel="index"><span itemprop="name">第三方库使用</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="SDWebImage源码分析"><a href="#SDWebImage源码分析" class="headerlink" title="SDWebImage源码分析"></a>SDWebImage源码分析</h3><blockquote>
+<p>本文主要分析解决以下几个疑问:</p>
+<ol>
+<li>同一图片的请求,SD如何从缓存中查找出来(key的命名规则)?或者说查找过程是怎样的?OK</li>
+<li>SD工作过程以及是如何从服务器下载的?</li>
+<li>SD是如何缓存图片的?OK</li>
+<li>当空间不足时,它的删除策略是什么(按时间顺序,还是图片质量)?</li>
+<li>SD图片缓存机制与系统的NSURLCache的区别,为什么SD说自己的性能要略高于系统的性能?</li>
+</ol>
+</blockquote>
+<h4 id="SDWebImageOptions的枚举值解释"><a href="#SDWebImageOptions的枚举值解释" class="headerlink" title="SDWebImageOptions的枚举值解释"></a>SDWebImageOptions的枚举值解释</h4><p>在使用SD提供的UIImageView类别方法: </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)sd_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageCompletionBlock)completedBlock;</span><br></pre></td></tr></table></figure>
+<p>下载图片时,有一个<code>SDWebImageOptions</code>参数,它可以用来配置SD的下载、缓存等行为.该参数是一个枚举,它有很多可选的值.<br>下面将分析每个值的含义:<br><code>SDWebImageRetryFailed = 1 &lt;&lt; 0</code>,SD的注释</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line">     * By default, when a URL fail to be downloaded, the URL is blacklisted so the library won&#39;t keep trying.</span><br><span class="line">     * This flag disable this blacklisting.</span><br><span class="line">*&#x2F;</span><br></pre></td></tr></table></figure>
+<p>翻译:<br>SD默认,当一个URL下载失败后(应该是网址无效导致的下载失败,而不是因为网络差原因导致的失败,<strong>待确认</strong>),该URL将会进入黑名单,SD将不会继续尝试下载.该选项将不使能黑名单.即即使该URL下载失败了,也不会进入黑名单,以后可以继续尝试下载.</p>
+<p><code>SDWebImageLowPriority = 1 &lt;&lt; 1</code>,SD的注释</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line">     * By default, image downloads are started during UI interactions, this flags disable this feature,</span><br><span class="line">     * leading to delayed download on UIScrollView deceleration for instance.</span><br><span class="line">     *&#x2F;</span><br></pre></td></tr></table></figure>
+<p>翻译:<br>SD默认,当用户点击下载时就开始下载了,但该枚举值将不使能该特性.比如UIScrollView还在减速的时候,即使UI的交互指示要开始下载了,但该枚举值会使SD延后下载.</p>
+<p><code>SDWebImageCacheMemoryOnly = 1 &lt;&lt; 2</code>,下载的图片不缓存到磁盘,仅缓存到内存.</p>
+<p><code>SDWebImageProgressiveDownload = 1 &lt;&lt; 3</code>,SD的注释</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line">     * This flag enables progressive download, the image is displayed progressively during download as a browser would do.</span><br><span class="line">     * By default, the image is only displayed once completely downloaded.</span><br><span class="line">     *&#x2F;</span><br></pre></td></tr></table></figure>
+<p>翻译:<br>该枚举值使能了progressive download(显示进度的下载),图片将随着进度一点点显示.SD默认只有当图片完全下载完成后才一次性显示.</p>
+<p><code>SDWebImageRefreshCached = 1 &lt;&lt; 4</code>,SD的注释</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line">     * Even if the image is cached, respect the HTTP response cache control, and refresh the image from remote location if needed.</span><br><span class="line">     * The disk caching will be handled by NSURLCache instead of SDWebImage leading to slight performance degradation.</span><br><span class="line">     * This option helps deal with images changing behind the same request URL, e.g. Facebook graph api profile pics.</span><br><span class="line">     * If a cached image is refreshed, the completion block is called once with the cached image and again with the final image.</span><br><span class="line">     *</span><br><span class="line">     * Use this flag only if you can&#39;t make your URLs static with embedded cache busting parameter.</span><br><span class="line">*&#x2F;</span><br></pre></td></tr></table></figure>
+<p>翻译:  </p>
+<ul>
+<li>即使图片已经被缓存了,但是根据HTTP响应缓存控制,如果必要的话还是会用远程的图片刷新本地的缓存的图片.</li>
+<li>磁盘的缓存将使用系统的NSURLCache处理而不是SDWebImage,所以会导致一个轻微的性能下降.</li>
+<li>该枚举值用于处理图片改变但其对应的URL没变的情况.</li>
+<li>如果缓存的图片被刷新,那么the completion block会调用两次,第一次是缓存的图片,接着的第二次是最终的图片.</li>
+<li>仅当你不能让你的URL为一个静态的地址时(旧图片是网址A,新图片还是网址A)才使用该枚举值.</li>
+</ul>
+<p><code>SDWebImageContinueInBackground = 1 &lt;&lt; 5</code>,SD的注释</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line">     * In iOS 4+, continue the download of the image if the app goes to background. This is achieved by asking the system for</span><br><span class="line">     * extra time in background to let the request finish. If the background task expires the operation will be cancelled.</span><br><span class="line">     *&#x2F;</span><br></pre></td></tr></table></figure>
+<p>翻译:<br>需要iOS4+,当APP进入后台时,继续图片的下载.该功能的实现是:进入后台时,通过向系统申请额外的时间来让请求完成.如果后台任务到期,操作将被取消.(xq注:有可能取消时,图片还没下载完成.这种情况应该比较少见,主要发生在下载高清图,但网速又不好的情况)</p>
+<p><code>SDWebImageHandleCookies = 1 &lt;&lt; 6</code>,处理存储在NSHTTPCookieStore里的cookie.内部通过设置NSMutableURLRequest.HTTPShouldHandleCookies = YES;实现.</p>
+<p><code>SDWebImageAllowInvalidSSLCertificates = 1 &lt;&lt; 7</code>,使能允许未信任的SSL证书.主要用于测试环境.生产环境谨慎使用.</p>
+<p><code>SDWebImageHighPriority = 1 &lt;&lt; 8</code>,SD的注释</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line">     * By default, images are loaded in the order in which they were queued. This flag moves them to</span><br><span class="line">     * the front of the queue.</span><br><span class="line">     *&#x2F;</span><br></pre></td></tr></table></figure>
+<p>翻译:<br>SD默认,图片是以它们入列时的顺序下载.该枚举值会将它们移到队列的前面.</p>
+<p><code>SDWebImageAvoidAutoSetImage = 1 &lt;&lt; 11</code>,SD默认图片下载完成后自动设置imageView,但该枚举值可以让SD不自动设置,而是让程序员手动设置.比如下载完成后还要处理一下才设置到imageView上去.</p>
+<h4 id="SD的缓存路径"><a href="#SD的缓存路径" class="headerlink" title="SD的缓存路径"></a>SD的缓存路径</h4><p>SD默认的缓存路径:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Library&#x2F;Caches&#x2F;default&#x2F;com.hackemist.SDWebImageCache.default&#x2F;cf00214b25574df24d89120a11424121.jpg</span><br></pre></td></tr></table></figure>
+<p>它是在<code>Library/Caches/</code>目录下创建了<code>default/com.hackemist.SDWebImageCache.default/</code>路径,以后缓存的图片将存储在该路径下.<strong>SD保存图片的命名规则:</strong>通过对URLString md5后,再拼接可能有的后缀名得来.如:cf00214b25574df24d89120a11424121.jpg</p>
+<p>系统<code>NSURLCache</code>缓存的路径:<br><code>Library/Caches/bundleIdXXX(APP bundle id)/</code>,然后在<code>bundleIdXXX</code>文件夹下存放缓存:<br><code>Cache.db,Cache.db-shm,Cache.db-wal,fsCachedData/A755FD02-64B3-430C-899D-6AD44E4D3229(图片的名称)</code>.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SDWebImageDownloader *downloader &#x3D; [SDWebImageDownloader sharedDownloader];</span><br><span class="line">[downloader downloadImageWithURL:[NSURL URLWithString:@&quot;http:&#x2F;&#x2F;b.zol-img.com.cn&#x2F;sjbizhi&#x2F;images&#x2F;9&#x2F;230x350&#x2F;1469533909506.jpg&quot;] options:SDWebImageDownloaderUseNSURLCache progress:nil completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) &#123;</span><br><span class="line">        NSLog(@&quot;error:%@, finished:%d&quot;, error, finished);</span><br><span class="line">        NSLog(@&quot;%@&quot;, image);</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+<p>当<code>SDWebImageDownloaderOptions</code>选择<code>SDWebImageDownloaderUseNSURLCache</code>时,SD将采用系统的<code>NSURLCache</code>缓存图片,所以这里即使下载了,但使用SD的类别下载时[self.myImageView sd_setImageWithURL:]由于采用的是另一套查找机制,它没有去查找系统的缓存,所以还得重新下载.</p>
+<h4 id="同一图片的请求-SD如何从缓存中查找出来-key的命名规则-或者说查找过程是怎样的"><a href="#同一图片的请求-SD如何从缓存中查找出来-key的命名规则-或者说查找过程是怎样的" class="headerlink" title="同一图片的请求,SD如何从缓存中查找出来(key的命名规则)?或者说查找过程是怎样的?"></a>同一图片的请求,SD如何从缓存中查找出来(key的命名规则)?或者说查找过程是怎样的?</h4><p>SD key的命名规则是怎样的?<br><code>NSString *key = [self cacheKeyForURL:url];</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- (NSString *)cacheKeyForURL:(NSURL *)url &#123;</span><br><span class="line">    if (self.cacheKeyFilter) &#123;</span><br><span class="line">        return self.cacheKeyFilter(url);</span><br><span class="line">    &#125;</span><br><span class="line">    else &#123;</span><br><span class="line">        return [url absoluteString];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>SD命名cache的key是通过返回URL的absoluteString属性的值.该key在后面的内存查找缓存和磁盘查找缓存都有用到的.</p>
+<p>SD自定义了一个缓存类SDImageCache,该类维护着一个内存缓存和一个可选的磁盘缓存.Disk cache的写操作是异步的因此不用担心影响到UI.</p>
+<p>维护的内存缓存是一个AutoPurgeCache对象.<code>@interface AutoPurgeCache : NSCache</code>.AutoPurageCache主要是在初始化的时候注册了一个UIApplicationDidReceiveMemoryWarningNotification内存警告的通知.如果收到内存警告通知,则调用<code>-removeAllObjects</code>清空缓存.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@interface SDImageCache ()</span><br><span class="line"></span><br><span class="line">@property (strong, nonatomic) NSCache *memCache;</span><br><span class="line">@property (strong, nonatomic) NSString *diskCachePath;</span><br><span class="line">@property (strong, nonatomic) NSMutableArray *customPaths;</span><br><span class="line">@property (SDDispatchQueueSetterSementics, nonatomic) dispatch_queue_t ioQueue;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; Init the memory cache</span><br><span class="line">_memCache &#x3D; [[AutoPurgeCache alloc] init];</span><br><span class="line">_memCache.name &#x3D; fullNamespace;</span><br></pre></td></tr></table></figure>
+<p>SD下载图片时是将下载封装到一个操作里面的.</p>
+<p>SD的主类<code>SDWebImageManager</code>有两个重要的属性</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@property (strong, nonatomic, readonly) SDImageCache *imageCache;</span><br><span class="line">@property (strong, nonatomic, readonly) SDWebImageDownloader *imageDownloader;</span><br></pre></td></tr></table></figure>
+<p><code>SDImageCache</code>是用来操作缓存的,<code>SDWebImageDownloader</code>是用来下载图片的.</p>
+<p>SD通过上面的Key参数和方法<code>- (NSOperation *)queryDiskCacheForKey:(NSString *)key done:(SDWebImageQueryCompletedBlock)doneBlock</code>来查找缓存.</p>
+<h4 id="同步查找内存缓存"><a href="#同步查找内存缓存" class="headerlink" title="同步查找内存缓存"></a>同步查找内存缓存</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- (UIImage *)imageFromMemoryCacheForKey:(NSString *)key &#123;</span><br><span class="line">    return [self.memCache objectForKey:key];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>内存查找比较简单,就是使用NSCache的方法<code>-objectForKey:</code>,如果在内存里找到那么就直接返回图片了.如果没查到,就<strong>异步的从磁盘里查找</strong>.也就是说<strong>SD的<code>- (NSOperation *)queryDiskCacheForKey:(NSString *)key done:(SDWebImageQueryCompletedBlock)doneBlock</code>方法是同步的查找内存中缓存,异步的查找磁盘中的缓存.得好好看一下这种设计的实现.</strong><br>PS:NSCache类似于NSDictionary.它里面存放的对象都是位于内存的.</p>
+<h4 id="异步查找磁盘缓存"><a href="#异步查找磁盘缓存" class="headerlink" title="异步查找磁盘缓存"></a>异步查找磁盘缓存</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">dispatch_async(self.ioQueue, ^&#123;</span><br><span class="line">	if (operation.isCancelled) &#123;</span><br><span class="line">	    return;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	@autoreleasepool &#123;</span><br><span class="line">	    UIImage *diskImage &#x3D; [self diskImageForKey:key];</span><br><span class="line">	    if (diskImage &amp;&amp; self.shouldCacheImagesInMemory) &#123;</span><br><span class="line">	        NSUInteger cost &#x3D; SDCacheCostForImage(diskImage);</span><br><span class="line">	        [self.memCache setObject:diskImage forKey:key cost:cost];</span><br><span class="line">	    &#125;</span><br><span class="line">	</span><br><span class="line">	    dispatch_async(dispatch_get_main_queue(), ^&#123;</span><br><span class="line">	        doneBlock(diskImage, SDImageCacheTypeDisk);</span><br><span class="line">	    &#125;);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h4 id="根据Key在磁盘中找到对应的缓存图片"><a href="#根据Key在磁盘中找到对应的缓存图片" class="headerlink" title="根据Key在磁盘中找到对应的缓存图片"></a>根据Key在磁盘中找到对应的缓存图片</h4><p>主要方法:<code>UIImage *diskImage = [self diskImageForKey:key];</code></p>
+<p>SD是通过Key得到文件(图片)名的,<code>NSString *filename = [self cachedFileNameForKey:key];</code>方法内部是对key进行md5签名,得到一个签名串,然后再拼接后缀名(如果key里面有后缀的话).这个时候就得到了文件名,再拼接SD自己的存储路径self.diskCachePath(<code>/Library/Caches/default/com.hackemist.SDWebImageCache.default</code>事先指定好的路径名).到这一步就获得了指定key的缓存图片的路径(<code>/Library/Caches/default/com.hackemist.SDWebImageCache.default/cf00214b25574df24d89120a11424121.jpg</code>).通过<code>NSData *data = [NSData dataWithContentsOfFile:defaultPath];</code>读取出文件的数据.最后将NSData转化为UIImage.至此从磁盘查找指定key的缓存图片就到此结束了.<br>PS:<code>[result appendFormat:@&quot;%02x&quot;, digest[i]];</code><br>x/X:表示以十六进制形式输出.<br>02:表示不足两位,前面补0输出;超过两位,则直接输出.</p>
+<h3 id="SD是如何缓存图片的"><a href="#SD是如何缓存图片的" class="headerlink" title="SD是如何缓存图片的?"></a>SD是如何缓存图片的?</h3><p>主要是通过<code>SDImageCache</code>类完成缓存功能.<code>SDImageCache</code>提供的接口有:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">@interface SDImageCache ()</span><br><span class="line"></span><br><span class="line">#pragma mark - Properties</span><br><span class="line">@property (strong, nonatomic, nonnull) NSCache *memCache; &#x2F;&#x2F;里面是关联了一个系统的NSCache对象.</span><br><span class="line">@property (strong, nonatomic, nonnull) NSString *diskCachePath;</span><br><span class="line">@property (strong, nonatomic, nullable) NSMutableArray&lt;NSString *&gt; *customPaths;</span><br><span class="line">@property (SDDispatchQueueSetterSementics, nonatomic, nullable) dispatch_queue_t ioQueue;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>初始化方法:<br><code>+ (SDImageCache *)sharedImageCache;</code>、<code>- (id)initWithNamespace:(NSString *)ns diskCacheDirectory:(NSString *)directory;</code>提供缓存路径的设置.</p>
+</li>
+<li><p>存储缓存方法:<br><code>- (void)storeImage:(UIImage *)image forKey:(NSString *)key toDisk:(BOOL)toDisk;</code></p>
+</li>
+<li><p>获取缓存方法:</p>
+<ol>
+<li><code>- (NSOperation *)queryDiskCacheForKey:(NSString *)key done:(SDWebImageQueryCompletedBlock)doneBlock;</code></li>
+<li><code>- (UIImage *)imageFromMemoryCacheForKey:(NSString *)key;</code></li>
+<li><code>- (UIImage *)imageFromDiskCacheForKey:(NSString *)key;</code></li>
+</ol>
+</li>
+<li><p>移除缓存的方法:</p>
+<ol>
+<li><code>- (void)removeImageForKey:(NSString *)key fromDisk:(BOOL)fromDisk withCompletion:(SDWebImageNoParamsBlock)completion;</code></li>
+<li><code>- (void)clearDisk;</code></li>
+<li><code>- (void)cleanDiskWithCompletionBlock:(SDWebImageNoParamsBlock)completionBlock;</code></li>
+</ol>
+</li>
+<li><p>查询信息方法(查询某个key的缓存是否存在,查询缓存占用了多少空间):</p>
+<ol>
+<li><code>- (NSUInteger)getSize;</code></li>
+<li><code>- (BOOL)diskImageExistsWithKey:(NSString *)key;</code></li>
+<li><code>- (void)calculateSizeWithCompletionBlock:(SDWebImageCalculateSizeBlock)completionBlock;</code></li>
+</ol>
+</li>
+</ul>
+<p>可以看到这个类的接口功能是比较完善的,有初始化方法、存、取、删、查询信息等方法.并且基本都提供了一个同步的,一个异步的.<strong>可以好好学习一下.</strong></p>
+<p>当图片下载完成后,就进行缓存:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">if (downloadedImage &amp;&amp; finished) &#123;</span><br><span class="line">	[self.imageCache storeImage:downloadedImage recalculateFromImage:NO imageData:data forKey:key toDisk:cacheOnDisk];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">dispatch_main_sync_safe(^&#123;</span><br><span class="line">	if (strongOperation &amp;&amp; !strongOperation.isCancelled) &#123;</span><br><span class="line">	    completedBlock(downloadedImage, nil, SDImageCacheTypeNone, finished, url);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;最终是将图片的二进制数据写入文件</span><br><span class="line">&#x2F;&#x2F; Make sure to call form io queue by caller</span><br><span class="line">- (void)_storeImageDataToDisk:(nullable NSData *)imageData forKey:(nullable NSString *)key &#123;</span><br><span class="line">    if (!imageData || !key) &#123;</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    if (![self.fileManager fileExistsAtPath:_diskCachePath]) &#123;</span><br><span class="line">        [self.fileManager createDirectoryAtPath:_diskCachePath withIntermediateDirectories:YES attributes:nil error:NULL];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    &#x2F;&#x2F; get cache Path for image key</span><br><span class="line">    NSString *cachePathForKey &#x3D; [self defaultCachePathForKey:key];</span><br><span class="line">    &#x2F;&#x2F; transform to NSUrl</span><br><span class="line">    NSURL *fileURL &#x3D; [NSURL fileURLWithPath:cachePathForKey];</span><br><span class="line">    </span><br><span class="line">    [imageData writeToURL:fileURL options:self.config.diskCacheWritingOptions error:nil];</span><br><span class="line">    </span><br><span class="line">    &#x2F;&#x2F; disable iCloud backup</span><br><span class="line">    if (self.config.shouldDisableiCloud) &#123;</span><br><span class="line">        [fileURL setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:nil];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="SD清除缓存规则"><a href="#SD清除缓存规则" class="headerlink" title="SD清除缓存规则"></a>SD清除缓存规则</h4><p>SD的缓存清理涉及到两个关键的配置属性:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;最大缓存时间</span><br><span class="line">&#x2F;**</span><br><span class="line"> * The maximum length of time to keep an image in the cache, in seconds.</span><br><span class="line"> *&#x2F;</span><br><span class="line">@property (assign, nonatomic) NSInteger maxCacheAge;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;最大缓存空间</span><br><span class="line">&#x2F;**</span><br><span class="line"> * The maximum size of the cache, in bytes.</span><br><span class="line"> *&#x2F;</span><br><span class="line">@property (assign, nonatomic) NSUInteger maxCacheSize;</span><br><span class="line"></span><br><span class="line">- (void)setMaxMemoryCost:(NSUInteger)maxMemoryCost &#123;</span><br><span class="line">    self.memCache.totalCostLimit &#x3D; maxMemoryCost;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (NSUInteger)maxMemoryCost &#123;</span><br><span class="line">    return self.memCache.totalCostLimit;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>SD根据这两个属性的值,先删除最旧的文件.删除后若还超出了maxCacheSize,则进一步删除旧文件.不难看出SD清除缓存的策略就是删除旧文件.而其他框架可能会有所不同.比如采用LFU(Least Frequently Used)算法.它是根据数据的历史访问频率来淘汰数据，其核心思想是“如果数据过去被访问多次，那么将来被访问的频率也更高”。</p>
+<p>缓存清除时机:app即将干掉,或进入后台时.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; Subscribe to app events</span><br><span class="line">        [[NSNotificationCenter defaultCenter] addObserver:self</span><br><span class="line">                                                 selector:@selector(deleteOldFiles)</span><br><span class="line">                                                     name:UIApplicationWillTerminateNotification</span><br><span class="line">                                                   object:nil];</span><br><span class="line"></span><br><span class="line">        [[NSNotificationCenter defaultCenter] addObserver:self</span><br><span class="line">                                                 selector:@selector(backgroundDeleteOldFiles)</span><br><span class="line">                                                     name:UIApplicationDidEnterBackgroundNotification</span><br><span class="line">                                                   object:nil];</span><br><span class="line">                                                   </span><br><span class="line">&#x2F;&#x2F; Start the long-running task and return immediately.</span><br><span class="line">    [self deleteOldFilesWithCompletionBlock:^&#123;</span><br><span class="line">        [application endBackgroundTask:bgTask];</span><br><span class="line">        bgTask &#x3D; UIBackgroundTaskInvalid;</span><br><span class="line">    &#125;];</span><br></pre></td></tr></table></figure>
+<h3 id="SD图片下载"><a href="#SD图片下载" class="headerlink" title="SD图片下载"></a>SD图片下载</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@interface SDWebImageCombinedOperation : NSObject &lt;SDWebImageOperation&gt;</span><br><span class="line"></span><br><span class="line">@property (assign, nonatomic, getter &#x3D; isCancelled) BOOL cancelled;</span><br><span class="line">@property (copy, nonatomic) SDWebImageNoParamsBlock cancelBlock;</span><br><span class="line">@property (strong, nonatomic) NSOperation *cacheOperation;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p><code>__block SDWebImageCombinedOperation *operation = [SDWebImageCombinedOperation new];</code><br><code>operation.cacheOperation = [self.imageCache queryDiskCacheForKey:key done:^(UIImage *image, SDImageCacheType cacheType) {...}];</code><br><strong>不太明白<code>SDWebImageCombinedOperation</code>的cacheOperation赋值以后有什么用</strong>,好像没有哪个地方将它添加到队列里.仅仅在<code>SDWebImageCombinedOperation</code>的cancel方法里看到用了一下.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">- (void)cancel &#123;</span><br><span class="line">    self.cancelled &#x3D; YES;</span><br><span class="line">    if (self.cacheOperation) &#123;</span><br><span class="line">        [self.cacheOperation cancel];</span><br><span class="line">        self.cacheOperation &#x3D; nil;</span><br><span class="line">    &#125;</span><br><span class="line">    if (self.cancelBlock) &#123;</span><br><span class="line">        self.cancelBlock();</span><br><span class="line">        </span><br><span class="line">        &#x2F;&#x2F; TODO: this is a temporary fix to #809.</span><br><span class="line">        &#x2F;&#x2F; Until we can figure the exact cause of the crash, going with the ivar instead of the setter</span><br><span class="line">&#x2F;&#x2F;        self.cancelBlock &#x3D; nil;</span><br><span class="line">        _cancelBlock &#x3D; nil;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">- (id &lt;SDWebImageOperation&gt;)loadImageWithURL:(nullable NSURL *)url</span><br><span class="line">                                     options:(SDWebImageOptions)options</span><br><span class="line">                                    progress:(nullable SDWebImageDownloaderProgressBlock)progressBlock</span><br><span class="line">                                   completed:(nullable SDInternalCompletionBlock)completedBlock;</span><br><span class="line">                                   </span><br><span class="line">- (nullable SDWebImageDownloadToken *)addProgressCallback:(SDWebImageDownloaderProgressBlock)progressBlock</span><br><span class="line">                                           completedBlock:(SDWebImageDownloaderCompletedBlock)completedBlock</span><br><span class="line">                                                   forURL:(nullable NSURL *)url</span><br><span class="line">                                           createCallback:(SDWebImageDownloaderOperation *(^)(void))createCallback;</span><br></pre></td></tr></table></figure>
+<p>下载的操作就是在该方法中加入到队列里的,代码片段:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; Add operation to operation queue only after all configuration done according to Apple&#39;s doc.</span><br><span class="line">&#x2F;&#x2F; &#96;addOperation:&#96; does not synchronously execute the &#96;operation.completionBlock&#96; so this will not cause deadlock.</span><br><span class="line">[self.downloadQueue addOperation:operation];</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/28/2018-02-28-%E5%93%8D%E5%BA%94%E8%80%85%E9%93%BEhitTest%E9%87%8A%E7%96%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="博客小屋">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/02/28/2018-02-28-%E5%93%8D%E5%BA%94%E8%80%85%E9%93%BEhitTest%E9%87%8A%E7%96%91/" class="post-title-link" itemprop="url">响应者链hitTest释疑</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-02-28 15:02:17" itemprop="dateCreated datePublished" datetime="2018-02-28T15:02:17+08:00">2018-02-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-01-02 23:12:17" itemprop="dateModified" datetime="2020-01-02T23:12:17+08:00">2020-01-02</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/UIResponder/" itemprop="url" rel="index"><span itemprop="name">UIResponder</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Q:UIButton想要扩大它的响应区域?<br>A:重载UIButton的hitTest或pointInside.<br>重载hitTest:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event &#123;</span><br><span class="line">	if (self.userInteractionEnabled &#x3D;&#x3D; NO || self.hidden &#x3D;&#x3D; YES || self.alpha &lt;&#x3D; 0.01) return nil;</span><br><span class="line">    CGRect touchRect &#x3D; CGRectInset(self.bounds, -40, -40);</span><br><span class="line">    if (CGRectContainsPoint(touchRect, point)) &#123;</span><br><span class="line">        return self;</span><br><span class="line">    &#125;</span><br><span class="line">    return [super hitTest:point withEvent:event];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>或重载pointInside:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (BOOL)pointInside:(CGPoint)point withEvent:(nullable UIEvent *)event &#123;</span><br><span class="line">    BOOL rs &#x3D; CGRectContainsPoint(CGRectInset(self.bounds, -40, -40), point);</span><br><span class="line">    return rs;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里推荐重写pointInside方法.因为重写hitTest方法需要注意判断view的一些属性:<code>if (self.userInteractionEnabled == NO || self.hidden == YES || self.alpha &lt;= 0.01) return nil;</code>如果不判断会出Bug,比如设置按钮hidden为YES了,但是摸到按钮的区域,按钮的响应方法一样会被调用.而重写pointInside方法则不需要考虑这些.</p>
+<p>PS:如果设置了userInteractionEnabled=NO;即使重写hitTest返回按钮自己,按钮的响应方法也不会回调.应该是系统在回调之前又判断了一下该属性的值.</p>
+<p>userInteractionEnabled的说明如下:</p>
+<blockquote>
+<p>When set to NO, touch, press, keyboard, and focus events intended for the view are ignored and removed from the event queue. When set to YES, events are delivered to the view normally. The default value of this property is YES.</p>
+<p>During an animation, user interactions are temporarily disabled for all views involved in the animation, regardless of the value in this property. You can disable this behavior by specifying the UIViewAnimationOptionAllowUserInteraction option when configuring the animation.</p>
+</blockquote>
+<p>当btn作为第一响应者被返回时,如果userInteractionEnabled属性为NO,则与它相关的事件(触摸,按压)都将被忽略.因此btn的响应方法不会被调用.</p>
+<p>Q:点击子视图超出父视图的区域仍让子视图响应事件?<br>A:必须重载<strong>父视图(**</strong>父视图<strong><strong>父视图</strong></strong>父视图**三遍!!!)的pointInside方法.这是由于如果父视图的pointInside返回NO的话,其上的子视图就不会进行hitTest,因此重载子视图的相关方法将无效.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">override func point(inside point: CGPoint, with event: UIEvent?) -&gt; Bool &#123;</span><br><span class="line">    var rs &#x3D; super.point(inside: point, with: event)</span><br><span class="line">    </span><br><span class="line">    if !rs &#123;</span><br><span class="line">        for subView in subviews.reversed() &#123;</span><br><span class="line">            let subPoint &#x3D; subView.convert(point, from: self)</span><br><span class="line">            if subView.bounds.contains(subPoint) &#123;</span><br><span class="line">                rs &#x3D; true</span><br><span class="line">                break</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    return rs</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在项目中遇到一个场景:collectionViewCell上的按钮超出了cell的边界,想点击按钮超出部分按钮也能够响应事件,按照上述办法重写了collectionViewCell的pointInside方法,但是却没效果.于是又重写了cell的hitTest方法,发现hitTest方法返回的是cell自身,并没有返回button.这下糊涂了,是上面的理论错了吗?上面的理论是没有错的,分析了半天发现根本原因是cell并不是button的父视图,button的父视图是contentView,而contentView的父视图才是cell.虽然cell的pointInside返回了YES,但是contentView的pointInside依然返回的是NO.所以不会再hitTest contentView上的子视图,button自然就没有反应了.真相终于明了,但问题还没解决,如何解决呢?</p>
+<p>由于contentView是cell的内部属性没办法自定义,所以这里我们重写cell的hitTest方法,判断如果点击的点位于按钮区域内,则直接将按钮返回.这下点击超出区域按钮也能够响应事件了,完美.</p>
+<p>Q:点击subview却让superview响应?<br>A:重载subview的hitTest方法:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">override func hitTest(_ point: CGPoint, with event: UIEvent?) -&gt; UIView? &#123;</span><br><span class="line">	return self.superview</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Q:hitTest和pointInside的关系?<br>A:通过真机调试发现(模拟器可能不准),系统会先调用父视图的hitTest方法,hitTest方法继而会调用pointInside方法,如果pointInside返回YES,那么系统将对其上的子视图重复上面的过程进行hitTest.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/27/2018-02-27-RunLoop%E6%B7%B1%E5%85%A5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="博客小屋">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/02/27/2018-02-27-RunLoop%E6%B7%B1%E5%85%A5/" class="post-title-link" itemprop="url">runLoop深入</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-02-27 10:38:24" itemprop="dateCreated datePublished" datetime="2018-02-27T10:38:24+08:00">2018-02-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2018-07-15 08:47:28" itemprop="dateModified" datetime="2018-07-15T08:47:28+08:00">2018-07-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/runLoop/" itemprop="url" rel="index"><span itemprop="name">runLoop</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="RunLoop"><a href="#RunLoop" class="headerlink" title="RunLoop"></a>RunLoop</h2><p>参考:<br><a href="https://blog.ibireme.com/2015/05/18/runloop/" target="_blank" rel="noopener">深入理解RunLoop</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/26/2018-02-26-runtime%20+load%E4%B8%8E+initialize%E5%88%86%E6%9E%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="博客小屋">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/02/26/2018-02-26-runtime%20+load%E4%B8%8E+initialize%E5%88%86%E6%9E%90/" class="post-title-link" itemprop="url">runtime +load与+initialize分析</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-02-26 11:31:24" itemprop="dateCreated datePublished" datetime="2018-02-26T11:31:24+08:00">2018-02-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2018-07-15 08:47:28" itemprop="dateModified" datetime="2018-07-15T08:47:28+08:00">2018-07-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/runtime/" itemprop="url" rel="index"><span itemprop="name">runtime</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>通过一个简单的打印实验就可以发现:</p>
+<ul>
+<li>+initialize方法和+load调用时机</li>
+<li>+initialize在父类,子类,类别之间的关系</li>
+<li>+load在父类,子类,类别之间的关系</li>
+</ul>
+<p>如下表格:</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th></th>
+<th>+load</th>
+<th>+initialize</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>调用时机</td>
+<td>被添加到 runtime 时(类被加载时)</td>
+<td>第一次调用该类的类方法或实例方法前调用,可能永远不调用</td>
+</tr>
+<tr>
+<td>调用顺序</td>
+<td>父类-&gt;子类-&gt;分类(多个分类间,则按加载顺序)</td>
+<td>父类-&gt;分类(多个分类时,是最后一个的被执行)or子类</td>
+</tr>
+<tr>
+<td>是否需要显式调用父类实现</td>
+<td>否</td>
+<td>否</td>
+</tr>
+<tr>
+<td>自身没实现是否调用父类的实现</td>
+<td>否</td>
+<td>是</td>
+</tr>
+<tr>
+<td>分类中实现产生的影响</td>
+<td>类和分类都执行</td>
+<td>覆盖类中的方法，只执行分类的实现</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>另:Swizzling should always be done in +load.</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考:"></a>参考:</h2><p><a href="https://www.jianshu.com/p/872447c6dc3f" target="_blank" rel="noopener">Objective-C 深入理解 +load 和 +initialize</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/25/2018-02-25-OC%20MRC%E4%B9%8B%E6%97%85/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="博客小屋">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/02/25/2018-02-25-OC%20MRC%E4%B9%8B%E6%97%85/" class="post-title-link" itemprop="url">OC MRC之旅</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-02-25 22:38:24" itemprop="dateCreated datePublished" datetime="2018-02-25T22:38:24+08:00">2018-02-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2018-07-15 08:47:28" itemprop="dateModified" datetime="2018-07-15T08:47:28+08:00">2018-07-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">内存管理</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="OC-MRC之旅"><a href="#OC-MRC之旅" class="headerlink" title="OC MRC之旅"></a>OC MRC之旅</h2><p>先来个例子,计算一下People对象的引用计数.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    </span><br><span class="line">    People *p &#x3D; [[People alloc] init]; &#x2F;&#x2F;</span><br><span class="line">    </span><br><span class="line">    People *p1 &#x3D; [p retain]; &#x2F;&#x2F;</span><br><span class="line">    </span><br><span class="line">    [p release]; &#x2F;&#x2F;</span><br><span class="line">    </span><br><span class="line">    [p1 retain]; &#x2F;&#x2F;</span><br><span class="line">    </span><br><span class="line">    NSLog(@&quot;p:%ld&quot;, [p retainCount]);</span><br><span class="line">    </span><br><span class="line">    People *p2 &#x3D; p;</span><br><span class="line">    p2.firstName &#x3D; [NSString stringWithFormat:@&quot;%d算法&quot;, 2];</span><br><span class="line">    p2.lastName &#x3D; [NSString stringWithFormat:@&quot;%d算法&quot;, 3];</span><br><span class="line">    NSLog(@&quot;%@&quot;, p2.firstName);</span><br><span class="line">    </span><br><span class="line">    [p2 release]; &#x2F;&#x2F;</span><br><span class="line">    [p2 release]; &#x2F;&#x2F;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>答案是: 1 2 1 2 1 0.</p>
+<p>注意:指针只是让我们能够访问该对象.p,p1,p2指向的是同一个对象,因此上面的retain,release操作的也是同一个对象.</p>
+<p>再来看一下People类:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">@implementation People</span><br><span class="line"></span><br><span class="line">@interface People : NSObject</span><br><span class="line"></span><br><span class="line">@property (nonatomic, retain) NSString *firstName;</span><br><span class="line">@property (nonatomic, retain) NSString *lastName;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">- (void)dealloc</span><br><span class="line">&#123;</span><br><span class="line">    [_firstName release];</span><br><span class="line">&#x2F;&#x2F;    [_lastName release];</span><br><span class="line">    </span><br><span class="line">    NSLog(@&quot;_firstName:%ld&quot;, [_firstName retainCount]); &#x2F;&#x2F;1</span><br><span class="line">    NSLog(@&quot;_lastName:%ld&quot;, [_lastName retainCount]); &#x2F;&#x2F;2</span><br><span class="line">    </span><br><span class="line">    [super dealloc];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)setFirstName:(NSString *)firstName</span><br><span class="line">&#123;</span><br><span class="line">    [firstName retain];</span><br><span class="line">    [_firstName release];</span><br><span class="line">    _firstName &#x3D; firstName;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>如果将上面的<code>[_lastName release];</code>注释掉那么将会导致内存泄漏.为什么会导致这种情况呢?虽然<code>p2.lastName = [NSString stringWithFormat:@&quot;%d算法&quot;, 3];</code>是一个注册到自动释放池的对象,但是由于lastName属性是retain,因此赋值时该字符串对象引用计数会被加1,因此需要在People对象销毁时,释放lastName字符串对象.<br><strong>在MRC环境下,对象销毁时一般需要对自身的属性进行释放.</strong></p>
+<p>继续查看在People对象销毁时,<code>_firstName</code>和<code>_lastName</code>的引用计数情况,打印显示<code>_firstName</code>的为1,<code>_lastName</code>的为2.<br>为啥在People的-dealloc方法中<code>_firstName</code>的引用计数不为0却是1呢?<br>这是因为自动释放池还没有被释放,所以它里面注册的对象也还没有被释放故<code>_firstName</code>为1.而<code>_lastName</code>的则为2.</p>
+<p>注意:一个对象能够被放到同一个池子中许多次，在这种情况下每放一次都会收到一个 release 消息。</p>
+<p>如果你觉得到这里就结束了,那就too young.有一个问题似乎还不是很明朗,那就是自动释放池里的对象什么时候释放?官方文档告诉我们在@autorelease{…}块的结尾处,自动释放池会被drain,里面的对象将被释放.但是纵观上述代码并没有看到一个autorelease块.之所以没有看到是由于我们处于主线程中,而主线程的runloop默认是开启的,你可能会奇怪怎么一个自动释放池还扯到线程和runloop上去了.事实上,自动释放池,线程,runloop有着密切的联系.</p>
+<p>那么<strong>主线程中的自动释放池又是什么时候创建，什么时候销毁呢?</strong><br>官方文档又告诉我们:Application Kit会在事件循环的每个循环开始时在主线程上创建一个自动释放池，并在循环结束时drains它，从而释放处理事件时生成的任何自动释放对象。 如果您使用Application Kit，则通常不需要创建自己的池。 但是，如果您的应用程序在事件循环中创建了大量临时自动释放对象，那么创建“本地”自动释放池以帮助最大限度地减少峰值内存占用可能会有所帮助。<br>官方文档总是这么简洁,让人琢磨半天.让俺来解释一下:主线程的runloop默认是开启的,runloop虽然也是一个循环但是他和普通循环有着很大的区别,runloop会让线程在有事干的时候干事,没事干的时候使线程休眠.runloop又是如何知道有事情干了呢?这就是我们事先为runloop添加的各种源.有点扯远了,再扯下去估计要跑题了.所以这里我们暂时不管runloop是如何得知的,反正runloop就是知道了.当程序启动,用户点击屏幕等runloop都会去处理这些事件.处理之前主线程的runloop就会先创建一个自动释放池,等到处理完成时就将自动释放池drain,里面的对象就会被释放,事件处理完毕runloop就退出了,不用担心系统会再次驱动进入runloop.因此如果在事件循环中创建了大量临时自动释放对象,则必须自己手动创建一个自动释放池.否则想等到事件处理完毕让系统来drain,内存可能早就耗尽了,你的APP也就歇菜了.好在自己创建并不麻烦,<code>@autorelease{...}</code>即可.</p>
+<p>今天的MRC之旅就到这里.</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/MemoryMgmt/Articles/MemoryMgmt.html" target="_blank" rel="noopener">Advanced Memory Management Programming Guide</a></p>
+<p><a href="https://developer.apple.com/documentation/foundation/nsautoreleasepool?language=occ" target="_blank" rel="noopener">NSAutoreleasePool</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/14/2018-2-14-SDWebImage%E5%86%85%E5%AD%98%E6%9A%B4%E6%B6%A8%E5%88%86%E6%9E%90%E4%B8%8E%E8%A7%A3%E5%86%B3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="博客小屋">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/02/14/2018-2-14-SDWebImage%E5%86%85%E5%AD%98%E6%9A%B4%E6%B6%A8%E5%88%86%E6%9E%90%E4%B8%8E%E8%A7%A3%E5%86%B3/" class="post-title-link" itemprop="url">SDWebImage内存暴涨分析与解决</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-02-14 15:01:11" itemprop="dateCreated datePublished" datetime="2018-02-14T15:01:11+08:00">2018-02-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2018-07-15 08:47:28" itemprop="dateModified" datetime="2018-07-15T08:47:28+08:00">2018-07-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%BD%BF%E7%94%A8/" itemprop="url" rel="index"><span itemprop="name">第三方库使用</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>使用SDWebImage加载图片,当列表有很多页,图片很多时,可能会导致内存暴涨:<br><img src="http://7xqoji.com1.z0.glb.clouddn.com/SDWebImage_%E5%86%85%E5%AD%98%E6%9A%B4%E6%B6%A8.jpg" alt="内存暴涨"></p>
+<p>产生内存暴涨的代码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;从磁盘获取图片,并缓存到内存.</span><br><span class="line">- (nullable UIImage *)imageFromDiskCacheForKey:(nullable NSString *)key &#123;</span><br><span class="line">    UIImage *diskImage &#x3D; [self diskImageForKey:key];</span><br><span class="line">    if (diskImage &amp;&amp; self.config.shouldCacheImagesInMemory) &#123;</span><br><span class="line">        NSUInteger cost &#x3D; SDCacheCostForImage(diskImage);</span><br><span class="line">        [self.memCache setObject:diskImage forKey:key cost:cost];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return diskImage;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;解压图片</span><br><span class="line">- (nullable UIImage *)diskImageForKey:(nullable NSString *)key &#123;</span><br><span class="line">    NSData *data &#x3D; [self diskImageDataBySearchingAllPathsForKey:key];</span><br><span class="line">    if (data) &#123;</span><br><span class="line">        UIImage *image &#x3D; [[SDWebImageCodersManager sharedInstance] decodedImageWithData:data];</span><br><span class="line">        image &#x3D; [self scaledImageForKey:key image:image];</span><br><span class="line">        if (self.config.shouldDecompressImages) &#123;</span><br><span class="line">            image &#x3D; [[SDWebImageCodersManager sharedInstance] decompressedImageWithImage:image data:&amp;data options:@&#123;SDWebImageCoderScaleDownLargeImagesKey: @(NO)&#125;];</span><br><span class="line">        &#125;</span><br><span class="line">        return image;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        return nil;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>关闭缓存图片到内存的功能:<br><code>[[SDImageCache sharedImageCache].config setShouldCacheImagesInMemory:NO];</code></p>
+<p>效果如下:<br><img src="http://7xqoji.com1.z0.glb.clouddn.com/SDWebImage_%E5%86%85%E5%AD%98%E6%AD%A3%E5%B8%B8.jpg" alt="内存正常"><br>此时虽然内存不再异常,但滑动过程中会明显看到图片填充时的闪动,用户体验想当不好.</p>
+<p>比较好的办法:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">- (void)initSDWebImage</span><br><span class="line">&#123;</span><br><span class="line">    [[SDImageCache sharedImageCache].config setShouldDecompressImages:NO];</span><br><span class="line">    [[SDWebImageDownloader sharedDownloader] setShouldDecompressImages:NO];</span><br><span class="line">    [[SDImageCache sharedImageCache] setMaxMemoryCost:20 * 1024 * 1024];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>设置一个内存缓存最大值,需要注意的是系统并不会精确的使用该值进行限定.这样设置之后,内存基本在70-90M之间浮动.不会再像之前飙到3-400M还停不下来.<br>如果设置为10 <em> 1024 </em> 1024,那么内存基本在30-50M之间.并且用户体验还行.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+  </div>
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">jekyttt</p>
+  <div class="site-description" itemprop="description">涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">91</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">39</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">43</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jekyttt</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.getAttribute('pjax') !== null) {
+      script.setAttribute('pjax', '');
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+    </div>
+</body>
+</html>

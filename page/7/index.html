@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="博客小屋">
+<meta property="og:url" content="http://yoursite.com/page/7/index.html">
+<meta property="og:site_name" content="博客小屋">
+<meta property="og:description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="jekyttt">
+<meta property="article:tag" content="Objective-C">
+<meta property="article:tag" content=" Swift">
+<meta property="article:tag" content=" C">
+<meta property="article:tag" content=" iOS开发">
+<meta property="article:tag" content=" 移动开发">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/page/7/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false
+  };
+</script>
+
+  <title>博客小屋</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="博客小屋" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">博客小屋</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">知识就是力量</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/xq-120/xq-120.github.io" class="github-corner" title="XQ on GitHub" aria-label="XQ on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/26/2018-01-26-%E4%BD%BF%E7%94%A8reduce%E6%A8%A1%E6%8B%9F%E5%AE%9E%E7%8E%B0map%E5%92%8Cfilter/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="博客小屋">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/01/26/2018-01-26-%E4%BD%BF%E7%94%A8reduce%E6%A8%A1%E6%8B%9F%E5%AE%9E%E7%8E%B0map%E5%92%8Cfilter/" class="post-title-link" itemprop="url">使用reduce模拟实现map和filter</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-01-26 17:06:24" itemprop="dateCreated datePublished" datetime="2018-01-26T17:06:24+08:00">2018-01-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2018-07-15 08:47:28" itemprop="dateModified" datetime="2018-07-15T08:47:28+08:00">2018-07-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="使用reduce模拟实现map和filter"><a href="#使用reduce模拟实现map和filter" class="headerlink" title="使用reduce模拟实现map和filter"></a>使用reduce模拟实现map和filter</h3><p>首先看一下系统的map和filter功能:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">let fbArr &#x3D; [1, 1, 2, 3, 5, 8, 13, 21]</span><br><span class="line"></span><br><span class="line">let mmp &#x3D; fbArr.map &#123; (item) -&gt; Int in</span><br><span class="line">    item + item</span><br><span class="line">&#125;</span><br><span class="line">print(mmp)</span><br><span class="line">    </span><br><span class="line">let cmp &#x3D; fbArr.filter &#123; (item) -&gt; Bool in</span><br><span class="line">    item &gt; 5</span><br><span class="line">&#125;</span><br><span class="line">print(cmp)</span><br></pre></td></tr></table></figure>
+<p>打印如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[2, 2, 4, 6, 10, 16, 26, 42]</span><br><span class="line">[8, 13, 21]</span><br></pre></td></tr></table></figure>
+<p>使用reduce模拟实现map和filter:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">extension Array &#123;</span><br><span class="line">	func map2&lt;T&gt;(_ transform: (Element) -&gt; T) -&gt; [T] &#123;</span><br><span class="line">        &#x2F;&#x2F;初始值为空数组, 数组+数组</span><br><span class="line">        return reduce([], &#123; (result, item) -&gt; [T] in</span><br><span class="line">            return result + [transform(item)]</span><br><span class="line">        &#125;)</span><br><span class="line">        &#x2F;&#x2F;简化一下</span><br><span class="line">        return reduce([], &#123;</span><br><span class="line">            $0 + [transform($1)]</span><br><span class="line">        &#125;)</span><br><span class="line">        &#x2F;&#x2F;再简化一下</span><br><span class="line">        return reduce([]) &#123; $0 + [transform($1)] &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    func filter2(_ filter: (Element) -&gt; Bool) -&gt; [Element] &#123;</span><br><span class="line">        return reduce([], &#123; (result, item) -&gt; [Element] in</span><br><span class="line">            return filter(item) ? result + [item] : result</span><br><span class="line">        &#125;)</span><br><span class="line">        &#x2F;&#x2F;简化一下</span><br><span class="line">        return reduce([]) &#123; filter($1) ? $0 + [$1] : $0 &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>说实话,Swift对闭包的简写有时候感觉有点过了,初次看到这样的写法<code>reduce([]) { filter($1) ? $0 + [$1] : $0 }</code>,有时还得缓缓才知道是啥意思.</p>
+<p>使用:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">let ammp &#x3D; fbArr.map2 &#123; (item) -&gt; Int in</span><br><span class="line">    item + item</span><br><span class="line">&#125;</span><br><span class="line">print(ammp)</span><br><span class="line">    </span><br><span class="line">let bm &#x3D; fbArr.filter2 &#123; (item) -&gt; Bool in</span><br><span class="line">    item &gt; 10</span><br><span class="line">&#125;</span><br><span class="line">print(bm)</span><br></pre></td></tr></table></figure>
+<p>打印如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[2, 2, 4, 6, 10, 16, 26, 42]</span><br><span class="line">[8, 13, 21]</span><br></pre></td></tr></table></figure>
+<p>虽然仅使用reduce就可以做到map和filter的功能,但是随着数组的增长,复杂度会很大.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/19/2018-01-19-Category/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="博客小屋">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/01/19/2018-01-19-Category/" class="post-title-link" itemprop="url">OC Category浅析</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-01-19 11:09:24" itemprop="dateCreated datePublished" datetime="2018-01-19T11:09:24+08:00">2018-01-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2018-07-15 08:47:28" itemprop="dateModified" datetime="2018-07-15T08:47:28+08:00">2018-07-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>category用结构体category_t表示（在objc-runtime-new.h中可以找到此定义）:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">struct category_t &#123;</span><br><span class="line">    const char *name;</span><br><span class="line">    classref_t cls;</span><br><span class="line">    struct method_list_t *instanceMethods;</span><br><span class="line">    struct method_list_t *classMethods;</span><br><span class="line">    struct protocol_list_t *protocols;</span><br><span class="line">    struct property_list_t *instanceProperties;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>而类的结构体:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">struct objc_class &#123;</span><br><span class="line">    Class _Nonnull isa  OBJC_ISA_AVAILABILITY;</span><br><span class="line"></span><br><span class="line">#if !__OBJC2__</span><br><span class="line">    Class _Nullable super_class                              OBJC2_UNAVAILABLE;</span><br><span class="line">    const char * _Nonnull name                               OBJC2_UNAVAILABLE;</span><br><span class="line">    long version                                             OBJC2_UNAVAILABLE;</span><br><span class="line">    long info                                                OBJC2_UNAVAILABLE;</span><br><span class="line">    long instance_size                                       OBJC2_UNAVAILABLE;</span><br><span class="line">    struct objc_ivar_list * _Nullable ivars                  OBJC2_UNAVAILABLE;</span><br><span class="line">    struct objc_method_list * _Nullable * _Nullable methodLists                    OBJC2_UNAVAILABLE;</span><br><span class="line">    struct objc_cache * _Nonnull cache                       OBJC2_UNAVAILABLE;</span><br><span class="line">    struct objc_protocol_list * _Nullable protocols          OBJC2_UNAVAILABLE;</span><br><span class="line">#endif</span><br><span class="line"></span><br><span class="line">&#125; OBJC2_UNAVAILABLE;</span><br><span class="line">&#x2F;* Use &#96;Class&#96; instead of &#96;struct objc_class *&#96; *&#x2F;</span><br><span class="line"></span><br><span class="line">typedef struct objc_class *Class;</span><br></pre></td></tr></table></figure>
+<p>从category的定义也可以看出category的可为（可以添加实例方法，类方法，甚至可以实现协议，添加属性）和不可为（无法添加实例变量）。</p>
+<p>MyClass.h</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">@interface MyClass : NSObject</span><br><span class="line"></span><br><span class="line">- (void)printName;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@interface MyClass(MyAddition)</span><br><span class="line"></span><br><span class="line">@property(nonatomic, copy) NSString *name;</span><br><span class="line"></span><br><span class="line">- (void)printName;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>MyClass.m</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">@implementation MyClass</span><br><span class="line"></span><br><span class="line">- (void)printName</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;%@&quot;, @&quot;MyClass&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation MyClass(MyAddition)</span><br><span class="line"></span><br><span class="line">- (void)printName</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;%@&quot;, @&quot;MyAddition&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>转换为.cpp文件:<code>clang -rewrite-objc MyClass.m</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">static struct &#x2F;*_method_list_t*&#x2F; &#123;</span><br><span class="line">	unsigned int entsize;  &#x2F;&#x2F; sizeof(struct _objc_method)</span><br><span class="line">	unsigned int method_count;</span><br><span class="line">	struct _objc_method method_list[1];</span><br><span class="line">&#125; _OBJC_$_CATEGORY_INSTANCE_METHODS_MyClass_$_MyAddition __attribute__ ((used, section (&quot;__DATA,__objc_const&quot;))) &#x3D; &#123;</span><br><span class="line">	sizeof(_objc_method),</span><br><span class="line">	1,</span><br><span class="line">	&#123;&#123;(struct objc_selector *)&quot;printName&quot;, &quot;v16@0:8&quot;, (void *)_I_MyClass_MyAddition_printName&#125;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">static struct &#x2F;*_prop_list_t*&#x2F; &#123;</span><br><span class="line">	unsigned int entsize;  &#x2F;&#x2F; sizeof(struct _prop_t)</span><br><span class="line">	unsigned int count_of_properties;</span><br><span class="line">	struct _prop_t prop_list[1];</span><br><span class="line">&#125; _OBJC_$_PROP_LIST_MyClass_$_MyAddition __attribute__ ((used, section (&quot;__DATA,__objc_const&quot;))) &#x3D; &#123;</span><br><span class="line">	sizeof(_prop_t),</span><br><span class="line">	1,</span><br><span class="line">	&#123;&#123;&quot;name&quot;,&quot;T@\&quot;NSString\&quot;,C,N&quot;&#125;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">extern &quot;C&quot; __declspec(dllexport) struct _class_t OBJC_CLASS_$_MyClass;</span><br><span class="line"></span><br><span class="line">static struct _category_t _OBJC_$_CATEGORY_MyClass_$_MyAddition __attribute__ ((used, section (&quot;__DATA,__objc_const&quot;))) &#x3D; </span><br><span class="line">&#123;</span><br><span class="line">	&quot;MyClass&quot;,</span><br><span class="line">	0, &#x2F;&#x2F; &amp;OBJC_CLASS_$_MyClass,</span><br><span class="line">	(const struct _method_list_t *)&amp;_OBJC_$_CATEGORY_INSTANCE_METHODS_MyClass_$_MyAddition,</span><br><span class="line">	0,</span><br><span class="line">	0,</span><br><span class="line">	(const struct _prop_list_t *)&amp;_OBJC_$_PROP_LIST_MyClass_$_MyAddition,</span><br><span class="line">&#125;;</span><br><span class="line">static void OBJC_CATEGORY_SETUP_$_MyClass_$_MyAddition(void ) &#123;</span><br><span class="line">	_OBJC_$_CATEGORY_MyClass_$_MyAddition.cls &#x3D; &amp;OBJC_CLASS_$_MyClass;</span><br><span class="line">&#125;</span><br><span class="line">#pragma section(&quot;.objc_inithooks$B&quot;, long, read, write)</span><br><span class="line">__declspec(allocate(&quot;.objc_inithooks$B&quot;)) static void *OBJC_CATEGORY_SETUP[] &#x3D; &#123;</span><br><span class="line">	(void *)&amp;OBJC_CATEGORY_SETUP_$_MyClass_$_MyAddition,</span><br><span class="line">&#125;;</span><br><span class="line">static struct _class_t *L_OBJC_LABEL_CLASS_$ [1] __attribute__((used, section (&quot;__DATA, __objc_classlist,regular,no_dead_strip&quot;)))&#x3D; &#123;</span><br><span class="line">	&amp;OBJC_CLASS_$_MyClass,</span><br><span class="line">&#125;;</span><br><span class="line">static struct _category_t *L_OBJC_LABEL_CATEGORY_$ [1] __attribute__((used, section (&quot;__DATA, __objc_catlist,regular,no_dead_strip&quot;)))&#x3D; &#123;</span><br><span class="line">	&amp;_OBJC_$_CATEGORY_MyClass_$_MyAddition,</span><br><span class="line">&#125;;</span><br><span class="line">static struct IMAGE_INFO &#123; unsigned version; unsigned flag; &#125; _OBJC_IMAGE_INFO &#x3D; &#123; 0, 2 &#125;;</span><br></pre></td></tr></table></figure>
+<p>多个category的情况:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">static struct _class_t *L_OBJC_LABEL_CLASS_$ [1] __attribute__((used, section (&quot;__DATA, __objc_classlist,regular,no_dead_strip&quot;)))&#x3D; &#123;</span><br><span class="line">	&amp;OBJC_CLASS_$_MyClass,</span><br><span class="line">&#125;;</span><br><span class="line">static struct _category_t *L_OBJC_LABEL_CATEGORY_$ [2] __attribute__((used, section (&quot;__DATA, __objc_catlist,regular,no_dead_strip&quot;)))&#x3D; &#123;</span><br><span class="line">	&amp;_OBJC_$_CATEGORY_MyClass_$_MyAddition1,</span><br><span class="line">	&amp;_OBJC_$_CATEGORY_MyClass_$_MyAddition2,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="category的加载"><a href="#category的加载" class="headerlink" title="category的加载"></a>category的加载</h3><p>先拿到类的类别数组列表[cat1, cat2, cat3],这个数组元素的顺序是根据编译顺序得来.然后倒序拼装得到一个方法数组列表.最后该方法列表再追加类自身的方法.类别加载结束.因此当有方法覆盖时,执行的将是最后一个编译的类别里的方法.</p>
+<p>在类和category中都可以有+load方法，那么有两个问题：</p>
+<ol>
+<li>在类的+load方法调用的时候，我们可以调用category中声明的方法么？</li>
+<li>这么些个+load方法，调用顺序是咋样的呢？</li>
+</ol>
+<p>A:可以调用，因为附加category到类的工作会先于+load方法的执行.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">objc[20522]: LOAD: category &#39;MyClass(MyCategory1)&#39; scheduled for +load</span><br><span class="line">objc[20522]: LOAD: category &#39;MyClass(MyCategory2)&#39; scheduled for +load</span><br><span class="line">objc[20522]: LOAD: +[MyClass(MyCategory1) load]</span><br><span class="line"></span><br><span class="line">2018-01-17 16:28:01.451 categoryDemo[20522:194333] MyCategory1:&lt;MyClass: 0x7f9422c01c30&gt;</span><br><span class="line">2018-01-17 16:28:01.452 categoryDemo[20522:194333] &lt;MyClass: 0x7f9422c01c30&gt;-MyClass,小明</span><br><span class="line">objc[20522]: LOAD: +[MyClass(MyCategory2) load]</span><br><span class="line"></span><br><span class="line">2018-01-17 16:28:01.453 categoryDemo[20522:194333] MyCategory2:&lt;MyClass: 0x7f9422f00100&gt;</span><br><span class="line">2018-01-17 16:28:01.453 categoryDemo[20522:194333] &lt;MyClass: 0x7f9422f00100&gt;-MyClass,小刚</span><br></pre></td></tr></table></figure>
+<p>+load的执行顺序是先类，后category，而category的+load执行顺序是根据编译顺序决定的。</p>
+<p>怎么调用到原来类中被category覆盖掉的方法？<br>category其实并不是完全替换掉原来类的同名方法，只是category在方法列表的前面而已，所以我们只要顺着方法列表找到最后一个对应名字的方法，就可以调用原来类的方法.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">Class currentClass &#x3D; [MyClass class];</span><br><span class="line">    MyClass *my &#x3D; [[MyClass alloc] init];</span><br><span class="line">    my.name &#x3D; @&quot;无脑刚&quot;;</span><br><span class="line">    if (currentClass) &#123;</span><br><span class="line">        unsigned int methodCount;</span><br><span class="line">        Method *methodList &#x3D; class_copyMethodList(currentClass, &amp;methodCount);</span><br><span class="line">        IMP lastImp &#x3D; NULL;</span><br><span class="line">        SEL lastSel &#x3D; NULL;</span><br><span class="line">        for (NSInteger i &#x3D; 0; i &lt; methodCount; i++) &#123;</span><br><span class="line">            Method method &#x3D; methodList[i];</span><br><span class="line">            NSString *methodName &#x3D; [NSString stringWithCString:sel_getName(method_getName(method)) encoding:NSUTF8StringEncoding];</span><br><span class="line">            NSLog(@&quot;方法:%@&quot;, methodName);</span><br><span class="line">            if ([@&quot;printName&quot; isEqualToString:methodName]) &#123;</span><br><span class="line">                lastImp &#x3D; method_getImplementation(method);</span><br><span class="line">                lastSel &#x3D; method_getName(method);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        typedef void (*fn)(id,SEL);</span><br><span class="line">        </span><br><span class="line">        if (lastImp !&#x3D; NULL) &#123;</span><br><span class="line">            fn f &#x3D; (fn)lastImp;</span><br><span class="line">            f(my,lastSel);</span><br><span class="line">        &#125;</span><br><span class="line">        free(methodList);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>打印如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">2018-01-17 16:51:56.436 categoryDemo[20716:206487] 方法:printName</span><br><span class="line">2018-01-17 16:51:56.436 categoryDemo[20716:206487] 方法:introduceYouselfForCategory2</span><br><span class="line">2018-01-17 16:51:56.437 categoryDemo[20716:206487] 方法:printName</span><br><span class="line">2018-01-17 16:51:56.437 categoryDemo[20716:206487] 方法:introduceYouselfForCategory1</span><br><span class="line">2018-01-17 16:51:56.437 categoryDemo[20716:206487] 方法:printName</span><br><span class="line">2018-01-17 16:51:56.437 categoryDemo[20716:206487] 方法:.cxx_destruct</span><br><span class="line">2018-01-17 16:51:56.437 categoryDemo[20716:206487] 方法:name</span><br><span class="line">2018-01-17 16:51:56.437 categoryDemo[20716:206487] 方法:setName:</span><br><span class="line">2018-01-17 16:51:56.438 categoryDemo[20716:206487] &lt;MyClass: 0x7f8a0d618f40&gt;-MyClass,无脑刚</span><br></pre></td></tr></table></figure>
+<p>可以看到调用到了类自身的方法.</p>
+<p>在category里面是无法为category添加实例变量的。但是我们很多时候需要在category中添加和对象关联的值，这个时候可以求助关联对象来实现。</p>
+<p>但是关联对象又是存在什么地方呢？ 如何存储？ 对象销毁时候如何处理关联对象呢？</p>
+<p>所有的关联对象都由AssociationsManager管理.<br>AssociationsManager里面是由一个静态AssociationsHashMap来存储所有的关联对象的。这相当于把所有对象的关联对象都存在一个全局map里面。而map的的key是这个对象的指针地址（任意两个不同对象的指针地址一定是不同的），而这个map的value又是另外一个AssociationsHashMap，里面保存了关联对象的kv对.</p>
+<p><code>void _object_set_associative_reference(id object, void *key, id value, uintptr_t policy)</code>部分实现:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; create the new association (first time).</span><br><span class="line">ObjectAssociationMap *refs &#x3D; new ObjectAssociationMap;</span><br><span class="line">associations[disguised_object] &#x3D; refs;</span><br><span class="line">(*refs)[key] &#x3D; ObjcAssociation(policy, new_value);</span><br><span class="line">      _class_setInstancesHaveAssociatedObjects(_object_getClass(object));</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">void *objc_destructInstance(id obj) </span><br><span class="line">&#123;</span><br><span class="line">    if (obj) &#123;</span><br><span class="line">        &#x2F;&#x2F; Read all of the flags at once for performance.</span><br><span class="line">        bool cxx &#x3D; obj-&gt;hasCxxDtor();</span><br><span class="line">        bool assoc &#x3D; !UseGC &amp;&amp; obj-&gt;hasAssociatedObjects();</span><br><span class="line">        bool dealloc &#x3D; !UseGC;</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F; This order is important.</span><br><span class="line">        if (cxx) object_cxxDestruct(obj);</span><br><span class="line">        if (assoc) _object_remove_assocations(obj);</span><br><span class="line">        if (dealloc) obj-&gt;clearDeallocating();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return obj;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>runtime的销毁对象函数<code>objc_destructInstance</code>里面会判断这个对象有没有关联对象，如果有，会调用<code>_object_remove_assocations</code>做关联对象的清理工作。</p>
+<h2 id="关于Method-IMP-SEL-self-cmd"><a href="#关于Method-IMP-SEL-self-cmd" class="headerlink" title="关于Method,IMP,SEL,self,_cmd"></a>关于Method,IMP,SEL,self,_cmd</h2><h3 id="struct-objc-method"><a href="#struct-objc-method" class="headerlink" title="struct objc_method"></a>struct objc_method</h3><p>在runtime.h里有申明.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">struct objc_method &#123;</span><br><span class="line">    SEL _Nonnull method_name                                 OBJC2_UNAVAILABLE;</span><br><span class="line">    char * _Nullable method_types                            OBJC2_UNAVAILABLE;</span><br><span class="line">    IMP _Nonnull method_imp                                  OBJC2_UNAVAILABLE;</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">typedef struct objc_method *Method;</span><br></pre></td></tr></table></figure>
+<h3 id="附录"><a href="#附录" class="headerlink" title="附录:"></a>附录:</h3><p><a href="https://opensource.apple.com/source/objc4/objc4-723/runtime/" target="_blank" rel="noopener">苹果开源网址</a></p>
+<p><a href="http://blog.sunnyxx.com/2014/03/05/objc_category_secret/" target="_blank" rel="noopener">objc category的秘密</a></p>
+<p><a href="https://tech.meituan.com/DiveIntoCategory.html" target="_blank" rel="noopener">深入理解Objective-C：Category</a></p>
+<p><a href="https://opensource.apple.com/source/objc4/objc4-723/runtime/objc-runtime-new.mm.auto.html" target="_blank" rel="noopener">macOS 10.13,objc4/objc4-723版本</a>已经找不到attachMethodLists()的实现了.<br><code>static void 
+attachMethodLists(Class cls, method_list_t **addedLists, int addedCount, 
+                  bool baseMethods, bool methodsFromBundle, 
+                  bool flushCaches)</code><br>得看旧版:<a href="https://opensource.apple.com/source/objc4/objc4-646/runtime/objc-runtime-new.mm.auto.html" target="_blank" rel="noopener">macOS 10.10,objc4/objc4-646版本</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/13/2017-12-13-%E5%93%8D%E5%BA%94%E8%80%85%E9%93%BE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="博客小屋">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/12/13/2017-12-13-%E5%93%8D%E5%BA%94%E8%80%85%E9%93%BE/" class="post-title-link" itemprop="url">响应者链</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-12-13 23:06:54" itemprop="dateCreated datePublished" datetime="2017-12-13T23:06:54+08:00">2017-12-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2018-07-15 08:47:28" itemprop="dateModified" datetime="2018-07-15T08:47:28+08:00">2018-07-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/UIResponder/" itemprop="url" rel="index"><span itemprop="name">UIResponder</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="响应者对象"><a href="#响应者对象" class="headerlink" title="响应者对象"></a>响应者对象</h4><p>响应者对象（Responder Object）指的是有响应和处理事件能力的对象。A responder object is any instance of the UIResponder class, and common subclasses include UIView, UIViewController, and UIApplication. UIResponder是所有响应者对象的基类，在UIResponder类中定义了处理上述各种事件的接口。我们熟悉的AppDelegate、UIApplication、 UIViewController、UIWindow和所有继承自UIView的UIKit类都直接或间接的继承自UIResponder，所以它们的实例都是可以构成响应者链的响应者对象。</p>
+<h4 id="响应者链"><a href="#响应者链" class="headerlink" title="响应者链"></a>响应者链</h4><p>响应者链就是由一系列的响应者对象构成的一个层次结构。UIResponder对象能够接收触摸事件（其子类当然也能够）。每一个UIResponder对象都有一个指针nextResponder,然后这些链接在一起的对象就组成了响应者链。<br><img src="http://7xqoji.com1.z0.glb.clouddn.com/%E5%93%8D%E5%BA%94%E8%80%85%E9%93%BE.png" alt="响应者链"></p>
+<h4 id="系统是如何找到第一响应者的"><a href="#系统是如何找到第一响应者的" class="headerlink" title="系统是如何找到第一响应者的"></a>系统是如何找到第一响应者的</h4><p>当用户点击了某个视图.系统是如何找到用户点击的视图呢?</p>
+<p>答案就是对视图进行hitTest.</p>
+<p>官方文档:</p>
+<p>UIKit uses view-based hit testing to determine where touch events occur. Specifically, UIKit compares the touch location to the bounds of view objects in the view hierarchy. The hitTest:withEvent: method of UIView walks the view hierarchy, looking for the deepest subview that contains the specified touch. That view becomes the first responder for the touch event.</p>
+<p>注意:If a touch location is outside of a view’s bounds, the hitTest:withEvent: method ignores that view and all of its subviews. As a result, when a view’s clipsToBounds property is NO, subviews outside of that view’s bounds are not returned even if they happen to contain the touch.</p>
+<p>相关API:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">open func hitTest(_ point: CGPoint, with event: UIEvent?) -&gt; UIView? &#x2F;&#x2F; recursively calls -pointInside:withEvent:. point is in the receiver&#39;s coordinate system</span><br><span class="line"></span><br><span class="line">open func point(inside point: CGPoint, with event: UIEvent?) -&gt; Bool &#x2F;&#x2F; default returns YES if point is in bounds</span><br></pre></td></tr></table></figure>
+<p>举个例子:界面如下:</p>
+<p><img src="http://7xqoji.com1.z0.glb.clouddn.com/%E7%AC%AC%E4%B8%80%E5%93%8D%E5%BA%94%E8%80%85Demo@2x.png" width="200" height="400" /></p>
+<p><img src="http://7xqoji.com1.z0.glb.clouddn.com/%E5%B7%A5%E7%A8%8B%E7%BB%93%E6%9E%84%E5%9B%BE@2x.png" width="240" height="320" /></p>
+<h5 id="当用户点击了XQ11View-系统是如何找到它的"><a href="#当用户点击了XQ11View-系统是如何找到它的" class="headerlink" title="当用户点击了XQ11View,系统是如何找到它的?"></a>当用户点击了XQ11View,系统是如何找到它的?</h5><p>具体来说就是:<br>系统会对XQ1View(也就是XQ11View的父视图),发送一条hitTest消息, hitTest会调用pointInside方法.如果XQ1View的pointInside方法返回false则XQ1View的子视图不会被hitTest,XQ1View的hitTest将返回nil,本次hitTest就结束了.若返回true,那么系统将对XQ1View的子视图数组进行一个反向遍历的hitTest检测.因此首先检测的是XQ12View.由于用户实际点击的是XQ11View,所以XQ12View的pointInside会返回false,XQ12View的hitTest将返回nil.接下来将对XQ11View进行hitTest检测,hitTest会调用pointInside方法,而用户恰好点击的是XQ11View,因此pointInside方法返回true,由于XQ11View没有子视图了,因此XQ11View的hitTest将返回自己.hitTest检测结束.于是就找到了.XQ1View的hitTest也将返回XQ11View.可以推断出系统最先是对UIWindow进行hitTest检测的.因此UIWindow的hitTest也将返回XQ11View.于是系统就拿到了第一响应者XQ11View.拿到之后系统会尝试让XQ11View处理事件.接下来就是事件在响应者链中传递了.</p>
+<h5 id="如果点击XQ12View超出它父视图的那部分-也让它能够响应事件-该如何实现呢"><a href="#如果点击XQ12View超出它父视图的那部分-也让它能够响应事件-该如何实现呢" class="headerlink" title="如果点击XQ12View超出它父视图的那部分,也让它能够响应事件,该如何实现呢?"></a>如果点击XQ12View超出它父视图的那部分,也让它能够响应事件,该如何实现呢?</h5><p>通过上面的分析,可以知道必须想办法让它的父视图的pointInside返回true.否则都不会对XQ12View进行hitTest检测.实现如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">class XQ1View: XQView &#123;</span><br><span class="line"></span><br><span class="line">    override func point(inside point: CGPoint, with event: UIEvent?) -&gt; Bool &#123;</span><br><span class="line">        let rs &#x3D; super.point(inside: point, with: event)</span><br><span class="line">        </span><br><span class="line">        if !rs &#123;</span><br><span class="line">            for subView in subviews.reversed() &#123;</span><br><span class="line">                let subPoint &#x3D; subView.convert(point, from: self)</span><br><span class="line">                if subView.bounds.contains(subPoint) &#123;</span><br><span class="line">                    return true</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        return rs</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>ps:对一个视图进行hitTest前,系统还会有很多判断比如会忽略隐藏(hidden=YES)的视图，禁止用户操作 (userInteractionEnabled=YES)的视图，以及alpha级别小于0.01(alpha&lt;0.01)的视图。这些视图都不会被hitTest检测.</p>
+<h4 id="事件是如何在响应者链中传递的"><a href="#事件是如何在响应者链中传递的" class="headerlink" title="事件是如何在响应者链中传递的"></a>事件是如何在响应者链中传递的</h4><p>官方图示:<br><img src="http://7xqoji.com1.z0.glb.clouddn.com/%E5%93%8D%E5%BA%94%E8%80%85%E9%93%BE--%E5%AE%98%E6%96%B9%E5%9B%BE%E7%A4%BA.png" alt="响应者链官方图示"><br>官方解释:<br>If the text field does not handle an event, UIKit sends the event to the text field’s parent UIView object, followed by the root view of the window. From the root view, the responder chain diverts to the owning view controller before returning to the view’s window.If the window does not handle the event, UIKit delivers the event to the UIApplication object, and possibly to the app delegate if that object is an instance of UIResponder and not already part of the responder chain.</p>
+<p>当用户点击了text field,期间会经历那些过程呢?</p>
+<p>首先系统会去找第一响应者,找的过程就是上面所述,这里就是text field.找到了第一响应者,那么事件将优先由第一响应者处理.如果text field不处理,那么UIKit会将事件发送给text field的父视图.如果它的父视图也不处理则事件将会沿着响应者链一直往上传递(如果View是作为viewController的根视图,那么该View的next responder将是UIViewController),当传递给UIWindow对象时,如果window也不处理,则事件将传递给UIApplication.UIApplication可能会传给app delegate,前提是app delegate是UIResponder实例,需要注意的是app delegate已经不是响应者链里的一部分了.</p>
+<p>一般来说工程的app delegate都是UIResponder实例,所以当AppDelegate也不处理时,那么就再也没有机会处理了,事件将被系统丢弃.</p>
+<p>期间只要有一个响应者对象处理了该事件.系统默认将不再传递给next responder,本次事件就算处理成功.</p>
+<h4 id="变更响应者链"><a href="#变更响应者链" class="headerlink" title="变更响应者链"></a>变更响应者链</h4><p>You can alter the responder chain by overriding the nextResponder property of your responder objects. Many UIKit classes already override this property and return specific objects.</p>
+<p>If you override the nextResponder property for any class, the next responder is the object you return.</p>
+<p>几种类型对象的默认nextResponder.</p>
+<ol>
+<li><p>UIView</p>
+<p> If the view is the root view of a view controller, the next responder is the view controller.</p>
+<p> If the view is not the root view of a view controller, the next responder is the view’s superview.</p>
+</li>
+<li><p>UIViewController</p>
+<p> If the view controller’s view is the root view of a window, the next responder is the window object.</p>
+<p> If the view controller was presented by another view controller, the next responder is the presenting view controller.</p>
+<p> (xq注:举例,UINavigationController的根视图控制器vcA点击按钮,跳转到vcB,那么vcB的nextResponder是UIViewControllerWrapperView-&gt;UINavigationTransitionView-&gt;UILayoutContainerView-&gt;UINavigationController,UINavigationController的根视图类型确实是UILayoutContainerView,忽略中间三个系统类,那么vcB的nextResponder就是UINavigationController.注意不是vcA)</p>
+</li>
+<li><p>UIWindow. The window’s next responder is the application object.</p>
+</li>
+<li><p>UIApplication. The app object’s next responder is the app delegate, but only if the app delegate is an instance of UIResponder and is not a view, view controller, or the app object itself.</p>
+</li>
+</ol>
+<p>如何把消息发送给next responder？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    UITouch *touch &#x3D; [touches anyObject];</span><br><span class="line"></span><br><span class="line">    if (touch.tapCount &#x3D;&#x3D; 2) &#123;</span><br><span class="line"></span><br><span class="line">        [[self nextResponder] touchesBegan:touches withEvent:event];&#x2F;&#x2F;这里最好写[self nextResponder]而不是写super</span><br><span class="line"></span><br><span class="line">        return;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    ... Go on to handle touches that are not double taps</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/11/2017-12-11-UIScrollView%E4%BB%A3%E7%90%86%E6%96%B9%E6%B3%95%E6%B3%A8%E8%A7%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="博客小屋">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/12/11/2017-12-11-UIScrollView%E4%BB%A3%E7%90%86%E6%96%B9%E6%B3%95%E6%B3%A8%E8%A7%A3/" class="post-title-link" itemprop="url">UIScrollView代理方法</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-12-11 10:16:24" itemprop="dateCreated datePublished" datetime="2017-12-11T10:16:24+08:00">2017-12-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2018-07-15 08:47:28" itemprop="dateModified" datetime="2018-07-15T08:47:28+08:00">2018-07-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/UIKit/" itemprop="url" rel="index"><span itemprop="name">UIKit</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>将要开始发生拖拽.<br><code>- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView</code></p>
+<p>将要结束拖拽,velocity:结束时的速度;targetContentOffset:想要滚动到的指定位置.(使用该方法可以让UIScrollView停在我们想要的地方)<br><code>- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset</code></p>
+<p>拖拽结束,decelerate=YES:表明拖拽结束的时候,scrollView还有速度,将会减速滑动一段距离,最终停止时会回调scrollViewDidEndDecelerating方法;=NO:表明拖拽结束,scrollView也随即停止,此时不会再回调scrollViewDidEndDecelerating方法.<br><code>- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate</code></p>
+<p>已经结束减速.表明滚动停止.只有在停止前有速度的时候才会被回调.<br><code>- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView</code></p>
+<p>已经滚动.scrollView处于滚动状态时,该方法会被频繁调用,因此该方法里面不应该有太复杂的处理.动画scrollToItemAtIndexPath:atScrollPosition:animated:;并不会使该代理方法调用.<br><code>- (void)scrollViewDidScroll:(UIScrollView *)scrollView</code></p>
+<p>called when setContentOffset/scrollRectVisible:animated: finishes. not called if not animating. 因为动画原因滚动结束.<br><code>- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView</code></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/03/2017-12-03-OC%20block%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C--Block%E7%9A%84%E5%A3%B0%E6%98%8E%E3%80%81%E8%B5%8B%E5%80%BC%E4%B8%8E%E8%B0%83%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="博客小屋">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/12/03/2017-12-03-OC%20block%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C--Block%E7%9A%84%E5%A3%B0%E6%98%8E%E3%80%81%E8%B5%8B%E5%80%BC%E4%B8%8E%E8%B0%83%E7%94%A8/" class="post-title-link" itemprop="url">OC block基本操作--Block的声明、赋值与调用</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-12-03 15:05:52" itemprop="dateCreated datePublished" datetime="2017-12-03T15:05:52+08:00">2017-12-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2018-07-15 08:47:28" itemprop="dateModified" datetime="2018-07-15T08:47:28+08:00">2018-07-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="Block的声明、赋值与调用"><a href="#Block的声明、赋值与调用" class="headerlink" title="Block的声明、赋值与调用"></a>Block的声明、赋值与调用</h3><h4 id="Block变量的声明"><a href="#Block变量的声明" class="headerlink" title="Block变量的声明"></a>Block变量的声明</h4><p>和C语言的函数指针声明几乎一样,只是将”*”改为”^”.如下:</p>
+<p><code>返回值类型</code> <code>(^变量名称)</code> <code>(变量类型 变量1, 变量类型 变量2, ...)</code></p>
+<p>例:int (^blkVar)(int a, int b);</p>
+<h4 id="Block语法"><a href="#Block语法" class="headerlink" title="Block语法"></a>Block语法</h4><p>一个Block语法代表一个Block类型变量的值.它的写法和C语言函数的定义很像.仅有两点区别:</p>
+<ul>
+<li>没有函数名.</li>
+<li>在返回值前面加上”^”. </li>
+</ul>
+<p><code>^</code> <code>返回值</code> <code>(变量类型 变量1, 变量类型 变量2, ...)</code> <code>{... return xx;}</code>. </p>
+<p>例:^int (int a, int b){… return 3;}.</p>
+<p>Block作为函数参数在C语言里的写法和OC里的写法略有不同.如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;OC方法</span><br><span class="line">- (int)addFunc:(int(^)(int a, int b))blkParam :(int)addA :(int)addB</span><br><span class="line">&#123;</span><br><span class="line">    int c &#x3D; 0;</span><br><span class="line">    c &#x3D; blkParam(addA, addB);</span><br><span class="line">    printf(&quot;rs:%d\n&quot;, c);</span><br><span class="line">    return c;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;C函数</span><br><span class="line">int addFunc(int (^blkParam)(int a , int b), int addA, int addB)</span><br><span class="line">&#123;</span><br><span class="line">    int c &#x3D; 0;</span><br><span class="line">    c &#x3D; blkParam(addA, addB);</span><br><span class="line">    printf(&quot;rs:%d\n&quot;, c);</span><br><span class="line">    return c;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Block的调用"><a href="#Block的调用" class="headerlink" title="Block的调用"></a>Block的调用</h4><p><code>blk变量(参数1, 参数2, ...);</code></p>
+<p>一个比较古怪的Block调用:直接对Block语法调用.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">int aa &#x3D; ^int(int a, int b)&#123;</span><br><span class="line">        int c &#x3D; a + b;</span><br><span class="line">        NSLog(@&quot;%d&quot;,c);</span><br><span class="line">        return c;</span><br><span class="line">    &#125;(2,4);</span><br><span class="line">NSLog(@&quot;aa&#x3D;%d&quot;,aa);</span><br></pre></td></tr></table></figure>
+<p>很早之前刚接触block的时候,总是在想Block里的代码到底啥时候执行.原来就是block什么时候被调用,什么时候就被执行.</p>
+<p>Block也相当于一种变量类型。就像int一样，可以用来定义对应类型的变量。<br>因此</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[p printWithBlcok:^ViewController *(int num) &#123;</span><br><span class="line">    NSLog(@&quot;num*cc:%i * %i &#x3D; %i&quot;,num,cc,num *cc);</span><br><span class="line">    return self;</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+<p>里面的printWithBlcok:后的就是一个Block语法(也就是一个Block类型的变量的值)。在这里它作为函数的第一个参数。因此对对象p发送printWithBlcok:消息，将执行该方法的代码，该方法的第一行代码就是调用Block，因此又转而去执行Block中的代码，执行完后，再回到printWithBlcok:方法中，然后继续执行下去。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/03/2017-12-03-OC%20block%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C--Block%E9%87%8C%E7%9A%84strongSelf/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="博客小屋">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/12/03/2017-12-03-OC%20block%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C--Block%E9%87%8C%E7%9A%84strongSelf/" class="post-title-link" itemprop="url">OC block基本操作--Block里的strongSelf</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-12-03 13:15:20" itemprop="dateCreated datePublished" datetime="2017-12-03T13:15:20+08:00">2017-12-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2018-07-15 08:47:28" itemprop="dateModified" datetime="2018-07-15T08:47:28+08:00">2018-07-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="Block里的strongSelf"><a href="#Block里的strongSelf" class="headerlink" title="Block里的strongSelf"></a>Block里的strongSelf</h3><p>有时我们在看源码时,会发现作者会在block里第一行strong一下weakSelf.以下便是对这种写法的一个探究.</p>
+<p>一般在使用block的时候,都会在block外,声明一个weakSelf,来确保block不去持有self.但是这也会引发一个问题,就是如果在block执行之前,self就已经销毁了,那么block里的[weakSelf method],method方法就不会被执行,如果有返回值的话,会返回nil.如果Block里有这样的代码:[arrM addObject:nil],是会崩溃的.所以,如何让block在执行时,self不销毁?</p>
+<p>解决办法就是:在block代码块里第一行将weakSelf赋值给一个strong类型指针变量,通常是<code>__strong typeof(weakSelf) strongSelf = weakSelf;</code>.有了strongSelf这样一个强引用指针,以后的代码执行时,便不会出现self==nil的情况,且当block执行完后,局部变量strongSelf清除,self对象被释放.一切看起来似乎很完美.但是如果在<br>__strong typeof(weakSelf) strongSelf = weakSelf;<br>执行之前,self就已经销毁,那么strongSelf将等于nil.上面的崩溃还是会发生.所以必须判断一下strongSelf是否为nil.</p>
+<p>综上完整的写法应该如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">__weak typeof(self) weakSelf &#x3D; self;</span><br><span class="line">void (^success)(id data, NSString *statusInfo) &#x3D; ^(NSArray *data, NSString *statusInfo) &#123;</span><br><span class="line">    __strong typeof(weakSelf) strongSelf &#x3D; weakSelf;</span><br><span class="line">    if (strongSelf &#x3D;&#x3D; nil) return;</span><br><span class="line">    </span><br><span class="line">    NSLog(@&quot;block回调了,strongSelf:%@&quot;, strongSelf); </span><br><span class="line">    NSString *sd &#x3D; [strongSelf printSomething]; &#x2F;&#x2F;  如果没有前面的判断,这里有可能会因为strongSelf&#x3D;&#x3D;nil,而导致返回值为nil.从而后面的[mA addObject:sd];会崩溃.</span><br><span class="line">    </span><br><span class="line">    NSMutableArray *mA &#x3D; [[NSMutableArray alloc] initWithArray:data];</span><br><span class="line">    [mA addObject:@&quot;dsfds&quot;];</span><br><span class="line">    [mA addObject:sd];</span><br><span class="line">    NSLog(@&quot;%@&quot;, mA);</span><br><span class="line">    NSLog(@&quot;%@&quot;, statusInfo);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>思考1:在Block里写<code>__strong typeof(weakSelf) strongSelf = weakSelf;</code>会不会导致self-Block引用循环?</p>
+</blockquote>
+<p>答案是不会的,因为strongSelf是Block代码块里定义的一个局部变量,当Block执行完后,局部变量就会销毁,这样就不会有强引用的指针指向self对象.self与Block之间也就不会形成一个引用循环.</p>
+<blockquote>
+<p>思考2:是不是Block里只能使用weakSelf,不能使用self?</p>
+</blockquote>
+<p>这个并不是绝对的,使用weakSelf当然是不会有问题的.而如果self不持有Block,那么即使Block里使用self,也不会形成self-Block引用循环,这种情况下在Block里直接使用self也是没有问题的,只不过此时self对象的销毁将依赖于Block的销毁,换句话说就是self对象的生命周期可能会被延长.  </p>
+<p>举个例子:<br>vcB里有一个实例变量指向C对象,vcB里用该实例变量调用C类里的方法,参数block代码块里直接使用self(即vcB对象).</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">@interface SecondViewController ()</span><br><span class="line"></span><br><span class="line">@property (nonatomic, strong) Animal *myAni;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation SecondViewController</span><br><span class="line"></span><br><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    </span><br><span class="line">    self.view.backgroundColor &#x3D; [UIColor whiteColor];</span><br><span class="line">    </span><br><span class="line">    self.myAni &#x3D; [Animal new];</span><br><span class="line">    void (^blk)(Animal *aAnimal) &#x3D; ^(Animal *aAnimal) &#123;</span><br><span class="line">        NSLog(@&quot;%@&quot;, aAnimal);</span><br><span class="line">        NSLog(@&quot;self:%@&quot;, self); &#x2F;&#x2F;Block截获self.</span><br><span class="line">    &#125;;</span><br><span class="line">    [self.myAni printHello:blk];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@interface Animal : NSObject</span><br><span class="line"></span><br><span class="line">- (void)printHello:(void(^)(Animal *aAnimal))paramBlk;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@interface Animal ()</span><br><span class="line"></span><br><span class="line">@property (nonatomic, copy) void (^blk)(Animal *aAnimal);</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation Animal</span><br><span class="line"></span><br><span class="line">- (void)printHello:(void (^)(Animal *))paramBlk</span><br><span class="line">&#123;</span><br><span class="line">&#x2F;&#x2F;    self.blk &#x3D; paramBlk;   </span><br><span class="line">    paramBlk(self);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)dealloc</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;%@销毁&quot;, self);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>他们之间的关系就如下图所示,vcB持有C对象,参数block持有vcB对象,从下图可以看出并没有构成一个循环引用,所以虽然在block里直接使用self,但却并没有什么问题.<br><img src="http://7xqoji.com1.z0.glb.clouddn.com/Block%E9%87%8C%E7%9B%B4%E6%8E%A5%E4%BD%BF%E7%94%A8self%E5%AF%B9%E8%B1%A1%E5%85%B3%E7%B3%BB%E5%9B%BE.png" alt="Block里直接使用self对象关系图"><br>但是如果C类里有个block实例变量,指向了该参数block,那么将导致循环引用.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/02/2017-12-02-OC%20block%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C--%E8%A7%A3%E9%99%A4%E5%BC%95%E7%94%A8%E5%BE%AA%E7%8E%AF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="博客小屋">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/12/02/2017-12-02-OC%20block%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C--%E8%A7%A3%E9%99%A4%E5%BC%95%E7%94%A8%E5%BE%AA%E7%8E%AF/" class="post-title-link" itemprop="url">OC block基本操作--解除引用循环</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-12-02 15:35:54" itemprop="dateCreated datePublished" datetime="2017-12-02T15:35:54+08:00">2017-12-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2018-07-15 08:47:28" itemprop="dateModified" datetime="2018-07-15T08:47:28+08:00">2018-07-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="block截获self情况"><a href="#block截获self情况" class="headerlink" title="block截获self情况."></a>block截获self情况.</h3><p>略.</p>
+<h3 id="block截获成员变量时-避免循环引用的几种基本操作"><a href="#block截获成员变量时-避免循环引用的几种基本操作" class="headerlink" title="block截获成员变量时,避免循环引用的几种基本操作."></a>block截获成员变量时,避免循环引用的几种基本操作.</h3><p>下面这段代码如果不做任何处理,在block属性里直接使用成员变量,100%导致循环引用.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">场景:</span><br><span class="line"></span><br><span class="line">typedef void(^MyBlk)(void);</span><br><span class="line"></span><br><span class="line">@interface SecondViewController ()</span><br><span class="line">&#123;</span><br><span class="line">    Animal *_myAnimal;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@property (nonatomic, copy) MyBlk blk;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">_myAnimal &#x3D; [[Animal alloc] init];</span><br><span class="line">self.blk &#x3D; ^&#123;</span><br><span class="line">   NSLog(@&quot;%@&quot;, _myAnimal); &#x2F;&#x2F;因为实例变量的访问等价于self-&gt;_myAnimal,也等价于(*self)._myAnimal;所以这里会导致block强引用self.</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>那么如何解决呢?有如下几种操作:</p>
+<ol>
+<li><p>使用__weak typeof(成员变量) weak成员变量 = 成员变量;</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">_myAnimal &#x3D; [[Animal alloc] init];</span><br><span class="line">   __weak typeof(_myAnimal) weakMyAnimal &#x3D; _myAnimal;</span><br><span class="line">   self.blk &#x3D; ^&#123;</span><br><span class="line">       NSLog(@&quot;%@&quot;, weakMyAnimal);</span><br><span class="line">   &#125;;</span><br></pre></td></tr></table></figure></li>
+<li><p>使用局部变量,这样block就不再持有self.于是循环引用便不能形成了.</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">_myAnimal &#x3D; [[Animal alloc] init];</span><br><span class="line">   Animal *tMyAnimal &#x3D; _myAnimal;</span><br><span class="line">   self.blk &#x3D; ^&#123;</span><br><span class="line">       NSLog(@&quot;%@&quot;, tMyAnimal);</span><br><span class="line">   &#125;;</span><br></pre></td></tr></table></figure></li>
+<li><p>对方法2进行改进,增加__block修饰符.</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">_myAnimal &#x3D; [[Animal alloc] init];</span><br><span class="line">   __block Animal *tMyAnimal &#x3D; _myAnimal;</span><br><span class="line">   self.blk &#x3D; ^&#123;</span><br><span class="line">       NSLog(@&quot;%@&quot;, tMyAnimal);</span><br><span class="line">       tMyAnimal &#x3D; nil;</span><br><span class="line">   &#125;;</span><br></pre></td></tr></table></figure></li>
+<li><p>使用__weak typeof(self) weakSelf = self;</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">_myAnimal &#x3D; [[Animal alloc] init];</span><br><span class="line">   __weak typeof(self) weakSelf &#x3D; self;</span><br><span class="line">   self.blk &#x3D; ^&#123;</span><br><span class="line">       __strong typeof(weakSelf) strongSelf &#x3D; weakSelf;</span><br><span class="line">       if (!strongSelf) return ; &#x2F;&#x2F;必须加上判断,否则一旦self在这之前被释放销毁了,那么后面的-&gt;操作将崩溃.</span><br><span class="line">       NSLog(@&quot;%@&quot;, strongSelf -&gt; _myAnimal); &#x2F;&#x2F;一旦block在执行中,对象被销毁了,很容易造成对NULL指针进行解引用导致崩溃.所以前面的判断是必须的.</span><br><span class="line">       NSLog(@&quot;%@&quot;, (*strongSelf)._myAnimal);</span><br><span class="line">   &#125;;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>那么这几种办法中哪种才是最佳实践呢?从写法上来看,第一种和第二种以及改进型的第三种要比第四种方便很多.那么第一种方法和第二种方法哪种更好呢?这里就需要知道什么是block以及为什么使用weak修饰符后就可以解除循环引用.</p>
+<blockquote>
+<p>什么是block</p>
+</blockquote>
+<p>带有自动变量(局部变量)值的匿名函数就是block.匿名函数就是不带有名称的函数.带有自动变量值在block中的表现就是”截获自动变量值”.</p>
+<blockquote>
+<p>截获自动变量值</p>
+</blockquote>
+<p>“截获自动变量值”指的是:在执行block语法时,block语法表达式所使用的自动变量值会被保存到block的结构体实例中(即block自身里).也就是说block结构体会多出来一个成员变量,它的类型就是截获的自动变量的类型.比如自动变量的类型是weak,那么该成员变量的类型也是weak;如果是strong,那么成员变量的类型也是strong.这就是为什么我们使用__weak typeof(self) weakSelf = self;可以让block不强引用self的原因.</p>
+<p>现在让我们来比较一下方法一和方法二,方法一使用了weak修饰符,因此block截获的指针变量<code>weakMyAnimal</code>是weak类型的,而weak类型指针是不会强引用指向的对象,这样block也就不会强引用Animal对象.而方法二中将导致block会强引用Animal对象.这就意味着Animal对象的释放还要依赖于block有没有释放,更直白一点就是Animal对象本来可以更早释放的,但是由于block还强引用了它,导致没有被释放.</p>
+<p>小问题:如果一个block截获了一个strong类型的指针变量,那么该指针指向的对象什么时候才会被block释放?是block执行完后就被释放还是要等到block被释放后它才会被释放?</p>
+<p>答案是选B.这是因为block虽然执行完了,但是block截获的指针变量依然存活(区别于block代码块里定义的局部变量),因此指针指向的对象依然被强引用.要直到block被释放后该对象才会被释放.</p>
+<p>是时候比较一下方法二和方法三了.方法三是方法二的改进型.可以看到方法三中,block执行完成后就将截获的指针变量赋值为nil了,从而指向的对象会被立即释放.这是方法二所做不到的.是不是方法三就等价于方法一了呢?显然不等价.要想等价于方法一,要做的事情只有一个:确保该block一定被调用.否则方法三将等价于方法二.</p>
+<p>综上,方法一是最佳实践不会引起任何副作用.是不是方法二就不能用了呢?当然不是,只要你能够确信不会引起其他引用循环(ps:在某种情况下方法二会导致引用循环,及在某种情况下方法二即使没有引起引用循环也导致”截获的对象”不能被释放)自然是可以使用的,我就经常使用,因为它写法更简单.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/01/2017-12-01-Swift%20Array%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="博客小屋">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/12/01/2017-12-01-Swift%20Array%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" class="post-title-link" itemprop="url">Swift Array基本操作</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-12-01 23:17:24" itemprop="dateCreated datePublished" datetime="2017-12-01T23:17:24+08:00">2017-12-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2018-07-15 08:47:28" itemprop="dateModified" datetime="2018-07-15T08:47:28+08:00">2018-07-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Swift-Array基本操作"><a href="#Swift-Array基本操作" class="headerlink" title="Swift Array基本操作"></a>Swift Array基本操作</h2><p>Array使用了copy-on-write技术.Array是结构体类型,因此是值类型.和OC里的NSArray引用类型是不同的.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;定义一个数组</span><br><span class="line">let arr1: Array&lt;String&gt; &#x3D; [&quot;213&quot;, &quot;fdsf&quot;, &quot;sdfdsg&quot;]  &#x2F;&#x2F;let定义的是常量,所以arr1不能再进行append操作.</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;追加元素</span><br><span class="line">&#x2F;&#x2F;追加一个元素</span><br><span class="line">var arr2: Array&lt;String&gt; &#x3D; [&quot;llllfs&quot;, &quot;dqafas&quot;, &quot;21231&quot;]</span><br><span class="line">arr2 +&#x3D; [&quot;sfsdfsd&quot;]</span><br><span class="line">print(&quot;arr2:\(arr2)&quot;)</span><br><span class="line">var arr3: Array&lt;String&gt; &#x3D; arr2</span><br><span class="line">arr3.append(&quot;hhehehe&quot;)  &#x2F;&#x2F;append()会改变自身的值.但arr2的值并不会改变,和OC不一样.</span><br><span class="line">print(&quot;arr2:\(arr2)&quot;)</span><br><span class="line">print(&quot;arr3:\(arr3)&quot;)</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;追加一个数组的元素</span><br><span class="line">arr3.append(contentsOf: [&quot;sfsdf&quot;, &quot;dfsfds&quot;, &quot;dgfdg&quot;])</span><br><span class="line">print(&quot;arr3:\(arr3)&quot;)</span><br><span class="line">var arr4: Array&lt;People&gt; &#x3D; [People]()</span><br><span class="line">for index: UInt in 0..&lt;4 &#123;</span><br><span class="line">    let p &#x3D; People.init(name: &quot;渣渣辉\(index)&quot;, sex: true, age: index * UInt(arc4random()%20))</span><br><span class="line">    arr4.append(p)</span><br><span class="line">&#125;</span><br><span class="line">print(&quot;arr4:\(arr4)&quot;)</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;移除元素</span><br><span class="line">var arr5: Array &#x3D; arr4</span><br><span class="line">&#x2F;&#x2F;移除最后一个元素</span><br><span class="line">arr5.removeLast() &#x2F;&#x2F;改变自身.被操作的数组不能为空.</span><br><span class="line">print(&quot;arr5:\(arr5)&quot;)</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;移除元素,原数组不受影响,得到一个类型为ArraySlice的新数组.</span><br><span class="line">var arr6: Array &#x3D; Array.init(arr5.dropLast()) &#x2F;&#x2F;ArraySlice转Array</span><br><span class="line">print(&quot;arr5:\(arr5)&quot;)</span><br><span class="line">print(&quot;arr6:\(arr6)&quot;)</span><br><span class="line">var arr7: ArraySlice &#x3D; ArraySlice.init(arr4)  &#x2F;&#x2F;Array转ArraySlice</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;移除某个范围里的元素</span><br><span class="line">var arr8: Array &#x3D; [1, 2, 3, 4, 5, 6]</span><br><span class="line">arr8.removeSubrange(1...) &#x2F;&#x2F;移除从第1个位置处开始一直到末尾的元素</span><br><span class="line">print(&quot;arr8:\(arr8)&quot;)</span><br><span class="line">var arr9: Array &#x3D; [1]</span><br><span class="line">arr9.removeSubrange(1...) &#x2F;&#x2F;如果数组只有一个元素,但移除从第一个位置处的元素并不会越界崩溃.但是移除从第二个位置处的元素将会导致越界崩溃</span><br><span class="line">print(&quot;arr9:\(arr9)&quot;) &#x2F;&#x2F;arr9:[1]</span><br><span class="line">var arr10: Array &#x3D; [1, 2, 3, 4, 5, 6]</span><br><span class="line">arr10.removeSubrange(1...3) &#x2F;&#x2F;移除从第1个位置处开始随后的3个元素</span><br><span class="line">print(&quot;arr10:\(arr10)&quot;)</span><br><span class="line">var arr11: Array &#x3D; [1, 2, 3, 4, 5, 6]</span><br><span class="line">arr11.removeSubrange(1..&lt;3) &#x2F;&#x2F;移除从第1个位置处开始随后的2个元素</span><br><span class="line">print(&quot;arr11:\(arr11)&quot;)</span><br><span class="line">&#x2F;&#x2F;便捷操作</span><br><span class="line">public mutating func removeLast(_ n: Int) &#x2F;&#x2F;移除后几个</span><br><span class="line">public mutating func removeFirst(_ n: Int) &#x2F;&#x2F;移除前几个</span><br><span class="line">public mutating func remove(at index: Int) -&gt; Array.Element &#x2F;&#x2F;移除指定某个位置的元素</span><br><span class="line">public mutating func removeAll(keepingCapacity keepCapacity: Bool &#x3D; default) &#x2F;&#x2F;移除所有元素</span><br><span class="line"></span><br><span class="line">let tanwanlanyue &#x3D; [&quot;渣渣辉&quot;, &quot;纯扰春&quot;, &quot;咕天落&quot;, &quot;森红雷&quot;]</span><br><span class="line">&#x2F;&#x2F;“迭代除了第一个元素以外的数组其余部分”</span><br><span class="line">for item in tanwanlanyue.dropFirst() &#123;</span><br><span class="line">    print(item)</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F;“迭代除了最后 1 个元素以外的数组”</span><br><span class="line">for item in tanwanlanyue.dropLast() &#123;</span><br><span class="line">    print(item)</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F;“遍历数组中的元素和对应的下标”</span><br><span class="line">for (index, element) in tanwanlanyue.enumerated() &#123;</span><br><span class="line">    print(index, element)</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F;“寻找一个指定元素的位置”</span><br><span class="line">let idx &#x3D; tanwanlanyue.index(of: &quot;咕天落&quot;)</span><br><span class="line">let i: Int &#x3D; idx! + 1</span><br><span class="line">print(i)</span><br><span class="line">&#x2F;&#x2F;使用Where闭包</span><br><span class="line">let index &#x3D; tanwanlanyue.index &#123;</span><br><span class="line">    $0 &#x3D;&#x3D; &quot;纯扰春&quot;</span><br><span class="line">&#125;</span><br><span class="line">let j: Int &#x3D; index! + 3</span><br><span class="line">print(j)</span><br><span class="line">if let sidx &#x3D; tanwanlanyue.index(where: &#123; (item) -&gt; Bool in</span><br><span class="line">    item.hasSuffix(&quot;落&quot;)</span><br><span class="line">&#125;) &#123;</span><br><span class="line">    print(sidx)</span><br><span class="line">&#125;</span><br><span class="line">let didx &#x3D; tanwanlanyue.index(where: &#123; (element) -&gt; Bool in</span><br><span class="line">    return element.hasPrefix(&quot;渣渣&quot;)</span><br><span class="line">&#125;)</span><br><span class="line">print(didx)</span><br><span class="line">&#x2F;&#x2F;“对数组中的所有元素进行变形,得到一个新数组”</span><br><span class="line">let tan2 &#x3D; tanwanlanyue.map &#123; (item) -&gt; String in</span><br><span class="line">    let idx &#x3D; tanwanlanyue.index(of: item)</span><br><span class="line">    return item + &quot;\(idx!)&quot;</span><br><span class="line">&#125;</span><br><span class="line">print(tan2)</span><br><span class="line">&#x2F;&#x2F;“筛选出符合某个标准的元素,得到一个新数组”</span><br><span class="line">let tan3 &#x3D; tan2.filter &#123; (item) -&gt; Bool in</span><br><span class="line">    let ch &#x3D; item.last!</span><br><span class="line">    return ch &gt; &quot;1&quot;</span><br><span class="line">&#125;</span><br><span class="line">print(tan3)</span><br><span class="line">    </span><br><span class="line">let names &#x3D; [&quot;Paula&quot;, &quot;Elena&quot;, &quot;Zoe&quot;]</span><br><span class="line">var lastNameEndingInA: String?</span><br><span class="line">&#x2F;&#x2F;(for in) + where条件,仅遍历符合条件的元素</span><br><span class="line">for name in names.reversed() where name.hasSuffix(&quot;a&quot;) &#123;</span><br><span class="line">    lastNameEndingInA &#x3D; name</span><br><span class="line">    break</span><br><span class="line">&#125;</span><br><span class="line">print(lastNameEndingInA)</span><br><span class="line">for name in names.reversed() where name.hasSuffix(&quot;a&quot;) &#123;</span><br><span class="line">    print(name)</span><br><span class="line">&#125;</span><br><span class="line">    </span><br><span class="line">let last &#x3D; names.last &#123; $0.hasSuffix(&quot;a&quot;)</span><br><span class="line">&#125;</span><br><span class="line">print(last)</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;插入</span><br><span class="line">略.</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;替换</span><br><span class="line">略.</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;翻转</span><br><span class="line">略.</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;遍历</span><br><span class="line">let names &#x3D; [&quot;Paula&quot;, &quot;Elena&quot;, &quot;Zoe&quot;]</span><br><span class="line">var lastNameEndingInA: String?</span><br><span class="line">&#x2F;&#x2F;(for in) + where条件:仅遍历符合条件的元素</span><br><span class="line">for name in names.reversed() where name.hasSuffix(&quot;a&quot;) &#123;</span><br><span class="line">    lastNameEndingInA &#x3D; name</span><br><span class="line">    break</span><br><span class="line">&#125;</span><br><span class="line">print(lastNameEndingInA)</span><br><span class="line">for name in names.reversed() where name.hasSuffix(&quot;a&quot;) &#123;</span><br><span class="line">    print(name)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Swfit提供了三种类型的数组:</p>
+<ul>
+<li><p>public struct ContiguousArray<Element> : RandomAccessCollection, MutableCollection</p>
+</li>
+<li><p>public struct ArraySlice<Element> : RandomAccessCollection, MutableCollection</p>
+</li>
+<li><p>public struct Array<Element> : RandomAccessCollection, MutableCollection</p>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/26/2017-11-26-Swift%20String%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="博客小屋">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/11/26/2017-11-26-Swift%20String%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" class="post-title-link" itemprop="url">Swift String基本操作</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-11-26 22:55:24" itemprop="dateCreated datePublished" datetime="2017-11-26T22:55:24+08:00">2017-11-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2018-07-15 08:47:28" itemprop="dateModified" datetime="2018-07-15T08:47:28+08:00">2018-07-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Swift-String基本操作"><a href="#Swift-String基本操作" class="headerlink" title="Swift String基本操作"></a>Swift String基本操作</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;创建字符串  </span><br><span class="line">let s1: String &#x3D; &quot;dsfdsf&quot;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;遍历字符串</span><br><span class="line">for char in s1 &#123;</span><br><span class="line">	print(char)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;字符串拼接</span><br><span class="line">let s2 &#x3D; &quot;dasdfds&quot;</span><br><span class="line">let s3 &#x3D; s1 + s2</span><br><span class="line">print(s3)</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;计算字符串长度</span><br><span class="line">let length: Int &#x3D; s3.count</span><br><span class="line">print(&quot;长度:\(length)&quot;)</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;判断一个字符串是否为空</span><br><span class="line">let rs1 &#x3D; s3.isEmpty</span><br><span class="line">print(&quot;是否为空:\(rs1)&quot;)</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;将一个字符串转换为大&#x2F;小写</span><br><span class="line">let s4: String &#x3D; &quot;fsdfdsfsd&quot;</span><br><span class="line">let s5 &#x3D; s4.uppercased() &#x2F;&#x2F;返回一个大写的字符串,原字符串不受影响</span><br><span class="line">print(&quot;s4:\(s4)&quot;)</span><br><span class="line">print(&quot;s5:\(s5)&quot;)</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;字符串截取.字符串截取需要使用String.Index中介</span><br><span class="line">let s7: String &#x3D; &quot;dasd3243232423sfsfdsf13&quot;</span><br><span class="line">&#x2F;&#x2F;截取前4个字符</span><br><span class="line">let s8: Substring &#x3D; s7.prefix(4) &#x2F;&#x2F;返回的是一个Substring类型,因此不能赋值给一个String类型的变量,如果要赋值给lable,需要转换为String类型</span><br><span class="line">let label &#x3D; UILabel.init()</span><br><span class="line">label.text &#x3D; String.init(s8) </span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;String和Substring可以直接相加操作,编译器已经做了强制转换.</span><br><span class="line">let s9: String &#x3D; s7 + s8</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;截取后5个字符</span><br><span class="line">let s10: Substring &#x3D; s7.suffix(5)</span><br><span class="line">print(&quot;s10:\(s10)&quot;)</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;从第四个(包含)开始截取,截取10个长度的字符</span><br><span class="line">let offset4Index: String.Index &#x3D; s7.index(s7.startIndex, offsetBy: 4)</span><br><span class="line">let dest14Index &#x3D; s7.index(offset4Index, offsetBy: 10) &#x2F;&#x2F;注意:起点+长度不能越界.</span><br><span class="line">let s11: Substring &#x3D; s7[offset4Index..&lt;dest14Index] &#x2F;&#x2F;返回的是一个Substring类型,因此不能赋值给一个String类型的变量. &quot;..&lt;&quot;表示包含左边,但不包含右边,&quot;...&quot;表示闭区间,两边都包含.</span><br><span class="line">print(&quot;s11:\(s11)&quot;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;移除最后一个字符.被操作的字符串不能为空字符串.</span><br><span class="line">var s12: String &#x3D; &quot;sfdsfds&quot;</span><br><span class="line">s12.removeLast()</span><br><span class="line">print(&quot;s12:\(s12)&quot;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/13/2017-11-13-%E6%93%8D%E4%BD%9C%E5%AD%90%E8%A7%86%E5%9B%BE%E6%8E%A7%E5%88%B6%E5%99%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="博客小屋">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/11/13/2017-11-13-%E6%93%8D%E4%BD%9C%E5%AD%90%E8%A7%86%E5%9B%BE%E6%8E%A7%E5%88%B6%E5%99%A8/" class="post-title-link" itemprop="url">操作子视图控制器</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-11-13 23:37:24" itemprop="dateCreated datePublished" datetime="2017-11-13T23:37:24+08:00">2017-11-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2018-07-15 08:47:28" itemprop="dateModified" datetime="2018-07-15T08:47:28+08:00">2018-07-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/UIViewController/" itemprop="url" rel="index"><span itemprop="name">UIViewController</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="操作子视图控制器"><a href="#操作子视图控制器" class="headerlink" title="操作子视图控制器"></a>操作子视图控制器</h2><p>系统提供了一些方法用于添加和移除子视图控制器:<br>(UIContainerViewControllerProtectedMethods)类别里的:  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- (void)addChildViewController:(UIViewController *)childController NS_AVAILABLE_IOS(5_0);</span><br><span class="line">- (void)removeFromParentViewController NS_AVAILABLE_IOS(5_0);</span><br></pre></td></tr></table></figure>
+<p>上述两个方法调用后还要配套调用(UIContainerViewControllerCallbacks)类别里的:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- (void)willMoveToParentViewController:(nullable UIViewController *)parent NS_AVAILABLE_IOS(5_0);</span><br><span class="line">- (void)didMoveToParentViewController:(nullable UIViewController *)parent NS_AVAILABLE_IOS(5_0);</span><br></pre></td></tr></table></figure>
+<h3 id="addChildViewController-的说明"><a href="#addChildViewController-的说明" class="headerlink" title="addChildViewController:的说明:"></a>addChildViewController:的说明:</h3><ol>
+<li><p>If the child controller has a different parent controller, it will first be removed from its current parent<br>by calling removeFromParentViewController.</p>
+</li>
+<li><p>addChildViewController: will call [child willMoveToParentViewController:self] before adding the<br>child. However, it will not call didMoveToParentViewController:.所以willMoveToParentViewController:就不需要我们自己调用了,但需要我们自己手动调用didMoveToParentViewController:</p>
+</li>
+</ol>
+<h3 id="removeFromParentViewController的说明"><a href="#removeFromParentViewController的说明" class="headerlink" title="removeFromParentViewController的说明:"></a>removeFromParentViewController的说明:</h3><p>removeFromParentViewController does not call [self willMoveToParentViewController:nil] before removing the<br>  child. This is also the responsibilty of the container subclass.subclasses will typically define a method that removes a child in<br>  the reverse manner by first calling [child willMoveToParentViewController:nil].</p>
+<h3 id="正确添加和移除一个子视图控制器"><a href="#正确添加和移除一个子视图控制器" class="headerlink" title="正确添加和移除一个子视图控制器"></a>正确添加和移除一个子视图控制器</h3><p>添加一个子视图控制器的方法如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[self addChildViewController:quizingVC];</span><br><span class="line">quizingVC.view.frame &#x3D; CGRectMake(0, 0, self.contentScrollView.frame.size.width, self.contentScrollView.frame.size.height - 2*matchStatusBarH);</span><br><span class="line">[self.contentScrollView addSubview:quizingVC.view];</span><br><span class="line">[quizingVC didMoveToParentViewController:self];</span><br></pre></td></tr></table></figure>
+<p>移除一个子视图控制器:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;先将其父控制器置为nil</span><br><span class="line">[self willMoveToParentViewController:nil];</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;其他一些操作比如动画.</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;再remove</span><br><span class="line">[self removeFromParentViewController];</span><br></pre></td></tr></table></figure>
+<h3 id="note"><a href="#note" class="headerlink" title="note"></a>note</h3><p>一个控制器只有被添加到父控制器后,父控制器的view的frame(尤其是size)改变时,系统才会调整子控制器的View的frame,并随之自动调用子控制器的viewDidLayoutSubviews方法.这样子控制器的View及其子视图才会有正确的frame.</p>
+<p>在嵌套控制器的时候可以测试一下.比如使用<code>CAPSPageMenu</code>第三方库.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+  </div>
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/6/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/8/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">jekyttt</p>
+  <div class="site-description" itemprop="description">涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">91</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">39</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">43</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jekyttt</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.getAttribute('pjax') !== null) {
+      script.setAttribute('pjax', '');
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+    </div>
+</body>
+</html>
