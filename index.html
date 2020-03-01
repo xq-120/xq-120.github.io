@@ -236,10 +236,14 @@
 <h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
 <p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
 <h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/03/01/hello-world/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -289,7 +293,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-01 13:35:45" itemprop="dateModified" datetime="2020-03-01T13:35:45+08:00">2020-03-01</time>
+                <time title="修改时间：2020-03-01 15:59:51" itemprop="dateModified" datetime="2020-03-01T15:59:51+08:00">2020-03-01</time>
               </span>
 
           
@@ -320,71 +324,16 @@
 <p>初始化项目</p>
 </blockquote>
 <p>使用 Hexo 的命令行创建一个项目.</p>
-<p>hexo init “name”`</p>
+<p><code>hexo init &quot;name&quot;</code></p>
 <p>调用 Hexo 的 generate 命令，将 Hexo 编译生成 HTML 代码.</p>
-<p><code>hexo generate</code></p>
-<p>利用 Hexo 提供的 server 命令让博客在本地运行起来.</p>
-<p><code>hexo server</code></p>
-<blockquote>
-<p>部署</p>
-</blockquote>
-<p>安装一个支持 Git 的部署插件，名字叫做 hexo-deployer-git，有了它我们才可以顺利将其部署到 GitHub 上面，如果不安装的话，在执行部署命令时会报错误.</p>
-<p><code>npm install hexo-deployer-git --save</code></p>
-<p>部署</p>
-<p><code>hexo deploy</code></p>
-<p>部署成功之后,Hexo会将编译之后的静态页面内容推送到 GitHub 仓库的 master 分支.</p>
-<p>需要注意的是里面是没有博客源码的.如果我们换了电脑就需要将以前的博客拷贝回来.这样显然很不方便,因此我们需要将博客源码也托管到 GitHub 上面.</p>
-<p><strong>将博客源码托管到 GitHub 上面</strong></p>
-<p>可以新建一个source分支,用于博客源码的管理.</p>
-<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br><span class="line">git checkout -<span class="keyword">b </span>source</span><br><span class="line">git <span class="keyword">add </span>-A</span><br><span class="line">git commit -m <span class="string">"init blog"</span></span><br><span class="line">git remote <span class="keyword">add </span><span class="keyword">origin </span><span class="string">"https://github.com/xxx/xxx.github.io.git"</span></span><br><span class="line">git push <span class="keyword">origin </span>source</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>配置站点信息</p>
-</blockquote>
-<p>站点简介修改</p>
-<blockquote>
-<p>修改主题</p>
-</blockquote>
-<p>选择一个主题使用.这里选择next主题.</p>
-<blockquote>
-<p>主题配置</p>
-</blockquote>
-<p>主题显示效果配置</p>
-<blockquote>
-<p>写文章</p>
-</blockquote>
-<p>新增文章</p>
-<p><code>hexo new &quot;name&quot;</code></p>
-<p>创建的文章会出现在 <code>source/_posts</code> 文件夹下，是 MarkDown 格式。</p>
-<p>在文章开头通过如下格式添加必要信息：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">标题</span> <span class="comment"># 自动创建，如 hello-world</span></span><br><span class="line"><span class="attr">date:</span> <span class="string">日期</span> <span class="comment"># 自动创建，如 2020-03-01 13:30:15</span></span><br><span class="line"><span class="attr">tags:</span> </span><br><span class="line"><span class="bullet">-</span> <span class="string">标签1</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">标签2</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">标签3</span></span><br><span class="line"><span class="attr">categories:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">分类1</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">分类2</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>标签</p>
-</blockquote>
-<p>增加标签页面</p>
-<p><code>hexo new page tags</code></p>
-<blockquote>
-<p>分类</p>
-</blockquote>
-<p>增加分类页面</p>
-<p><code>hexo new page categories</code></p>
-<blockquote>
-<p>搜索页</p>
-</blockquote>
-<p>安装搜索插件</p>
-<p><code>npm install hexo-generator-searchdb --save</code></p>
-<p>在项目的 _config.yml 里面添加搜索设置:</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">search:</span></span><br><span class="line">  <span class="attr">path:</span> <span class="string">search.xml</span></span><br><span class="line">  <span class="attr">field:</span> <span class="string">post</span></span><br><span class="line">  <span class="attr">format:</span> <span class="string">html</span></span><br><span class="line">  <span class="attr">limit:</span> <span class="number">10000</span></span><br></pre></td></tr></table></figure>
-<p>在主题的 _config.yml 里面修改如下:</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Local search</span></span><br><span class="line"><span class="comment"># Dependencies: https://github.com/wzpan/hexo-generator-search</span></span><br><span class="line"><span class="attr">local_search:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="comment"># If auto, trigger search by changing input.</span></span><br><span class="line">  <span class="comment"># If manual, trigger search by pressing enter key or search button.</span></span><br><span class="line">  <span class="attr">trigger:</span> <span class="string">auto</span></span><br><span class="line">  <span class="comment"># Show top n results per article, show all results by setting to -1</span></span><br><span class="line">  <span class="attr">top_n_per_article:</span> <span class="number">5</span></span><br><span class="line">  <span class="comment"># Unescape html strings to the readable one.</span></span><br><span class="line">  <span class="attr">unescape:</span> <span class="literal">false</span></span><br><span class="line">  <span class="comment"># Preload the search data when the page loads.</span></span><br><span class="line">  <span class="attr">preload:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>404页面</p>
-</blockquote>
-<p>设置自定义的404页面</p>
-<p>其他还有很多可以配置的如评论系统,统计系统.</p>
-<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><p><a href="https://cuiqingcai.com/7625.html" target="_blank" rel="noopener"><a href="https://cuiqingcai.com/7625.html" target="_blank" rel="noopener">利用 GitHub + Hexo + Next 从零搭建一个博客</a></a></p>
-<p><a href="https://blog.csdn.net/u011475210/article/details/79023429" target="_blank" rel="noopener">我的个人博客之旅：从jekyll到hexo</a></p>
-<p><a href="https://notes.iissnan.com/" target="_blank" rel="noopener">next作者博客</a></p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/02/29/github%20pages+hexo+next%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -556,29 +505,14 @@
 <p>由于与目标大小宽高比不一致,图片缩放后会超出目标大小,因此图片会发生裁剪.</p>
 <p>这里又分为两种情况:</p>
 <p>prate &lt; drate,图片会在y轴发生裁剪.</p>
-<p>prate &gt; drate,图片会在x轴发生裁剪.</p>
-<p>如下图所示:</p>
-<p><img src="http://m.qpic.cn/psc?/V1266oZg2CElNW/7o.xLwnHK.dZGyBaILrm9x8SHkc6Arj9o6cetKd7mYvokii*NVEUmq*onzjmLHZjLt.n1LKXB7MdsSoPvnlUakgsaGsU5WGJhixm4zx0eCs!/b&bo=ngSqAwAAAAADZ3E!&rf=viewer_4" alt="等比例填满" align="bottom" width="300" height="238" /></p>
-<p>108*108</p>
-<p>(CGSize) targetSize = (width = 81, height = 162)</p>
-<p>(CGRect) rect = (origin = (x = -40.5, y = 0), size = (width = 162, height = 162))</p>
-<p><strong>2.等比例适应目标大小,图片可能会有空白部分</strong></p>
-<p>两种情况:</p>
-<p>1.图片与目标大小宽高比一致.</p>
-<p>由于与目标大小宽高比一致,图片缩放后会恰好填满整个目标大小,图片不会有空白部分.</p>
-<p>2.图片与目标大小宽高比不一致.</p>
-<p>由于与目标大小宽高比不一致,图片缩放后会有空白部分.</p>
-<p>这里又分为两种情况:</p>
-<p>prate &lt; drate,图片会在x轴产生空白.</p>
-<p>prate &gt; drate,图片会在y轴产生空白.</p>
-<p>如下图所示:</p>
-<p><img src="http://m.qpic.cn/psc?/V1266oZg2CElNW/7o.xLwnHK.dZGyBaILrm9*kU6nfw39PIikWlllQzWPWFD7QaHyossY2yN9.bX3jksmDdE6kab7S7iQvvZ7abYT0LT3D*.8RAu9UTkPERrMo!/b&bo=IARqAwAAAAADB28!&rf=viewer_4" alt="等比例适应" align="bottom" width="300" height="238" /></p>
-<p>108*108</p>
-<p>(CGSize) targetSize = (width = 81, height = 162)</p>
-<p>(CGRect) rect = (origin = (x = 0, y = 40.5), size = (width = 81, height = 81))</p>
-<p>实现:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; MARK: - 缩放图片</span><br><span class="line"></span><br><span class="line">typedef NS_ENUM(NSUInteger, ZAEImageScaleMode) &#123;</span><br><span class="line">    ZAEImageScaleModeFill &#x3D; 0, &#x2F;&#x2F;填满</span><br><span class="line">    ZAEImageScaleModeAspectFit &#x3D; 1, &#x2F;&#x2F;等比例适应</span><br><span class="line">    ZAEImageScaleModeAspectFill &#x3D; 2 &#x2F;&#x2F;等比例填满</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line">缩放图片.返回的图片的scale为屏幕scale.</span><br><span class="line"></span><br><span class="line">@param image 原始图片</span><br><span class="line">@param targetSize 目标尺寸</span><br><span class="line">@param scaleMode 缩放模式</span><br><span class="line">@return 缩放后的图片.</span><br><span class="line">*&#x2F;</span><br><span class="line">+ (UIImage *)za_resizeImage:(UIImage *)image targetSize:(CGSize)targetSize scaleMode:(ZAEImageScaleMode)scaleMode;</span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line">缩放图片.</span><br><span class="line"></span><br><span class="line">@param image 原始图片</span><br><span class="line">@param targetSize 目标尺寸</span><br><span class="line">@param scale 目标scale.[1,屏幕scale]</span><br><span class="line">@param scaleMode 缩放模式</span><br><span class="line">@return 缩放后的图片.</span><br><span class="line">*&#x2F;</span><br><span class="line">+ (UIImage *)za_resizeImage:(UIImage *)image targetSize:(CGSize)targetSize scale:(CGFloat)scale scaleMode:(ZAEImageScaleMode)scaleMode;</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">+ (UIImage *)za_resizeImage:(UIImage *)image targetSize:(CGSize)targetSize scaleMode:(ZAEImageScaleMode)scaleMode</span><br><span class="line">&#123;</span><br><span class="line">    return [UIImage za_resizeImage:image targetSize:targetSize scale:[UIScreen mainScreen].scale scaleMode:scaleMode];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (UIImage *)za_resizeImage:(UIImage *)image targetSize:(CGSize)targetSize scale:(CGFloat)scale scaleMode:(ZAEImageScaleMode)scaleMode</span><br><span class="line">&#123;</span><br><span class="line">    if (targetSize.width &lt;&#x3D; 0 || targetSize.height &lt;&#x3D; 0 || image &#x3D;&#x3D; nil) return nil;</span><br><span class="line">    </span><br><span class="line">    if (scale &lt; 1) &#123;</span><br><span class="line">        scale &#x3D; 1;</span><br><span class="line">    &#125;</span><br><span class="line">    if (scale &gt; [UIScreen mainScreen].scale) &#123;</span><br><span class="line">        scale &#x3D; [UIScreen mainScreen].scale;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    UIGraphicsBeginImageContextWithOptions(targetSize, NO, scale);</span><br><span class="line">    CGRect rect &#x3D; [self CGRectFitWithRect:CGRectMake(0, 0, targetSize.width, targetSize.height) size:image.size scaleMode:scaleMode]; </span><br><span class="line">    [image drawInRect:rect];</span><br><span class="line">    UIImage *newImage &#x3D; UIGraphicsGetImageFromCurrentImageContext();</span><br><span class="line">    if(newImage &#x3D;&#x3D; nil) &#123;</span><br><span class="line">        NSLog(@&quot;scale image fail&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    UIGraphicsEndImageContext();</span><br><span class="line">    return newImage;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">+ (CGRect)CGRectFitWithRect:(CGRect)rect size:(CGSize)size scaleMode:(ZAEImageScaleMode)scaleMode &#123;</span><br><span class="line">    rect &#x3D; CGRectStandardize(rect);</span><br><span class="line">    size.width &#x3D; size.width &lt; 0 ? -size.width : size.width;</span><br><span class="line">    size.height &#x3D; size.height &lt; 0 ? -size.height : size.height;</span><br><span class="line">    CGPoint center &#x3D; CGPointMake(CGRectGetMidX(rect), CGRectGetMidY(rect));</span><br><span class="line">    switch (scaleMode) &#123;</span><br><span class="line">        case ZAEImageScaleModeAspectFit:</span><br><span class="line">        case ZAEImageScaleModeAspectFill: &#123;</span><br><span class="line">            if (rect.size.width &lt; 0.01 || rect.size.height &lt; 0.01 ||</span><br><span class="line">                size.width &lt; 0.01 || size.height &lt; 0.01) &#123;</span><br><span class="line">                rect.origin &#x3D; center;</span><br><span class="line">                rect.size &#x3D; CGSizeZero;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                CGFloat scale;</span><br><span class="line">                if (scaleMode &#x3D;&#x3D; ZAEImageScaleModeAspectFit) &#123;</span><br><span class="line">                    if (size.width &#x2F; size.height &lt; rect.size.width &#x2F; rect.size.height) &#123; &#x2F;&#x2F;图片宽不够</span><br><span class="line">                        scale &#x3D; rect.size.height &#x2F; size.height; &#x2F;&#x2F;拉伸高</span><br><span class="line">                    &#125; else &#123;</span><br><span class="line">                        scale &#x3D; rect.size.width &#x2F; size.width;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    if (size.width &#x2F; size.height &lt; rect.size.width &#x2F; rect.size.height) &#123; &#x2F;&#x2F;图片宽不够</span><br><span class="line">                        scale &#x3D; rect.size.width &#x2F; size.width; &#x2F;&#x2F;拉伸宽</span><br><span class="line">                    &#125; else &#123;</span><br><span class="line">                        scale &#x3D; rect.size.height &#x2F; size.height;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                size.width *&#x3D; scale;</span><br><span class="line">                size.height *&#x3D; scale;</span><br><span class="line">                rect.size &#x3D; size;</span><br><span class="line">                rect.origin &#x3D; CGPointMake(center.x - size.width * 0.5, center.y - size.height * 0.5);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; break;</span><br><span class="line">        case ZAEImageScaleModeFill:</span><br><span class="line">        default: &#123;</span><br><span class="line">            rect &#x3D; rect;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return rect;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/02/06/2020-02-06-iOS%E5%9B%BE%E7%89%87%E7%9A%84%E7%BC%A9%E6%94%BE/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -654,41 +588,14 @@
 </blockquote>
 <p>如果没有标注“医用外科口罩”的就别买,<br>在“<a href="http://www.nmpa.gov.cn/WS04/CL2042/" target="_blank" rel="noopener">国家药品监督管理局</a>”搜索口罩的械注准字号,该字号下的产品规格、批准日期、有效日期等都能被查到.</p>
 <h4 id="N95型口罩"><a href="#N95型口罩" class="headerlink" title="N95型口罩"></a>N95型口罩</h4><p>N95并不是特定的牌子,N95型口罩是NIOSH（美国国家职业安全卫生研究所，National Institute for Occupational Safety and Health）认证的9种颗粒物防护口罩中的一种。“N”表示不耐油（not resistant to oil）。“95”表示暴露在规定数量的专用试验粒子下，口罩内的粒子浓度要比口罩外粒子浓度低95%以上。其中95%这一数值不是平均值，而是最小值。N95不是特定的产品名称，只要符合N95标准，并且通过NIOSH审查的产品就可以称为“N95型口罩”。防护等级为N95级表示在NIOSH标准规定的检测条件下，口罩滤料对非油性颗粒物（如粉尘、酸雾、漆雾、微生物等）的过滤效率达到95%。</p>
-<p>NIOSH认证的其他防颗粒物口罩级别还包括：N95、N99、N100、R95、R99、R100、P95、P99、P100，共9种。这些防护级别都能够覆盖N95的防护范围。<br>“N”表示不耐油（not resistant to oil），适合非油性颗粒物。<br>“R”表示耐油（resistant to oil），适合油性或非油性颗粒物，若用于油性颗粒物的防护，使用时间不超过8小时。<br>“P”表示防油（oil proof），适合油性或非油性颗粒物，若用于油性颗粒物，使用时间应遵循制造商的建议。<br>“95”、“99”和“100”是指用0.3微米颗粒进行测试时的过滤效率水平。“95”表示过滤效率在95%以上，“99”表示过滤效率在99%以上，“100”表示过滤效率在99.7%以上。</p>
-<blockquote>
-<p> N95和KN95的区别</p>
-</blockquote>
-<p>N95是美国NIOSH制定的标准,而KN95是中国标准和N95几乎是一样的.还有其他的一些标准比如日本DS2、欧洲FFP2标准等都和N95口罩相当.在买不到N95的情况下,KN90也是可以的,只是过滤效率比较低一点但也是有用的.</p>
-<blockquote>
-<p>N95型口罩真假鉴定</p>
-</blockquote>
-<p>所有 NIOSH-Approved N95口罩品 牌和型号在 CDC 这个网页 (<a href="https://www.cdc.gov/niosh/npptl/topics/respirators/disp_part/n95list1.html)。大家购买时搜索一下该产品有没有在" target="_blank" rel="noopener">https://www.cdc.gov/niosh/npptl/topics/respirators/disp_part/n95list1.html)。大家购买时搜索一下该产品有没有在</a> CDC 的 名单上。</p>
-<p>正规厂家的 N95 口罩，每一个口罩上面都应该有如下标识:</p>
-<p>NIOSH 认可的制造商名字或注册商标。</p>
-<p>大写 NIOSH 字母或 Logo。</p>
-<p>NIOSH 测试和认证批准号，例如 TC-84A-XXXX。</p>
-<p>NIOSH 过滤器系列和过滤器效率等级，例如 N95，N99，N100，R95， P95，P99，P100。</p>
-<p>口罩型号，如 9010、1860。</p>
-<h4 id="使用注意事项"><a href="#使用注意事项" class="headerlink" title="使用注意事项"></a>使用注意事项</h4><ol>
-<li>戴口罩前应洗手，或者在戴口罩过程中避免手接触到口罩内侧面，减少口罩被污染的可能。</li>
-<li>分清楚口罩的内外、上下。</li>
-<li>不要用手去挤压口罩，N95口罩只能把病毒隔离在口罩表层，如果用手挤压口罩，使得病毒随飞沫湿透口罩，容易造成病毒感染。</li>
-<li><strong>要尽量使口罩与面部有良好的密合</strong>。简单的试验方法是：戴上口罩后，用力呼气，空气不能从口罩边缘漏出。</li>
-<li>防护口罩必须和使用者脸部紧贴，使用者必须刮净胡须，确保口罩能够与脸部密合，胡须以及垫在口罩密封垫和脸部之间的任何东西都会使口罩出现泄漏。</li>
-<li>根据自己的脸型调整好口罩的位置后，应用两手的食指沿着口罩的上缘按压鼻夹，使它与面部紧贴 。</li>
-</ol>
-<h4 id="更换口罩"><a href="#更换口罩" class="headerlink" title="更换口罩"></a>更换口罩</h4><p>一般的口罩建议每隔2～4小时换一次口罩.</p>
-<p>当出现以下情况时，应及时更换口罩：</p>
-<ol>
-<li>呼吸阻抗明显增加时；</li>
-<li>口罩有破损或损坏时；</li>
-<li>口罩与面部无法密合时；</li>
-<li>口罩受污染（如染有血渍或飞沫等异物时）；</li>
-<li>口罩已被污染（曾使用于个例病房或病患接触）；</li>
-<li>若为含有活性炭口罩，口罩内有异味时；</li>
-<li>口罩使用时长超过建议时长时。</li>
-</ol>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/02/02/2020-02-02-%E5%85%B3%E4%BA%8E%E5%8F%A3%E7%BD%A9%E7%9A%84%E5%87%A0%E7%82%B9%E6%84%8F%E8%A7%81%E5%92%8C%E5%BB%BA%E8%AE%AE/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -763,16 +670,14 @@
 <p><img src="http://upload-images.jianshu.io/upload_images/1503319-c696a9cd1495d68f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/200" alt="loading.png">  </p>
 <p>只需要将后面的宽度更改就可以了.这种改链接有效果的原因是因为服务器根据图片链接对原图进行了缩放并返回.这种方案需要服务器支持对图片链接的识别并进行对应的缩放.</p>
 <h4 id="使用HTML-img标签并设置width和height"><a href="#使用HTML-img标签并设置width和height" class="headerlink" title="使用HTML img标签并设置width和height"></a>使用HTML img标签并设置width和height</h4><p>Markdown语法:</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;img <span class="attribute">src</span>=<span class="string">"http://p1-ks3.532106.com/33f925f1f92649678221088fdfb531a1.jpg"</span> <span class="attribute">alt</span>=<span class="string">"图片替换文本"</span> <span class="attribute">width</span>=<span class="string">"500"</span> <span class="attribute">height</span>=<span class="string">"313"</span> <span class="attribute">align</span>=<span class="string">"bottom"</span> /&gt;</span><br></pre></td></tr></table></figure>
-<p>只需要更改上面的属性width或height的值就可以了,<code>align=&quot;bottom&quot;</code>可以省略或根据需要设置其他值如<code>top , bottom , middle , left , right</code>.</p>
-<p>原始图像效果:<br><img src="http://p1-ks3.532106.com/33f925f1f92649678221088fdfb531a1.jpg" alt="mytest.jpg"></p>
-<p>更改后</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;img <span class="attribute">src</span>=<span class="string">"http://p1-ks3.532106.com/33f925f1f92649678221088fdfb531a1.jpg"</span> <span class="attribute">alt</span>=<span class="string">"图片替换文本"</span> <span class="attribute">width</span>=<span class="string">"200"</span> <span class="attribute">height</span>=<span class="string">"300"</span> <span class="attribute">align</span>=<span class="string">"bottom"</span> /&gt;</span><br></pre></td></tr></table></figure>
-<p>效果:</p>
-<p><img src="http://p1-ks3.532106.com/33f925f1f92649678221088fdfb531a1.jpg" alt="图片替换文本" width="200" height="300" align="bottom" /></p>
-<h4 id="自己处理图片大小-重新生成图片链接"><a href="#自己处理图片大小-重新生成图片链接" class="headerlink" title="自己处理图片大小,重新生成图片链接"></a>自己处理图片大小,重新生成图片链接</h4><p>终极方案,无需考虑各大Markdown编辑器兼容性问题.</p>
-<h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><p>每家的Markdown编辑器语法会有所不同,因此在一个编辑器下写的Markdown复制到另一家的编辑器下,显示可能会有差异.</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/01/26/2020-01-26-Markdown%E6%9B%B4%E6%94%B9%E5%9B%BE%E7%89%87%E5%A4%A7%E5%B0%8F/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -822,7 +727,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-01 13:48:37" itemprop="dateModified" datetime="2020-03-01T13:48:37+08:00">2020-03-01</time>
+                <time title="修改时间：2020-03-01 14:01:14" itemprop="dateModified" datetime="2020-03-01T14:01:14+08:00">2020-03-01</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -855,7 +760,14 @@
 <p><code>- (id)performSelector:(SEL)aSelector withObject:(id)object;</code>参数问题.<br>结论:performSelector的object参数只能为对象类型,其selector参数对应方法的参数也必须为对象类型,如果为基本数据类型则值不可预知,这个时候只能使用NSInvocation.</p>
 <p>测试代码如下:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;ViewController.h&quot;</span><br><span class="line"></span><br><span class="line">@interface ViewController ()</span><br><span class="line"></span><br><span class="line">@property (nonatomic, assign) BOOL val;</span><br><span class="line"></span><br><span class="line">@property (nonatomic, assign) int num;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation ViewController</span><br><span class="line"></span><br><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    </span><br><span class="line">    self.val&#x3D; YES;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)changeMyVal:(BOOL)param &#123;</span><br><span class="line">    NSLog(@&quot;%d&quot;, param);</span><br><span class="line">    self.val &#x3D; param;</span><br><span class="line">    NSLog(@&quot;%d&quot;, self.val);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)changeNumber:(int)param &#123;</span><br><span class="line">    NSLog(@&quot;%d&quot;, param);</span><br><span class="line">    self.num &#x3D; param;</span><br><span class="line">    NSLog(@&quot;%d&quot;, self.num);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)changeNumberObj:(NSNumber *)param &#123;</span><br><span class="line">    NSLog(@&quot;%d&quot;, param.intValue);</span><br><span class="line">    self.num &#x3D; param.intValue;</span><br><span class="line">    NSLog(@&quot;%d&quot;, self.num);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)touchesBegan:(NSSet&lt;UITouch *&gt; *)touches withEvent:(UIEvent *)event</span><br><span class="line">&#123;</span><br><span class="line">    [super touchesBegan:touches withEvent:event];</span><br><span class="line">    </span><br><span class="line">    &#x2F;&#x2F;performSelector的object参数只能为对象类型,其selector参数对应方法的参数也必须为对象类型,如果为基本数据类型则值不可预知.</span><br><span class="line">    [self performSelector:@selector(changeMyVal:) withObject:@(0) afterDelay:2]; &#x2F;&#x2F;self.val的值每次运行随机0或1</span><br><span class="line">&#x2F;&#x2F;    [self performSelector:@selector(changeMyVal:) withObject:@(1) afterDelay:2]; &#x2F;&#x2F;self.val的值每次运行随机0或1.大多数情况下是0</span><br><span class="line">&#x2F;&#x2F;    [self performSelector:@selector(changeMyVal:) withObject:@(234) afterDelay:2]; &#x2F;&#x2F;self.val的值每次运行随机0或1.</span><br><span class="line">    </span><br><span class="line">&#x2F;&#x2F;    [self performSelector:@selector(changeNumber:) withObject:@(25) afterDelay:2]; &#x2F;&#x2F;self.num &#x3D; -1985119076;(每次运行都不一样的)</span><br><span class="line">    </span><br><span class="line">&#x2F;&#x2F;    [self performSelector:@selector(changeNumberObj:) withObject:@(25) afterDelay:2]; &#x2F;&#x2F;self.num &#x3D; 25;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/11/25/2019-11-25-OC%20BOOL%E7%B1%BB%E5%9E%8B/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -938,30 +850,14 @@
 <figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --<span class="keyword">global</span> http.http<span class="variable">s:</span>//github.<span class="keyword">com</span>.proxy http<span class="variable">s:</span>//<span class="number">127.0</span>.<span class="number">0.1</span>:xxxxx</span><br><span class="line">git config --<span class="keyword">global</span> https.http<span class="variable">s:</span>//github.<span class="keyword">com</span>.proxy http<span class="variable">s:</span>//<span class="number">127.0</span>.<span class="number">0.1</span>:xxxxx</span><br></pre></td></tr></table></figure>
 <p>或者</p>
 <figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config <span class="params">--global</span> http.https:<span class="string">//github.com.proxy</span> socks5:<span class="string">//127.0.0.1</span><span class="function">:xxxxx</span></span><br><span class="line">git config <span class="params">--global</span> https.https:<span class="string">//github.com.proxy</span> socks5:<span class="string">//127.0.0.1</span><span class="function">:xxxxx</span></span><br></pre></td></tr></table></figure>
-<p><code>xxxxx</code>为你的HTTP(S)代理服务器的端口.为什么有两种设置,不知道.反正都试一下.</p>
-<p>对应的取消设置为:</p>
-<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config <span class="params">--global</span> <span class="params">--unset</span> http.https:<span class="string">//github.com.proxy</span></span><br><span class="line">git config <span class="params">--global</span> <span class="params">--unset</span> https.https:<span class="string">//github.com.proxy</span></span><br></pre></td></tr></table></figure>
-<p>这个时候git clone可以达到500kb.</p>
-<p>ps:</p>
-<p>Git 自带一个 git config 的工具来帮助设置控制 Git 外观和行为的配置变量。 这些变量存储在三个不同的位置：</p>
-<ol>
-<li><p>/etc/gitconfig 文件: 包含系统上每一个用户及他们仓库的通用配置。 如果使用带有 —system 选项的 git config 时，它会从此文件读写配置变量。</p>
-</li>
-<li><p>~/.gitconfig 或 ~/.config/git/config 文件：只针对当前用户。 可以传递 —global 选项让 Git 读写此文件。</p>
-</li>
-<li><p>当前使用仓库的 Git 目录中的 config 文件（就是 .git/config）：针对该仓库。</p>
-</li>
-</ol>
-<p>每一个级别覆盖上一级别的配置，所以 .git/config 的配置变量会覆盖 /etc/gitconfig 中的配置变量。</p>
-<p>参考:</p>
-<p><a href="https://git-scm.com/book/zh/v2/%E8%B5%B7%E6%AD%A5-%E5%88%9D%E6%AC%A1%E8%BF%90%E8%A1%8C-Git-%E5%89%8D%E7%9A%84%E9%85%8D%E7%BD%AE" target="_blank" rel="noopener">1.6 起步 - 初次运行 Git 前的配置</a></p>
-<p><a href="https://git-scm.com/book/zh/v2/%E8%87%AA%E5%AE%9A%E4%B9%89-Git-%E9%85%8D%E7%BD%AE-Git" target="_blank" rel="noopener">8.1 自定义 Git - 配置 Git</a></p>
-<h4 id="让Mac终端走代理"><a href="#让Mac终端走代理" class="headerlink" title="让Mac终端走代理"></a>让Mac终端走代理</h4><p><code>vim ~/.zshrc</code>打开<code>.zshrc</code>文件.(我这里用的是zsh)<br>添加</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">alias</span> proxy=<span class="string">'export all_proxy=socks5://127.0.0.1:xxxxx'</span></span><br><span class="line"><span class="built_in">alias</span> unproxy=<span class="string">'unset all_proxy'</span></span><br></pre></td></tr></table></figure>
-<p><code>proxy</code>开启代理.对应的<code>unproxy</code>是关闭.<br>执行<code>curl cip.cc</code>或<code>curl  https://www.dropbox.com</code>检测是否翻墙成功.<br>终端没走代理前git clone都是失败的,走代理后git clone可以工作但只有5kb左右.因此还是需要单独配置上面的git clone.</p>
-<p>参考: <a href="https://zhuanlan.zhihu.com/p/47849525" target="_blank" rel="noopener">MaxOSX终端走shadowsocks代理</a>.<br>我自己试了一下能用,但晚上11点的速度也不是很快,可能不是独享网络的原因吧.早上6点又试了一下很快. </p>
-<p>另:CocoaPods升级到1.8.0+后,版本变化导致的一些问题.<br>参考:<a href="https://zhaoxin.pro/15695124897584.html" target="_blank" rel="noopener">脱离CocoaPods 1.8.0的trunk</a><br>在国内还是暂时不要使用trunk,它会让你变得更慢而且还会失败.由于CocoaPods在1.8.0后默认使用trunk,我们可以移除trunk,继续使用master,但此时需要在Podfile文件中指定源<br><code>source &#39;https://github.com/CocoaPods/Specs.git&#39;</code>.</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/11/06/2019-11-06-pod%20install%E6%85%A2%E8%A7%A3%E5%86%B3/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1037,38 +933,14 @@
 <p>R<sub>d</sub> * 365 = R<sub>y</sub></p>
 <p>R<sub>d</sub> * 365就表示将日收益率进行年化,得到的结果R<sub>y</sub>就是年化收益率.如果你能保证以后的日收益率都是这么多,那R<sub>y</sub>就是年收益率了,但对于基金来说它每天的收益率是在不断变化的,所以只能称为年化收益率.</p>
 <p>OK,前戏的部分终于讲完了,现在开始正式进入主题.</p>
-<p>7日年化收益率其实是说过去七天货币基金的平均收益率.举个例子,10月11日显示的余额宝七日年化收益率是2.3280%,是指10月4日-10月10日过去这七天的平均年化收益率.即这7天的总收益除以7得到平均每天的收益,也就是平均日收益,那么平均日收益率 = 平均日收益 / 本金.接下来就是把它年化一下,根据上面的公式可得七日年化收益率 = 平均日收益率 <em> 365 = 7天的总收益 / 7 / 本金 </em> 365.</p>
-<p>让我们再深入一点:</p>
-<p>假设m为本金,存n天后获得的总收益为i.那么n日年化收益率计算如下:</p>
-<p>先计算日收益率R<sub>d</sub> = i / n / m,</p>
-<p>再年化得到年化收益率R<sub>y</sub> = R<sub>d</sub> <em> 365 = i / n / m </em> 365.</p>
-<p>n为7则R<sub>y</sub>就表示7日年化收益率.<br>n为15则R<sub>y</sub>就表示15日年化收益率.<br>n为30则R<sub>y</sub>就表示30日年化收益率.<br>…<br>n为365则R<sub>y</sub>就表示365日年化收益率.<br>n越大表明该理财产品过去的收益越平稳.值得注意的是不管n为多大它都不能预示未来也会这样平稳,只能说可能性会更高一点.因为它只代表过去是这样,和银行的定期理财承诺4%是不一样的.</p>
-<p>一只基金它的7日年化收益率和30日年化收益率可能不相等,大多数情况下也不会相等,如果30日年化收益率大于7日年化收益率说明该基金近期在下跌.反之在上涨.</p>
-<p>接下来我们计算一下,一个基金的年化收益率要多少才能”保证”10000元1天能够有1元的收益,这应该才是大伙关注的.</p>
-<p>有了上面的公式,这都不叫事.先算日收益率</p>
-<p>R<sub>d</sub> = 1 / 10000,</p>
-<p>再年化一下</p>
-<p>R<sub>y</sub> = R<sub>d</sub> * 365 = 3.65%.</p>
-<p>即一个基金的年化收益率要3.65%才能”保证”10000元1天能够有1元的收益.我们再来看一下余额宝借呗,它显示日利率万3也就是借1万元用一天要还3元.我们可以算一下放贷方的年化收益率 = 3 / 10000 <em> 365 = 3 </em> 3.65% = 10.95%.差不多11%的年化收益率.试问现在还能找到几个超过4%的<strong>稳健</strong>基金,可见放贷真的是暴利,借贷需谨慎啊!</p>
-<h4 id="二、-万份收益"><a href="#二、-万份收益" class="headerlink" title="二、 万份收益"></a>二、 万份收益</h4><p>万份收益是指货币基金1万块钱1天的收益.一般在余额宝看到的万份收益是1万块钱放在余额宝里昨天一天所得的收益,不是今天的收益.</p>
-<p>万份收益与7日年化收益率有什么关系呢?</p>
-<p>先说结论:根据7日年化收益率计算出的万份收益其实是期望万份收益并不等于(实际)万份收益.</p>
-<blockquote>
-<p>声明:以下的万份收益和7日年化收益率都是指昨日的,因为今日的万份收益与7日年化收益率在没收市之前是无法知道的,今天可能涨,跌也可能持平.</p>
-</blockquote>
-<p>举个例子:</p>
-<p>10月11日余额宝显示的七日年化收益率是2.3280%(即10月10日的7日年化收益率为2.3280%),我们可以算一下在这个收益率下10000元1天只能得到2.3280% / 365 * 10000 = 0.6378元.如果你还记得10000元1天能够有1元的收益,年化收益率为3.65%的话,你可以以这个为基准快速计算上面的结果2.3280% / 3.65% = 0.6378元,即为10月10日的”万份收益”.不过我们会发现余额宝实际显示的10月10日万份收益为0.6266元,相差0.0112元.</p>
-<p>为什么会相差0.0112呢?</p>
-<p>除了计算精度影响外,还有没有其他原因呢?我们可以算一下10月10日的1日年化收益率= 0.6266 * 3.65% = 2.2871% &lt; 2.3280%,说明前六天的比10月10日的要高,平均下来后计算出10月10日的七日年化收益率比当天的年化收益率要高,这说明余额宝对应的基金其实是在下跌.因此另一个原因就是10月10日的日收益率低于前几天的日收益率,基金在下跌.</p>
-<p>这说明了根据7日年化收益率计算出的万份收益其实是期望万份收益并不等于(实际)万份收益.</p>
-<p>引申一下可以得出以下结论:</p>
-<ol>
-<li>昨日的年化收益率可以大于、等于、小于昨日的7日年化收益率.大于说明基金昨日涨了,反之说明跌了.</li>
-<li>昨日的万份收益可以大于、等于、小于以昨日的7日年化收益率计算出的万份收益(个人把它叫做期望万份收益,反正我就这么叫了).</li>
-<li>基金的年化收益率只表明过去的收益情况,并不保证未来的收益.因此基金才有各种风险等级,风险越低的基金说明它很稳你基本上可以确定根据7日年化收益率计算出的收益就是明天的收益.反之风险越高,那它的7日年化收益率就真的只能参考了.所以不能盲目看年化收益率也要看一下风险等级.</li>
-</ol>
-<p>写到这里终于结束了,不经意间一缕阳光悄悄的穿过树叶的缝隙洒落在书桌上,心里也不再难受,但看着余额宝昨日的收益,似乎感觉到前面的路依然充满荆棘,所以额…你懂得.</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/10/13/2019-10-13-%E4%BB%8E7%E6%97%A5%E5%B9%B4%E5%8C%96%E6%94%B6%E7%9B%8A%E7%8E%87%E5%88%B0%E4%B8%87%E4%BB%BD%E6%94%B6%E7%9B%8A/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1157,37 +1029,14 @@
 <blockquote>
 <p>搭建一个IPsec/L2TP VPN</p>
 </blockquote>
-<p>用于iPhone翻墙.</p>
-<p><a href="https://wistbean.github.io/ipsec,l2tp_vpn.html#%E4%BD%BF%E7%94%A8-IPsec-L2TP-%E8%84%9A%E6%9C%AC%E6%90%AD%E5%BB%BA" target="_blank" rel="noopener">CentOS快速搭建一个属于自己的IPsec/L2TP VPN</a></p>
-<p>如果你的vps开启了防火墙,则还需要开启特定端口.否则可能连接不上.</p>
-<p><strong>开启特定端口:</strong></p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd <span class="attribute">--zone</span>=public <span class="attribute">--add-port</span>=4500/udp --permanent</span><br><span class="line">firewall-cmd <span class="attribute">--zone</span>=public <span class="attribute">--add-port</span>=4500/tcp --permanent</span><br></pre></td></tr></table></figure>
-<p>对应的<strong>删除特定端口:</strong></p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd <span class="attribute">--zone</span>=public <span class="attribute">--remove-port</span>=4500/udp --permanent</span><br><span class="line">firewall-cmd <span class="attribute">--zone</span>=public <span class="attribute">--remove-port</span>=4500/tcp --permanent</span><br></pre></td></tr></table></figure>
-<p>之后运行<code>firewall-cmd --reload</code>或<code>firewall-cmd --complete-reload</code>重启就ok了。一般运行前者即可.</p>
-<p><strong>重启防火墙:</strong><br><code>systemctl restart firewalld.service</code></p>
-<p><strong>查看开启的端口:</strong><br><code>firewall-cmd --list-ports</code></p>
-<p>ps:</p>
-<p><code>systemctl start firewalld.service</code>  </p>
-<p>提示:</p>
-<p><code>Failed to start firewalld.service: Unit is masked.</code></p>
-<p>这是由于firewalld服务被锁定了.</p>
-<p>取消firewalld的锁定:<code>systemctl unmask firewalld</code>.</p>
-<p>重新锁定firewalld时执行命令:<code>systemctl mask firewalld</code></p>
-<h4 id="参考"><a href="#参考" class="headerlink" title="参考:"></a>参考:</h4><p><a href="https://blog.csdn.net/zll_0405/article/details/81208606" target="_blank" rel="noopener">CentOS7开启防火墙及特定端口</a></p>
-<p>更改vultr主机登录密码:<a href="https://zhuanlan.zhihu.com/p/35779715" target="_blank" rel="noopener">Vultr 修改 Root 密码的方法</a></p>
-<h4 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h4><p>坑1:<code>ssh root@&lt;ip&gt;</code>登录不上<br>发现是重新购买的vps和上一次的IP相同导致.需要将本地<code>/.ssh/known_hosts</code>之前的那一条记录删除掉.重启终端.</p>
-<p>坑2:按照网上的教程步骤总是失败提示<code>[Error] libsodium-1.0.17 install failed</code><br>发现是网上的脚本不支持centOS8,而购买vps时默认是centOS8,所以在购买时需要手动选择为centOS7.最好的办法是研究一下脚本内容,自己整.</p>
-<h3 id="ss的代理端口被墙"><a href="#ss的代理端口被墙" class="headerlink" title="ss的代理端口被墙"></a>ss的代理端口被墙</h3><p>解决办法:登录<code>ssh root@&lt;ip&gt;</code>,更换SS服务端口.</p>
-<p><strong>更换SS服务端口</strong></p>
-<p>编辑ShadowSocks配置文件:<code>vi /etc/shadowsocks.json</code><br>修改”server_port”: xxxx为一个非常用端口，保存。格式如下：</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line"><span class="attr">"server"</span>:<span class="string">"0.0.0.0"</span>,</span><br><span class="line"><span class="attr">"server_port"</span>: xxxx,</span><br><span class="line"><span class="attr">"local_address"</span>:<span class="string">"127.0.0.1"</span>,</span><br><span class="line"><span class="attr">"local_port"</span>:<span class="number">1080</span>,</span><br><span class="line"><span class="attr">"port_password"</span>:<span class="string">"mypassword"</span>,</span><br><span class="line"><span class="attr">"timeout"</span>:<span class="number">600</span>,</span><br><span class="line"><span class="attr">"method"</span>:<span class="string">"aes-256-cfb"</span>,</span><br><span class="line"><span class="attr">"fast_open"</span>:<span class="literal">false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>重启服务：<code>ssserver -c /etc/shadowsocks.json -d restart</code></p>
-<p>别忘了如果你的vps开启了防火墙,则还需要在防火墙中开启上述端口.</p>
-<p>参考:</p>
-<p><a href="https://www.flyzy2005.com/fan-qiang/tcp-blocked/" target="_blank" rel="noopener">服务器IP能Ping通，SSH能连接，代理却连不上的说明与解决</a></p>
-<p><a href="https://www.sinocalife.com/change-ports-to-prevent-ss-from-banning" target="_blank" rel="noopener">ShadowSocks：更改SS端口号防止被墙</a></p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/10/03/2019-10-03-VPN%E6%90%AD%E5%BB%BA/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1290,6 +1139,11 @@
       </div>
   </nav>
 </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xq-120" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xq-120" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
 
 
 

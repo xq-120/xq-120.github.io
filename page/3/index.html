@@ -251,21 +251,15 @@
 <figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var ot: <span class="keyword">String</span>!</span><br><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> os = try ot!</span><br><span class="line">    <span class="keyword">print</span>(os)</span><br><span class="line">&#125; catch &#123;</span><br><span class="line">    <span class="keyword">print</span>(<span class="built_in">error</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>上述代码依旧崩溃.</p>
 <p>看来以后使用try-catch得注意下了.</p>
-<h3 id="try-catch能够捕获什么样的错误呢"><a href="#try-catch能够捕获什么样的错误呢" class="headerlink" title="try-catch能够捕获什么样的错误呢?"></a>try-catch能够捕获什么样的错误呢?</h3><p>编程错误也就是异常都是不能捕获的.比如对nil强制解包,数组越界,非法参数等.<br>只有可恢复的错误才可以捕获.</p>
-<p><a href="https://stackoverflow.com/questions/24010569/error-handling-in-swift-language" target="_blank" rel="noopener">Error-Handling in Swift-Language
-</a></p>
-<p>但在OC中是可以捕获异常的:</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@try</span> &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"@try"</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">NSString</span> *s = <span class="string">@"xx"</span>;</span><br><span class="line">    s = [s stringByAppendingString:<span class="literal">nil</span>];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"%@"</span>, s);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@catch</span> (<span class="built_in">NSException</span> *exception) &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"exception:%@"</span>, exception);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@finally</span> &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"@finally"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>上述代码加了try-catch后就不会崩溃.</p>
-<p>Swfit中的try-catch只是用来进行错误处理的,因此只能捕获错误,不能捕获异常.</p>
-<h3 id="Swift的错误处理（Error-handling）"><a href="#Swift的错误处理（Error-handling）" class="headerlink" title="Swift的错误处理（Error handling）"></a>Swift的错误处理（Error handling）</h3><p>错误处理（Error handling）是响应错误以及从错误中恢复的过程。Swift 提供了在运行时对可恢复错误的抛出、捕获、传递和操作的一等公民支持。</p>
-<p>某些操作无法保证总是执行完所有代码或总是生成有用的结果。可选类型可用来表示值缺失，但是当某个操作失败时，最好能得知失败的原因，从而可以作出相应的应对。</p>
-<p>举个例子，假如有个从磁盘上的某个文件读取数据并进行处理的任务，该任务会有多种可能失败的情况，包括指定路径下文件并不存在，文件不具有可读权限，或者文件编码格式不兼容。区分这些不同的失败情况可以让程序解决并处理某些错误，然后把它解决不了的错误报告给用户。</p>
-<blockquote>
-<p>Swift中的错误处理类似于其他语言中的异常处理,比如都使用try，catch和throw关键字。和其他语言中（包括 Objective-C ）的异常处理不同的是，Swift 中的错误处理并不涉及unwinding调用栈(即调用栈展开)，这是一个计算代价高昂的过程。就此而言，throw语句的性能是可以和return语句相媲美的。</p>
-</blockquote>
-<p>由此可见Swift中的错误处理和异常处理不是同一个东西,只不过使用的关键字相同.</p>
-
+<h3 id="try-catch能够捕获什么样的错误呢"><a href="#try-catch能够捕获什么样的错误呢" class="headerlink" title="try-catch能够捕获什么样的错误呢?"></a>try-catch能够捕获什么样的错误呢?</h3>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/03/03/2019-03-03-%E4%BB%8EJSONSerialization%E5%B4%A9%E6%BA%83%E5%88%B0%E6%90%9E%E6%87%82Swift%E7%9A%84try-catch/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -379,10 +373,14 @@
 </div>
 <p>In iOS, Core Audio capabilities include recording, playback, sound effects, positioning, format conversion, and file stream parsing.<br>Core Audio Overview is for all developers interested in creating audio software. Before reading this document you should have basic knowledge of <strong>general audio, digital audio, and MIDI terminology</strong>.</p>
 <figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#import &lt;CoreAudio/CoreAudioTypes.h&gt;</span></span><br><span class="line">CF_ENUM(AudioFormatID)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">kAudioFormatLinearPCM</span>               = 'lpcm',</span><br><span class="line">    <span class="attr">kAudioFormatAC3</span>                     = 'ac-<span class="number">3</span>',</span><br><span class="line">    <span class="attr">kAudioFormat60958AC3</span>                = 'cac3',</span><br><span class="line">    <span class="attr">kAudioFormatAppleIMA4</span>               = 'ima4',</span><br><span class="line">    <span class="attr">kAudioFormatMPEG4AAC</span>                = 'aac ',</span><br><span class="line">    <span class="attr">kAudioFormatMPEG4CELP</span>               = 'celp',</span><br><span class="line">    <span class="attr">kAudioFormatMPEG4HVXC</span>               = 'hvxc',</span><br><span class="line">    <span class="attr">kAudioFormatMPEG4TwinVQ</span>             = 'twvq',</span><br><span class="line">    <span class="attr">kAudioFormatMACE3</span>                   = 'MAC3',</span><br><span class="line">    <span class="attr">kAudioFormatMACE6</span>                   = 'MAC6',</span><br><span class="line">    <span class="attr">kAudioFormatULaw</span>                    = 'ulaw',</span><br><span class="line">    <span class="attr">kAudioFormatALaw</span>                    = 'alaw',</span><br><span class="line">    <span class="attr">kAudioFormatQDesign</span>                 = 'QDMC',</span><br><span class="line">    <span class="attr">kAudioFormatQDesign2</span>                = 'QDM2',</span><br><span class="line">    <span class="attr">kAudioFormatQUALCOMM</span>                = 'Qclp',</span><br><span class="line">    <span class="attr">kAudioFormatMPEGLayer1</span>              = '.mp1',</span><br><span class="line">    <span class="attr">kAudioFormatMPEGLayer2</span>              = '.mp2',</span><br><span class="line">    <span class="attr">kAudioFormatMPEGLayer3</span>              = '.mp3',</span><br><span class="line">    <span class="attr">kAudioFormatTimeCode</span>                = 'time',</span><br><span class="line">    <span class="attr">kAudioFormatMIDIStream</span>              = 'midi',</span><br><span class="line">    <span class="attr">kAudioFormatParameterValueStream</span>    = 'apvs',</span><br><span class="line">    <span class="attr">kAudioFormatAppleLossless</span>           = 'alac',</span><br><span class="line">    <span class="attr">kAudioFormatMPEG4AAC_HE</span>             = 'aach',</span><br><span class="line">    <span class="attr">kAudioFormatMPEG4AAC_LD</span>             = 'aacl',</span><br><span class="line">    <span class="attr">kAudioFormatMPEG4AAC_ELD</span>            = 'aace',</span><br><span class="line">    <span class="attr">kAudioFormatMPEG4AAC_ELD_SBR</span>        = 'aacf',</span><br><span class="line">    <span class="attr">kAudioFormatMPEG4AAC_ELD_V2</span>         = 'aacg',    </span><br><span class="line">    <span class="attr">kAudioFormatMPEG4AAC_HE_V2</span>          = 'aacp',</span><br><span class="line">    <span class="attr">kAudioFormatMPEG4AAC_Spatial</span>        = 'aacs',</span><br><span class="line">    <span class="attr">kAudioFormatAMR</span>                     = 'samr',</span><br><span class="line">    <span class="attr">kAudioFormatAMR_WB</span>                  = 'sawb',</span><br><span class="line">    <span class="attr">kAudioFormatAudible</span>                 = 'AUDB',</span><br><span class="line">    <span class="attr">kAudioFormatiLBC</span>                    = 'ilbc',</span><br><span class="line">    <span class="attr">kAudioFormatDVIIntelIMA</span>             = <span class="number">0</span>x6D730011,</span><br><span class="line">    <span class="attr">kAudioFormatMicrosoftGSM</span>            = <span class="number">0</span>x6D730031,</span><br><span class="line">    <span class="attr">kAudioFormatAES3</span>                    = 'aes3',</span><br><span class="line">    <span class="attr">kAudioFormatEnhancedAC3</span>             = 'ec-<span class="number">3</span>'</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><p><code>&lt;&lt;Getting Started with Audio and Video&gt;&gt;</code><br><code>&lt;&lt;Core Audio Essentials&gt;&gt;</code></p>
-<p><a href="https://blog.csdn.net/bsplover/article/details/7426480" target="_blank" rel="noopener">常见音频编码格式总结</a></p>
-<p><a href="http://blog.51cto.com/huangfu3342/1613795" target="_blank" rel="noopener">音视频封装格式、编码格式知识</a></p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/12/20/2018-12-20-%E9%9F%B3%E8%A7%86%E9%A2%91%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%92%8C%E9%9F%B3%E8%A7%86%E9%A2%91%E7%BC%96%E8%A7%A3%E7%A0%81%E6%A0%BC%E5%BC%8F/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -528,17 +526,14 @@
 <h4 id="1-按下home键"><a href="#1-按下home键" class="headerlink" title="1.按下home键"></a>1.按下home键</h4><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">默认	<span class="number">23</span>:<span class="number">09</span>:<span class="number">50.067690</span> +<span class="number">0800</span>	pictureInMemory	-[AppDelegate applicationWillResignActive:]  应用状态:<span class="number">0</span></span><br><span class="line">默认	<span class="number">23</span>:<span class="number">09</span>:<span class="number">50.602224</span> +<span class="number">0800</span>	pictureInMemory	-[AppDelegate applicationDidEnterBackground:]  应用状态:<span class="number">2</span></span><br></pre></td></tr></table></figure>
 <p>1.1处于后台时,再点击图标</p>
 <figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">默认	<span class="number">23</span>:<span class="number">11</span>:<span class="number">34.897752</span> +<span class="number">0800</span>	pictureInMemory	-[AppDelegate applicationWillEnterForeground:]  应用状态:<span class="number">2</span></span><br><span class="line">默认	<span class="number">23</span>:<span class="number">11</span>:<span class="number">35.218295</span> +<span class="number">0800</span>	pictureInMemory	-[AppDelegate applicationDidBecomeActive:]  应用状态:<span class="number">0</span></span><br></pre></td></tr></table></figure>
-<p>1.2处于后台时,双击home进入多任务界面点击自身</p>
-<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">默认	<span class="number">23</span>:<span class="number">19</span>:<span class="number">12.051002</span> +<span class="number">0800</span>	pictureInMemory	-[AppDelegate applicationWillEnterForeground:]  应用状态:<span class="number">2</span></span><br><span class="line">默认	<span class="number">23</span>:<span class="number">19</span>:<span class="number">13.286377</span> +<span class="number">0800</span>	pictureInMemory	-[AppDelegate applicationDidBecomeActive:]  应用状态:<span class="number">0</span></span><br></pre></td></tr></table></figure>
-<h4 id="2-按下锁屏键"><a href="#2-按下锁屏键" class="headerlink" title="2. 按下锁屏键"></a>2. 按下锁屏键</h4><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">默认	<span class="number">23</span>:<span class="number">13</span>:<span class="number">07.542846</span> +<span class="number">0800</span>	pictureInMemory	-[AppDelegate applicationWillResignActive:]  应用状态:<span class="number">0</span></span><br><span class="line">默认	<span class="number">23</span>:<span class="number">13</span>:<span class="number">07.543049</span> +<span class="number">0800</span>	pictureInMemory	-[AppDelegate applicationDidEnterBackground:]  应用状态:<span class="number">2</span></span><br></pre></td></tr></table></figure>
-<p>2.1解锁</p>
-<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">默认	<span class="number">23</span>:<span class="number">17</span>:<span class="number">48.176320</span> +<span class="number">0800</span>	pictureInMemory	-[AppDelegate applicationWillEnterForeground:]  应用状态:<span class="number">2</span></span><br><span class="line">默认	<span class="number">23</span>:<span class="number">17</span>:<span class="number">48.872183</span> +<span class="number">0800</span>	pictureInMemory	-[AppDelegate applicationDidBecomeActive:]  应用状态:<span class="number">0</span></span><br></pre></td></tr></table></figure>
-<h4 id="3-双击home进入多任务界面"><a href="#3-双击home进入多任务界面" class="headerlink" title="3. 双击home进入多任务界面"></a>3. 双击home进入多任务界面</h4><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">默认	<span class="number">23</span>:<span class="number">14</span>:<span class="number">28.340768</span> +<span class="number">0800</span>	pictureInMemory	-[AppDelegate applicationWillResignActive:]  应用状态:<span class="number">0</span></span><br></pre></td></tr></table></figure>
-<p>3.1多任务点击其他APP</p>
-<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">默认	<span class="number">23</span>:<span class="number">15</span>:<span class="number">14.853798</span> +<span class="number">0800</span>	pictureInMemory	-[AppDelegate applicationDidEnterBackground:]  应用状态:<span class="number">2</span></span><br></pre></td></tr></table></figure>
-<p>3.2多任务点击自身</p>
-<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">默认	<span class="number">23</span>:<span class="number">15</span>:<span class="number">53.643633</span> +<span class="number">0800</span>	pictureInMemory	-[AppDelegate applicationDidBecomeActive:]  应用状态:<span class="number">0</span></span><br></pre></td></tr></table></figure>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/12/09/2018-12-09-APP%E7%8A%B6%E6%80%81%E5%8F%98%E5%8C%96/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -631,25 +626,14 @@
 <li>APP长时间没有响应事件</li>
 <li>某些特殊API的错误使用</li>
 </ul>
-<p>由于APP是在后台运行一段时间后被kill掉的,因此极有可能是某些特殊API的错误使用导致的,最终发现是向系统申请后台运行时间的API错误使用导致.</p>
-<p><strong>可长期处于后台状态的应用类型</strong></p>
-<p>对于需要执行更多执行时间的任务，必须请求特定权限才能在后台运行它们而不会被挂起。在iOS中，只允许在后台运行特定的应用类型：</p>
-<ul>
-<li>在后台播放用户可听内容的应用，例如音乐播放器应用</li>
-<li>在后台录制音频内容的应用程序</li>
-<li>可让用户随时了解其位置的应用，例如导航应用</li>
-<li>支持互联网协议语音（VoIP）的应用</li>
-<li>需要定期下载和处理新内容的应用</li>
-<li>从外部配件接收定期更新的应用程序</li>
-</ul>
-<h4 id="二、如何向系统申请后台运行时间"><a href="#二、如何向系统申请后台运行时间" class="headerlink" title="二、如何向系统申请后台运行时间"></a>二、如何向系统申请后台运行时间</h4><p>相关方法:</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">UIBackgroundTaskIdentifier</span>)beginBackgroundTaskWithExpirationHandler:(<span class="keyword">void</span>(^ __<span class="keyword">nullable</span>)(<span class="keyword">void</span>))handler  <span class="built_in">NS_AVAILABLE_IOS</span>(<span class="number">4</span>_0) <span class="built_in">NS_REQUIRES_SUPER</span>;</span><br><span class="line">- (<span class="built_in">UIBackgroundTaskIdentifier</span>)beginBackgroundTaskWithName:(<span class="keyword">nullable</span> <span class="built_in">NSString</span> *)taskName expirationHandler:(<span class="keyword">void</span>(^ __<span class="keyword">nullable</span>)(<span class="keyword">void</span>))handler <span class="built_in">NS_AVAILABLE_IOS</span>(<span class="number">7</span>_0) <span class="built_in">NS_REQUIRES_SUPER</span>;</span><br><span class="line">- (<span class="keyword">void</span>)endBackgroundTask:(<span class="built_in">UIBackgroundTaskIdentifier</span>)identifier <span class="built_in">NS_AVAILABLE_IOS</span>(<span class="number">4</span>_0) <span class="built_in">NS_REQUIRES_SUPER</span>;</span><br></pre></td></tr></table></figure>
-<p>通过<code>beginBackgroundTaskWithExpirationHandler:</code>方法可以向系统申请大约180s(iOS7)的后台运行时间,或者600s（iOS6）运行时间用以处理后台操作.</p>
-<p>示例:</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)backgroundDoSomethings &#123;</span><br><span class="line">    <span class="built_in">UIApplication</span> *application = [<span class="built_in">UIApplication</span> performSelector:<span class="keyword">@selector</span>(sharedApplication)];</span><br><span class="line">    __block <span class="built_in">UIBackgroundTaskIdentifier</span> bgTask = [application beginBackgroundTaskWithExpirationHandler:^&#123;</span><br><span class="line">        <span class="comment">// Clean up any unfinished task business by marking where you</span></span><br><span class="line">        <span class="comment">// stopped or ending the task outright.</span></span><br><span class="line">        [application endBackgroundTask:bgTask];</span><br><span class="line">        bgTask = <span class="built_in">UIBackgroundTaskInvalid</span>;</span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Start the long-running task and return immediately.</span></span><br><span class="line">    [<span class="keyword">self</span> doSomethingWithCompletionBlock:^&#123;</span><br><span class="line">        [application endBackgroundTask:bgTask];</span><br><span class="line">        bgTask = <span class="built_in">UIBackgroundTaskInvalid</span>;</span><br><span class="line">    &#125;];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)doSomethingWithCompletionBlock:(<span class="keyword">void</span> (^)(<span class="keyword">void</span>))completion</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">dispatch_async</span>(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, <span class="number">0</span>), ^&#123;</span><br><span class="line">       </span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@"开始睡"</span>);</span><br><span class="line">        sleep(<span class="number">175</span>);</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@"睡醒"</span>);</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (completion) &#123;</span><br><span class="line">            completion();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>特别注意</strong>:<br><code>beginBackgroundTaskWithExpirationHandler</code>一定要与<code>endBackgroundTask</code>配对使用,否则时间到后系统将直接kill掉你的APP,从而导致开头出现的问题.</p>
-<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><p><a href="https://developer.apple.com/library/archive/documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/TheAppLifeCycle/TheAppLifeCycle.html#//apple_ref/doc/uid/TP40007072-CH2-SW1" target="_blank" rel="noopener">App Programming Guide for iOS</a></p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/12/09/2018-12-09-iOS%20App%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -801,48 +785,14 @@
 <h4 id="符号解析"><a href="#符号解析" class="headerlink" title="符号解析"></a>符号解析</h4><p>注意:.dSYM 、.crash文件,二者的UUID必须一致解析才有意义.</p>
 <h5 id="获取-UUID"><a href="#获取-UUID" class="headerlink" title="获取 UUID"></a>获取 UUID</h5><p>.crash UUID</p>
 <p><code>grep --after-context=2 &quot;Binary Images:&quot; *crash</code></p>
-<p>.dSYM UUID</p>
-<p><code>dwarfdump --uuid myCrashDemo.app.dSYM</code></p>
-<p>.app UUID</p>
-<p><code>dwarfdump --uuid myCrashDemo.app/myCrashDemo</code></p>
-<h4 id="使用symbolicatecrash进行解析"><a href="#使用symbolicatecrash进行解析" class="headerlink" title="使用symbolicatecrash进行解析"></a>使用symbolicatecrash进行解析</h4><p>symbolicatecrash 是 Xcode 自带的 crash 日志分析工具.</p>
-<p>首先查找到它的路径:</p>
-<p><code>find /Applications/Xcode.app -name symbolicatecrash</code></p>
-<p>把 symbolicatecrash 拷贝出来，放到一个文件夹下。</p>
-<p>有两种方式解析:</p>
-<ol>
-<li><code>symbolicatecrash</code> + <code>.dSYM</code> + <code>.crash</code></li>
-<li><code>symbolicatecrash</code> + <code>.app</code> + <code>.crash</code></li>
-</ol>
-<p><strong>利用 dSYM</strong></p>
-<p>将 .dSYM 、.crash 及 symbolicatecrash 放到同一个文件下，执行命令：</p>
-<p><code>./symbolicatecrash .crash文件路径 .dSYM文件路径 &gt; 名字.crash</code></p>
-<p><strong>利用 app</strong></p>
-<p>将 .app 、.crash 及 symbolicatecrash 放到同一个文件下，执行命令：</p>
-<p><code>./symbolicatecrash .crash文件路径 .app/appName 路径 &gt; 名字.crash</code></p>
-<p>可能会报错误：</p>
-<p><code>Error: &quot;DEVELOPER_DIR&quot; is not defined at ./symbolicatecrash line 69.</code></p>
-<p>执行下命令就行：</p>
-<p><code>export DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer</code></p>
-<p>然后再重新生成下新的 .crash 文件就行。</p>
-<h4 id="使用命令行工具-atos"><a href="#使用命令行工具-atos" class="headerlink" title="使用命令行工具 atos"></a>使用命令行工具 atos</h4><p>同样也有两种方式</p>
-<ol>
-<li><code>.dSYM</code> + <code>.crash</code></li>
-<li><code>.app</code> + <code>.crash</code></li>
-</ol>
-<p>.dSYM方式</p>
-<p><code>xcrun atos -o ./myCrashDemo.app.dSYM/Contents/Resources/DWARF/myCrashDemo -arch 指令集(armv7或arm64) -l Slide地址</code></p>
-<p>接着输入错误的内存地址,即可看到.</p>
-<p>.app方式</p>
-<p><code>xcrun atos -o myCrashDemo.app/myCrashDemo -arch 指令集(armv7或arm64) -l Slide地址</code></p>
-<p>接着输入错误的内存地址.</p>
-<p>GitHub 上有个<code>dSYMTools</code>工具封装了<code>atos</code>命令，可以辅助我们解析.</p>
-<p>使用很方便,只要拖入dSYM文件,然后将错误地址以及Slide Address输入工具的文本框中即可.</p>
-<h4 id="Slide-address查看"><a href="#Slide-address查看" class="headerlink" title="Slide address查看"></a>Slide address查看</h4><p>在崩溃日志里面找到 Binary IImages: 这一块，Binary IImages: 下面第一行就是加载应用可执行文件的信息，大致如下：</p>
-<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Binary Images:</span><br><span class="line"><span class="number">0x100878000</span> - <span class="number">0x10087ffff</span> myCrashDemo arm64  &lt;dc8bc710db863d2ca08180537af8015e&gt; /var/containers/Bundle/Application/<span class="number">3</span>BCB5A1C<span class="number">-9</span>BD8<span class="number">-44</span>CD<span class="number">-84</span>EE<span class="number">-39128</span>C005B9F/myCrashDemo.app/myCrashDemo</span><br><span class="line"><span class="number">0x100938000</span> - <span class="number">0x10099bfff</span> dyld arm64  &lt;fc36be383ccf330abe42940868e68937&gt; /usr/lib/dyld</span><br><span class="line"><span class="number">0x102478000</span> - <span class="number">0x102483fff</span> libobjc-trampolines.dylib arm64  &lt;a8cd788cc9113887ae254bd47d58c7c1&gt; /usr/lib/libobjc-trampolines.dylib</span><br><span class="line"><span class="number">0x239546000</span> - <span class="number">0x239547fff</span> libSystem.B.dylib arm64  &lt;b3dbcc8e41b03e51b7e65d2800dcdea9&gt; /usr/lib/libSystem.B.dylib</span><br><span class="line"><span class="number">0x239548000</span> - <span class="number">0x2395a2fff</span> libc++<span class="number">.1</span>.dylib arm64  &lt;c406443c983a33829b164c441b7c2af4&gt; /usr/lib/libc++<span class="number">.1</span>.dylib</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-<p>其中 0x100878000 就是 slide address。<br>arm64 指的是 arm64 架构下，uuid 是 dc8bc710db863d2ca08180537af8015e.</p>
-<h4 id="错误的内存地址查看"><a href="#错误的内存地址查看" class="headerlink" title="错误的内存地址查看"></a>错误的内存地址查看</h4><p>内存地址是 Last Exception Backtraces 中每一行的第一个地址，分析其他行的时候你要看下是不是自己应用可执行文件那行，因为你这个 slide address 只对应到自己那个可执行文件，系统的一些库的 slide address 都不一样的。<br>其实分析一个 crash 文件并不要很长时间，只需要找到自己可执行文件对应的那行内存地址，slide address，和 arch type 这三个信息就可以了，并不是每一行错误信息都需要看。</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/12/05/2018-12-05-iOS%20crash%20%E6%97%A5%E5%BF%97%E5%A0%86%E6%A0%88%E8%A7%A3%E6%9E%90/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -924,10 +874,14 @@
 <h3 id="向系统申请后台运行时间"><a href="#向系统申请后台运行时间" class="headerlink" title="向系统申请后台运行时间"></a>向系统申请后台运行时间</h3><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)backgroundDoSomethings &#123;</span><br><span class="line">    <span class="built_in">UIApplication</span> *application = [<span class="built_in">UIApplication</span> performSelector:<span class="keyword">@selector</span>(sharedApplication)];</span><br><span class="line">    __block <span class="built_in">UIBackgroundTaskIdentifier</span> bgTask = [application beginBackgroundTaskWithExpirationHandler:^&#123;</span><br><span class="line">        <span class="comment">// Clean up any unfinished task business by marking where you</span></span><br><span class="line">        <span class="comment">// stopped or ending the task outright.</span></span><br><span class="line">        [application endBackgroundTask:bgTask];</span><br><span class="line">        bgTask = <span class="built_in">UIBackgroundTaskInvalid</span>;</span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Start the long-running task and return immediately.</span></span><br><span class="line">    [<span class="keyword">self</span> doSomethingWithCompletionBlock:^&#123;</span><br><span class="line">        [application endBackgroundTask:bgTask];</span><br><span class="line">        bgTask = <span class="built_in">UIBackgroundTaskInvalid</span>;</span><br><span class="line">    &#125;];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)doSomethingWithCompletionBlock:(<span class="keyword">void</span> (^)(<span class="keyword">void</span>))completion</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">dispatch_async</span>(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, <span class="number">0</span>), ^&#123;</span><br><span class="line">       </span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@"开始睡"</span>);</span><br><span class="line">        sleep(<span class="number">175</span>); <span class="comment">//200x 170√ 180x 175√</span></span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@"睡醒"</span>);</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (completion) &#123;</span><br><span class="line">            completion();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>实测运行的时间大致在175s左右,小于180s.即通过<code>beginBackgroundTaskWithExpirationHandler:</code>方法可以向系统申请大约180s的后台运行时间.</p>
 <p>相关方法:</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">UIBackgroundTaskIdentifier</span>)beginBackgroundTaskWithExpirationHandler:(<span class="keyword">void</span>(^ __<span class="keyword">nullable</span>)(<span class="keyword">void</span>))handler  <span class="built_in">NS_AVAILABLE_IOS</span>(<span class="number">4</span>_0) <span class="built_in">NS_REQUIRES_SUPER</span>;</span><br><span class="line">- (<span class="built_in">UIBackgroundTaskIdentifier</span>)beginBackgroundTaskWithName:(<span class="keyword">nullable</span> <span class="built_in">NSString</span> *)taskName expirationHandler:(<span class="keyword">void</span>(^ __<span class="keyword">nullable</span>)(<span class="keyword">void</span>))handler <span class="built_in">NS_AVAILABLE_IOS</span>(<span class="number">7</span>_0) <span class="built_in">NS_REQUIRES_SUPER</span>;</span><br><span class="line">- (<span class="keyword">void</span>)endBackgroundTask:(<span class="built_in">UIBackgroundTaskIdentifier</span>)identifier <span class="built_in">NS_AVAILABLE_IOS</span>(<span class="number">4</span>_0) <span class="built_in">NS_REQUIRES_SUPER</span>;</span><br></pre></td></tr></table></figure>
-<p><strong>特别注意</strong>:<br><code>beginBackgroundTaskWithExpirationHandler</code>一定要与<code>endBackgroundTask</code>配对使用,否则时间到后系统将直接kill掉你的APP.</p>
-<h3 id="如何延长APP后台运行时间-甚至无限长"><a href="#如何延长APP后台运行时间-甚至无限长" class="headerlink" title="如何延长APP后台运行时间?甚至无限长."></a>如何延长APP后台运行时间?甚至无限长.</h3><p>以后有空研究.</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/11/25/2018-11-25-iOS%20APP%E5%90%8E%E5%8F%B0%E8%BF%90%E8%A1%8C%E6%97%B6%E9%97%B4%E6%8E%A2%E7%A9%B6%E5%8F%8A%E5%BB%B6%E9%95%BF/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -999,20 +953,15 @@
 <h3 id="一、部署-Shadowsocks"><a href="#一、部署-Shadowsocks" class="headerlink" title="一、部署 Shadowsocks"></a>一、部署 Shadowsocks</h3><p>Shadowsocks 需要同时具备客户端和服务器端，所以它的部署也需要分两步。</p>
 <h4 id="1-1部署-Shadowsocks-服务器端"><a href="#1-1部署-Shadowsocks-服务器端" class="headerlink" title="1.1部署 Shadowsocks 服务器端"></a>1.1部署 Shadowsocks 服务器端</h4><h4 id="1-2-TCP-Fast-Open"><a href="#1-2-TCP-Fast-Open" class="headerlink" title="1.2 TCP Fast Open"></a>1.2 TCP Fast Open</h4><p>为了更好的连接速度，需要多做几步。首先是打开 TCP Fast Open.</p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"server"</span>:<span class="string">"0.0.0.0"</span>,</span><br><span class="line">    <span class="attr">"local_address"</span>:<span class="string">"127.0.0.1"</span>,</span><br><span class="line">    <span class="attr">"local_port"</span>:<span class="number">1080</span>,</span><br><span class="line">    <span class="attr">"port_password"</span>:&#123;</span><br><span class="line">        <span class="attr">"1234"</span>:<span class="string">"yourpassword"</span>,</span><br><span class="line">        <span class="attr">"2234"</span>:<span class="string">"yourpassword"</span>,</span><br><span class="line">        <span class="attr">"3234"</span>:<span class="string">"yourpassword"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"timeout"</span>:<span class="number">300</span>,</span><br><span class="line">    <span class="attr">"method"</span>:<span class="string">"aes-256-gcm"</span>,</span><br><span class="line">    <span class="attr">"fast_open"</span>:<span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="1-3安装-BBR"><a href="#1-3安装-BBR" class="headerlink" title="1.3安装 BBR"></a>1.3安装 BBR</h4><p>TCP BBR 是 Google 于 2016 年发布的，一种避免网络拥塞的算法。目的是要尽量跑满带宽, 并且尽可能避免排队的情况。</p>
-<p>实际使用下来，BBR 的速度提升效果并不比「锐速」（据说已倒闭）、kcptun（多倍发包耗流量）等差。而且 BBR 已植入 Linux 4.9+ 版本的内核中，服务器开启后就能有显著的效果提升。</p>
-<h4 id="二、安装期间的问题"><a href="#二、安装期间的问题" class="headerlink" title="二、安装期间的问题"></a>二、安装期间的问题</h4><p>主要是CentOS 7的防火墙,CentOS 7使用的是firewall防火墙,而博文里使用的是iptables防火墙.这在添加端口的方式有所不同.</p>
-<h4 id="附-CentOS-7-firewall-命令"><a href="#附-CentOS-7-firewall-命令" class="headerlink" title="附:CentOS 7 firewall 命令"></a>附:CentOS 7 firewall 命令</h4><p>查看firewall的状态<code>firewall-cmd --state</code> (关闭后显示notrunning，开启后显示running）</p>
-<p>查看已经开放的端口<code>firewall-cmd --list-ports</code>,更详细的检查防火墙规则<code>firewall-cmd --list-all</code></p>
-<p>开启端口<code>firewall-cmd --zone=public --add-port=80/tcp --permanent</code></p>
-<p>命令含义：</p>
-<p>–zone #作用域</p>
-<p>–add-port=80/tcp #添加端口，格式为：端口/通讯协议</p>
-<p>–permanent #永久生效，没有此参数重启后失效</p>
-<p>reload防火墙<code>firewall-cmd --reload #重启firewall</code></p>
-<p>对应的文件路径在<code>/etc/firewalld/zones/public.xml</code></p>
-<p>参考:<br><a href="https://blog.csdn.net/xlgen157387/article/details/52672988" target="_blank" rel="noopener">CentOS 7中firewall防火墙详解和配置以及切换为iptables防火墙</a></p>
-
+<h4 id="1-3安装-BBR"><a href="#1-3安装-BBR" class="headerlink" title="1.3安装 BBR"></a>1.3安装 BBR</h4>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/11/25/2018-11-25-VPS%20shadowsocks%E6%90%AD%E5%BB%BA/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1196,6 +1145,11 @@
       </div>
   </nav>
 </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xq-120" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xq-120" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
 
 
 

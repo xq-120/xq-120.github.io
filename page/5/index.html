@@ -557,12 +557,18 @@
 <figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//设置contentInset,会影响plain模式的组头位置.</span></span><br><span class="line">self.tableView.contentInset = UIEdgeInsetsMake(<span class="number">-20</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
 <p>在设置界面,cell上的分割线显示是个头疼的问题.UI经常设计为组头第一个cell顶部,组尾最后一个cell底部不显示分割线.虽然plain模式刚好是这个效果,但是plain模式中组头具有吸顶效果,这里又不用它吸顶.使用group模式分割线的显示隐藏更蛋疼,自定义cell又有点麻烦.</p>
 <p>示意图:</p>
-<p><img src="http://7xqoji.com1.z0.glb.clouddn.com/UITableView%E5%AE%9E%E8%B7%B5_%20contentInset_%E5%8F%96%E6%B6%88%E5%90%B8%E9%A1%B6.PNG" width="160" hegiht="284" /></p>
+<p><img src="http://7xqoji.com1.z0.glb.clouddn.com/UITableView%E5%AE%9E%E8%B7%B5_%20contentInset_%E5%8F%96%E6%B6%88%E5%90%B8%E9%A1%B6.PNG" width="160" hegiht="284"></p>
 <p>利用上面的办法就可以取消plain模式组头吸顶效果.</p>
 <p>实现代码如下:</p>
 <figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">void</span>)scrollViewDidScroll:(UIScrollView *)scrollView</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (scrollView == _tableView) &#123;</span><br><span class="line">        <span class="comment">//去掉UItableview的section的headerview黏性</span></span><br><span class="line">        CGFloat sectionHeaderHeight = <span class="number">10</span>;</span><br><span class="line">        <span class="keyword">if</span> (scrollView.contentOffset.y &lt;= sectionHeaderHeight &amp;&amp; scrollView.contentOffset.y &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            scrollView.contentInset = UIEdgeInsetsMake(-scrollView.contentOffset.y, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (scrollView.contentOffset.y &gt;= sectionHeaderHeight) &#123;</span><br><span class="line">            scrollView.contentInset = UIEdgeInsetsMake(-sectionHeaderHeight, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">- (<span class="built_in">void</span>)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(<span class="keyword">inout</span> CGPoint *)targetContentOffset</span><br><span class="line">&#123;</span><br><span class="line">    CGFloat sectionHeaderHeight = <span class="number">10</span>;</span><br><span class="line">    <span class="comment">//解决停止时,第一个组头不出现的bug.</span></span><br><span class="line">    <span class="keyword">if</span> ((*targetContentOffset).y == sectionHeaderHeight) &#123;</span><br><span class="line">        <span class="comment">//计算UIScrollView结束拖动所需的时间？这里暂时写死为0.85</span></span><br><span class="line">        [UIView animateWithDuration:<span class="number">0.85</span> delay:<span class="number">0</span> usingSpringWithDamping:<span class="number">1</span> initialSpringVelocity:velocity.y options:UIViewAnimationOptionTransitionNone animations:^&#123;</span><br><span class="line">            scrollView.contentOffset = CGPointZero;</span><br><span class="line">        &#125; completion:^(BOOL finished) &#123;</span><br><span class="line"></span><br><span class="line">        &#125;];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>网上找到的大都只实现了scrollViewDidScroll方法.但是只实现scrollViewDidScroll方法有bug:一直往上滑,松手后,第一个组头会不出现.所以这里解决一下这个问题.</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/06/10/2018-06-10-UITableView%E5%AE%9E%E8%B7%B5/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -641,56 +647,21 @@
 <p>不隐藏状态栏</p>
 </blockquote>
 <p>self.view的位置和大小如下:</p>
-<p><img src="http://7xqoji.com1.z0.glb.clouddn.com/self.view%E7%9A%84%E4%BD%8D%E7%BD%AE%E5%92%8C%E5%A4%A7%E5%B0%8F1@2x.png" alt=""></p>
+<p><img src="http://7xqoji.com1.z0.glb.clouddn.com/self.view%E7%9A%84%E4%BD%8D%E7%BD%AE%E5%92%8C%E5%A4%A7%E5%B0%8F1@2x.png" alt></p>
 <blockquote>
 <p>隐藏状态栏</p>
 </blockquote>
-<p><img src="http://7xqoji.com1.z0.glb.clouddn.com/self.view%E7%9A%84%E4%BD%8D%E7%BD%AE%E5%92%8C%E5%A4%A7%E5%B0%8F2@2x.png" alt=""></p>
-<p>执行流:<br><img src="http://7xqoji.com1.z0.glb.clouddn.com/navigationBar%E5%AF%B9self.view%E7%9A%84frame%E5%BD%B1%E5%93%8D_3.png" alt=""></p>
+<p><img src="http://7xqoji.com1.z0.glb.clouddn.com/self.view%E7%9A%84%E4%BD%8D%E7%BD%AE%E5%92%8C%E5%A4%A7%E5%B0%8F2@2x.png" alt></p>
+<p>执行流:<br><img src="http://7xqoji.com1.z0.glb.clouddn.com/navigationBar%E5%AF%B9self.view%E7%9A%84frame%E5%BD%B1%E5%93%8D_3.png" alt></p>
 <p>translucent为YES时,可以在viewDidLoad中子视图可以使用self.view的frame信息.</p>
-<p><strong>设置translucent为NO</strong>,即<code>self.navigationController.navigationBar.translucent = NO;</code></p>
-<blockquote>
-<p>不隐藏状态栏</p>
-</blockquote>
-<p>self.view的位置和大小如下:</p>
-<p><img src="http://7xqoji.com1.z0.glb.clouddn.com/navigationBar%E5%AF%B9self.view%E7%9A%84frame%E5%BD%B1%E5%93%8D_4.png" alt=""></p>
-<blockquote>
-<p>隐藏状态栏</p>
-</blockquote>
-<p><img src="http://7xqoji.com1.z0.glb.clouddn.com/navigationBar%E5%AF%B9self.view%E7%9A%84frame%E5%BD%B1%E5%93%8D_5.png" alt=""></p>
-<p>执行流:</p>
-<p><img src="http://7xqoji.com1.z0.glb.clouddn.com/navigationBar%E5%AF%B9self.view%E7%9A%84frame%E5%BD%B1%E5%93%8D_6.png" alt=""></p>
-<p>self.view在viewDidLoad,viewWillAppear中的origin,size都不对.在viewWillLayoutSubviews,viewDidLayoutSubviews中size是对的,origin不对.在viewDidAppear中origin,size才都对.</p>
-<p>因此在这种情况下,self.view的子视图布局最好在viewWillLayoutSubviews中进行调整.</p>
-<p>当设置<code>self.navigationController.navigationBar.hidden = YES;</code>时,则navigationBar的translucent属性不再对self.view的frame产生影响.</p>
-<h4 id="translucent属性"><a href="#translucent属性" class="headerlink" title="translucent属性"></a>translucent属性</h4><p>由于translucent属性对self.view的frame会产生影响,所以有必要查看它的说明.</p>
-<p>官方说明:</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">The<span class="built_in"> default </span>value is <span class="literal">YES</span>. <span class="keyword">If</span> the navigation bar has a custom background image, the<span class="built_in"> default </span>is <span class="literal">YES</span> <span class="keyword">if</span> any pixel of the image has an alpha value of less than 1.0, <span class="keyword">and</span> <span class="literal">NO</span> otherwise.</span><br><span class="line"></span><br><span class="line"><span class="keyword">If</span> you <span class="builtin-name">set</span> this property <span class="keyword">to</span> <span class="literal">YES</span> on a navigation bar with an opaque custom background image, the navigation bar applies a system-defined opacity of less than 1.0 <span class="keyword">to</span> the image.</span><br><span class="line"></span><br><span class="line"><span class="keyword">If</span> you <span class="builtin-name">set</span> this property <span class="keyword">to</span> <span class="literal">NO</span> on a navigation bar with a translucent custom background image, the navigation bar provides an opaque background <span class="keyword">for</span> the image using black <span class="keyword">if</span> the navigation bar has UIBarStyleBlack style, white <span class="keyword">if</span> the navigation bar has UIBarStyleDefault, <span class="keyword">or</span> the navigation bar’s barTintColor <span class="keyword">if</span> a custom value is defined.</span><br></pre></td></tr></table></figure>
-<p>大意为:<br>该属性默认为YES.但是如果给导航栏设置了一张自定义的背景图片,如果该图片有一个alpha&lt;1的像素.那么该值就为YES,否则为NO.(设置导航栏的背景图片会影响translucent的默认值)</p>
-<p>另外如果手动设置了该属性,并且设置了导航栏的背景图,则系统可能会对背景图进行处理:</p>
-<ol>
-<li>如果设置该属性为YES,但是提供了一张不透明的背景图,系统会对该背景图进行半透明处理.</li>
-<li>如果设置该属性为NO,但是提供了一张半透明的背景图,则系统会对该背景图进行不透明处理.具体是根据导航栏的style或者barTintColor进行处理.</li>
-</ol>
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>在iOS7及以上系统:</p>
-<ol>
-<li><p>当导航栏没有被隐藏时,且translucent属性设置为YES,那么,VC的self.view的位置是从(0,0)开始,大小是整个屏幕宽高.而当translucent属性设置为NO时,那么VC的self.view的位置是从导航栏左下角开始,宽是屏幕的宽,高是整个屏幕减去导航栏的CGRectGetMaxY.</p>
-</li>
-<li><p>导航栏的y值会随着状态栏隐藏与否而有20pt的偏移.</p>
-</li>
-<li><p>当导航栏被隐藏时,VC的self.view的位置是从(0,0)开始,大小是整个屏幕宽高.</p>
-</li>
-<li><p>self.view的子视图布局推荐在viewWillLayoutSubviews中进行.因为此时不管translucent为何值,self.view的size都是正确的.</p>
-</li>
-</ol>
-<hr>
-<p>吐槽Jekyll</p>
-<p>写在</p>
-<p>```</p>
-<p>Xcode的日志</p>
-<p>```</p>
-<p>这里面的日志,包含了View的frame打印,居然导致Jekyll构建页面失败,说什么变量未正确关闭,最后只好一张张截图.这解析功能也太差了吧.</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/06/10/2018-06-10-navigationBar%E5%AF%B9self.view%E7%9A%84frame%E5%BD%B1%E5%93%8D/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1046,17 +1017,14 @@
 <h4 id="论坛上的解释"><a href="#论坛上的解释" class="headerlink" title="论坛上的解释"></a>论坛上的解释</h4><h4 id="1"><a href="#1" class="headerlink" title="1"></a>1</h4><p>All heap allocations consist of the memory allocations your application makes. This is the allocation type you should focus on in Instruments.</p>
 <p>All VM regions consist of the virtual memory the operating system reserves for your application. You cannot control the size of the virtual memory the operating system reserves.</p>
 <p>All heap and anonymous vm is the sum of the All Heap Allocations and All VM Regions columns.</p>
-<h4 id="2"><a href="#2" class="headerlink" title="2"></a>2</h4><p>While heap allocations are very important (that’s where all your Swift and Objective-C objects are created), you can’t ignore the importance of VM memory for most apps. I recommend investigating that category because it can grow rather large, and the memory being allocated there “by the operating system” is going to be in response to some task you’ve asked your application to perform.</p>
-<p>For instance, when you allocate a large CGImage, a tiny object is allocated on the heap, but the many megabytes of image data is allocated in a separate VM region. In an image-heavy application, your heap may be relatively small but your VM regions may be rather large. In that case, you’d need to take a closer look at the size and number of images your application has loaded at any given moment.</p>
-<p>So in general, you need to ensure you are optimizing <strong>all</strong> of your memory usage.</p>
-<p>参考:<a href="https://forums.developer.apple.com/thread/21463" target="_blank" rel="noopener">[Instruments] Allocation Types</a></p>
-<h4 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h4><p>All Heap Allocations:应用在堆上申请的内存空间,比如你自己的类alloc出来的对象.</p>
-<p>All VM Regions:操作系统为你的APP预留出来的虚拟内存.比如APP加载资源文件到内存时,占用的就是这些虚拟内存.因此如果你的APP图片比较多时,这部分内存占用会很大.</p>
-<h4 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h4><p>在一个页面上加载一张140kb的图片.使用Instruments查看实际消耗的内存:<br><img src="http://7xqoji.com1.z0.glb.clouddn.com/%E5%8A%A0%E8%BD%BD%E5%9B%BE%E7%89%87%E5%8D%A0%E7%94%A8%E7%9A%84%E5%86%85%E5%AD%98@2x.png" alt="加载图片占用的内存"><br>不知道为啥加载到内存后会比磁盘上要大36kb.</p>
-<p>加载了一张52kb的图片,Instruments显示消耗64kb.感觉要比原图多占用25%.</p>
-<h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><h5 id="Mac文件存储单位"><a href="#Mac文件存储单位" class="headerlink" title="Mac文件存储单位"></a>Mac文件存储单位</h5><p>Apple认为1GB=1 000 000 000字节，Microsoft认为1GB=1 073 741 824字节，网络上多用Microsoft的标准。<br>对于电脑而言，1 073 741 824是2的30次方，比1 000 000 000更方便处理，但硬件厂商生产硬盘等设备的时候是按后者来标注容量的。Apple希望用户买一块1TB的硬盘插到电脑上看到的就是1TB而不是931GB，这会带来更好的用户体验，于是Apple在显示容量时遵循了后者的标准。</p>
-<p><img src="http://7xqoji.com1.z0.glb.clouddn.com/Mac%E6%96%87%E4%BB%B6%E5%AD%98%E5%82%A8%E5%8D%95%E4%BD%8D@2x.png" width="264" height="451" /></p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/04/04/2018-04-04-Allocation%20Type%E4%BB%8B%E7%BB%8D/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1159,6 +1127,11 @@
       </div>
   </nav>
 </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xq-120" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xq-120" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
 
 
 

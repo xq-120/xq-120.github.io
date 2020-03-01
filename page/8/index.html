@@ -253,61 +253,14 @@
 <p><strong>模块</strong><br>A module is a single unit of code distribution—a framework or application that is built and shipped as a single<br>unit and that can be imported by another module with Swift’s import keyword.<br>(一个模块就是一个独立的代码分发单元,比如一个framework.xq注:比如你提供给别人使用的一个第三方库就是一个单独的模块)<br>具体一点:<br>Each build target (such as an app bundle or framework) in Xcode is treated as a separate module in Swift. If you group together aspects of your app’s code as a stand-alone framework—perhaps to encapsulate and reuse that code across multiple applications—then everything you define within that framework will be part of a separate module when it is imported and used within an app, or when it is used within another framework.</p>
 <p><strong>源文件</strong><br>A source file is a single Swift source code file within a module (in effect, a single file within an app or framework). Although it is common to define individual types in separate source files, a single source file can contain definitions for multiple types, functions, and so on.<br>(一个源文件就是模块里一个单独的Swift源代码文件,通常不同的源文件定义的类型也是不同的,但是一个单独的源文件可以定义多种类型,函数等.xq注:你可以在一个源文件里定义多个类)</p>
 <h4 id="Access-Levels-访问级别"><a href="#Access-Levels-访问级别" class="headerlink" title="Access Levels(访问级别)"></a>Access Levels(访问级别)</h4><p>Swift provides five different access levels for entities within your code. These access levels are relative to the source file in which an entity is defined, and also relative to the module that source file belongs to.<br>(Swfit提供5种不同的访问级别.这些访问级别对定义实体的源文件产生影响,也对包含这些源文件的模块产生影响.)</p>
-<ul>
-<li>Open access and public access enable entities to be used within any source file from their defining module, and also in a source file from another module that imports the defining module. You typically use open or public access when specifying the public interface to a framework. The difference between open and public access is described below.  (open和public修饰词表示允许模块内的任意源文件访问这些实体.如果其他模块的源文件导入了定义它们的模块,那么其他模块的源文件也可以访问这些实体.通常给framework指定公共接口时用到open或public)</li>
-<li>Internal access enables entities to be used within any source file from their defining module, but not in any source file outside of that module. You typically use internal access when defining an app’s or a framework’s internal structure.  (Internal修饰词表示只能是定义它们的模块里的任意源文件可以访问.模块外的任何源文件都访问不到.通常在定义一个app或framework的内部结构时使用internal)</li>
-<li>File-private access restricts the use of an entity to its own defining source file. Use file-private access to hide the implementation details of a specific piece of functionality when those details are used within an entire file.  (fileprivate用于将实体的使用限制在定义它的源文件里,使用fileprivate可以用来隐藏指定功能块的实现细节,这些实现细节是在整个文件内使用的)</li>
-<li>Private access restricts the use of an entity to the enclosing declaration. Use private access to hide the implementation details of a specific piece of functionality when those details are used only within a single declaration. (private用于将实体的使用限制在定义它的花括号内.使用private可以用来隐藏指定功能块的实现细节,这些实现细节仅在单独的某个声明里使用)</li>
-</ul>
-<p>Open access is the highest (least restrictive) access level and private access is the lowest (most restrictive) access level.</p>
-<h4 id="open和public的区别"><a href="#open和public的区别" class="headerlink" title="open和public的区别"></a>open和public的区别</h4><p><strong>Open access applies only to classes and class members</strong>, and it differs from public access as follows:</p>
-<ul>
-<li>Classes with public access, or any more restrictive access level, can be subclassed only within the module where they’re defined.(public修饰的类仅能在模块内被子类化)</li>
-<li>Class members with public access, or any more restrictive access level, can be overridden by subclasses only within the module where they’re defined.(public修饰的类成员仅能在模块内被子类重写)</li>
-<li>Open classes can be subclassed within the module where they’re defined, and within any module that imports the module where they’re defined.(open修饰的类可以在任意模块被子类化)</li>
-<li>Open class members can be overridden by subclasses within the module where they’re defined, and within any module that imports the module where they’re defined.(open修饰的类成员可以在任意模块被重写)</li>
-</ul>
-<h4 id="Guiding-Principle-of-Access-Levels-访问级别的指导准则"><a href="#Guiding-Principle-of-Access-Levels-访问级别的指导准则" class="headerlink" title="Guiding Principle of Access Levels(访问级别的指导准则)"></a>Guiding Principle of Access Levels(访问级别的指导准则)</h4><p>Access levels in Swift follow an overall guiding principle: No entity can be defined in terms of another entity that has a lower (more restrictive) access level.<br>(xq注:Swift不允许高级别的实体定义在低级别的实体内,基本上你只能缩小访问级别而不能扩大)</p>
-<p>举例:</p>
-<ul>
-<li><p>A public variable cannot be defined as having an internal, file-private, or private type, because the type might not be available everywhere that the public variable is used.</p>
-</li>
-<li><p>A function cannot have a higher access level than its parameter types and return type, because the function could be used in situations where its constituent types are not available to the surrounding code.</p>
-</li>
-</ul>
-<h4 id="Default-Access-Levels-默认的访问级别"><a href="#Default-Access-Levels-默认的访问级别" class="headerlink" title="Default Access Levels(默认的访问级别)"></a>Default Access Levels(默认的访问级别)</h4><p>All entities in your code (with a few specific exceptions, as described later in this chapter) have <strong>a default access level of internal</strong> if you do not specify an explicit access level yourself. As a result, in many cases you do not need to specify an explicit access level in your code.</p>
-<h4 id="Access-Levels-for-Frameworks"><a href="#Access-Levels-for-Frameworks" class="headerlink" title="Access Levels for Frameworks"></a>Access Levels for Frameworks</h4><p><strong>When you develop a framework, mark the public-facing interface to that framework as open or public</strong> so that it can be viewed and accessed by other modules, such as an app that imports the framework. This public-facing interface is the application programming interface (or API) for the framework.</p>
-<h4 id="Access-Control-Syntax"><a href="#Access-Control-Syntax" class="headerlink" title="Access Control Syntax"></a>Access Control Syntax</h4><p>Define the access level for an entity by placing one of the open, public, internal, fileprivate, or private modifiers before the entity’s introducer.</p>
-<p><strong>Unless otherwise specified, the default access level is internal.</strong></p>
-<h4 id="Custom-Types-自定义类型访问级别"><a href="#Custom-Types-自定义类型访问级别" class="headerlink" title="Custom Types(自定义类型访问级别)"></a>Custom Types(自定义类型访问级别)</h4><p>If you want to specify an explicit access level for a custom type, do so at the point that you define the type. The new type can then be used wherever its access level permits.</p>
-<p><strong>The access control level of a type also affects the default access level of that type’s members (its properties, methods, initializers, and subscripts).</strong> If you define a type’s access level as private or file private, the default access level of its members will also be private or file private. If you define a type’s access level as internal or public (or use the default access level of internal without specifying an access level explicitly), the default access level of the type’s members will be internal.</p>
-<p>注意:<strong>A public type defaults to having internal members</strong>, not public members. If you want a type member to be public, you must explicitly mark it as such.</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fileprivate</span> <span class="class"><span class="keyword">class</span> <span class="title">SomeFilePrivateClass</span> </span>&#123;  <span class="comment">// explicitly file-private class</span></span><br><span class="line">	<span class="function"><span class="keyword">func</span> <span class="title">someFilePrivateMethod</span><span class="params">()</span></span> &#123;&#125; <span class="comment">// implicitly file-private class member</span>	<span class="keyword">private</span> <span class="function"><span class="keyword">func</span> <span class="title">somePrivateMethod</span><span class="params">()</span></span> &#123;&#125; <span class="comment">// explicitly private class member</span>&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="Function-Types"><a href="#Function-Types" class="headerlink" title="Function Types"></a>Function Types</h4><p>The access level for a function type is calculated as the most restrictive access level of the function’s parameter types and return type. You must specify the access level explicitly as part of the function’s definition if the function’s calculated access level does not match the contextual default.</p>
-<h4 id="Subclassing"><a href="#Subclassing" class="headerlink" title="Subclassing"></a>Subclassing</h4><p>You can subclass any class that can be accessed in the current access context. <strong>A subclass cannot have a higher access level than its superclass.</strong></p>
-<p>In addition, you can override any class member (method, property, initializer, or subscript) <strong>that is visible in a certain access context</strong>(xq注:要能重写,才有后面的重写之后能够xxx).An override can make an inherited <strong>class member</strong> more accessible than its superclass version.</p>
-<h4 id="Constants-Variables-Properties-and-Subscripts"><a href="#Constants-Variables-Properties-and-Subscripts" class="headerlink" title="Constants, Variables, Properties, and Subscripts"></a>Constants, Variables, Properties, and Subscripts</h4><p>A constant, variable, or property <strong>cannot be more public than its type</strong>. It is not valid to write a public property with a private type.</p>
-<p>If a constant, variable, property, or subscript makes use of a private type, the constant, variable, property, or subscript must also be marked as private.</p>
-<h4 id="Getters-and-Setters"><a href="#Getters-and-Setters" class="headerlink" title="Getters and Setters"></a>Getters and Setters</h4><p>Getters and setters for constants, variables, properties, and subscripts automatically receive the same access level as the constant, variable, property, or subscript they belong to.</p>
-<p><strong>You can give a setter a lower access level than its corresponding getter</strong>, to restrict the read-write scope of that variable, property, or subscript. You assign a lower access level by writing fileprivate(set), private(set), or internal(set) before the var or subscript introducer.</p>
-<pre><code>struct TrackedString {
-    private(set) var numberOfEdits = 0 
-    var value: String = &quot;&quot; {
-        didSet { 
-            numberOfEdits += 1
-        }
-    }
-}
-</code></pre><p>上述代码的解释:The TrackedString structure and the value property do not provide an explicit access-level modifier, and <strong>so they both receive the default access level of internal</strong>. However, the access level for the numberOfEdits property is marked with a <strong>private(set) modifier</strong> to indicate that the property’s getter still has the default access level of internal, but <strong>the property is settable only from within code that’s part of the TrackedString.</strong></p>
-<h4 id="Protocols"><a href="#Protocols" class="headerlink" title="Protocols"></a>Protocols</h4><p>If you want to assign an explicit access level to a protocol type, <strong>do so at the point that you define the protocol.</strong> This enables you to create protocols that can only be adopted within a certain access context.</p>
-<p><strong>The access level of each requirement within a protocol definition is automatically set to the same access level as the protocol.</strong> <strong>You cannot set</strong> a protocol requirement to a different access level than the protocol it supports. This ensures that all of the protocol’s requirements will be visible on any type that adopts the protocol.</p>
-<h4 id="Protocol-Inheritance"><a href="#Protocol-Inheritance" class="headerlink" title="Protocol Inheritance"></a>Protocol Inheritance</h4><p>If you define a new protocol that inherits from an existing protocol, the new protocol can have <strong>at most the same access level as the protocol it inherits from</strong>. You cannot write a public protocol that inherits from an internal protocol, for example.</p>
-<h4 id="Protocol-Conformance-协议遵守"><a href="#Protocol-Conformance-协议遵守" class="headerlink" title="Protocol Conformance(协议遵守)"></a>Protocol Conformance(协议遵守)</h4><p>A type can conform to a protocol with a lower access level than the type itself.</p>
-<p>When you write or extend a type to conform to a protocol, you must ensure that the type’s implementation of each protocol requirement has at least the same access level as the type’s conformance to that protocol. For example, if a public type conforms to an internal protocol, the type’s implementation of each protocol requirement must be at least “internal”.</p>
-<h4 id="Extensions"><a href="#Extensions" class="headerlink" title="Extensions"></a>Extensions</h4><p>You can extend a class, structure, or enumeration in any access context in which the class, structure, or enumeration is available. <strong>Any type members added in an extension have the same default access level as type members declared in the original type</strong> being extended. If you extend a public or internal type, any new type members you add have a default access level of internal. If you extend a file-private type, any new type members you add have a default access level of file private. If you extend a private type, any new type members you add have a default access level of private.(当类,结构体,枚举在访问上下文中可用时,那么你就可以扩展一个类,结构体,枚举)</p>
-<p>Alternatively, you can mark an extension with an explicit access-level modifier (for example, private extension) to set a new default access level for all members defined within the extension.</p>
-<h4 id="Adding-Protocol-Conformance-with-an-Extension"><a href="#Adding-Protocol-Conformance-with-an-Extension" class="headerlink" title="Adding Protocol Conformance with an Extension"></a>Adding Protocol Conformance with an Extension</h4><p>You cannot provide an explicit access-level modifier for an extension if you are using that extension to add protocol conformance. Instead, the protocol’s own access level is used to provide the default access level for each protocol requirement implementation within the extension.</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2017/11/12/2017-11-12-Swift_%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -542,9 +495,14 @@
 <li>Property关键字可以传递额外的信息.比如assign (vs copy), weak, atomic (vs nonatomic), and so on.</li>
 </ul>
 <p>Property methods follow a simple naming convention. The getter is the name of the property (for example, date), and the setter is the name of the property with the set prefix, written in camel case (for example, setDate). The naming convention for Boolean properties is to declare them with a named getter starting with the word “is”:<br><code>@property (readonly, getter=isBlue) BOOL blue;</code></p>
-<h3 id="枚举宏"><a href="#枚举宏" class="headerlink" title="枚举宏"></a>枚举宏</h3><p>使用NS_ENUM 和 NS_OPTIONS宏.when you use enum to define a bitmask use the NS_OPTIONS macro.</p>
-<figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">typedef <span class="type">NS_ENUM</span>(<span class="type">NSInteger</span>, <span class="type">UITableViewCellStyle</span>) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="type">UITableViewCellStyleDefault</span>,</span><br><span class="line"></span><br><span class="line">        <span class="type">UITableViewCellStyleValue1</span>,</span><br><span class="line"></span><br><span class="line">        <span class="type">UITableViewCellStyleValue2</span>,</span><br><span class="line"></span><br><span class="line">        <span class="type">UITableViewCellStyleSubtitle</span></span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> NS_OPTIONS(NSUInteger, UIViewAutoresizing) &#123;</span><br><span class="line"></span><br><span class="line">        UIViewAutoresizingNone                 = <span class="number">0</span>,</span><br><span class="line"></span><br><span class="line">        UIViewAutoresizingFlexibleLeftMargin   = <span class="number">1</span> &lt;&lt; <span class="number">0</span>,</span><br><span class="line"></span><br><span class="line">        UIViewAutoresizingFlexibleWidth        = <span class="number">1</span> &lt;&lt; <span class="number">1</span>,</span><br><span class="line"></span><br><span class="line">        UIViewAutoresizingFlexibleRightMargin  = <span class="number">1</span> &lt;&lt; <span class="number">2</span>,</span><br><span class="line"></span><br><span class="line">        UIViewAutoresizingFlexibleTopMargin    = <span class="number">1</span> &lt;&lt; <span class="number">3</span>,</span><br><span class="line"></span><br><span class="line">        UIViewAutoresizingFlexibleHeight       = <span class="number">1</span> &lt;&lt; <span class="number">4</span>,</span><br><span class="line"></span><br><span class="line">        UIViewAutoresizingFlexibleBottomMargin = <span class="number">1</span> &lt;&lt; <span class="number">5</span></span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2017/10/21/2017-10-21-%E9%87%87%E7%94%A8%20Modern%20Objective-C/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -716,16 +674,14 @@
 <p>Make sure to select the objc_exception_throw frame in the call stack before executing these commands. See the “Advanced Debugging and the Address Sanitizer” in the WWDC15 session videos to see this performed on stage.</p>
 <p>On the iPhone Simulator, all function arguments are passed on the stack, so the syntax is considerably more horrible. The shortest expression I could construct that gets to it is <code>*(id *)($ebp + 8)</code>. To make things less painful, I suggest using a convenience variable:</p>
 <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(gdb) <span class="builtin-name">set</span> <span class="variable">$exception</span> = *(id *)(<span class="variable">$ebp</span> + 8)</span><br><span class="line">(gdb) po <span class="variable">$exception</span></span><br><span class="line">(gdb) po [<span class="variable">$exception</span> name]</span><br><span class="line">(gdb) po [<span class="variable">$exception</span> reason]</span><br></pre></td></tr></table></figure>
-<p>You can also set <code>$exception</code> automatically whenever the breakpoint is triggered by adding a command list to the <code>objc_exception_throw</code> breakpoint.</p>
-<p>(Note that in all cases I tested, the exception object was also present in the eax and edx registers at the time the breakpoint hit. I’m not sure that’ll always be the case, though.)</p>
-<p>Added from comment below:</p>
-<p>In lldb, select the stack frame for objc_exception_throw and then enter this command:</p>
-<p><code>(lldb) po *(id *)($esp + 4)</code></p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://stackoverflow.com/questions/3327828/xcode-lldb-how-to-get-information-about-an-exception-that-was-just-thrown" target="_blank" rel="noopener">Xcode/LLDB: How to get information about an exception that was just thrown?</a></p>
-<p><a href="http://www.clarkcox.com/blog/2009/02/04/inspecting-obj-c-parameters-in-gdb/" target="_blank" rel="noopener">Inspecting Obj-C parameters in gdb</a></p>
-<p><a href="http://www.jianshu.com/p/f900de4a1495" target="_blank" rel="noopener">【OC刨根问底】-Runtime简单粗暴理解</a></p>
-<p><a href="http://blog.csdn.net/qq_27074387/article/details/50352613" target="_blank" rel="noopener">OC 运行时 (二)</a></p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2017/10/13/2017-10-13-CUICatalog-Invalid%20asset%20name%20supplied/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -807,12 +763,14 @@
 <h3 id="Apktool"><a href="#Apktool" class="headerlink" title="Apktool"></a>Apktool</h3><p>资源反编译,获取apk里面的资源.如果你仅仅只是想获取里面的资源,可不必使用该工具,直接解压缩源apk就可以了.<br>note:使用Apktool处理后的和直接解压缩后的里面的文件内容还是不一样的,比如里面的AndroidManifest.xml文件,Apktool处理后的就能够读懂,否则是一些乱码.</p>
 <h4 id="Apktool安装"><a href="#Apktool安装" class="headerlink" title="Apktool安装"></a>Apktool安装</h4><p>按照官网说明,下载后会得到两个文件<code>apktool</code>和<code>apktool.jar</code>,需要注意的是必须赋予这两个文件可执行权限.使用命令<code>chmod +x 对应文件名</code>即可.最后将这两个文件拖入<code>/usr/local/bin</code>文件夹中.</p>
 <h4 id="Apktool使用"><a href="#Apktool使用" class="headerlink" title="Apktool使用"></a>Apktool使用</h4><p>命令:<code>apktool d 对应apk路径</code>.<br>执行完毕后,会得到一个同名的文件夹,里面就是一些资源了.找到里面的<code>classes.dex</code>文件,后面代码反编译会用到.</p>
-<h3 id="dex2jar"><a href="#dex2jar" class="headerlink" title="dex2jar"></a>dex2jar</h3><p>代码反编译,得到<code>classes-dex2jar.jar</code>文件.</p>
-<h4 id="dex2jar使用"><a href="#dex2jar使用" class="headerlink" title="dex2jar使用"></a>dex2jar使用</h4><p>下载后会得到一个<code>dex2jar-2.0</code>文件夹.这里需要用到里面的<code>lib</code>,<code>d2j_invoke.sh</code>,<code>d2j-dex2jar.sh</code>.<br>将这三个文件及上面获得的<code>classes.dex</code>文件拖入同一个文件夹目录.<br>使用命令: <code>sh d2j-dex2jar.sh classes.dex</code><br>此时在该目录下会得到一个<code>classes-dex2jar.jar</code>文件.这个文件后面会用到.</p>
-<h3 id="jd-gui"><a href="#jd-gui" class="headerlink" title="jd-gui"></a>jd-gui</h3><p>下载后会得到一个<code>jd-gui-osx-1.4.0</code>文件夹,双击里面的<code>JD-GUI</code>文件,打开后将上述<code>classes-dex2jar.jar</code>文件拖入其中.就可以看到啦!<br>note:你的Mac必须安装了Java环境.</p>
-<h2 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h2><p>目录:<br><img src="http://7xqoji.com1.z0.glb.clouddn.com/%E5%AE%89%E8%A3%85apk%E5%8F%8D%E7%BC%96%E8%AF%91%E5%90%8E%E5%B7%A5%E7%A8%8B%E7%9B%AE%E5%BD%95.png" alt="目录"></p>
-<p>部分代码:</p>
-<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> void a(<span class="built_in">int</span> paramInt, boolean paramBoolean)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="module-access"><span class="module"><span class="identifier">Observable</span>.</span></span>a(<span class="keyword">new</span> <span class="constructor">FavoriteBean(Integer.<span class="params">valueOf</span>(<span class="params">paramInt</span>)</span>, <span class="module-access"><span class="module"><span class="identifier">Boolean</span>.</span></span>value<span class="constructor">Of(<span class="params">paramBoolean</span>)</span>)).a(<span class="keyword">new</span> <span class="constructor">Func1()</span></span><br><span class="line">    &#123;</span><br><span class="line">      public String a(FavoriteBean paramAnonymousFavoriteBean)</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="keyword">if</span> (paramAnonymousFavoriteBean.get<span class="constructor">KeepAble()</span>.boolean<span class="constructor">Value()</span>) &#123;</span><br><span class="line">          <span class="module-access"><span class="module"><span class="identifier">BasicActivity</span>.</span></span>f(<span class="module-access"><span class="module"><span class="identifier">BasicActivity</span>.</span></span>this).add(<span class="number">0</span>, paramAnonymousFavoriteBean.get<span class="constructor">Id()</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        for (;;)</span><br><span class="line">        &#123;</span><br><span class="line">          return <span class="string">""</span>;</span><br><span class="line">          Iterator localIterator = <span class="module-access"><span class="module"><span class="identifier">BasicActivity</span>.</span></span>f(<span class="module-access"><span class="module"><span class="identifier">BasicActivity</span>.</span></span>this).iterator<span class="literal">()</span>;</span><br><span class="line">          <span class="keyword">if</span> (localIterator.has<span class="constructor">Next()</span>)</span><br><span class="line">          &#123;</span><br><span class="line">            Integer localInteger = (Integer)localIterator.next<span class="literal">()</span>;</span><br><span class="line">            <span class="keyword">if</span> (!localInteger.equals(paramAnonymousFavoriteBean.get<span class="constructor">Id()</span>)) &#123;</span><br><span class="line">              break;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="module-access"><span class="module"><span class="identifier">BasicActivity</span>.</span></span>f(<span class="module-access"><span class="module"><span class="identifier">BasicActivity</span>.</span></span>this).remove(localInteger);</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;).b(<span class="module-access"><span class="module"><span class="identifier">Schedulers</span>.</span></span>computation<span class="literal">()</span>).a(<span class="module-access"><span class="module"><span class="identifier">AndroidSchedulers</span>.</span></span>a<span class="literal">()</span>).a(<span class="keyword">new</span> <span class="constructor">Action1()</span></span><br><span class="line">    &#123;</span><br><span class="line">      public void a(String paramAnonymousString) &#123;&#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2017/09/30/2017-09-30-%E5%9C%A8mac%20OS%E4%B8%8A%E5%8F%8D%E7%BC%96%E8%AF%91%E5%AE%89%E5%8D%93apk%E5%8C%85/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1138,6 +1096,11 @@
       </div>
   </nav>
 </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xq-120" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xq-120" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
 
 
 
