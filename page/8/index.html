@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
@@ -192,7 +192,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/12/2017-11-12-Swift_%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/12/swift_removeObject/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -206,94 +206,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2017/11/12/2017-11-12-Swift_%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6/" class="post-title-link" itemprop="url">访问控制</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2017-11-12 21:00:00" itemprop="dateCreated datePublished" datetime="2017-11-12T21:00:00+08:00">2017-11-12</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2018-07-15 08:47:28" itemprop="dateModified" datetime="2018-07-15T08:47:28+08:00">2018-07-15</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="访问控制"><a href="#访问控制" class="headerlink" title="访问控制"></a>访问控制</h3><p>Access control restricts access to parts of your code from code <strong>in other source files and modules.</strong></p>
-<p>You can assign specific access levels to <strong>individual types (classes, structures, and enumerations)</strong>, as well as to <strong>properties, methods, initializers, and subscripts belonging to those types</strong>. <strong>Protocols</strong> can be restricted to a certain context, as can <strong>global constants, variables, and functions</strong>.</p>
-<p>The various aspects of your code that can have access control applied to them (properties, types, functions, and so on) are referred to as <strong>“entities”</strong> in the sections below, for brevity.</p>
-<h4 id="Modules-and-Source-Files-模块和源文件"><a href="#Modules-and-Source-Files-模块和源文件" class="headerlink" title="Modules and Source Files(模块和源文件)"></a>Modules and Source Files(模块和源文件)</h4><p>Swift’s access control model is based on the concept of modules and source files.</p>
-<p><strong>模块</strong><br>A module is a single unit of code distribution—a framework or application that is built and shipped as a single<br>unit and that can be imported by another module with Swift’s import keyword.<br>(一个模块就是一个独立的代码分发单元,比如一个framework.xq注:比如你提供给别人使用的一个第三方库就是一个单独的模块)<br>具体一点:<br>Each build target (such as an app bundle or framework) in Xcode is treated as a separate module in Swift. If you group together aspects of your app’s code as a stand-alone framework—perhaps to encapsulate and reuse that code across multiple applications—then everything you define within that framework will be part of a separate module when it is imported and used within an app, or when it is used within another framework.</p>
-<p><strong>源文件</strong><br>A source file is a single Swift source code file within a module (in effect, a single file within an app or framework). Although it is common to define individual types in separate source files, a single source file can contain definitions for multiple types, functions, and so on.<br>(一个源文件就是模块里一个单独的Swift源代码文件,通常不同的源文件定义的类型也是不同的,但是一个单独的源文件可以定义多种类型,函数等.xq注:你可以在一个源文件里定义多个类)</p>
-<h4 id="Access-Levels-访问级别"><a href="#Access-Levels-访问级别" class="headerlink" title="Access Levels(访问级别)"></a>Access Levels(访问级别)</h4><p>Swift provides five different access levels for entities within your code. These access levels are relative to the source file in which an entity is defined, and also relative to the module that source file belongs to.<br>(Swfit提供5种不同的访问级别.这些访问级别对定义实体的源文件产生影响,也对包含这些源文件的模块产生影响.)</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2017/11/12/2017-11-12-Swift_%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/12/2017-11-12-swift_removeObject/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="博客小屋">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/11/12/2017-11-12-swift_removeObject/" class="post-title-link" itemprop="url">removeObject</a>
+            <a href="/2017/11/12/swift_removeObject/" class="post-title-link" itemprop="url">removeObject</a>
         </h1>
 
         <div class="post-meta">
@@ -323,6 +236,8 @@
             </span>
 
           
+  
+  
 
         </div>
       </header>
@@ -353,7 +268,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/02/2017-11-02-%E5%8F%8D%E8%BD%AC%E4%B8%80%E4%B8%AA%E5%AD%97%E7%AC%A6%E4%B8%B2/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/02/%E5%8F%8D%E8%BD%AC%E4%B8%80%E4%B8%AA%E5%AD%97%E7%AC%A6%E4%B8%B2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -367,7 +282,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2017/11/02/2017-11-02-%E5%8F%8D%E8%BD%AC%E4%B8%80%E4%B8%AA%E5%AD%97%E7%AC%A6%E4%B8%B2/" class="post-title-link" itemprop="url">反转一个字符串</a>
+            <a href="/2017/11/02/%E5%8F%8D%E8%BD%AC%E4%B8%80%E4%B8%AA%E5%AD%97%E7%AC%A6%E4%B8%B2/" class="post-title-link" itemprop="url">反转一个字符串</a>
         </h1>
 
         <div class="post-meta">
@@ -397,6 +312,20 @@
             </span>
 
           
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2017/11/02/%E5%8F%8D%E8%BD%AC%E4%B8%80%E4%B8%AA%E5%AD%97%E7%AC%A6%E4%B8%B2/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/11/02/反转一个字符串/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
 
         </div>
       </header>
@@ -430,7 +359,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/21/2017-10-21-%E9%87%87%E7%94%A8%20Modern%20Objective-C/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/21/%E9%87%87%E7%94%A8%20Modern%20Objective-C/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -444,7 +373,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2017/10/21/2017-10-21-%E9%87%87%E7%94%A8%20Modern%20Objective-C/" class="post-title-link" itemprop="url">采用 Modern Objective-C</a>
+            <a href="/2017/10/21/%E9%87%87%E7%94%A8%20Modern%20Objective-C/" class="post-title-link" itemprop="url">采用 Modern Objective-C</a>
         </h1>
 
         <div class="post-meta">
@@ -474,6 +403,8 @@
             </span>
 
           
+  
+  
 
         </div>
       </header>
@@ -497,7 +428,7 @@
 <p>Property methods follow a simple naming convention. The getter is the name of the property (for example, date), and the setter is the name of the property with the set prefix, written in camel case (for example, setDate). The naming convention for Boolean properties is to declare them with a named getter starting with the word “is”:<br><code>@property (readonly, getter=isBlue) BOOL blue;</code></p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2017/10/21/2017-10-21-%E9%87%87%E7%94%A8%20Modern%20Objective-C/#more" rel="contents">
+              <a class="btn" href="/2017/10/21/%E9%87%87%E7%94%A8%20Modern%20Objective-C/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -521,7 +452,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/18/2017-10-18-didSelectRowAtIndexPath%E4%B8%8D%E8%A2%AB%E8%B0%83%E7%94%A8/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/18/didSelectRowAtIndexPath%E4%B8%8D%E8%A2%AB%E8%B0%83%E7%94%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -535,7 +466,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2017/10/18/2017-10-18-didSelectRowAtIndexPath%E4%B8%8D%E8%A2%AB%E8%B0%83%E7%94%A8/" class="post-title-link" itemprop="url">didSelectRowAtIndexPath不被调用</a>
+            <a href="/2017/10/18/didSelectRowAtIndexPath%E4%B8%8D%E8%A2%AB%E8%B0%83%E7%94%A8/" class="post-title-link" itemprop="url">didSelectRowAtIndexPath不被调用</a>
         </h1>
 
         <div class="post-meta">
@@ -565,6 +496,20 @@
             </span>
 
           
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2017/10/18/didSelectRowAtIndexPath%E4%B8%8D%E8%A2%AB%E8%B0%83%E7%94%A8/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/10/18/didSelectRowAtIndexPath不被调用/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
 
         </div>
       </header>
@@ -612,7 +557,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/13/2017-10-13-CUICatalog-Invalid%20asset%20name%20supplied/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/13/CUICatalog-Invalid%20asset%20name%20supplied/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -626,7 +571,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2017/10/13/2017-10-13-CUICatalog-Invalid%20asset%20name%20supplied/" class="post-title-link" itemprop="url">CUICatalog-Invalid asset name supplied</a>
+            <a href="/2017/10/13/CUICatalog-Invalid%20asset%20name%20supplied/" class="post-title-link" itemprop="url">CUICatalog-Invalid asset name supplied</a>
         </h1>
 
         <div class="post-meta">
@@ -656,6 +601,20 @@
             </span>
 
           
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2017/10/13/CUICatalog-Invalid%20asset%20name%20supplied/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/10/13/CUICatalog-Invalid asset name supplied/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
 
         </div>
       </header>
@@ -676,7 +635,7 @@
 <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(gdb) <span class="builtin-name">set</span> <span class="variable">$exception</span> = *(id *)(<span class="variable">$ebp</span> + 8)</span><br><span class="line">(gdb) po <span class="variable">$exception</span></span><br><span class="line">(gdb) po [<span class="variable">$exception</span> name]</span><br><span class="line">(gdb) po [<span class="variable">$exception</span> reason]</span><br></pre></td></tr></table></figure>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2017/10/13/2017-10-13-CUICatalog-Invalid%20asset%20name%20supplied/#more" rel="contents">
+              <a class="btn" href="/2017/10/13/CUICatalog-Invalid%20asset%20name%20supplied/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -700,7 +659,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/30/2017-09-30-%E5%9C%A8mac%20OS%E4%B8%8A%E5%8F%8D%E7%BC%96%E8%AF%91%E5%AE%89%E5%8D%93apk%E5%8C%85/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/30/%E5%9C%A8mac%20OS%E4%B8%8A%E5%8F%8D%E7%BC%96%E8%AF%91%E5%AE%89%E5%8D%93apk%E5%8C%85/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -714,7 +673,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2017/09/30/2017-09-30-%E5%9C%A8mac%20OS%E4%B8%8A%E5%8F%8D%E7%BC%96%E8%AF%91%E5%AE%89%E5%8D%93apk%E5%8C%85/" class="post-title-link" itemprop="url">在mac OS上反编译安卓apk包</a>
+            <a href="/2017/09/30/%E5%9C%A8mac%20OS%E4%B8%8A%E5%8F%8D%E7%BC%96%E8%AF%91%E5%AE%89%E5%8D%93apk%E5%8C%85/" class="post-title-link" itemprop="url">在mac OS上反编译安卓apk包</a>
         </h1>
 
         <div class="post-meta">
@@ -744,6 +703,20 @@
             </span>
 
           
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2017/09/30/%E5%9C%A8mac%20OS%E4%B8%8A%E5%8F%8D%E7%BC%96%E8%AF%91%E5%AE%89%E5%8D%93apk%E5%8C%85/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/09/30/在mac OS上反编译安卓apk包/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
 
         </div>
       </header>
@@ -765,7 +738,7 @@
 <h4 id="Apktool使用"><a href="#Apktool使用" class="headerlink" title="Apktool使用"></a>Apktool使用</h4><p>命令:<code>apktool d 对应apk路径</code>.<br>执行完毕后,会得到一个同名的文件夹,里面就是一些资源了.找到里面的<code>classes.dex</code>文件,后面代码反编译会用到.</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2017/09/30/2017-09-30-%E5%9C%A8mac%20OS%E4%B8%8A%E5%8F%8D%E7%BC%96%E8%AF%91%E5%AE%89%E5%8D%93apk%E5%8C%85/#more" rel="contents">
+              <a class="btn" href="/2017/09/30/%E5%9C%A8mac%20OS%E4%B8%8A%E5%8F%8D%E7%BC%96%E8%AF%91%E5%AE%89%E5%8D%93apk%E5%8C%85/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -789,7 +762,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/30/2017-09-30-mac%20OS%E9%85%8D%E7%BD%AEJAVA%E7%8E%AF%E5%A2%83/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/30/mac%20OS%E9%85%8D%E7%BD%AEJAVA%E7%8E%AF%E5%A2%83/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -803,7 +776,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2017/09/30/2017-09-30-mac%20OS%E9%85%8D%E7%BD%AEJAVA%E7%8E%AF%E5%A2%83/" class="post-title-link" itemprop="url">mac OS配置JAVA环境</a>
+            <a href="/2017/09/30/mac%20OS%E9%85%8D%E7%BD%AEJAVA%E7%8E%AF%E5%A2%83/" class="post-title-link" itemprop="url">mac OS配置JAVA环境</a>
         </h1>
 
         <div class="post-meta">
@@ -824,6 +797,20 @@
               </span>
 
           
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2017/09/30/mac%20OS%E9%85%8D%E7%BD%AEJAVA%E7%8E%AF%E5%A2%83/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/09/30/mac OS配置JAVA环境/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
 
         </div>
       </header>
@@ -861,7 +848,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/15/2017-09-15-http%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4%E5%B7%A5%E5%85%B7/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/15/http%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4%E5%B7%A5%E5%85%B7/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -875,7 +862,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2017/09/15/2017-09-15-http%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4%E5%B7%A5%E5%85%B7/" class="post-title-link" itemprop="url">http相关命令工具</a>
+            <a href="/2017/09/15/http%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4%E5%B7%A5%E5%85%B7/" class="post-title-link" itemprop="url">http相关命令工具</a>
         </h1>
 
         <div class="post-meta">
@@ -905,6 +892,20 @@
             </span>
 
           
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2017/09/15/http%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4%E5%B7%A5%E5%85%B7/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/09/15/http相关命令工具/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
 
         </div>
       </header>
@@ -935,7 +936,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/15/2017-09-15-Swift%E5%AF%B9%E8%B1%A1%E6%8B%B7%E8%B4%9D/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/15/Swift%E5%AF%B9%E8%B1%A1%E6%8B%B7%E8%B4%9D/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -949,7 +950,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2017/09/15/2017-09-15-Swift%E5%AF%B9%E8%B1%A1%E6%8B%B7%E8%B4%9D/" class="post-title-link" itemprop="url">Swift对象拷贝</a>
+            <a href="/2017/09/15/Swift%E5%AF%B9%E8%B1%A1%E6%8B%B7%E8%B4%9D/" class="post-title-link" itemprop="url">Swift对象拷贝</a>
         </h1>
 
         <div class="post-meta">
@@ -979,6 +980,20 @@
             </span>
 
           
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2017/09/15/Swift%E5%AF%B9%E8%B1%A1%E6%8B%B7%E8%B4%9D/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/09/15/Swift对象拷贝/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
 
         </div>
       </header>
@@ -993,6 +1008,113 @@
 <p>使用:<br><code>let ben = Resume.init(name: &quot;本初&quot;)</code><br><code>var shu = ben.copy() as! Resume</code></p>
 <h3 id="方法二-实现自定义拷贝协议"><a href="#方法二-实现自定义拷贝协议" class="headerlink" title="方法二:实现自定义拷贝协议"></a>方法二:实现自定义拷贝协议</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">Copyable</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">copied</span><span class="params">()</span></span> -&gt; <span class="type">Self</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Book</span>: <span class="title">Copyable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String</span></span><br><span class="line">    <span class="keyword">var</span> author: <span class="type">String?</span></span><br><span class="line">    <span class="keyword">var</span> publish: <span class="type">String?</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">//必须要有一个required的初始化方法</span></span><br><span class="line">    <span class="keyword">required</span> <span class="keyword">init</span>(name: <span class="type">String</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.name = name</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">copied</span><span class="params">()</span></span> -&gt; <span class="type">Self</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> obj = type(of: <span class="keyword">self</span>).<span class="keyword">init</span>(name: name)</span><br><span class="line">        obj.name = name</span><br><span class="line">        obj.author = author</span><br><span class="line">        obj.publish = publish</span><br><span class="line">        <span class="keyword">return</span> obj</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>使用:<br><code>let sanguo = Book.init(name: &quot;three of kingdom&quot;)</code><br><code>let book = sanguo.copied()</code>  </p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/15/Swift%20addTarget%E5%87%BD%E6%95%B0%E7%9A%84Selector%E5%8F%82%E6%95%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="博客小屋">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/09/15/Swift%20addTarget%E5%87%BD%E6%95%B0%E7%9A%84Selector%E5%8F%82%E6%95%B0/" class="post-title-link" itemprop="url">Swift addTarget函数的Selector参数</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-09-15 10:12:24" itemprop="dateCreated datePublished" datetime="2017-09-15T10:12:24+08:00">2017-09-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2018-07-15 08:47:28" itemprop="dateModified" datetime="2018-07-15T08:47:28+08:00">2018-07-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2017/09/15/Swift%20addTarget%E5%87%BD%E6%95%B0%E7%9A%84Selector%E5%8F%82%E6%95%B0/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/09/15/Swift addTarget函数的Selector参数/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Swift里addTarget函数里的Selector参数和OC的不太一样.<br><code>open func addTarget(_ target: Any?, action: Selector, for controlEvents: UIControlEvents)</code><br>根据Selector的定义</p>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public struct Selector : ExpressibleByStringLiteral &#123;</span><br><span class="line"></span><br><span class="line">    /// <span class="keyword">Create</span> a selector <span class="keyword">from</span> a <span class="keyword">string</span>.</span><br><span class="line">    <span class="keyword">public</span> init(_ str: <span class="keyword">String</span>)</span><br><span class="line"></span><br><span class="line">    /// <span class="keyword">Create</span> an instance initialized <span class="keyword">to</span> <span class="symbol">`value`</span>.</span><br><span class="line">    <span class="keyword">public</span> init(unicodeScalarLiteral <span class="keyword">value</span>: <span class="keyword">String</span>)</span><br><span class="line"></span><br><span class="line">    /// Construct a selector <span class="keyword">from</span> <span class="symbol">`value`</span>.</span><br><span class="line">    <span class="keyword">public</span> init(extendedGraphemeClusterLiteral <span class="keyword">value</span>: <span class="keyword">String</span>)</span><br><span class="line"></span><br><span class="line">    /// <span class="keyword">Create</span> an instance initialized <span class="keyword">to</span> <span class="symbol">`value`</span>.</span><br><span class="line">    <span class="keyword">public</span> init(stringLiteral <span class="keyword">value</span>: <span class="keyword">String</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>它是一个结构体,并遵守<code>ExpressibleByStringLiteral</code>协议,因此可以直接传递一个字面值字符串.<br>不过这个字符串需要遵循一定的规则:</p>
+<ol>
+<li>如果函数没有参数,则字符串的格式为”函数名”.</li>
+<li>如果函数有参数但省略了参数标签,则字符串的格式为”函数名:”.</li>
+<li>如果函数有参数并且没有省略参数标签,则字符串的格式为”函数名With参数标签:”.ps:如果函数使用的是默认参数标签即使用参数名称作为参数标签的,那么字符串的格式为”函数名With参数名称:”</li>
+</ol>
+<p>举个例子:  </p>
+<ol>
+<li>没有参数<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">numberSliderChanged</span><span class="params">()</span> -&gt; <span class="title">Void</span> &#123;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+对应写法:<code>numberSlider.addTarget(self, action: &quot;numberSliderChanged&quot;, for: .valueChanged)</code></li>
+<li>省略参数标签<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">numberSliderChanged</span><span class="params">(<span class="number">_</span> sender: UISlider)</span></span> -&gt; <span class="type">Void</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"---"</span>, sender.value)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+对应写法:<code>numberSlider.addTarget(self, action: &quot;numberSliderChanged:&quot;, for: .valueChanged)</code></li>
+<li>写明了参数标签slider.<figure class="highlight isbl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">func</span> <span class="function"><span class="title">numberSliderChanged</span>(<span class="variable">slider</span> <span class="variable"><span class="class">sender</span></span>: <span class="variable">UISlider</span>) -&gt; <span class="variable">Void</span> &#123;</span></span><br><span class="line"><span class="function">    <span class="title">print</span>(<span class="variable"><span class="class">sender</span>.value</span>)</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+对应写法:<code>numberSlider.addTarget(self, action: &quot;numberSliderChangedWithSlider:&quot;, for: .valueChanged)</code></li>
+<li>使用默认参数标签<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">numberSliderChanged</span><span class="params">(sender: UISlider)</span></span> -&gt; <span class="type">Void</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"sds"</span>, sender.value)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+对应写法:<code>numberSlider.addTarget(self, action: &quot;numberSliderChangedWithSender:&quot;, for: .valueChanged)</code></li>
+</ol>
+<p>然而这种写法已经废弃,目前swift3.1推荐的是使用<code>#selector</code>,因此上述4写法等价于:<br><code>numberSlider.addTarget(self, action: #selector(numberSliderChanged(sender:)), for: .valueChanged)</code>.<br>当然你也可以传递一个Selector类型的变量:<br><code>numberSlider.addTarget(self, action: Selector.init(stringLiteral: &quot;numberSliderChangedWithSender:&quot;), for: .valueChanged)</code>.不过这种写法依然不是推荐的写法.</p>
 
       
     </div>
@@ -1255,6 +1377,17 @@ window.addEventListener('pjax:success', () => {
   
 
   
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://jekyttt.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
 
     </div>
 </body>

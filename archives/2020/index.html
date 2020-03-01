@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
@@ -234,7 +234,7 @@
       </div>
 
       <h2 class="post-title">
-          <a class="post-title-link" href="/2020/02/29/github%20pages+hexo+next%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/" itemprop="url">
+          <a class="post-title-link" href="/2020/02/29/github-pages-hexo-next%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/" itemprop="url">
             <span itemprop="name">github pages+hexo+next搭建博客</span>
           </a>
       </h2>
@@ -254,7 +254,7 @@
       </div>
 
       <h2 class="post-title">
-          <a class="post-title-link" href="/2020/02/27/2020-02-27-%E6%B8%85%E7%90%86%E4%BD%A0%E7%9A%84Xcode/" itemprop="url">
+          <a class="post-title-link" href="/2020/02/27/%E6%B8%85%E7%90%86%E4%BD%A0%E7%9A%84Xcode/" itemprop="url">
             <span itemprop="name">清理你的Xcode</span>
           </a>
       </h2>
@@ -274,7 +274,7 @@
       </div>
 
       <h2 class="post-title">
-          <a class="post-title-link" href="/2020/02/06/2020-02-06-iOS%E5%9B%BE%E7%89%87%E7%9A%84%E7%BC%A9%E6%94%BE/" itemprop="url">
+          <a class="post-title-link" href="/2020/02/06/iOS%E5%9B%BE%E7%89%87%E7%9A%84%E7%BC%A9%E6%94%BE/" itemprop="url">
             <span itemprop="name">iOS图片的缩放</span>
           </a>
       </h2>
@@ -294,7 +294,7 @@
       </div>
 
       <h2 class="post-title">
-          <a class="post-title-link" href="/2020/02/02/2020-02-02-%E5%85%B3%E4%BA%8E%E5%8F%A3%E7%BD%A9%E7%9A%84%E5%87%A0%E7%82%B9%E6%84%8F%E8%A7%81%E5%92%8C%E5%BB%BA%E8%AE%AE/" itemprop="url">
+          <a class="post-title-link" href="/2020/02/02/%E5%85%B3%E4%BA%8E%E5%8F%A3%E7%BD%A9%E7%9A%84%E5%87%A0%E7%82%B9%E6%84%8F%E8%A7%81%E5%92%8C%E5%BB%BA%E8%AE%AE/" itemprop="url">
             <span itemprop="name">关于口罩的几点意见和建议</span>
           </a>
       </h2>
@@ -314,7 +314,7 @@
       </div>
 
       <h2 class="post-title">
-          <a class="post-title-link" href="/2020/01/26/2020-01-26-Markdown%E6%9B%B4%E6%94%B9%E5%9B%BE%E7%89%87%E5%A4%A7%E5%B0%8F/" itemprop="url">
+          <a class="post-title-link" href="/2020/01/26/Markdown%E6%9B%B4%E6%94%B9%E5%9B%BE%E7%89%87%E5%A4%A7%E5%B0%8F/" itemprop="url">
             <span itemprop="name">Markdown更改图片大小</span>
           </a>
       </h2>
@@ -571,6 +571,17 @@ window.addEventListener('pjax:success', () => {
   
 
   
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://jekyttt.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
 
     </div>
 </body>

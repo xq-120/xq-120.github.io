@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
@@ -192,7 +192,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/03/2019-03-03-%E4%BB%8EJSONSerialization%E5%B4%A9%E6%BA%83%E5%88%B0%E6%90%9E%E6%87%82Swift%E7%9A%84try-catch/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/03/%E4%BB%8EJSONSerialization%E5%B4%A9%E6%BA%83%E5%88%B0%E6%90%9E%E6%87%82Swift%E7%9A%84try-catch/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -206,7 +206,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2019/03/03/2019-03-03-%E4%BB%8EJSONSerialization%E5%B4%A9%E6%BA%83%E5%88%B0%E6%90%9E%E6%87%82Swift%E7%9A%84try-catch/" class="post-title-link" itemprop="url">从JSONSerialization崩溃到搞懂Swift的try-catch</a>
+            <a href="/2019/03/03/%E4%BB%8EJSONSerialization%E5%B4%A9%E6%BA%83%E5%88%B0%E6%90%9E%E6%87%82Swift%E7%9A%84try-catch/" class="post-title-link" itemprop="url">从JSONSerialization崩溃到搞懂Swift的try-catch</a>
         </h1>
 
         <div class="post-meta">
@@ -230,6 +230,20 @@
             </span>
 
           
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2019/03/03/%E4%BB%8EJSONSerialization%E5%B4%A9%E6%BA%83%E5%88%B0%E6%90%9E%E6%87%82Swift%E7%9A%84try-catch/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/03/03/从JSONSerialization崩溃到搞懂Swift的try-catch/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
 
         </div>
       </header>
@@ -254,7 +268,7 @@
 <h3 id="try-catch能够捕获什么样的错误呢"><a href="#try-catch能够捕获什么样的错误呢" class="headerlink" title="try-catch能够捕获什么样的错误呢?"></a>try-catch能够捕获什么样的错误呢?</h3>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2019/03/03/2019-03-03-%E4%BB%8EJSONSerialization%E5%B4%A9%E6%BA%83%E5%88%B0%E6%90%9E%E6%87%82Swift%E7%9A%84try-catch/#more" rel="contents">
+              <a class="btn" href="/2019/03/03/%E4%BB%8EJSONSerialization%E5%B4%A9%E6%BA%83%E5%88%B0%E6%90%9E%E6%87%82Swift%E7%9A%84try-catch/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -278,7 +292,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/20/2018-12-20-%E9%9F%B3%E8%A7%86%E9%A2%91%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%92%8C%E9%9F%B3%E8%A7%86%E9%A2%91%E7%BC%96%E8%A7%A3%E7%A0%81%E6%A0%BC%E5%BC%8F/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/20/%E9%9F%B3%E8%A7%86%E9%A2%91%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%92%8C%E9%9F%B3%E8%A7%86%E9%A2%91%E7%BC%96%E8%A7%A3%E7%A0%81%E6%A0%BC%E5%BC%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -292,7 +306,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2018/12/20/2018-12-20-%E9%9F%B3%E8%A7%86%E9%A2%91%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%92%8C%E9%9F%B3%E8%A7%86%E9%A2%91%E7%BC%96%E8%A7%A3%E7%A0%81%E6%A0%BC%E5%BC%8F/" class="post-title-link" itemprop="url">音视频文件格式和音视频编解码格式</a>
+            <a href="/2018/12/20/%E9%9F%B3%E8%A7%86%E9%A2%91%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%92%8C%E9%9F%B3%E8%A7%86%E9%A2%91%E7%BC%96%E8%A7%A3%E7%A0%81%E6%A0%BC%E5%BC%8F/" class="post-title-link" itemprop="url">音视频文件格式和音视频编解码格式</a>
         </h1>
 
         <div class="post-meta">
@@ -316,6 +330,20 @@
             </span>
 
           
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2018/12/20/%E9%9F%B3%E8%A7%86%E9%A2%91%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%92%8C%E9%9F%B3%E8%A7%86%E9%A2%91%E7%BC%96%E8%A7%A3%E7%A0%81%E6%A0%BC%E5%BC%8F/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/12/20/音视频文件格式和音视频编解码格式/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
 
         </div>
       </header>
@@ -375,7 +403,7 @@
 <figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#import &lt;CoreAudio/CoreAudioTypes.h&gt;</span></span><br><span class="line">CF_ENUM(AudioFormatID)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">kAudioFormatLinearPCM</span>               = 'lpcm',</span><br><span class="line">    <span class="attr">kAudioFormatAC3</span>                     = 'ac-<span class="number">3</span>',</span><br><span class="line">    <span class="attr">kAudioFormat60958AC3</span>                = 'cac3',</span><br><span class="line">    <span class="attr">kAudioFormatAppleIMA4</span>               = 'ima4',</span><br><span class="line">    <span class="attr">kAudioFormatMPEG4AAC</span>                = 'aac ',</span><br><span class="line">    <span class="attr">kAudioFormatMPEG4CELP</span>               = 'celp',</span><br><span class="line">    <span class="attr">kAudioFormatMPEG4HVXC</span>               = 'hvxc',</span><br><span class="line">    <span class="attr">kAudioFormatMPEG4TwinVQ</span>             = 'twvq',</span><br><span class="line">    <span class="attr">kAudioFormatMACE3</span>                   = 'MAC3',</span><br><span class="line">    <span class="attr">kAudioFormatMACE6</span>                   = 'MAC6',</span><br><span class="line">    <span class="attr">kAudioFormatULaw</span>                    = 'ulaw',</span><br><span class="line">    <span class="attr">kAudioFormatALaw</span>                    = 'alaw',</span><br><span class="line">    <span class="attr">kAudioFormatQDesign</span>                 = 'QDMC',</span><br><span class="line">    <span class="attr">kAudioFormatQDesign2</span>                = 'QDM2',</span><br><span class="line">    <span class="attr">kAudioFormatQUALCOMM</span>                = 'Qclp',</span><br><span class="line">    <span class="attr">kAudioFormatMPEGLayer1</span>              = '.mp1',</span><br><span class="line">    <span class="attr">kAudioFormatMPEGLayer2</span>              = '.mp2',</span><br><span class="line">    <span class="attr">kAudioFormatMPEGLayer3</span>              = '.mp3',</span><br><span class="line">    <span class="attr">kAudioFormatTimeCode</span>                = 'time',</span><br><span class="line">    <span class="attr">kAudioFormatMIDIStream</span>              = 'midi',</span><br><span class="line">    <span class="attr">kAudioFormatParameterValueStream</span>    = 'apvs',</span><br><span class="line">    <span class="attr">kAudioFormatAppleLossless</span>           = 'alac',</span><br><span class="line">    <span class="attr">kAudioFormatMPEG4AAC_HE</span>             = 'aach',</span><br><span class="line">    <span class="attr">kAudioFormatMPEG4AAC_LD</span>             = 'aacl',</span><br><span class="line">    <span class="attr">kAudioFormatMPEG4AAC_ELD</span>            = 'aace',</span><br><span class="line">    <span class="attr">kAudioFormatMPEG4AAC_ELD_SBR</span>        = 'aacf',</span><br><span class="line">    <span class="attr">kAudioFormatMPEG4AAC_ELD_V2</span>         = 'aacg',    </span><br><span class="line">    <span class="attr">kAudioFormatMPEG4AAC_HE_V2</span>          = 'aacp',</span><br><span class="line">    <span class="attr">kAudioFormatMPEG4AAC_Spatial</span>        = 'aacs',</span><br><span class="line">    <span class="attr">kAudioFormatAMR</span>                     = 'samr',</span><br><span class="line">    <span class="attr">kAudioFormatAMR_WB</span>                  = 'sawb',</span><br><span class="line">    <span class="attr">kAudioFormatAudible</span>                 = 'AUDB',</span><br><span class="line">    <span class="attr">kAudioFormatiLBC</span>                    = 'ilbc',</span><br><span class="line">    <span class="attr">kAudioFormatDVIIntelIMA</span>             = <span class="number">0</span>x6D730011,</span><br><span class="line">    <span class="attr">kAudioFormatMicrosoftGSM</span>            = <span class="number">0</span>x6D730031,</span><br><span class="line">    <span class="attr">kAudioFormatAES3</span>                    = 'aes3',</span><br><span class="line">    <span class="attr">kAudioFormatEnhancedAC3</span>             = 'ec-<span class="number">3</span>'</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2018/12/20/2018-12-20-%E9%9F%B3%E8%A7%86%E9%A2%91%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%92%8C%E9%9F%B3%E8%A7%86%E9%A2%91%E7%BC%96%E8%A7%A3%E7%A0%81%E6%A0%BC%E5%BC%8F/#more" rel="contents">
+              <a class="btn" href="/2018/12/20/%E9%9F%B3%E8%A7%86%E9%A2%91%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%92%8C%E9%9F%B3%E8%A7%86%E9%A2%91%E7%BC%96%E8%A7%A3%E7%A0%81%E6%A0%BC%E5%BC%8F/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -399,7 +427,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/19/2018-12-19-UIBarButtonItem%E5%9D%91/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/19/UIBarButtonItem%E5%9D%91/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -413,7 +441,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2018/12/19/2018-12-19-UIBarButtonItem%E5%9D%91/" class="post-title-link" itemprop="url">UIBarButtonItem坑</a>
+            <a href="/2018/12/19/UIBarButtonItem%E5%9D%91/" class="post-title-link" itemprop="url">UIBarButtonItem坑</a>
         </h1>
 
         <div class="post-meta">
@@ -437,6 +465,20 @@
             </span>
 
           
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2018/12/19/UIBarButtonItem%E5%9D%91/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/12/19/UIBarButtonItem坑/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
 
         </div>
       </header>
@@ -469,7 +511,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/09/2018-12-09-APP%E7%8A%B6%E6%80%81%E5%8F%98%E5%8C%96/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/09/APP%E7%8A%B6%E6%80%81%E5%8F%98%E5%8C%96/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -483,7 +525,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2018/12/09/2018-12-09-APP%E7%8A%B6%E6%80%81%E5%8F%98%E5%8C%96/" class="post-title-link" itemprop="url">iOS APP运行状态变化</a>
+            <a href="/2018/12/09/APP%E7%8A%B6%E6%80%81%E5%8F%98%E5%8C%96/" class="post-title-link" itemprop="url">iOS APP运行状态变化</a>
         </h1>
 
         <div class="post-meta">
@@ -507,6 +549,20 @@
             </span>
 
           
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2018/12/09/APP%E7%8A%B6%E6%80%81%E5%8F%98%E5%8C%96/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/12/09/APP状态变化/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
 
         </div>
       </header>
@@ -528,7 +584,7 @@
 <figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">默认	<span class="number">23</span>:<span class="number">11</span>:<span class="number">34.897752</span> +<span class="number">0800</span>	pictureInMemory	-[AppDelegate applicationWillEnterForeground:]  应用状态:<span class="number">2</span></span><br><span class="line">默认	<span class="number">23</span>:<span class="number">11</span>:<span class="number">35.218295</span> +<span class="number">0800</span>	pictureInMemory	-[AppDelegate applicationDidBecomeActive:]  应用状态:<span class="number">0</span></span><br></pre></td></tr></table></figure>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2018/12/09/2018-12-09-APP%E7%8A%B6%E6%80%81%E5%8F%98%E5%8C%96/#more" rel="contents">
+              <a class="btn" href="/2018/12/09/APP%E7%8A%B6%E6%80%81%E5%8F%98%E5%8C%96/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -552,7 +608,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/09/2018-12-09-iOS%20App%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/09/iOS%20App%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -566,7 +622,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2018/12/09/2018-12-09-iOS%20App%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" class="post-title-link" itemprop="url">iOS APP生命周期</a>
+            <a href="/2018/12/09/iOS%20App%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" class="post-title-link" itemprop="url">iOS APP生命周期</a>
         </h1>
 
         <div class="post-meta">
@@ -596,6 +652,20 @@
             </span>
 
           
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2018/12/09/iOS%20App%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/12/09/iOS App生命周期/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
 
         </div>
       </header>
@@ -628,7 +698,7 @@
 </ul>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2018/12/09/2018-12-09-iOS%20App%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/#more" rel="contents">
+              <a class="btn" href="/2018/12/09/iOS%20App%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -652,7 +722,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/07/2018-12-07-%E6%B8%85%E7%90%86APP%E7%BC%93%E5%AD%98/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/07/%E6%B8%85%E7%90%86APP%E7%BC%93%E5%AD%98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -666,7 +736,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2018/12/07/2018-12-07-%E6%B8%85%E7%90%86APP%E7%BC%93%E5%AD%98/" class="post-title-link" itemprop="url">iOS APP缓存清理</a>
+            <a href="/2018/12/07/%E6%B8%85%E7%90%86APP%E7%BC%93%E5%AD%98/" class="post-title-link" itemprop="url">iOS APP缓存清理</a>
         </h1>
 
         <div class="post-meta">
@@ -696,6 +766,20 @@
             </span>
 
           
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2018/12/07/%E6%B8%85%E7%90%86APP%E7%BC%93%E5%AD%98/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/12/07/清理APP缓存/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
 
         </div>
       </header>
@@ -731,7 +815,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/05/2018-12-05-iOS%20crash%20%E6%97%A5%E5%BF%97%E5%A0%86%E6%A0%88%E8%A7%A3%E6%9E%90/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/05/iOS%20crash%20%E6%97%A5%E5%BF%97%E5%A0%86%E6%A0%88%E8%A7%A3%E6%9E%90/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -745,7 +829,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2018/12/05/2018-12-05-iOS%20crash%20%E6%97%A5%E5%BF%97%E5%A0%86%E6%A0%88%E8%A7%A3%E6%9E%90/" class="post-title-link" itemprop="url">iOS崩溃日志堆栈解析</a>
+            <a href="/2018/12/05/iOS%20crash%20%E6%97%A5%E5%BF%97%E5%A0%86%E6%A0%88%E8%A7%A3%E6%9E%90/" class="post-title-link" itemprop="url">iOS崩溃日志堆栈解析</a>
         </h1>
 
         <div class="post-meta">
@@ -769,6 +853,20 @@
             </span>
 
           
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2018/12/05/iOS%20crash%20%E6%97%A5%E5%BF%97%E5%A0%86%E6%A0%88%E8%A7%A3%E6%9E%90/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/12/05/iOS crash 日志堆栈解析/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
 
         </div>
       </header>
@@ -787,7 +885,7 @@
 <p><code>grep --after-context=2 &quot;Binary Images:&quot; *crash</code></p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2018/12/05/2018-12-05-iOS%20crash%20%E6%97%A5%E5%BF%97%E5%A0%86%E6%A0%88%E8%A7%A3%E6%9E%90/#more" rel="contents">
+              <a class="btn" href="/2018/12/05/iOS%20crash%20%E6%97%A5%E5%BF%97%E5%A0%86%E6%A0%88%E8%A7%A3%E6%9E%90/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -811,7 +909,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/25/2018-11-25-iOS%20APP%E5%90%8E%E5%8F%B0%E8%BF%90%E8%A1%8C%E6%97%B6%E9%97%B4%E6%8E%A2%E7%A9%B6%E5%8F%8A%E5%BB%B6%E9%95%BF/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/25/iOS%20APP%E5%90%8E%E5%8F%B0%E8%BF%90%E8%A1%8C%E6%97%B6%E9%97%B4%E6%8E%A2%E7%A9%B6%E5%8F%8A%E5%BB%B6%E9%95%BF/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -825,7 +923,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2018/11/25/2018-11-25-iOS%20APP%E5%90%8E%E5%8F%B0%E8%BF%90%E8%A1%8C%E6%97%B6%E9%97%B4%E6%8E%A2%E7%A9%B6%E5%8F%8A%E5%BB%B6%E9%95%BF/" class="post-title-link" itemprop="url">iOS APP后台运行时间探究及延长</a>
+            <a href="/2018/11/25/iOS%20APP%E5%90%8E%E5%8F%B0%E8%BF%90%E8%A1%8C%E6%97%B6%E9%97%B4%E6%8E%A2%E7%A9%B6%E5%8F%8A%E5%BB%B6%E9%95%BF/" class="post-title-link" itemprop="url">iOS APP后台运行时间探究及延长</a>
         </h1>
 
         <div class="post-meta">
@@ -855,6 +953,20 @@
             </span>
 
           
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2018/11/25/iOS%20APP%E5%90%8E%E5%8F%B0%E8%BF%90%E8%A1%8C%E6%97%B6%E9%97%B4%E6%8E%A2%E7%A9%B6%E5%8F%8A%E5%BB%B6%E9%95%BF/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/11/25/iOS APP后台运行时间探究及延长/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
 
         </div>
       </header>
@@ -876,7 +988,7 @@
 <p>相关方法:</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2018/11/25/2018-11-25-iOS%20APP%E5%90%8E%E5%8F%B0%E8%BF%90%E8%A1%8C%E6%97%B6%E9%97%B4%E6%8E%A2%E7%A9%B6%E5%8F%8A%E5%BB%B6%E9%95%BF/#more" rel="contents">
+              <a class="btn" href="/2018/11/25/iOS%20APP%E5%90%8E%E5%8F%B0%E8%BF%90%E8%A1%8C%E6%97%B6%E9%97%B4%E6%8E%A2%E7%A9%B6%E5%8F%8A%E5%BB%B6%E9%95%BF/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -900,7 +1012,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/25/2018-11-25-VPS%20shadowsocks%E6%90%AD%E5%BB%BA/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/25/VPS%20shadowsocks%E6%90%AD%E5%BB%BA/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -914,7 +1026,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2018/11/25/2018-11-25-VPS%20shadowsocks%E6%90%AD%E5%BB%BA/" class="post-title-link" itemprop="url">VPS shadowsocks搭建</a>
+            <a href="/2018/11/25/VPS%20shadowsocks%E6%90%AD%E5%BB%BA/" class="post-title-link" itemprop="url">VPS shadowsocks搭建</a>
         </h1>
 
         <div class="post-meta">
@@ -938,6 +1050,20 @@
             </span>
 
           
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2018/11/25/VPS%20shadowsocks%E6%90%AD%E5%BB%BA/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/11/25/VPS shadowsocks搭建/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
 
         </div>
       </header>
@@ -956,7 +1082,7 @@
 <h4 id="1-3安装-BBR"><a href="#1-3安装-BBR" class="headerlink" title="1.3安装 BBR"></a>1.3安装 BBR</h4>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2018/11/25/2018-11-25-VPS%20shadowsocks%E6%90%AD%E5%BB%BA/#more" rel="contents">
+              <a class="btn" href="/2018/11/25/VPS%20shadowsocks%E6%90%AD%E5%BB%BA/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -980,7 +1106,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/28/2018-09-28-%E6%95%B0%E7%BB%84%E5%8E%BB%E9%87%8D%E6%B7%BB%E5%8A%A0%E5%85%83%E7%B4%A0/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/28/%E6%95%B0%E7%BB%84%E5%8E%BB%E9%87%8D%E6%B7%BB%E5%8A%A0%E5%85%83%E7%B4%A0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -994,7 +1120,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2018/09/28/2018-09-28-%E6%95%B0%E7%BB%84%E5%8E%BB%E9%87%8D%E6%B7%BB%E5%8A%A0%E5%85%83%E7%B4%A0/" class="post-title-link" itemprop="url">数组去重添加元素Block方式实现</a>
+            <a href="/2018/09/28/%E6%95%B0%E7%BB%84%E5%8E%BB%E9%87%8D%E6%B7%BB%E5%8A%A0%E5%85%83%E7%B4%A0/" class="post-title-link" itemprop="url">数组去重添加元素Block方式实现</a>
         </h1>
 
         <div class="post-meta">
@@ -1024,6 +1150,20 @@
             </span>
 
           
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2018/09/28/%E6%95%B0%E7%BB%84%E5%8E%BB%E9%87%8D%E6%B7%BB%E5%8A%A0%E5%85%83%E7%B4%A0/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/09/28/数组去重添加元素/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
 
         </div>
       </header>
@@ -1304,6 +1444,17 @@ window.addEventListener('pjax:success', () => {
   
 
   
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://jekyttt.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
 
     </div>
 </body>
