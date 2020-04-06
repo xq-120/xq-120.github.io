@@ -191,6 +191,194 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/15/%E5%88%B6%E4%BD%9CSDK%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="今天又是充满希望的一天">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/04/15/%E5%88%B6%E4%BD%9CSDK%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/" class="post-title-link" itemprop="url">制作静态库注意事项</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-04-15 18:54:53" itemprop="dateCreated datePublished" datetime="2018-04-15T18:54:53+08:00">2018-04-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2018-07-15 08:47:28" itemprop="dateModified" datetime="2018-07-15T08:47:28+08:00">2018-07-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%9D%99%E6%80%81%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">静态库</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2018/04/15/%E5%88%B6%E4%BD%9CSDK%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/04/15/制作SDK注意事项/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>制作静态库注意事项</p>
+<ol>
+<li><p>添加前缀防止冲突.<br> 类名,全局定义的变量(如全局变量,全局的枚举定义),类别方法名,宏,通知名称.需要添加前缀防止与宿主冲突.</p>
+</li>
+<li><p>使用static关键字限制作用域.<br> 对于全局变量,尽可能使用static限制作用域.否则容易与宿主重复定义导致编译错误.</p>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/12/Swift%E9%9D%99%E6%80%81%E5%BA%93%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="今天又是充满希望的一天">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/04/12/Swift%E9%9D%99%E6%80%81%E5%BA%93%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/" class="post-title-link" itemprop="url">Swift静态库注意事项</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-04-12 15:56:35" itemprop="dateCreated datePublished" datetime="2018-04-12T15:56:35+08:00">2018-04-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2018-07-15 08:47:28" itemprop="dateModified" datetime="2018-07-15T08:47:28+08:00">2018-07-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%9D%99%E6%80%81%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">静态库</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2018/04/12/Swift%E9%9D%99%E6%80%81%E5%BA%93%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/04/12/Swift静态库注意事项/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="Swift静态库注意事项"><a href="#Swift静态库注意事项" class="headerlink" title="Swift静态库注意事项"></a>Swift静态库注意事项</h3><p>工程是Swift,OC混编.开发完成后,需要将工程制作为一个静态库.制作完成测试使用时,发现一运行就崩溃.提示:<br>Unknown class KDLHomeLotteryKindCollectionCell in Interface Builder file.应该是宿主工程在加载静态库对应的bundle里的XIB文件时出问题了.</p>
+<p>原因分析及解决办法:<br>确定以及肯定的是系统在查找XIB对应的类时没有找到导致的.</p>
+<p>在制作静态库和Bundle时,类和XIB文件被分离到各自的target.而XIB文件是被拖入到bundle中的,因此需要更改XIB之前的默认Module设置,尤其是创建时选择Swift语言.否则系统在查找XIB的类时是在Bundle这个Module中找,当然是找不到的,从而在加载时崩溃.</p>
+<p>解决办法:<br>需要更改XIB对应类的所属Module为静态库的Module.或者不勾选Inherit Module From Target,并清空Module一栏.</p>
+<p>note:Swift创建的XIB默认是选中Inherit Module From Target的.OC创建的XIB文件系统默认没有勾选.</p>
+<p>eg:</p>
+<p><img src="http://7xqoji.com1.z0.glb.clouddn.com/Swift%E5%88%9B%E5%BB%BAXIB%E6%96%87%E4%BB%B6@2x.png" alt=""></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/09/map%E5%92%8CflapMap%E7%9A%84%E4%B8%80%E7%82%B9%E5%8C%BA%E5%88%AB/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1023,228 +1211,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/27/RunLoop%E6%B7%B1%E5%85%A5/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="今天又是充满希望的一天">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/02/27/RunLoop%E6%B7%B1%E5%85%A5/" class="post-title-link" itemprop="url">runLoop深入</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-02-27 10:38:24" itemprop="dateCreated datePublished" datetime="2018-02-27T10:38:24+08:00">2018-02-27</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2018-07-15 08:47:28" itemprop="dateModified" datetime="2018-07-15T08:47:28+08:00">2018-07-15</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/runLoop/" itemprop="url" rel="index"><span itemprop="name">runLoop</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2018/02/27/RunLoop%E6%B7%B1%E5%85%A5/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/02/27/RunLoop深入/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="RunLoop"><a href="#RunLoop" class="headerlink" title="RunLoop"></a>RunLoop</h2><p>参考:<br><a href="https://blog.ibireme.com/2015/05/18/runloop/" target="_blank" rel="noopener">深入理解RunLoop</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/26/runtime%20+load%E4%B8%8E+initialize%E5%88%86%E6%9E%90/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="今天又是充满希望的一天">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/02/26/runtime%20+load%E4%B8%8E+initialize%E5%88%86%E6%9E%90/" class="post-title-link" itemprop="url">runtime +load与+initialize分析</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-02-26 11:31:24" itemprop="dateCreated datePublished" datetime="2018-02-26T11:31:24+08:00">2018-02-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2018-07-15 08:47:28" itemprop="dateModified" datetime="2018-07-15T08:47:28+08:00">2018-07-15</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/runtime/" itemprop="url" rel="index"><span itemprop="name">runtime</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2018/02/26/runtime%20+load%E4%B8%8E+initialize%E5%88%86%E6%9E%90/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/02/26/runtime +load与+initialize分析/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>通过一个简单的打印实验就可以发现:</p>
-<ul>
-<li>+initialize方法和+load调用时机</li>
-<li>+initialize在父类,子类,类别之间的关系</li>
-<li>+load在父类,子类,类别之间的关系</li>
-</ul>
-<p>如下表格:</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th></th>
-<th>+load</th>
-<th>+initialize</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>调用时机</td>
-<td>被添加到 runtime 时(类被加载时)</td>
-<td>第一次调用该类的类方法或实例方法前调用,可能永远不调用</td>
-</tr>
-<tr>
-<td>调用顺序</td>
-<td>父类-&gt;子类-&gt;分类(多个分类间,则按加载顺序)</td>
-<td>父类-&gt;分类(多个分类时,是最后一个的被执行)or子类</td>
-</tr>
-<tr>
-<td>是否需要显式调用父类实现</td>
-<td>否</td>
-<td>否</td>
-</tr>
-<tr>
-<td>自身没实现是否调用父类的实现</td>
-<td>否</td>
-<td>是</td>
-</tr>
-<tr>
-<td>分类中实现产生的影响</td>
-<td>类和分类都执行</td>
-<td>覆盖类中的方法，只执行分类的实现</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>另:Swizzling should always be done in +load.</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考:"></a>参考:</h2><p><a href="https://www.jianshu.com/p/872447c6dc3f" target="_blank" rel="noopener">Objective-C 深入理解 +load 和 +initialize</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1315,14 +1281,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">94</span>
+          <span class="site-state-item-count">96</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">39</span>
+        <span class="site-state-item-count">40</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">

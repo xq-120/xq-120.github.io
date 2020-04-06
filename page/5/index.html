@@ -191,6 +191,194 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/15/%E8%AE%A1%E7%AE%97%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8D%A0%E7%94%A8%E7%9A%84%E5%AD%97%E8%8A%82%E9%95%BF%E5%BA%A6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="今天又是充满希望的一天">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/07/15/%E8%AE%A1%E7%AE%97%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8D%A0%E7%94%A8%E7%9A%84%E5%AD%97%E8%8A%82%E9%95%BF%E5%BA%A6/" class="post-title-link" itemprop="url">计算字符串占用的字节长度</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2018-07-15 22:09:22 / 修改时间：22:09:37" itemprop="dateCreated datePublished" datetime="2018-07-15T22:09:22+08:00">2018-07-15</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" itemprop="url" rel="index"><span itemprop="name">字符编码</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2018/07/15/%E8%AE%A1%E7%AE%97%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8D%A0%E7%94%A8%E7%9A%84%E5%AD%97%E8%8A%82%E9%95%BF%E5%BA%A6/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/07/15/计算字符串占用的字节长度/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="计算字符串占用的字节长度"><a href="#计算字符串占用的字节长度" class="headerlink" title="计算字符串占用的字节长度"></a>计算字符串占用的字节长度</h3><p><strong>前提</strong></p>
+<p>需要了解字符的编码规则.使用不同的编码规则会得到不同的结果.</p>
+<p><strong>API</strong></p>
+<p><code>- (NSUInteger)lengthOfBytesUsingEncoding:(NSStringEncoding)enc;        // Result in O(n) time; the result is exact. Returns 0 on error (cannot convert to specified encoding, or overflow)</code></p>
+<p><strong>示例</strong></p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSString</span> *chString = <span class="string">@"中国abc"</span>;</span><br><span class="line"><span class="built_in">NSUInteger</span> utf8Bytes = [chString lengthOfBytesUsingEncoding:<span class="built_in">NSUTF8StringEncoding</span>];</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"utf8Bytes:%ld"</span>, utf8Bytes); <span class="comment">//9</span></span><br><span class="line"><span class="built_in">NSUInteger</span> unicodeBytes = [chString lengthOfBytesUsingEncoding:<span class="built_in">NSUnicodeStringEncoding</span>];</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"unicodeBytes:%ld"</span>, unicodeBytes); <span class="comment">//10</span></span><br></pre></td></tr></table></figure>
+<p>天朝目前强制使用的是GB18030.</p>
+<p>在<code>CFStringEncodingExt.h</code>里面包含了其他编码枚举.如:</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">kCFStringEncodingGB_2312_80</span> = <span class="number">0</span>x0630,</span><br><span class="line"><span class="attr">kCFStringEncodingGBK_95</span> = <span class="number">0</span>x0631,		/* annex to GB <span class="number">13000</span>-<span class="number">93</span><span class="comment">; for Windows 95 */</span></span><br><span class="line"><span class="attr">kCFStringEncodingGB_18030_2000</span> = <span class="number">0</span>x0632,</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/07/15/%E8%AE%A1%E7%AE%97%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8D%A0%E7%94%A8%E7%9A%84%E5%AD%97%E8%8A%82%E9%95%BF%E5%BA%A6/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/09/%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="今天又是充满希望的一天">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/07/09/%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">图片压缩笔记</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-07-09 17:16:46" itemprop="dateCreated datePublished" datetime="2018-07-09T17:16:46+08:00">2018-07-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2018-07-15 08:47:28" itemprop="dateModified" datetime="2018-07-15T08:47:28+08:00">2018-07-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%9B%BE%E7%89%87%E5%A4%84%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">图片处理</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2018/07/09/%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9%E7%AC%94%E8%AE%B0/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/07/09/图片压缩笔记/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="图片压缩笔记"><a href="#图片压缩笔记" class="headerlink" title="图片压缩笔记"></a>图片压缩笔记</h2><h3 id="压缩方法"><a href="#压缩方法" class="headerlink" title="压缩方法"></a>压缩方法</h3><p>工程里图片压缩方法过程:传入一张图片,压缩后,再转回图片.加上上传到服务器的整个过程如下:<br>UIImage-大力压缩-&gt;NSData(A)-&gt;UIImage-UIImageJPEGRepresentation(img, 1)-&gt;NSData(B)-&gt;服务器.</p>
+<p>测试发现dataB要比dataA大很多很多.导致实际上传给服务器的数据远远不止600kb.eg某次上传的头像:4.56Mb(原图,压缩前)-&gt;579.16kb(压缩后)-&gt;2.93Mb(实际上传).实际上传的数据是2.93Mb</p>
+<p>因此再转回UIImage是多余且错的.而应该压缩后直接上传服务器,即UIImage-大力压缩-&gt;NSData(A)-&gt;服务器.</p>
+<p>正确的压缩方法为:</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//指定压缩阈值,压缩图片</span></span><br><span class="line">+ (<span class="built_in">NSData</span> *)za_compressImage:(<span class="built_in">UIImage</span> *)image toMaxFileSize:(<span class="built_in">NSInteger</span>)maxFileSize &#123;</span><br><span class="line">    <span class="built_in">CGFloat</span> compression = <span class="number">0.9</span>f;</span><br><span class="line">    <span class="built_in">CGFloat</span> minCompression = <span class="number">0.1</span>f;</span><br><span class="line">    <span class="built_in">NSData</span> *imageData = <span class="built_in">UIImageJPEGRepresentation</span>(image, compression);</span><br><span class="line">    <span class="keyword">while</span> ([imageData length] &gt; maxFileSize &amp;&amp; compression &gt; minCompression) &#123;</span><br><span class="line">        compression -= <span class="number">0.05</span>;</span><br><span class="line">        imageData = <span class="built_in">UIImageJPEGRepresentation</span>(image, compression);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> imageData;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/09/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -975,194 +1163,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/15/%E5%88%B6%E4%BD%9CSDK%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="今天又是充满希望的一天">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/04/15/%E5%88%B6%E4%BD%9CSDK%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/" class="post-title-link" itemprop="url">制作静态库注意事项</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-04-15 18:54:53" itemprop="dateCreated datePublished" datetime="2018-04-15T18:54:53+08:00">2018-04-15</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2018-07-15 08:47:28" itemprop="dateModified" datetime="2018-07-15T08:47:28+08:00">2018-07-15</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%9D%99%E6%80%81%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">静态库</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2018/04/15/%E5%88%B6%E4%BD%9CSDK%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/04/15/制作SDK注意事项/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>制作静态库注意事项</p>
-<ol>
-<li><p>添加前缀防止冲突.<br> 类名,全局定义的变量(如全局变量,全局的枚举定义),类别方法名,宏,通知名称.需要添加前缀防止与宿主冲突.</p>
-</li>
-<li><p>使用static关键字限制作用域.<br> 对于全局变量,尽可能使用static限制作用域.否则容易与宿主重复定义导致编译错误.</p>
-</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/12/Swift%E9%9D%99%E6%80%81%E5%BA%93%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="今天又是充满希望的一天">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/04/12/Swift%E9%9D%99%E6%80%81%E5%BA%93%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/" class="post-title-link" itemprop="url">Swift静态库注意事项</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-04-12 15:56:35" itemprop="dateCreated datePublished" datetime="2018-04-12T15:56:35+08:00">2018-04-12</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2018-07-15 08:47:28" itemprop="dateModified" datetime="2018-07-15T08:47:28+08:00">2018-07-15</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%9D%99%E6%80%81%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">静态库</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2018/04/12/Swift%E9%9D%99%E6%80%81%E5%BA%93%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/04/12/Swift静态库注意事项/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="Swift静态库注意事项"><a href="#Swift静态库注意事项" class="headerlink" title="Swift静态库注意事项"></a>Swift静态库注意事项</h3><p>工程是Swift,OC混编.开发完成后,需要将工程制作为一个静态库.制作完成测试使用时,发现一运行就崩溃.提示:<br>Unknown class KDLHomeLotteryKindCollectionCell in Interface Builder file.应该是宿主工程在加载静态库对应的bundle里的XIB文件时出问题了.</p>
-<p>原因分析及解决办法:<br>确定以及肯定的是系统在查找XIB对应的类时没有找到导致的.</p>
-<p>在制作静态库和Bundle时,类和XIB文件被分离到各自的target.而XIB文件是被拖入到bundle中的,因此需要更改XIB之前的默认Module设置,尤其是创建时选择Swift语言.否则系统在查找XIB的类时是在Bundle这个Module中找,当然是找不到的,从而在加载时崩溃.</p>
-<p>解决办法:<br>需要更改XIB对应类的所属Module为静态库的Module.或者不勾选Inherit Module From Target,并清空Module一栏.</p>
-<p>note:Swift创建的XIB默认是选中Inherit Module From Target的.OC创建的XIB文件系统默认没有勾选.</p>
-<p>eg:</p>
-<p><img src="http://7xqoji.com1.z0.glb.clouddn.com/Swift%E5%88%9B%E5%BB%BAXIB%E6%96%87%E4%BB%B6@2x.png" alt=""></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1233,14 +1233,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">94</span>
+          <span class="site-state-item-count">96</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">39</span>
+        <span class="site-state-item-count">40</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">

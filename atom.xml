@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-03-23T14:56:06.380Z</updated>
+  <updated>2020-04-06T10:08:25.310Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,87 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>IRR内部收益率</title>
+    <link href="http://yoursite.com/2020/04/06/IRR%E5%86%85%E9%83%A8%E6%94%B6%E7%9B%8A%E7%8E%87/"/>
+    <id>http://yoursite.com/2020/04/06/IRR%E5%86%85%E9%83%A8%E6%94%B6%E7%9B%8A%E7%8E%87/</id>
+    <published>2020-04-06T09:34:31.000Z</published>
+    <updated>2020-04-06T10:08:25.310Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h4 id=&quot;ROI&quot;&gt;&lt;a href=&quot;#ROI&quot; class=&quot;headerlink&quot; title=&quot;ROI&quot;&gt;&lt;/a&gt;ROI&lt;/h4&gt;&lt;p&gt;return on investment，投资回报率。&lt;/p&gt;
+&lt;p&gt;投资回报率的计算公式：&lt;/p&gt;
+&lt;figure class=&quot;highlight angelscript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;投资回报率 = （收益 - 成本）/ 成本 * &lt;span class=&quot;number&quot;&gt;100&lt;/span&gt;%`&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;eg:&lt;/p&gt;
+&lt;p&gt;项目A投入本金100，最后可以110，那么ROI = （110 - 100）/ 100 * 100% = 10%&lt;/p&gt;
+&lt;p&gt;项目B投入本金100，最后可以105，那么ROI = （105 - 100）/ 100 * 100% = 5%&lt;/p&gt;
+&lt;p&gt;通过计算应该选择项目A。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;投资报酬率的优缺点&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;优点：&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="经济学" scheme="http://yoursite.com/categories/%E7%BB%8F%E6%B5%8E%E5%AD%A6/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>支付宝花呗与借呗背后的利率</title>
+    <link href="http://yoursite.com/2020/04/06/%E6%94%AF%E4%BB%98%E5%AE%9D%E8%8A%B1%E5%91%97%E4%B8%8E%E5%80%9F%E5%91%97%E8%83%8C%E5%90%8E%E7%9A%84%E5%88%A9%E7%8E%87/"/>
+    <id>http://yoursite.com/2020/04/06/%E6%94%AF%E4%BB%98%E5%AE%9D%E8%8A%B1%E5%91%97%E4%B8%8E%E5%80%9F%E5%91%97%E8%83%8C%E5%90%8E%E7%9A%84%E5%88%A9%E7%8E%87/</id>
+    <published>2020-04-06T09:32:50.000Z</published>
+    <updated>2020-04-06T09:34:07.278Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;本文主要分析支付宝里的花呗，借呗，备用金背后的年化收益率。&lt;/p&gt;
+&lt;p&gt;在使用支付宝花呗的时候，还款页面除了正常还款外还有一些什么账单分期、最低还款、延期还款之类烂七八糟的东西：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/DBCA822F-CA14-4D45-BA99-5592A7D39D4A.png&quot; style=&quot;zoom:50%;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;似乎是在替用户着想，但真实情况是不是如此呢？下面将仔细分析一下花呗分期的真实年利率。&lt;/p&gt;
+&lt;h4 id=&quot;账单分期&quot;&gt;&lt;a href=&quot;#账单分期&quot; class=&quot;headerlink&quot; title=&quot;账单分期&quot;&gt;&lt;/a&gt;账单分期&lt;/h4&gt;&lt;p&gt;花呗分期数与手续费率如下：&lt;/p&gt;
+&lt;div class=&quot;table-container&quot;&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;th&gt;花呗&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;3期&lt;/td&gt;
+&lt;td&gt;2.50%&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;6期&lt;/td&gt;
+&lt;td&gt;4.50%&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;9期&lt;/td&gt;
+&lt;td&gt;6.50%&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;12期&lt;/td&gt;
+&lt;td&gt;8.80%&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;每期手续费 = 分期金额 / 分期期数 * 手续费率&lt;/p&gt;
+&lt;p&gt;每期还款数 = 分期金额 / 分期期数 + 每期手续费 = 每期手续费 * (1 + 手续费率 ) / 手续费率&lt;/p&gt;
+&lt;p&gt;总手续费 = 分期金额 * 手续费率&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="经济学" scheme="http://yoursite.com/categories/%E7%BB%8F%E6%B5%8E%E5%AD%A6/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>子类同名父类私有属性和方法</title>
@@ -578,66 +659,6 @@
     
     
       <category term="懒加载" scheme="http://yoursite.com/tags/%E6%87%92%E5%8A%A0%E8%BD%BD/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>嵌套页面手势冲突解决</title>
-    <link href="http://yoursite.com/2019/08/04/%E5%B5%8C%E5%A5%97%E9%A1%B5%E9%9D%A2%E6%89%8B%E5%8A%BF%E5%86%B2%E7%AA%81%E8%A7%A3%E5%86%B3/"/>
-    <id>http://yoursite.com/2019/08/04/%E5%B5%8C%E5%A5%97%E9%A1%B5%E9%9D%A2%E6%89%8B%E5%8A%BF%E5%86%B2%E7%AA%81%E8%A7%A3%E5%86%B3/</id>
-    <published>2019-08-04T00:32:44.000Z</published>
-    <updated>2019-08-04T00:50:22.181Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h4 id=&quot;BUG场景&quot;&gt;&lt;a href=&quot;#BUG场景&quot; class=&quot;headerlink&quot; title=&quot;BUG场景&quot;&gt;&lt;/a&gt;BUG场景&lt;/h4&gt;&lt;p&gt;mainTableView嵌套listTableView.mainTableView的headerView里有左右滑动的collectionView(eg:轮播图).此时mainTableView的下拉刷新就会和collectionView的左右滑动起冲突.collectionView左右滑时,mainTableView可能会跟着一起动.&lt;/p&gt;
-&lt;p&gt;为了实现吸顶效果,mainTableView是允许同时识别多个手势的.而这恰恰是引起手势冲突的原因.&lt;/p&gt;
-&lt;figure class=&quot;highlight objectivec&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;@implementation&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;MainTableView&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;// 允许多个手势&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;- (&lt;span class=&quot;built_in&quot;&gt;BOOL&lt;/span&gt;)gestureRecognizer:(&lt;span class=&quot;built_in&quot;&gt;UIGestureRecognizer&lt;/span&gt; *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(&lt;span class=&quot;built_in&quot;&gt;UIGestureRecognizer&lt;/span&gt; *)otherGestureRecognizer &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;literal&quot;&gt;YES&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;@end&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;h4 id=&quot;解决&quot;&gt;&lt;a href=&quot;#解决&quot; class=&quot;headerlink&quot; title=&quot;解决&quot;&gt;&lt;/a&gt;解决&lt;/h4&gt;&lt;p&gt;由于mainTableView只能上下滑动,因此可以判断如果otherGestureRecognizer所在的view在左右滑动则不让mainTableView的手势同时识别.&lt;/p&gt;
-&lt;p&gt;这里有一个不好处理的地方就是在某些精心构造的滑动下,point可能为(0,0),&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;偶现时的日志:&lt;/p&gt;
-&lt;figure class=&quot;highlight angelscript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;number&quot;&gt;2019&lt;/span&gt;&lt;span class=&quot;number&quot;&gt;-08&lt;/span&gt;&lt;span class=&quot;number&quot;&gt;-03&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;18&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;23&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;52.661593&lt;/span&gt;+&lt;span class=&quot;number&quot;&gt;0800&lt;/span&gt; xxx[&lt;span class=&quot;number&quot;&gt;20938&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;1512558&lt;/span&gt;] &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;view:&amp;lt;MainTableView: &lt;span class=&quot;number&quot;&gt;0x1070c3c00&lt;/span&gt;; baseClass = UITableView; frame = (&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;; &lt;span class=&quot;number&quot;&gt;414&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;623&lt;/span&gt;); clipsToBounds = YES; gestureRecognizers = &amp;lt;NSArray: &lt;span class=&quot;number&quot;&gt;0x282b5dce0&lt;/span&gt;&amp;gt;; layer = &amp;lt;CALayer: &lt;span class=&quot;number&quot;&gt;0x28258a980&lt;/span&gt;&amp;gt;; contentOffset: &amp;#123;&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;-3.3333333333333335&lt;/span&gt;&amp;#125;; contentSize: &amp;#123;&lt;span class=&quot;number&quot;&gt;414&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;1418&lt;/span&gt;&amp;#125;; adjustedContentInset: &amp;#123;&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;&amp;#125;&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;ges:&amp;lt;UIScrollViewPanGestureRecognizer: &lt;span class=&quot;number&quot;&gt;0x106d75500&lt;/span&gt;; state = Changed; delaysTouchesEnded = NO; view = &amp;lt;GKPageTableView &lt;span class=&quot;number&quot;&gt;0x1070c3c00&lt;/span&gt;&amp;gt;; target= &amp;lt;(action=handlePan:, target=&amp;lt;GKPageTableView &lt;span class=&quot;number&quot;&gt;0x1070c3c00&lt;/span&gt;&amp;gt;)&amp;gt;&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;otherView:&amp;lt;UICollectionView: &lt;span class=&quot;number&quot;&gt;0x1079cea00&lt;/span&gt;; frame = (&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;; &lt;span class=&quot;number&quot;&gt;414&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;165.6&lt;/span&gt;); clipsToBounds = YES; gestureRecognizers = &amp;lt;NSArray: &lt;span class=&quot;number&quot;&gt;0x282b03930&lt;/span&gt;&amp;gt;; layer = &amp;lt;CALayer: &lt;span class=&quot;number&quot;&gt;0x2825528c0&lt;/span&gt;&amp;gt;; contentOffset: &amp;#123;&lt;span class=&quot;number&quot;&gt;64584&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;&amp;#125;; contentSize: &amp;#123;&lt;span class=&quot;number&quot;&gt;124200&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;165.60000000000002&lt;/span&gt;&amp;#125;; adjustedContentInset: &amp;#123;&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;&amp;#125;&amp;gt; collection view layout: &amp;lt;UICollectionViewFlowLayout: &lt;span class=&quot;number&quot;&gt;0x111c20eb0&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;otherGes:&amp;lt;UIScrollViewPanGestureRecognizer: &lt;span class=&quot;number&quot;&gt;0x106c7aaa0&lt;/span&gt;; state = Began; delaysTouchesEnded = NO; view = &amp;lt;UICollectionView &lt;span class=&quot;number&quot;&gt;0x1079cea00&lt;/span&gt;&amp;gt;; target= &amp;lt;(action=handlePan:, target=&amp;lt;UICollectionView &lt;span class=&quot;number&quot;&gt;0x1079cea00&lt;/span&gt;&amp;gt;)&amp;gt;; must-fail = &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;lt;UIScrollViewPagingSwipeGestureRecognizer: &lt;span class=&quot;number&quot;&gt;0x111c210d0&lt;/span&gt;; state = Failed; view = &amp;lt;UICollectionView &lt;span class=&quot;number&quot;&gt;0x1079cea00&lt;/span&gt;&amp;gt;; target= &amp;lt;(action=_handleSwipe:, target=&amp;lt;UICollectionView &lt;span class=&quot;number&quot;&gt;0x1079cea00&lt;/span&gt;&amp;gt;)&amp;gt;&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;number&quot;&gt;2019&lt;/span&gt;&lt;span class=&quot;number&quot;&gt;-08&lt;/span&gt;&lt;span class=&quot;number&quot;&gt;-03&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;18&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;23&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;52.662988&lt;/span&gt;+&lt;span class=&quot;number&quot;&gt;0800&lt;/span&gt; EmotionCounsel[&lt;span class=&quot;number&quot;&gt;20938&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;1512558&lt;/span&gt;] &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;移动的位置:&amp;#123;&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;7&lt;/span&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;此时就没办法判断出otherGestureRecognizer.view是不是在左右滑动了.所以加了一个else判断避免这种情况.&lt;/p&gt;
-&lt;figure class=&quot;highlight objectivec&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;29&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;30&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;31&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;32&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;33&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;@implementation&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;MainTableView&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;// 允许多个手势&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;- (&lt;span class=&quot;built_in&quot;&gt;BOOL&lt;/span&gt;)gestureRecognizer:(&lt;span class=&quot;built_in&quot;&gt;UIGestureRecognizer&lt;/span&gt; *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(&lt;span class=&quot;built_in&quot;&gt;UIGestureRecognizer&lt;/span&gt; *)otherGestureRecognizer &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; ([gestureRecognizer isKindOfClass:[&lt;span class=&quot;built_in&quot;&gt;UIPanGestureRecognizer&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt;]] &amp;amp;&amp;amp; [otherGestureRecognizer isKindOfClass:[&lt;span class=&quot;built_in&quot;&gt;UIPanGestureRecognizer&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt;]] &amp;amp;&amp;amp; otherGestureRecognizer.view != &lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt;) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;built_in&quot;&gt;UIPanGestureRecognizer&lt;/span&gt; *otherPanGes = (&lt;span class=&quot;built_in&quot;&gt;UIPanGestureRecognizer&lt;/span&gt; *)otherGestureRecognizer;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;built_in&quot;&gt;CGPoint&lt;/span&gt; point = [otherPanGes translationInView:otherPanGes.view];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;built_in&quot;&gt;UIGestureRecognizerState&lt;/span&gt; otherState = otherPanGes.state;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (otherState == &lt;span class=&quot;built_in&quot;&gt;UIGestureRecognizerStatePossible&lt;/span&gt; || otherState == &lt;span class=&quot;built_in&quot;&gt;UIGestureRecognizerStateBegan&lt;/span&gt;) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (fabs(point.x) &amp;gt; &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;) &amp;#123; &lt;span class=&quot;comment&quot;&gt;//如果在水平左右滑动&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;literal&quot;&gt;NO&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &amp;#125; &lt;span class=&quot;keyword&quot;&gt;else&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; ([otherGestureRecognizer.view isKindOfClass:[&lt;span class=&quot;built_in&quot;&gt;UICollectionView&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt;]]) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                    &lt;span class=&quot;built_in&quot;&gt;UICollectionView&lt;/span&gt; *otherView = (&lt;span class=&quot;built_in&quot;&gt;UICollectionView&lt;/span&gt; *)otherGestureRecognizer.view;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                    &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; ([otherView.collectionViewLayout isKindOfClass:[&lt;span class=&quot;built_in&quot;&gt;UICollectionViewFlowLayout&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt;]] &amp;amp;&amp;amp; [(&lt;span class=&quot;built_in&quot;&gt;UICollectionViewFlowLayout&lt;/span&gt; *)otherView.collectionViewLayout scrollDirection] == &lt;span class=&quot;built_in&quot;&gt;UICollectionViewScrollDirectionHorizontal&lt;/span&gt;) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                        &lt;span class=&quot;built_in&quot;&gt;NSLog&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;@&quot;正在滑动左右滚动视图!!!!!!&quot;&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                        &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;literal&quot;&gt;NO&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                    &amp;#125; &lt;span class=&quot;keyword&quot;&gt;else&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                        &lt;span class=&quot;built_in&quot;&gt;NSLog&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;@&quot;UICollectionView的其他布局&quot;&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                &amp;#125; &lt;span class=&quot;keyword&quot;&gt;else&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                    &lt;span class=&quot;built_in&quot;&gt;NSLog&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;@&quot;其他视图&quot;&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;literal&quot;&gt;YES&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;@end&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-    
-    </summary>
-    
-    
-      <category term="Bug" scheme="http://yoursite.com/categories/Bug/"/>
-    
-    
-      <category term="手势冲突" scheme="http://yoursite.com/tags/%E6%89%8B%E5%8A%BF%E5%86%B2%E7%AA%81/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>音频打断处理</title>
-    <link href="http://yoursite.com/2019/07/12/%E9%9F%B3%E9%A2%91%E6%89%93%E6%96%AD%E5%A4%84%E7%90%86/"/>
-    <id>http://yoursite.com/2019/07/12/%E9%9F%B3%E9%A2%91%E6%89%93%E6%96%AD%E5%A4%84%E7%90%86/</id>
-    <published>2019-07-12T15:39:11.000Z</published>
-    <updated>2019-07-12T15:39:43.371Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h4 id=&quot;音频打断处理&quot;&gt;&lt;a href=&quot;#音频打断处理&quot; class=&quot;headerlink&quot; title=&quot;音频打断处理&quot;&gt;&lt;/a&gt;音频打断处理&lt;/h4&gt;&lt;p&gt;音频打断通知:&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;AVAudioSessionInterruptionNotification&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;音频会话被系统打断时会收到该通知.打断开始会收到该通知,打断结束也会收到该通知.可以通过userInfo里的&lt;code&gt;AVAudioSessionInterruptionTypeKey&lt;/code&gt;key查看打断的类型:&lt;/p&gt;
-&lt;figure class=&quot;highlight objectivec&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;typedef&lt;/span&gt; &lt;span class=&quot;built_in&quot;&gt;NS_ENUM&lt;/span&gt;(&lt;span class=&quot;built_in&quot;&gt;NSUInteger&lt;/span&gt;, &lt;span class=&quot;built_in&quot;&gt;AVAudioSessionInterruptionType&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;built_in&quot;&gt;AVAudioSessionInterruptionTypeBegan&lt;/span&gt; = &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;,  &lt;span class=&quot;comment&quot;&gt;/* the system has interrupted your audio session */&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;built_in&quot;&gt;AVAudioSessionInterruptionTypeEnded&lt;/span&gt; = &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;,  &lt;span class=&quot;comment&quot;&gt;/* the interruption has ended */&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;/* keys for AVAudioSessionInterruptionNotification */&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;/* Value is an NSNumber representing an AVAudioSessionInterruptionType */&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;AVF_EXPORT&lt;/span&gt; &lt;span class=&quot;built_in&quot;&gt;NSString&lt;/span&gt; *&lt;span class=&quot;keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;built_in&quot;&gt;AVAudioSessionInterruptionTypeKey&lt;/span&gt; API_AVAILABLE(ios(&lt;span class=&quot;number&quot;&gt;6.0&lt;/span&gt;), watchos(&lt;span class=&quot;number&quot;&gt;2.0&lt;/span&gt;), tvos(&lt;span class=&quot;number&quot;&gt;9.0&lt;/span&gt;)) API_UNAVAILABLE(macos);&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;如果是打断结束类型,则userInfo里会有一个&lt;code&gt;AVAudioSessionInterruptionOptions&lt;/code&gt;key,它的值是&lt;code&gt;AVAudioSessionInterruptionOptions&lt;/code&gt;枚举类型.用于表示打断结束后是否应该继续播放.&lt;/p&gt;
-&lt;figure class=&quot;highlight objectivec&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;/* For use with AVAudioSessionInterruptionNotification */&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;typedef&lt;/span&gt; &lt;span class=&quot;built_in&quot;&gt;NS_OPTIONS&lt;/span&gt;(&lt;span class=&quot;built_in&quot;&gt;NSUInteger&lt;/span&gt;, &lt;span class=&quot;built_in&quot;&gt;AVAudioSessionInterruptionOptions&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;built_in&quot;&gt;AVAudioSessionInterruptionOptionShouldResume&lt;/span&gt; = &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;如果打断是因为应用被挂起,则userInfo里会有一个&lt;code&gt;AVAudioSessionInterruptionWasSuspendedKey&lt;/code&gt;key,并且值是true.(这个key有点奇葩)&lt;/p&gt;
-&lt;p&gt;使用如下:&lt;/p&gt;
-&lt;p&gt;注册&lt;code&gt;AVAudioSessionInterruptionNotification&lt;/code&gt;通知:&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="音视频" scheme="http://yoursite.com/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/"/>
-    
-    
-      <category term="音频打断" scheme="http://yoursite.com/tags/%E9%9F%B3%E9%A2%91%E6%89%93%E6%96%AD/"/>
     
   </entry>
   

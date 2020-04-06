@@ -1,6 +1,216 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>IRR内部收益率</title>
+    <url>/2020/04/06/IRR%E5%86%85%E9%83%A8%E6%94%B6%E7%9B%8A%E7%8E%87/</url>
+    <content><![CDATA[<h4 id="ROI"><a href="#ROI" class="headerlink" title="ROI"></a>ROI</h4><p>return on investment，投资回报率。</p>
+<p>投资回报率的计算公式：</p>
+<figure class="highlight angelscript"><table><tr><td class="code"><pre><span class="line">投资回报率 = （收益 - 成本）/ 成本 * <span class="number">100</span>%`</span><br></pre></td></tr></table></figure>
+<p>eg:</p>
+<p>项目A投入本金100，最后可以110，那么ROI = （110 - 100）/ 100 * 100% = 10%</p>
+<p>项目B投入本金100，最后可以105，那么ROI = （105 - 100）/ 100 * 100% = 5%</p>
+<p>通过计算应该选择项目A。</p>
+<p><strong>投资报酬率的优缺点</strong></p>
+<p>优点：</p>
+<p>计算方便，可以简单粗暴的对不同项目进行横向比较。</p>
+<p>缺点：</p>
+<p>没有考虑资金时间价值因素，不能正确反映建设期长短及投资方式不同和回收额的有无等条件对项目的影响，分子、分母计算口径的可比性较差，无法直接利用<a href="https://wiki.mbalib.com/wiki/净现金流量" target="_blank" rel="noopener">净现金流量</a>信息。一句话就是太粗糙了，无法体现投资期间的一些细节。</p>
+<p>为了解决ROI的缺点，需要引入下一个概念NPV。</p>
+<h4 id="NPV"><a href="#NPV" class="headerlink" title="NPV"></a>NPV</h4><p><em>Net present value</em> 净现值，指一项投资所产生的未来现金流的折现值与项目投资成本之间的差值。净现值指标是反映项目投资获利能力的指标，净现值&gt;=0表示方案可行，&lt;0表示不可行，净现值越大越好。</p>
+<p>简单点讲就是将未来的现金折现为当前的现金再与本金相比较。假设拿100块钱去做投资，可以接受的最低收益率是5%（即折现率），一年后拿回110块则NPV = 110 / (1 + 5%) - 100 = 104.76 - 100 = 4.76。<code>110 / (1 + 5%)</code>表示的就是将未来的现金折现为当前的现金，计算过程跟利息相反（计算利息：100元，假设收益率为5%则一年后可获得100 * （1 + 5%） = 105）。</p>
+<p>举个复杂点的例子：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center">本金</th>
+<th style="text-align:center">第一年净现金流</th>
+<th style="text-align:center">第二年净现金流</th>
+<th style="text-align:center">本利和</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">项目A</td>
+<td style="text-align:center">100</td>
+<td style="text-align:center">80</td>
+<td style="text-align:center">30</td>
+<td style="text-align:center">110</td>
+</tr>
+<tr>
+<td style="text-align:center">项目B</td>
+<td style="text-align:center">100</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">106</td>
+<td style="text-align:center">110</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>如果通过ROI法计算，项目A和项目B得到的结果是完全一致的，总回报率是10%，年均回报率是5%。</p>
+<p>那么究竟哪个项目好一点呢？我想大多数人应该都会选择项目A，因为如果我们拿项目第一年的回款进行再投资时项目A明显更多一些。这就是考虑到了现金的时间价值。</p>
+<p>我们再来计算一下NPV，假设折现率为5%。</p>
+<p>项目A的NPV = 80 / (1 + 5% ) + 30 / (1 + 5%)² - 100 = 103.40 - 100 = 3.40</p>
+<p>项目B的NPV = 4 / (1 + 5% ) + 106 / (1 + 5%)² - 100 = 99.95 - 100 = -0.05</p>
+<p>在考虑到现金时间价值的情况下，投资A项目实际能多赚3.40元，投资B项目要少赚0.05元。</p>
+<h4 id="IRR"><a href="#IRR" class="headerlink" title="IRR"></a>IRR</h4><p>内部收益率（Internal Rate of Return，IRR）就是资金流入现值总额与资金流出现值总额相等，即使得NPV等于0时的那个折现率。</p>
+<p>上面计算NPV时我们都假设了一个折现率，但现实应用中通常是已知净现金流和本金计算折现率（最常见的就是商家的分期套路）。</p>
+<p>还是上面的例子我们计算一下各项目的IRR。</p>
+<p>项目A：</p>
+<p>80 / (1 + x ) + 30 / (1 + x)² - 100 = 0</p>
+<p>x = 0.07823，即IRR = 7.82%</p>
+<p>项目B: </p>
+<p>4 / (1 + x ) + 106 / (1 + x)² - 100 = 0</p>
+<p>x = 0.04976，即IRR = 4.98%</p>
+<p>通过计算得出，项目A的IRR为7.82%，项目B的IRR为4.98%，于是我们发现，按照ROI计算出的5%并不完全靠谱，A项目确实要优于B项目。</p>
+<p>由此可以看出IRR考虑了货币时间价值的收益率，是综合考虑了每期的流入流出现金的量和时间，加权出来的结果。</p>
+<p>不难看出IRR的计算还是挺复杂的，上述的例子还只是两期的现金流，如果是3期，6期或者12期那么手工计算几乎不太可能，这个时候使用Excel的IRR计算公式就可以轻松搞定。</p>
+<h4 id="Numbers的IRR计算器"><a href="#Numbers的IRR计算器" class="headerlink" title="Numbers的IRR计算器"></a>Numbers的IRR计算器</h4><p>我这里是Mac电脑所以使用的是Numbers软件对应的PC电脑就是Excel软件。</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/IRR计算.jpg" style="zoom:50%;" /></p>
+<p>输入：IRR(C32:C34)，如下：</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/IRR计算步骤.jpg" style="zoom:50%;" /></p>
+<p>使用到的函数：<strong>IRR</strong>(<em>现金流范围, 估计</em>)</p>
+<p>第一个参数为现金流范围：包含现金流值的集合。 现金流范围必须包含数字值。收入（现金流入量）指定为正数，而支出（现金流出量）指定为负数。集合中必须至少包括一个正值和一个负值。现金流量必须按时间顺序指定，且在时间上等距（如每月）。如果某个期间没有现金流量，则该期间使用 0。</p>
+<p>-100表示是投入所以是负数。</p>
+<p>第二个参数是可选的。所以这里就不填了。</p>
+<p>学会了计算IRR，我们就可以计算各个商家给出的分期策略的实际年化收益率了，绝对会让你感叹一句社会，社会！相信你再也不会被商家的分期套路了。</p>
+<p><strong>其他</strong></p>
+<p>单利：</p>
+<p>即利息不作为下一次的投资。</p>
+<p>到期总收益 = 本金 <em>（1 + 收益率 </em> n）</p>
+<p>复利：</p>
+<p>即利息再投资。</p>
+<p>到期总收益 = 本金 *（1 + 收益率）^n^</p>
+<p>eg:</p>
+<p>本金10000，年利率10%，分别计算单利和复利到期后获得的总收益</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th></th>
+<th>本金</th>
+<th>1年</th>
+<th>2年</th>
+<th>3年</th>
+<th>4年</th>
+<th>5年</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>单利</td>
+<td>10000</td>
+<td>11000</td>
+<td>12000</td>
+<td>13000</td>
+<td>14000</td>
+<td>15000</td>
+</tr>
+<tr>
+<td>复利</td>
+<td>10000</td>
+<td>11000</td>
+<td>12100</td>
+<td>13310</td>
+<td>14641</td>
+<td>16105</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>感觉5年也差别不是很大，但是20年复利就是67275，单利却只有30000，已经差了2倍多了。单利是线性增长的，但复利却是指数增长的，越往后相差越大。所以不要小看复利的效果。</p>
+]]></content>
+      <categories>
+        <category>经济学</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>支付宝花呗与借呗背后的利率</title>
+    <url>/2020/04/06/%E6%94%AF%E4%BB%98%E5%AE%9D%E8%8A%B1%E5%91%97%E4%B8%8E%E5%80%9F%E5%91%97%E8%83%8C%E5%90%8E%E7%9A%84%E5%88%A9%E7%8E%87/</url>
+    <content><![CDATA[<p>本文主要分析支付宝里的花呗，借呗，备用金背后的年化收益率。</p>
+<p>在使用支付宝花呗的时候，还款页面除了正常还款外还有一些什么账单分期、最低还款、延期还款之类烂七八糟的东西：</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/DBCA822F-CA14-4D45-BA99-5592A7D39D4A.png" style="zoom:50%;" /></p>
+<p>似乎是在替用户着想，但真实情况是不是如此呢？下面将仔细分析一下花呗分期的真实年利率。</p>
+<h4 id="账单分期"><a href="#账单分期" class="headerlink" title="账单分期"></a>账单分期</h4><p>花呗分期数与手续费率如下：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th></th>
+<th>花呗</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3期</td>
+<td>2.50%</td>
+</tr>
+<tr>
+<td>6期</td>
+<td>4.50%</td>
+</tr>
+<tr>
+<td>9期</td>
+<td>6.50%</td>
+</tr>
+<tr>
+<td>12期</td>
+<td>8.80%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>每期手续费 = 分期金额 / 分期期数 * 手续费率</p>
+<p>每期还款数 = 分期金额 / 分期期数 + 每期手续费 = 每期手续费 * (1 + 手续费率 ) / 手续费率</p>
+<p>总手续费 = 分期金额 * 手续费率</p>
+<p>以12期为例，分期金额1244.55元：</p>
+<p>每期手续费 = 1244.55  / 12 * 8.8% = 9.1267 ≈ 9.13</p>
+<p>每期还款数 = 1244.55 / 12 + 9.13 = 112.8425 ≈ 112.84</p>
+<p>总手续费 = 1244.55 * 8.8% ≈ 109.52</p>
+<p>每期本金 = 1244.55 / 12 = 103.7125 ≈ 103.71</p>
+<p>花呗的12期分期：</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/花呗分期.jpg" style="zoom:50%;" /></p>
+<p>发现支付宝第一期居然是112.87，其他期都是112.84，第一期多出的0.03元怎么来的呢</p>
+<p>事实就是(112.8425 - 112.84 ) <em> 12 = 0.0025 </em> 12 = 0.03，看来被安排的明明白白。</p>
+<p>1244.55元一年总手续费 = 1244.55 * 8.80% = 109.5204 ≈ 109.52。</p>
+<p>站在花呗的角度貌似借我1244.55元一年得到利息109.52元，年利率 = 109.52 / 1244.55 = 8.80% = 手续费率。这样看来花呗的年利率8.80%似乎并不太高。</p>
+<p>但实际情况并不是这样，因为这1244.55元你并没有真正使用一整年，事实是1244.55元你只占有了一个月，真正占有了一年的是最后一期的103.71元。随着每一期的还款，欠款会越来越少但每期的手续费却还是以最初的分期金额计算的。</p>
+<p>因此要想知道花呗分期的真实年利率，就需要计算它的IRR（内部收益率）如下图：</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20200406154713.png" style="zoom:50%;" /></p>
+<p>可以看到花呗分期3期年利率为14.95%，6期年利率为15.26%，9期年利率为15.34%，12期年利率为15.87%，这个收益率估计大多数人都达不到，我自己4%（3.17%）都不到，所以最好不要使用什么分期支付，这只会慢慢侵蚀掉你的财富。</p>
+<p>再来看一下延期还款</p>
+<h4 id="延期还款"><a href="#延期还款" class="headerlink" title="延期还款"></a>延期还款</h4><p>延期还款就是延期到下个月再还，支付宝收取一定的手续费。</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/8BED5EEF-7720-4D2F-A633-CCE525989358.png" style="zoom:50%;" /></p>
+<p>可以计算一下它的年化收益率：20 / 1244.55 <em> 12 </em> 100% = 19.28%，虽然看上去只有20元的手续费但对应到年化收益率就是19.28%已经超过分期支付了，你自己拿1244.55去投资一个月基本上不可能得到20元的收益，想一想余额宝里的七日年化才1.89%，1万块钱一个月也只有15.5元的收益，所以不要被表面的数字迷惑。</p>
+<h4 id="最低还款"><a href="#最低还款" class="headerlink" title="最低还款"></a>最低还款</h4><p>最低还款说明是这样的：剩余xxx元下期还，日利率0.05%计息，可提前还款。</p>
+<p>计算一下它的年化收益率：0.05% <em> 12 </em> 100% = 18.25%，只比延期还款低了一点点。</p>
+<p>小记：对于花呗尽量在还款日前一次性还完，这样使用花呗还是不错的。</p>
+<h4 id="借呗"><a href="#借呗" class="headerlink" title="借呗"></a>借呗</h4><p>如下图：</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20200406163840.png" style="zoom:50%;" /></p>
+<p>日利率万3（1千元用1天只需0.3元），其实后面那句“1千元用1天只需0.3元”只是用来迷惑你的，让你觉得一天的利息很低啊，但凡事都得动动脑子。计算一下它的年化收益率：3.65% * 3 = 10.95%，差不多11个点，基本上还算可以。如果你的投资年化收益率能够有20%，那么借呗就是你的商机。</p>
+<h4 id="备用金"><a href="#备用金" class="headerlink" title="备用金"></a>备用金</h4><p>如下图：</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20200406164954.png" style="zoom:50%;" /></p>
+<p>用7天，推广价1.99元（原价2.29元）</p>
+<p>计算一下它的年化收益率：</p>
+<p>推广价的年化收益率：1.99 / 7 / 500 <em> 365 </em> 100% = 20.75%</p>
+<p>原价的年化收益率：2.29 / 7 / 500 <em> 365 </em> 100% = 23.88%</p>
+<p>年化收益率23.88%什么概念？</p>
+<p>先来看一下法律对于高利贷的定义：</p>
+<p><strong>高利贷定义：</strong></p>
+<p>借贷双方约定的利率不得超过中国人民银行公布的金融机构同期、同档次贷款利率(不含浮动)的4倍。超过上述标准的，应界定为高利借贷行为。</p>
+<p><strong>法律规定：</strong></p>
+<p>1、对于年利率在百分之二十四及其以下的民间借贷利息属于“司法保护区”，法院应当予以保护;</p>
+<p>2、对于年利率在百分之二十四到百分之三十六之间的部分属于“自然保护区”，如果借款人已经偿还，法院也不会判决他讨回这部分利息;</p>
+<p>3、对于年利率超过百分之三十六的民间借贷利息，其超出部分属于“无效区”，法院将对超出部分的约定认定为无效，即便债务人已经偿还亦可请求债权人予以返还，情节严重的，可以处以一定的罚款。</p>
+<p>你以为的用7天才2.29元其实已经卡在高利贷的边缘了，所以没事就不要用备用金。除非你实在借不到钱了。</p>
+<p>到此为止支付宝里面的各种花招都分析完了，了解一点经济学还是有用的，至少让你明白免费的午餐是没有的，不要被表面的现象迷惑，多动脑分析，可以少走很多套路。</p>
+]]></content>
+      <categories>
+        <category>经济学</category>
+      </categories>
+  </entry>
+  <entry>
     <title>子类同名父类私有属性和方法</title>
     <url>/2020/03/23/%E5%AD%90%E7%B1%BB%E5%90%8C%E5%90%8D%E7%88%B6%E7%B1%BB%E7%A7%81%E6%9C%89%E5%B1%9E%E6%80%A7%E5%92%8C%E6%96%B9%E6%B3%95/</url>
     <content><![CDATA[<p>对于私有属性和方法，子类和父类同名基本上没有什么影响.但是有几点需要注意一下：</p>
@@ -3005,6 +3215,19 @@ attachMethodLists(Class cls, method_list_t **addedLists, int addedCount,
       </categories>
   </entry>
   <entry>
+    <title>Swift实现removeObject</title>
+    <url>/2017/09/15/Swift%E5%AE%9E%E7%8E%B0removeObject/</url>
+    <content><![CDATA[<h2 id="Swift实现removeObject"><a href="#Swift实现removeObject" class="headerlink" title="Swift实现removeObject"></a>Swift实现removeObject</h2><p>如果类没有继承自NSObject,那么类必须要实现<code>Equatable</code>协议.否则不需要.</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Observer</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String!</span></span><br><span class="line">    <span class="keyword">var</span> subject: <span class="type">Subject!</span></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">observer</span><span class="params">(name: String, subject: Subject)</span></span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.name = name</span><br><span class="line">        <span class="keyword">self</span>.subject = subject</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">update</span><span class="params">()</span></span> &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">Observer</span>: <span class="title">Equatable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="function"><span class="keyword">func</span> ==<span class="params">(lhs: Observer, rhs: Observer)</span></span> -&gt; <span class="type">Bool</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> lhs === rhs &#123; <span class="comment">//地址相等. ps:"=="值相等.</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后在通过扩展给Array增加一个<code>removeObject(object: Element)</code>方法:</p>
+<figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">extension</span> <span class="keyword">Array</span> <span class="keyword">where</span> Element: Equatable &#123;</span><br><span class="line">    mutating func removeObject(<span class="keyword">object</span>: Element) &#123;</span><br><span class="line">        <span class="keyword">if</span> let <span class="keyword">index</span> = <span class="keyword">index</span>(<span class="keyword">of</span>: <span class="keyword">object</span>) &#123;</span><br><span class="line">            remove(at: <span class="keyword">index</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>由于Array是结构体类型,而removeObject函数会改变结构体的值,所以该函数需要添加mutating关键字.“Notice the use of the mutating keyword in the declaration of SimpleStructure to mark a method that modifies the structure. The declaration of SimpleClass doesn’t need any of its methods marked as mutating because methods on a class can always modify the class.”</p>
+]]></content>
+      <categories>
+        <category>Swift</category>
+      </categories>
+  </entry>
+  <entry>
     <title>Swift addTarget函数的Selector参数</title>
     <url>/2017/09/15/Swift%20addTarget%E5%87%BD%E6%95%B0%E7%9A%84Selector%E5%8F%82%E6%95%B0/</url>
     <content><![CDATA[<p>Swift里addTarget函数里的Selector参数和OC的不太一样.<br><code>open func addTarget(_ target: Any?, action: Selector, for controlEvents: UIControlEvents)</code><br>根据Selector的定义</p>
@@ -3027,19 +3250,6 @@ attachMethodLists(Class cls, method_list_t **addedLists, int addedCount,
 对应写法:<code>numberSlider.addTarget(self, action: &quot;numberSliderChangedWithSender:&quot;, for: .valueChanged)</code></li>
 </ol>
 <p>然而这种写法已经废弃,目前swift3.1推荐的是使用<code>#selector</code>,因此上述4写法等价于:<br><code>numberSlider.addTarget(self, action: #selector(numberSliderChanged(sender:)), for: .valueChanged)</code>.<br>当然你也可以传递一个Selector类型的变量:<br><code>numberSlider.addTarget(self, action: Selector.init(stringLiteral: &quot;numberSliderChangedWithSender:&quot;), for: .valueChanged)</code>.不过这种写法依然不是推荐的写法.</p>
-]]></content>
-      <categories>
-        <category>Swift</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>Swift实现removeObject</title>
-    <url>/2017/09/15/Swift%E5%AE%9E%E7%8E%B0removeObject/</url>
-    <content><![CDATA[<h2 id="Swift实现removeObject"><a href="#Swift实现removeObject" class="headerlink" title="Swift实现removeObject"></a>Swift实现removeObject</h2><p>如果类没有继承自NSObject,那么类必须要实现<code>Equatable</code>协议.否则不需要.</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Observer</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String!</span></span><br><span class="line">    <span class="keyword">var</span> subject: <span class="type">Subject!</span></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">observer</span><span class="params">(name: String, subject: Subject)</span></span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.name = name</span><br><span class="line">        <span class="keyword">self</span>.subject = subject</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">update</span><span class="params">()</span></span> &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">Observer</span>: <span class="title">Equatable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="function"><span class="keyword">func</span> ==<span class="params">(lhs: Observer, rhs: Observer)</span></span> -&gt; <span class="type">Bool</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> lhs === rhs &#123; <span class="comment">//地址相等. ps:"=="值相等.</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>然后在通过扩展给Array增加一个<code>removeObject(object: Element)</code>方法:</p>
-<figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">extension</span> <span class="keyword">Array</span> <span class="keyword">where</span> Element: Equatable &#123;</span><br><span class="line">    mutating func removeObject(<span class="keyword">object</span>: Element) &#123;</span><br><span class="line">        <span class="keyword">if</span> let <span class="keyword">index</span> = <span class="keyword">index</span>(<span class="keyword">of</span>: <span class="keyword">object</span>) &#123;</span><br><span class="line">            remove(at: <span class="keyword">index</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>由于Array是结构体类型,而removeObject函数会改变结构体的值,所以该函数需要添加mutating关键字.“Notice the use of the mutating keyword in the declaration of SimpleStructure to mark a method that modifies the structure. The declaration of SimpleClass doesn’t need any of its methods marked as mutating because methods on a class can always modify the class.”</p>
 ]]></content>
       <categories>
         <category>Swift</category>
