@@ -1,6 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>iOS设置圆角</title>
+    <url>/2020/04/07/2020-4-07-iOS%E8%AE%BE%E7%BD%AE%E5%9C%86%E8%A7%92/</url>
+    <content><![CDATA[<p>iOS中设置圆角大致有下面三种办法，每一种都有各自的优缺点，结合场景选择合适的方案才是最佳处理。</p>
+<h4 id="1-cornerRadius"><a href="#1-cornerRadius" class="headerlink" title="1.cornerRadius"></a>1.cornerRadius</h4><figure class="highlight routeros"><table><tr><td class="code"><pre><span class="line">Setting the<span class="built_in"> radius </span><span class="keyword">to</span> a value greater than 0.0 causes the layer <span class="keyword">to</span> begin drawing rounded corners on its background. By default, the corner<span class="built_in"> radius </span>does <span class="keyword">not</span> apply <span class="keyword">to</span> the image <span class="keyword">in</span> the layer’s contents property; it applies only <span class="keyword">to</span> the background color <span class="keyword">and</span> border of the layer. However, setting the masksToBounds property <span class="keyword">to</span> <span class="literal">YES</span> causes the content <span class="keyword">to</span> be clipped <span class="keyword">to</span> the rounded corners.</span><br><span class="line">The<span class="built_in"> default </span>value of this property is 0.0.</span><br></pre></td></tr></table></figure>
+<p>由于cornerRadius只对背景色和边框有效而对layer的contents并不起作用，因此一般都会配合masksToBounds使用。</p>
+<p>苹果在iOS9后对cornerRadius+masksToBounds做了优化，当contentMode和backgroundColor为默认值时即：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">imgView.contentMode &#x3D; UIViewContentModeScaleToFill;</span><br><span class="line">imgView.backgroundColor &#x3D; [UIColor clearColor];</span><br></pre></td></tr></table></figure>
+<p>不会导致离屏渲染，否则还会离屏渲染，用View Debugging查看UIImageView会有黄色标识。</p>
+<p>下面测试下cornerRadius+masksToBounds对FPS的影响。</p>
+<p>在iPhone5s,10.3.3上运行一个一屏cell上有36个圆角的Demo，imgView的contentMode和backgroundColor都不使用默认值：</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/IMG_0031.PNG" style="zoom:33%;" /></p>
+<p>滑动起来依然很顺滑FPS基本在58左右：</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/8E0CA66E-8879-4C90-B6D1-5CC0ADC9D9C8.png" style="zoom:50%;" /></p>
+<p>可见使用cornerRadius+masksToBounds切圆角对性能的影响并不大。可能在iOS9以前比较影响性能。</p>
+<p>该方案最简单，如果页面圆角不多，大可以使用该方案。</p>
+<h4 id="2-将原始图片处理为带圆角的图片"><a href="#2-将原始图片处理为带圆角的图片" class="headerlink" title="2.将原始图片处理为带圆角的图片"></a>2.将原始图片处理为带圆角的图片</h4><p>如果说上面是对控件切圆角那么这种办法就是对图片进行切圆角了，该方法不会引起离屏渲染。如果确定是离屏渲染造成性能下降，那么可以使用该方法。</p>
+<p>将图片处理为圆角可以在客户端做也可以在服务器端做。</p>
+<blockquote>
+<p>服务器端处理</p>
+</blockquote>
+<p>一般在原始图片URL上拼接参数告诉后台要切多大的圆角。</p>
+<blockquote>
+<p>客户端处理</p>
+</blockquote>
+<p>如果后台不支持，那只能自己处理了。客户端处理的话一般通过Core Graphics 实现:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">- (UIImage *)setRoundingCorners:(UIRectCorner)corners radius:(CGFloat)radius targetSize:(CGSize)size &#123;</span><br><span class="line">    CGRect rect &#x3D; CGRectMake(0, 0, size.width, size.height);</span><br><span class="line">    UIGraphicsBeginImageContextWithOptions(rect.size, NO, 0);</span><br><span class="line">    CGContextRef ctx &#x3D; UIGraphicsGetCurrentContext();</span><br><span class="line">    UIBezierPath *path &#x3D; [UIBezierPath bezierPathWithRoundedRect:rect byRoundingCorners:corners cornerRadii:CGSizeMake(radius, radius)];</span><br><span class="line">    CGContextAddPath(ctx, path.CGPath);</span><br><span class="line">    CGContextClip(ctx);</span><br><span class="line">    [self drawInRect:rect];</span><br><span class="line">    CGContextDrawPath(ctx, kCGPathFillStroke);</span><br><span class="line">    UIImage *img &#x3D; UIGraphicsGetImageFromCurrentImageContext();</span><br><span class="line">    UIGraphicsEndImageContext();</span><br><span class="line">    return img;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>（ps:上述代码虽然给图片加上了圆角，但图片的填充方式是简单填满处理，因此当图片与控件不成比例时会导致图片变形，最好的办法是先等比例缩放原始图片后再调用上述代码添加圆角处理）</p>
+<p>这样就将GPU的工作转移给了CPU，因此会对CPU造成一定的负担，可以结合SDWebImage将处理好的图片进行缓存避免每次重复处理。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">- (void)sd_setImageWithURL:(nullable NSURL *)url</span><br><span class="line">          placeholderImage:(nullable UIImage *)placeholder</span><br><span class="line">           roundingCorners:(UIRectCorner)corners</span><br><span class="line">                    radius:(CGFloat)radius</span><br><span class="line">                targetSize:(CGSize)size</span><br><span class="line">                 completed:(nullable SDExternalCompletionBlock)completedBlock</span><br><span class="line">&#123;</span><br><span class="line">    NSString *cachedKey &#x3D; [self getCachedKeyWithURLString:url.absoluteString roundingCorners:corners radius:radius targetSize:size];</span><br><span class="line">    SDImageCacheType cacheType &#x3D; SDImageCacheTypeNone;</span><br><span class="line">    UIImage *cachedImage &#x3D; [[SDImageCache sharedImageCache] imageFromMemoryCacheForKey:cachedKey];</span><br><span class="line">    if (cachedImage) &#123;</span><br><span class="line">        cacheType &#x3D; SDImageCacheTypeMemory;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        cachedImage &#x3D; [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:cachedKey];</span><br><span class="line">        if (cachedImage) &#123;</span><br><span class="line">            cacheType &#x3D; SDImageCacheTypeDisk;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    if (cachedImage) &#123;</span><br><span class="line">        self.image &#x3D; cachedImage;</span><br><span class="line">        !completedBlock ?: completedBlock(cachedImage, nil, cacheType, url);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        __weak typeof(self) weakSelf &#x3D; self;</span><br><span class="line">        [self sd_setImageWithURL:url placeholderImage:placeholder options:SDWebImageAvoidAutoSetImage context:@&#123;SDWebImageContextStoreCacheType:@(SDImageCacheTypeNone)&#125; progress:nil completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) &#123;</span><br><span class="line">            UIImage *transformedImage &#x3D; nil;</span><br><span class="line">            if (!error &amp;&amp; image) &#123;</span><br><span class="line">                CGSize targetSize &#x3D; CGSizeEqualToSize(size, CGSizeZero) ? weakSelf.frame.size : size;</span><br><span class="line">                transformedImage &#x3D; [image setRoundingCorners:corners radius:radius targetSize:targetSize];</span><br><span class="line">                weakSelf.image &#x3D; transformedImage;</span><br><span class="line">                [[SDImageCache sharedImageCache] storeImage:transformedImage forKey:cachedKey completion:nil];</span><br><span class="line">            &#125;</span><br><span class="line">            !completedBlock ?: completedBlock(transformedImage, error, cacheType, imageURL);</span><br><span class="line">        &#125;];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (NSString *)getCachedKeyWithURLString:(NSString *)urlString roundingCorners:(UIRectCorner)corners radius:(CGFloat)radius targetSize:(CGSize)size &#123;</span><br><span class="line">    NSString *cachedKey &#x3D; [NSString stringWithFormat:@&quot;%@?c&#x3D;%lu&amp;r&#x3D;%f&amp;w&#x3D;%f&amp;h&#x3D;%f&quot;, urlString, (unsigned long)corners, radius, size.width, size.height];</span><br><span class="line">    return cachedKey;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>该方案较为复杂可以进行一定的封装，如果确定是圆角离屏渲染引起性能问题，可以使用该方案解决。</p>
+<h4 id="3-使用特制的圆角切图盖住原始图片"><a href="#3-使用特制的圆角切图盖住原始图片" class="headerlink" title="3.使用特制的圆角切图盖住原始图片"></a>3.使用特制的圆角切图盖住原始图片</h4><p>障眼法，在满足需求和效果的情况下这种方案应该是效率最高的了，既不会产生离屏渲染也不会加重CPU的负担，缺点是应用场景有限。</p>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><p><a href="https://awhisper.github.io/2016/03/12/滚动圆角卡顿刨根问底/" target="_blank" rel="noopener">圆角卡顿刨根问底</a></p>
+<p><a href="http://www.cocoachina.com/articles/12873" target="_blank" rel="noopener">小心别让圆角成了你列表的帧数杀手</a></p>
+<p><a href="https://bestswifter.com/efficient-rounded-corner/" target="_blank" rel="noopener">iOS高效添加圆角效果实战讲解</a></p>
+<p><a href="https://ronghaopger.github.io/2017/07/iOS优化界面渲染实践中的几点经验/" target="_blank" rel="noopener">iOS优化界面渲染实践中的几点经验</a></p>
+<p><a href="https://www.kancloud.cn/manual/ios/97828" target="_blank" rel="noopener">Instruments使用</a></p>
+<p><a href="https://medium.com/@peteliev/diagnose-and-solve-performance-problem-with-xcode-instruments-5c25c27f21d5" target="_blank" rel="noopener">Diagnose and solve performance problems with Xcode Instruments</a></p>
+]]></content>
+      <categories>
+        <category>UIImageView</category>
+      </categories>
+      <tags>
+        <tag>圆角</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>IRR内部收益率</title>
     <url>/2020/04/06/IRR%E5%86%85%E9%83%A8%E6%94%B6%E7%9B%8A%E7%8E%87/</url>
     <content><![CDATA[<h4 id="ROI"><a href="#ROI" class="headerlink" title="ROI"></a>ROI</h4><p>return on investment，投资回报率。</p>
@@ -3215,19 +3261,6 @@ attachMethodLists(Class cls, method_list_t **addedLists, int addedCount,
       </categories>
   </entry>
   <entry>
-    <title>Swift实现removeObject</title>
-    <url>/2017/09/15/Swift%E5%AE%9E%E7%8E%B0removeObject/</url>
-    <content><![CDATA[<h2 id="Swift实现removeObject"><a href="#Swift实现removeObject" class="headerlink" title="Swift实现removeObject"></a>Swift实现removeObject</h2><p>如果类没有继承自NSObject,那么类必须要实现<code>Equatable</code>协议.否则不需要.</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Observer</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String!</span></span><br><span class="line">    <span class="keyword">var</span> subject: <span class="type">Subject!</span></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">observer</span><span class="params">(name: String, subject: Subject)</span></span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.name = name</span><br><span class="line">        <span class="keyword">self</span>.subject = subject</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">update</span><span class="params">()</span></span> &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">Observer</span>: <span class="title">Equatable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="function"><span class="keyword">func</span> ==<span class="params">(lhs: Observer, rhs: Observer)</span></span> -&gt; <span class="type">Bool</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> lhs === rhs &#123; <span class="comment">//地址相等. ps:"=="值相等.</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>然后在通过扩展给Array增加一个<code>removeObject(object: Element)</code>方法:</p>
-<figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">extension</span> <span class="keyword">Array</span> <span class="keyword">where</span> Element: Equatable &#123;</span><br><span class="line">    mutating func removeObject(<span class="keyword">object</span>: Element) &#123;</span><br><span class="line">        <span class="keyword">if</span> let <span class="keyword">index</span> = <span class="keyword">index</span>(<span class="keyword">of</span>: <span class="keyword">object</span>) &#123;</span><br><span class="line">            remove(at: <span class="keyword">index</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>由于Array是结构体类型,而removeObject函数会改变结构体的值,所以该函数需要添加mutating关键字.“Notice the use of the mutating keyword in the declaration of SimpleStructure to mark a method that modifies the structure. The declaration of SimpleClass doesn’t need any of its methods marked as mutating because methods on a class can always modify the class.”</p>
-]]></content>
-      <categories>
-        <category>Swift</category>
-      </categories>
-  </entry>
-  <entry>
     <title>Swift addTarget函数的Selector参数</title>
     <url>/2017/09/15/Swift%20addTarget%E5%87%BD%E6%95%B0%E7%9A%84Selector%E5%8F%82%E6%95%B0/</url>
     <content><![CDATA[<p>Swift里addTarget函数里的Selector参数和OC的不太一样.<br><code>open func addTarget(_ target: Any?, action: Selector, for controlEvents: UIControlEvents)</code><br>根据Selector的定义</p>
@@ -3250,6 +3283,19 @@ attachMethodLists(Class cls, method_list_t **addedLists, int addedCount,
 对应写法:<code>numberSlider.addTarget(self, action: &quot;numberSliderChangedWithSender:&quot;, for: .valueChanged)</code></li>
 </ol>
 <p>然而这种写法已经废弃,目前swift3.1推荐的是使用<code>#selector</code>,因此上述4写法等价于:<br><code>numberSlider.addTarget(self, action: #selector(numberSliderChanged(sender:)), for: .valueChanged)</code>.<br>当然你也可以传递一个Selector类型的变量:<br><code>numberSlider.addTarget(self, action: Selector.init(stringLiteral: &quot;numberSliderChangedWithSender:&quot;), for: .valueChanged)</code>.不过这种写法依然不是推荐的写法.</p>
+]]></content>
+      <categories>
+        <category>Swift</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Swift实现removeObject</title>
+    <url>/2017/09/15/Swift%E5%AE%9E%E7%8E%B0removeObject/</url>
+    <content><![CDATA[<h2 id="Swift实现removeObject"><a href="#Swift实现removeObject" class="headerlink" title="Swift实现removeObject"></a>Swift实现removeObject</h2><p>如果类没有继承自NSObject,那么类必须要实现<code>Equatable</code>协议.否则不需要.</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Observer</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String!</span></span><br><span class="line">    <span class="keyword">var</span> subject: <span class="type">Subject!</span></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">observer</span><span class="params">(name: String, subject: Subject)</span></span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.name = name</span><br><span class="line">        <span class="keyword">self</span>.subject = subject</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">update</span><span class="params">()</span></span> &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">Observer</span>: <span class="title">Equatable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="function"><span class="keyword">func</span> ==<span class="params">(lhs: Observer, rhs: Observer)</span></span> -&gt; <span class="type">Bool</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> lhs === rhs &#123; <span class="comment">//地址相等. ps:"=="值相等.</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后在通过扩展给Array增加一个<code>removeObject(object: Element)</code>方法:</p>
+<figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">extension</span> <span class="keyword">Array</span> <span class="keyword">where</span> Element: Equatable &#123;</span><br><span class="line">    mutating func removeObject(<span class="keyword">object</span>: Element) &#123;</span><br><span class="line">        <span class="keyword">if</span> let <span class="keyword">index</span> = <span class="keyword">index</span>(<span class="keyword">of</span>: <span class="keyword">object</span>) &#123;</span><br><span class="line">            remove(at: <span class="keyword">index</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>由于Array是结构体类型,而removeObject函数会改变结构体的值,所以该函数需要添加mutating关键字.“Notice the use of the mutating keyword in the declaration of SimpleStructure to mark a method that modifies the structure. The declaration of SimpleClass doesn’t need any of its methods marked as mutating because methods on a class can always modify the class.”</p>
 ]]></content>
       <categories>
         <category>Swift</category>
