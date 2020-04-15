@@ -1,29 +1,31 @@
 ---
-title: 基于GitHub制作CocoaPods私有库
+title: 制作CocoaPods私有库
 date: 2020-04-15 16:26:53
 tags: [私有库]
 categories: CocoaPods
 ---
 
-1.创建pod spec私有仓库
+**1. 创建私有pod spec仓库**
 
-因为制作的是私有库所以就不能把pod sepc文件放到cocoapods的公开仓库中了，因此需要在GitHub上新建一个repository `XQSpecs`用于保存所有的私有pod spec.
+因为制作的是私有库所以就不能把pod sepc文件存放到cocoapods的公开仓库中了，因此需要在GitHub上新建一个repository `XQSpecs`用于保存所有的私有pod spec。
 
-2.创建pod库
+如果已经有自己的私有pod spec仓库，则这一步可跳过。
 
-主要是pod sepc文件和源码。
+**2. 创建私有pod库**
+
+主要包含pod源码和pod sepc文件、许可证等。
 
 创建pod库,可以使用命令：`pod lib create xxx`，创建好模板pod，然后基于模板修改。也可以全部自己手动创建。
 
 进入本地目的目录，使用命令：`pod lib create xxx`，然后基于模板修改。
 
-3.验证pod库
+**3. 验证pod库**
 
-发布之前先验证pod库的可用性。
+pod源码和pod sepc文件都准备好后，别着急发布，先验证pod库的可用性:
 
 `pod lib lint xxx.podspec`或者使用：`pod lib lint AlgorithmUtils.podspec --allow-warnings`，忽略警告。
 
-4.提交源码到GitHub，并打tag
+**4. 提交pod到GitHub，并打tag**
 
 在GitHub上新建一个repository用于保存pod.
 
@@ -51,7 +53,7 @@ git tag 0.1.0
 git push origin 0.1.0
 ```
 
-5.发布
+**5. 发布**
 
 如果本地还没有刚创建的pod spec私有仓库，那么需要执行：
 
@@ -65,7 +67,7 @@ git push origin 0.1.0
 
 将.podspec文件推送到pod spec仓库中，成功之后就可以在其他项目里使用该pod了。
 
-6.使用
+**6. 使用**
 
 在其他项目使用：
 
