@@ -1,6 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>制作CocoaPods公开库</title>
+    <url>/2020/04/16/%E5%88%B6%E4%BD%9CCocoaPods%E5%85%AC%E5%BC%80%E5%BA%93/</url>
+    <content><![CDATA[<p><strong>1. 创建要公开的pod库</strong></p>
+<p>主要包含pod源码和pod sepc文件、许可证等。</p>
+<p>这个过程可以先在本地创建好，再到GitHub创建对应的仓库，然后将本地pod添加到远程仓库。</p>
+<p>也可以先在GitHub创建好仓库，再clone到本地，然后在clone的目录下创建pod。</p>
+<p>pod sepc文件的说明可以参考：<a href="https://www.jianshu.com/p/75e19c92df50" target="_blank" rel="noopener">CocoaPods 系列之三 Podspec 语法说明</a></p>
+<p><strong>2. 验证pod库</strong></p>
+<p>pod源码和pod sepc文件都准备好后，别着急发布，先验证pod库的可用性:</p>
+<p><code>pod spec lint xxx.podsepc</code></p>
+<p>验证库坑:</p>
+<p><code>pod spec lint name.podsepc</code></p>
+<p>一直提示:CDN: trunk URL couldn’t be downloaded</p>
+<figure class="highlight vhdl"><table><tr><td class="code"><pre><span class="line">-&gt; XQSheet (<span class="number">2.0</span>.<span class="number">0</span>)</span><br><span class="line">   - <span class="literal">ERROR</span> | [iOS] unknown: Encountered an unknown <span class="literal">error</span> (CDN: trunk URL couldn<span class="symbol">'t</span> be downloaded: https://raw.githubusercontent.com/CocoaPods/Specs/master/Specs/<span class="number">4</span>/<span class="number">2</span>/<span class="number">1</span>/JKPresentationController/<span class="number">1.0</span>.<span class="number">0</span>/JKPresentationController.podspec.json, <span class="literal">error</span>: Failed <span class="keyword">to</span> <span class="keyword">open</span> TCP connection <span class="keyword">to</span> raw.githubusercontent.com:<span class="number">443</span> (Connection refused - connect(<span class="number">2</span>) <span class="keyword">for</span> <span class="string">"raw.githubusercontent.com"</span> <span class="keyword">port</span> <span class="number">443</span>)) during validation.</span><br></pre></td></tr></table></figure>
+<p>解决办法：指定source。</p>
+<p><code>pod spec lint name.podsepc --sources=&#39;https://github.com/CocoaPods/Specs.git&#39;</code></p>
+<p><strong>3.提交pod到GitHub，并打tag</strong></p>
+<p>这个就是平时开发提交代码，打tag。</p>
+<p>前面这几步和制作私有库是一样的都是准备工作。</p>
+<p><strong>4. 发布</strong></p>
+<p>要想发布一个公开库，需要先注册一个 CocoaPods 账号。</p>
+<p>查看有没有注册过：</p>
+<p><code>pod trunk me</code></p>
+<p>如果没有那么先注册：</p>
+<p><code>pod trunk register EMAIL [NAME]</code></p>
+<p>eg:</p>
+<p><code>pod trunk register orta@cocoapods.org &#39;Orta Therox&#39; --description=&#39;macbook air&#39;</code></p>
+<p>注册好后，开始发布，使用命令：</p>
+<p><code>pod trunk push xxx.podspec</code></p>
+<p>将pod spec文件推送到cocoapods的官方仓库，这样别人才能找得到。</p>
+<p>推送库坑:</p>
+<p><code>pod trunk push XQSheet.podspec</code></p>
+<figure class="highlight vhdl"><table><tr><td class="code"><pre><span class="line">Updating spec repo `trunk`</span><br><span class="line"></span><br><span class="line">CocoaPods <span class="number">1.9</span>.<span class="number">1</span> <span class="keyword">is</span> available.</span><br><span class="line"><span class="keyword">To</span> update <span class="keyword">use</span>: `sudo gem install cocoapods`</span><br><span class="line"></span><br><span class="line"><span class="keyword">For</span> more information, see https://blog.cocoapods.org <span class="keyword">and</span> the CHANGELOG <span class="keyword">for</span> this version at https://github.com/CocoaPods/CocoaPods/releases/tag/<span class="number">1.9</span>.<span class="number">1</span></span><br><span class="line"></span><br><span class="line">Validating podspec</span><br><span class="line"> -&gt; XQSheet (<span class="number">2.0</span>.<span class="number">0</span>)</span><br><span class="line">    - <span class="literal">ERROR</span> | [iOS] unknown: Encountered an unknown <span class="literal">error</span> (CDN: trunk URL couldn<span class="symbol">'t</span> be downloaded: https://raw.githubusercontent.com/CocoaPods/Specs/master/Specs/<span class="number">4</span>/<span class="number">2</span>/<span class="number">1</span>/JKPresentationController/<span class="number">1.0</span>.<span class="number">0</span>/JKPresentationController.podspec.json, <span class="literal">error</span>: Failed <span class="keyword">to</span> <span class="keyword">open</span> TCP connection <span class="keyword">to</span> raw.githubusercontent.com:<span class="number">443</span> (Connection refused - connect(<span class="number">2</span>) <span class="keyword">for</span> <span class="string">"raw.githubusercontent.com"</span> <span class="keyword">port</span> <span class="number">443</span>)) during validation.</span><br><span class="line"></span><br><span class="line">[!] The spec did <span class="keyword">not</span> pass validation, due <span class="keyword">to</span> <span class="number">1</span> <span class="literal">error</span>.</span><br></pre></td></tr></table></figure>
+<p>一直卡在这里,最后让终端翻墙后好了.</p>
+<p><strong>5. 验证结果</strong></p>
+<p>推送到CocoaPods成功后，我们可以搜索刚才制作的pod。此时一般是搜不到的，因为你本地的搜索索引文件，pod spec仓库都是旧的。</p>
+<p>发布成功后搜索不到解决办法:</p>
+<figure class="highlight stata"><table><tr><td class="code"><pre><span class="line"><span class="comment">//删除本地索引</span></span><br><span class="line"><span class="keyword">rm</span> ~/Library/Caches/CocoaPods/search_index.json</span><br><span class="line"></span><br><span class="line"><span class="comment">//搜索</span></span><br><span class="line">pod <span class="keyword">search</span> [库名]</span><br><span class="line"></span><br><span class="line"><span class="comment">//更新spec仓库</span></span><br><span class="line">pod repo <span class="keyword">update</span></span><br></pre></td></tr></table></figure>
+<p><strong>扩展</strong></p>
+<p>上述步骤每次操作也都挺繁琐的，可以考虑自动化，参考：<a href="https://ripperhe.com/2017/03/30/fastlane-pod/" target="_blank" rel="noopener">一行命令发布 Pod 框架</a></p>
+<p><strong>其他</strong></p>
+<p>上述pod是托管到某个平台上的，如果不想上传到服务器，也可以托管在本地玩玩。</p>
+<p>安装本地pod</p>
+<p>假设已经有了一个本地pod。<code>JKPresentationController.podspec</code>如下:</p>
+<figure class="highlight arcade"><table><tr><td class="code"><pre><span class="line">spec.source       = &#123; :<span class="function"><span class="params">git</span> =&gt;</span> <span class="string">"./JKPresentationController/"</span>, :<span class="function"><span class="params">tag</span> =&gt;</span> <span class="string">"#&#123;spec.version&#125;"</span> &#125;</span><br><span class="line">spec.source_files  = <span class="string">"JKPresentationController/*.swift"</span></span><br></pre></td></tr></table></figure>
+<p>git后面是源码本地路径.</p>
+<p>Podfile文件:</p>
+<figure class="highlight elixir"><table><tr><td class="code"><pre><span class="line">source <span class="string">'https://github.com/CocoaPods/Specs.git'</span></span><br><span class="line"></span><br><span class="line">platform <span class="symbol">:ios</span>, <span class="string">'10.0'</span></span><br><span class="line">use_frameworks!</span><br><span class="line"></span><br><span class="line">target <span class="string">'JKPresentationControllerDemo'</span> <span class="keyword">do</span></span><br><span class="line"></span><br><span class="line">pod <span class="string">'JKPresentationController'</span>, <span class="symbol">:path</span> =&gt; <span class="string">'../'</span></span><br><span class="line">pod <span class="string">'SnapKit'</span>, <span class="string">'~&gt; 5.0.0'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>path后面是<code>JKPresentationController.podspec</code>所在的路径.</p>
+<p>执行pod install后,Pods工程下会出现一个<code>Development Pods</code>目录.该目录中包含你的源码文件夹.</p>
+]]></content>
+      <categories>
+        <category>CocoaPods</category>
+      </categories>
+      <tags>
+        <tag>公开库</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>制作CocoaPods私有库</title>
+    <url>/2020/04/15/%E5%88%B6%E4%BD%9CCocoaPods%E7%A7%81%E6%9C%89%E5%BA%93/</url>
+    <content><![CDATA[<p><strong>1. 创建私有pod spec仓库</strong></p>
+<p>因为制作的是私有库所以就不能把pod sepc文件存放到cocoapods的公开仓库中了，因此需要在GitHub上新建一个repository <code>XQSpecs</code>用于保存所有的私有pod spec。</p>
+<p>如果已经有自己的私有pod spec仓库，则这一步可跳过。</p>
+<p><strong>2. 创建私有pod库</strong></p>
+<p>主要包含pod源码和pod sepc文件、许可证等。</p>
+<p>创建pod库,可以使用命令：<code>pod lib create xxx</code>，创建好模板pod，然后基于模板修改。也可以全部自己手动创建。</p>
+<p>进入本地目的目录，使用命令：<code>pod lib create xxx</code>，然后基于模板修改。</p>
+<p><strong>3. 验证pod库</strong></p>
+<p>pod源码和pod sepc文件都准备好后，别着急发布，先验证pod库的可用性:</p>
+<p><code>pod lib lint xxx.podspec</code>或者使用：<code>pod lib lint AlgorithmUtils.podspec --allow-warnings</code>，忽略警告。</p>
+<p><strong>4. 提交pod到GitHub，并打tag</strong></p>
+<p>在GitHub上新建一个repository用于保存pod.</p>
+<p>创建完成后，回到本地pod目录执行：</p>
+<figure class="highlight maxima"><table><tr><td class="code"><pre><span class="line">git remote add <span class="built_in">origin</span> https://github.com/xq-<span class="number">120</span>/AlgorithmUtils.git</span><br><span class="line">git <span class="built_in">push</span> -u <span class="built_in">origin</span> master</span><br></pre></td></tr></table></figure>
+<p>将已存在的本地git目录关联到远程地址。</p>
+<p>提交代码到远程：</p>
+<figure class="highlight avrasm"><table><tr><td class="code"><pre><span class="line">git <span class="keyword">add</span> .</span><br><span class="line">git commit -a -m <span class="string">"0.1.0"</span></span><br><span class="line">git <span class="keyword">push</span></span><br></pre></td></tr></table></figure>
+<p>打tag并推送到远程:</p>
+<figure class="highlight angelscript"><table><tr><td class="code"><pre><span class="line">git tag <span class="number">0.1</span><span class="number">.0</span></span><br><span class="line">git push origin <span class="number">0.1</span><span class="number">.0</span></span><br></pre></td></tr></table></figure>
+<p><strong>5. 发布</strong></p>
+<p>如果本地还没有刚创建的pod spec私有仓库，那么需要执行：</p>
+<p><code>pod repo add XQSpecs https://github.com/xq-120/XQSpecs.git</code></p>
+<p>在本地生成XQSpecs目录。</p>
+<p>发布pod:</p>
+<p><code>pod repo push XQSpecs xxx.podspec</code></p>
+<p>将.podspec文件推送到pod spec仓库中，成功之后就可以在其他项目里使用该pod了。</p>
+<p><strong>6. 使用</strong></p>
+<p>在其他项目使用：</p>
+<figure class="highlight delphi"><table><tr><td class="code"><pre><span class="line">source <span class="string">'https://github.com/xq-120/XQSpecs.git'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">platform</span> :ios,<span class="string">'10.0'</span></span><br><span class="line">use_frameworks!</span><br><span class="line"></span><br><span class="line">target <span class="string">'adsad'</span> <span class="keyword">do</span></span><br><span class="line">   pod <span class="string">'AlgorithmUtils'</span>, <span class="string">'~&gt; 0.1.0'</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>如果pod修改频繁，就需要频繁升级版本，这无疑非常麻烦，因此可以直接指定git路径和branch，这样就可以避免每次修改后都需要升级版本了：</p>
+<figure class="highlight arcade"><table><tr><td class="code"><pre><span class="line">source <span class="string">'https://github.com/xq-120/XQSpecs.git'</span></span><br><span class="line"></span><br><span class="line">platform :ios,<span class="string">'10.0'</span></span><br><span class="line">use_frameworks!</span><br><span class="line"></span><br><span class="line">target <span class="string">'adsad'</span> <span class="keyword">do</span></span><br><span class="line">  </span><br><span class="line">   pod <span class="string">'AlgorithmUtils'</span>, :<span class="function"><span class="params">git</span> =&gt;</span> <span class="string">'https://github.com/xq-120/AlgorithmUtils.git'</span>, :<span class="function"><span class="params">branch</span> =&gt;</span> <span class="string">'master'</span></span><br><span class="line">     </span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p>参考：<a href="https://juejin.im/post/5accdbc86fb9a028ca534f2e" target="_blank" rel="noopener">如何制作一个CocoaPods私有库</a></p>
+]]></content>
+      <categories>
+        <category>CocoaPods</category>
+      </categories>
+      <tags>
+        <tag>私有库</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>iOS设置圆角</title>
     <url>/2020/04/07/2020-4-07-iOS%E8%AE%BE%E7%BD%AE%E5%9C%86%E8%A7%92/</url>
     <content><![CDATA[<p>iOS中设置圆角大致有下面三种办法，每一种都有各自的优缺点，结合场景选择合适的方案才是最佳处理。</p>

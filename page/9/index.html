@@ -191,6 +191,204 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/21/%E9%87%87%E7%94%A8%20Modern%20Objective-C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="今天又是充满希望的一天">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/10/21/%E9%87%87%E7%94%A8%20Modern%20Objective-C/" class="post-title-link" itemprop="url">采用 Modern Objective-C</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-10-21 13:21:24" itemprop="dateCreated datePublished" datetime="2017-10-21T13:21:24+08:00">2017-10-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2018-07-15 08:47:28" itemprop="dateModified" datetime="2018-07-15T08:47:28+08:00">2018-07-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OC%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/" itemprop="url" rel="index"><span itemprop="name">OC编码规范</span></a>
+                </span>
+            </span>
+
+          
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="采用-Modern-Objective-C"><a href="#采用-Modern-Objective-C" class="headerlink" title="采用 Modern Objective-C"></a>采用 Modern Objective-C</h2><p>参考:<a href="https://developer.apple.com/library/content/releasenotes/ObjectiveC/ModernizationObjC/AdoptingModernObjective-C/AdoptingModernObjective-C.html" target="_blank" rel="noopener">Adopting Modern Objective-C</a></p>
+<p>These modernizations <strong>improve type safety, memory management, performance, and other aspects of Objective-C</strong>, making it easier for you to write correct code. It’s important to adopt these changes in your existing and future code to help it become more consistent, readable, and resilient.</p>
+<h3 id="instancetype"><a href="#instancetype" class="headerlink" title="instancetype"></a>instancetype</h3><p>Use the instancetype keyword as the return type of methods that return an instance of the class they are called on (or a subclass of that class).<br>Using instancetype instead of id in appropriate places <strong>improves type safety</strong> in your Objective-C code.<br>使用instancetype后,如果给对象发送一条不能识别的消息那么编译器就会提示错误,这样就可以提前解决错误,因此提高了类型安全.参考官方文档上的例子说明.</p>
+<p>Note that you should replace id with instancetype for return values only, not elsewhere in your code. Unlike id, the instancetype keyword can be used only as the result type in a method declaration.</p>
+<h3 id="property语法"><a href="#property语法" class="headerlink" title="@property语法"></a><code>@property</code>语法</h3><p>使用properties代替实例变量有许多好处.</p>
+<ul>
+<li>自动合成getter和setter.</li>
+<li>更好的声明一系列方法的意图.</li>
+<li>Property关键字可以传递额外的信息.比如assign (vs copy), weak, atomic (vs nonatomic), and so on.</li>
+</ul>
+<p>Property methods follow a simple naming convention. The getter is the name of the property (for example, date), and the setter is the name of the property with the set prefix, written in camel case (for example, setDate). The naming convention for Boolean properties is to declare them with a named getter starting with the word “is”:<br><code>@property (readonly, getter=isBlue) BOOL blue;</code></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2017/10/21/%E9%87%87%E7%94%A8%20Modern%20Objective-C/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/18/didSelectRowAtIndexPath%E4%B8%8D%E8%A2%AB%E8%B0%83%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="今天又是充满希望的一天">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/10/18/didSelectRowAtIndexPath%E4%B8%8D%E8%A2%AB%E8%B0%83%E7%94%A8/" class="post-title-link" itemprop="url">didSelectRowAtIndexPath不被调用</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-10-18 15:01:11" itemprop="dateCreated datePublished" datetime="2017-10-18T15:01:11+08:00">2017-10-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2018-07-15 08:47:28" itemprop="dateModified" datetime="2018-07-15T08:47:28+08:00">2018-07-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/UITableView/" itemprop="url" rel="index"><span itemprop="name">UITableView</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2017/10/18/didSelectRowAtIndexPath%E4%B8%8D%E8%A2%AB%E8%B0%83%E7%94%A8/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/10/18/didSelectRowAtIndexPath不被调用/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="didSelectRowAtIndexPath不被调用"><a href="#didSelectRowAtIndexPath不被调用" class="headerlink" title="didSelectRowAtIndexPath不被调用"></a>didSelectRowAtIndexPath不被调用</h2><p>vc.view上添加一个UITableView,并且vc.view上添加一个UITapGestureRecognizer手势,那么<code>- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath</code>代理方法将不再被调用.</p>
+<p>这是由于<code>UIGestureRecognizer</code>有一个属性:<br><code>@property(nonatomic) BOOL cancelsTouchesInView;</code><br>官方的注释:default is YES. causes touchesCancelled:withEvent: or pressesCancelled:withEvent: to be sent to the view for all touches or presses recognized as part of this gesture immediately before the action method is called.<br>该属性默认是YES,在action方法被调用之前系统会迅速调用View的touchesCancelled:withEvent: or pressesCancelled:withEvent:方法.touches事件将立即被cancel.所有的touches或presses对象将转而被用于手势识别.因此当一个View上添加了一个手势那么该View的touchesEnded方法将不会被调用(只会touchesBegan-&gt;touchesCancelled).</p>
+<p>可以推断出:如果一个button上又添加一个tap手势,则最后只会有tap响应,button的target则不会被调用.这是由于手势识别时会cancel掉后面的Touches.因此当用户触摸一个控件时,手势的处理优先于触摸事件的处理.</p>
+<p>因此,要想didSelectRowAtIndexPath方法被调用,有两种解决办法:  </p>
+<ol>
+<li>设置<code>tap.cancelsTouchesInView = NO;</code>让touch事件继续进行,从而让view可以继续处理.</li>
+<li><p>实现<code>UIGestureRecognizerDelegate</code>的代理方法</p>
+<pre><code> - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+     if ([touch.view isKindOfClass:NSClassFromString(@&quot;UITableViewCellContentView&quot;)]) {
+         return NO;
+     }
+     return YES;
+ }
+</code></pre><p> 当点击到cell.contentView上时,让tap手势不处理touches.</p>
+</li>
+</ol>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考:"></a>参考:</h3><p><a href="https://joakimliu.github.io/2017/01/15/iOS的事件处理/" target="_blank" rel="noopener">iOS的事件处理</a></p>
+<p>Event Handling Guide for iOS </p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/13/CUICatalog-Invalid%20asset%20name%20supplied/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -948,192 +1146,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/10/CocoaPods%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="今天又是充满希望的一天">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/09/10/CocoaPods%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">CocoaPods常见问题</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2017-09-10 16:07:12" itemprop="dateCreated datePublished" datetime="2017-09-10T16:07:12+08:00">2017-09-10</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2018-07-15 08:47:28" itemprop="dateModified" datetime="2018-07-15T08:47:28+08:00">2018-07-15</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CocoaPods/" itemprop="url" rel="index"><span itemprop="name">CocoaPods</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2017/09/10/CocoaPods%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/09/10/CocoaPods常见问题/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Q:在用 Cocoapods 做第三方开源库管理的时候，有时候发现查找到的第三方库版本低于github上仓库的最新release版本.<br>A:执行<code>pod update</code>更新本地仓库，完成后，即可搜索到指定的第三方库.  </p>
-<p>Q:在使用了<code>pod setup</code>之后，发现好长时间都没有变化，无法从终端上获取<code>pod setup</code>的执行情况.<br>A:这时候可以command+N新建一个窗口，通过<code>sudo ls</code>用管理员权限查看目录,然后<code>cd .cocoapods</code>文件夹，输入<code>du -sh</code>命令查看文件夹大小变化，从而确定<code>pod setup</code>的运行情况.</p>
-<p>note:在Podfile文件中的<code>platform :ios, &#39;7.0&#39;</code>,如果你设置的iOS系统过低,可能有的第三方库会下载不下来.所以还是要看一下第三方库的最低版本支持说明.</p>
-<p>Q:RuntimeError - [Xcodeproj] Unknown object version.然后是一大堆错误日志.不管是重新从svn checkout一份新的还是怎样,pod install都不能成功.<br>A:一种解决办法:重新安装cocoapods.</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/10/can't%20find%20gem%20cocoapods/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="今天又是充满希望的一天">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/09/10/can't%20find%20gem%20cocoapods/" class="post-title-link" itemprop="url">can't find gem cocoapods (>= 0.a)</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2017-09-10 15:37:26" itemprop="dateCreated datePublished" datetime="2017-09-10T15:37:26+08:00">2017-09-10</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2018-07-15 08:47:28" itemprop="dateModified" datetime="2018-07-15T08:47:28+08:00">2018-07-15</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CocoaPods/" itemprop="url" rel="index"><span itemprop="name">CocoaPods</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2017/09/10/can't%20find%20gem%20cocoapods/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/09/10/can't find gem cocoapods/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="更新ruby后-pod-install出错"><a href="#更新ruby后-pod-install出错" class="headerlink" title="更新ruby后,pod install出错."></a>更新ruby后,pod install出错.</h2><p>xuequandeiMac:KingDynastyGaming xuequan$ pod install<br>提示:</p>
-<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/Library/Ruby/Site/<span class="number">2.0</span><span class="number">.0</span>/rubygems.rb:<span class="number">270</span>:<span class="keyword">in</span> `find_spec_for_ex<span class="string">e': can'</span>t find gem cocoapods (&gt;= <span class="number">0.</span>a) (Gem::GemNotFoundException) <span class="keyword">from</span> /Library/Ruby/Site/<span class="number">2.0</span><span class="number">.0</span>/rubygems.rb:<span class="number">298</span>:<span class="keyword">in</span> `activate_bin_path<span class="string">' from /usr/local/bin/pod:22:in `&lt;main&gt;'</span></span><br></pre></td></tr></table></figure>
-<p>解决办法:卸载cocoapods后重新安装</p>
-<ol>
-<li>sudo gem uninstall cocoapods</li>
-<li>gem install cocoapods</li>
-<li>pod install</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1204,7 +1216,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">97</span>
+          <span class="site-state-item-count">99</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1217,7 +1229,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">47</span>
+        <span class="site-state-item-count">49</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
