@@ -80,5 +80,22 @@ target 'adsad' do
 end
 ```
 
+如果pod修改频繁，就需要频繁升级版本，这无疑非常麻烦，因此可以直接指定git路径和branch，这样就可以避免每次修改后都需要升级版本了：
+
+```
+source 'https://github.com/xq-120/XQSpecs.git'
+
+platform :ios,'10.0'
+use_frameworks!
+
+target 'adsad' do
+  
+   pod 'AlgorithmUtils', :git => 'https://github.com/xq-120/AlgorithmUtils.git', :branch => 'master'
+     
+end
+```
+
+
+
 参考：[如何制作一个CocoaPods私有库](https://juejin.im/post/5accdbc86fb9a028ca534f2e)
 
