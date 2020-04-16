@@ -145,7 +145,7 @@ path后面是`JKPresentationController.podspec`所在的路径.
 
 
 
-相关阅读：[制作CocoaPods私有库]([https://xq-120.github.io/2020/04/15/%E5%88%B6%E4%BD%9CCocoaPods%E7%A7%81%E6%9C%89%E5%BA%93/](https://xq-120.github.io/2020/04/15/制作CocoaPods私有库/))
+相关阅读：[制作CocoaPods私有库](https://xq-120.github.io/2020/04/15/%E5%88%B6%E4%BD%9CCocoaPods%E7%A7%81%E6%9C%89%E5%BA%93/#more)
 
 
 
