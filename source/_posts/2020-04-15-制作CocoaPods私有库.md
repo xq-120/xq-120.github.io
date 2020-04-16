@@ -105,6 +105,17 @@ target 'adsad' do
 end
 ```
 
+还有一种操作：
+
+* 修改源码提交后，删除原来tag
+
+* 在新的提交记录上打tag（tag名称和之前一样）
+
+* 进入本地`~/Library/Caches/CocoaPods/Pods/Release`找到之前下载缓存的pod源码删除
+* 进入Xcode工程编辑Podfile文件注释掉pod，执行pod install，再放开注释pod，执行pod install（即重新安装pod）
+
+
+
 相关阅读：[制作CocoaPods公开库]([https://xq-120.github.io/2020/04/16/%E5%88%B6%E4%BD%9CCocoaPods%E5%85%AC%E5%BC%80%E5%BA%93/](https://xq-120.github.io/2020/04/16/制作CocoaPods公开库/))
 
 参考：[如何制作一个CocoaPods私有库](https://juejin.im/post/5accdbc86fb9a028ca534f2e)
