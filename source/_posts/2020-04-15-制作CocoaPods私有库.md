@@ -82,6 +82,14 @@ target 'adsad' do
 end
 ```
 
+**7. 升级**
+如果新增了功能或修复了某个bug，这个时候就需要升级pod版本并发布。这个过程基本上是重复上述步骤。
+
+* pod新增功能源码变动，更改pod sepc里的pod版本
+* 最好再验证一下pod库
+* 提交pod到GitHub，并打tag
+* 发布。`pod repo push XQSpecs xxx.podspec`
+
 如果pod修改频繁，就需要频繁升级版本，这无疑非常麻烦，因此可以直接指定git路径和branch，这样就可以避免每次修改后都需要升级版本了：
 
 ```
@@ -97,7 +105,7 @@ target 'adsad' do
 end
 ```
 
-
+相关阅读：[制作CocoaPods公开库]([https://xq-120.github.io/2020/04/16/%E5%88%B6%E4%BD%9CCocoaPods%E5%85%AC%E5%BC%80%E5%BA%93/](https://xq-120.github.io/2020/04/16/制作CocoaPods公开库/))
 
 参考：[如何制作一个CocoaPods私有库](https://juejin.im/post/5accdbc86fb9a028ca534f2e)
 
