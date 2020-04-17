@@ -2,8 +2,10 @@
 title: didSelectRowAtIndexPath不被调用
 date: 2017-10-18 15:01:11
 description: 
-categories: UITableView
-tags: UITableView
+categories: 
+- UIKit
+tags: 
+- UITableView
 comments: true
 ---
 
@@ -30,7 +32,7 @@ vc.view上添加一个UITableView,并且vc.view上添加一个UITapGestureRecogn
 	    }
 	    return YES;
 	}
-	``` 
+	```
 	当点击到cell.contentView上时,让tap手势不处理touches.
 
 ### 参考:

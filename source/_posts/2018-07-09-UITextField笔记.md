@@ -2,8 +2,10 @@
 title: UITextField笔记
 date: 2018-07-09 15:18:50
 description: 
-categories: UITextField
+categories: 
+- UIKit
 tags: 
+- UITextField
 ---
 
 ## UITextField笔记

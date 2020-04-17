@@ -2,9 +2,11 @@
 title: NSData与它的属性bytes
 date: 2018-07-07 17:39:16
 description: 
-categories: NSData
+categories: 
+- Foundation
 tags: 
-comments:
+- NSData
+comments: true
 ---
 
 #### NSData与它的属性bytes

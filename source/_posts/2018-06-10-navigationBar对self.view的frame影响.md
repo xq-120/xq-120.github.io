@@ -2,8 +2,11 @@
 title: navigationBar对self.view的frame影响
 date: 2018-06-10 12:49:28
 description: 
-categories: UIViewController
-tags: translucent属性
+categories: 
+- UIKit
+tags: 
+- UIViewController
+- translucent
 ---
 
 ### navigationBar对self.view的frame影响
@@ -87,7 +90,7 @@ If you set this property to NO on a navigation bar with a translucent custom bac
 写在
 
 \`\`\`
- 
+
 Xcode的日志
 
 \`\`\`
