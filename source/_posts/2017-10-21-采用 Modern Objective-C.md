@@ -2,7 +2,8 @@
 title: 采用 Modern Objective-C
 date: 2017-10-21 13:21:24
 description: 
-categories: OC编码规范
+categories: 
+- OC
 tags: 
 comments: false
 ---
@@ -32,7 +33,7 @@ Property methods follow a simple naming convention. The getter is the name of th
 ### 枚举宏
 使用NS_ENUM 和 NS_OPTIONS宏.when you use enum to define a bitmask use the NS_OPTIONS macro.
 
-```
+```objc
 typedef NS_ENUM(NSInteger, UITableViewCellStyle) {
 
         UITableViewCellStyleDefault,
@@ -46,7 +47,7 @@ typedef NS_ENUM(NSInteger, UITableViewCellStyle) {
 };
 ```
 
-```
+```objc
 typedef NS_OPTIONS(NSUInteger, UIViewAutoresizing) {
 
         UIViewAutoresizingNone                 = 0,
@@ -65,3 +66,4 @@ typedef NS_OPTIONS(NSUInteger, UIViewAutoresizing) {
 
 };
 ```
+

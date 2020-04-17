@@ -3,7 +3,9 @@ title: layoutIfNeeded与layoutSubviews的关系
 date: 2017-08-16 15:12:24
 description: 
 categories:
+- UIKit
 tags:
+- layoutIfNeeded
 ---
 
 动画`-layoutIfNeeded`父控制器的self.view,子控制器的子视图如果重写了`-layoutSubviews`也将动画布局.  
