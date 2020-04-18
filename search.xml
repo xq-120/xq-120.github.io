@@ -51,6 +51,7 @@
 <figure class="highlight elixir"><table><tr><td class="code"><pre><span class="line">source <span class="string">'https://github.com/CocoaPods/Specs.git'</span></span><br><span class="line"></span><br><span class="line">platform <span class="symbol">:ios</span>, <span class="string">'10.0'</span></span><br><span class="line">use_frameworks!</span><br><span class="line"></span><br><span class="line">target <span class="string">'JKPresentationControllerDemo'</span> <span class="keyword">do</span></span><br><span class="line"></span><br><span class="line">pod <span class="string">'JKPresentationController'</span>, <span class="symbol">:path</span> =&gt; <span class="string">'../'</span></span><br><span class="line">pod <span class="string">'SnapKit'</span>, <span class="string">'~&gt; 5.0.0'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
 <p>path后面是<code>JKPresentationController.podspec</code>所在的路径.</p>
 <p>执行pod install后,Pods工程下会出现一个<code>Development Pods</code>目录.该目录中包含你的源码文件夹.</p>
+<p>相关阅读：<a href="https://xq-120.github.io/2020/04/15/%E5%88%B6%E4%BD%9CCocoaPods%E7%A7%81%E6%9C%89%E5%BA%93/#more" target="_blank" rel="noopener">制作CocoaPods私有库</a></p>
 ]]></content>
       <categories>
         <category>CocoaPods</category>
@@ -91,8 +92,26 @@
 <p><strong>6. 使用</strong></p>
 <p>在其他项目使用：</p>
 <figure class="highlight delphi"><table><tr><td class="code"><pre><span class="line">source <span class="string">'https://github.com/xq-120/XQSpecs.git'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">platform</span> :ios,<span class="string">'10.0'</span></span><br><span class="line">use_frameworks!</span><br><span class="line"></span><br><span class="line">target <span class="string">'adsad'</span> <span class="keyword">do</span></span><br><span class="line">   pod <span class="string">'AlgorithmUtils'</span>, <span class="string">'~&gt; 0.1.0'</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p><strong>7. 升级</strong><br>如果新增了功能或修复了某个bug，这个时候就需要升级pod版本并发布。这个过程基本上是重复上述步骤。</p>
+<ul>
+<li>pod新增功能源码变动，更改pod sepc里的pod版本</li>
+<li>最好再验证一下pod库</li>
+<li>提交pod到GitHub，并打tag</li>
+<li>发布。<code>pod repo push XQSpecs xxx.podspec</code></li>
+</ul>
 <p>如果pod修改频繁，就需要频繁升级版本，这无疑非常麻烦，因此可以直接指定git路径和branch，这样就可以避免每次修改后都需要升级版本了：</p>
 <figure class="highlight arcade"><table><tr><td class="code"><pre><span class="line">source <span class="string">'https://github.com/xq-120/XQSpecs.git'</span></span><br><span class="line"></span><br><span class="line">platform :ios,<span class="string">'10.0'</span></span><br><span class="line">use_frameworks!</span><br><span class="line"></span><br><span class="line">target <span class="string">'adsad'</span> <span class="keyword">do</span></span><br><span class="line">  </span><br><span class="line">   pod <span class="string">'AlgorithmUtils'</span>, :<span class="function"><span class="params">git</span> =&gt;</span> <span class="string">'https://github.com/xq-120/AlgorithmUtils.git'</span>, :<span class="function"><span class="params">branch</span> =&gt;</span> <span class="string">'master'</span></span><br><span class="line">     </span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p>还有一种操作：</p>
+<ul>
+<li><p>修改源码提交后，删除原来tag</p>
+</li>
+<li><p>在新的提交记录上打tag（tag名称和之前一样）</p>
+</li>
+<li><p>进入本地<code>~/Library/Caches/CocoaPods/Pods/Release</code>找到之前下载缓存的pod源码删除</p>
+</li>
+<li>进入Xcode工程编辑Podfile文件注释掉pod，执行pod install，再放开注释pod，执行pod install（即重新安装pod）</li>
+</ul>
+<p>相关阅读：<a href="https://xq-120.github.io/2020/04/16/%E5%88%B6%E4%BD%9CCocoaPods%E5%85%AC%E5%BC%80%E5%BA%93/#more" target="_blank" rel="noopener">制作CocoaPods公开库</a></p>
 <p>参考：<a href="https://juejin.im/post/5accdbc86fb9a028ca534f2e" target="_blank" rel="noopener">如何制作一个CocoaPods私有库</a></p>
 ]]></content>
       <categories>
@@ -104,7 +123,7 @@
   </entry>
   <entry>
     <title>iOS设置圆角</title>
-    <url>/2020/04/07/2020-4-07-iOS%E8%AE%BE%E7%BD%AE%E5%9C%86%E8%A7%92/</url>
+    <url>/2020/04/07/iOS%E8%AE%BE%E7%BD%AE%E5%9C%86%E8%A7%92/</url>
     <content><![CDATA[<p>iOS中设置圆角大致有下面三种办法，每一种都有各自的优缺点，结合场景选择合适的方案才是最佳处理。</p>
 <h4 id="1-cornerRadius"><a href="#1-cornerRadius" class="headerlink" title="1.cornerRadius"></a>1.cornerRadius</h4><figure class="highlight routeros"><table><tr><td class="code"><pre><span class="line">Setting the<span class="built_in"> radius </span><span class="keyword">to</span> a value greater than 0.0 causes the layer <span class="keyword">to</span> begin drawing rounded corners on its background. By default, the corner<span class="built_in"> radius </span>does <span class="keyword">not</span> apply <span class="keyword">to</span> the image <span class="keyword">in</span> the layer’s contents property; it applies only <span class="keyword">to</span> the background color <span class="keyword">and</span> border of the layer. However, setting the masksToBounds property <span class="keyword">to</span> <span class="literal">YES</span> causes the content <span class="keyword">to</span> be clipped <span class="keyword">to</span> the rounded corners.</span><br><span class="line">The<span class="built_in"> default </span>value of this property is 0.0.</span><br></pre></td></tr></table></figure>
 <p>由于cornerRadius只对背景色和边框有效而对layer的contents并不起作用，因此一般都会配合masksToBounds使用。</p>
@@ -142,9 +161,10 @@
 <p><a href="https://medium.com/@peteliev/diagnose-and-solve-performance-problem-with-xcode-instruments-5c25c27f21d5" target="_blank" rel="noopener">Diagnose and solve performance problems with Xcode Instruments</a></p>
 ]]></content>
       <categories>
-        <category>UIImageView</category>
+        <category>UIKit</category>
       </categories>
       <tags>
+        <tag>UIImageView</tag>
         <tag>圆角</tag>
       </tags>
   </entry>
@@ -653,7 +673,7 @@
   </entry>
   <entry>
     <title>github pages+hexo+next搭建博客</title>
-    <url>/2020/02/29/github-pages-hexo-next%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</url>
+    <url>/2020/02/29/github%20pages+hexo+next%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</url>
     <content><![CDATA[<h4 id="主要步骤"><a href="#主要步骤" class="headerlink" title="主要步骤"></a>主要步骤</h4><ul>
 <li>安装环境</li>
 <li>初始化项目</li>
@@ -788,7 +808,7 @@
 </ol>
 ]]></content>
       <categories>
-        <category>生活</category>
+        <category>Xcode</category>
       </categories>
   </entry>
   <entry>
@@ -1420,10 +1440,12 @@
 <p><a href="https://developer.apple.com/documentation/uikit/uiresponder/1621099-nextresponder?language=objc" target="_blank" rel="noopener">nextResponder</a></p>
 ]]></content>
       <categories>
-        <category>UIResponder</category>
+        <category>UIKit</category>
       </categories>
       <tags>
-        <tag>事件分发 手势识别</tag>
+        <tag>UIResponder</tag>
+        <tag>事件分发</tag>
+        <tag>手势识别</tag>
       </tags>
   </entry>
   <entry>
@@ -1687,8 +1709,8 @@ objc_msgSend(id _Nullable self, SEL _Nonnull op, ...);</code><br>它的第二个
       </tags>
   </entry>
   <entry>
-    <title>iOS APP运行状态变化</title>
-    <url>/2018/12/09/APP%E7%8A%B6%E6%80%81%E5%8F%98%E5%8C%96/</url>
+    <title>iOS UIApplicationState状态变化</title>
+    <url>/2018/12/09/iOS%20UIApplicationState%E7%8A%B6%E6%80%81%E5%8F%98%E5%8C%96/</url>
     <content><![CDATA[<p>实验设备:iPhone5s,10.3.3系统.</p>
 <p>应用状态:</p>
 <figure class="highlight objectivec"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="built_in">NS_ENUM</span>(<span class="built_in">NSInteger</span>, <span class="built_in">UIApplicationState</span>) &#123;</span><br><span class="line">    <span class="built_in">UIApplicationStateActive</span>, <span class="comment">//0</span></span><br><span class="line">    <span class="built_in">UIApplicationStateInactive</span>, <span class="comment">//1</span></span><br><span class="line">    <span class="built_in">UIApplicationStateBackground</span> <span class="comment">//2</span></span><br><span class="line">&#125; <span class="built_in">NS_ENUM_AVAILABLE_IOS</span>(<span class="number">4</span>_0);</span><br></pre></td></tr></table></figure>
@@ -1710,10 +1732,10 @@ objc_msgSend(id _Nullable self, SEL _Nonnull op, ...);</code><br>它的第二个
 <figure class="highlight angelscript"><table><tr><td class="code"><pre><span class="line">默认	<span class="number">23</span>:<span class="number">15</span>:<span class="number">53.643633</span> +<span class="number">0800</span>	pictureInMemory	-[AppDelegate applicationDidBecomeActive:]  应用状态:<span class="number">0</span></span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
-        <category>iOS</category>
+        <category>UIKit</category>
       </categories>
       <tags>
-        <tag>iOS系统特性</tag>
+        <tag>UIApplicationState</tag>
       </tags>
   </entry>
   <entry>
@@ -1759,14 +1781,14 @@ objc_msgSend(id _Nullable self, SEL _Nonnull op, ...);</code><br>它的第二个
 <h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><p><a href="https://developer.apple.com/library/archive/documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/TheAppLifeCycle/TheAppLifeCycle.html#//apple_ref/doc/uid/TP40007072-CH2-SW1" target="_blank" rel="noopener">App Programming Guide for iOS</a></p>
 ]]></content>
       <categories>
-        <category>iOS</category>
+        <category>Foundation</category>
       </categories>
       <tags>
-        <tag>iOS系统</tag>
+        <tag>App生命周期</tag>
       </tags>
   </entry>
   <entry>
-    <title>iOS APP缓存清理</title>
+    <title>清理APP缓存</title>
     <url>/2018/12/07/%E6%B8%85%E7%90%86APP%E7%BC%93%E5%AD%98/</url>
     <content><![CDATA[<h4 id="清理缓存"><a href="#清理缓存" class="headerlink" title="清理缓存"></a>清理缓存</h4><p>主要是删除/Caches目录下的内容.如果其他路径上的文件可以删除也可以包含进来.</p>
 <p>iOS 文件系统也得了解一下<br><a href="https://developer.apple.com/library/archive/documentation/FileManagement/Conceptual/FileSystemProgrammingGuide/FileSystemOverview/FileSystemOverview.html#//apple_ref/doc/uid/TP40010672-CH2-SW12" target="_blank" rel="noopener">iOS 文件系统</a></p>
@@ -1776,7 +1798,7 @@ objc_msgSend(id _Nullable self, SEL _Nonnull op, ...);</code><br>它的第二个
 <p><code>- (BOOL)removeItemAtPath:(NSString *)path error:(NSError * _Nullable *)error;</code>会移除文件或目录</p>
 ]]></content>
       <categories>
-        <category>iOS</category>
+        <category>Foundation</category>
       </categories>
       <tags>
         <tag>文件系统</tag>
@@ -1784,7 +1806,7 @@ objc_msgSend(id _Nullable self, SEL _Nonnull op, ...);</code><br>它的第二个
   </entry>
   <entry>
     <title>iOS崩溃日志堆栈解析</title>
-    <url>/2018/12/05/iOS%20crash%20%E6%97%A5%E5%BF%97%E5%A0%86%E6%A0%88%E8%A7%A3%E6%9E%90/</url>
+    <url>/2018/12/05/iOS%E5%B4%A9%E6%BA%83%E6%97%A5%E5%BF%97%E5%A0%86%E6%A0%88%E8%A7%A3%E6%9E%90/</url>
     <content><![CDATA[<h3 id="iOS崩溃日志堆栈解析"><a href="#iOS崩溃日志堆栈解析" class="headerlink" title="iOS崩溃日志堆栈解析"></a>iOS崩溃日志堆栈解析</h3><p>本文只为自己查看方便.</p>
 <h4 id="dSYM-文件"><a href="#dSYM-文件" class="headerlink" title=".dSYM 文件"></a>.dSYM 文件</h4><p>我们调试的 symbols 会包含在这个文件中。</p>
 <p>每次编译项目的时候都会生成一个新的 dSYM 文件，我们应该保存每个正式发布版本的 dSYM 文件，以备我们更好的调试问题。一般是在我们 Archives 时保存对应的版本文件的，里面也有对应的 .dSYM 和 .app 文件。</p>
@@ -1834,10 +1856,10 @@ objc_msgSend(id _Nullable self, SEL _Nonnull op, ...);</code><br>它的第二个
 <h4 id="错误的内存地址查看"><a href="#错误的内存地址查看" class="headerlink" title="错误的内存地址查看"></a>错误的内存地址查看</h4><p>内存地址是 Last Exception Backtraces 中每一行的第一个地址，分析其他行的时候你要看下是不是自己应用可执行文件那行，因为你这个 slide address 只对应到自己那个可执行文件，系统的一些库的 slide address 都不一样的。<br>其实分析一个 crash 文件并不要很长时间，只需要找到自己可执行文件对应的那行内存地址，slide address，和 arch type 这三个信息就可以了，并不是每一行错误信息都需要看。</p>
 ]]></content>
       <categories>
-        <category>iOS Crash</category>
+        <category>Foundation</category>
       </categories>
       <tags>
-        <tag>Crash</tag>
+        <tag>崩溃日志解析</tag>
       </tags>
   </entry>
   <entry>
@@ -1857,10 +1879,10 @@ objc_msgSend(id _Nullable self, SEL _Nonnull op, ...);</code><br>它的第二个
 <h3 id="如何延长APP后台运行时间-甚至无限长"><a href="#如何延长APP后台运行时间-甚至无限长" class="headerlink" title="如何延长APP后台运行时间?甚至无限长."></a>如何延长APP后台运行时间?甚至无限长.</h3><p>以后有空研究.</p>
 ]]></content>
       <categories>
-        <category>iOS</category>
+        <category>Foundation</category>
       </categories>
       <tags>
-        <tag>iOS系统特性</tag>
+        <tag>后台运行</tag>
       </tags>
   </entry>
   <entry>
@@ -1959,8 +1981,11 @@ objc_msgSend(id _Nullable self, SEL _Nonnull op, ...);</code><br>它的第二个
 <h3 id="Preferences目录"><a href="#Preferences目录" class="headerlink" title="Preferences目录"></a>Preferences目录</h3><p>NSUserDefaults保存的东西就在/Preferences目录.</p>
 ]]></content>
       <categories>
-        <category>iOS app文件系统</category>
+        <category>Foundation</category>
       </categories>
+      <tags>
+        <tag>iOS文件系统</tag>
+      </tags>
   </entry>
   <entry>
     <title>openURL打开应用</title>
@@ -2161,8 +2186,11 @@ objc_msgSend(id _Nullable self, SEL _Nonnull op, ...);</code><br>它的第二个
 </ol>
 ]]></content>
       <categories>
-        <category>UITextField</category>
+        <category>UIKit</category>
       </categories>
+      <tags>
+        <tag>UITextField</tag>
+      </tags>
   </entry>
   <entry>
     <title>域名简介</title>
@@ -2191,8 +2219,11 @@ objc_msgSend(id _Nullable self, SEL _Nonnull op, ...);</code><br>它的第二个
 <p>查看NSData对象装载的二进制内容方法:<br><img src="http://7xqoji.com1.z0.glb.clouddn.com/%E6%9F%A5%E7%9C%8BNSData%E7%9A%84%E5%86%85%E5%AD%98%E6%95%B0%E6%8D%AE%E6%96%B9%E6%B3%95@2x.png" alt=""></p>
 ]]></content>
       <categories>
-        <category>NSData</category>
+        <category>Foundation</category>
       </categories>
+      <tags>
+        <tag>NSData</tag>
+      </tags>
   </entry>
   <entry>
     <title>UITableView实践</title>
@@ -2208,8 +2239,11 @@ objc_msgSend(id _Nullable self, SEL _Nonnull op, ...);</code><br>它的第二个
 <p>网上找到的大都只实现了scrollViewDidScroll方法.但是只实现scrollViewDidScroll方法有bug:一直往上滑,松手后,第一个组头会不出现.所以这里解决一下这个问题.</p>
 ]]></content>
       <categories>
-        <category>UITableView</category>
+        <category>UIKit</category>
       </categories>
+      <tags>
+        <tag>UITableView</tag>
+      </tags>
   </entry>
   <entry>
     <title>navigationBar对self.view的frame影响</title>
@@ -2271,10 +2305,11 @@ objc_msgSend(id _Nullable self, SEL _Nonnull op, ...);</code><br>它的第二个
 <p>这里面的日志,包含了View的frame打印,居然导致Jekyll构建页面失败,说什么变量未正确关闭,最后只好一张张截图.这解析功能也太差了吧.</p>
 ]]></content>
       <categories>
-        <category>UIViewController</category>
+        <category>UIKit</category>
       </categories>
       <tags>
-        <tag>translucent属性</tag>
+        <tag>UIViewController</tag>
+        <tag>translucent</tag>
       </tags>
   </entry>
   <entry>
@@ -2733,9 +2768,10 @@ objc_msgSend(id _Nullable self, SEL _Nonnull op, ...);</code><br>它的第二个
 <p>Q:hitTest和pointInside的关系?<br>A:通过真机调试发现(模拟器可能不准),系统会先调用父视图的hitTest方法,hitTest方法继而会调用pointInside方法,如果pointInside返回YES,那么系统将对其上的子视图重复上面的过程进行hitTest.</p>
 ]]></content>
       <categories>
-        <category>UIResponder</category>
+        <category>UIKit</category>
       </categories>
       <tags>
+        <tag>UIResponder</tag>
         <tag>响应者链</tag>
       </tags>
   </entry>
@@ -2969,8 +3005,11 @@ attachMethodLists(Class cls, method_list_t **addedLists, int addedCount,
 <p>如何把消息发送给next responder？</p>
 <figure class="highlight cs"><table><tr><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)<span class="keyword">event</span></span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    UITouch *touch = [touches anyObject];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (touch.tapCount == <span class="number">2</span>) &#123;</span><br><span class="line"></span><br><span class="line">        [<span class="meta">[self nextResponder</span>] touchesBegan:touches withEvent:<span class="keyword">event</span>];<span class="comment">//这里最好写[self nextResponder]而不是写super</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    ... Go <span class="keyword">on</span> to handle touches that are not <span class="keyword">double</span> taps</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
-        <category>UIResponder</category>
+        <category>UIKit</category>
       </categories>
+      <tags>
+        <tag>UIResponder</tag>
+      </tags>
   </entry>
   <entry>
     <title>UIScrollView代理方法</title>
@@ -3135,8 +3174,11 @@ attachMethodLists(Class cls, method_list_t **addedLists, int addedCount,
 <p>在嵌套控制器的时候可以测试一下.比如使用<code>CAPSPageMenu</code>第三方库.</p>
 ]]></content>
       <categories>
-        <category>UIViewController</category>
+        <category>UIKit</category>
       </categories>
+      <tags>
+        <tag>UIViewController</tag>
+      </tags>
   </entry>
   <entry>
     <title>访问控制</title>
@@ -3243,10 +3285,11 @@ attachMethodLists(Class cls, method_list_t **addedLists, int addedCount,
 </ul>
 <p>Property methods follow a simple naming convention. The getter is the name of the property (for example, date), and the setter is the name of the property with the set prefix, written in camel case (for example, setDate). The naming convention for Boolean properties is to declare them with a named getter starting with the word “is”:<br><code>@property (readonly, getter=isBlue) BOOL blue;</code></p>
 <h3 id="枚举宏"><a href="#枚举宏" class="headerlink" title="枚举宏"></a>枚举宏</h3><p>使用NS_ENUM 和 NS_OPTIONS宏.when you use enum to define a bitmask use the NS_OPTIONS macro.</p>
-<figure class="highlight elm"><table><tr><td class="code"><pre><span class="line">typedef <span class="type">NS_ENUM</span>(<span class="type">NSInteger</span>, <span class="type">UITableViewCellStyle</span>) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="type">UITableViewCellStyleDefault</span>,</span><br><span class="line"></span><br><span class="line">        <span class="type">UITableViewCellStyleValue1</span>,</span><br><span class="line"></span><br><span class="line">        <span class="type">UITableViewCellStyleValue2</span>,</span><br><span class="line"></span><br><span class="line">        <span class="type">UITableViewCellStyleSubtitle</span></span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<figure class="highlight angelscript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> NS_OPTIONS(NSUInteger, UIViewAutoresizing) &#123;</span><br><span class="line"></span><br><span class="line">        UIViewAutoresizingNone                 = <span class="number">0</span>,</span><br><span class="line"></span><br><span class="line">        UIViewAutoresizingFlexibleLeftMargin   = <span class="number">1</span> &lt;&lt; <span class="number">0</span>,</span><br><span class="line"></span><br><span class="line">        UIViewAutoresizingFlexibleWidth        = <span class="number">1</span> &lt;&lt; <span class="number">1</span>,</span><br><span class="line"></span><br><span class="line">        UIViewAutoresizingFlexibleRightMargin  = <span class="number">1</span> &lt;&lt; <span class="number">2</span>,</span><br><span class="line"></span><br><span class="line">        UIViewAutoresizingFlexibleTopMargin    = <span class="number">1</span> &lt;&lt; <span class="number">3</span>,</span><br><span class="line"></span><br><span class="line">        UIViewAutoresizingFlexibleHeight       = <span class="number">1</span> &lt;&lt; <span class="number">4</span>,</span><br><span class="line"></span><br><span class="line">        UIViewAutoresizingFlexibleBottomMargin = <span class="number">1</span> &lt;&lt; <span class="number">5</span></span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>]]></content>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="built_in">NS_ENUM</span>(<span class="built_in">NSInteger</span>, <span class="built_in">UITableViewCellStyle</span>) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">UITableViewCellStyleDefault</span>,</span><br><span class="line"></span><br><span class="line">        <span class="built_in">UITableViewCellStyleValue1</span>,</span><br><span class="line"></span><br><span class="line">        <span class="built_in">UITableViewCellStyleValue2</span>,</span><br><span class="line"></span><br><span class="line">        <span class="built_in">UITableViewCellStyleSubtitle</span></span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="built_in">NS_OPTIONS</span>(<span class="built_in">NSUInteger</span>, <span class="built_in">UIViewAutoresizing</span>) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">UIViewAutoresizingNone</span>                 = <span class="number">0</span>,</span><br><span class="line"></span><br><span class="line">        <span class="built_in">UIViewAutoresizingFlexibleLeftMargin</span>   = <span class="number">1</span> &lt;&lt; <span class="number">0</span>,</span><br><span class="line"></span><br><span class="line">        <span class="built_in">UIViewAutoresizingFlexibleWidth</span>        = <span class="number">1</span> &lt;&lt; <span class="number">1</span>,</span><br><span class="line"></span><br><span class="line">        <span class="built_in">UIViewAutoresizingFlexibleRightMargin</span>  = <span class="number">1</span> &lt;&lt; <span class="number">2</span>,</span><br><span class="line"></span><br><span class="line">        <span class="built_in">UIViewAutoresizingFlexibleTopMargin</span>    = <span class="number">1</span> &lt;&lt; <span class="number">3</span>,</span><br><span class="line"></span><br><span class="line">        <span class="built_in">UIViewAutoresizingFlexibleHeight</span>       = <span class="number">1</span> &lt;&lt; <span class="number">4</span>,</span><br><span class="line"></span><br><span class="line">        <span class="built_in">UIViewAutoresizingFlexibleBottomMargin</span> = <span class="number">1</span> &lt;&lt; <span class="number">5</span></span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+]]></content>
       <categories>
-        <category>OC编码规范</category>
+        <category>OC</category>
       </categories>
   </entry>
   <entry>
@@ -3259,20 +3302,15 @@ attachMethodLists(Class cls, method_list_t **addedLists, int addedCount,
 <ol>
 <li>设置<code>tap.cancelsTouchesInView = NO;</code>让touch事件继续进行,从而让view可以继续处理.</li>
 <li><p>实现<code>UIGestureRecognizerDelegate</code>的代理方法</p>
-<pre><code> - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
-     if ([touch.view isKindOfClass:NSClassFromString(@&quot;UITableViewCellContentView&quot;)]) {
-         return NO;
-     }
-     return YES;
- }
-</code></pre><p> 当点击到cell.contentView上时,让tap手势不处理touches.</p>
+ <figure class="highlight objectivec"><table><tr><td class="code"><pre><span class="line">- (<span class="built_in">BOOL</span>)gestureRecognizer:(<span class="built_in">UIGestureRecognizer</span> *)gestureRecognizer shouldReceiveTouch:(<span class="built_in">UITouch</span> *)touch &#123;</span><br><span class="line">    <span class="keyword">if</span> ([touch.view isKindOfClass:<span class="built_in">NSClassFromString</span>(<span class="string">@"UITableViewCellContentView"</span>)]) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NO</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p> 当点击到cell.contentView上时,让tap手势不处理touches.</p>
 </li>
 </ol>
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考:"></a>参考:</h3><p><a href="https://joakimliu.github.io/2017/01/15/iOS的事件处理/" target="_blank" rel="noopener">iOS的事件处理</a></p>
 <p>Event Handling Guide for iOS </p>
 ]]></content>
       <categories>
-        <category>UITableView</category>
+        <category>UIKit</category>
       </categories>
       <tags>
         <tag>UITableView</tag>
@@ -3565,6 +3603,12 @@ attachMethodLists(Class cls, method_list_t **addedLists, int addedCount,
 </ul>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="http://blog.logichigh.com/2011/03/16/when-does-layoutsubviews-get-called/" target="_blank" rel="noopener">When does layoutSubviews get called?</a></p>
 ]]></content>
+      <categories>
+        <category>UIKit</category>
+      </categories>
+      <tags>
+        <tag>layoutSubviews</tag>
+      </tags>
   </entry>
   <entry>
     <title>layoutIfNeeded与layoutSubviews的关系</title>
@@ -3575,6 +3619,12 @@ attachMethodLists(Class cls, method_list_t **addedLists, int addedCount,
 <figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (contentOffsetY &gt; <span class="number">0</span>  &amp;&amp; self<span class="selector-class">.contentScrollView</span><span class="selector-class">.contentInset</span><span class="selector-class">.top</span> != -endY) &#123;</span><br><span class="line">	<span class="comment">//动画代码</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>系统的<code>-layoutIfNeeded</code>的实现应该是调用了视图的<code>-layoutSubviews</code>方法.父视图<code>-layoutSubviews</code>方法的调用可能会引起子视图<code>-layoutSubviews</code>方法的调用.</p>
 ]]></content>
+      <categories>
+        <category>UIKit</category>
+      </categories>
+      <tags>
+        <tag>layoutIfNeeded</tag>
+      </tags>
   </entry>
   <entry>
     <title>Next Theme Tutorial</title>
@@ -3643,5 +3693,37 @@ attachMethodLists(Class cls, method_list_t **addedLists, int addedCount,
       <categories>
         <category>tutorial</category>
       </categories>
+  </entry>
+  <entry>
+    <title>UITableViewCell重用导致的图片错乱问题</title>
+    <url>/2016/04/24/UITableViewCell%E9%87%8D%E7%94%A8%E5%AF%BC%E8%87%B4%E7%9A%84%E5%9B%BE%E7%89%87%E9%94%99%E4%B9%B1%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<p>之前做过一个视频信息列表展示的模块，cell很简单就是左边图片，右边文字信息。当时用的SDWebImage加载图片并没有看到图片错乱的情况。但是，如果是自己写的图片下载器，不注意处理是会导致图片错乱的。</p>
+<p>今天写了个Demo，验证及解决这个问题。<br>实验环境：cell依然是左边图片，右边文字信息。图片两张，一张大图片A(风景)，一张小图片B(人物)，<strong>采用自己实现的原始图片下载器</strong>异步下载，block里回调设置cell的图片。要求偶数行的图片是风景，奇数行的图片是人物。<br>整个界面期望如下:<br><img src="http://upload-images.jianshu.io/upload_images/1503319-0c16709bb58a8af1.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="期望tableview界面.jpg"></p>
+<p>但实际可能出现bug，如下图:<br><img src="http://upload-images.jianshu.io/upload_images/1503319-396836dd909893b1.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="bug界面.jpg"></p>
+<h4 id="数据错乱原因分析"><a href="#数据错乱原因分析" class="headerlink" title="数据错乱原因分析"></a>数据错乱原因分析</h4><p>cell上的数据错乱显然是由于cell的重用导致的。由于图片是异步下载的，下载完成才给cell设置，但是在这个过程中用户可能会上下滑动，滑动的时候会导致cell的重用，比如第0行是设置大图片的，第11行是设置小图片的，用户在滑动的过程中，因为cell的重用第11行的cell可能使用的是第0行的cell，这时第0行的block回调设置的cell和第11行的block回调设置的cell是同一个，这就是问题的关键。</p>
+<p>因为图片是异步下载的，你也不知道哪个block会先回调，如果小图片的block先回调那么这个cell的图片就先被设置为小图片，如果后来大图片的block回来了，那么你会看到图片被替换成大图片，这种情况还算比较好，但如果大图片下载失败或者小图片的block最后回调，那么你看到的将是小图片加大图片的文字信息，这时数据就错乱了。</p>
+<h4 id="如何解决"><a href="#如何解决" class="headerlink" title="如何解决"></a>如何解决</h4><p>如果不重用cell，当然是可以解决该问题的，但是内存肯定会浪费不少。既然已经找到是因为cell的重用导致两个block回调时设置的其实是同一个cell上的imageView。那么我们只需要在下载完成的回调里进行区分，如果不一致则不设置imageView。</p>
+<p>有两种办法进行区分：</p>
+<p><strong>1. 通过indexPath来区分</strong></p>
+<p>block里截获的indexPath对象是以前的cell的indexPath。而通过<code>[tableView indexPathForCell:cell];</code>则可以获得当前显示的cell的indexPath。如果cell发生了重用的话，那么这两个indexPath将不一致。</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line">- (<span class="built_in">UITableViewCell</span> *)tableView:(<span class="built_in">UITableView</span> *)tableView cellForRowAtIndexPath:(<span class="built_in">NSIndexPath</span> *)indexPath</span><br><span class="line">&#123;</span><br><span class="line">    MyTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<span class="string">@"Cell"</span> forIndexPath:indexPath];</span><br><span class="line">    cell.imgView.image = [<span class="built_in">UIImage</span> imageNamed:<span class="string">@"pl"</span>];</span><br><span class="line">    <span class="built_in">NSString</span> *urlStr = <span class="keyword">self</span>.urlArr[indexPath.row];</span><br><span class="line">    __<span class="keyword">weak</span> <span class="keyword">typeof</span>(MyTableViewCell *) weakCell = cell;</span><br><span class="line">    [[XQImageDownloader defaultImageDownloader] downloadImageWithUrlString:urlStr completion:^(<span class="built_in">NSString</span> *imgUrl, <span class="built_in">UIImage</span> *image, <span class="built_in">NSError</span> *error) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!error) &#123;</span><br><span class="line">            <span class="built_in">NSIndexPath</span> *currentIndexPath = [tableView indexPathForCell:weakCell];</span><br><span class="line">            <span class="built_in">NSInteger</span> currentRow = currentIndexPath.row;</span><br><span class="line">            <span class="built_in">NSInteger</span> originalRow = indexPath.row; <span class="comment">//这里的indexPath是block截获的.</span></span><br><span class="line">            <span class="keyword">if</span> (originalRow != currentRow) &#123;</span><br><span class="line">                <span class="built_in">NSLog</span>(<span class="string">@"数据错乱，应该设置的是第%ld个cell上的ImageView,但当前设置的是%ld个cell上的ImageView,cell:%p"</span>, (<span class="keyword">long</span>)originalRow, currentRow, weakCell);</span><br><span class="line">                <span class="built_in">NSLog</span>(<span class="string">@"urlStr:%@, imgUrl：%@"</span>, urlStr, imgUrl); <span class="comment">//这里的urlStr==imgUrl，想一想为什么</span></span><br><span class="line">                <span class="keyword">return</span> ;</span><br><span class="line">            &#125;</span><br><span class="line">            weakCell.imgView.image = image;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"下载图片：%@，error:%@"</span>, urlStr, [error localizedDescription]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line">    cell.contentLabel.text = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"这是第%ld个cell:%p"</span>, indexPath.row, cell];</span><br><span class="line">    <span class="keyword">return</span> cell;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>2. 通过下载的图片URL来区分</strong></p>
+<p>下载前先记录当前imageView应该显示的图片URL，当下载完成时再进行比较。</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line">- (<span class="built_in">UITableViewCell</span> *)tableView:(<span class="built_in">UITableView</span> *)tableView cellForRowAtIndexPath:(<span class="built_in">NSIndexPath</span> *)indexPath</span><br><span class="line">&#123;</span><br><span class="line">    MyTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<span class="string">@"Cell"</span> forIndexPath:indexPath];</span><br><span class="line">    cell.imgView.image = [<span class="built_in">UIImage</span> imageNamed:<span class="string">@"pl"</span>];</span><br><span class="line">    <span class="built_in">NSString</span> *urlStr = <span class="keyword">self</span>.urlArr[indexPath.row];</span><br><span class="line">    cell.imageView.xq_imgUrl = [<span class="built_in">NSURL</span> URLWithString:urlStr]； <span class="comment">//记录当前imageView应该显示的图片URL</span></span><br><span class="line">    __<span class="keyword">weak</span> <span class="keyword">typeof</span>(MyTableViewCell *) weakCell = cell;</span><br><span class="line">    [[XQImageDownloader defaultImageDownloader] downloadImageWithUrlString:urlStr completion:^(<span class="built_in">NSString</span> *imgUrl, <span class="built_in">UIImage</span> *image, <span class="built_in">NSError</span> *error) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!error) &#123;</span><br><span class="line">            <span class="keyword">if</span> (![weakCell.imageView.xq_imgUrl.absoluteString isEqualToString:imgUrl]) &#123;</span><br><span class="line">                <span class="built_in">NSLog</span>(<span class="string">@"数据错乱，应该下载的图片url为:%@, 但当前下载的图片url为：%@"</span>, weakCell.imageView.xq_imgUrl, imgUrl);</span><br><span class="line">                <span class="keyword">return</span> ;</span><br><span class="line">            &#125;</span><br><span class="line">            weakCell.imgView.image = image;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">					  <span class="built_in">NSLog</span>(<span class="string">@"下载图片：%@，error:%@"</span>, urlStr, [error localizedDescription]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line">    cell.contentLabel.text = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"这是第%ld个cell:%p"</span>, indexPath.row, cell];</span><br><span class="line">    <span class="keyword">return</span> cell;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>另外在下载图片之前先把cell的imageView的image置为nil。<code>cell.imgView.image = nil;</code>可以防止重用的cell万一图片下载失败而导致显示了以前的图片。</p>
+<p>cell上发生数据错乱的控件，大部分都是因为要显示的资源需要异步处理比如图片需要下载后才能设置到imageView上，这时就需要在block中进行区分。少部分同步显示资源的控件（比如UILabel）发生数据错乱则一般是因为你的条件判断有问题导致重用的cell上还留有旧的数据，可以重写<code>-prepareForReuse</code>在重用前先清除掉旧数据。</p>
+<p>俺在开发过程中遇到的一些数据错乱的场景：</p>
+<p>cell上的imageView根据条件判断一会加载本地的图片，一会加载网络图片。</p>
+<p>cell上的imageView根据条件判断一会用SDWebImage加载，一会用YYWebImage加载。同一个cell里的imageView千万不要使用两种框架去加载。</p>
+<p>有空再详细分析使用SDWebImage加载图片时为什么就不会出现图片错乱。</p>
+<p>以上，MADE BY XQ。</p>
+]]></content>
+      <categories>
+        <category>UIKit</category>
+      </categories>
+      <tags>
+        <tag>UITableViewCell</tag>
+        <tag>cell重用问题</tag>
+      </tags>
   </entry>
 </search>

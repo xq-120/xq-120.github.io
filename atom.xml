@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-04-15T16:24:03.719Z</updated>
+  <updated>2020-04-16T13:13:21.856Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="http://yoursite.com/2020/04/16/%E5%88%B6%E4%BD%9CCocoaPods%E5%85%AC%E5%BC%80%E5%BA%93/"/>
     <id>http://yoursite.com/2020/04/16/%E5%88%B6%E4%BD%9CCocoaPods%E5%85%AC%E5%BC%80%E5%BA%93/</id>
     <published>2020-04-15T16:18:19.000Z</published>
-    <updated>2020-04-15T16:24:03.719Z</updated>
+    <updated>2020-04-16T13:13:21.856Z</updated>
     
     <summary type="html">
     
@@ -51,7 +51,7 @@
     <link href="http://yoursite.com/2020/04/15/%E5%88%B6%E4%BD%9CCocoaPods%E7%A7%81%E6%9C%89%E5%BA%93/"/>
     <id>http://yoursite.com/2020/04/15/%E5%88%B6%E4%BD%9CCocoaPods%E7%A7%81%E6%9C%89%E5%BA%93/</id>
     <published>2020-04-15T08:26:53.000Z</published>
-    <updated>2020-04-15T16:23:48.797Z</updated>
+    <updated>2020-04-16T13:13:21.856Z</updated>
     
     <summary type="html">
     
@@ -78,10 +78,10 @@
   
   <entry>
     <title>iOS设置圆角</title>
-    <link href="http://yoursite.com/2020/04/07/2020-4-07-iOS%E8%AE%BE%E7%BD%AE%E5%9C%86%E8%A7%92/"/>
-    <id>http://yoursite.com/2020/04/07/2020-4-07-iOS%E8%AE%BE%E7%BD%AE%E5%9C%86%E8%A7%92/</id>
+    <link href="http://yoursite.com/2020/04/07/iOS%E8%AE%BE%E7%BD%AE%E5%9C%86%E8%A7%92/"/>
+    <id>http://yoursite.com/2020/04/07/iOS%E8%AE%BE%E7%BD%AE%E5%9C%86%E8%A7%92/</id>
     <published>2020-04-07T14:25:40.000Z</published>
-    <updated>2020-04-07T14:33:28.344Z</updated>
+    <updated>2020-04-17T12:41:27.172Z</updated>
     
     <summary type="html">
     
@@ -98,8 +98,10 @@
     </summary>
     
     
-      <category term="UIImageView" scheme="http://yoursite.com/categories/UIImageView/"/>
+      <category term="UIKit" scheme="http://yoursite.com/categories/UIKit/"/>
     
+    
+      <category term="UIImageView" scheme="http://yoursite.com/tags/UIImageView/"/>
     
       <category term="圆角" scheme="http://yoursite.com/tags/%E5%9C%86%E8%A7%92/"/>
     
@@ -300,10 +302,10 @@
   
   <entry>
     <title>github pages+hexo+next搭建博客</title>
-    <link href="http://yoursite.com/2020/02/29/github-pages-hexo-next%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/"/>
-    <id>http://yoursite.com/2020/02/29/github-pages-hexo-next%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</id>
+    <link href="http://yoursite.com/2020/02/29/github%20pages+hexo+next%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/"/>
+    <id>http://yoursite.com/2020/02/29/github%20pages+hexo+next%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</id>
     <published>2020-02-29T13:37:50.000Z</published>
-    <updated>2020-03-01T15:10:15.350Z</updated>
+    <updated>2020-04-17T12:41:27.171Z</updated>
     
     <summary type="html">
     
@@ -338,7 +340,7 @@
     <link href="http://yoursite.com/2020/02/27/%E6%B8%85%E7%90%86%E4%BD%A0%E7%9A%84Xcode/"/>
     <id>http://yoursite.com/2020/02/27/%E6%B8%85%E7%90%86%E4%BD%A0%E7%9A%84Xcode/</id>
     <published>2020-02-27T14:55:55.000Z</published>
-    <updated>2020-03-01T05:10:47.737Z</updated>
+    <updated>2020-04-17T12:41:27.171Z</updated>
     
     <summary type="html">
     
@@ -356,7 +358,7 @@
     </summary>
     
     
-      <category term="生活" scheme="http://yoursite.com/categories/%E7%94%9F%E6%B4%BB/"/>
+      <category term="Xcode" scheme="http://yoursite.com/categories/Xcode/"/>
     
     
   </entry>

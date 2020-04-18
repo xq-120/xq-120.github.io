@@ -28,7 +28,7 @@
 <meta property="og:description" content="1. 创建私有pod spec仓库 因为制作的是私有库所以就不能把pod sepc文件存放到cocoapods的公开仓库中了，因此需要在GitHub上新建一个repository XQSpecs用于保存所有的私有pod spec。 如果已经有自己的私有pod spec仓库，则这一步可跳过。 2. 创建私有pod库 主要包含pod源码和pod sepc文件、许可证等。 创建pod库,可以使用命令：p">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-04-15T08:26:53.000Z">
-<meta property="article:modified_time" content="2020-04-15T16:23:48.797Z">
+<meta property="article:modified_time" content="2020-04-16T13:13:21.856Z">
 <meta property="article:author" content="jekyttt">
 <meta property="article:tag" content="私有库">
 <meta name="twitter:card" content="summary">
@@ -219,7 +219,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-16 00:23:48" itemprop="dateModified" datetime="2020-04-16T00:23:48+08:00">2020-04-16</time>
+                <time title="修改时间：2020-04-16 21:13:21" itemprop="dateModified" datetime="2020-04-16T21:13:21+08:00">2020-04-16</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -285,8 +285,26 @@
 <p><strong>6. 使用</strong></p>
 <p>在其他项目使用：</p>
 <figure class="highlight delphi"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">source <span class="string">'https://github.com/xq-120/XQSpecs.git'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">platform</span> :ios,<span class="string">'10.0'</span></span><br><span class="line">use_frameworks!</span><br><span class="line"></span><br><span class="line">target <span class="string">'adsad'</span> <span class="keyword">do</span></span><br><span class="line">   pod <span class="string">'AlgorithmUtils'</span>, <span class="string">'~&gt; 0.1.0'</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p><strong>7. 升级</strong><br>如果新增了功能或修复了某个bug，这个时候就需要升级pod版本并发布。这个过程基本上是重复上述步骤。</p>
+<ul>
+<li>pod新增功能源码变动，更改pod sepc里的pod版本</li>
+<li>最好再验证一下pod库</li>
+<li>提交pod到GitHub，并打tag</li>
+<li>发布。<code>pod repo push XQSpecs xxx.podspec</code></li>
+</ul>
 <p>如果pod修改频繁，就需要频繁升级版本，这无疑非常麻烦，因此可以直接指定git路径和branch，这样就可以避免每次修改后都需要升级版本了：</p>
 <figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">source <span class="string">'https://github.com/xq-120/XQSpecs.git'</span></span><br><span class="line"></span><br><span class="line">platform :ios,<span class="string">'10.0'</span></span><br><span class="line">use_frameworks!</span><br><span class="line"></span><br><span class="line">target <span class="string">'adsad'</span> <span class="keyword">do</span></span><br><span class="line">  </span><br><span class="line">   pod <span class="string">'AlgorithmUtils'</span>, :<span class="function"><span class="params">git</span> =&gt;</span> <span class="string">'https://github.com/xq-120/AlgorithmUtils.git'</span>, :<span class="function"><span class="params">branch</span> =&gt;</span> <span class="string">'master'</span></span><br><span class="line">     </span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p>还有一种操作：</p>
+<ul>
+<li><p>修改源码提交后，删除原来tag</p>
+</li>
+<li><p>在新的提交记录上打tag（tag名称和之前一样）</p>
+</li>
+<li><p>进入本地<code>~/Library/Caches/CocoaPods/Pods/Release</code>找到之前下载缓存的pod源码删除</p>
+</li>
+<li>进入Xcode工程编辑Podfile文件注释掉pod，执行pod install，再放开注释pod，执行pod install（即重新安装pod）</li>
+</ul>
+<p>相关阅读：<a href="https://xq-120.github.io/2020/04/16/%E5%88%B6%E4%BD%9CCocoaPods%E5%85%AC%E5%BC%80%E5%BA%93/#more" target="_blank" rel="noopener">制作CocoaPods公开库</a></p>
 <p>参考：<a href="https://juejin.im/post/5accdbc86fb9a028ca534f2e" target="_blank" rel="noopener">如何制作一个CocoaPods私有库</a></p>
 
     </div>
@@ -306,7 +324,7 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/04/07/2020-4-07-iOS%E8%AE%BE%E7%BD%AE%E5%9C%86%E8%A7%92/" rel="prev" title="iOS设置圆角">
+    <a href="/2020/04/07/iOS%E8%AE%BE%E7%BD%AE%E5%9C%86%E8%A7%92/" rel="prev" title="iOS设置圆角">
       <i class="fa fa-chevron-left"></i> iOS设置圆角
     </a></div>
       <div class="post-nav-item">
@@ -392,20 +410,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">99</span>
+          <span class="site-state-item-count">100</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">40</span>
+        <span class="site-state-item-count">30</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">49</span>
+        <span class="site-state-item-count">61</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
