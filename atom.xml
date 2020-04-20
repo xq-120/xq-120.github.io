@@ -81,11 +81,11 @@
     <link href="http://yoursite.com/2020/04/07/iOS%E8%AE%BE%E7%BD%AE%E5%9C%86%E8%A7%92/"/>
     <id>http://yoursite.com/2020/04/07/iOS%E8%AE%BE%E7%BD%AE%E5%9C%86%E8%A7%92/</id>
     <published>2020-04-07T14:25:40.000Z</published>
-    <updated>2020-04-17T12:41:27.172Z</updated>
+    <updated>2020-04-20T14:17:05.695Z</updated>
     
     <summary type="html">
     
-      &lt;p&gt;iOS中设置圆角大致有下面三种办法，每一种都有各自的优缺点，结合场景选择合适的方案才是最佳处理。&lt;/p&gt;
+      &lt;p&gt;iOS中设置圆角大致有下面几种办法，每一种都有各自的优缺点，结合场景选择合适的方案才是最佳处理。&lt;/p&gt;
 &lt;h4 id=&quot;1-cornerRadius&quot;&gt;&lt;a href=&quot;#1-cornerRadius&quot; class=&quot;headerlink&quot; title=&quot;1.cornerRadius&quot;&gt;&lt;/a&gt;1.cornerRadius&lt;/h4&gt;&lt;figure class=&quot;highlight routeros&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;Setting the&lt;span class=&quot;built_in&quot;&gt; radius &lt;/span&gt;&lt;span class=&quot;keyword&quot;&gt;to&lt;/span&gt; a value greater than 0.0 causes the layer &lt;span class=&quot;keyword&quot;&gt;to&lt;/span&gt; begin drawing rounded corners on its background. By default, the corner&lt;span class=&quot;built_in&quot;&gt; radius &lt;/span&gt;does &lt;span class=&quot;keyword&quot;&gt;not&lt;/span&gt; apply &lt;span class=&quot;keyword&quot;&gt;to&lt;/span&gt; the image &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; the layer’s contents property; it applies only &lt;span class=&quot;keyword&quot;&gt;to&lt;/span&gt; the background color &lt;span class=&quot;keyword&quot;&gt;and&lt;/span&gt; border of the layer. However, setting the masksToBounds property &lt;span class=&quot;keyword&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;literal&quot;&gt;YES&lt;/span&gt; causes the content &lt;span class=&quot;keyword&quot;&gt;to&lt;/span&gt; be clipped &lt;span class=&quot;keyword&quot;&gt;to&lt;/span&gt; the rounded corners.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;The&lt;span class=&quot;built_in&quot;&gt; default &lt;/span&gt;value of this property is 0.0.&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
 &lt;p&gt;由于cornerRadius只对背景色和边框有效而对layer的contents并不起作用，因此一般都会配合masksToBounds使用。&lt;/p&gt;
 &lt;p&gt;苹果在iOS9后对cornerRadius+masksToBounds做了优化，当contentMode和backgroundColor为默认值时即：&lt;/p&gt;
