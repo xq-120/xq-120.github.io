@@ -10,7 +10,7 @@
 
 
 
-**安装flutter**
+**安装Flutter**
 
 下载flutter SDK:
 
@@ -230,6 +230,22 @@ export https_proxy=http://10.1.1.1:8080
 ```
 source ~/.zshrc
 ```
+
+>  flutter --version 无反应
+
+Flutter命令基本上是需要网络的，而且要翻墙。
+
+```
+$ flutter --version
+Flutter 1.16.1 • channel master • https://github.com/flutter/flutter.git
+Framework • revision e6b0f5f238 (5 weeks ago) • 2020-03-18 21:56:02 -0400
+Engine • revision 216c420a2c
+Tools • Dart 2.8.0 (build 2.8.0-dev.15.0 96cf889e6b)
+```
+
+
+
+#### 参考
 
 [mac上使用zsh配置环境变量](https://www.cnblogs.com/mingaixin/p/6281795.html)
 
