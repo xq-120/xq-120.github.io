@@ -236,6 +236,39 @@ $ git rm \*~
 
 ### 疑惑
 
-git add与git stash
+1.git add与git stash
 
-git add是将文件添加到暂存区，而git stash，stash（贮藏）是将工作区和暂存区的改动暂时保存到一个栈上，保存之后工作区就是上一次提交后的干净的工作区了。二者操作的物理路径是不一样的。
+git add是将文件添加到暂存区，而git stash，stash（贮藏）是将工作区和暂存区的改动暂时保存到一个栈上，保存之后工作区就是上一次提交后的干净的工作区了。二者操作的物理文件是不一样的。
+
+`.git/`目录如下：
+
+```
+total 56
+-rw-r--r--   1 xuequan  staff    7  4 27 00:05 COMMIT_EDITMSG
+-rw-r--r--   1 xuequan  staff   23  4 26 23:51 HEAD
+-rw-r--r--   1 xuequan  staff   41  4 27 23:26 ORIG_HEAD
+-rw-r--r--   1 xuequan  staff  308  4 26 23:51 config
+-rw-r--r--   1 xuequan  staff   73  4 26 23:51 description
+drwxr-xr-x  14 xuequan  staff  448  4 26 23:51 hooks
+-rw-r--r--   1 xuequan  staff  217  4 27 23:26 index
+drwxr-xr-x   3 xuequan  staff   96  4 26 23:51 info
+drwxr-xr-x   4 xuequan  staff  128  4 26 23:51 logs
+drwxr-xr-x  14 xuequan  staff  448  4 27 23:26 objects
+-rw-r--r--   1 xuequan  staff  114  4 26 23:51 packed-refs
+drwxr-xr-x   6 xuequan  staff  192  4 27 23:26 refs
+```
+
+index文件就是常说的暂存区。
+
+执行git stash后，在`.git/refs/`目录下会出现一个`stash`文件：
+
+```
+$ ls -l
+total 8
+drwxr-xr-x  3 xuequan  staff  96  4 27 23:26 heads
+drwxr-xr-x  3 xuequan  staff  96  4 26 23:51 remotes
+-rw-r--r--  1 xuequan  staff  41  4 27 23:26 stash
+drwxr-xr-x  2 xuequan  staff  64  4 26 23:51 tags
+```
+
+可见二者操作的确实不是同一个东西。git stash我之前一直理解的是暂存，进而想当然的认为是把工作区和暂存区的修改暂存到暂存区，然后就发现跟git add不就功能重叠了吗？然后就一直纠结搞不明白。现在终于明白了。
