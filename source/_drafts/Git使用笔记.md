@@ -107,3 +107,70 @@ $ git config --global user.email johndoe@example.com
 
 比如进入全局配置文件目录，然后执行`vim .gitconfig`，直接编辑。
 
+### 移除文件
+
+要从 Git 中移除某个文件，就必须要从已跟踪文件清单中移除（确切地说，是从暂存区域移除），然后提交。可以用 `git rm` 命令完成此项工作，该命令会顺带将文件从工作目录中删除且不会出现在回收站里（类似于rm命令）。
+
+eg:
+
+```
+git rm CONTRIBUTING.md
+git commit -m "xxx"
+```
+
+可以看到上述过程并没有使用到常规的rm命令。
+
+如果只是简单地从工作目录中手工删除文件，运行 `git status` 时就会在 “Changes not staged for commit” 部分（也就是 *未暂存清单*）看到：
+
+```console
+$ rm PROJECTS.md
+$ git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+Changes not staged for commit:
+  (use "git add/rm <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+        deleted:    PROJECTS.md
+
+no changes added to commit (use "git add" and/or "git commit -a")
+```
+
+此时还是需要再运行 `git rm` 记录此次移除文件的操作：
+
+```console
+$ git rm PROJECTS.md
+rm 'PROJECTS.md'
+$ git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+    deleted:    PROJECTS.md
+```
+
+然后提交。
+
+> 想把文件从 Git 仓库中删除（亦即从暂存区域移除），但仍然希望保留在当前工作目录中。 换句话说，你想让文件保留在磁盘，但是并不想让 Git 继续跟踪。
+
+为达到这一目的，使用 `--cached` 选项：
+
+```console
+$ git rm --cached README
+```
+
+`git rm` 命令后面可以列出文件或者目录的名字，也可以使用 `glob` 模式。比如：
+
+```console
+$ git rm log/\*.log
+```
+
+注意到星号 `*` 之前的反斜杠 `\`， 因为 Git 有它自己的文件模式扩展匹配方式，所以我们不用 shell 来帮忙展开。 此命令删除 `log/` 目录下扩展名为 `.log` 的所有文件。 类似的比如：
+
+```console
+$ git rm \*~
+```
+
+该命令会删除所有名字以 `~` 结尾的文件。
+
