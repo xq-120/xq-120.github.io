@@ -107,6 +107,68 @@ $ git config --global user.email johndoe@example.com
 
 比如进入全局配置文件目录，然后执行`vim .gitconfig`，直接编辑。
 
+### Git三种状态
+
+工作区，暂存区，Git目录区。
+
+[1.3 起步 - Git 是什么？](https://git-scm.com/book/zh/v2/起步-Git-是什么？)
+
+新建一个文件`touch README`，再使用`git status`查看：
+
+```
+$ git status
+位于分支 master
+您的分支与上游分支 'origin/master' 一致。
+
+未跟踪的文件:
+  （使用 "git add <文件>..." 以包含要提交的内容）
+	README
+
+提交为空，但是存在尚未跟踪的文件（使用 "git add" 建立跟踪）
+```
+
+README处于未跟踪状态。
+
+使用命令 `git add` 开始跟踪一个文件。 所以，要跟踪 `README` 文件，运行：
+
+```console
+$ git add README
+```
+
+此时再运行 `git status` 命令，会看到 `README` 文件已被跟踪，并处于暂存状态：
+
+```
+$ git status
+位于分支 master
+您的分支与上游分支 'origin/master' 一致。
+
+要提交的变更：
+  （使用 "git restore --staged <文件>..." 以取消暂存）
+	新文件：   README
+```
+
+此时README就是已暂存状态。根据提示使用`git restore --staged <文件>`可以取消暂存
+
+```
+git restore --staged README
+```
+
+再次使用git status：
+
+```
+$ git status
+位于分支 master
+您的分支与上游分支 'origin/master' 一致。
+
+未跟踪的文件:
+  （使用 "git add <文件>..." 以包含要提交的内容）
+	README
+
+提交为空，但是存在尚未跟踪的文件（使用 "git add" 建立跟踪）
+```
+
+这就是**取消跟踪暂存区的文件**操作。
+
 ### 移除文件
 
 要从 Git 中移除某个文件，就必须要从已跟踪文件清单中移除（确切地说，是从暂存区域移除），然后提交。可以用 `git rm` 命令完成此项工作，该命令会顺带将文件从工作目录中删除且不会出现在回收站里（类似于rm命令）。
