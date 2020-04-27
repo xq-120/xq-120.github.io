@@ -4,7 +4,7 @@
 
 [Git权威指南](http://www.worldhello.net/gotgit/)
 
-
+[这才是真正的Git——Git内部原理揭秘！](https://zhuanlan.zhihu.com/p/96631135)
 
 查看git的安装路径
 
@@ -24,8 +24,6 @@ $ where git
 $ which git
 /usr/local/bin/git
 ```
-
-
 
 ## 初次运行 Git 前的配置
 
@@ -236,3 +234,8 @@ $ git rm \*~
 
 该命令会删除所有名字以 `~` 结尾的文件。
 
+### 疑惑
+
+git add与git stash
+
+git add是将文件添加到暂存区，而git stash，stash（贮藏）是将工作区和暂存区的改动暂时保存到一个栈上，保存之后工作区就是上一次提交后的干净的工作区了。二者操作的物理路径是不一样的。
