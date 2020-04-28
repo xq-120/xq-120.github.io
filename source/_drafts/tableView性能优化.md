@@ -82,7 +82,7 @@ Off-Screen Rendering意为离屏渲染，指的是GPU在当前屏幕缓冲区以
 2. 重写了- drawRect方法，即使是空实现。
 
 3. 设置CALayers的以下属性：
-   
+  
    光栅化
    
    `@property BOOL shouldRasterize;` //shouldRasterize属性设置为YES.
@@ -118,7 +118,7 @@ Off-Screen Rendering意为离屏渲染，指的是GPU在当前屏幕缓冲区以
 
 **什么是图层混合**
 
-
+如果屏幕的一块区域上有多个图层（layer），每个图层都会有一定的透明度，那么最后这块区域的显示效果就是这些图层共同作用的结果，这种结果需要cpu对每个图层的颜色进行计算，需要消耗更多的cpu资源。如果我们把最上层的layer设定为不透明，那么cpu就不需要计算底层的layer的色值，这样就可以节约cpu的计算量，节约资源。
 
 **应对措施**
 
@@ -127,8 +127,6 @@ Off-Screen Rendering意为离屏渲染，指的是GPU在当前屏幕缓冲区以
 3. 确保UIImage没有alpha通道.  
 
 参考：[ios性能优化--label上汉字图层混合问题](https://www.jianshu.com/p/b8ee7a40e219)
-
-
 
 > 异步绘制  
 
