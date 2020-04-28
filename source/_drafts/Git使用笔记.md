@@ -234,7 +234,352 @@ $ git rm \*~
 
 该命令会删除所有名字以 `~` 结尾的文件。
 
-### 疑惑
+## 撤消操作
+
+> git commit --amend
+
+有时候我们提交完了才发现漏掉了几个文件没有添加，或者提交信息写错了。 此时，可以运行带有 `--amend` 选项的提交命令来重新提交：
+
+```console
+$ git commit --amend
+```
+
+**这个命令会将暂存区中的文件提交**。 如果自上次提交以来你还未做任何修改（例如，在上次提交后马上执行了此命令）， 那么快照会保持不变，而你所修改的只是提交信息。
+
+eg：
+
+`git commit --amend -m " 修改提交信息"`
+
+前
+
+```
+commit 2f47e7f9e72bca7514a8de4d08f5cbdd928b9993
+Author: xuequan <quan.xue@zhenai.com>
+Date:   Mon Apr 27 11:32:45 2020 +0800
+
+    amend修改README.md
+
+diff --git a/README.md b/README.md
+index 51480af..f5c5178 100644
+--- a/README.md
++++ b/README.md
+@@ -2,3 +2,4 @@
+
+ hello,world!
+ 111
++222
+
+commit c4f103d17fa3711a33ce24d8664d3c6473ae280a
+Author: xuequan <quan.xue@zhenai.com>
+Date:   Mon Apr 27 11:31:21 2020 +0800
+
+    重新添加README.md
+
+diff --git a/README.md b/README.md
+new file mode 100644
+index 0000000..51480af
+--- /dev/null
++++ b/README.md
+@@ -0,0 +1,4 @@
++# git_demo
++
++hello,world!
++111
+
+```
+
+后：可以看到提交评论已经从”amend修改README.md“变成”修改提交信息“了。
+
+```
+commit 3041119e5670c9daa1f23d6cb2018ef2b9ce56ff
+Author: xuequan <quan.xue@zhenai.com>
+Date:   Mon Apr 27 11:32:45 2020 +0800
+
+    修改提交信息
+
+diff --git a/README.md b/README.md
+index 51480af..f5c5178 100644
+--- a/README.md
++++ b/README.md
+@@ -2,3 +2,4 @@
+
+ hello,world!
+ 111
++222
+
+commit c4f103d17fa3711a33ce24d8664d3c6473ae280a
+Author: xuequan <quan.xue@zhenai.com>
+Date:   Mon Apr 27 11:31:21 2020 +0800
+
+    重新添加README.md
+
+diff --git a/README.md b/README.md
+new file mode 100644
+index 0000000..51480af
+--- /dev/null
++++ b/README.md
+@@ -0,0 +1,4 @@
++# git_demo
++
++hello,world!
++111
+
+```
+
+如果我们提交完了才发现漏掉了几个文件没有添加或者又想修改点啥：
+
+```
+修改了点东西
+
+git add README.md
+
+git commit --amend -m " 修改上一次提交：又修改了一点README.md"
+
+```
+
+日志如下：可以看到我们又修改的东西已经在这一次提交上了，并且上一次的提交已经没有了。
+
+```
+commit 230a0a79f1bbc72053dc4824f66facffb93d7a84
+Author: xuequan <quan.xue@zhenai.com>
+Date:   Mon Apr 27 11:32:45 2020 +0800
+
+    修改上一次提交：又修改了一点README.md
+
+diff --git a/README.md b/README.md
+index 51480af..60b5084 100644
+--- a/README.md
++++ b/README.md
+@@ -2,3 +2,5 @@
+
+ hello,world!
+ 111
++222
++333
+
+commit c4f103d17fa3711a33ce24d8664d3c6473ae280a
+Author: xuequan <quan.xue@zhenai.com>
+Date:   Mon Apr 27 11:31:21 2020 +0800
+
+    重新添加README.md
+
+diff --git a/README.md b/README.md
+new file mode 100644
+index 0000000..51480af
+--- /dev/null
++++ b/README.md
+@@ -0,0 +1,4 @@
++# git_demo
++
++hello,world!
++111
+
+```
+
+### 取消暂存的文件
+
+`git reset HEAD <File>`
+
+例如，你已经修改了两个文件并且想要将它们作为两次独立的修改提交， 但是却意外地输入 `git add *` 暂存了它们两个。如何只取消暂存两个中的一个呢？
+
+```
+$ git status
+On branch master
+Your branch is ahead of 'origin/master' by 1 commit.
+  (use "git push" to publish your local commits)
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+	new file:   CONTRIBUTING.md
+	modified:   README.md
+
+```
+
+执行`git reset HEAD CONTRIBUTING.md`
+
+```
+$ git status
+On branch master
+Your branch is ahead of 'origin/master' by 1 commit.
+  (use "git push" to publish your local commits)
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+	modified:   README.md
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+	CONTRIBUTING.md
+
+```
+
+可以看到CONTRIBUTING.md已经不在暂存区了。
+
+### 撤消对文件的修改
+
+`git checkout -- <file>`
+
+提交之后发现有些改的地方有问题想撤销上次的修改（即将它还原成上次提交时的样子），怎么办？
+
+`git checkout -- CONTRIBUTING.md`
+
+请务必记得 `git checkout -- ` 是一个危险的命令。 你对那个文件在本地的任何修改都会消失——Git 会用最近提交的版本覆盖掉它。 除非你确实清楚不想要对那个文件的本地修改了，否则请不要使用这个命令。
+
+### 远程仓库
+
+ 与他人协作涉及管理远程仓库以及根据需要推送或拉取数据。 管理远程仓库包括了解**如何添加远程仓库**、**移除无效的远程仓库**、**管理不同的远程分支并定义它们是否被跟踪**等等。
+
+#### 查看远程仓库
+
+如果想查看你已经配置的远程仓库服务器，可以运行 `git remote` 命令。 它会列出你指定的每一个远程服务器的简写。 如果你已经克隆了自己的仓库，那么至少应该能看到 origin ——这是 Git 给你克隆的仓库服务器的默认名字：
+
+```
+$ git remote
+origin
+```
+
+我这里只有git clone时默认的origin。如果一个本地仓库没有添加任何远程仓库，则该命令不会有任何反应。
+
+可以指定选项 `-v`，会显示需要读写远程仓库使用的 Git 保存的简写与其对应的 URL。
+
+```
+$ git remote -v
+origin	https://github.com/xq-120/git_demo.git (fetch)
+origin	https://github.com/xq-120/git_demo.git (push)
+```
+
+查看某个远程仓库
+
+如果想要查看某一个远程仓库的更多信息，可以使用 `git remote show ` 命令。 如果想以一个特定的缩写名运行这个命令，例如 `origin`，会得到像下面类似的信息：
+
+```
+$ git remote show origin
+* remote origin
+  Fetch URL: https://github.com/xq-120/git_demo.git
+  Push  URL: https://github.com/xq-120/git_demo.git
+  HEAD branch: master
+  Remote branch:
+    master tracked
+  Local branch configured for 'git pull':
+    master merges with remote master
+  Local ref configured for 'git push':
+    master pushes to master (up to date)
+```
+
+它同样会列出远程仓库的 URL 与跟踪分支的信息。它告诉你正处于远程仓库的 `master` 分支，并且如果运行 `git pull`， 就会抓取所有的远程引用，然后将远程 `master` 分支合并到本地 `master` 分支。 它也会列出拉取到的所有远程引用。
+
+#### 添加远程仓库
+
+运行 `git remote add <shortname> <url>  ` 添加一个新的远程 Git 仓库，同时指定一个方便使用的简写：
+
+`git remote add pb https://github.com/paulboone/ticgit`
+
+以后可以在命令行中使用字符串 `pb` 来代替整个 URL。
+
+使用git clone:
+
+```
+$ git remote show origin
+* remote origin
+  Fetch URL: https://github.com/xq-120/git_demo.git
+  Push  URL: https://github.com/xq-120/git_demo.git
+  HEAD branch: master
+  Remote branch:
+    master tracked
+  Local branch configured for 'git pull':
+    master merges with remote master
+  Local ref configured for 'git push':
+    master pushes to master (up to date)
+```
+
+手动添加远程仓库：远程分支master没有被自动跟踪
+
+```
+$ git remote add genius https://github.com/xq-120/git_demo.git
+$ git remote show genius
+* remote genius
+  Fetch URL: https://github.com/xq-120/git_demo.git
+  Push  URL: https://github.com/xq-120/git_demo.git
+  HEAD branch: master
+  Remote branch:
+    master new (next fetch will store in remotes/genius)
+  Local ref configured for 'git push':
+    master pushes to master (up to date)
+```
+
+此时运行git pull/push会报错：
+
+```
+$ git pull
+fatal: No remote repository specified.  Please, specify either a URL or a
+remote name from which new revisions should be fetched.
+$ git push genius
+fatal: The current branch master has no upstream branch.
+To push the current branch and set the remote as upstream, use
+
+    git push --set-upstream genius master
+```
+
+这时就必须指明远程仓库别名和分支`git pull genius master`。
+
+每次指明远程仓库别名和分支必然不方便，可以设置git push和pull的默认分支：
+
+```
+git branch --set-upstream-to=genius/master master
+```
+
+这个时候就可以省略了。
+
+#### 从远程仓库中抓取与拉取
+
+git clone做了哪些事？
+
+1.将远程仓库拷贝到本地
+
+2.自动执行了`git remote add origin <url>  `，即自动为本地仓库添加刚才的远程仓库并默认以 “origin” 为简写。 
+
+3.自动设置本地 master 分支跟踪克隆的远程仓库的 `master` 分支（或其它名字的默认分支）。
+
+从远程仓库中获得数据，可以执行：
+
+```console
+$ git fetch <remote>
+```
+
+`git fetch origin` 会抓取克隆（或上一次抓取）后新推送的所有工作。 必须注意 `git fetch` 命令只会将数据下载到你的本地仓库——**它并不会自动合并或修改你当前的工作**。 当准备好时你必须手动将其合并入你的工作（使用git merge）。
+
+如果你的当前分支设置了跟踪远程分支（阅读下一节和 [Git 分支](https://git-scm.com/book/zh/v2/ch00/ch03-git-branching) 了解更多信息）， 那么可以用 `git pull` 命令来自动抓取后合并该远程分支到当前分支。
+
+可以看出git pull = git fetch + git merge
+
+#### 推送到远程仓库
+
+当你想分享你的项目时，必须将其推送到上游。 这个命令很简单：`git push  `。 当你想要将 `master` 分支推送到 `origin` 服务器时（再次说明，克隆时通常会自动帮你设置好那两个名字）， 那么运行这个命令就可以将你所做的备份到服务器：
+
+```console
+$ git push origin master
+```
+
+只有当你有所克隆服务器的写入权限，并且之前没有人推送过时，这条命令才能生效。 当你和其他人在同一时间克隆，他们先推送到上游然后你再推送到上游，你的推送就会毫无疑问地被拒绝。 你必须先抓取他们的工作并将其合并进你的工作后才能推送。
+
+我们在平时只需要git push/pull，都是因为克隆时通常会自动帮你设置好那两个名字，所以可以省略的原因。
+
+#### 远程仓库的重命名与移除
+
+重命名
+
+```console
+git remote rename pb paul
+```
+
+移除
+
+`git remote rm paul`
+
+一旦你使用这种方式删除了一个远程仓库，那么所有和这个远程仓库相关的远程跟踪分支以及配置信息也会一起被删除。
+
+### 疑惑	
 
 1.git add与git stash
 
