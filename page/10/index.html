@@ -191,6 +191,190 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/15/Swift%E5%AE%9E%E7%8E%B0removeObject/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="今天又是充满希望的一天">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/09/15/Swift%E5%AE%9E%E7%8E%B0removeObject/" class="post-title-link" itemprop="url">Swift实现removeObject</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-09-15 10:12:24" itemprop="dateCreated datePublished" datetime="2017-09-15T10:12:24+08:00">2017-09-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2018-07-15 08:47:28" itemprop="dateModified" datetime="2018-07-15T08:47:28+08:00">2018-07-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2017/09/15/Swift%E5%AE%9E%E7%8E%B0removeObject/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/09/15/Swift实现removeObject/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Swift实现removeObject"><a href="#Swift实现removeObject" class="headerlink" title="Swift实现removeObject"></a>Swift实现removeObject</h2><p>如果类没有继承自NSObject,那么类必须要实现<code>Equatable</code>协议.否则不需要.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Observer</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String!</span></span><br><span class="line">    <span class="keyword">var</span> subject: <span class="type">Subject!</span></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">observer</span><span class="params">(name: String, subject: Subject)</span></span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.name = name</span><br><span class="line">        <span class="keyword">self</span>.subject = subject</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">update</span><span class="params">()</span></span> &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">Observer</span>: <span class="title">Equatable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="function"><span class="keyword">func</span> ==<span class="params">(lhs: Observer, rhs: Observer)</span></span> -&gt; <span class="type">Bool</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> lhs === rhs &#123; <span class="comment">//地址相等. ps:"=="值相等.</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后在通过扩展给Array增加一个<code>removeObject(object: Element)</code>方法:</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extension</span> <span class="keyword">Array</span> <span class="keyword">where</span> Element: Equatable &#123;</span><br><span class="line">    mutating func removeObject(<span class="keyword">object</span>: Element) &#123;</span><br><span class="line">        <span class="keyword">if</span> let <span class="keyword">index</span> = <span class="keyword">index</span>(<span class="keyword">of</span>: <span class="keyword">object</span>) &#123;</span><br><span class="line">            remove(at: <span class="keyword">index</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>由于Array是结构体类型,而removeObject函数会改变结构体的值,所以该函数需要添加mutating关键字.“Notice the use of the mutating keyword in the declaration of SimpleStructure to mark a method that modifies the structure. The declaration of SimpleClass doesn’t need any of its methods marked as mutating because methods on a class can always modify the class.”</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/12/Swift%E5%8D%8F%E8%AE%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="今天又是充满希望的一天">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/09/12/Swift%E5%8D%8F%E8%AE%AE/" class="post-title-link" itemprop="url">Swift协议</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-09-12 23:07:12" itemprop="dateCreated datePublished" datetime="2017-09-12T23:07:12+08:00">2017-09-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2018-07-15 08:47:28" itemprop="dateModified" datetime="2018-07-15T08:47:28+08:00">2018-07-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2017/09/12/Swift%E5%8D%8F%E8%AE%AE/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/09/12/Swift协议/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="协议"><a href="#协议" class="headerlink" title="协议"></a>协议</h2><h3 id="可选实现"><a href="#可选实现" class="headerlink" title="可选实现"></a>可选实现</h3><p>Swift里标记某个方法为可选实现时,需要在协议前添加<code>@objc</code>,并且在可选方法前添加<code>@objc optional</code>.其实也是为了跟OC兼容.<br>eg:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@objc</span> <span class="class"><span class="keyword">protocol</span> <span class="title">Iterator</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">first</span><span class="params">()</span></span> -&gt; <span class="type">AnyObject?</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">next</span><span class="params">()</span></span> -&gt; <span class="type">AnyObject?</span></span><br><span class="line">    </span><br><span class="line">    <span class="meta">@objc</span> <span class="keyword">optional</span> <span class="function"><span class="keyword">func</span> <span class="title">isDone</span><span class="params">()</span></span> -&gt; <span class="type">Bool</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">currentItem</span><span class="params">()</span></span> -&gt; <span class="type">AnyObject?</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>判断某个实例是否实现了协议里的可选方法:</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> i.isDone?() != <span class="literal">nil</span> &#123;</span><br><span class="line">    <span class="builtin-name">print</span>(<span class="string">"\(i) 实现了方法isDone"</span>)</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="builtin-name">print</span>(<span class="string">"\(i) 没实现方法isDone"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>因为isDone是可选实现方法,所以调用时需要加?,这样就转为optional chaining处理,如果方法的返回值不为nil,则说明对象实现了协议的可选实现方法.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/10/CocoaPods%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -952,208 +1136,11 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/20/next-tutorial/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="今天又是充满希望的一天">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/07/20/next-tutorial/" class="post-title-link" itemprop="url">Next Theme Tutorial</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2017-07-20 00:00:00" itemprop="dateCreated datePublished" datetime="2017-07-20T00:00:00+08:00">2017-07-20</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2018-07-15 08:47:28" itemprop="dateModified" datetime="2018-07-15T08:47:28+08:00">2018-07-15</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/tutorial/" itemprop="url" rel="index"><span itemprop="name">tutorial</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2017/07/20/next-tutorial/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/07/20/next-tutorial/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>NexT is a high quality elegant Jekyll theme ported from Hexo Next. It is crafted from scratch, with love.</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2017/07/20/next-tutorial/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/04/24/UITableViewCell%E9%87%8D%E7%94%A8%E5%AF%BC%E8%87%B4%E7%9A%84%E5%9B%BE%E7%89%87%E9%94%99%E4%B9%B1%E9%97%AE%E9%A2%98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="今天又是充满希望的一天">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2016/04/24/UITableViewCell%E9%87%8D%E7%94%A8%E5%AF%BC%E8%87%B4%E7%9A%84%E5%9B%BE%E7%89%87%E9%94%99%E4%B9%B1%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">UITableViewCell重用导致的图片错乱问题</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2016-04-24 22:25:40" itemprop="dateCreated datePublished" datetime="2016-04-24T22:25:40+08:00">2016-04-24</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-18 13:22:24" itemprop="dateModified" datetime="2020-04-18T13:22:24+08:00">2020-04-18</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/UIKit/" itemprop="url" rel="index"><span itemprop="name">UIKit</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2016/04/24/UITableViewCell%E9%87%8D%E7%94%A8%E5%AF%BC%E8%87%B4%E7%9A%84%E5%9B%BE%E7%89%87%E9%94%99%E4%B9%B1%E9%97%AE%E9%A2%98/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/04/24/UITableViewCell重用导致的图片错乱问题/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>之前做过一个视频信息列表展示的模块，cell很简单就是左边图片，右边文字信息。当时用的SDWebImage加载图片并没有看到图片错乱的情况。但是，如果是自己写的图片下载器，不注意处理是会导致图片错乱的。</p>
-<p>今天写了个Demo，验证及解决这个问题。<br>实验环境：cell依然是左边图片，右边文字信息。图片两张，一张大图片A(风景)，一张小图片B(人物)，<strong>采用自己实现的原始图片下载器</strong>异步下载，block里回调设置cell的图片。要求偶数行的图片是风景，奇数行的图片是人物。<br>整个界面期望如下:<br><img src="http://upload-images.jianshu.io/upload_images/1503319-0c16709bb58a8af1.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="期望tableview界面.jpg"></p>
-<p>但实际可能出现bug，如下图:<br><img src="http://upload-images.jianshu.io/upload_images/1503319-396836dd909893b1.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="bug界面.jpg"></p>
-<h4 id="数据错乱原因分析"><a href="#数据错乱原因分析" class="headerlink" title="数据错乱原因分析"></a>数据错乱原因分析</h4><p>cell上的数据错乱显然是由于cell的重用导致的。由于图片是异步下载的，下载完成才给cell设置，但是在这个过程中用户可能会上下滑动，滑动的时候会导致cell的重用，比如第0行是设置大图片的，第11行是设置小图片的，用户在滑动的过程中，因为cell的重用第11行的cell可能使用的是第0行的cell，这时第0行的block回调设置的cell和第11行的block回调设置的cell是同一个，这就是问题的关键。</p>
-<p>因为图片是异步下载的，你也不知道哪个block会先回调，如果小图片的block先回调那么这个cell的图片就先被设置为小图片，如果后来大图片的block回来了，那么你会看到图片被替换成大图片，这种情况还算比较好，但如果大图片下载失败或者小图片的block最后回调，那么你看到的将是小图片加大图片的文字信息，这时数据就错乱了。</p>
-<h4 id="如何解决"><a href="#如何解决" class="headerlink" title="如何解决"></a>如何解决</h4><p>如果不重用cell，当然是可以解决该问题的，但是内存肯定会浪费不少。既然已经找到是因为cell的重用导致两个block回调时设置的其实是同一个cell上的imageView。那么我们只需要在下载完成的回调里进行区分，如果不一致则不设置imageView。</p>
-<p>有两种办法进行区分：</p>
-<p><strong>1. 通过indexPath来区分</strong></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2016/04/24/UITableViewCell%E9%87%8D%E7%94%A8%E5%AF%BC%E8%87%B4%E7%9A%84%E5%9B%BE%E7%89%87%E9%94%99%E4%B9%B1%E9%97%AE%E9%A2%98/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/9/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span>
+    <a class="extend prev" rel="prev" href="/page/9/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/11/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1219,20 +1206,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">100</span>
+          <span class="site-state-item-count">102</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-count">31</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">61</span>
+        <span class="site-state-item-count">63</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

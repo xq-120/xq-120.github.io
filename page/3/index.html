@@ -191,6 +191,235 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/01/OC%20nullability%E7%89%B9%E6%80%A7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="今天又是充满希望的一天">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/10/01/OC%20nullability%E7%89%B9%E6%80%A7/" class="post-title-link" itemprop="url">OC nullability特性</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2019-10-01 17:13:28 / 修改时间：17:13:51" itemprop="dateCreated datePublished" datetime="2019-10-01T17:13:28+08:00">2019-10-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2019/10/01/OC%20nullability%E7%89%B9%E6%80%A7/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/10/01/OC nullability特性/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="OC-nullability特性"><a href="#OC-nullability特性" class="headerlink" title="OC nullability特性"></a>OC nullability特性</h3><p>众所周知,Swift语言是严格区分可选和非可选变量的.比如<code>UIView</code>和<code>UIView?</code>.而在之前的OC中却没有这个概念,二者都使用<code>UIView*</code>表示.由于Swift编译器无法根据<code>UIView*</code>判断该变量是否是可选的.因此该类型在Swift中被解释为隐式解包<code>UIView!</code>.而在Swift中对一个值为nil的可选变量进行强制解包时将导致崩溃.因此你必须时刻警惕<code>UIView!</code>变量在某处会不会被赋值为nil.这不仅带来使用上的不便,而且也影响编程体验.因此有必要让OC兼容Swift的Optional特性,方便OC的类在Swift中的使用.于是在Xcode 6.3 开始官方便给OC添加了nullability功能.</p>
+<p>nullability 特性包含<code>_Nullable</code> 和 <code>_Nonnull</code>这两种修饰符.<code>_Nullable</code>表明该变量可以为nil或NULL值.而<code>_Nonnull</code>表明该变量不能为nil值.两个变种写法<code>nullable</code>,<code>nonnull</code>.</p>
+<p>示例如下:</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#import <span class="meta-string">&lt;Foundation/Foundation.h&gt;</span></span></span><br><span class="line"><span class="meta">#import <span class="meta-string">"Person.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> myCase  4</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> myCase == 1</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//不使用</span></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Book</span> : <span class="title">NSObject</span></span></span><br><span class="line"></span><br><span class="line">- (<span class="keyword">instancetype</span>)initWithName:(<span class="built_in">NSString</span> *)name;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *name;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *version;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>) <span class="keyword">long</span> words;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *publicID;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *url;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) Person *author;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">Swift接口如下:</span></span><br><span class="line"><span class="comment">open class Book : NSObject &#123;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    </span></span><br><span class="line"><span class="comment">    public init!(name: String!)</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    </span></span><br><span class="line"><span class="comment">    open var name: String!</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    open var version: String!</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    open var words: Int</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    open var publicID: String!</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    open var url: String!</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    open var author: Person!</span></span><br><span class="line"><span class="comment">&#125;</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">elif</span> myCase == 2</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//推荐写法.属性都不可为nil</span></span><br><span class="line"><span class="built_in">NS_ASSUME_NONNULL_BEGIN</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Book</span> : <span class="title">NSObject</span></span></span><br><span class="line"></span><br><span class="line">- (<span class="keyword">instancetype</span>)initWithName:(<span class="built_in">NSString</span> *)name;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *name;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *version;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>) <span class="keyword">long</span> words;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *publicID;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *url;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) Person *author;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">NS_ASSUME_NONNULL_END</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">elif</span> myCase == 3</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//推荐写法,个别属性可为nil</span></span><br><span class="line"><span class="built_in">NS_ASSUME_NONNULL_BEGIN</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Book</span> : <span class="title">NSObject</span></span></span><br><span class="line"></span><br><span class="line">- (<span class="keyword">instancetype</span>)initWithName:(<span class="built_in">NSString</span> *)name;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *name;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *version;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>) <span class="keyword">long</span> words;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>, <span class="keyword">nullable</span>) <span class="built_in">NSString</span> *publicID;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>, <span class="keyword">nullable</span>) <span class="built_in">NSString</span> *url;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) Person *author;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">NS_ASSUME_NONNULL_END</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">elif</span> myCase == 4</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//全部自己手动定义</span></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Book</span> : <span class="title">NSObject</span></span></span><br><span class="line"></span><br><span class="line">- (<span class="keyword">nonnull</span> <span class="keyword">instancetype</span>)initWithName:(<span class="built_in">NSString</span> * _Nonnull)name;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> * _Nonnull name;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>, <span class="keyword">nonnull</span>) <span class="built_in">NSString</span> *version;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>) <span class="keyword">long</span> words;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">nonnull</span>) <span class="built_in">NSNumber</span> *barCode;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>, <span class="keyword">nullable</span>) <span class="built_in">NSString</span> *publicID;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>, <span class="keyword">nullable</span>) <span class="built_in">NSString</span> *url;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">nonnull</span>) Person *author;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">nonnull</span>) <span class="built_in">NSMutableArray</span>&lt;Person *&gt; *seeker;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+<h4 id="nullability特性对OC编码的影响"><a href="#nullability特性对OC编码的影响" class="headerlink" title="nullability特性对OC编码的影响"></a>nullability特性对OC编码的影响</h4><p>在OC中即使标明为<code>_Nonnull</code>,你依然可以给它一个nil值,但编译器会给出警告,仅仅是警告.因此在OC中不要对<code>_Nonnull</code>修饰的变量抱有一定不为nil的幻想,否则该崩还得崩.</p>
+<p>nullability特性只是一种约定,在开发的过程中我们要遵守这一约定.如果一个变量是nonnull的,我们在init方法中一定要给它一个初始值,并且在使用过程中不要给它赋值为nil.</p>
+<h4 id="nullability特性对OC-Swift混编的影响"><a href="#nullability特性对OC-Swift混编的影响" class="headerlink" title="nullability特性对OC,Swift混编的影响"></a>nullability特性对OC,Swift混编的影响</h4><p>nullability特性其实主要还是为了方便OC的类在Swift中的使用.</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/10/01/OC%20nullability%E7%89%B9%E6%80%A7/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/15/Swift%20%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="今天又是充满希望的一天">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/09/15/Swift%20%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6/" class="post-title-link" itemprop="url">Swift 访问控制</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2019-09-15 17:16:55 / 修改时间：17:24:47" itemprop="dateCreated datePublished" datetime="2019-09-15T17:16:55+08:00">2019-09-15</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2019/09/15/Swift%20%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/09/15/Swift 访问控制/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="Swift-访问控制"><a href="#Swift-访问控制" class="headerlink" title="Swift 访问控制"></a>Swift 访问控制</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th></th>
+<th>In Module</th>
+<th>Out Module</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>open</td>
+<td>可访问,可继承,可重写</td>
+<td>可访问,可继承,可重写</td>
+</tr>
+<tr>
+<td>public</td>
+<td>可访问,可继承,可重写</td>
+<td>可访问</td>
+</tr>
+<tr>
+<td>internal</td>
+<td>可访问,可继承,可重写</td>
+<td>X</td>
+</tr>
+<tr>
+<td>fileprivate</td>
+<td>在同一源文件里可访问,可继承,可重写</td>
+<td>X</td>
+</tr>
+<tr>
+<td>private</td>
+<td>如果修饰的是类中的成员,则成员只能在自身定义里或同一源文件中的自身扩展里可访问.如果修饰的是类则在同一源文件里可访问,可继承</td>
+<td>X</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>open只能用于修饰类和类的成员(属性,方法和下标).</p>
+<p>对于初始化器如果需要对外公开,则只能使用public.如果子类的初始化器和父类的初始化器签名相同则子类还需要加上override关键字.是不是感觉有点疑惑,不是说public的在其他Module只能访问吗,为啥public修饰的初始化器在其他Module还可以override?无他—龟腚.</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">open</span> <span class="class"><span class="keyword">class</span> <span class="title">Machine</span> &#123;</span></span><br><span class="line">    <span class="keyword">public</span> var numberID: <span class="keyword">String</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="built_in">open</span> <span class="title">init</span><span class="params">(_ numberID: <span class="keyword">String</span>)</span> </span>&#123; <span class="comment">//这里报错:Only classes and overridable class members can be declared 'open'; use 'public'</span></span><br><span class="line">        self.numberID = numberID</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>唯一找到的解释如下:</p>
+<p><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0117-non-public-subclassable-by-default.md" target="_blank" rel="noopener">Allow distinguishing between public access and public overridability</a></p>
+<p>Initializers do not participate in open checking; they cannot be declared open, and there are no restrictions on providing an initializer that has the same signature as an initializer in the superclass. This is true even of required initializers. A class’s initializers provide an interface for constructing instances of that class that is logically distinct from the interface of its superclass, even when signatures happen to match and there are well-understood patterns of delegation. Constructing an object of a subclass necessarily involves running code associated with that subclass, and there is no value in arbitrarily restricting what initializers the subclass may declare.</p>
+<p>大意就是初始化器不参与open检查,并且它们也不能被声明为open.没有啥限制说子类的初始化器不能和父类的初始化器相同(实际上如果相同又必须添加override简直哔了狗).</p>
+<h3 id="访问级别规则"><a href="#访问级别规则" class="headerlink" title="访问级别规则"></a>访问级别规则</h3>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/09/15/Swift%20%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/13/Swift%E4%B8%AD%E7%9A%84AnyClass%E3%80%81AnyObject%E3%80%81Any/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -991,246 +1220,11 @@ objc_msgSend(id _Nullable self, SEL _Nonnull op, ...);</code><br>它的第二个
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/03/%E4%BB%8EJSONSerialization%E5%B4%A9%E6%BA%83%E5%88%B0%E6%90%9E%E6%87%82Swift%E7%9A%84try-catch/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="今天又是充满希望的一天">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/03/03/%E4%BB%8EJSONSerialization%E5%B4%A9%E6%BA%83%E5%88%B0%E6%90%9E%E6%87%82Swift%E7%9A%84try-catch/" class="post-title-link" itemprop="url">从JSONSerialization崩溃到搞懂Swift的try-catch</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2019-03-03 13:21:39 / 修改时间：13:21:42" itemprop="dateCreated datePublished" datetime="2019-03-03T13:21:39+08:00">2019-03-03</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2019/03/03/%E4%BB%8EJSONSerialization%E5%B4%A9%E6%BA%83%E5%88%B0%E6%90%9E%E6%87%82Swift%E7%9A%84try-catch/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/03/03/从JSONSerialization崩溃到搞懂Swift的try-catch/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>今天学习了下Swift中的try-catch,突然发现在json序列化时try-catch不好使了,下面的代码依然会导致崩溃,try-catch并不能catch住.</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Foundation</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">People</span>: <span class="title">NSObject</span>, <span class="title">Decodable</span> </span>&#123;</span><br><span class="line">    <span class="meta">@objc</span> <span class="keyword">var</span> firstName: <span class="type">String</span></span><br><span class="line">    <span class="meta">@objc</span> <span class="keyword">var</span> lastName: <span class="type">String</span></span><br><span class="line">    <span class="meta">@objc</span> <span class="keyword">var</span> age: <span class="type">Int</span> = <span class="number">0</span></span><br><span class="line">    <span class="meta">@objc</span> <span class="keyword">var</span> height: <span class="type">Float</span> = <span class="number">0</span></span><br><span class="line">    <span class="meta">@objc</span> <span class="keyword">var</span> weight: <span class="type">Float</span> = <span class="number">0</span></span><br><span class="line">    <span class="meta">@objc</span> <span class="keyword">var</span> sex: <span class="type">Bool</span> = <span class="literal">false</span></span><br><span class="line">    </span><br><span class="line">    <span class="meta">@objc</span> <span class="keyword">init</span>(firstName: <span class="type">String</span>, lastName: <span class="type">String</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.firstName = firstName</span><br><span class="line">        <span class="keyword">self</span>.lastName = lastName</span><br><span class="line">        <span class="keyword">super</span>.<span class="keyword">init</span>()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> dict = [<span class="string">"one"</span>: <span class="type">People</span>.<span class="keyword">init</span>(firstName: <span class="string">"x"</span>, lastName: <span class="string">"q"</span>)]</span><br><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> jsonData = <span class="keyword">try</span> <span class="type">JSONSerialization</span>.data(withJSONObject: dict, options: [])</span><br><span class="line">    <span class="built_in">print</span>(jsonData)</span><br><span class="line">&#125; <span class="keyword">catch</span> <span class="keyword">let</span> error &#123;</span><br><span class="line">    <span class="built_in">print</span>(error)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>看了下方法<code>class func data(withJSONObject obj: Any, options opt: JSONSerialization.WritingOptions = []) throws -&gt; Data</code>的说明:</p>
-<blockquote>
-<p>If obj will not produce valid JSON, an exception is thrown. This exception is thrown prior to parsing and represents a programming error, not an internal error. You should check whether the input will produce valid JSON before calling this method by using isValidJSONObject(_:).</p>
-</blockquote>
-<p>大意是如果obj参数不是一个合法的JSON,那么将抛出一个异常.该异常代表的是一个编程错误而不是解析时的内部错误,它在解析之前就被抛出了.估计这种异常是无法捕获的.所以最好先调用<code>isValidJSONObject</code>判断下是不是一个合法的JSON,再进行序列化.</p>
-<p>类似的这样的错误也是捕捉不到的.</p>
-<figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var ot: <span class="keyword">String</span>!</span><br><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> os = try ot!</span><br><span class="line">    <span class="keyword">print</span>(os)</span><br><span class="line">&#125; catch &#123;</span><br><span class="line">    <span class="keyword">print</span>(<span class="built_in">error</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>上述代码依旧崩溃.</p>
-<p>看来以后使用try-catch得注意下了.</p>
-<h3 id="try-catch能够捕获什么样的错误呢"><a href="#try-catch能够捕获什么样的错误呢" class="headerlink" title="try-catch能够捕获什么样的错误呢?"></a>try-catch能够捕获什么样的错误呢?</h3>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/03/03/%E4%BB%8EJSONSerialization%E5%B4%A9%E6%BA%83%E5%88%B0%E6%90%9E%E6%87%82Swift%E7%9A%84try-catch/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/20/%E9%9F%B3%E8%A7%86%E9%A2%91%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%92%8C%E9%9F%B3%E8%A7%86%E9%A2%91%E7%BC%96%E8%A7%A3%E7%A0%81%E6%A0%BC%E5%BC%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="今天又是充满希望的一天">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/12/20/%E9%9F%B3%E8%A7%86%E9%A2%91%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%92%8C%E9%9F%B3%E8%A7%86%E9%A2%91%E7%BC%96%E8%A7%A3%E7%A0%81%E6%A0%BC%E5%BC%8F/" class="post-title-link" itemprop="url">音视频文件格式和音视频编解码格式</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2018-12-20 00:23:55 / 修改时间：00:27:26" itemprop="dateCreated datePublished" datetime="2018-12-20T00:23:55+08:00">2018-12-20</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/" itemprop="url" rel="index"><span itemprop="name">音视频</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2018/12/20/%E9%9F%B3%E8%A7%86%E9%A2%91%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%92%8C%E9%9F%B3%E8%A7%86%E9%A2%91%E7%BC%96%E8%A7%A3%E7%A0%81%E6%A0%BC%E5%BC%8F/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/12/20/音视频文件格式和音视频编解码格式/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="音视频文件格式和音视频编解码格式"><a href="#音视频文件格式和音视频编解码格式" class="headerlink" title="音视频文件格式和音视频编解码格式"></a>音视频文件格式和音视频编解码格式</h4><p>音视频文件格式它是一个容器,是一种封装格式,里面包含了音频,视频数据,字幕等.而对音频或视频数据进行编解码的算法才叫做音视频的编解码格式.二者不能搞混.因此同一种文件格式里面的音视频编码格式可能会不同.这样就有可能出现播放器有时能够播放某个文件格式,有时又播放不了.</p>
-<p>对于音频文件,虽然一种音频文件格式可以支持多种编码，例如AVI文件格式，但多数的音频文件仅支持一种音频编码。</p>
-<p>有两类主要的音频文件格式：</p>
-<ul>
-<li>无损格式，例如WAV，PCM，ALS，ALAC，TAK，FLAC，APE，WavPack(WV)</li>
-<li>有损格式，例如MP3，AAC，WMA，Ogg Vorbis</li>
-</ul>
-<p>iOS支持的音频文件格式  </p>
-<p>iOS supports the audio file formats listed in Table 2-1. For information on audio data formats available in iOS, see Codecs.</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th>Format name</th>
-<th>Format filename extensions</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>AIFF</td>
-<td>.aif, .aiff</td>
-</tr>
-<tr>
-<td>CAF</td>
-<td>.caf</td>
-</tr>
-<tr>
-<td>MPEG-1, layer 3</td>
-<td>.mp3</td>
-</tr>
-<tr>
-<td>MPEG-2 or MPEG-4 ADTS</td>
-<td>.aac</td>
-</tr>
-<tr>
-<td>MPEG-4</td>
-<td>.m4a, .mp4</td>
-</tr>
-<tr>
-<td>WAV</td>
-<td>.wav</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>In iOS, Core Audio capabilities include recording, playback, sound effects, positioning, format conversion, and file stream parsing.<br>Core Audio Overview is for all developers interested in creating audio software. Before reading this document you should have basic knowledge of <strong>general audio, digital audio, and MIDI terminology</strong>.</p>
-<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#import &lt;CoreAudio/CoreAudioTypes.h&gt;</span></span><br><span class="line">CF_ENUM(AudioFormatID)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">kAudioFormatLinearPCM</span>               = 'lpcm',</span><br><span class="line">    <span class="attr">kAudioFormatAC3</span>                     = 'ac-<span class="number">3</span>',</span><br><span class="line">    <span class="attr">kAudioFormat60958AC3</span>                = 'cac3',</span><br><span class="line">    <span class="attr">kAudioFormatAppleIMA4</span>               = 'ima4',</span><br><span class="line">    <span class="attr">kAudioFormatMPEG4AAC</span>                = 'aac ',</span><br><span class="line">    <span class="attr">kAudioFormatMPEG4CELP</span>               = 'celp',</span><br><span class="line">    <span class="attr">kAudioFormatMPEG4HVXC</span>               = 'hvxc',</span><br><span class="line">    <span class="attr">kAudioFormatMPEG4TwinVQ</span>             = 'twvq',</span><br><span class="line">    <span class="attr">kAudioFormatMACE3</span>                   = 'MAC3',</span><br><span class="line">    <span class="attr">kAudioFormatMACE6</span>                   = 'MAC6',</span><br><span class="line">    <span class="attr">kAudioFormatULaw</span>                    = 'ulaw',</span><br><span class="line">    <span class="attr">kAudioFormatALaw</span>                    = 'alaw',</span><br><span class="line">    <span class="attr">kAudioFormatQDesign</span>                 = 'QDMC',</span><br><span class="line">    <span class="attr">kAudioFormatQDesign2</span>                = 'QDM2',</span><br><span class="line">    <span class="attr">kAudioFormatQUALCOMM</span>                = 'Qclp',</span><br><span class="line">    <span class="attr">kAudioFormatMPEGLayer1</span>              = '.mp1',</span><br><span class="line">    <span class="attr">kAudioFormatMPEGLayer2</span>              = '.mp2',</span><br><span class="line">    <span class="attr">kAudioFormatMPEGLayer3</span>              = '.mp3',</span><br><span class="line">    <span class="attr">kAudioFormatTimeCode</span>                = 'time',</span><br><span class="line">    <span class="attr">kAudioFormatMIDIStream</span>              = 'midi',</span><br><span class="line">    <span class="attr">kAudioFormatParameterValueStream</span>    = 'apvs',</span><br><span class="line">    <span class="attr">kAudioFormatAppleLossless</span>           = 'alac',</span><br><span class="line">    <span class="attr">kAudioFormatMPEG4AAC_HE</span>             = 'aach',</span><br><span class="line">    <span class="attr">kAudioFormatMPEG4AAC_LD</span>             = 'aacl',</span><br><span class="line">    <span class="attr">kAudioFormatMPEG4AAC_ELD</span>            = 'aace',</span><br><span class="line">    <span class="attr">kAudioFormatMPEG4AAC_ELD_SBR</span>        = 'aacf',</span><br><span class="line">    <span class="attr">kAudioFormatMPEG4AAC_ELD_V2</span>         = 'aacg',    </span><br><span class="line">    <span class="attr">kAudioFormatMPEG4AAC_HE_V2</span>          = 'aacp',</span><br><span class="line">    <span class="attr">kAudioFormatMPEG4AAC_Spatial</span>        = 'aacs',</span><br><span class="line">    <span class="attr">kAudioFormatAMR</span>                     = 'samr',</span><br><span class="line">    <span class="attr">kAudioFormatAMR_WB</span>                  = 'sawb',</span><br><span class="line">    <span class="attr">kAudioFormatAudible</span>                 = 'AUDB',</span><br><span class="line">    <span class="attr">kAudioFormatiLBC</span>                    = 'ilbc',</span><br><span class="line">    <span class="attr">kAudioFormatDVIIntelIMA</span>             = <span class="number">0</span>x6D730011,</span><br><span class="line">    <span class="attr">kAudioFormatMicrosoftGSM</span>            = <span class="number">0</span>x6D730031,</span><br><span class="line">    <span class="attr">kAudioFormatAES3</span>                    = 'aes3',</span><br><span class="line">    <span class="attr">kAudioFormatEnhancedAC3</span>             = 'ec-<span class="number">3</span>'</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/12/20/%E9%9F%B3%E8%A7%86%E9%A2%91%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%92%8C%E9%9F%B3%E8%A7%86%E9%A2%91%E7%BC%96%E8%A7%A3%E7%A0%81%E6%A0%BC%E5%BC%8F/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1296,20 +1290,20 @@ objc_msgSend(id _Nullable self, SEL _Nonnull op, ...);</code><br>它的第二个
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">100</span>
+          <span class="site-state-item-count">102</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-count">31</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">61</span>
+        <span class="site-state-item-count">63</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
