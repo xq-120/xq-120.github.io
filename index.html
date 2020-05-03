@@ -191,6 +191,110 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/03/Swift%E6%95%B0%E7%BB%84%E6%88%AA%E5%8F%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="今天又是充满希望的一天">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/03/Swift%E6%95%B0%E7%BB%84%E6%88%AA%E5%8F%96/" class="post-title-link" itemprop="url">Swift数组截取</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-03 15:20:11" itemprop="dateCreated datePublished" datetime="2020-05-03T15:20:11+08:00">2020-05-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-04 00:05:34" itemprop="dateModified" datetime="2020-05-04T00:05:34+08:00">2020-05-04</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2020/05/03/Swift%E6%95%B0%E7%BB%84%E6%88%AA%E5%8F%96/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/05/03/Swift数组截取/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>数组截取的一些方法：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]</span><br><span class="line"><span class="comment">//startIndex:0, endIndex:5</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">"startIndex:\(arr.startIndex), endIndex:\(arr.endIndex)"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> slice1 = arr.<span class="built_in">dropFirst</span>(<span class="number">2</span>)</span><br><span class="line"><span class="comment">//startIndex:2, endIndex:5</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">"startIndex:\(slice1.startIndex), endIndex:\(slice1.endIndex)"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> slice2 = arr.<span class="built_in">dropFirst</span>().<span class="built_in">dropLast</span>()</span><br><span class="line"><span class="comment">//startIndex:1, endIndex:4</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">"startIndex:\(slice2.startIndex), endIndex:\(slice2.endIndex)"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> rs = arr.<span class="built_in">dropFirst</span>().<span class="keyword">prefix</span>(upTo: <span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span>(rs) <span class="comment">//[2, 3]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> rs1 = arr.<span class="built_in">dropFirst</span>().<span class="keyword">prefix</span>(<span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span>(rs1) <span class="comment">//[2, 3, 4]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> fib = [<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">8</span>, <span class="number">13</span>, <span class="number">21</span>]</span><br><span class="line"><span class="keyword">let</span> slfib = fib[<span class="number">1</span>...<span class="number">5</span>]</span><br><span class="line"><span class="comment">//startIndex:1, endIndex:6</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">"startIndex:\(slfib.startIndex), endIndex:\(slfib.endIndex)"</span>)</span><br><span class="line"><span class="built_in">print</span>(slfib) <span class="comment">//[1, 2, 3, 5, 8]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> prefix(upTo end: Int)</span></span><br><span class="line"><span class="comment"> 表示从集合的索引startIndex开始截取到索引n之间的元素，不包含索引n元素。n取值范围：[startIndex, endIndex]，传startIndex则返回空数组，传endIndex则返回整个数组。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">let</span> prefixArr0 = arr.<span class="keyword">prefix</span>(upTo: arr.startIndex)</span><br><span class="line"><span class="built_in">print</span>(prefixArr0) <span class="comment">//[]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> prefixArr = arr.<span class="keyword">prefix</span>(upTo: <span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span>(prefixArr) <span class="comment">//[1, 2, 3]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> prefixArr1 = arr.<span class="keyword">prefix</span>(upTo: arr.endIndex)</span><br><span class="line"><span class="built_in">print</span>(prefixArr1) <span class="comment">//[1, 2, 3, 4, 5]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> prefixArr2 = slfib.<span class="keyword">prefix</span>(upTo: <span class="number">3</span>) <span class="comment">//根据上面说明这里只能取[1, 6],取0会崩溃</span></span><br><span class="line"><span class="built_in">print</span>(prefixArr2) <span class="comment">//[1, 2]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//prefix(_ maxLength: Int)，表示截取集合前n个元素，n取值范围：n&gt;=0，当n = 0时，返回空数组；当n&gt;数组个数时，则返回全部。</span></span><br><span class="line"><span class="keyword">let</span> preArr2 = arr.<span class="keyword">prefix</span>(<span class="number">2</span>)</span><br><span class="line"><span class="built_in">print</span>(preArr2) <span class="comment">//[1, 2]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> prefix(through position: Int)</span></span><br><span class="line"><span class="comment"> 表示从集合的索引startIndex开始截取到索引n之间的元素，包含索引n元素。n取值范围：[startIndex, endIndex)。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">let</span> preArr3 = arr.<span class="keyword">prefix</span>(through: <span class="number">4</span>)</span><br><span class="line"><span class="built_in">print</span>(preArr3) <span class="comment">//[1, 2, 3, 4, 5]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//suffix(from start: Int)：从集合的索引n元素开始截取到末尾，包含索引n元素，n取值范围：[startIndex, endIndex]，当n为endIndex时，结果为空数组。</span></span><br><span class="line"><span class="keyword">let</span> suffixArr0 = arr.suffix(from: arr.startIndex)</span><br><span class="line"><span class="built_in">print</span>(suffixArr0) <span class="comment">//[1, 2, 3, 4, 5]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> suffixArr00 = arr.suffix(from: arr.endIndex)</span><br><span class="line"><span class="built_in">print</span>(suffixArr00) <span class="comment">//[]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> suffixArr = arr.suffix(from: <span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span>(suffixArr) <span class="comment">//[4, 5]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> suffixArr2 = slfib.suffix(from: <span class="number">3</span>) <span class="comment">//这里参数也不能取0，因为startIndex==1。</span></span><br><span class="line"><span class="built_in">print</span>(suffixArr2) <span class="comment">//[3, 5, 8]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//suffix(_ maxLength: Int)：截取集合的最后n个元素，n取值范围：n&gt;=0，当n = 0时，返回空数组；当n&gt;数组元素个数时，则返回全部。</span></span><br><span class="line"><span class="keyword">let</span> suffixArr1 = arr.suffix(<span class="number">0</span>)</span><br><span class="line"><span class="built_in">print</span>(suffixArr1) <span class="comment">//[]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//使用range时，参数必须都是有效的索引[0, 数组个数)，且start&lt;=end</span></span><br><span class="line"><span class="keyword">let</span> rangeArr = arr[<span class="number">3</span>...<span class="number">3</span>]</span><br><span class="line"><span class="built_in">print</span>(rangeArr) <span class="comment">//[4]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> rangeArr1 = arr[<span class="number">2</span>..&lt;<span class="number">4</span>]</span><br><span class="line"><span class="built_in">print</span>(rangeArr1) <span class="comment">//[3, 4]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> rangeArr2 = arr[<span class="number">2</span>...]</span><br><span class="line"><span class="built_in">print</span>(rangeArr2) <span class="comment">//[3, 4, 5]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> rangeArr3 = arr[..&lt;<span class="number">3</span>]</span><br><span class="line"><span class="built_in">print</span>(rangeArr3) <span class="comment">//[1, 2, 3]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//从头部开始删除n个元素，当n&gt;数组元素个数时表示删除全部，结果返回空数组。</span></span><br><span class="line"><span class="keyword">let</span> dropFirstArr = arr.<span class="built_in">dropFirst</span>(<span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span>(dropFirstArr) <span class="comment">//[4, 5]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//从尾部开始删除n个元素，当n&gt;数组元素个数时表示删除全部，结果返回空数组。</span></span><br><span class="line"><span class="keyword">let</span> dropLastArr = arr.<span class="built_in">dropLast</span>(<span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span>(dropLastArr) <span class="comment">//[1, 2]</span></span><br></pre></td></tr></table></figure>
+<p>上述操作之后得到的都是数组切片类型，而不是数组类型。这里简单介绍一下<code>ArraySlice</code> 类型，因为上面有些方法是跟索引相关的，比如方法<code>prefix(upTo end: Int)</code>，而<code>ArraySlice</code> 类型的startIndex并不总是从0开始，所以得到的结果可能出乎你的预料。</p>
+<p><code>ArraySlice</code> 类型官方文档：</p>
+<p>The <code>ArraySlice</code> type makes it fast and efficient for you to perform operations on sections of a larger array. Instead of copying over the elements of a slice to new storage, an <code>ArraySlice</code>instance presents a view onto the storage of a larger array. And because <code>ArraySlice</code> presents the same interface as <code>Array</code>, you can generally perform the same operations on a slice as you could on the original array.</p>
+<p>Unlike <code>Array</code> and <code>ContiguousArray</code>, the starting index for an <code>ArraySlice</code> instance isn’t always zero. Slices maintain the same indices of the larger array for the same elements, so the starting index of a slice depends on how it was created, letting you perform index-based operations on either a full array or a slice.</p>
+<p><code>ArraySlice</code>是<code>Array</code>, <code>ContiguousArray</code>, or <code>ArraySlice</code> 实例的一个切片。但是它并不会将切片中的元素拷贝到一个新的存储空间，而是依然指向原始数组。</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/ArraySlice1.jpg" style="zoom:50%;"></p>
+<p>注意：endIndex始终指向集合最后一个元素的后一个位置。系统的很多方法涉及到索引时都会跟startIndex和endIndex相关。而不是0和数组个数。</p>
+<p><strong><code>ArraySlice</code>的startIndex并不总是从0开始</strong>，而是取决于它的创建方式。下面的例子中可以看到slice1的startIndex是2而不是0。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/05/03/Swift%E6%95%B0%E7%BB%84%E6%88%AA%E5%8F%96/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/01/%E4%B9%B0%E5%9F%BA%E5%AE%9E%E8%B7%B5%E6%80%BB%E7%BB%93/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1114,89 +1218,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/06/OC%E5%8F%8D%E5%B0%84+%E5%A4%9A%E6%80%81%E8%B0%83%E7%94%A8%E7%B1%BB%E6%96%B9%E6%B3%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="今天又是充满希望的一天">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/03/06/OC%E5%8F%8D%E5%B0%84+%E5%A4%9A%E6%80%81%E8%B0%83%E7%94%A8%E7%B1%BB%E6%96%B9%E6%B3%95/" class="post-title-link" itemprop="url">OC反射+多态调用类方法</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-03-06 23:19:00" itemprop="dateCreated datePublished" datetime="2020-03-06T23:19:00+08:00">2020-03-06</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-07 18:06:31" itemprop="dateModified" datetime="2020-03-07T18:06:31+08:00">2020-03-07</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
-                </span>
-            </span>
-
-          
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h4><p>多态指的是允许父类的指针指向子类的对象,当指针指向不同的子类对象时,给它发送同一个消息就会有不同的响应.</p>
-<p>如下定义一个父类Animal和二个子类Dog,Cat.</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Animal</span> : <span class="title">NSObject</span></span></span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)run;</span><br><span class="line"></span><br><span class="line">+ (<span class="keyword">void</span>)bark;</span><br><span class="line"></span><br><span class="line">+ (<span class="keyword">void</span>)canClimb:(<span class="keyword">void</span>(^)(<span class="built_in">BOOL</span> can))blk;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">Animal</span></span></span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)run</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"%@ run"</span>, <span class="keyword">self</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (<span class="keyword">void</span>)bark &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"%@ bark"</span>, <span class="keyword">self</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (<span class="keyword">void</span>)canClimb:(<span class="keyword">void</span> (^)(<span class="built_in">BOOL</span>))blk &#123;</span><br><span class="line">    !blk ?: blk(<span class="literal">NO</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">Dog</span></span></span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)run</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"%@ run"</span>, <span class="keyword">self</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (<span class="keyword">void</span>)bark &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"%@ bark"</span>, <span class="keyword">self</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (<span class="keyword">void</span>)canClimb:(<span class="keyword">void</span> (^)(<span class="built_in">BOOL</span>))blk &#123;</span><br><span class="line">    !blk ?: blk(<span class="literal">NO</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">Cat</span></span></span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)run</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"%@ run"</span>, <span class="keyword">self</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (<span class="keyword">void</span>)bark &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"%@ bark"</span>, <span class="keyword">self</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (<span class="keyword">void</span>)canClimb:(<span class="keyword">void</span> (^)(<span class="built_in">BOOL</span>))blk &#123;</span><br><span class="line">    !blk ?: blk(<span class="literal">YES</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
-<p>接下来我们来个反射+多态:</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSArray</span> *clsArr = @[<span class="string">@"Animal"</span>, <span class="string">@"Dog"</span>, <span class="string">@"Cat"</span>];</span><br><span class="line"><span class="keyword">for</span> (<span class="built_in">NSString</span> *clsStr <span class="keyword">in</span> clsArr) &#123;</span><br><span class="line">    Class cls = <span class="built_in">NSClassFromString</span>(clsStr);</span><br><span class="line">    <span class="keyword">id</span> obj = [cls new];</span><br><span class="line">    [obj run];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="built_in">NSString</span> *clsStr <span class="keyword">in</span> clsArr) &#123;</span><br><span class="line">    Class cls = <span class="built_in">NSClassFromString</span>(clsStr);</span><br><span class="line">    [cls performSelector:<span class="keyword">@selector</span>(bark)];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//手动写全</span></span><br><span class="line"><span class="keyword">for</span> (<span class="built_in">NSString</span> *clsStr <span class="keyword">in</span> clsArr) &#123;</span><br><span class="line">    Class cls = <span class="built_in">NSClassFromString</span>(clsStr);</span><br><span class="line">    [cls canClimb:^(<span class="built_in">BOOL</span> can)&#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@"%@ can climb:%d"</span>,cls, can);</span><br><span class="line">    &#125;];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//使用performSelector</span></span><br><span class="line"><span class="keyword">for</span> (<span class="built_in">NSString</span> *clsStr <span class="keyword">in</span> clsArr) &#123;</span><br><span class="line">    Class cls = <span class="built_in">NSClassFromString</span>(clsStr);</span><br><span class="line">    [cls performSelector:<span class="keyword">@selector</span>(canClimb:) withObject:^(<span class="built_in">BOOL</span> can)&#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@"%@ can climb:%d"</span>,cls, can);</span><br><span class="line">    &#125;];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>以上需要注意的是:</p>
-<p>Xcode对于id类型调用实例方法,实例方法会有补全提示.对于Class类型调用类方法,类方法就没有补全提示,但你写全后也不会报错.</p>
-<p>对于类方法的动态调用可以使用<code>performSelector</code>,也可以手动写全,这里Xcode不会自动补全不知道为什么.</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1267,7 +1288,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">102</span>
+          <span class="site-state-item-count">103</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1280,7 +1301,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">63</span>
+        <span class="site-state-item-count">65</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
