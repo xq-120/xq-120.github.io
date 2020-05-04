@@ -19,7 +19,7 @@
 <p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/Single%20View%20App.png" style="zoom:50%;" /></p>
 <p>每个模板文件夹中都会包含一个模板信息的plist文件里面是一些关于模板的配置。我们要做的也就是修改TemplateInfo.plist文件。</p>
 <p>简单介绍一下TemplateInfo.plist文件：</p>
-<p><img src="file:///Users/xuequan/Downloads/%E8%87%AA%E5%AE%9A%E4%B9%89Xcode%E6%A8%A1%E6%9D%BF/TemplateInfo_plist.png?lastModify=1588598034" alt="TemplateInfo_plist"></p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/TemplateInfo_plist.png" alt=""></p>
 <p><strong>Kind</strong></p>
 <p>分为工程模板和文件模板，这个不用修改使用默认的就好。</p>
 <p>工程模板：<code>Xcode.Xcode3.ProjectTemplateUnitKind</code></p>
