@@ -1,6 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>自定义Xcode模板</title>
+    <url>/2020/05/04/%E8%87%AA%E5%AE%9A%E4%B9%89Xcode%E6%A8%A1%E6%9D%BF/</url>
+    <content><![CDATA[<p>很多时候我们需要一个较复杂场景的Demo工程来验证点东西或者研究某个技术，直接在公司项目工程中实验运行又太慢，并且还可能受到其他代码的影响。而Xcode自身提供的工程模板又太过简单，导致每次都要浪费很多时间编写重复的代码来搭建环境。为了提高效率，我们可以自定义工程模板和文件模板。</p>
+<p>如下图，系统提供的默认模板其实都在<code>Xcode.app</code>中，自定义工程模板和文件模板最好的办法就是参考系统的模板。</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/%E5%B7%A5%E7%A8%8B%E6%A8%A1%E6%9D%BF%E5%B1%95%E7%A4%BA%E6%95%88%E6%9E%9C.png" style="zoom:50%;" /></p>
+<p>系统的工程模板位置:</p>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line"><span class="regexp">/Applications/</span>Xcode.app<span class="regexp">/Contents/</span>Developer<span class="regexp">/Platforms/i</span>PhoneOS.platform<span class="regexp">/Developer/</span>Library<span class="regexp">/Xcode/</span>Templates<span class="regexp">/Project Templates/i</span>OS</span><br></pre></td></tr></table></figure>
+<p>系统的文件模板位置:</p>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line"><span class="regexp">/Applications/</span>Xcode.app<span class="regexp">/Contents/</span>Developer<span class="regexp">/Platforms/i</span>PhoneOS.platform<span class="regexp">/Developer/</span>Library<span class="regexp">/Xcode/</span>Templates<span class="regexp">/File Templates</span></span><br></pre></td></tr></table></figure>
+<p>以上是系统默认的模板存储路径，对于自定义的模板则需要存放在其他路径：</p>
+<p>自定义工程模板的路径需要存放在:<code>~/Library/Developer/Xcode/Templates/Project Templates/Application/</code>.</p>
+<p>自定义文件模板的路径需要存放在:<code>~/Library/Developer/Xcode/Templates/File Templates/</code>.</p>
+<p>当做好自己的模板后只需要存放在上述位置，重启Xcode就能看到我们自己的工程模板了。</p>
+<p>注：如果上述路径不存在则需要自己创建好。</p>
+<h4 id="了解系统的工程模板"><a href="#了解系统的工程模板" class="headerlink" title="了解系统的工程模板"></a>了解系统的工程模板</h4><p>在制作自己的工程模板之前，先来了解一下系统的工程模板都有些啥，以最简单的Single View App模板为例：</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/Single%20View%20App.png" style="zoom:50%;" /></p>
+<p>每个模板文件夹中都会包含一个模板信息的plist文件里面是一些关于模板的配置。我们要做的也就是修改TemplateInfo.plist文件。</p>
+<p>简单介绍一下TemplateInfo.plist文件：</p>
+<p><img src="file:///Users/xuequan/Downloads/%E8%87%AA%E5%AE%9A%E4%B9%89Xcode%E6%A8%A1%E6%9D%BF/TemplateInfo_plist.png?lastModify=1588598034" alt="TemplateInfo_plist"></p>
+<p><strong>Kind</strong></p>
+<p>分为工程模板和文件模板，这个不用修改使用默认的就好。</p>
+<p>工程模板：<code>Xcode.Xcode3.ProjectTemplateUnitKind</code></p>
+<p>文件模板：<code>Xcode.IDEFoundation.TextSubstitutionFileTemplateKind</code></p>
+<p><strong>Identifier</strong></p>
+<p>模板ID，用于唯一标识一个模板。类似于类名。</p>
+<p><strong>Ancestors</strong></p>
+<p>模板系统允许模板继承和重写其他模板，Ancestors里面包含的就是当前模板继承的其他模板的ID（就是上面那个Identifier）。</p>
+<p>Single View App模板的Ancestors包含两个父模板：</p>
+<p><code>com.apple.dt.unit.coreDataCocoaTouchApplication</code>：如果你在创建工程时勾线了CoreData，这个模板就会让Xcode在AppDelegate中添加CoreData的样板文件。</p>
+<p><code>com.apple.dt.unit.sceneLifecycleApplication</code>：这个是iOS13出的，会让Xcode创建SceneDelegate.h/m。</p>
+<p>上面两个模板又都继承自Cocoa Touch Application Base模板，</p>
+<p><code>com.apple.dt.unit.cocoaTouchApplicationBase</code>：这个模板主要是在AppDelegate中添加一些样板代码和Info.plist的一些设置。</p>
+<p>允许模板的继承和重写就可以让各个模板功能清晰，代码复用，达到类似于类的继承的效果。</p>
+<p><strong>Concrete</strong></p>
+<p>必须设置为YES才能在Xcode面板中显示出来。</p>
+<p><strong>Description</strong></p>
+<p>模板的描述。</p>
+<p><strong>SortOrder</strong></p>
+<p>模板在Xcode面板中的显示位置。值越大显示在越后面。</p>
+<p><strong>Options</strong></p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/option_item.png" style="zoom:50%;" /></p>
+<p>这个就是模板的主要内容了，里面包括要创建的类文件，存根方法的实现等。Nodes里定义了一些key，它的值就是Definitions里的东西。参照系统的写法我们就可以依葫芦画瓢制作自己的模板了。</p>
+<h4 id="制作自己的工程模板"><a href="#制作自己的工程模板" class="headerlink" title="制作自己的工程模板"></a>制作自己的工程模板</h4><p>接下来制作自己的工程模板，使用该模板创建的Demo工程将自动包含一个tabBar控制器,及三个子navigation控制器。其中的MATHomeViewController上添加了一个tableView,MATMessageViewController上添加了一个按钮。支持OC和Swift。</p>
+<p>首先拷贝一份系统的Single View App模板，我们主要基于Single View App模板进行修改。</p>
+<p>修改文件名为<code>Demo App.xctemplate</code>，文件夹下的模板图标可以换一下。接下来就是对TemplateInfo.plist文件的修改了。</p>
+<p><strong>Identifier</strong></p>
+<p>随便取个名称，<code>com.apple.dt.unit.MATDemoApplication</code>。</p>
+<p><strong>Ancestors</strong></p>
+<p>由于不想要Storyboard，所以用<code>com.apple.dt.unit.cocoaTouchApplicationBase</code>替换掉<code>com.apple.dt.unit.sceneLifecycleApplication</code>模板。</p>
+<p><strong>SortOrder</strong></p>
+<p>取值100。让它排在系统的后面。</p>
+<p>接下来就是大头Options。</p>
+<p><strong>Options</strong></p>
+<blockquote>
+<p>更改AppDelegate</p>
+</blockquote>
+<p>在Nodes里添加一个item <code>AppDelegate.m:imports:importHeader:MATTabBarController.h</code>：表示在AppDelegate.m里面导入MATTabBarController.h头文件，这样Xcode在创建工程时就会自动在AppDelegate.m里添加<code>#import&quot;MATTabBarController.h&quot;</code>。</p>
+<p>在Nodes里添加一个item <code>AppDelegate.m:implementation:methods:applicationdidFinishLaunchingWithOptions:body</code></p>
+<p>并在Definitions里添加对应的值：</p>
+<figure class="highlight objectivec"><table><tr><td class="code"><pre><span class="line"><span class="keyword">self</span>.window = [[<span class="built_in">UIWindow</span> alloc] initWithFrame:<span class="built_in">UIScreen</span>.mainScreen.bounds];</span><br><span class="line"><span class="keyword">self</span>.window.backgroundColor = [<span class="built_in">UIColor</span> whiteColor];</span><br><span class="line">MATTabBarController *tabController = [[MATTabBarController alloc] init];</span><br><span class="line"><span class="keyword">self</span>.window.rootViewController = tabController;</span><br><span class="line">[<span class="keyword">self</span>.window makeKeyAndVisible];</span><br></pre></td></tr></table></figure>
+<p>这样Xcode就会自动在AppDelegate.m里didFinishLaunchingWithOptions方法里面添加上述代码。</p>
+<p>如图：</p>
+<p>Nodes:</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/appDelegate_1.png" alt=""></p>
+<p>Definitions:</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/appDelegate_2.png" alt=""></p>
+<blockquote>
+<p>添加已有的类文件</p>
+</blockquote>
+<p>MATTabBarController.h/m是我们自己提供的类文件，为了让Xcode在创建工程时能够找到这些类，我们需要在模板文件中指明。</p>
+<p>在Nodes里添加两个item：<code>MATTabBarController.h</code>和<code>MATTabBarController.m</code></p>
+<p>并在Definitions里添加对应的值：</p>
+<p>key:<code>MATTabBarController.h</code>，value类型选择字典。字典中添加key:<code>Path</code>，value为文件的路径。</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/%E6%B7%BB%E5%8A%A0%E6%96%87%E4%BB%B6.png" alt=""></p>
+<blockquote>
+<p>动态创建类</p>
+</blockquote>
+<p>这个参照系统的就可以了：</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/%E5%8A%A8%E6%80%81%E5%88%9B%E5%BB%BA%E7%B1%BB.png" alt=""></p>
+<p>红色划线处替换为你自己的类名即可。</p>
+<blockquote>
+<p>添加方法</p>
+</blockquote>
+<p>让Xcode在创建的类中自动添加一个方法。</p>
+<p>在Nodes里添加两个item:</p>
+<p><code>MATMessageViewController.m:implementation:methods:btnDidClicked(- (void\)btnDidClicked:(UIButton *\)sender)</code> 和</p>
+<p><code>MATMessageViewController.m:implementation:methods:btnDidClicked:body</code></p>
+<p>即方法声明和方法实现。</p>
+<p>在Definitions里添加<code>MATMessageViewController.m:implementation:methods:btnDidClicked:body</code>的值，这里就是btnDidClicked方法的实现：</p>
+<figure class="highlight less"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">NSLog</span>(@<span class="string">"btnDidClicked"</span>);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>添加属性及懒加载实现</p>
+</blockquote>
+<p>让Xcode在创建的类中自动添加一个属性及属性的懒加载实现。</p>
+<p>在Nodes里添加三个item</p>
+<p><code>MATMessageViewController.m:extension:btn</code></p>
+<p><code>MATMessageViewController.m:implementation:methods:btn(- (UIButton *\)btn)</code></p>
+<p><code>MATMessageViewController.m:implementation:methods:btn:return</code></p>
+<p>在Definitions添加对应的值：</p>
+<p><code>MATMessageViewController.m:extension:btn</code>的值：</p>
+<p><code>@property (strong, nonatomic) UIButton *btn;</code></p>
+<p><code>MATMessageViewController.m:implementation:methods:btn:return</code>的值：</p>
+<figure class="highlight objectivec"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (_btn == <span class="literal">nil</span>) &#123;</span><br><span class="line">    <span class="built_in">UIButton</span> *btn = [<span class="built_in">UIButton</span> buttonWithType:<span class="built_in">UIButtonTypeCustom</span>];</span><br><span class="line">    btn.frame = <span class="built_in">CGRectMake</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">100</span>, <span class="number">44</span>);</span><br><span class="line">    btn.backgroundColor = [<span class="built_in">UIColor</span> redColor];</span><br><span class="line">    [btn setTitle:<span class="string">@"button"</span> forState:<span class="built_in">UIControlStateNormal</span>];</span><br><span class="line">    [btn addTarget:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(btnDidClicked:) forControlEvents:<span class="built_in">UIControlEventTouchUpInside</span>];</span><br><span class="line">    _btn = btn;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> _btn;</span><br></pre></td></tr></table></figure>
+<p>到此为止工程模板就差不多了，将其拷贝到<code>~/Library/Developer/Xcode/Templates/Project Templates/Application/</code>目录下，重启Xcode就可以看到我们自己的模板了。</p>
+<h4 id="制作自己的文件模板"><a href="#制作自己的文件模板" class="headerlink" title="制作自己的文件模板"></a>制作自己的文件模板</h4><p>制作文件模板最好也是参照系统的文件模板。</p>
+<p>新建一个文件夹命名为<code>ZACustom</code>,然后从目录：</p>
+<p><code>/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Xcode/Templates/File Templates/Source</code></p>
+<p>拷贝一份<code>Cocoa Touch Class.xctemplate</code>，到该目录下。</p>
+<p>一般新建UIViewController和NSObject较多，所以可以只保留这两个类，其他的类文件夹可以删掉。</p>
+<p>文件模板的TemplateInfo.plist文件基本不需要修改，只需要修改各类文件夹下的<code>___FILEBASENAME___.m</code>文件。</p>
+<p>修改<code>UIViewControllerObjective-C</code>文件夹下的<code>___FILEBASENAME___.m</code>，新增代码如下：</p>
+<figure class="highlight objectivec"><table><tr><td class="code"><pre><span class="line"><span class="comment">//___FILEHEADER___</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#import <span class="meta-string">"___FILEBASENAME___.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">___FILEBASENAMEASIDENTIFIER___</span> ()</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">___FILEBASENAMEASIDENTIFIER___</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// MARK:  life cycle</span></span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)viewDidLoad &#123;</span><br><span class="line">    [<span class="keyword">super</span> viewDidLoad];</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)viewWillAppear:(<span class="built_in">BOOL</span>)animated &#123;</span><br><span class="line">    [<span class="keyword">super</span> viewWillAppear:animated];</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)viewDidAppear:(<span class="built_in">BOOL</span>)animated &#123;</span><br><span class="line">    [<span class="keyword">super</span> viewDidAppear:animated];</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)viewWillDisappear:(<span class="built_in">BOOL</span>)animated &#123;</span><br><span class="line">    [<span class="keyword">super</span> viewWillDisappear:animated];</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)viewDidDisappear:(<span class="built_in">BOOL</span>)animated &#123;</span><br><span class="line">    [<span class="keyword">super</span> viewDidDisappear:animated];</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// MARK: system protocol</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// MARK: custom protocol</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// MARK: notification</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// MARK: event response</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// MARK: public method</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// MARK: private method</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// MARK: setter &amp; getter</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>这样创建的UIViewController子类就自带这些注释和实现的方法。</p>
+<p>可以修改<code>NSObjectObjective-C</code>文件夹下的<code>___FILEBASENAME___.h</code>，如下：</p>
+<figure class="highlight objectivec"><table><tr><td class="code"><pre><span class="line"><span class="comment">//___FILEHEADER___</span></span><br><span class="line"></span><br><span class="line">___IMPORTHEADER_cocoaTouchSubclass___</span><br><span class="line"></span><br><span class="line"><span class="built_in">NS_ASSUME_NONNULL_BEGIN</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">___FILEBASENAMEASIDENTIFIER___</span> : <span class="title">___VARIABLE_cocoaTouchSubclass___</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *&lt;#property1#&gt;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *&lt;#property2#&gt;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *&lt;#property3#&gt;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *&lt;#property4#&gt;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *&lt;#property5#&gt;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>) <span class="built_in">NSInteger</span> &lt;#property6#&gt;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>) <span class="keyword">float</span> &lt;#property7#&gt;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">NS_ASSUME_NONNULL_END</span></span><br></pre></td></tr></table></figure>
+<p>这样创建的模型，自动就有7个占位属性了。</p>
+<p>最后将文件夹<code>ZACustom</code>拷贝到<code>~/Library/Developer/Xcode/Templates/File Templates/</code>目录下，重启Xcode就可以看到我们自己定义的文件模板了。</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/%E6%96%87%E4%BB%B6%E6%A8%A1%E6%9D%BF%E5%B1%95%E7%A4%BA%E6%95%88%E6%9E%9C.png" style="zoom:50%;" /></p>
+<p>有需要的朋友可以点击下方链接下载使用：</p>
+<p><a href="https://github.com/xq-120/FireDemoAppTemplate" target="_blank" rel="noopener">FireDemoAppTemplate</a></p>
+]]></content>
+      <categories>
+        <category>Xcode</category>
+      </categories>
+      <tags>
+        <tag>Xcode模板</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Swift数组截取</title>
     <url>/2020/05/03/Swift%E6%95%B0%E7%BB%84%E6%88%AA%E5%8F%96/</url>
     <content><![CDATA[<p>数组截取的一些方法：</p>

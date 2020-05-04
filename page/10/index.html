@@ -191,6 +191,97 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/15/Swift%E5%AF%B9%E8%B1%A1%E6%8B%B7%E8%B4%9D/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="今天又是充满希望的一天">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/09/15/Swift%E5%AF%B9%E8%B1%A1%E6%8B%B7%E8%B4%9D/" class="post-title-link" itemprop="url">Swift对象拷贝</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-09-15 11:07:24" itemprop="dateCreated datePublished" datetime="2017-09-15T11:07:24+08:00">2017-09-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2018-07-15 08:47:28" itemprop="dateModified" datetime="2018-07-15T08:47:28+08:00">2018-07-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2017/09/15/Swift%E5%AF%B9%E8%B1%A1%E6%8B%B7%E8%B4%9D/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/09/15/Swift对象拷贝/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Swift对象拷贝"><a href="#Swift对象拷贝" class="headerlink" title="Swift对象拷贝"></a>Swift对象拷贝</h2><h3 id="方法一-实现NSCopying协议"><a href="#方法一-实现NSCopying协议" class="headerlink" title="方法一:实现NSCopying协议"></a>方法一:实现NSCopying协议</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Resume</span>: <span class="title">NSObject</span>, <span class="title">NSCopying</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String</span></span><br><span class="line">    <span class="keyword">var</span> sex: <span class="type">String?</span></span><br><span class="line">    <span class="keyword">var</span> age: <span class="type">String?</span></span><br><span class="line">    <span class="keyword">var</span> timeArea: <span class="type">String?</span></span><br><span class="line">    <span class="keyword">var</span> company: <span class="type">String?</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">//必须要有一个required的初始化方法</span></span><br><span class="line">    <span class="keyword">required</span> <span class="keyword">init</span>(name: <span class="type">String</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.name = name</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">copy</span><span class="params">(with zone: NSZone? = <span class="literal">nil</span>)</span></span> -&gt; <span class="type">Any</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> obj = type(of: <span class="keyword">self</span>).<span class="keyword">init</span>(name: name)</span><br><span class="line">        obj.sex = sex</span><br><span class="line">        obj.age = age</span><br><span class="line">        obj.timeArea = timeArea</span><br><span class="line">        obj.company = company</span><br><span class="line">        <span class="keyword">return</span> obj</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用:<br><code>let ben = Resume.init(name: &quot;本初&quot;)</code><br><code>var shu = ben.copy() as! Resume</code></p>
+<h3 id="方法二-实现自定义拷贝协议"><a href="#方法二-实现自定义拷贝协议" class="headerlink" title="方法二:实现自定义拷贝协议"></a>方法二:实现自定义拷贝协议</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">Copyable</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">copied</span><span class="params">()</span></span> -&gt; <span class="type">Self</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Book</span>: <span class="title">Copyable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String</span></span><br><span class="line">    <span class="keyword">var</span> author: <span class="type">String?</span></span><br><span class="line">    <span class="keyword">var</span> publish: <span class="type">String?</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">//必须要有一个required的初始化方法</span></span><br><span class="line">    <span class="keyword">required</span> <span class="keyword">init</span>(name: <span class="type">String</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.name = name</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">copied</span><span class="params">()</span></span> -&gt; <span class="type">Self</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> obj = type(of: <span class="keyword">self</span>).<span class="keyword">init</span>(name: name)</span><br><span class="line">        obj.name = name</span><br><span class="line">        obj.author = author</span><br><span class="line">        obj.publish = publish</span><br><span class="line">        <span class="keyword">return</span> obj</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用:<br><code>let sanguo = Book.init(name: &quot;three of kingdom&quot;)</code><br><code>let book = sanguo.copied()</code>  </p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/15/Swift%20addTarget%E5%87%BD%E6%95%B0%E7%9A%84Selector%E5%8F%82%E6%95%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1030,127 +1121,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/20/layoutSubviews%E7%9A%84%E8%B0%83%E7%94%A8%E6%97%B6%E6%9C%BA/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="今天又是充满希望的一天">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/08/20/layoutSubviews%E7%9A%84%E8%B0%83%E7%94%A8%E6%97%B6%E6%9C%BA/" class="post-title-link" itemprop="url">layoutSubviews的调用时机</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2017-08-20 23:20:24" itemprop="dateCreated datePublished" datetime="2017-08-20T23:20:24+08:00">2017-08-20</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-17 20:41:27" itemprop="dateModified" datetime="2020-04-17T20:41:27+08:00">2020-04-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/UIKit/" itemprop="url" rel="index"><span itemprop="name">UIKit</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2017/08/20/layoutSubviews%E7%9A%84%E8%B0%83%E7%94%A8%E6%97%B6%E6%9C%BA/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/08/20/layoutSubviews的调用时机/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="layoutSubviews的调用时机"><a href="#layoutSubviews的调用时机" class="headerlink" title="layoutSubviews的调用时机"></a>layoutSubviews的调用时机</h2><p>方法说明:override point. called by <code>layoutIfNeeded</code> automatically.<br>As of iOS 6.0, when constraints-based layout is used the base implementation applies the constraints-based layout,<br>otherwise it does nothing.<br>该方法由<code>layoutIfNeeded</code>自动调用,所以我们最好不要手动去调用它.因此在需要重新布局子视图时,可以调用<code>[self layoutIfNeeded]</code>或<code>[self setNeedLayout];</code></p>
-<h2 id="手动触发layoutSubviews"><a href="#手动触发layoutSubviews" class="headerlink" title="手动触发layoutSubviews"></a>手动触发layoutSubviews</h2><p>调用<code>[self layoutIfNeeded]</code>或<code>[self setNeedLayout];</code>  </p>
-<blockquote>
-<p><code>layoutIfNeeded</code>与<code>setNeedLayout</code>的区别:<br>苹果的说明:这两个方法Allows you to perform layout before the drawing cycle happens. -layoutIfNeeded forces layout early<br>根据上面所说<code>layoutIfNeeded</code>内部是直接调用了<code>layoutSubviews</code>,所以调用<code>layoutIfNeeded</code>会马上执行<code>layoutSubviews</code>方法.但是调用<code>setNeedLayout</code>并不会马上执行<code>layoutSubviews</code>,而是等到一个runloop结束时调用.</p>
-</blockquote>
-<h2 id="自动触发的layoutSubviews"><a href="#自动触发的layoutSubviews" class="headerlink" title="自动触发的layoutSubviews"></a>自动触发的layoutSubviews</h2><p>如果一个viewA还没有被添加到父视图上面去,那么无论你对它进行什么操作(设置frame,添加子视图等等),它的<code>layoutSubviews</code>方法始终是不会被调用的.<br>下面情况将会自动触发viewA的<code>layoutSubviews</code>方法:  </p>
-<ol>
-<li><p>viewA被添加到父视图上.(viewA的和viewA所有子视图的都会被触发).</p>
-</li>
-<li><p>viewA addSubview会触发<code>layoutSubviews</code>.(viewA的和刚添加的子视图的会被触发,viewA其他子视图不会).</p>
-</li>
-<li><p>viewA上的子视图从viewA上移除,会触发<code>layoutSubviews</code>.(只有viewA的会被触发, viewA的子视图不会被触发)</p>
-</li>
-<li><p>设置viewA的Frame会触发<code>layoutSubviews</code>，当然前提是frame的值设置前后发生了变化.(只有viewA的会被触发, viewA的子视图的不会被触发)</p>
-</li>
-<li><p>viewA上的子视图大小(x,y改变没影响)改变时也会触发viewA的<code>layoutSubviews</code>事件.(viewA的和该子视图的,其他子视图不会)</p>
-</li>
-<li><p>如果viewA是一个UIScrollView,那么viewA在滚动时会触发它的layoutSubviews方法.(只有viewA的会被触发, viewA的子视图的不会被触发)</p>
-</li>
-<li><p>旋转Screen会触发viewController的primary view的layoutSubviews事件.</p>
-</li>
-</ol>
-<p>注意:  </p>
-<ul>
-<li>init初始化不会触发<code>layoutSubviews</code>,因为此时View还没有被添加到父视图上去.  </li>
-<li>一个View的子视图指的是它的直系子视图.</li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2017/08/20/layoutSubviews%E7%9A%84%E8%B0%83%E7%94%A8%E6%97%B6%E6%9C%BA/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1221,7 +1191,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-count">104</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1234,7 +1204,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">65</span>
+        <span class="site-state-item-count">66</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

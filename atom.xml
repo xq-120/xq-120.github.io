@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-05-03T16:05:34.519Z</updated>
+  <updated>2020-05-04T13:32:51.563Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,36 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>自定义Xcode模板</title>
+    <link href="http://yoursite.com/2020/05/04/%E8%87%AA%E5%AE%9A%E4%B9%89Xcode%E6%A8%A1%E6%9D%BF/"/>
+    <id>http://yoursite.com/2020/05/04/%E8%87%AA%E5%AE%9A%E4%B9%89Xcode%E6%A8%A1%E6%9D%BF/</id>
+    <published>2020-05-04T13:12:40.000Z</published>
+    <updated>2020-05-04T13:32:51.563Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;很多时候我们需要一个较复杂场景的Demo工程来验证点东西或者研究某个技术，直接在公司项目工程中实验运行又太慢，并且还可能受到其他代码的影响。而Xcode自身提供的工程模板又太过简单，导致每次都要浪费很多时间编写重复的代码来搭建环境。为了提高效率，我们可以自定义工程模板和文件模板。&lt;/p&gt;
+&lt;p&gt;如下图，系统提供的默认模板其实都在&lt;code&gt;Xcode.app&lt;/code&gt;中，自定义工程模板和文件模板最好的办法就是参考系统的模板。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/%E5%B7%A5%E7%A8%8B%E6%A8%A1%E6%9D%BF%E5%B1%95%E7%A4%BA%E6%95%88%E6%9E%9C.png&quot; style=&quot;zoom:50%;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;系统的工程模板位置:&lt;/p&gt;
+&lt;figure class=&quot;highlight awk&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;regexp&quot;&gt;/Applications/&lt;/span&gt;Xcode.app&lt;span class=&quot;regexp&quot;&gt;/Contents/&lt;/span&gt;Developer&lt;span class=&quot;regexp&quot;&gt;/Platforms/i&lt;/span&gt;PhoneOS.platform&lt;span class=&quot;regexp&quot;&gt;/Developer/&lt;/span&gt;Library&lt;span class=&quot;regexp&quot;&gt;/Xcode/&lt;/span&gt;Templates&lt;span class=&quot;regexp&quot;&gt;/Project Templates/i&lt;/span&gt;OS&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;系统的文件模板位置:&lt;/p&gt;
+&lt;figure class=&quot;highlight awk&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;regexp&quot;&gt;/Applications/&lt;/span&gt;Xcode.app&lt;span class=&quot;regexp&quot;&gt;/Contents/&lt;/span&gt;Developer&lt;span class=&quot;regexp&quot;&gt;/Platforms/i&lt;/span&gt;PhoneOS.platform&lt;span class=&quot;regexp&quot;&gt;/Developer/&lt;/span&gt;Library&lt;span class=&quot;regexp&quot;&gt;/Xcode/&lt;/span&gt;Templates&lt;span class=&quot;regexp&quot;&gt;/File Templates&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;以上是系统默认的模板存储路径，对于自定义的模板则需要存放在其他路径：&lt;/p&gt;
+&lt;p&gt;自定义工程模板的路径需要存放在:&lt;code&gt;~/Library/Developer/Xcode/Templates/Project Templates/Application/&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;自定义文件模板的路径需要存放在:&lt;code&gt;~/Library/Developer/Xcode/Templates/File Templates/&lt;/code&gt;.&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Xcode" scheme="http://yoursite.com/categories/Xcode/"/>
+    
+    
+      <category term="Xcode模板" scheme="http://yoursite.com/tags/Xcode%E6%A8%A1%E6%9D%BF/"/>
+    
+  </entry>
   
   <entry>
     <title>Swift数组截取</title>
@@ -596,33 +626,6 @@
     
     
       <category term="CocoaPods" scheme="http://yoursite.com/categories/CocoaPods/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>从7日年化收益率到万份收益</title>
-    <link href="http://yoursite.com/2019/10/13/%E4%BB%8E7%E6%97%A5%E5%B9%B4%E5%8C%96%E6%94%B6%E7%9B%8A%E7%8E%87%E5%88%B0%E4%B8%87%E4%BB%BD%E6%94%B6%E7%9B%8A/"/>
-    <id>http://yoursite.com/2019/10/13/%E4%BB%8E7%E6%97%A5%E5%B9%B4%E5%8C%96%E6%94%B6%E7%9B%8A%E7%8E%87%E5%88%B0%E4%B8%87%E4%BB%BD%E6%94%B6%E7%9B%8A/</id>
-    <published>2019-10-13T04:05:32.000Z</published>
-    <updated>2020-05-01T08:41:01.775Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h4 id=&quot;一、-7日年化收益率&quot;&gt;&lt;a href=&quot;#一、-7日年化收益率&quot; class=&quot;headerlink&quot; title=&quot;一、 7日年化收益率&quot;&gt;&lt;/a&gt;一、 7日年化收益率&lt;/h4&gt;&lt;p&gt;今天早上被一条支付宝的通知吵醒,点进去一看发现是有新的花呗账单需要偿还了,还完花呗,刷了一下余额宝,提示昨日收益0.16元,七日年化2.3280%.7日年化?怎么这么熟悉但是细细一想却又不知道到底是什么东西,这让我感到难受.看来有必要了解一下7日年化收益率究竟是什么东西?&lt;/p&gt;
-&lt;p&gt;不过一上来就讲7日年化收益率略显深奥,还是先来看一下收益率是什么?&lt;/p&gt;
-&lt;p&gt;大家都知道&lt;code&gt;收益率 = 收益 / 本金&lt;/code&gt;.即本金在一段时间后获得的收益除以本金.收益率可以用来衡量一个理财产品的好坏.收益率越高代表到期后获得的收益也越多.&lt;/p&gt;
-&lt;p&gt;年收益率就是本金在一年以后获得的收益除以本金得到的一个比值.比如银行某个定期理财产品承诺存满一年将获得4%的年收益率.那么你存10000元,到年底的时候取出来将获得10000 x 4%=400元的总收益.&lt;/p&gt;
-&lt;p&gt;与其对应的是日收益率,即本金在一天后获得的收益除以本金.还是上面的例子,10000元存满一年获得400元收益,那么存一天获得的收益为400 / 365 ≈ 1.0959元.于是R&lt;sub&gt;d&lt;/sub&gt; = 1.0959 / 10000 = 0.010959% = 4% / 365.&lt;/p&gt;
-&lt;p&gt;因此很容易得出日收益率与年收益率存在以下关系:&lt;/p&gt;
-&lt;p&gt;R&lt;sub&gt;d&lt;/sub&gt; x 365 = R&lt;sub&gt;y&lt;/sub&gt;&lt;/p&gt;
-&lt;p&gt;R&lt;sub&gt;d&lt;/sub&gt; x 365就表示将日收益率进行年化,得到的结果R&lt;sub&gt;y&lt;/sub&gt;就是年化收益率.如果你能保证以后的日收益率都是这么多,那R&lt;sub&gt;y&lt;/sub&gt;就是年收益率了,但对于基金来说它每天的收益率是在不断变化的,所以只能称为年化收益率.&lt;/p&gt;
-&lt;p&gt;OK,前戏的部分终于讲完了,现在开始正式进入主题.&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="经济学" scheme="http://yoursite.com/categories/%E7%BB%8F%E6%B5%8E%E5%AD%A6/"/>
     
     
   </entry>

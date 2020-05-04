@@ -191,6 +191,104 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/04/%E7%90%86%E8%A7%A3OC%E4%B8%AD%E7%9A%84SEL%E3%80%81IMP%E3%80%81Method/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="今天又是充满希望的一天">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/05/04/%E7%90%86%E8%A7%A3OC%E4%B8%AD%E7%9A%84SEL%E3%80%81IMP%E3%80%81Method/" class="post-title-link" itemprop="url">理解OC中的SEL、IMP、Method</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2019-05-04 23:11:34 / 修改时间：23:20:49" itemprop="dateCreated datePublished" datetime="2019-05-04T23:11:34+08:00">2019-05-04</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/runtime/" itemprop="url" rel="index"><span itemprop="name">runtime</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2019/05/04/%E7%90%86%E8%A7%A3OC%E4%B8%AD%E7%9A%84SEL%E3%80%81IMP%E3%80%81Method/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/05/04/理解OC中的SEL、IMP、Method/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="SEL"><a href="#SEL" class="headerlink" title="SEL"></a>SEL</h4><p>Defines an opaque type that represents a method selector.</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">objc_selector</span> *<span class="title">SEL</span>;</span></span><br></pre></td></tr></table></figure>
+<p>SEL是一种数据类型,代表一个方法选择器(要是觉得不好理解,可以类比一下int,int是整型类型,代表一个整数).方法选择器就是运行时中方法的名称,它是一个注册到(或映射到)Objective-C运行时里的一个C字符串.选择器由编译器生成,在系统加载类的时候由runtime自动进行映射.</p>
+<p>按照文档说明,选择器是在编译期间生成的,在加载类的时候映射为runtime中的一个C字符串.</p>
+<p>给对象发送一条消息<code>[obj xxxMethod];</code>,其实是调用了<code>objc_msgSend(obj, @selector(xxxMethod));</code>.</p>
+<p><code>objc_msgSend</code>的声明如下:<br><code>OBJC_EXPORT id _Nullable
+objc_msgSend(id _Nullable self, SEL _Nonnull op, ...);</code><br>它的第二个参数的类型就是SEL.说明它是真实存在的.</p>
+<p>相关的API:</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//向runtime system注册一个方法名。如果方法名已经注册，则返回已经注册的SEL</span></span><br><span class="line">SEL sel<span class="constructor">_registerName(<span class="params">const</span> <span class="params">char</span> <span class="operator">*</span><span class="params">str</span>)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//功能同上</span></span><br><span class="line">SEL sel<span class="constructor">_getUid(<span class="params">const</span> <span class="params">char</span> <span class="operator">*</span><span class="params">str</span>)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//使用OC编译器指令.功能同上,也是向runtime system注册一个方法名.</span></span><br><span class="line">@selector(&lt;#selector#&gt;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//使用OC字符串构造.功能同上</span></span><br><span class="line">SEL <span class="constructor">NSSelectorFromString(NSString <span class="operator">*</span><span class="params">aSelectorName</span>)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//根据Method结构体获取</span></span><br><span class="line">SEL _Nonnull <span class="keyword">method</span><span class="constructor">_getName(Method <span class="params">_Nonnull</span> <span class="params">m</span>)</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//比较两个选择器</span></span><br><span class="line">BOOL sel_isEqual ( SEL lhs, SEL rhs );</span><br><span class="line"><span class="comment">//判断方法名是否映射到某个函数实现上</span></span><br><span class="line">BOOL sel<span class="constructor">_isMapped(SEL <span class="params">sel</span>)</span>;</span><br></pre></td></tr></table></figure>
+<p>eg:</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/05/04/%E7%90%86%E8%A7%A3OC%E4%B8%AD%E7%9A%84SEL%E3%80%81IMP%E3%80%81Method/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/07/OC%E4%B8%8ESwift%E6%B7%B7%E7%BC%96/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1122,100 +1220,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/25/VPS%20shadowsocks%E6%90%AD%E5%BB%BA/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="今天又是充满希望的一天">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/11/25/VPS%20shadowsocks%E6%90%AD%E5%BB%BA/" class="post-title-link" itemprop="url">VPS shadowsocks搭建</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2018-11-25 22:19:02 / 修改时间：22:23:00" itemprop="dateCreated datePublished" datetime="2018-11-25T22:19:02+08:00">2018-11-25</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/vps/" itemprop="url" rel="index"><span itemprop="name">vps</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2018/11/25/VPS%20shadowsocks%E6%90%AD%E5%BB%BA/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/11/25/VPS shadowsocks搭建/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="VPS-shadowsocks搭建"><a href="#VPS-shadowsocks搭建" class="headerlink" title="VPS shadowsocks搭建"></a>VPS shadowsocks搭建</h4><p>本文主要是方便自己以后查找,如有侵权立删.</p>
-<p>主要参考:<br><a href="https://medium.com/@zoomyale/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91%E7%9A%84%E7%BB%88%E6%9E%81%E5%A7%BF%E5%8A%BF-%E5%9C%A8-vultr-vps-%E4%B8%8A%E6%90%AD%E5%BB%BA-shadowsocks-fd57c807d97e" target="_blank" rel="noopener">科学上网的终极姿势-在-vultr-vps-上搭建-shadowsocks</a></p>
-<h3 id="一、部署-Shadowsocks"><a href="#一、部署-Shadowsocks" class="headerlink" title="一、部署 Shadowsocks"></a>一、部署 Shadowsocks</h3><p>Shadowsocks 需要同时具备客户端和服务器端，所以它的部署也需要分两步。</p>
-<h4 id="1-1部署-Shadowsocks-服务器端"><a href="#1-1部署-Shadowsocks-服务器端" class="headerlink" title="1.1部署 Shadowsocks 服务器端"></a>1.1部署 Shadowsocks 服务器端</h4><h4 id="1-2-TCP-Fast-Open"><a href="#1-2-TCP-Fast-Open" class="headerlink" title="1.2 TCP Fast Open"></a>1.2 TCP Fast Open</h4><p>为了更好的连接速度，需要多做几步。首先是打开 TCP Fast Open.</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"server"</span>:<span class="string">"0.0.0.0"</span>,</span><br><span class="line">    <span class="attr">"local_address"</span>:<span class="string">"127.0.0.1"</span>,</span><br><span class="line">    <span class="attr">"local_port"</span>:<span class="number">1080</span>,</span><br><span class="line">    <span class="attr">"port_password"</span>:&#123;</span><br><span class="line">        <span class="attr">"1234"</span>:<span class="string">"yourpassword"</span>,</span><br><span class="line">        <span class="attr">"2234"</span>:<span class="string">"yourpassword"</span>,</span><br><span class="line">        <span class="attr">"3234"</span>:<span class="string">"yourpassword"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"timeout"</span>:<span class="number">300</span>,</span><br><span class="line">    <span class="attr">"method"</span>:<span class="string">"aes-256-gcm"</span>,</span><br><span class="line">    <span class="attr">"fast_open"</span>:<span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="1-3安装-BBR"><a href="#1-3安装-BBR" class="headerlink" title="1.3安装 BBR"></a>1.3安装 BBR</h4>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/11/25/VPS%20shadowsocks%E6%90%AD%E5%BB%BA/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1286,7 +1290,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-count">104</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1299,7 +1303,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">65</span>
+        <span class="site-state-item-count">66</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
