@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-05-04T13:36:23.499Z</updated>
+  <updated>2020-05-05T04:34:22.862Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,11 +17,41 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>OC类型自省函数</title>
+    <link href="http://yoursite.com/2020/05/05/OC%E7%B1%BB%E5%9E%8B%E8%87%AA%E7%9C%81%E5%87%BD%E6%95%B0/"/>
+    <id>http://yoursite.com/2020/05/05/OC%E7%B1%BB%E5%9E%8B%E8%87%AA%E7%9C%81%E5%87%BD%E6%95%B0/</id>
+    <published>2020-05-05T04:32:33.000Z</published>
+    <updated>2020-05-05T04:34:22.862Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;先上测试代码:&lt;/p&gt;
+&lt;figure class=&quot;highlight objc&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;ZAEImageView *img = [ZAEImageView new];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;BOOL&lt;/span&gt; isMember1 = [img isMemberOfClass:ZAEImageView.class];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;BOOL&lt;/span&gt; isMember2 = [img isMemberOfClass:&lt;span class=&quot;built_in&quot;&gt;UIImageView&lt;/span&gt;.class];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;BOOL&lt;/span&gt; isMember3 = [ZAEImageView isMemberOfClass:ZAEImageView.class];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;BOOL&lt;/span&gt; isMember4 = [ZAEImageView isMemberOfClass:&lt;span class=&quot;built_in&quot;&gt;UIImageView&lt;/span&gt;.class];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;BOOL&lt;/span&gt; isMember5 = [ZAEImageView isMemberOfClass:object_getClass(ZAEImageView.class)];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;BOOL&lt;/span&gt; isMember6 = [ZAEImageView isMemberOfClass:object_getClass(&lt;span class=&quot;built_in&quot;&gt;UIImageView&lt;/span&gt;.class)];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;BOOL&lt;/span&gt; isKind1 = [img isKindOfClass:ZAEImageView.class];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;BOOL&lt;/span&gt; isKind2 = [img isKindOfClass:&lt;span class=&quot;built_in&quot;&gt;UIImageView&lt;/span&gt;.class];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;BOOL&lt;/span&gt; isKind3 = [ZAEImageView isKindOfClass:ZAEImageView.class];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;BOOL&lt;/span&gt; isKind4 = [ZAEImageView isKindOfClass:&lt;span class=&quot;built_in&quot;&gt;UIImageView&lt;/span&gt;.class];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;BOOL&lt;/span&gt; isKind5 = [ZAEImageView isKindOfClass:object_getClass(ZAEImageView.class)];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;BOOL&lt;/span&gt; isKind6 = [ZAEImageView isKindOfClass:object_getClass(&lt;span class=&quot;built_in&quot;&gt;UIImageView&lt;/span&gt;.class)];&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;结果:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/OC%E7%B1%BB%E5%9E%8B%E8%87%AA%E7%9C%81_%E7%BB%93%E6%9E%9C.jpg&quot; alt=&quot;结果&quot;&gt;&lt;/p&gt;
+&lt;p&gt;OC类型自省的函数如下:&lt;/p&gt;
+&lt;figure class=&quot;highlight objc&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;- (&lt;span class=&quot;built_in&quot;&gt;BOOL&lt;/span&gt;)isKindOfClass:(Class)aClass;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;- (&lt;span class=&quot;built_in&quot;&gt;BOOL&lt;/span&gt;)isMemberOfClass:(Class)aClass;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;它们声明在&lt;code&gt;@protocol NSObject&lt;/code&gt;中,NSObject类实现了NSObject协议&lt;code&gt;@interface NSObject &amp;lt;NSObject&amp;gt;&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;可以看到它们都是实例方法,但是为什么可以发送给类对象?和元类有关.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;- (BOOL)isMemberOfClass:(Class)aClass;&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Returns a Boolean value that indicates whether the receiver is an instance of a given class.&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="OC" scheme="http://yoursite.com/categories/OC/"/>
+    
+    
+      <category term="OC类型自省" scheme="http://yoursite.com/tags/OC%E7%B1%BB%E5%9E%8B%E8%87%AA%E7%9C%81/"/>
+    
+  </entry>
+  
+  <entry>
     <title>自定义Xcode模板</title>
     <link href="http://yoursite.com/2020/05/04/%E8%87%AA%E5%AE%9A%E4%B9%89Xcode%E6%A8%A1%E6%9D%BF/"/>
     <id>http://yoursite.com/2020/05/04/%E8%87%AA%E5%AE%9A%E4%B9%89Xcode%E6%A8%A1%E6%9D%BF/</id>
     <published>2020-05-04T13:12:40.000Z</published>
-    <updated>2020-05-04T13:36:23.499Z</updated>
+    <updated>2020-05-04T13:39:08.215Z</updated>
     
     <summary type="html">
     
@@ -593,40 +623,6 @@
     
     
       <category term="BOOL类型" scheme="http://yoursite.com/tags/BOOL%E7%B1%BB%E5%9E%8B/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>pod install慢解决</title>
-    <link href="http://yoursite.com/2019/11/06/pod%20install%E6%85%A2%E8%A7%A3%E5%86%B3/"/>
-    <id>http://yoursite.com/2019/11/06/pod%20install%E6%85%A2%E8%A7%A3%E5%86%B3/</id>
-    <published>2019-11-05T16:22:59.000Z</published>
-    <updated>2020-03-23T14:54:20.166Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;今天在安装WCDB时,不管是pod install&lt;/p&gt;
-&lt;figure class=&quot;highlight jboss-cli&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;-&amp;gt; Installing WCDB &lt;span class=&quot;params&quot;&gt;(1.0.6)&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; &amp;gt; Git download&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; &amp;gt; Git download&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     $ &lt;span class=&quot;string&quot;&gt;/usr/local/bin/git&lt;/span&gt; clone https:&lt;span class=&quot;string&quot;&gt;//github.com/Tencent/wcdb.git&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     &lt;span class=&quot;string&quot;&gt;/var/folders/5z/1pxqzfcn77s2n7z4gmr63sdr0000gn/T/d20191216-6636-ji8u78&lt;/span&gt; &lt;span class=&quot;params&quot;&gt;--template=&lt;/span&gt; &lt;span class=&quot;params&quot;&gt;--single-branch&lt;/span&gt; &lt;span class=&quot;params&quot;&gt;--depth&lt;/span&gt; 1 &lt;span class=&quot;params&quot;&gt;--branch&lt;/span&gt; v1.0.6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     Cloning into &#39;&lt;span class=&quot;string&quot;&gt;/var/folders/5z/1pxqzfcn77s2n7z4gmr63sdr0000gn/T/d20191216-6636-ji8u78&lt;/span&gt;&#39;&lt;span class=&quot;string&quot;&gt;...&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     error: RPC failed; curl 18 transfer closed with outstanding read data remaining&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     fatal: The remote end hung up unexpectedly&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     fatal: early EOF&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     fatal: index-pack failed&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;[!] Error installing WCDB&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;[!] &lt;span class=&quot;string&quot;&gt;/usr/local/bin/git&lt;/span&gt; clone https:&lt;span class=&quot;string&quot;&gt;//github.com/Tencent/wcdb.git&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;/var/folders/5z/1pxqzfcn77s2n7z4gmr63sdr0000gn/T/d20191216-6636-ji8u78&lt;/span&gt; &lt;span class=&quot;params&quot;&gt;--template=&lt;/span&gt; &lt;span class=&quot;params&quot;&gt;--single-branch&lt;/span&gt; &lt;span class=&quot;params&quot;&gt;--depth&lt;/span&gt; 1 &lt;span class=&quot;params&quot;&gt;--branch&lt;/span&gt; v1.0.6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Cloning into &#39;&lt;span class=&quot;string&quot;&gt;/var/folders/5z/1pxqzfcn77s2n7z4gmr63sdr0000gn/T/d20191216-6636-ji8u78&lt;/span&gt;&#39;&lt;span class=&quot;string&quot;&gt;...&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;error: RPC failed; curl 18 transfer closed with outstanding read data remaining&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;fatal: The remote end hung up unexpectedly&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;fatal: early EOF&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;fatal: index-pack failed&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;还是直接git clone,都下载不了.&lt;/p&gt;
-&lt;figure class=&quot;highlight groovy&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;git clone &lt;span class=&quot;string&quot;&gt;https:&lt;/span&gt;&lt;span class=&quot;comment&quot;&gt;//github.com/Tencent/wcdb.git&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Cloning into &lt;span class=&quot;string&quot;&gt;&#39;wcdb&#39;&lt;/span&gt;...&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;string&quot;&gt;remote:&lt;/span&gt; Enumerating &lt;span class=&quot;string&quot;&gt;objects:&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;1704&lt;/span&gt;, done.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;string&quot;&gt;remote:&lt;/span&gt; Counting &lt;span class=&quot;string&quot;&gt;objects:&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;100&lt;/span&gt;% (&lt;span class=&quot;number&quot;&gt;1704&lt;/span&gt;/&lt;span class=&quot;number&quot;&gt;1704&lt;/span&gt;), done.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;string&quot;&gt;remote:&lt;/span&gt; Compressing &lt;span class=&quot;string&quot;&gt;objects:&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;100&lt;/span&gt;% (&lt;span class=&quot;number&quot;&gt;1192&lt;/span&gt;/&lt;span class=&quot;number&quot;&gt;1192&lt;/span&gt;), done.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;string&quot;&gt;error:&lt;/span&gt; RPC failed; curl &lt;span class=&quot;number&quot;&gt;56&lt;/span&gt; LibreSSL &lt;span class=&quot;string&quot;&gt;SSL_read:&lt;/span&gt; SSL_ERROR_SYSCALL, errno &lt;span class=&quot;number&quot;&gt;54&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;string&quot;&gt;fatal:&lt;/span&gt; The remote end hung up unexpectedly&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;string&quot;&gt;fatal:&lt;/span&gt; early EOF&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;string&quot;&gt;fatal:&lt;/span&gt; index-pack failed&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;从错误原因不难看出是网络的问题，应该是github被墙了。&lt;/p&gt;
-&lt;p&gt;最后解决办法:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;&lt;code&gt;pod repo update&lt;/code&gt;更新仓库。&lt;/p&gt;
-&lt;p&gt;这一步不是必须，除非你的仓库很旧，或者第二步没效果。这一步不翻墙的话同样很慢大概10kb/s的样子，但是比起后面下载源码库尤其是一些必须要翻墙才能下载的（比如libwebp），那简直小巫见大巫了。&lt;code&gt;pod repo update&lt;/code&gt;会从github上把最新的仓库更新到本地：&lt;code&gt;~/.cocoapods/repos/master&lt;/code&gt;，里面保存了所有第三方库的spec说明书。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;从同事那里拷贝源码库(路径为&lt;code&gt;~/Library/Caches/CocoaPods/Pods/Release&lt;/code&gt;)和源码库的说明书(路径为&lt;code&gt;~/Library/Caches/CocoaPods/Pods/Specs/Release&lt;/code&gt;),也分别放在自己的上述两个目录下.再pod install解决.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;从这里可以看出pod install都干了些啥。&lt;/p&gt;
-&lt;p&gt;参考:&lt;a href=&quot;https://www.jianshu.com/p/e2947189c004&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;无法Pod install第三方库的解决办法&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;ps:&lt;br&gt;pod install下载下来的库的本地存储路径为&lt;br&gt;&lt;code&gt;~/Library/Caches/CocoaPods&lt;/code&gt;,该目录包含一个搜索索引json文件,以及下载过的库的源代码和对应的Spec.&lt;br&gt;如果Podfile文件中库的版本一致则不会再从github下载,而是直接使用缓存下来的库的源码.因此如果某个库pod install很慢时,可以拷贝别人的版本一致的库到该目录下,减少等待时间.&lt;br&gt;在清理Mac磁盘存储空间时最好不要删除&lt;code&gt;~/Library/Caches/CocoaPods&lt;/code&gt;里面的缓存,否则下次pod install会从github上重新下载源码库,这个等待时间你懂得.&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="CocoaPods" scheme="http://yoursite.com/categories/CocoaPods/"/>
-    
     
   </entry>
   
