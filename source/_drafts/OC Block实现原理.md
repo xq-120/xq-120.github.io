@@ -5,7 +5,7 @@
 
 #### 不截获任何变量值
 
-```
+```objc
 #import <Foundation/Foundation.h>
 
 int main(int argc, const char * argv[]) {
@@ -19,7 +19,7 @@ int main(int argc, const char * argv[]) {
 
 `clang -rewrite-objc 文件名`得到一个`.cpp`的c++源文件.这个时候就可以看到上述代码的C语言实现了.
 
-```
+```c++
 struct __block_impl {
   void *isa;
   int Flags;
@@ -57,7 +57,7 @@ static struct IMAGE_INFO { unsigned version; unsigned flag; } _OBJC_IMAGE_INFO =
 ```
 匿名函数变成了一个普通的C语言函数:
 
-```
+```c
 static void __main_block_func_0(struct __main_block_impl_0 *__cself) {
 
     printf("block.");
@@ -77,7 +77,7 @@ static void __main_block_func_0(struct __main_block_impl_0 *__cself) {
 
 #### 截获自动变量值
 
-```
+```objc
 int main(int argc, const char * argv[]) {
     int va = 3;
     int vb = 4;
@@ -98,7 +98,7 @@ int main(int argc, const char * argv[]) {
 
 同样的操作之后:
 
-```
+```c++
 struct __block_impl {
   void *isa;
   int Flags;
@@ -148,15 +148,17 @@ int main(int argc, const char * argv[]) {
 static struct IMAGE_INFO { unsigned version; unsigned flag; } _OBJC_IMAGE_INFO = { 0, 2 };
 ```
 和第一种情况不同点在于:  
-结构体`__main_block_impl_0`多了两个成员变量`va`和 `vb`.并且构造函数也多了两个参数,在实例化结构体`__main_block_impl_0`时将va和vb作为参数传给构造函数.Block语法表达式所使用的自动变量值被保存到Block的结构体实例中了.这样就完成了对自动变量值的截获.
+**结构体`__main_block_impl_0`多了两个成员变量`va`和 `vb`并且构造函数也多了两个参数**,**在实例化结构体`__main_block_impl_0`时将va和vb作为参数传给构造函数**.Block语法表达式所使用的自动变量值被保存到Block的结构体实例中了.这样就完成了对自动变量值的截获.
 
 由于va和vb是作为参数传给构造函数的(传的是值),因此block语法块内修改va和vb的值(即在`static void __main_block_func_0(struct __main_block_impl_0 *__cself);`函数里修改va和vb的值)并不会影响外面变量的值,不过现在你也修改不了因为系统会提示错误`Variable is not assignable (missing __block type specifier).`.
 
 而后面`va = 10;vb = 5;`va和vb的值的改变,也不会影响到block实例截获的值.因为初始化block实例的时候传的是值.
 
+思考：为什么Block里截获的变量不加__block修饰符就不能在block里修改？
+
 #### 截获自动变量值并修改
 
-```
+```objc
 int main(int argc, const char * argv[]) {
     __block int va = 3;
     __block int vb = 4;
@@ -189,7 +191,7 @@ Program ended with exit code: 0
 
 同样的操作之后:
 
-```
+```c++
 struct __block_impl {
   void *isa;
   int Flags;
@@ -279,7 +281,7 @@ static struct IMAGE_INFO { unsigned version; unsigned flag; } _OBJC_IMAGE_INFO =
 
 #### 截获__strong对象指针变量
 
-```
+```objc
 int main(int argc, const char * argv[]) {
     
     void (^blk)(id obj) = NULL;
@@ -300,7 +302,7 @@ int main(int argc, const char * argv[]) {
 }
 ```
 
-```
+```c++
 struct __block_impl {
   void *isa;
   int Flags;
@@ -357,7 +359,7 @@ static struct IMAGE_INFO { unsigned version; unsigned flag; } _OBJC_IMAGE_INFO =
 
 #### 截获__weak对象指针变量
 
-```
+```objc
 int main(int argc, const char * argv[]) {
     
     void (^blk)(id obj) = NULL;
@@ -386,7 +388,7 @@ PS:其他报`UIKit/UIKit.h`找不到错的.
 
 [clanclang编译错误: fatal error: 'UIKit/UIKit.h' file not found（本人亲测有效）](https://www.jianshu.com/p/1114678bee78)
 
-```
+```c++
 struct __main_block_impl_0 {
   struct __block_impl impl;
   struct __main_block_desc_0* Desc;
