@@ -57,3 +57,5 @@ insert at middle
 
 库的路径找了一天。最后在这里看到了：[Manipulating Objective-C Program](https://dotblogs.com.tw/cmd4shell/2012/10/18/77570)
 
+[macOS_headers](https://github.com/w0lfschild/macOS_headers) macOS上的Frameworks class-dump。
+
