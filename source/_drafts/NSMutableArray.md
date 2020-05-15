@@ -32,7 +32,7 @@ insert at middle
 
 **扩容**
 
-容量不够时，会扩大到原来的1.56倍，并不是2倍，这个都是有讲究的。扩大后即使元素全部移除也不会缩减空间。
+容量不够时，会扩大到原来的1.625倍，并不是2倍，这个都是有讲究的。扩大后即使元素全部移除也不会缩减空间。
 
 ### 参考
 
@@ -41,4 +41,19 @@ insert at middle
 [NSMutableArray](http://blog.joyingx.me/2015/05/03/NSMutableArray%20%E5%8E%9F%E7%90%86%E6%8F%AD%E9%9C%B2/)
 
 [Exposing NSMutableArray](https://ciechanow.ski/exposing-nsmutablearray/)
+
+逆向工具
+
+关于iOS SDK的所有头文件，早有专人建立了一个在线网站去分析，点击跳转：[iOS Runtime Headers](http://developer.limneos.net/)
+
+[class-dump和MachO文件](https://chinafishnews.github.io/2018/05/29/class-dump%E5%92%8CMachO%E6%96%87%E4%BB%B6/)
+
+安装目录：`/usr/local/bin`
+[dsdump](https://derekselander.github.io/dsdump/)：An improved nm + Objective-C & Swift class-dump
+
+[iOS逆向工具之class-dump(MacOS)介绍](https://www.jianshu.com/p/6b6691d52e8a) 本文作者对iOS逆向有较深入研究。
+
+`class-dump -H /System/Library/Frameworks/CoreFoundation.framework -o dsym文件`
+
+库的路径找了一天。最后在这里看到了：[Manipulating Objective-C Program](https://dotblogs.com.tw/cmd4shell/2012/10/18/77570)
 
