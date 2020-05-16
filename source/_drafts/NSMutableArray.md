@@ -4,6 +4,14 @@ NSMutableArray借鉴了循环队列数据结构的思想，只不过NSMutableArr
 
 [数据结构 第7讲 循环队列](https://www.jianshu.com/p/9ba8a65464dd)
 
+[看完这篇你还不知道这些队列，我这些图白作了](https://juejin.im/post/5d5fb74fe51d45620346b8d0)
+
+[堆、栈和队列如何理解与应用？](https://zhuanlan.zhihu.com/p/72007079) 主要讲数据结构中的堆和栈
+
+[怎样深入理解堆和栈](https://zhuanlan.zhihu.com/p/66922957) 主要讲操作系统中**内存分配方式**的堆和栈。
+
+[常见数据结构 (一)- 栈, 队列, 堆, 哈希表](https://juejin.im/entry/58330cbfa0bb9f005a0fed62)
+
 **在两端操作**
 
 Insert at end
@@ -42,20 +50,28 @@ insert at middle
 
 [Exposing NSMutableArray](https://ciechanow.ski/exposing-nsmutablearray/)
 
-逆向工具
+**iOS逆向**
 
-关于iOS SDK的所有头文件，早有专人建立了一个在线网站去分析，点击跳转：[iOS Runtime Headers](http://developer.limneos.net/)
+知识储备
 
 [class-dump和MachO文件](https://chinafishnews.github.io/2018/05/29/class-dump%E5%92%8CMachO%E6%96%87%E4%BB%B6/)
 
-安装目录：`/usr/local/bin`
-[dsdump](https://derekselander.github.io/dsdump/)：An improved nm + Objective-C & Swift class-dump
-
 [iOS逆向工具之class-dump(MacOS)介绍](https://www.jianshu.com/p/6b6691d52e8a) 本文作者对iOS逆向有较深入研究。
 
-`class-dump -H /System/Library/Frameworks/CoreFoundation.framework -o dsym文件`
+class-dump安装目录：`/usr/local/bin`
 
-库的路径找了一天。最后在这里看到了：[Manipulating Objective-C Program](https://dotblogs.com.tw/cmd4shell/2012/10/18/77570)
+`class-dump -H /System/Library/Frameworks/CoreFoundation.framework -o 目的文件夹`
+
+Xcode11不能使用下面的CoreFoundation路径。（网上的教程都是下面的路径，但实验证明不行）
+
+`/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/CoreFoundation.framework`
+
+库的路径整了一天，看来是路径变了。
+
+别人整好的：
+
+关于iOS SDK的所有头文件，早有专人建立了一个在线网站去分析，点击跳转：[iOS Runtime Headers](http://developer.limneos.net/)
 
 [macOS_headers](https://github.com/w0lfschild/macOS_headers) macOS上的Frameworks class-dump。
 
+另一款工具：[dsdump](https://derekselander.github.io/dsdump/)：An improved nm + Objective-C & Swift class-dump
