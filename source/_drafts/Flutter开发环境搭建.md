@@ -259,9 +259,3 @@ Tools • Dart 2.8.0 (build 2.8.0-dev.15.0 96cf889e6b)
 
 [谷歌安卓开发者平台](https://developer.android.google.cn/guide)
 
-Dart语言学习
-
-[A tour of the Dart language](https://dart.dev/guides/language/language-tour)
-
-[Effective Dart](https://dart.dev/guides/language/effective-dart)
-
