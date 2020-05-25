@@ -1,5 +1,5 @@
 ### Block定义
-定义:能够截获自动变量**值**的匿名函数.
+定义:能够截获自动变量**值**的匿名函数.本质上也是一个OC对象，它内部也有个isa指针。
 
 ### Block实现
 
@@ -278,6 +278,36 @@ static struct IMAGE_INFO { unsigned version; unsigned flag; } _OBJC_IMAGE_INFO =
 ```
 
 可以看到代码量迅速增多.
+
+**`__forwarding`作用**
+
+注意到使用__block修饰的变量
+
+```
+__block int va = 3;
+```
+
+被截获后，最终会变成一个结构体实例：
+
+```c
+struct __Block_byref_va_0 {
+  void *__isa;
+__Block_byref_va_0 *__forwarding;
+ int __flags;
+ int __size;
+ int va;
+};
+```
+
+__isa：对象的类型
+
+__forwarding：指针变量，指向自身。
+
+va：用于保存变量的值
+
+可以看到外部使用的时候是通过`va.__forwarding->va`来访问变量的值的。为什么不直接通过`va->va`来访问呢？
+
+这是因为，当`__block`变量被拷贝到堆上时，`__forwarding`也会更改为指向堆上的地址，如果原来的变量访问的时候还去访问栈上的话，就会出现va的值不一致的情况，所以统一先根据`__forwarding`找到正确的地址后再取值。
 
 #### 截获__strong对象指针变量
 
