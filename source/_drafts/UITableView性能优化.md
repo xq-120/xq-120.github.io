@@ -1,5 +1,5 @@
 ---
-title: tableView性能优化
+title: UITableView性能优化
 tags:
   - 标签1
   - 标签2
@@ -134,7 +134,9 @@ Off-Screen Rendering意为离屏渲染，指的是GPU在当前屏幕缓冲区以
 
 参考：
 
-[AsyncDisplayKit](https://github.com/facebookarchive/AsyncDisplayKit)、[YYText](https://github.com/ibireme/YYText)
+[AsyncDisplayKit](https://github.com/facebookarchive/AsyncDisplayKit)
+
+[YYText](https://github.com/ibireme/YYText)
 
 [AsyncDisplayKit介绍（一）原理和思路](https://medium.com/jike-engineering/asyncdisplaykit%E4%BB%8B%E7%BB%8D-%E4%B8%80-6b871d29e005)
 
