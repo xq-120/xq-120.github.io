@@ -191,6 +191,312 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/12/Swift%E3%80%81OC%E5%8F%8D%E5%B0%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="今天又是充满希望的一天">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/09/12/Swift%E3%80%81OC%E5%8F%8D%E5%B0%84/" class="post-title-link" itemprop="url">Swift、OC反射</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-09-12 16:56:14" itemprop="dateCreated datePublished" datetime="2019-09-12T16:56:14+08:00">2019-09-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-09-13 17:23:26" itemprop="dateModified" datetime="2019-09-13T17:23:26+08:00">2019-09-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2019/09/12/Swift%E3%80%81OC%E5%8F%8D%E5%B0%84/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/09/12/Swift、OC反射/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="Swift、OC反射"><a href="#Swift、OC反射" class="headerlink" title="Swift、OC反射"></a>Swift、OC反射</h3><p>反射即根据类名字符串,生成对应实例对象的过程.</p>
+<p>分为两步:</p>
+<ol>
+<li>根据字符串,得到对应的类对象.</li>
+<li>通过类对象调用初始化方法生成一个实例.</li>
+</ol>
+<h3 id="获取类对象"><a href="#获取类对象" class="headerlink" title="获取类对象"></a>获取类对象</h3><p>OC:</p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">+ (<span class="name">Class</span>)class OBJC_SWIFT_UNAVAILABLE(<span class="string">"use 'aClass.self' instead"</span>)<span class="comment">;</span></span><br><span class="line">- (<span class="name">Class</span>)class OBJC_SWIFT_UNAVAILABLE(<span class="string">"use 'type(of: anObject)' instead"</span>)<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<p>这俩方法都是返回一个类对象.    </p>
+<p>Swift:</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">aClass.self</span><br><span class="line"><span class="function"><span class="title">type</span><span class="params">(of: anObject)</span></span></span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/09/12/Swift%E3%80%81OC%E5%8F%8D%E5%B0%84/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/01/OC%E6%87%92%E5%8A%A0%E8%BD%BD%E4%B8%8ESwift%E6%87%92%E5%8A%A0%E8%BD%BD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="今天又是充满希望的一天">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/09/01/OC%E6%87%92%E5%8A%A0%E8%BD%BD%E4%B8%8ESwift%E6%87%92%E5%8A%A0%E8%BD%BD/" class="post-title-link" itemprop="url">OC懒加载与Swift懒加载</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-09-01 12:46:18" itemprop="dateCreated datePublished" datetime="2019-09-01T12:46:18+08:00">2019-09-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-09-12 15:47:06" itemprop="dateModified" datetime="2019-09-12T15:47:06+08:00">2019-09-12</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2019/09/01/OC%E6%87%92%E5%8A%A0%E8%BD%BD%E4%B8%8ESwift%E6%87%92%E5%8A%A0%E8%BD%BD/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/09/01/OC懒加载与Swift懒加载/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="OC懒加载与Swift懒加载"><a href="#OC懒加载与Swift懒加载" class="headerlink" title="OC懒加载与Swift懒加载"></a>OC懒加载与Swift懒加载</h3><h4 id="OC懒加载"><a href="#OC懒加载" class="headerlink" title="OC懒加载"></a>OC懒加载</h4><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">- (UIView *)redView</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (_redView<span class="operator"> == </span>nil) &#123;</span><br><span class="line">        _redView = <span class="literal">[[UIV<span class="identifier">iew</span> <span class="identifier">alloc</span>]</span> init];</span><br><span class="line">        <span class="module-access"><span class="module"><span class="identifier">_redView</span>.</span></span>frame = <span class="constructor">CGRectMake(0, 0, 100, 200)</span>;</span><br><span class="line">        <span class="module-access"><span class="module"><span class="identifier">_redView</span>.</span></span>backgroundColor = <span class="module-access"><span class="module"><span class="identifier">UIColor</span>.</span></span>redColor;</span><br><span class="line">    &#125;</span><br><span class="line">    return _redView;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>:在懒加载的实现中尽量避免懒加载循环.即A懒加载B,B又懒加载A.这样会导致互相调用而死循环或者偏离预期结果.</p>
+<p>错误示例1:会导致调用死循环.</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">UIView</span> *)redView</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (_redView == <span class="literal">nil</span>) &#123;</span><br><span class="line">        <span class="built_in">UIView</span> *view = [[<span class="built_in">UIView</span> alloc] initWithFrame:<span class="built_in">CGRectMake</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="keyword">self</span>.blackView.frame.size.width + <span class="number">100</span>, <span class="number">200</span>)];</span><br><span class="line">        view.backgroundColor = <span class="built_in">UIColor</span>.redColor;</span><br><span class="line">        _redView = view;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> _redView;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="built_in">UIView</span> *)blackView</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (_blackView == <span class="literal">nil</span>) &#123;</span><br><span class="line">        <span class="built_in">UIView</span> *view = [[<span class="built_in">UIView</span> alloc] initWithFrame:<span class="built_in">CGRectMake</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">200</span>, <span class="keyword">self</span>.redView.frame.size.height + <span class="number">100</span>)];</span><br><span class="line">        view.backgroundColor = <span class="built_in">UIColor</span>.blackColor;</span><br><span class="line">        _blackView = view;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> _blackView;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>错误示例2:示例2其实和示例1是一回事.也会导致调用死循环.</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">- (UIView *)redView</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (_redView<span class="operator"> == </span>nil) &#123;</span><br><span class="line">        _redView = <span class="literal">[[UIV<span class="identifier">iew</span> <span class="identifier">alloc</span>]</span> initWithFrame:<span class="constructor">CGRectMake(0, 0, <span class="params">self</span>.<span class="params">blackView</span>.<span class="params">frame</span>.<span class="params">size</span>.<span class="params">width</span> + 100, 200)</span>];</span><br><span class="line">        <span class="module-access"><span class="module"><span class="identifier">_redView</span>.</span></span>backgroundColor = <span class="module-access"><span class="module"><span class="identifier">UIColor</span>.</span></span>redColor;</span><br><span class="line">    &#125;</span><br><span class="line">    return _redView;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (UIView *)blackView</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (_blackView<span class="operator"> == </span>nil) &#123;</span><br><span class="line">        _blackView = <span class="literal">[[UIV<span class="identifier">iew</span> <span class="identifier">alloc</span>]</span> initWithFrame:<span class="constructor">CGRectMake(0, 0, 200, <span class="params">self</span>.<span class="params">redView</span>.<span class="params">frame</span>.<span class="params">size</span>.<span class="params">height</span> + 100)</span>];</span><br><span class="line">        <span class="module-access"><span class="module"><span class="identifier">_blackView</span>.</span></span>backgroundColor = <span class="module-access"><span class="module"><span class="identifier">UIColor</span>.</span></span>blackColor;</span><br><span class="line">    &#125;</span><br><span class="line">    return _blackView;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>错误示例3:程序会在<code>[self.view addSubview:self.redView];</code>这一行崩溃:<code>Thread 1: EXC_BAD_ACCESS (code=1, address=0x0)</code></p>
+<p>原因在于:对于一个OC对象,alloc之后必须调用init方法完成初始化.对象只有在初始化完成之后才能继续使用.</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/09/01/OC%E6%87%92%E5%8A%A0%E8%BD%BD%E4%B8%8ESwift%E6%87%92%E5%8A%A0%E8%BD%BD/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/04/%E5%B5%8C%E5%A5%97%E9%A1%B5%E9%9D%A2%E6%89%8B%E5%8A%BF%E5%86%B2%E7%AA%81%E8%A7%A3%E5%86%B3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="今天又是充满希望的一天">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/08/04/%E5%B5%8C%E5%A5%97%E9%A1%B5%E9%9D%A2%E6%89%8B%E5%8A%BF%E5%86%B2%E7%AA%81%E8%A7%A3%E5%86%B3/" class="post-title-link" itemprop="url">嵌套页面手势冲突解决</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2019-08-04 08:32:44 / 修改时间：08:50:22" itemprop="dateCreated datePublished" datetime="2019-08-04T08:32:44+08:00">2019-08-04</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bug/" itemprop="url" rel="index"><span itemprop="name">Bug</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2019/08/04/%E5%B5%8C%E5%A5%97%E9%A1%B5%E9%9D%A2%E6%89%8B%E5%8A%BF%E5%86%B2%E7%AA%81%E8%A7%A3%E5%86%B3/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/08/04/嵌套页面手势冲突解决/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="BUG场景"><a href="#BUG场景" class="headerlink" title="BUG场景"></a>BUG场景</h4><p>mainTableView嵌套listTableView.mainTableView的headerView里有左右滑动的collectionView(eg:轮播图).此时mainTableView的下拉刷新就会和collectionView的左右滑动起冲突.collectionView左右滑时,mainTableView可能会跟着一起动.</p>
+<p>为了实现吸顶效果,mainTableView是允许同时识别多个手势的.而这恰恰是引起手势冲突的原因.</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">MainTableView</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 允许多个手势</span></span><br><span class="line">- (<span class="built_in">BOOL</span>)gestureRecognizer:(<span class="built_in">UIGestureRecognizer</span> *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(<span class="built_in">UIGestureRecognizer</span> *)otherGestureRecognizer &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<h4 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h4><p>由于mainTableView只能上下滑动,因此可以判断如果otherGestureRecognizer所在的view在左右滑动则不让mainTableView的手势同时识别.</p>
+<p>这里有一个不好处理的地方就是在某些精心构造的滑动下,point可能为(0,0),</p>
+<blockquote>
+<p>偶现时的日志:</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2019</span><span class="number">-08</span><span class="number">-03</span> <span class="number">18</span>:<span class="number">23</span>:<span class="number">52.661593</span>+<span class="number">0800</span> xxx[<span class="number">20938</span>:<span class="number">1512558</span>] </span><br><span class="line">view:&lt;MainTableView: <span class="number">0x1070c3c00</span>; baseClass = UITableView; frame = (<span class="number">0</span> <span class="number">0</span>; <span class="number">414</span> <span class="number">623</span>); clipsToBounds = YES; gestureRecognizers = &lt;NSArray: <span class="number">0x282b5dce0</span>&gt;; layer = &lt;CALayer: <span class="number">0x28258a980</span>&gt;; contentOffset: &#123;<span class="number">0</span>, <span class="number">-3.3333333333333335</span>&#125;; contentSize: &#123;<span class="number">414</span>, <span class="number">1418</span>&#125;; adjustedContentInset: &#123;<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>&#125;&gt;</span><br><span class="line">ges:&lt;UIScrollViewPanGestureRecognizer: <span class="number">0x106d75500</span>; state = Changed; delaysTouchesEnded = NO; view = &lt;GKPageTableView <span class="number">0x1070c3c00</span>&gt;; target= &lt;(action=handlePan:, target=&lt;GKPageTableView <span class="number">0x1070c3c00</span>&gt;)&gt;&gt;</span><br><span class="line">otherView:&lt;UICollectionView: <span class="number">0x1079cea00</span>; frame = (<span class="number">0</span> <span class="number">0</span>; <span class="number">414</span> <span class="number">165.6</span>); clipsToBounds = YES; gestureRecognizers = &lt;NSArray: <span class="number">0x282b03930</span>&gt;; layer = &lt;CALayer: <span class="number">0x2825528c0</span>&gt;; contentOffset: &#123;<span class="number">64584</span>, <span class="number">0</span>&#125;; contentSize: &#123;<span class="number">124200</span>, <span class="number">165.60000000000002</span>&#125;; adjustedContentInset: &#123;<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>&#125;&gt; collection view layout: &lt;UICollectionViewFlowLayout: <span class="number">0x111c20eb0</span>&gt;</span><br><span class="line">otherGes:&lt;UIScrollViewPanGestureRecognizer: <span class="number">0x106c7aaa0</span>; state = Began; delaysTouchesEnded = NO; view = &lt;UICollectionView <span class="number">0x1079cea00</span>&gt;; target= &lt;(action=handlePan:, target=&lt;UICollectionView <span class="number">0x1079cea00</span>&gt;)&gt;; must-fail = &#123;</span><br><span class="line">        &lt;UIScrollViewPagingSwipeGestureRecognizer: <span class="number">0x111c210d0</span>; state = Failed; view = &lt;UICollectionView <span class="number">0x1079cea00</span>&gt;; target= &lt;(action=_handleSwipe:, target=&lt;UICollectionView <span class="number">0x1079cea00</span>&gt;)&gt;&gt;</span><br><span class="line">    &#125;&gt;</span><br><span class="line"><span class="number">2019</span><span class="number">-08</span><span class="number">-03</span> <span class="number">18</span>:<span class="number">23</span>:<span class="number">52.662988</span>+<span class="number">0800</span> EmotionCounsel[<span class="number">20938</span>:<span class="number">1512558</span>] </span><br><span class="line">移动的位置:&#123;<span class="number">0</span>, <span class="number">7</span>&#125;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>此时就没办法判断出otherGestureRecognizer.view是不是在左右滑动了.所以加了一个else判断避免这种情况.</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">MainTableView</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 允许多个手势</span></span><br><span class="line">- (<span class="built_in">BOOL</span>)gestureRecognizer:(<span class="built_in">UIGestureRecognizer</span> *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(<span class="built_in">UIGestureRecognizer</span> *)otherGestureRecognizer &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> ([gestureRecognizer isKindOfClass:[<span class="built_in">UIPanGestureRecognizer</span> <span class="keyword">class</span>]] &amp;&amp; [otherGestureRecognizer isKindOfClass:[<span class="built_in">UIPanGestureRecognizer</span> <span class="keyword">class</span>]] &amp;&amp; otherGestureRecognizer.view != <span class="keyword">self</span>) &#123;</span><br><span class="line">        <span class="built_in">UIPanGestureRecognizer</span> *otherPanGes = (<span class="built_in">UIPanGestureRecognizer</span> *)otherGestureRecognizer;</span><br><span class="line">        <span class="built_in">CGPoint</span> point = [otherPanGes translationInView:otherPanGes.view];</span><br><span class="line">        <span class="built_in">UIGestureRecognizerState</span> otherState = otherPanGes.state;</span><br><span class="line">        <span class="keyword">if</span> (otherState == <span class="built_in">UIGestureRecognizerStatePossible</span> || otherState == <span class="built_in">UIGestureRecognizerStateBegan</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (fabs(point.x) &gt; <span class="number">0</span>) &#123; <span class="comment">//如果在水平左右滑动</span></span><br><span class="line">                <span class="keyword">return</span> <span class="literal">NO</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> ([otherGestureRecognizer.view isKindOfClass:[<span class="built_in">UICollectionView</span> <span class="keyword">class</span>]]) &#123;</span><br><span class="line">                    <span class="built_in">UICollectionView</span> *otherView = (<span class="built_in">UICollectionView</span> *)otherGestureRecognizer.view;</span><br><span class="line">                    <span class="keyword">if</span> ([otherView.collectionViewLayout isKindOfClass:[<span class="built_in">UICollectionViewFlowLayout</span> <span class="keyword">class</span>]] &amp;&amp; [(<span class="built_in">UICollectionViewFlowLayout</span> *)otherView.collectionViewLayout scrollDirection] == <span class="built_in">UICollectionViewScrollDirectionHorizontal</span>) &#123;</span><br><span class="line">                        <span class="built_in">NSLog</span>(<span class="string">@"正在滑动左右滚动视图!!!!!!"</span>);</span><br><span class="line">                        <span class="keyword">return</span> <span class="literal">NO</span>;</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        <span class="built_in">NSLog</span>(<span class="string">@"UICollectionView的其他布局"</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="built_in">NSLog</span>(<span class="string">@"其他视图"</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/08/04/%E5%B5%8C%E5%A5%97%E9%A1%B5%E9%9D%A2%E6%89%8B%E5%8A%BF%E5%86%B2%E7%AA%81%E8%A7%A3%E5%86%B3/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/12/%E9%9F%B3%E9%A2%91%E6%89%93%E6%96%AD%E5%A4%84%E7%90%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -906,316 +1212,6 @@ objc_msgSend(id _Nullable self, SEL _Nonnull op, ...);</code><br>它的第二个
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/09/iOS%20UIApplicationState%E7%8A%B6%E6%80%81%E5%8F%98%E5%8C%96/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="今天又是充满希望的一天">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/12/09/iOS%20UIApplicationState%E7%8A%B6%E6%80%81%E5%8F%98%E5%8C%96/" class="post-title-link" itemprop="url">iOS UIApplicationState状态变化</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-12-09 23:48:59" itemprop="dateCreated datePublished" datetime="2018-12-09T23:48:59+08:00">2018-12-09</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-17 20:41:27" itemprop="dateModified" datetime="2020-04-17T20:41:27+08:00">2020-04-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/UIKit/" itemprop="url" rel="index"><span itemprop="name">UIKit</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2018/12/09/iOS%20UIApplicationState%E7%8A%B6%E6%80%81%E5%8F%98%E5%8C%96/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/12/09/iOS UIApplicationState状态变化/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>实验设备:iPhone5s,10.3.3系统.</p>
-<p>应用状态:</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="built_in">NS_ENUM</span>(<span class="built_in">NSInteger</span>, <span class="built_in">UIApplicationState</span>) &#123;</span><br><span class="line">    <span class="built_in">UIApplicationStateActive</span>, <span class="comment">//0</span></span><br><span class="line">    <span class="built_in">UIApplicationStateInactive</span>, <span class="comment">//1</span></span><br><span class="line">    <span class="built_in">UIApplicationStateBackground</span> <span class="comment">//2</span></span><br><span class="line">&#125; <span class="built_in">NS_ENUM_AVAILABLE_IOS</span>(<span class="number">4</span>_0);</span><br></pre></td></tr></table></figure>
-<p>APP未启动,点击图片执行顺序:</p>
-<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">默认	<span class="number">23</span>:<span class="number">07</span>:<span class="number">51.443320</span> +<span class="number">0800</span>	pictureInMemory	-[AppDelegate application:didFinishLaunchingWithOptions:]  应用状态:<span class="number">1</span></span><br><span class="line"></span><br><span class="line">默认	<span class="number">23</span>:<span class="number">07</span>:<span class="number">51.515796</span> +<span class="number">0800</span>	pictureInMemory	-[AppDelegate applicationDidBecomeActive:]  应用状态:<span class="number">0</span></span><br></pre></td></tr></table></figure>
-<p>在应用处于UIApplicationStateActive时,分别进行如下操作:</p>
-<h4 id="1-按下home键"><a href="#1-按下home键" class="headerlink" title="1.按下home键"></a>1.按下home键</h4><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">默认	<span class="number">23</span>:<span class="number">09</span>:<span class="number">50.067690</span> +<span class="number">0800</span>	pictureInMemory	-[AppDelegate applicationWillResignActive:]  应用状态:<span class="number">0</span></span><br><span class="line">默认	<span class="number">23</span>:<span class="number">09</span>:<span class="number">50.602224</span> +<span class="number">0800</span>	pictureInMemory	-[AppDelegate applicationDidEnterBackground:]  应用状态:<span class="number">2</span></span><br></pre></td></tr></table></figure>
-<p>1.1处于后台时,再点击图标</p>
-<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">默认	<span class="number">23</span>:<span class="number">11</span>:<span class="number">34.897752</span> +<span class="number">0800</span>	pictureInMemory	-[AppDelegate applicationWillEnterForeground:]  应用状态:<span class="number">2</span></span><br><span class="line">默认	<span class="number">23</span>:<span class="number">11</span>:<span class="number">35.218295</span> +<span class="number">0800</span>	pictureInMemory	-[AppDelegate applicationDidBecomeActive:]  应用状态:<span class="number">0</span></span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/12/09/iOS%20UIApplicationState%E7%8A%B6%E6%80%81%E5%8F%98%E5%8C%96/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/09/iOS%20App%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="今天又是充满希望的一天">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/12/09/iOS%20App%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" class="post-title-link" itemprop="url">iOS APP生命周期</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-12-09 21:51:44" itemprop="dateCreated datePublished" datetime="2018-12-09T21:51:44+08:00">2018-12-09</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-17 20:41:27" itemprop="dateModified" datetime="2020-04-17T20:41:27+08:00">2020-04-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Foundation/" itemprop="url" rel="index"><span itemprop="name">Foundation</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2018/12/09/iOS%20App%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/12/09/iOS App生命周期/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>问题:APP进入后台后大概三分钟就被系统kill掉了,再次进入都是重新启动,对用户体验有一定影响.</p>
-<p>为了解决这个问题,首先来了解一下一个APP的生命周期.</p>
-<h4 id="一、iOS-APP生命周期"><a href="#一、iOS-APP生命周期" class="headerlink" title="一、iOS APP生命周期"></a>一、iOS APP生命周期</h4><p>一个iOS APP生命周期大概有五种状态.</p>
-<p>如下图:</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/166109-fa48f62bf0ab9db6.png" alt="App State from Apple Document"></p>
-<ul>
-<li><strong>Not running</strong>:app还没运行.</li>
-<li><strong>Inactive</strong>:app运行在前台但不能接收事件.</li>
-<li><strong>Active</strong>:app运行在前台并且能够接收事件.</li>
-<li><strong>Backgroud</strong>:程序在后台并且能够执行代码,大多数程序进入这个状态后会在这个状态上停留一会(一般就几秒钟,如果有申请后台运行大概会停留180s).时间到之后会进入挂起状态(Suspended).但有几种特定类型的APP可以长期处于Backgroud状态.</li>
-<li><strong>Suspended</strong>:程序在后台不能执行代码.系统会自动把程序变成这个状态而且不会发出通知.当挂起时,程序还是停留在内存中的,当系统内存低时,系统就把挂起的程序清除掉,为前台程序提供更多的内存,并且不会发出任何通知.</li>
-</ul>
-<p>从上面的图可以看出如果挂起的应用还没有被系统清理,则点击APP图标时,应用会进入后台,然后进入前台,此时看到的仍然是上一次的界面.但当挂起的应用已经被系统清理,则点击APP图标时,相当于第一次启动.</p>
-<p>了解了APP的生命周期后,可以看到挂起的应用只有在内存紧张的情况下才会被系统清理,这种情况是我们无法控制的.因此出现上述bug极有可能是程序还在运行时就被系统kill掉了.系统主动kill掉一个APP的情况并不多见,主要有如下几种:</p>
-<ul>
-<li>APP出现闪退</li>
-<li>APP内存峰值过高</li>
-<li>APP长时间没有响应事件</li>
-<li>某些特殊API的错误使用</li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/12/09/iOS%20App%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/07/%E6%B8%85%E7%90%86APP%E7%BC%93%E5%AD%98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="今天又是充满希望的一天">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/12/07/%E6%B8%85%E7%90%86APP%E7%BC%93%E5%AD%98/" class="post-title-link" itemprop="url">清理APP缓存</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-12-07 14:13:47" itemprop="dateCreated datePublished" datetime="2018-12-07T14:13:47+08:00">2018-12-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-17 20:41:27" itemprop="dateModified" datetime="2020-04-17T20:41:27+08:00">2020-04-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Foundation/" itemprop="url" rel="index"><span itemprop="name">Foundation</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2018/12/07/%E6%B8%85%E7%90%86APP%E7%BC%93%E5%AD%98/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/12/07/清理APP缓存/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="清理缓存"><a href="#清理缓存" class="headerlink" title="清理缓存"></a>清理缓存</h4><p>主要是删除/Caches目录下的内容.如果其他路径上的文件可以删除也可以包含进来.</p>
-<p>iOS 文件系统也得了解一下<br><a href="https://developer.apple.com/library/archive/documentation/FileManagement/Conceptual/FileSystemProgrammingGuide/FileSystemOverview/FileSystemOverview.html#//apple_ref/doc/uid/TP40010672-CH2-SW12" target="_blank" rel="noopener">iOS 文件系统</a></p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">+ (<span class="built_in">NSUInteger</span>)getCachesSize &#123;</span><br><span class="line">    <span class="built_in">NSUInteger</span> size = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">NSFileManager</span> *fileManager = [<span class="built_in">NSFileManager</span> defaultManager];</span><br><span class="line">    <span class="built_in">NSString</span> *cachePath = [<span class="built_in">NSSearchPathForDirectoriesInDomains</span>(<span class="built_in">NSCachesDirectory</span>, <span class="built_in">NSUserDomainMask</span>, <span class="literal">YES</span>) lastObject];</span><br><span class="line">    <span class="built_in">NSDirectoryEnumerator</span> *fileEnumerator = [fileManager enumeratorAtPath:cachePath]; <span class="comment">//枚举指定目录的所有文件包括文件夹.</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="built_in">NSString</span> *fileName <span class="keyword">in</span> fileEnumerator) &#123;</span><br><span class="line">        <span class="keyword">if</span> ([fileName isEqualToString:<span class="string">@"Snapshots"</span>]) &#123;  <span class="comment">//"/Snapshots"是系统生成的,删了也会再自动创建,所以就不计算了.</span></span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">NSString</span> *filePath = [cachePath stringByAppendingPathComponent:fileName];</span><br><span class="line">        <span class="built_in">NSDictionary</span> *attrs = [fileManager attributesOfItemAtPath:filePath error:<span class="literal">nil</span>];</span><br><span class="line"><span class="comment">//        NSLog(@"fileType:%@, fileName:%@", [attrs objectForKey:NSFileType], fileName);</span></span><br><span class="line"><span class="comment">//        NSLog(@"filePath:%@", filePath);</span></span><br><span class="line">        size += [attrs fileSize];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> size;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (<span class="keyword">void</span>)clearCachesWithCompletionHandler:(<span class="keyword">void</span>(^)(<span class="keyword">void</span>))completionHandler &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">dispatch_async</span>(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, <span class="number">0</span>), ^&#123;</span><br><span class="line">        <span class="built_in">NSFileManager</span> *fileManager = [<span class="built_in">NSFileManager</span> defaultManager];</span><br><span class="line">        <span class="built_in">NSString</span> * cachePath = [<span class="built_in">NSSearchPathForDirectoriesInDomains</span>(<span class="built_in">NSCachesDirectory</span>, <span class="built_in">NSUserDomainMask</span>, <span class="literal">YES</span>) lastObject];</span><br><span class="line">        <span class="built_in">NSDirectoryEnumerator</span> *fileEnumerator = [fileManager enumeratorAtPath:cachePath];</span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">NSString</span> *fileName <span class="keyword">in</span> fileEnumerator) &#123;</span><br><span class="line">            <span class="keyword">if</span> ([fileName isEqualToString:<span class="string">@"Snapshots"</span>]) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="built_in">NSString</span> *filePath = [cachePath stringByAppendingPathComponent:fileName];</span><br><span class="line">            <span class="built_in">BOOL</span> removeRs = [fileManager removeItemAtPath:filePath error:<span class="literal">nil</span>];</span><br><span class="line">            <span class="keyword">if</span> (!removeRs) &#123;</span><br><span class="line">                <span class="built_in">NSDictionary</span> *attrs = [fileManager attributesOfItemAtPath:filePath error:<span class="literal">nil</span>];</span><br><span class="line">                DLog(<span class="string">@"移除文件失败:fileType:%@, fileName:%@"</span>, [attrs objectForKey:<span class="built_in">NSFileType</span>], fileName);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="built_in">dispatch_async</span>(dispatch_get_main_queue(), ^&#123;</span><br><span class="line">            <span class="keyword">if</span> (completionHandler) &#123;</span><br><span class="line">                completionHandler();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><code>/Library/Caches/Snapshots/com.AppName/UIApplicationAutomaticSnapshotDefault-LandscapeLeft.png</code><br>“/Snapshots”该目录保存的是按下home键时系统对当前屏幕生成的一张快照.</p>
-<p>参考:<a href="https://www.virtuesecurity.com/ios-background-screen-caching-2/" target="_blank" rel="noopener">IOS BACKGROUND SCREEN CACHING</a></p>
-<p><code>- (BOOL)removeItemAtPath:(NSString *)path error:(NSError * _Nullable *)error;</code>会移除文件或目录</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1286,20 +1282,20 @@ objc_msgSend(id _Nullable self, SEL _Nonnull op, ...);</code><br>它的第二个
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">106</span>
+          <span class="site-state-item-count">109</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-count">31</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">67</span>
+        <span class="site-state-item-count">70</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

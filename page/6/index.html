@@ -191,6 +191,274 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/18/openURL%E6%89%93%E5%BC%80%E5%BA%94%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="今天又是充满希望的一天">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/07/18/openURL%E6%89%93%E5%BC%80%E5%BA%94%E7%94%A8/" class="post-title-link" itemprop="url">openURL打开应用</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2018-07-18 16:47:12 / 修改时间：22:16:33" itemprop="dateCreated datePublished" datetime="2018-07-18T16:47:12+08:00">2018-07-18</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Foundation/" itemprop="url" rel="index"><span itemprop="name">Foundation</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2018/07/18/openURL%E6%89%93%E5%BC%80%E5%BA%94%E7%94%A8/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/07/18/openURL打开应用/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="openURL打开应用"><a href="#openURL打开应用" class="headerlink" title="openURL打开应用"></a>openURL打开应用</h2><h3 id="B应用打开A应用"><a href="#B应用打开A应用" class="headerlink" title="B应用打开A应用"></a>B应用打开A应用</h3><p>需要A应用设置URL Scheme,如testA,并且告知B应用.此时B应用就可以通过”testA://“打开A应用了.</p>
+<p>A应用实现方法</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">BOOL</span>)application:(<span class="built_in">UIApplication</span> *)app openURL:(<span class="built_in">NSURL</span> *)url options:(<span class="built_in">NSDictionary</span>&lt;<span class="built_in">UIApplicationOpenURLOptionsKey</span>,<span class="keyword">id</span>&gt; *)options</span><br><span class="line">&#123;</span><br><span class="line">    DLog(<span class="string">@"%@"</span>, app);</span><br><span class="line">    DLog(<span class="string">@"%@"</span>, url);</span><br><span class="line">    DLog(<span class="string">@"%@"</span>, options);</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="传递参数"><a href="#传递参数" class="headerlink" title="传递参数"></a>传递参数</h4><p>只能是key=value形式,多个参数使用&amp;连接.<br><code>testA://?key1=value1&amp;key2=value2&amp;key3=value3</code></p>
+<p><strong>注意</strong><br>value是一个json字符串时将打不开A应用.这是由于json字符串中的花括号和冒号都是保留字符.<br><code>testA://?p={&quot;type&quot;:2,&quot;detail&quot;:{&quot;backAction&quot;:1}}</code></p>
+<p>可以把json字符串百分号编码后传递,如下:<br><code>testA://?p=%7B%22type%22%3A2%2C%22detail%22%3A%7B%22backAction%22%3A1%7D%7D</code></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/18/PINCache%E4%BD%BF%E7%94%A8%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="今天又是充满希望的一天">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/07/18/PINCache%E4%BD%BF%E7%94%A8%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/" class="post-title-link" itemprop="url">PINCache使用注意事项</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2018-07-18 10:23:32 / 修改时间：22:16:33" itemprop="dateCreated datePublished" datetime="2018-07-18T10:23:32+08:00">2018-07-18</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%BD%BF%E7%94%A8/" itemprop="url" rel="index"><span itemprop="name">第三方库使用</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2018/07/18/PINCache%E4%BD%BF%E7%94%A8%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/07/18/PINCache使用注意事项/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="PINCache使用注意事项"><a href="#PINCache使用注意事项" class="headerlink" title="PINCache使用注意事项"></a>PINCache使用注意事项</h3><p>默认的[PINCache sharedCache] 文件保存在目录/Library/Caches/com.pinterest.PINDiskCache.PINCacheShared 在磁盘空间不足时/Caches目录下的所有文件都会被系统自动清除,不适合存储用户信息,登录状态等相关数据.</p>
+<p>诡异BUG<br><strong>现象</strong><br>用户在APP中登录成功后,每隔一段时间(大概2-3个小时),再次打开App后,App没有进入首页而是到了登录页.由于不是必现,所以难以分析其具体原因.</p>
+<p><strong>分析解决</strong><br>经过个把星期的纠缠,终于发现原因:在写的时候将登录成功后的token使用[PINCache sharedCache]保存了,而它的默认保存路径就是在/Caches目录下,对于那些磁盘空间一直徘徊在200-300M的手机,系统会周期性的清理各个App的/Caches目录下的所有文件,来释放部分磁盘空间.这时token就被清理了,而启动时是先从文件中取token进行判断,由于已被清除,自然也取不到,因此进入了登录页.解决办法:换一个路径保存就可以了.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/15/%E8%AE%A1%E7%AE%97%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8D%A0%E7%94%A8%E7%9A%84%E5%AD%97%E8%8A%82%E9%95%BF%E5%BA%A6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="今天又是充满希望的一天">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/07/15/%E8%AE%A1%E7%AE%97%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8D%A0%E7%94%A8%E7%9A%84%E5%AD%97%E8%8A%82%E9%95%BF%E5%BA%A6/" class="post-title-link" itemprop="url">计算字符串占用的字节长度</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2018-07-15 22:09:22 / 修改时间：22:09:37" itemprop="dateCreated datePublished" datetime="2018-07-15T22:09:22+08:00">2018-07-15</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" itemprop="url" rel="index"><span itemprop="name">字符编码</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2018/07/15/%E8%AE%A1%E7%AE%97%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8D%A0%E7%94%A8%E7%9A%84%E5%AD%97%E8%8A%82%E9%95%BF%E5%BA%A6/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/07/15/计算字符串占用的字节长度/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="计算字符串占用的字节长度"><a href="#计算字符串占用的字节长度" class="headerlink" title="计算字符串占用的字节长度"></a>计算字符串占用的字节长度</h3><p><strong>前提</strong></p>
+<p>需要了解字符的编码规则.使用不同的编码规则会得到不同的结果.</p>
+<p><strong>API</strong></p>
+<p><code>- (NSUInteger)lengthOfBytesUsingEncoding:(NSStringEncoding)enc;        // Result in O(n) time; the result is exact. Returns 0 on error (cannot convert to specified encoding, or overflow)</code></p>
+<p><strong>示例</strong></p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSString</span> *chString = <span class="string">@"中国abc"</span>;</span><br><span class="line"><span class="built_in">NSUInteger</span> utf8Bytes = [chString lengthOfBytesUsingEncoding:<span class="built_in">NSUTF8StringEncoding</span>];</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"utf8Bytes:%ld"</span>, utf8Bytes); <span class="comment">//9</span></span><br><span class="line"><span class="built_in">NSUInteger</span> unicodeBytes = [chString lengthOfBytesUsingEncoding:<span class="built_in">NSUnicodeStringEncoding</span>];</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"unicodeBytes:%ld"</span>, unicodeBytes); <span class="comment">//10</span></span><br></pre></td></tr></table></figure>
+<p>天朝目前强制使用的是GB18030.</p>
+<p>在<code>CFStringEncodingExt.h</code>里面包含了其他编码枚举.如:</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">kCFStringEncodingGB_2312_80</span> = <span class="number">0</span>x0630,</span><br><span class="line"><span class="attr">kCFStringEncodingGBK_95</span> = <span class="number">0</span>x0631,		/* annex to GB <span class="number">13000</span>-<span class="number">93</span><span class="comment">; for Windows 95 */</span></span><br><span class="line"><span class="attr">kCFStringEncodingGB_18030_2000</span> = <span class="number">0</span>x0632,</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/07/15/%E8%AE%A1%E7%AE%97%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8D%A0%E7%94%A8%E7%9A%84%E5%AD%97%E8%8A%82%E9%95%BF%E5%BA%A6/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/09/%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9%E7%AC%94%E8%AE%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -863,309 +1131,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/10/UITableView%E5%AE%9E%E8%B7%B5/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="今天又是充满希望的一天">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/06/10/UITableView%E5%AE%9E%E8%B7%B5/" class="post-title-link" itemprop="url">UITableView实践</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-06-10 18:12:34" itemprop="dateCreated datePublished" datetime="2018-06-10T18:12:34+08:00">2018-06-10</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-17 20:41:27" itemprop="dateModified" datetime="2020-04-17T20:41:27+08:00">2020-04-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/UIKit/" itemprop="url" rel="index"><span itemprop="name">UIKit</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2018/06/10/UITableView%E5%AE%9E%E8%B7%B5/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/06/10/UITableView实践/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="UITableView实践"><a href="#UITableView实践" class="headerlink" title="UITableView实践"></a>UITableView实践</h3><h4 id="contentInset"><a href="#contentInset" class="headerlink" title="contentInset"></a>contentInset</h4><p>设置contentInset,会影响plain模式的组头位置.利用该特性取消plain模式组头吸顶效果.</p>
-<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//设置contentInset,会影响plain模式的组头位置.</span></span><br><span class="line">self.tableView.contentInset = UIEdgeInsetsMake(<span class="number">-20</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
-<p>在设置界面,cell上的分割线显示是个头疼的问题.UI经常设计为组头第一个cell顶部,组尾最后一个cell底部不显示分割线.虽然plain模式刚好是这个效果,但是plain模式中组头具有吸顶效果,这里又不用它吸顶.使用group模式分割线的显示隐藏更蛋疼,自定义cell又有点麻烦.</p>
-<p>示意图:</p>
-<p><img src="http://7xqoji.com1.z0.glb.clouddn.com/UITableView%E5%AE%9E%E8%B7%B5_%20contentInset_%E5%8F%96%E6%B6%88%E5%90%B8%E9%A1%B6.PNG" width="160" hegiht="284"></p>
-<p>利用上面的办法就可以取消plain模式组头吸顶效果.</p>
-<p>实现代码如下:</p>
-<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">void</span>)scrollViewDidScroll:(UIScrollView *)scrollView</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (scrollView == _tableView) &#123;</span><br><span class="line">        <span class="comment">//去掉UItableview的section的headerview黏性</span></span><br><span class="line">        CGFloat sectionHeaderHeight = <span class="number">10</span>;</span><br><span class="line">        <span class="keyword">if</span> (scrollView.contentOffset.y &lt;= sectionHeaderHeight &amp;&amp; scrollView.contentOffset.y &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            scrollView.contentInset = UIEdgeInsetsMake(-scrollView.contentOffset.y, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (scrollView.contentOffset.y &gt;= sectionHeaderHeight) &#123;</span><br><span class="line">            scrollView.contentInset = UIEdgeInsetsMake(-sectionHeaderHeight, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">- (<span class="built_in">void</span>)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(<span class="keyword">inout</span> CGPoint *)targetContentOffset</span><br><span class="line">&#123;</span><br><span class="line">    CGFloat sectionHeaderHeight = <span class="number">10</span>;</span><br><span class="line">    <span class="comment">//解决停止时,第一个组头不出现的bug.</span></span><br><span class="line">    <span class="keyword">if</span> ((*targetContentOffset).y == sectionHeaderHeight) &#123;</span><br><span class="line">        <span class="comment">//计算UIScrollView结束拖动所需的时间？这里暂时写死为0.85</span></span><br><span class="line">        [UIView animateWithDuration:<span class="number">0.85</span> delay:<span class="number">0</span> usingSpringWithDamping:<span class="number">1</span> initialSpringVelocity:velocity.y options:UIViewAnimationOptionTransitionNone animations:^&#123;</span><br><span class="line">            scrollView.contentOffset = CGPointZero;</span><br><span class="line">        &#125; completion:^(BOOL finished) &#123;</span><br><span class="line"></span><br><span class="line">        &#125;];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/06/10/UITableView%E5%AE%9E%E8%B7%B5/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/10/navigationBar%E5%AF%B9self.view%E7%9A%84frame%E5%BD%B1%E5%93%8D/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="今天又是充满希望的一天">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/06/10/navigationBar%E5%AF%B9self.view%E7%9A%84frame%E5%BD%B1%E5%93%8D/" class="post-title-link" itemprop="url">navigationBar对self.view的frame影响</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-06-10 12:49:28" itemprop="dateCreated datePublished" datetime="2018-06-10T12:49:28+08:00">2018-06-10</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-17 20:41:27" itemprop="dateModified" datetime="2020-04-17T20:41:27+08:00">2020-04-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/UIKit/" itemprop="url" rel="index"><span itemprop="name">UIKit</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2018/06/10/navigationBar%E5%AF%B9self.view%E7%9A%84frame%E5%BD%B1%E5%93%8D/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/06/10/navigationBar对self.view的frame影响/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="navigationBar对self-view的frame影响"><a href="#navigationBar对self-view的frame影响" class="headerlink" title="navigationBar对self.view的frame影响"></a>navigationBar对self.view的frame影响</h3><p>在iOS7及以上系统,<code>self.navigationController.navigationBar.hidden = NO;</code>的情况下.</p>
-<p><strong>设置translucent为YES</strong>.即<code>self.navigationController.navigationBar.translucent = YES;</code></p>
-<blockquote>
-<p>不隐藏状态栏</p>
-</blockquote>
-<p>self.view的位置和大小如下:</p>
-<p><img src="http://7xqoji.com1.z0.glb.clouddn.com/self.view%E7%9A%84%E4%BD%8D%E7%BD%AE%E5%92%8C%E5%A4%A7%E5%B0%8F1@2x.png" alt></p>
-<blockquote>
-<p>隐藏状态栏</p>
-</blockquote>
-<p><img src="http://7xqoji.com1.z0.glb.clouddn.com/self.view%E7%9A%84%E4%BD%8D%E7%BD%AE%E5%92%8C%E5%A4%A7%E5%B0%8F2@2x.png" alt></p>
-<p>执行流:<br><img src="http://7xqoji.com1.z0.glb.clouddn.com/navigationBar%E5%AF%B9self.view%E7%9A%84frame%E5%BD%B1%E5%93%8D_3.png" alt></p>
-<p>translucent为YES时,可以在viewDidLoad中子视图可以使用self.view的frame信息.</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/06/10/navigationBar%E5%AF%B9self.view%E7%9A%84frame%E5%BD%B1%E5%93%8D/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/15/%E5%88%B6%E4%BD%9CSDK%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="今天又是充满希望的一天">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/04/15/%E5%88%B6%E4%BD%9CSDK%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/" class="post-title-link" itemprop="url">制作静态库注意事项</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-04-15 18:54:53" itemprop="dateCreated datePublished" datetime="2018-04-15T18:54:53+08:00">2018-04-15</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2018-07-15 08:47:28" itemprop="dateModified" datetime="2018-07-15T08:47:28+08:00">2018-07-15</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%9D%99%E6%80%81%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">静态库</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2018/04/15/%E5%88%B6%E4%BD%9CSDK%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/04/15/制作SDK注意事项/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>制作静态库注意事项</p>
-<ol>
-<li><p>添加前缀防止冲突.<br> 类名,全局定义的变量(如全局变量,全局的枚举定义),类别方法名,宏,通知名称.需要添加前缀防止与宿主冲突.</p>
-</li>
-<li><p>使用static关键字限制作用域.<br> 对于全局变量,尽可能使用static限制作用域.否则容易与宿主重复定义导致编译错误.</p>
-</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1236,20 +1201,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">106</span>
+          <span class="site-state-item-count">109</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-count">31</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">67</span>
+        <span class="site-state-item-count">70</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

@@ -191,6 +191,268 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/06/iOS-%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%8E%9F%E7%90%86%E7%AF%87/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="今天又是充满希望的一天">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/06/iOS-%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%8E%9F%E7%90%86%E7%AF%87/" class="post-title-link" itemprop="url">iOS 信号量原理篇</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-06-06 22:03:35 / 修改时间：22:06:45" itemprop="dateCreated datePublished" datetime="2020-06-06T22:03:35+08:00">2020-06-06</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">多线程</span></a>
+                </span>
+            </span>
+
+          
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="信号量原理篇"><a href="#信号量原理篇" class="headerlink" title="信号量原理篇"></a>信号量原理篇</h3><p>源码版本：libdispatch-1173.40.5</p>
+<p>信号量的实现主要是创建，销毁，wait和signal，四个方法。</p>
+<p>信号量结构体：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">DISPATCH_CLASS_DECL(semaphore, OBJECT);</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">dispatch_semaphore_s</span> &#123;</span></span><br><span class="line">	DISPATCH_OBJECT_HEADER(semaphore);</span><br><span class="line">	<span class="keyword">long</span> <span class="keyword">volatile</span> dsema_value;</span><br><span class="line">	<span class="keyword">long</span> dsema_orig;</span><br><span class="line">	<span class="keyword">_dispatch_sema4_t</span> dsema_sema;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">semaphore_t</span> <span class="keyword">_dispatch_sema4_t</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="信号量的创建—dispatch-semaphore-create"><a href="#信号量的创建—dispatch-semaphore-create" class="headerlink" title="信号量的创建—dispatch_semaphore_create"></a>信号量的创建—dispatch_semaphore_create</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">dispatch_semaphore_t</span></span><br><span class="line">dispatch_semaphore_create(<span class="keyword">long</span> value)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">dispatch_semaphore_t</span> dsema;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// If the internal value is negative, then the absolute of the value is</span></span><br><span class="line">	<span class="comment">// equal to the number of waiting threads. Therefore it is bogus to</span></span><br><span class="line">	<span class="comment">// initialize the semaphore with a negative value.</span></span><br><span class="line">	<span class="keyword">if</span> (value &lt; <span class="number">0</span>) &#123;</span><br><span class="line">		<span class="keyword">return</span> DISPATCH_BAD_INPUT;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	dsema = _dispatch_object_alloc(DISPATCH_VTABLE(semaphore),</span><br><span class="line">			<span class="keyword">sizeof</span>(struct dispatch_semaphore_s));</span><br><span class="line">	dsema-&gt;do_next = DISPATCH_OBJECT_LISTLESS;</span><br><span class="line">	dsema-&gt;do_targetq = _dispatch_get_default_queue(<span class="literal">false</span>);</span><br><span class="line">	dsema-&gt;dsema_value = value;</span><br><span class="line">	_dispatch_sema4_init(&amp;dsema-&gt;dsema_sema, _DSEMA4_POLICY_FIFO);</span><br><span class="line">	dsema-&gt;dsema_orig = value;</span><br><span class="line">	<span class="keyword">return</span> dsema;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到不能传入一个小于0的值。信号量有几个重要的属性：</p>
+<p>dsema_value：记录当前计数值，后续的wait和signal函数会改变该值。</p>
+<p>dsema_sema：信号量 (真正干事情的)</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/06/06/iOS-%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%8E%9F%E7%90%86%E7%AF%87/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/06/iOS-%E4%BF%A1%E5%8F%B7%E9%87%8F%E4%BD%BF%E7%94%A8%E7%AF%87/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="今天又是充满希望的一天">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/06/iOS-%E4%BF%A1%E5%8F%B7%E9%87%8F%E4%BD%BF%E7%94%A8%E7%AF%87/" class="post-title-link" itemprop="url">iOS 信号量使用篇</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-06-06 21:59:36 / 修改时间：22:02:46" itemprop="dateCreated datePublished" datetime="2020-06-06T21:59:36+08:00">2020-06-06</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">多线程</span></a>
+                </span>
+            </span>
+
+          
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="信号量使用篇"><a href="#信号量使用篇" class="headerlink" title="信号量使用篇"></a>信号量使用篇</h3><h4 id="操作GCD信号量的函数"><a href="#操作GCD信号量的函数" class="headerlink" title="操作GCD信号量的函数"></a>操作GCD信号量的函数</h4><p>在iOS中有三个函数可以操作GCD信号量：</p>
+<p><code>dispatch_semaphore_t dispatch_semaphore_create(long value);</code> 创建一个信号量。</p>
+<p><code>long dispatch_semaphore_signal(dispatch_semaphore_t dsema);</code> 发送一个信号.</p>
+<p><code>long dispatch_semaphore_wait(dispatch_semaphore_t dsema, dispatch_time_t timeout);</code> 等待一个信号。</p>
+<h4 id="函数说明"><a href="#函数说明" class="headerlink" title="函数说明"></a>函数说明</h4><ol>
+<li><p><code>dispatch_semaphore_t semaphoreTask1 = dispatch_semaphore_create(0);</code><br>创建一个信号量，并赋予初始值(最好传一个&gt;=0的值)。eg：传入2则表示同时最多两个线程可以访问临界区。</p>
+</li>
+<li><p><code>long signalRs = dispatch_semaphore_signal(semaphoreTask1);</code><br>发出一个信号，将信号量加1。如果有通过dispatch_semaphore_wait()函数等待dispatch semaphore的计数值增加的线程，那么该函数在返回前将唤醒最先处于等待状态的线程。</p>
+<p>返回值：This function returns non-zero if a thread is woken. Otherwise, zero is returned。如果有线程被唤醒则返回一个非0值，否则返回0。</p>
+</li>
+<li><p><code>long waitRs = dispatch_semaphore_wait(semaphoreTask1, DISPATCH_TIME_FOREVER);</code><br>将信号量-1。减去1后如果得到的值<0，则该函数在返回前将一直等待信号的发出，线程会被阻塞。减去1后如果得到的值>0，则正常返回0，不阻塞线程。</0，则该函数在返回前将一直等待信号的发出，线程会被阻塞。减去1后如果得到的值></p>
+<p> timeout：指定等待的时间。如果线程要被阻塞该值表明将阻塞该线程多久。传DISPATCH_TIME_FOREVER意味着该线程永久等待一个信号的发出。 传一个其他值如：dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC))，表明将阻塞该线程2s，2s后函数将返回，线程继续执行（不一定就是执行临界区的代码，可以判断如果返回的是非0表明是等待超时了可以做其他处理）。</p>
+<p>返回值：Returns zero on success, or non-zero if the timeout occurred。</p>
+</li>
+</ol>
+<p>eg:使用信号量控制多线程添加数组元素。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)testSemaphoreLock &#123;</span><br><span class="line">    <span class="built_in">dispatch_queue_t</span> globalQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, <span class="number">0</span>);</span><br><span class="line">    <span class="built_in">NSMutableArray</span> *arr = [[<span class="built_in">NSMutableArray</span> alloc] init];</span><br><span class="line">    <span class="keyword">self</span>.semaphoreLock = dispatch_semaphore_create(<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">        <span class="built_in">dispatch_async</span>(globalQueue, ^&#123;</span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"线程：%@ 执行  i = %d"</span>, [<span class="built_in">NSThread</span> currentThread], i);</span><br><span class="line">            <span class="keyword">long</span> waitRs = dispatch_semaphore_wait(<span class="keyword">self</span>.semaphoreLock, DISPATCH_TIME_FOREVER);</span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"线程：%@，dispatch_semaphore_wait:%ld"</span>, [<span class="built_in">NSThread</span> currentThread], waitRs);</span><br><span class="line">            <span class="built_in">NSNumber</span> *number = [<span class="built_in">NSNumber</span> numberWithInt:i];</span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"线程：%@，将要添加：%@"</span>, [<span class="built_in">NSThread</span> currentThread], number);</span><br><span class="line">            [arr addObject:number];</span><br><span class="line">            <span class="keyword">long</span> signalRs = dispatch_semaphore_signal(<span class="keyword">self</span>.semaphoreLock);</span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"线程：%@，dispatch_semaphore_signal:%ld"</span>, [<span class="built_in">NSThread</span> currentThread], signalRs);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(<span class="number">5</span> * <span class="built_in">NSEC_PER_SEC</span>)), dispatch_get_main_queue(), ^&#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@"count:%ld, %@"</span>,arr.count, arr);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/06/06/iOS-%E4%BF%A1%E5%8F%B7%E9%87%8F%E4%BD%BF%E7%94%A8%E7%AF%87/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/06/OC-atomic%E4%BF%AE%E9%A5%B0%E7%AC%A6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="今天又是充满希望的一天">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/06/OC-atomic%E4%BF%AE%E9%A5%B0%E7%AC%A6/" class="post-title-link" itemprop="url">OC atomic修饰符</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-06-06 21:56:32 / 修改时间：21:58:30" itemprop="dateCreated datePublished" datetime="2020-06-06T21:56:32+08:00">2020-06-06</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">多线程</span></a>
+                </span>
+            </span>
+
+          
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="atomic修饰符"><a href="#atomic修饰符" class="headerlink" title="atomic修饰符"></a>atomic修饰符</h4><p>原子性是指一个事物的操作是不可分割的，要么都发生，要么都不发生。有点量子理论的意思。</p>
+<p>使用atomic修饰的属性，编译器在合成getter/setter方法时，相比于nonatomic的属性会有额外的加锁处理。atomic只是保证了赋值/取值的整个过程的完整性，并且不受其他线程的干扰，要么成功要么失败。比如线程A在setter时，线程B如果想setter那么就需要等待，线程C想getter也需要等待。</p>
+<p>注意：atomic无法保证对象的线程安全。</p>
+<p>官方文档对atomic无法保证对象的线程安全举的例子：</p>
+<p>考虑XYZPerson，拥有firstName和lastName两个atomic属性。如果一个线程A正在修改这两个属性，与此同时另一个线程B正在读取这两个属性，那么线程B得到的firstName和lastName的值将会发生数据不匹配的情况。</p>
+<p>eg：</p>
+<p>初始时, firstName = @”李”;  lastName = @”四”;</p>
+<p>线程A想修改为：firstName = @”张”;  lastName = @”三”;</p>
+<p>与此同时线程B在读取这两个属性，那么线程B有可能得到：</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/06/06/OC-atomic%E4%BF%AE%E9%A5%B0%E7%AC%A6/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/17/NSMutableArrayd%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -855,316 +1117,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/15/%E5%88%B6%E4%BD%9CCocoaPods%E7%A7%81%E6%9C%89%E5%BA%93/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="今天又是充满希望的一天">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/04/15/%E5%88%B6%E4%BD%9CCocoaPods%E7%A7%81%E6%9C%89%E5%BA%93/" class="post-title-link" itemprop="url">制作CocoaPods私有库</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-04-15 16:26:53" itemprop="dateCreated datePublished" datetime="2020-04-15T16:26:53+08:00">2020-04-15</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-16 21:13:21" itemprop="dateModified" datetime="2020-04-16T21:13:21+08:00">2020-04-16</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CocoaPods/" itemprop="url" rel="index"><span itemprop="name">CocoaPods</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2020/04/15/%E5%88%B6%E4%BD%9CCocoaPods%E7%A7%81%E6%9C%89%E5%BA%93/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/04/15/制作CocoaPods私有库/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><strong>1. 创建私有pod spec仓库</strong></p>
-<p>因为制作的是私有库所以就不能把pod sepc文件存放到cocoapods的公开仓库中了，因此需要在GitHub上新建一个repository <code>XQSpecs</code>用于保存所有的私有pod spec。</p>
-<p>如果已经有自己的私有pod spec仓库，则这一步可跳过。</p>
-<p><strong>2. 创建私有pod库</strong></p>
-<p>主要包含pod源码和pod sepc文件、许可证等。</p>
-<p>创建pod库,可以使用命令：<code>pod lib create xxx</code>，创建好模板pod，然后基于模板修改。也可以全部自己手动创建。</p>
-<p>进入本地目的目录，使用命令：<code>pod lib create xxx</code>，然后基于模板修改。</p>
-<p><strong>3. 验证pod库</strong></p>
-<p>pod源码和pod sepc文件都准备好后，别着急发布，先验证pod库的可用性:</p>
-<p><code>pod lib lint xxx.podspec</code>或者使用：<code>pod lib lint AlgorithmUtils.podspec --allow-warnings</code>，忽略警告。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/04/15/%E5%88%B6%E4%BD%9CCocoaPods%E7%A7%81%E6%9C%89%E5%BA%93/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/07/iOS%E8%AE%BE%E7%BD%AE%E5%9C%86%E8%A7%92/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="今天又是充满希望的一天">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/04/07/iOS%E8%AE%BE%E7%BD%AE%E5%9C%86%E8%A7%92/" class="post-title-link" itemprop="url">iOS设置圆角</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-04-07 22:25:40" itemprop="dateCreated datePublished" datetime="2020-04-07T22:25:40+08:00">2020-04-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-20 22:17:05" itemprop="dateModified" datetime="2020-04-20T22:17:05+08:00">2020-04-20</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/UIKit/" itemprop="url" rel="index"><span itemprop="name">UIKit</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2020/04/07/iOS%E8%AE%BE%E7%BD%AE%E5%9C%86%E8%A7%92/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/04/07/iOS设置圆角/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>iOS中设置圆角大致有下面几种办法，每一种都有各自的优缺点，结合场景选择合适的方案才是最佳处理。</p>
-<h4 id="1-cornerRadius"><a href="#1-cornerRadius" class="headerlink" title="1.cornerRadius"></a>1.cornerRadius</h4><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Setting the<span class="built_in"> radius </span><span class="keyword">to</span> a value greater than 0.0 causes the layer <span class="keyword">to</span> begin drawing rounded corners on its background. By default, the corner<span class="built_in"> radius </span>does <span class="keyword">not</span> apply <span class="keyword">to</span> the image <span class="keyword">in</span> the layer’s contents property; it applies only <span class="keyword">to</span> the background color <span class="keyword">and</span> border of the layer. However, setting the masksToBounds property <span class="keyword">to</span> <span class="literal">YES</span> causes the content <span class="keyword">to</span> be clipped <span class="keyword">to</span> the rounded corners.</span><br><span class="line">The<span class="built_in"> default </span>value of this property is 0.0.</span><br></pre></td></tr></table></figure>
-<p>由于cornerRadius只对背景色和边框有效而对layer的contents并不起作用，因此一般都会配合masksToBounds使用。</p>
-<p>苹果在iOS9后对cornerRadius+masksToBounds做了优化，当contentMode和backgroundColor为默认值时即：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">imgView.contentMode = <span class="built_in">UIViewContentModeScaleToFill</span>;</span><br><span class="line">imgView.backgroundColor = [<span class="built_in">UIColor</span> clearColor];</span><br></pre></td></tr></table></figure>
-<p>不会导致离屏渲染，否则还会离屏渲染，用View Debugging查看UIImageView会有黄色标识。</p>
-<p>下面测试下cornerRadius+masksToBounds对FPS的影响。</p>
-<p>在iPhone5s,10.3.3上运行一个一屏cell上有36个圆角的Demo，imgView的contentMode和backgroundColor都不使用默认值：</p>
-<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/IMG_0031.PNG" style="zoom:33%;"></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/04/07/iOS%E8%AE%BE%E7%BD%AE%E5%9C%86%E8%A7%92/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/06/IRR%E5%86%85%E9%83%A8%E6%94%B6%E7%9B%8A%E7%8E%87/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="今天又是充满希望的一天">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/04/06/IRR%E5%86%85%E9%83%A8%E6%94%B6%E7%9B%8A%E7%8E%87/" class="post-title-link" itemprop="url">IRR内部收益率</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-04-06 17:34:31" itemprop="dateCreated datePublished" datetime="2020-04-06T17:34:31+08:00">2020-04-06</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-07 22:55:05" itemprop="dateModified" datetime="2020-04-07T22:55:05+08:00">2020-04-07</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">经济学</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2020/04/06/IRR%E5%86%85%E9%83%A8%E6%94%B6%E7%9B%8A%E7%8E%87/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/04/06/IRR内部收益率/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="ROI"><a href="#ROI" class="headerlink" title="ROI"></a>ROI</h4><p>return on investment，投资回报率。</p>
-<p>投资回报率的计算公式：</p>
-<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">投资回报率 = （收益 - 成本）/ 成本 * <span class="number">100</span>%</span><br></pre></td></tr></table></figure>
-<p>eg:</p>
-<p>项目A投入本金100，最后可以110，那么ROI = （110 - 100）/ 100 * 100% = 10%</p>
-<p>项目B投入本金100，最后可以105，那么ROI = （105 - 100）/ 100 * 100% = 5%</p>
-<p>通过计算应该选择项目A。</p>
-<p><strong>投资报酬率的优缺点</strong></p>
-<p>优点：</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/04/06/IRR%E5%86%85%E9%83%A8%E6%94%B6%E7%9B%8A%E7%8E%87/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1235,20 +1187,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">106</span>
+          <span class="site-state-item-count">109</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-count">31</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">67</span>
+        <span class="site-state-item-count">70</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
