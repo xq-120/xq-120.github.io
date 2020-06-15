@@ -710,6 +710,21 @@ int objc_sync_exit(id obj)
 
 就是根据传入的obj获取到SyncData后，进行解锁，传入nil则什么也不做。使用`@synchronized (obj){...}`时，objc_sync_enter和objc_sync_exit的参数obj必然是同一个obj，因此获取到的自然也是同一把锁。
 
+写到这里突然有一个疑问，SyncData会被添加到哈希表里，貌似是没看到销毁的，那么SyncData会不会一直持有同步对象，导致同步对象无法销毁呢？实际上是不会持有同步对象的，同步对象能正常销毁，但又是如何做到的呢？
+
+```c
+typedef struct alignas(CacheLineSize) SyncData {
+    struct SyncData* nextData;
+    DisguisedPtr<objc_object> object;
+    int32_t threadCount;  // number of THREADS using this block
+    recursive_mutex_t mutex;
+} SyncData;
+```
+
+可以看到SyncData的object的类型是DisguisedPtr<objc_object>类型。这又涉及到weak的实现原理了。
+
+DisguisedPtr 对指针进行伪装的类，将指针强转为 uintptr_t （unsigned long）类型的负值，这样类似 leaks 这样的查内存泄漏的工具便无法跟踪到对象。
+
 #### 总结
 
 `@synchronized (obj){...}`就是根据传入的obj获取到一把递归锁，在代码块开始处先加锁，代码块执行完后再解锁。传nil，则不加锁。
