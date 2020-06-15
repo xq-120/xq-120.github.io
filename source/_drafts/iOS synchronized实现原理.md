@@ -721,9 +721,70 @@ typedef struct alignas(CacheLineSize) SyncData {
 } SyncData;
 ```
 
-可以看到SyncData的object的类型是DisguisedPtr<objc_object>类型。这又涉及到weak的实现原理了。
+可以看到SyncData的object的类型是DisguisedPtr<objc_object>类型。
 
 DisguisedPtr 对指针进行伪装的类，将指针强转为 uintptr_t （unsigned long）类型的负值，这样类似 leaks 这样的查内存泄漏的工具便无法跟踪到对象。
+
+
+查看DisguisedPtr模板类的实现，其内部并没有一个T类型的指针指向传入的object，在给DisguisedPtr变量赋值时，其实是将传入的对象的地址转化为一个无符号整数
+
+```c
+DisguisedPtr<T>& operator = (T* rhs) {
+    value = disguise(rhs);
+    return *this;
+}
+
+static uintptr_t disguise(T* ptr) {
+    return -(uintptr_t)ptr;
+}
+
+static T* undisguise(uintptr_t val) {
+    return (T*)-val;
+}
+```
+
+举例：
+
+```objc
+typedef struct SyncDisguise {
+    DisguisedPtr<Person> object;
+    int32_t threadCount;
+} SyncDisguise;
+    
+SyncDisguise myStruct;
+    
+@implementation XQContainer
+
+- (void)testDisguise {
+    Person *li = [Person new];
+    li.name = @"li";
+    
+    myStruct.threadCount = 1;
+    myStruct.object = li;
+    
+    NSLog(@"disguise1: %p", &myStruct);
+    
+    Person *pox = (Person *)myStruct.object; //需要在MRC下，ARC下编译通不过
+    
+    [li release];
+}
+
+@end
+```
+
+DisguisedPtr重载了赋值操作符，因此myStruct.object = li;会调用`DisguisedPtr<T>& operator = (T* rhs)`，而该函数内部是将传入的对象地址转化为了一个无符号整数，这样就把一个对象的地址给隐藏起来了。与之相反的操作是解伪装：将一个无符号整数转化为一个对象地址
+
+```c
+static T* undisguise(uintptr_t val) {
+    return (T*)-val;
+}
+```
+
+使用`Person *pox = (Person *)myStruct.object;`会调用`undisguise`函数进行解伪装，于是又可以重新获取到对象的地址。
+
+`DisguisedPtr<Person> object; `类似于`Person *`但并不是真正的`Person *`，因此myStruct并不会持有传入的对象，在ARC下testDisguise方法执行完后Person对象就释放销毁了。
+
+总结：SyncData对象虽然会被缓存而一直存活，但SyncData对象并没有持有传入的object对象，因此object对象会正常的释放。
 
 #### 总结
 
