@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-06-06T14:06:45.452Z</updated>
+  <updated>2020-06-21T08:51:29.738Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,39 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>从汇编角度看ARC中的所有权修饰符</title>
+    <link href="http://yoursite.com/2020/06/21/%E4%BB%8E%E6%B1%87%E7%BC%96%E8%A7%92%E5%BA%A6%E7%9C%8BARC%E4%B8%AD%E7%9A%84%E6%89%80%E6%9C%89%E6%9D%83%E4%BF%AE%E9%A5%B0%E7%AC%A6/"/>
+    <id>http://yoursite.com/2020/06/21/%E4%BB%8E%E6%B1%87%E7%BC%96%E8%A7%92%E5%BA%A6%E7%9C%8BARC%E4%B8%AD%E7%9A%84%E6%89%80%E6%9C%89%E6%9D%83%E4%BF%AE%E9%A5%B0%E7%AC%A6/</id>
+    <published>2020-06-21T08:51:14.000Z</published>
+    <updated>2020-06-21T08:51:29.738Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;环境：Xcode11&lt;/p&gt;
+&lt;h3 id=&quot;ARC&quot;&gt;&lt;a href=&quot;#ARC&quot; class=&quot;headerlink&quot; title=&quot;ARC&quot;&gt;&lt;/a&gt;ARC&lt;/h3&gt;&lt;p&gt;自动引用计数。不再需要手动调用 retain 和 release 方法，而是由编译器在合适的地方自动添加。&lt;/p&gt;
+&lt;p&gt;ARC 有效时，&lt;strong&gt;id 类型和对象类型&lt;/strong&gt;必须附加所有权修饰符，有如下几种：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;__strong 修饰符&lt;/li&gt;
+&lt;li&gt;__weak 修饰符&lt;/li&gt;
+&lt;li&gt;__unsafe_unretained 修饰符&lt;/li&gt;
+&lt;li&gt;__autoreleasing 修饰符&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;接下来从汇编角度看，当一个指针变量使用这些修饰符后，编译器会作何处理。&lt;/p&gt;
+&lt;h3 id=&quot;strong-修饰符&quot;&gt;&lt;a href=&quot;#strong-修饰符&quot; class=&quot;headerlink&quot; title=&quot;__strong 修饰符&quot;&gt;&lt;/a&gt;__strong 修饰符&lt;/h3&gt;&lt;p&gt;对于下面的代码：&lt;/p&gt;
+&lt;figure class=&quot;highlight c&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(&lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; argc, &lt;span class=&quot;keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;char&lt;/span&gt; * argv[])&lt;/span&gt; &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     @autoreleasepool &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;         id obj = [NSObject &lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt;];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;         &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;           id __strong obj1 = obj; &lt;span class=&quot;comment&quot;&gt;//2&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;           NSLog(@&lt;span class=&quot;string&quot;&gt;&quot;obj1:%@&quot;&lt;/span&gt;, obj1);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;         &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;对应汇编：&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="OC内存管理" scheme="http://yoursite.com/categories/OC%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/"/>
+    
+    
+      <category term="ARC" scheme="http://yoursite.com/tags/ARC/"/>
+    
+  </entry>
   
   <entry>
     <title>iOS 信号量原理篇</title>
@@ -609,34 +642,6 @@
     
     </summary>
     
-    
-    
-  </entry>
-  
-  <entry>
-    <title>清理你的Xcode</title>
-    <link href="http://yoursite.com/2020/02/27/%E6%B8%85%E7%90%86%E4%BD%A0%E7%9A%84Xcode/"/>
-    <id>http://yoursite.com/2020/02/27/%E6%B8%85%E7%90%86%E4%BD%A0%E7%9A%84Xcode/</id>
-    <published>2020-02-27T14:55:55.000Z</published>
-    <updated>2020-04-17T12:41:27.171Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;Xcode用久了后会产生很多缓存文件,这些文件会占用很大的磁盘空间.&lt;/p&gt;
-&lt;p&gt;下面列举的是一些可以删除的文件目录.&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;&lt;code&gt;~/Library/Developer/Xcode/DerivedData&lt;/code&gt;  
-        
-      
-    
-    </summary>
-    
-    
-      <category term="Xcode" scheme="http://yoursite.com/categories/Xcode/"/>
     
     
   </entry>
