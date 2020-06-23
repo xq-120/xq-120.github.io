@@ -75,6 +75,14 @@ static void __main_block_func_0(struct __main_block_impl_0 *__cself) {
 
 上述是一个没有截获自动变量值的block例子.下面看一下当block截获自动变量值时的情况.
 
+#### 截获 static 局部变量
+
+
+
+#### 截获全局变量
+
+
+
 #### 截获自动变量值
 
 ```objc
@@ -472,4 +480,12 @@ static struct IMAGE_INFO { unsigned version; unsigned flag; } _OBJC_IMAGE_INFO =
 * 为什么使用__weak修饰的对象指针变量可以避免Block循环引用?
 * 避免Block循环引用有哪几种方式?
 * 如何检测Block循环引用导致的内存泄漏?(FBRetainCycleDetector(facebook开源工具库), MLeaksFinder(WeRead开源))
+
+
+
+### 参考
+
+[Block 的递归调用 - How to implement recursive call block?](http://linlexus.com/how-to-implement-recursive-call-block/)   block 递归调用，超出你的想象。
+
+[[iOS] Blocks 中的递归](http://blog.codescv.com/ios/blocks-recursion.html)
 
