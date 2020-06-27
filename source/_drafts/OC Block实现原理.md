@@ -3,6 +3,71 @@
 
 ### Block实现
 
+block 的结构体：
+
+```c
+struct __block_impl {
+  void *isa;
+  int Flags;
+  int Reserved;
+  void *FuncPtr;
+};
+```
+
+里面有一个 isa 成员变量。
+
+Block的类型有三种：
+
+`_NSConcreteGlobalBlock`，对象的存储域在程序的数据区域
+
+`_NSConcreteStackBlock`，对象的存储域在栈上
+
+`_NSConcreteMallocBlock`，对象的存储域在堆上
+
+下面这些情形，block 对象的类型是`_NSConcreteGlobalBlock`，存储域是在程序的数据区域：
+
+1. 记述全局变量的地方有 block 语法
+2. block 语法表达式没有截获任何自动变量
+
+除此之外的 block 对象都是`_NSConcreteStackBlock`类型，只不过在 ARC 下大多数情况下系统会自动将 block 拷贝到堆上。
+
+举例：
+
+MRC 环境
+
+```
+void (^myblk)(void) = NULL;
+
+void (^mglblk)(void) = ^{ //mglblk指向的 block 对象类型是_NSConcreteGlobalBlock，存储在数据区。mglblk变量自身也是在数据区。
+    NSLog(@"hello");
+};
+
+int main(int argc, const char * argv[]) {
+    int a = 0;
+    myblk = ^{ //myblk 指向的block对象由于截获了自动变量所以是在栈上，但myblk变量自身在数据区
+        NSLog(@"---%d-", a);
+    };
+    myblk();
+    
+    mglblk();
+    
+    void (^myTestBlk)(void) = ^{ //myTestBlk指向的block对象类型是_NSConcreteGlobalBlock，存储在数据区，但myTestBlk变量自身在栈上
+        NSLog(@"hello");
+    };
+    myTestBlk();
+    
+    int c = 3;
+    void (^myTestBlk2)(void) = ^{ //myTestBlk2 指向的block对象在栈上，myTestBlk2变量自身也在栈上。
+        NSLog(@"---%d-", c);
+    };
+    myTestBlk2();
+    
+    return 0;
+}
+```
+
+而在 ARC 环境下，上述myblk和myTestBlk2指向的 block 对象都是在堆上的。
+
 #### 不截获任何变量值
 
 ```objc
@@ -63,7 +128,7 @@ static void __main_block_func_0(struct __main_block_impl_0 *__cself) {
     printf("block.");
 }
 ```
-参数是block自身.
+参数是block对象自身.
 
 将Block语法生成的Block赋值给Block类型变量blk,等同于将`__main_block_impl_0`结构体实例的指针赋值给变量blk.
 
@@ -73,7 +138,7 @@ static void __main_block_func_0(struct __main_block_impl_0 *__cself) {
 
 `(*blk->impl.FuncPtr)(blk);`
 
-上述是一个没有截获自动变量值的block例子.下面看一下当block截获自动变量值时的情况.
+上述是一个没有截获自动变量值的block例子.
 
 #### 截获 static 局部变量
 
@@ -83,7 +148,9 @@ static void __main_block_func_0(struct __main_block_impl_0 *__cself) {
 
 
 
-#### 截获自动变量值
+#### 截获自动变量
+
+下面看一下当block截获自动变量时的情况.
 
 ```objc
 int main(int argc, const char * argv[]) {
@@ -480,8 +547,7 @@ static struct IMAGE_INFO { unsigned version; unsigned flag; } _OBJC_IMAGE_INFO =
 * 为什么使用__weak修饰的对象指针变量可以避免Block循环引用?
 * 避免Block循环引用有哪几种方式?
 * 如何检测Block循环引用导致的内存泄漏?(FBRetainCycleDetector(facebook开源工具库), MLeaksFinder(WeRead开源))
-
-
+* 如何查看一个变量在堆上还是栈上？
 
 ### 参考
 
