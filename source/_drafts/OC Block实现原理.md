@@ -140,13 +140,106 @@ static void __main_block_func_0(struct __main_block_impl_0 *__cself) {
 
 上述是一个没有截获自动变量值的block例子.
 
-#### 截获 static 局部变量
+#### 截获全局变量、 static 局部变量
+
+源代码：
+
+```objc
+int gl_a = 3;
+static int static_gl_b = 4;
+
+int main(int argc, const char * argv[]) {
+    
+    static int st_loc_c = 5;
+    static NSObject *obj = nil;
+    
+    void (^myBlk)(void) = ^ {
+        gl_a = 12;
+        static_gl_b = 14;
+        st_loc_c = 10;
+        int rs = gl_a + static_gl_b + st_loc_c;
+        obj = [NSObject new];
+        NSLog(@"rs = %d", rs);
+        NSLog(@"obj = %@", obj);
+    };
+    
+    myBlk();
+    
+    return 0;
+}
+```
+
+clang 代码：
+
+```c++
+int gl_a = 3;
+static int static_gl_b = 4;
 
 
+struct __main_block_impl_0 {
+  struct __block_impl impl;
+  struct __main_block_desc_0* Desc;
+  int *st_loc_c;
+  NSObject **obj;
+  __main_block_impl_0(void *fp, struct __main_block_desc_0 *desc, int *_st_loc_c, NSObject **_obj, int flags=0) : st_loc_c(_st_loc_c), obj(_obj) {
+    impl.isa = &_NSConcreteStackBlock;
+    impl.Flags = flags;
+    impl.FuncPtr = fp;
+    Desc = desc;
+  }
+};
+static void __main_block_func_0(struct __main_block_impl_0 *__cself) {
+  int *st_loc_c = __cself->st_loc_c; // bound by copy
+  NSObject **obj = __cself->obj; // bound by copy
 
-#### 截获全局变量
+        gl_a = 12;
+        static_gl_b = 14;
+        (*st_loc_c) = 10;
+        int rs = gl_a + static_gl_b + (*st_loc_c);
+        (*obj) = ((NSObject *(*)(id, SEL))(void *)objc_msgSend)((id)objc_getClass("NSObject"), sel_registerName("new"));
+        NSLog((NSString *)&__NSConstantStringImpl__var_folders_46_lys08y0137d41lbysrxxd0h80000gn_T_main_9381c6_mi_0, rs);
+        NSLog((NSString *)&__NSConstantStringImpl__var_folders_46_lys08y0137d41lbysrxxd0h80000gn_T_main_9381c6_mi_1, (*obj));
+    }
+static void __main_block_copy_0(struct __main_block_impl_0*dst, struct __main_block_impl_0*src) {_Block_object_assign((void*)&dst->obj, (void*)src->obj, 3/*BLOCK_FIELD_IS_OBJECT*/);}
 
+static void __main_block_dispose_0(struct __main_block_impl_0*src) {_Block_object_dispose((void*)src->obj, 3/*BLOCK_FIELD_IS_OBJECT*/);}
 
+static struct __main_block_desc_0 {
+  size_t reserved;
+  size_t Block_size;
+  void (*copy)(struct __main_block_impl_0*, struct __main_block_impl_0*);
+  void (*dispose)(struct __main_block_impl_0*);
+} __main_block_desc_0_DATA = { 0, sizeof(struct __main_block_impl_0), __main_block_copy_0, __main_block_dispose_0};
+int main(int argc, const char * argv[]) {
+
+    static int st_loc_c = 5;
+    static NSObject *obj = __null;
+
+    void (*myBlk)(void) = ((void (*)())&__main_block_impl_0((void *)__main_block_func_0, &__main_block_desc_0_DATA, &st_loc_c, &obj, 570425344));
+
+    ((void (*)(__block_impl *))((__block_impl *)myBlk)->FuncPtr)((__block_impl *)myBlk);
+
+    return 0;
+}
+static struct IMAGE_INFO { unsigned version; unsigned flag; } _OBJC_IMAGE_INFO = { 0, 2 };
+```
+
+可以看到截获的全局变量和静态全局变量在匿名函数中也是直接通过名称访问的。但是对于静态局部变量却是通过指针变量访问的，在block 对象初始化时传入的是`&st_loc_c`地址。
+
+```c++
+struct __main_block_impl_0 {
+  struct __block_impl impl;
+  struct __main_block_desc_0* Desc;
+  int *st_loc_c; //指针变量
+  NSObject **obj; //指针变量
+  __main_block_impl_0(void *fp, struct __main_block_desc_0 *desc, int *_st_loc_c, NSObject **_obj, int flags=0) : st_loc_c(_st_loc_c), obj(_obj) {
+    impl.isa = &_NSConcreteStackBlock;
+    impl.Flags = flags;
+    impl.FuncPtr = fp;
+    Desc = desc;
+  }
+};
+```
 
 #### 截获自动变量
 
@@ -222,7 +315,7 @@ int main(int argc, const char * argv[]) {
 }
 static struct IMAGE_INFO { unsigned version; unsigned flag; } _OBJC_IMAGE_INFO = { 0, 2 };
 ```
-和第一种情况不同点在于:  
+和第一种情况不同点在于：
 **结构体`__main_block_impl_0`多了两个成员变量`va`和 `vb`并且构造函数也多了两个参数**,**在实例化结构体`__main_block_impl_0`时将va和vb作为参数传给构造函数**.Block语法表达式所使用的自动变量值被保存到Block的结构体实例中了.这样就完成了对自动变量值的截获.
 
 由于va和vb是作为参数传给构造函数的(传的是值),因此block语法块内修改va和vb的值(即在`static void __main_block_func_0(struct __main_block_impl_0 *__cself);`函数里修改va和vb的值)并不会影响外面变量的值,不过现在你也修改不了因为系统会提示错误`Variable is not assignable (missing __block type specifier).`.
@@ -354,15 +447,24 @@ static struct IMAGE_INFO { unsigned version; unsigned flag; } _OBJC_IMAGE_INFO =
 
 可以看到代码量迅速增多.
 
-**`__forwarding`作用**
+有几个重大变化：
 
-注意到使用__block修饰的变量
+1. struct __main_block_desc_0结构体多出来两个成员变量 copy 和 dispose。
 
+```c++
+static void __main_block_copy_0(struct __main_block_impl_0*dst, struct __main_block_impl_0*src) {_Block_object_assign((void*)&dst->vc, (void*)src->vc, 8/*BLOCK_FIELD_IS_BYREF*/);_Block_object_assign((void*)&dst->va, (void*)src->va, 8/*BLOCK_FIELD_IS_BYREF*/);_Block_object_assign((void*)&dst->vb, (void*)src->vb, 8/*BLOCK_FIELD_IS_BYREF*/);}
+
+static void __main_block_dispose_0(struct __main_block_impl_0*src) {_Block_object_dispose((void*)src->vc, 8/*BLOCK_FIELD_IS_BYREF*/);_Block_object_dispose((void*)src->va, 8/*BLOCK_FIELD_IS_BYREF*/);_Block_object_dispose((void*)src->vb, 8/*BLOCK_FIELD_IS_BYREF*/);}
+
+static struct __main_block_desc_0 {
+  size_t reserved;
+  size_t Block_size;
+  void (*copy)(struct __main_block_impl_0*, struct __main_block_impl_0*);
+  void (*dispose)(struct __main_block_impl_0*);
+} __main_block_desc_0_DATA = { 0, sizeof(struct __main_block_impl_0), __main_block_copy_0, __main_block_dispose_0};
 ```
-__block int va = 3;
-```
 
-被截获后，最终会变成一个结构体实例：
+2. 使用`__block`修饰的变量`__block int va = 3;`被截获后，最终会变成一个结构体实例：
 
 ```c
 struct __Block_byref_va_0 {
@@ -372,19 +474,27 @@ __Block_byref_va_0 *__forwarding;
  int __size;
  int va;
 };
+
+__Block_byref_va_0 va = {(void*)0,(__Block_byref_va_0 *)&va, 0, sizeof(__Block_byref_va_0), 3};  //注意这里不是结构体指针，而是结构体实例。
 ```
 
-__isa：对象的类型
+主要成员变量：
 
-__forwarding：指针变量，指向自身。
+`__isa`：对象的类型
+
+`__forwarding`：指针变量，指向自身。当被复制到堆上时，成员变量`__forwarding`的值将被替换为堆上的结构体实例的地址。保证无论在 block 语法中还语法外使用`__block`变量，访问的都是同一个。
 
 va：用于保存变量的值
+
+**`__forwarding`作用**
 
 可以看到外部使用的时候是通过`va.__forwarding->va`来访问变量的值的。为什么不直接通过`va->va`来访问呢？
 
 这是因为，当`__block`变量被拷贝到堆上时，`__forwarding`也会更改为指向堆上的地址，如果原来的变量访问的时候还去访问栈上的话，就会出现va的值不一致的情况，所以统一先根据`__forwarding`找到正确的地址后再取值。
 
 #### 截获__strong对象指针变量
+
+源代码：
 
 ```objc
 int main(int argc, const char * argv[]) {
@@ -406,6 +516,8 @@ int main(int argc, const char * argv[]) {
     return 0;
 }
 ```
+
+clang 代码：
 
 ```c++
 struct __block_impl {
