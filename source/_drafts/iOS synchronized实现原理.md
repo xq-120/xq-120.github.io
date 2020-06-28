@@ -239,7 +239,7 @@ struct SyncList {
 // Use multiple parallel lists to decrease contention among unrelated objects.
 #define LOCK_FOR_OBJ(obj) sDataLists[obj].lock
 #define LIST_FOR_OBJ(obj) sDataLists[obj].data
-static StripedMap<SyncList> sDataLists;
+static StripedMap<SyncList> sDataLists; //是在哪里初始化的？
 ```
 
 LOCK_FOR_OBJ(object)和LIST_FOR_OBJ(object)就是从全局StripedMap变量sDataLists的数组属性中找到一个SyncList，SyncList包含一个SyncData以及一把自旋锁。

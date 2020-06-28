@@ -29,7 +29,7 @@ Block的类型有三种：
 1. 记述全局变量的地方有 block 语法
 2. block 语法表达式没有截获任何自动变量
 
-除此之外的 block 对象都是`_NSConcreteStackBlock`类型，只不过在 ARC 下大多数情况下系统会自动将 block 拷贝到堆上。
+除此之外的 block 对象都是`_NSConcreteStackBlock`类型存储在栈上，只不过在 ARC 下大多数情况下系统会自动将栈上的block 拷贝到堆上此时使用的将是堆上的 block 对象。
 
 举例：
 
@@ -130,7 +130,20 @@ static void __main_block_func_0(struct __main_block_impl_0 *__cself) {
 ```
 参数是block对象自身.
 
-将Block语法生成的Block赋值给Block类型变量blk,等同于将`__main_block_impl_0`结构体实例的指针赋值给变量blk.
+```
+void (^blk)(void) = ^{
+    printf("block.");
+};
+```
+
+对应的 C++（简化后）为：
+
+```C
+struct __main_block_impl_0 tmp = __main_block_impl_0(__main_block_func_0, &__main_block_desc_0_DATA);
+struct __main_block_impl_0 *blk = &tmp;
+```
+
+将Block语法生成的Block赋值给Block类型变量blk，等同于将`__main_block_impl_0`结构体实例的指针赋值给变量blk。源代码中的 block 就是`__main_block_impl_0`结构体类型的自动变量 tmp，即栈上生成的`__main_block_impl_0`结构体实例。
 
 `__main_block_impl_0 `结构体的构造函数第一个参数就是匿名函数对应的C语言函数`void __main_block_func_0(struct __main_block_impl_0 *__cself);`
 
@@ -486,11 +499,47 @@ __Block_byref_va_0 va = {(void*)0,(__Block_byref_va_0 *)&va, 0, sizeof(__Block_b
 
 va：用于保存变量的值
 
+3. `__main_block_impl_0`结构体中生成的是`__Block_byref_vb_1 *`结构体指针变量，而不是结构体实例本身。这样就可以从多个 block 中使用同一个`__block`变量了。
+
 **`__forwarding`作用**
 
 可以看到外部使用的时候是通过`va.__forwarding->va`来访问变量的值的。为什么不直接通过`va->va`来访问呢？
 
 这是因为，当`__block`变量被拷贝到堆上时，`__forwarding`也会更改为指向堆上的地址，如果原来的变量访问的时候还去访问栈上的话，就会出现va的值不一致的情况，所以统一先根据`__forwarding`找到正确的地址后再取值。
+
+看个例子：
+
+MRC 环境
+
+```objc
+- (void)tree {
+    XQMRCPerson *person = [XQMRCPerson new];
+    [person hello];
+    [person release];
+    
+    __block int a = 0;  //变量 a 将变成一个结构体实例。a 分配在栈上，结构体实例 a 的__forwarding 指针指向自身。
+    void (^myBlk)(void) = ^{  //myBlk是一个指针变量，分配在栈上。指向的 block 对象也是分配在栈上的。
+        a++;
+        NSLog(@"a = %d", a);
+    };
+    
+    void (^myBlk1)(void) = [myBlk copy]; //myBlk1是一个指针变量，分配在栈上。[myBlk copy]表示将myBlk对象拷贝到堆上后赋值给myBlk1，因此myBlk1指向的 block 对象是分配在堆上的。结构体实例 a 也将拷贝一份到堆上，在拷贝时栈上的结构体实例 a 的__forwarding 指针将指向堆上的结构体实例 a',堆上的结构体实例 a'的__forwarding 指针依旧指向自身。可以看到结构体实例a其实有两份了，一份在栈上，一份在堆上。
+    
+    a = 3;
+    
+    myBlk();
+    
+    a = 9;
+    
+    myBlk1();
+    
+    myBlk();
+    
+    [myBlk1 release];
+}
+```
+
+注：对栈上的 block 调用 retain 和 release 方法是不起任何作用的。
 
 #### 截获__strong对象指针变量
 
@@ -573,6 +622,23 @@ int main(int argc, const char * argv[]) {
 }
 static struct IMAGE_INFO { unsigned version; unsigned flag; } _OBJC_IMAGE_INFO = { 0, 2 };
 ```
+
+可以看到：在截获对象变量时，`__main_block_desc_0`结构体也会多出两个成员变量copy和dispose。
+
+```c
+static void __main_block_copy_0(struct __main_block_impl_0*dst, struct __main_block_impl_0*src) {_Block_object_assign((void*)&dst->array, (void*)src->array, 3/*BLOCK_FIELD_IS_OBJECT*/);}
+
+static void __main_block_dispose_0(struct __main_block_impl_0*src) {_Block_object_dispose((void*)src->array, 3/*BLOCK_FIELD_IS_OBJECT*/);}
+
+static struct __main_block_desc_0 {
+  size_t reserved;
+  size_t Block_size;
+  void (*copy)(struct __main_block_impl_0*, struct __main_block_impl_0*);
+  void (*dispose)(struct __main_block_impl_0*);
+} __main_block_desc_0_DATA = { 0, sizeof(struct __main_block_impl_0), __main_block_copy_0, __main_block_dispose_0};
+```
+
+在 block 从栈上复制到堆时以及堆上的 block 被废弃时会调用这些函数。
 
 #### 截获__weak对象指针变量
 
