@@ -4,7 +4,7 @@
 
 typedef语法：`typedef 原类型名 别名`。
 
-```
+```c
 typedef __darwin_intptr_t       intptr_t;
 typedef long                    __darwin_intptr_t;
 ```
@@ -67,15 +67,38 @@ dispatch_once_f(dispatch_once_t *val, void *ctxt, dispatch_function_t func)
 }
 ```
 
-原子获取val的值如果等于DLOCK_ONCE_DONE，说明block已经执行过了，直接return。
+dispatch_once_f函数里面调用了很多其他函数，但现在不要纠结那些函数的具体实现，根据函数名可以猜个大概。
 
-否则_dispatch_once_gate_tryenter尝试进入，如果进入成功则执行block。
+该函数的工作流程大致如下：
 
-否则执行_dispatch_once_wait，阻塞线程。
+1. 原子的加载dgo_once的值（保证不会出现多线程竞争），如果等于DLOCK_ONCE_DONE，说明block已经执行过了，直接return。
+2. 调用`_dispatch_once_gate_tryenter`尝试进入`dispatch_once_gate_t`，可以肯定该函数也是有类似锁操作的，要不然会出现几个线程同时进入的情况。
+3. `_dispatch_once_gate_tryenter`进入成功，则调用`_dispatch_once_callout`执行 block，执行完成后唤醒等待的线程。
+4. `_dispatch_once_gate_tryenter`进入失败，则调用`_dispatch_once_wait`进入等待状态，等待 block 的执行完成，然后被唤醒。
 
-_dispatch_once_wait：
+从该函数的工作流程不难看出如果传入的 block 中又调用自身，则线程会再次`_dispatch_once_gate_tryenter`，但肯定会失败从而执行`_dispatch_once_wait`进入等待，于是便形成自己等待自己导致死锁。事实上此时`_dispatch_once_wait`函数会抛出异常。
 
+如果想知道dispatch_once具体是怎样保证多线程下 block 也只执行一次，其他线程又是怎样进入等待，又是怎样被唤醒，那么就需要查看`_dispatch_once_gate_tryenter`，`_dispatch_once_callout` ， `_dispatch_once_wait`的具体实现了。不过不用担心，实际上你也看不到线程究竟是怎样进入等待的因为`_dispatch_once_wait`最终会调用到一个系统函数进入等待而该系统函数是未公开的。
+
+**_dispatch_once_gate_tryenter函数**
+
+具体实现：
+
+```c
+DISPATCH_ALWAYS_INLINE
+static inline bool
+_dispatch_once_gate_tryenter(dispatch_once_gate_t l)
+{
+	return os_atomic_cmpxchg(&l->dgo_once, DLOCK_ONCE_UNLOCKED,
+			(uintptr_t)_dispatch_lock_value_for_self(), relaxed);
+}
 ```
+
+
+
+**_dispatch_once_wait函数**
+
+```c
 void
 _dispatch_once_wait(dispatch_once_gate_t dgo)
 {
@@ -114,22 +137,6 @@ _dispatch_once_wait(dispatch_once_gate_t dgo)
 #endif
 		(void)timeout;
 	}
-}
-
-void
-_dispatch_gate_broadcast_slow(dispatch_gate_t dgl, dispatch_lock cur)
-{
-	if (unlikely(!_dispatch_lock_is_locked_by_self(cur))) {
-		DISPATCH_CLIENT_CRASH(cur, "lock not owned by current thread");
-	}
-
-#if HAVE_UL_UNFAIR_LOCK
-	_dispatch_unfair_lock_wake(&dgl->dgl_lock, ULF_WAKE_ALL);
-#elif HAVE_FUTEX
-	_dispatch_futex_wake(&dgl->dgl_lock, INT_MAX, FUTEX_PRIVATE_FLAG);
-#else
-	(void)dgl;
-#endif
 }
 ```
 
@@ -210,7 +217,7 @@ lock相关：
 #define DLOCK_GATE_UNLOCKED	((dispatch_lock)0)
 
 #define DLOCK_ONCE_UNLOCKED	((uintptr_t)0)
-#define DLOCK_ONCE_DONE		(~(uintptr_t)0)   //这里就是-1
+#define DLOCK_ONCE_DONE		(~(uintptr_t)0)   //~0，一个很大的整数。
 
 typedef struct dispatch_gate_s {
 	dispatch_lock dgl_lock;
@@ -291,11 +298,27 @@ _dispatch_once_gate_broadcast(dispatch_once_gate_t l)
 
 **question**
 
-如何保证只执行一次。
+如何保证只执行一次，和传入的那个static整型变量有什么关系？
 
 如果保证在多线程环境下也只执行一次。
 
 多线程环境下的执行过程是怎样的。
+
+Q4：`dispatch_once`死锁崩溃？
+
+`dispatch_once`嵌套调用发生崩溃：
+
+<img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20200629152738.png" style="zoom:50%;" />
+
+进一步跟进断点：
+
+<img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20200629162804.png" style="zoom:50%;" />
+
+发现是崩溃在libdispatch的_dispatch_once_wait函数里面。其实已经提示的很清楚了：尝试递归的加锁，而这正是因为我们嵌套的调用导致的。
+
+
+
+
 
 
 
