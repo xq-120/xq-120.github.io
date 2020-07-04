@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-06-21T08:51:29.738Z</updated>
+  <updated>2020-07-03T15:28:58.713Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,11 +17,40 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>预处理命令之宏定义</title>
+    <link href="http://yoursite.com/2020/07/03/%E9%A2%84%E5%A4%84%E7%90%86%E5%91%BD%E4%BB%A4%E4%B9%8B%E5%AE%8F%E5%AE%9A%E4%B9%89/"/>
+    <id>http://yoursite.com/2020/07/03/%E9%A2%84%E5%A4%84%E7%90%86%E5%91%BD%E4%BB%A4%E4%B9%8B%E5%AE%8F%E5%AE%9A%E4%B9%89/</id>
+    <published>2020-07-03T01:57:17.000Z</published>
+    <updated>2020-07-03T15:28:58.713Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;这里不谈宏的使用。只是突然想知道定义一个宏之后，这个宏的作用域有多大。&lt;/p&gt;
+&lt;h3 id=&quot;宏定义作用域&quot;&gt;&lt;a href=&quot;#宏定义作用域&quot; class=&quot;headerlink&quot; title=&quot;宏定义作用域&quot;&gt;&lt;/a&gt;宏定义作用域&lt;/h3&gt;&lt;p&gt;C语言标准中宏定义的作用域是：如果是在块作用域内，则从定义位置开始，到块作用域结束，否则到其当前文件结尾，其他文件如果没有通过#include包含这个文件，则使用该宏是无效的。&lt;/p&gt;
+&lt;p&gt;比如我在a.m里面定义了一个宏&lt;code&gt;#define kCondTrue 1&lt;/code&gt;，在b.m里面有如下代码：&lt;/p&gt;
+&lt;figure class=&quot;highlight objectivec&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;- (&lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt;)btnDidClicked:(&lt;span class=&quot;built_in&quot;&gt;UIButton&lt;/span&gt; *)sender &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;NSLog&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;@&quot;btnDidClicked&quot;&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;meta&quot;&gt;#&lt;span class=&quot;meta-keyword&quot;&gt;if&lt;/span&gt; kCondTrue			&lt;span class=&quot;comment&quot;&gt;//不会有编译错误&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;built_in&quot;&gt;NSLog&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;@&quot;111&quot;&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;meta&quot;&gt;#&lt;span class=&quot;meta-keyword&quot;&gt;endif&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;由于kCondTrue宏对b.m是不可见的，所以这里不会打印111。&lt;/p&gt;
+&lt;p&gt;通常编译器会有一些预定义宏，预定义的宏大多会遵守命名规则：&lt;code&gt;__xxx_yyy__&lt;/code&gt;，以双下划线开始和结束。比如&lt;code&gt;__OBJC2__&lt;/code&gt;就是一个预定义的宏。&lt;/p&gt;
+&lt;p&gt;宏定义很强大，组合起来可以实现一个很复杂的功能。but 这样的宏可读性是很差的，你可以想象一下一个由十几个宏共同组合完成的宏有多么可怕，OC开源源码里面原子操作相关的宏是真滴恐怖。感觉如果一个宏过于复杂最好还是用方法代替。&lt;/p&gt;
+&lt;p&gt;完了。&lt;/p&gt;
+&lt;h3 id=&quot;参考&quot;&gt;&lt;a href=&quot;#参考&quot; class=&quot;headerlink&quot; title=&quot;参考&quot;&gt;&lt;/a&gt;参考&lt;/h3&gt;
+    
+    </summary>
+    
+    
+      <category term="OC" scheme="http://yoursite.com/categories/OC/"/>
+    
+    
+      <category term="预处理命令" scheme="http://yoursite.com/tags/%E9%A2%84%E5%A4%84%E7%90%86%E5%91%BD%E4%BB%A4/"/>
+    
+  </entry>
+  
+  <entry>
     <title>从汇编角度看ARC中的所有权修饰符</title>
     <link href="http://yoursite.com/2020/06/21/%E4%BB%8E%E6%B1%87%E7%BC%96%E8%A7%92%E5%BA%A6%E7%9C%8BARC%E4%B8%AD%E7%9A%84%E6%89%80%E6%9C%89%E6%9D%83%E4%BF%AE%E9%A5%B0%E7%AC%A6/"/>
     <id>http://yoursite.com/2020/06/21/%E4%BB%8E%E6%B1%87%E7%BC%96%E8%A7%92%E5%BA%A6%E7%9C%8BARC%E4%B8%AD%E7%9A%84%E6%89%80%E6%9C%89%E6%9D%83%E4%BF%AE%E9%A5%B0%E7%AC%A6/</id>
     <published>2020-06-21T08:51:14.000Z</published>
-    <updated>2020-06-21T08:51:29.738Z</updated>
+    <updated>2020-06-27T11:27:33.884Z</updated>
     
     <summary type="html">
     
@@ -54,7 +83,7 @@
     <link href="http://yoursite.com/2020/06/06/iOS-%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%8E%9F%E7%90%86%E7%AF%87/"/>
     <id>http://yoursite.com/2020/06/06/iOS-%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%8E%9F%E7%90%86%E7%AF%87/</id>
     <published>2020-06-06T14:03:35.000Z</published>
-    <updated>2020-06-06T14:06:45.452Z</updated>
+    <updated>2020-07-02T13:58:21.310Z</updated>
     
     <summary type="html">
     
@@ -84,7 +113,7 @@
     <link href="http://yoursite.com/2020/06/06/iOS-%E4%BF%A1%E5%8F%B7%E9%87%8F%E4%BD%BF%E7%94%A8%E7%AF%87/"/>
     <id>http://yoursite.com/2020/06/06/iOS-%E4%BF%A1%E5%8F%B7%E9%87%8F%E4%BD%BF%E7%94%A8%E7%AF%87/</id>
     <published>2020-06-06T13:59:36.000Z</published>
-    <updated>2020-06-06T14:02:46.155Z</updated>
+    <updated>2020-06-26T01:22:44.420Z</updated>
     
     <summary type="html">
     
@@ -98,7 +127,7 @@
 &lt;li&gt;&lt;p&gt;&lt;code&gt;long signalRs = dispatch_semaphore_signal(semaphoreTask1);&lt;/code&gt;&lt;br&gt;发出一个信号，将信号量加1。如果有通过dispatch_semaphore_wait()函数等待dispatch semaphore的计数值增加的线程，那么该函数在返回前将唤醒最先处于等待状态的线程。&lt;/p&gt;
 &lt;p&gt;返回值：This function returns non-zero if a thread is woken. Otherwise, zero is returned。如果有线程被唤醒则返回一个非0值，否则返回0。&lt;/p&gt;
 &lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;code&gt;long waitRs = dispatch_semaphore_wait(semaphoreTask1, DISPATCH_TIME_FOREVER);&lt;/code&gt;&lt;br&gt;将信号量-1。减去1后如果得到的值&lt;0，则该函数在返回前将一直等待信号的发出，线程会被阻塞。减去1后如果得到的值&gt;0，则正常返回0，不阻塞线程。&lt;/0，则该函数在返回前将一直等待信号的发出，线程会被阻塞。减去1后如果得到的值&gt;&lt;/p&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;long waitRs = dispatch_semaphore_wait(semaphoreTask1, DISPATCH_TIME_FOREVER);&lt;/code&gt;&lt;br&gt;将信号量-1。减去1后如果得到的值&lt;0，则该函数在返回前将一直等待信号的发出，线程会被阻塞。减去1后如果得到的值&gt;=0，则正常返回0，不阻塞线程。&lt;/0，则该函数在返回前将一直等待信号的发出，线程会被阻塞。减去1后如果得到的值&gt;&lt;/p&gt;
 &lt;p&gt; timeout：指定等待的时间。如果线程要被阻塞该值表明将阻塞该线程多久。传DISPATCH_TIME_FOREVER意味着该线程永久等待一个信号的发出。 传一个其他值如：dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC))，表明将阻塞该线程2s，2s后函数将返回，线程继续执行（不一定就是执行临界区的代码，可以判断如果返回的是非0表明是等待超时了可以做其他处理）。&lt;/p&gt;
 &lt;p&gt;返回值：Returns zero on success, or non-zero if the timeout occurred。&lt;/p&gt;
 &lt;/li&gt;
@@ -121,19 +150,19 @@
     <link href="http://yoursite.com/2020/06/06/OC-atomic%E4%BF%AE%E9%A5%B0%E7%AC%A6/"/>
     <id>http://yoursite.com/2020/06/06/OC-atomic%E4%BF%AE%E9%A5%B0%E7%AC%A6/</id>
     <published>2020-06-06T13:56:32.000Z</published>
-    <updated>2020-06-06T13:58:30.817Z</updated>
+    <updated>2020-07-02T13:58:21.307Z</updated>
     
     <summary type="html">
     
-      &lt;h4 id=&quot;atomic修饰符&quot;&gt;&lt;a href=&quot;#atomic修饰符&quot; class=&quot;headerlink&quot; title=&quot;atomic修饰符&quot;&gt;&lt;/a&gt;atomic修饰符&lt;/h4&gt;&lt;p&gt;原子性是指一个事物的操作是不可分割的，要么都发生，要么都不发生。有点量子理论的意思。&lt;/p&gt;
-&lt;p&gt;使用atomic修饰的属性，编译器在合成getter/setter方法时，相比于nonatomic的属性会有额外的加锁处理。atomic只是保证了赋值/取值的整个过程的完整性，并且不受其他线程的干扰，要么成功要么失败。比如线程A在setter时，线程B如果想setter那么就需要等待，线程C想getter也需要等待。&lt;/p&gt;
-&lt;p&gt;注意：atomic无法保证对象的线程安全。&lt;/p&gt;
-&lt;p&gt;官方文档对atomic无法保证对象的线程安全举的例子：&lt;/p&gt;
-&lt;p&gt;考虑XYZPerson，拥有firstName和lastName两个atomic属性。如果一个线程A正在修改这两个属性，与此同时另一个线程B正在读取这两个属性，那么线程B得到的firstName和lastName的值将会发生数据不匹配的情况。&lt;/p&gt;
-&lt;p&gt;eg：&lt;/p&gt;
-&lt;p&gt;初始时, firstName = @”李”;  lastName = @”四”;&lt;/p&gt;
-&lt;p&gt;线程A想修改为：firstName = @”张”;  lastName = @”三”;&lt;/p&gt;
-&lt;p&gt;与此同时线程B在读取这两个属性，那么线程B有可能得到：&lt;/p&gt;
+      &lt;p&gt;源码版本：objc4-781，&lt;code&gt;objc-accessors.mm&lt;/code&gt;文件中。&lt;/p&gt;
+&lt;p&gt;原子操作是指操作是不可分割的，要么发生，要么不发生。事物只会处于原始状态和成功状态两种中的一种，不会处于一种完成一半的状态。&lt;/p&gt;
+&lt;h3 id=&quot;OC-中的atomic修饰符&quot;&gt;&lt;a href=&quot;#OC-中的atomic修饰符&quot; class=&quot;headerlink&quot; title=&quot;OC 中的atomic修饰符&quot;&gt;&lt;/a&gt;OC 中的atomic修饰符&lt;/h3&gt;&lt;p&gt;源码实现：&lt;/p&gt;
+&lt;p&gt;getter 方法：&lt;/p&gt;
+&lt;figure class=&quot;highlight c++&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;id &lt;span class=&quot;title&quot;&gt;objc_getProperty&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(id self, SEL _cmd, &lt;span class=&quot;keyword&quot;&gt;ptrdiff_t&lt;/span&gt; offset, BOOL atomic)&lt;/span&gt; &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (offset == &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; object_getClass(self);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;// Retain release world&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    id *slot = (id*) ((&lt;span class=&quot;keyword&quot;&gt;char&lt;/span&gt;*)self + offset);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (!atomic) &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; *slot;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;// Atomic retain release world&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;spinlock_t&lt;/span&gt;&amp;amp; slotlock = PropertyLocks[slot];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    slotlock.lock();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    id value = objc_retain(*slot); &lt;span class=&quot;comment&quot;&gt;//+1&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    slotlock.unlock();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;// for performance, we (safely) issue the autorelease OUTSIDE of the spinlock.&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; objc_autoreleaseReturnValue(value); &lt;span class=&quot;comment&quot;&gt;//注册到自动释放池中，符合内存管理命名规则&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;setter 方法：&lt;/p&gt;
+&lt;figure class=&quot;highlight c++&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;29&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;30&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;31&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;32&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;33&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;34&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;35&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;36&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;37&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;38&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;39&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;40&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;41&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;42&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;43&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;44&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;45&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;46&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;47&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;48&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;49&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;50&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;51&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;52&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;53&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;inline&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;reallySetProperty&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(id self, SEL _cmd, id newValue, &lt;span class=&quot;keyword&quot;&gt;ptrdiff_t&lt;/span&gt; offset, &lt;span class=&quot;keyword&quot;&gt;bool&lt;/span&gt; atomic, &lt;span class=&quot;keyword&quot;&gt;bool&lt;/span&gt; copy, &lt;span class=&quot;keyword&quot;&gt;bool&lt;/span&gt; mutableCopy)&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (offset == &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        object_setClass(self, newValue);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    id oldValue;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    id *slot = (id*) ((&lt;span class=&quot;keyword&quot;&gt;char&lt;/span&gt;*)self + offset);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (copy) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        newValue = [newValue copyWithZone:nil];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125; &lt;span class=&quot;keyword&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (mutableCopy) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        newValue = [newValue mutableCopyWithZone:nil];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125; &lt;span class=&quot;keyword&quot;&gt;else&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (*slot == newValue) &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        newValue = objc_retain(newValue); &lt;span class=&quot;comment&quot;&gt;//retain新值&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (!atomic) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        oldValue = *slot; &lt;span class=&quot;comment&quot;&gt;//获取旧值&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        *slot = newValue; &lt;span class=&quot;comment&quot;&gt;//赋予新值&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125; &lt;span class=&quot;keyword&quot;&gt;else&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;spinlock_t&lt;/span&gt;&amp;amp; slotlock = PropertyLocks[slot];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        slotlock.lock();  &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        oldValue = *slot; &lt;span class=&quot;comment&quot;&gt;//&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        *slot = newValue;        &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        slotlock.unlock();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    objc_release(oldValue); &lt;span class=&quot;comment&quot;&gt;//release 旧值&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;objc_setProperty_atomic&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(id self, SEL _cmd, id newValue, &lt;span class=&quot;keyword&quot;&gt;ptrdiff_t&lt;/span&gt; offset)&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    reallySetProperty(self, _cmd, newValue, offset, &lt;span class=&quot;literal&quot;&gt;true&lt;/span&gt;, &lt;span class=&quot;literal&quot;&gt;false&lt;/span&gt;, &lt;span class=&quot;literal&quot;&gt;false&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;objc_setProperty_nonatomic&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(id self, SEL _cmd, id newValue, &lt;span class=&quot;keyword&quot;&gt;ptrdiff_t&lt;/span&gt; offset)&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    reallySetProperty(self, _cmd, newValue, offset, &lt;span class=&quot;literal&quot;&gt;false&lt;/span&gt;, &lt;span class=&quot;literal&quot;&gt;false&lt;/span&gt;, &lt;span class=&quot;literal&quot;&gt;false&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;objc_setProperty_atomic_copy&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(id self, SEL _cmd, id newValue, &lt;span class=&quot;keyword&quot;&gt;ptrdiff_t&lt;/span&gt; offset)&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    reallySetProperty(self, _cmd, newValue, offset, &lt;span class=&quot;literal&quot;&gt;true&lt;/span&gt;, &lt;span class=&quot;literal&quot;&gt;true&lt;/span&gt;, &lt;span class=&quot;literal&quot;&gt;false&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;objc_setProperty_nonatomic_copy&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(id self, SEL _cmd, id newValue, &lt;span class=&quot;keyword&quot;&gt;ptrdiff_t&lt;/span&gt; offset)&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    reallySetProperty(self, _cmd, newValue, offset, &lt;span class=&quot;literal&quot;&gt;false&lt;/span&gt;, &lt;span class=&quot;literal&quot;&gt;true&lt;/span&gt;, &lt;span class=&quot;literal&quot;&gt;false&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;上述锁从何而来：从objc-accessors.mm中定义的全局PropertyLocks哈希表中获取。&lt;/p&gt;
+&lt;figure class=&quot;highlight armasm&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;StripedMap&amp;lt;spinlock_t&amp;gt; &lt;/span&gt;PropertyLocks&lt;span class=&quot;comment&quot;&gt;;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;StripedMap&amp;lt;spinlock_t&amp;gt; &lt;/span&gt;&lt;span class=&quot;keyword&quot;&gt;StructLocks;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;StripedMap&amp;lt;spinlock_t&amp;gt; &lt;/span&gt;CppObjectLocks&lt;span class=&quot;comment&quot;&gt;;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
     
     </summary>
     
@@ -604,41 +633,6 @@
 &lt;h3 id=&quot;Run-server&quot;&gt;&lt;a href=&quot;#Run-server&quot; class=&quot;headerlink&quot; title=&quot;Run server&quot;&gt;&lt;/a&gt;Run server&lt;/h3&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ hexo server&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
 &lt;p&gt;More info: &lt;a href=&quot;https://hexo.io/docs/server.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Server&lt;/a&gt;&lt;/p&gt;
 &lt;h3 id=&quot;Generate-static-files&quot;&gt;&lt;a href=&quot;#Generate-static-files&quot; class=&quot;headerlink&quot; title=&quot;Generate static files&quot;&gt;&lt;/a&gt;Generate static files&lt;/h3&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ hexo generate&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-    
-    </summary>
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>github pages+hexo+next搭建博客</title>
-    <link href="http://yoursite.com/2020/02/29/github%20pages+hexo+next%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/"/>
-    <id>http://yoursite.com/2020/02/29/github%20pages+hexo+next%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</id>
-    <published>2020-02-29T13:37:50.000Z</published>
-    <updated>2020-04-17T12:41:27.171Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h4 id=&quot;主要步骤&quot;&gt;&lt;a href=&quot;#主要步骤&quot; class=&quot;headerlink&quot; title=&quot;主要步骤&quot;&gt;&lt;/a&gt;主要步骤&lt;/h4&gt;&lt;ul&gt;
-&lt;li&gt;安装环境&lt;/li&gt;
-&lt;li&gt;初始化项目&lt;/li&gt;
-&lt;li&gt;部署&lt;/li&gt;
-&lt;li&gt;配置站点信息&lt;/li&gt;
-&lt;li&gt;配置主题信息&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;下面是具体的步骤:&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;安装环境&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;安装node.js&lt;/p&gt;
-&lt;p&gt;安装hexo&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;初始化项目&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;使用 Hexo 的命令行创建一个项目.&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;hexo init &amp;quot;name&amp;quot;&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;调用 Hexo 的 generate 命令，将 Hexo 编译生成 HTML 代码.&lt;/p&gt;
     
     </summary>
     

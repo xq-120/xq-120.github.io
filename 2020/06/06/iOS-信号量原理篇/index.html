@@ -28,7 +28,7 @@
 <meta property="og:description" content="信号量原理篇源码版本：libdispatch-1173.40.5 信号量的实现主要是创建，销毁，wait和signal，四个方法。 信号量结构体： 123456789DISPATCH_CLASS_DECL(semaphore, OBJECT);struct dispatch_semaphore_s &amp;#123;	DISPATCH_OBJECT_HEADER(semaphore);	long vol">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-06-06T14:03:35.000Z">
-<meta property="article:modified_time" content="2020-06-06T14:06:45.452Z">
+<meta property="article:modified_time" content="2020-07-02T13:58:21.310Z">
 <meta property="article:author" content="jekyttt">
 <meta property="article:tag" content="信号量">
 <meta property="article:tag" content="锁">
@@ -212,10 +212,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-06-06 22:03:35 / 修改时间：22:06:45" itemprop="dateCreated datePublished" datetime="2020-06-06T22:03:35+08:00">2020-06-06</time>
+              <time title="创建时间：2020-06-06 22:03:35" itemprop="dateCreated datePublished" datetime="2020-06-06T22:03:35+08:00">2020-06-06</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-07-02 21:58:21" itemprop="dateModified" datetime="2020-07-02T21:58:21+08:00">2020-07-02</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -281,7 +287,7 @@
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">(&#123; </span><br><span class="line">  __typeof__(atomic_load_explicit(((__typeof__(*(&amp;(dsema)-&gt;dsema_value)) _Atomic *)(&amp;(dsema)-&gt;dsema_value)), memory_order_relaxed)) _r = ((orig)); </span><br><span class="line">  <span class="built_in">_Bool</span> _b = atomic_compare_exchange_weak_explicit(((__typeof__(*(&amp;(dsema)-&gt;dsema_value)) _Atomic *)(&amp;(dsema)-&gt;dsema_value)), &amp;_r, (orig + <span class="number">1</span>), memory_order_relaxed, memory_order_relaxed); </span><br><span class="line">  *((&amp;orig)) = _r; </span><br><span class="line">  _b; </span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 <p>主要是atomic_compare_exchange_weak_explicit函数的意思了：</p>
 <p><code>_Bool atomic_compare_exchange_weak_explicit（volatile A * obj，C * expected，C desired，memory_order succ，memory_order fail）;</code></p>
-<p>比较并交换被封装的值(weak)与参数 expected 所指定的值是否相等，如果：<br>相等，则用 desired 替换原子对象的旧值。<br>不相等，则用原子对象的旧值替换 expected ，因此调用该函数之后，如果被该原子对象封装的值与参数 expected 所指定的值不相等，expected 中的内容就是原子对象的旧值。<br>该函数通常会读取原子对象封装的值，如果比较为 true(即原子对象的值等于 expected)，则替换原子对象的旧值，但整个操作是原子的，在某个线程读取和修改该原子对象时，另外的线程不能对读取和修改该原子对象。</p>
+<p>比较并交换被封装的值(weak)与参数 expected 所指定的值是否相等，如果：<br>相等，则用 desired 替换原子对象的旧值。<br>不相等，则用原子对象的旧值替换 expected ，因此调用该函数之后，如果被该原子对象封装的值与参数 expected 所指定的值不相等，expected 中的内容就是原子对象的旧值。<br>该函数通常会读取原子对象封装的值，如果比较为 true(即原子对象的值等于 expected)，则替换原子对象的旧值，但整个操作是原子的，在某个线程读取和修改该原子对象时，另外的线程不能读取和修改该原子对象。</p>
 <p>比较的结果：<code>true</code>如果<code>*obj</code>等于<code>*exp</code>，否则<code>false</code>。</p>
 <p>在这里，orig肯定&lt;0，所以会进入while循环，</p>
 <p>如果orig和dsema_value相等（在这里orig是等于dsema_value的），则dsema_value加1，os_atomic_cmpxchgvw2o返回true，最终<code>return _DSEMA4_TIMEOUT();</code></p>
@@ -301,9 +307,15 @@
 <p>如果dsema_value &lt; dsema_orig，崩溃。提示Semaphore object deallocated while in use，即信号量销毁时如果还有wait信号量的线程，这种情况下会导致崩溃，所以函数说明才提醒我们wait和signal要配对使用。</p>
 <p>换句话，只有当signal次数&gt;=wait的次数，dsema_value才会&gt;=dsema_orig。从实现来看，我们要保证signal次数&gt;=wait的次数。</p>
 <p>然后就是调用_dispatch_sema4_dispose进行销毁操作。</p>
+<p><strong>思考</strong></p>
+<p>Q1：使用互斥锁和条件变量实现一个信号量？</p>
+<p>在实现时特别要注意条件的判断。不能使用信号量计数值作为条件的判断条件，否则很容易导致循环等待。必须要额外定义一个变量专门用于条件的判断。</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@interface</span> XQCustomSemaphore ()</span><br><span class="line"></span><br><span class="line"><span class="variable">@property</span> (nonatomic, assign) pthread_mutex_t mutex;</span><br><span class="line"><span class="variable">@property</span> (nonatomic, assign) pthread_cond_t cond;</span><br><span class="line"><span class="variable">@property</span> (nonatomic, assign) NSInteger value; <span class="comment">//信号量的值</span></span><br><span class="line"><span class="variable">@property</span> (nonatomic, assign) NSInteger wakeups; <span class="comment">//记录唤醒次数，这个变量非常重要，条件判断时应该使用该变量</span></span><br><span class="line"></span><br><span class="line"><span class="variable">@end</span></span><br></pre></td></tr></table></figure>
+<p>实现：</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">@implementation XQCustomSemaphore</span><br><span class="line"></span><br><span class="line">- (void)dealloc &#123;</span><br><span class="line">    pthread<span class="constructor">_mutex_destroy(&amp;<span class="params">_mutex</span>)</span>;</span><br><span class="line">    pthread<span class="constructor">_cond_destroy(&amp;<span class="params">_cond</span>)</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (instancetype)initWithSemaphore:(NSInteger)semaphore &#123;</span><br><span class="line">    self = <span class="literal">[<span class="identifier">super</span> <span class="identifier">init</span>]</span>;</span><br><span class="line">    <span class="keyword">if</span> (self) &#123;</span><br><span class="line">        pthread<span class="constructor">_mutex_init(&amp;<span class="params">_mutex</span>, NULL)</span>;</span><br><span class="line">        pthread<span class="constructor">_cond_init(&amp;<span class="params">_cond</span>, NULL)</span>;</span><br><span class="line">        _value = semaphore;</span><br><span class="line">        _wakeups = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    return self;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)signal &#123;</span><br><span class="line">    pthread<span class="constructor">_mutex_lock(&amp;<span class="params">_mutex</span>)</span>;</span><br><span class="line">    _value++;</span><br><span class="line">    <span class="keyword">if</span> (_value &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">        _wakeups++;</span><br><span class="line">        pthread<span class="constructor">_cond_signal(&amp;<span class="params">_cond</span>)</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    pthread<span class="constructor">_mutex_unlock(&amp;<span class="params">_mutex</span>)</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)wait &#123;</span><br><span class="line">    pthread<span class="constructor">_mutex_lock(&amp;<span class="params">_mutex</span>)</span>;</span><br><span class="line">    _value--;</span><br><span class="line">    <span class="keyword">if</span> (_value &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">do</span> &#123;</span><br><span class="line">            pthread<span class="constructor">_cond_wait(&amp;<span class="params">_cond</span>, &amp;<span class="params">_mutex</span>)</span>;</span><br><span class="line">        &#125; <span class="keyword">while</span> (_wakeups &lt; <span class="number">1</span>); <span class="comment">//如果因为其他原因被唤醒，_wakeups的值必定小于 1，于是又等待。</span></span><br><span class="line">        _wakeups--;</span><br><span class="line">    &#125;</span><br><span class="line">    pthread<span class="constructor">_mutex_unlock(&amp;<span class="params">_mutex</span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>参考：<a href="https://segmentfault.com/a/1190000005934154" target="_blank" rel="noopener">操作系统思考 第十一章 C语言中的信号量</a></p>
 <h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><p><a href="https://xiaozhuanlan.com/topic/4365017982" target="_blank" rel="noopener">深入浅出 GCD 之 dispatch_semaphore</a>  介绍信号量源码实现的，不过版本较低</p>
 <p><a href="https://www.shangmayuan.com/a/32031a7be207483dbf4c870c.html" target="_blank" rel="noopener">写给本身看的源码系列: GCD的信号量semaphore</a>   新版本的</p>
-<p><a href="https://www.cnblogs.com/LiLihongqiang/p/7599390.html" target="_blank" rel="noopener">深入理解 GCD</a>  很不错</p>
 
     </div>
 
@@ -403,7 +415,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">110</span>
+          <span class="site-state-item-count">111</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -416,7 +428,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">71</span>
+        <span class="site-state-item-count">72</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

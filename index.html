@@ -191,6 +191,103 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/03/%E9%A2%84%E5%A4%84%E7%90%86%E5%91%BD%E4%BB%A4%E4%B9%8B%E5%AE%8F%E5%AE%9A%E4%B9%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而奋斗">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/07/03/%E9%A2%84%E5%A4%84%E7%90%86%E5%91%BD%E4%BB%A4%E4%B9%8B%E5%AE%8F%E5%AE%9A%E4%B9%89/" class="post-title-link" itemprop="url">预处理命令之宏定义</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-07-03 09:57:17 / 修改时间：23:28:58" itemprop="dateCreated datePublished" datetime="2020-07-03T09:57:17+08:00">2020-07-03</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2020/07/03/%E9%A2%84%E5%A4%84%E7%90%86%E5%91%BD%E4%BB%A4%E4%B9%8B%E5%AE%8F%E5%AE%9A%E4%B9%89/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/07/03/预处理命令之宏定义/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>这里不谈宏的使用。只是突然想知道定义一个宏之后，这个宏的作用域有多大。</p>
+<h3 id="宏定义作用域"><a href="#宏定义作用域" class="headerlink" title="宏定义作用域"></a>宏定义作用域</h3><p>C语言标准中宏定义的作用域是：如果是在块作用域内，则从定义位置开始，到块作用域结束，否则到其当前文件结尾，其他文件如果没有通过#include包含这个文件，则使用该宏是无效的。</p>
+<p>比如我在a.m里面定义了一个宏<code>#define kCondTrue 1</code>，在b.m里面有如下代码：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)btnDidClicked:(<span class="built_in">UIButton</span> *)sender &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"btnDidClicked"</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="meta">#<span class="meta-keyword">if</span> kCondTrue			<span class="comment">//不会有编译错误</span></span></span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@"111"</span>);</span><br><span class="line">    <span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>由于kCondTrue宏对b.m是不可见的，所以这里不会打印111。</p>
+<p>通常编译器会有一些预定义宏，预定义的宏大多会遵守命名规则：<code>__xxx_yyy__</code>，以双下划线开始和结束。比如<code>__OBJC2__</code>就是一个预定义的宏。</p>
+<p>宏定义很强大，组合起来可以实现一个很复杂的功能。but 这样的宏可读性是很差的，你可以想象一下一个由十几个宏共同组合完成的宏有多么可怕，OC开源源码里面原子操作相关的宏是真滴恐怖。感觉如果一个宏过于复杂最好还是用方法代替。</p>
+<p>完了。</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/07/03/%E9%A2%84%E5%A4%84%E7%90%86%E5%91%BD%E4%BB%A4%E4%B9%8B%E5%AE%8F%E5%AE%9A%E4%B9%89/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/21/%E4%BB%8E%E6%B1%87%E7%BC%96%E8%A7%92%E5%BA%A6%E7%9C%8BARC%E4%B8%AD%E7%9A%84%E6%89%80%E6%9C%89%E6%9D%83%E4%BF%AE%E9%A5%B0%E7%AC%A6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -214,10 +311,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-06-21 16:51:14 / 修改时间：16:51:29" itemprop="dateCreated datePublished" datetime="2020-06-21T16:51:14+08:00">2020-06-21</time>
+              <time title="创建时间：2020-06-21 16:51:14" itemprop="dateCreated datePublished" datetime="2020-06-21T16:51:14+08:00">2020-06-21</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-06-27 19:27:33" itemprop="dateModified" datetime="2020-06-27T19:27:33+08:00">2020-06-27</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -303,10 +406,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-06-06 22:03:35 / 修改时间：22:06:45" itemprop="dateCreated datePublished" datetime="2020-06-06T22:03:35+08:00">2020-06-06</time>
+              <time title="创建时间：2020-06-06 22:03:35" itemprop="dateCreated datePublished" datetime="2020-06-06T22:03:35+08:00">2020-06-06</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-07-02 21:58:21" itemprop="dateModified" datetime="2020-07-02T21:58:21+08:00">2020-07-02</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -387,10 +496,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-06-06 21:59:36 / 修改时间：22:02:46" itemprop="dateCreated datePublished" datetime="2020-06-06T21:59:36+08:00">2020-06-06</time>
+              <time title="创建时间：2020-06-06 21:59:36" itemprop="dateCreated datePublished" datetime="2020-06-06T21:59:36+08:00">2020-06-06</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-06-26 09:22:44" itemprop="dateModified" datetime="2020-06-26T09:22:44+08:00">2020-06-26</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -424,7 +539,7 @@
 <li><p><code>long signalRs = dispatch_semaphore_signal(semaphoreTask1);</code><br>发出一个信号，将信号量加1。如果有通过dispatch_semaphore_wait()函数等待dispatch semaphore的计数值增加的线程，那么该函数在返回前将唤醒最先处于等待状态的线程。</p>
 <p>返回值：This function returns non-zero if a thread is woken. Otherwise, zero is returned。如果有线程被唤醒则返回一个非0值，否则返回0。</p>
 </li>
-<li><p><code>long waitRs = dispatch_semaphore_wait(semaphoreTask1, DISPATCH_TIME_FOREVER);</code><br>将信号量-1。减去1后如果得到的值<0，则该函数在返回前将一直等待信号的发出，线程会被阻塞。减去1后如果得到的值>0，则正常返回0，不阻塞线程。</0，则该函数在返回前将一直等待信号的发出，线程会被阻塞。减去1后如果得到的值></p>
+<li><p><code>long waitRs = dispatch_semaphore_wait(semaphoreTask1, DISPATCH_TIME_FOREVER);</code><br>将信号量-1。减去1后如果得到的值<0，则该函数在返回前将一直等待信号的发出，线程会被阻塞。减去1后如果得到的值>=0，则正常返回0，不阻塞线程。</0，则该函数在返回前将一直等待信号的发出，线程会被阻塞。减去1后如果得到的值></p>
 <p> timeout：指定等待的时间。如果线程要被阻塞该值表明将阻塞该线程多久。传DISPATCH_TIME_FOREVER意味着该线程永久等待一个信号的发出。 传一个其他值如：dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC))，表明将阻塞该线程2s，2s后函数将返回，线程继续执行（不一定就是执行临界区的代码，可以判断如果返回的是非0表明是等待超时了可以做其他处理）。</p>
 <p>返回值：Returns zero on success, or non-zero if the timeout occurred。</p>
 </li>
@@ -480,10 +595,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-06-06 21:56:32 / 修改时间：21:58:30" itemprop="dateCreated datePublished" datetime="2020-06-06T21:56:32+08:00">2020-06-06</time>
+              <time title="创建时间：2020-06-06 21:56:32" itemprop="dateCreated datePublished" datetime="2020-06-06T21:56:32+08:00">2020-06-06</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-07-02 21:58:21" itemprop="dateModified" datetime="2020-07-02T21:58:21+08:00">2020-07-02</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -507,15 +628,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h4 id="atomic修饰符"><a href="#atomic修饰符" class="headerlink" title="atomic修饰符"></a>atomic修饰符</h4><p>原子性是指一个事物的操作是不可分割的，要么都发生，要么都不发生。有点量子理论的意思。</p>
-<p>使用atomic修饰的属性，编译器在合成getter/setter方法时，相比于nonatomic的属性会有额外的加锁处理。atomic只是保证了赋值/取值的整个过程的完整性，并且不受其他线程的干扰，要么成功要么失败。比如线程A在setter时，线程B如果想setter那么就需要等待，线程C想getter也需要等待。</p>
-<p>注意：atomic无法保证对象的线程安全。</p>
-<p>官方文档对atomic无法保证对象的线程安全举的例子：</p>
-<p>考虑XYZPerson，拥有firstName和lastName两个atomic属性。如果一个线程A正在修改这两个属性，与此同时另一个线程B正在读取这两个属性，那么线程B得到的firstName和lastName的值将会发生数据不匹配的情况。</p>
-<p>eg：</p>
-<p>初始时, firstName = @”李”;  lastName = @”四”;</p>
-<p>线程A想修改为：firstName = @”张”;  lastName = @”三”;</p>
-<p>与此同时线程B在读取这两个属性，那么线程B有可能得到：</p>
+          <p>源码版本：objc4-781，<code>objc-accessors.mm</code>文件中。</p>
+<p>原子操作是指操作是不可分割的，要么发生，要么不发生。事物只会处于原始状态和成功状态两种中的一种，不会处于一种完成一半的状态。</p>
+<h3 id="OC-中的atomic修饰符"><a href="#OC-中的atomic修饰符" class="headerlink" title="OC 中的atomic修饰符"></a>OC 中的atomic修饰符</h3><p>源码实现：</p>
+<p>getter 方法：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">id <span class="title">objc_getProperty</span><span class="params">(id self, SEL _cmd, <span class="keyword">ptrdiff_t</span> offset, BOOL atomic)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (offset == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> object_getClass(self);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Retain release world</span></span><br><span class="line">    id *slot = (id*) ((<span class="keyword">char</span>*)self + offset);</span><br><span class="line">    <span class="keyword">if</span> (!atomic) <span class="keyword">return</span> *slot;</span><br><span class="line">        </span><br><span class="line">    <span class="comment">// Atomic retain release world</span></span><br><span class="line">    <span class="keyword">spinlock_t</span>&amp; slotlock = PropertyLocks[slot];</span><br><span class="line">    slotlock.lock();</span><br><span class="line">    id value = objc_retain(*slot); <span class="comment">//+1</span></span><br><span class="line">    slotlock.unlock();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// for performance, we (safely) issue the autorelease OUTSIDE of the spinlock.</span></span><br><span class="line">    <span class="keyword">return</span> objc_autoreleaseReturnValue(value); <span class="comment">//注册到自动释放池中，符合内存管理命名规则</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>setter 方法：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">reallySetProperty</span><span class="params">(id self, SEL _cmd, id newValue, <span class="keyword">ptrdiff_t</span> offset, <span class="keyword">bool</span> atomic, <span class="keyword">bool</span> copy, <span class="keyword">bool</span> mutableCopy)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (offset == <span class="number">0</span>) &#123;</span><br><span class="line">        object_setClass(self, newValue);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    id oldValue;</span><br><span class="line">    id *slot = (id*) ((<span class="keyword">char</span>*)self + offset);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (copy) &#123;</span><br><span class="line">        newValue = [newValue copyWithZone:nil];</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mutableCopy) &#123;</span><br><span class="line">        newValue = [newValue mutableCopyWithZone:nil];</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (*slot == newValue) <span class="keyword">return</span>;</span><br><span class="line">        newValue = objc_retain(newValue); <span class="comment">//retain新值</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!atomic) &#123;</span><br><span class="line">        oldValue = *slot; <span class="comment">//获取旧值</span></span><br><span class="line">        *slot = newValue; <span class="comment">//赋予新值</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">spinlock_t</span>&amp; slotlock = PropertyLocks[slot];</span><br><span class="line">        slotlock.lock();  </span><br><span class="line">        oldValue = *slot; <span class="comment">//</span></span><br><span class="line">        *slot = newValue;        </span><br><span class="line">        slotlock.unlock();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    objc_release(oldValue); <span class="comment">//release 旧值</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">objc_setProperty_atomic</span><span class="params">(id self, SEL _cmd, id newValue, <span class="keyword">ptrdiff_t</span> offset)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    reallySetProperty(self, _cmd, newValue, offset, <span class="literal">true</span>, <span class="literal">false</span>, <span class="literal">false</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">objc_setProperty_nonatomic</span><span class="params">(id self, SEL _cmd, id newValue, <span class="keyword">ptrdiff_t</span> offset)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    reallySetProperty(self, _cmd, newValue, offset, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">false</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">objc_setProperty_atomic_copy</span><span class="params">(id self, SEL _cmd, id newValue, <span class="keyword">ptrdiff_t</span> offset)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    reallySetProperty(self, _cmd, newValue, offset, <span class="literal">true</span>, <span class="literal">true</span>, <span class="literal">false</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">objc_setProperty_nonatomic_copy</span><span class="params">(id self, SEL _cmd, id newValue, <span class="keyword">ptrdiff_t</span> offset)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    reallySetProperty(self, _cmd, newValue, offset, <span class="literal">false</span>, <span class="literal">true</span>, <span class="literal">false</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述锁从何而来：从objc-accessors.mm中定义的全局PropertyLocks哈希表中获取。</p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">StripedMap&lt;spinlock_t&gt; </span>PropertyLocks<span class="comment">;</span></span><br><span class="line"><span class="keyword">StripedMap&lt;spinlock_t&gt; </span><span class="keyword">StructLocks;</span></span><br><span class="line"><span class="keyword">StripedMap&lt;spinlock_t&gt; </span>CppObjectLocks<span class="comment">;</span></span><br></pre></td></tr></table></figure>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/06/06/OC-atomic%E4%BF%AE%E9%A5%B0%E7%AC%A6/#more" rel="contents">
@@ -1010,109 +1131,11 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/01/%E5%9F%BA%E9%87%91%E5%B8%B8%E8%A7%81%E6%A6%82%E5%BF%B5/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而奋斗">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/05/01/%E5%9F%BA%E9%87%91%E5%B8%B8%E8%A7%81%E6%A6%82%E5%BF%B5/" class="post-title-link" itemprop="url">基金常见概念</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-05-01 16:00:03 / 修改时间：16:19:09" itemprop="dateCreated datePublished" datetime="2020-05-01T16:00:03+08:00">2020-05-01</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">经济学</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2020/05/01/%E5%9F%BA%E9%87%91%E5%B8%B8%E8%A7%81%E6%A6%82%E5%BF%B5/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/05/01/基金常见概念/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><strong>基金的一些概念</strong></p>
-<p>如下图：</p>
-<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/5C9E117C940FCD96FFFDB344982570E9.png" style="zoom:25%;"></p>
-<p><strong>日涨幅</strong></p>
-<p>（当日净值 - 昨日净值）/ 昨日净值 x 100%</p>
-<p>比如要计算4.30的日涨幅，那么当日净值需要取4.30的净值，昨日净值取的就是4.29的净值。</p>
-<p>eg:</p>
-<p>4月29日的单位净值为1.8470，4月30日的单位净值为1.8450，这样4月30日的日涨幅就是：</p>
-<p>（1.8450 - 1.8470）/ 1.8470 x 100% = -0.108284% ≈ -0.11%，负数说明亏了。</p>
-<p><strong>昨日收益</strong></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/05/01/%E5%9F%BA%E9%87%91%E5%B8%B8%E8%A7%81%E6%A6%82%E5%BF%B5/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1178,7 +1201,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">110</span>
+          <span class="site-state-item-count">111</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1191,7 +1214,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">71</span>
+        <span class="site-state-item-count">72</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

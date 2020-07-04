@@ -191,6 +191,141 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/20/%E9%9F%B3%E8%A7%86%E9%A2%91%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%92%8C%E9%9F%B3%E8%A7%86%E9%A2%91%E7%BC%96%E8%A7%A3%E7%A0%81%E6%A0%BC%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而奋斗">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/12/20/%E9%9F%B3%E8%A7%86%E9%A2%91%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%92%8C%E9%9F%B3%E8%A7%86%E9%A2%91%E7%BC%96%E8%A7%A3%E7%A0%81%E6%A0%BC%E5%BC%8F/" class="post-title-link" itemprop="url">音视频文件格式和音视频编解码格式</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2018-12-20 00:23:55 / 修改时间：00:27:26" itemprop="dateCreated datePublished" datetime="2018-12-20T00:23:55+08:00">2018-12-20</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/" itemprop="url" rel="index"><span itemprop="name">音视频</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2018/12/20/%E9%9F%B3%E8%A7%86%E9%A2%91%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%92%8C%E9%9F%B3%E8%A7%86%E9%A2%91%E7%BC%96%E8%A7%A3%E7%A0%81%E6%A0%BC%E5%BC%8F/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/12/20/音视频文件格式和音视频编解码格式/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="音视频文件格式和音视频编解码格式"><a href="#音视频文件格式和音视频编解码格式" class="headerlink" title="音视频文件格式和音视频编解码格式"></a>音视频文件格式和音视频编解码格式</h4><p>音视频文件格式它是一个容器,是一种封装格式,里面包含了音频,视频数据,字幕等.而对音频或视频数据进行编解码的算法才叫做音视频的编解码格式.二者不能搞混.因此同一种文件格式里面的音视频编码格式可能会不同.这样就有可能出现播放器有时能够播放某个文件格式,有时又播放不了.</p>
+<p>对于音频文件,虽然一种音频文件格式可以支持多种编码，例如AVI文件格式，但多数的音频文件仅支持一种音频编码。</p>
+<p>有两类主要的音频文件格式：</p>
+<ul>
+<li>无损格式，例如WAV，PCM，ALS，ALAC，TAK，FLAC，APE，WavPack(WV)</li>
+<li>有损格式，例如MP3，AAC，WMA，Ogg Vorbis</li>
+</ul>
+<p>iOS支持的音频文件格式  </p>
+<p>iOS supports the audio file formats listed in Table 2-1. For information on audio data formats available in iOS, see Codecs.</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Format name</th>
+<th>Format filename extensions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AIFF</td>
+<td>.aif, .aiff</td>
+</tr>
+<tr>
+<td>CAF</td>
+<td>.caf</td>
+</tr>
+<tr>
+<td>MPEG-1, layer 3</td>
+<td>.mp3</td>
+</tr>
+<tr>
+<td>MPEG-2 or MPEG-4 ADTS</td>
+<td>.aac</td>
+</tr>
+<tr>
+<td>MPEG-4</td>
+<td>.m4a, .mp4</td>
+</tr>
+<tr>
+<td>WAV</td>
+<td>.wav</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>In iOS, Core Audio capabilities include recording, playback, sound effects, positioning, format conversion, and file stream parsing.<br>Core Audio Overview is for all developers interested in creating audio software. Before reading this document you should have basic knowledge of <strong>general audio, digital audio, and MIDI terminology</strong>.</p>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#import &lt;CoreAudio/CoreAudioTypes.h&gt;</span></span><br><span class="line">CF_ENUM(AudioFormatID)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">kAudioFormatLinearPCM</span>               = 'lpcm',</span><br><span class="line">    <span class="attr">kAudioFormatAC3</span>                     = 'ac-<span class="number">3</span>',</span><br><span class="line">    <span class="attr">kAudioFormat60958AC3</span>                = 'cac3',</span><br><span class="line">    <span class="attr">kAudioFormatAppleIMA4</span>               = 'ima4',</span><br><span class="line">    <span class="attr">kAudioFormatMPEG4AAC</span>                = 'aac ',</span><br><span class="line">    <span class="attr">kAudioFormatMPEG4CELP</span>               = 'celp',</span><br><span class="line">    <span class="attr">kAudioFormatMPEG4HVXC</span>               = 'hvxc',</span><br><span class="line">    <span class="attr">kAudioFormatMPEG4TwinVQ</span>             = 'twvq',</span><br><span class="line">    <span class="attr">kAudioFormatMACE3</span>                   = 'MAC3',</span><br><span class="line">    <span class="attr">kAudioFormatMACE6</span>                   = 'MAC6',</span><br><span class="line">    <span class="attr">kAudioFormatULaw</span>                    = 'ulaw',</span><br><span class="line">    <span class="attr">kAudioFormatALaw</span>                    = 'alaw',</span><br><span class="line">    <span class="attr">kAudioFormatQDesign</span>                 = 'QDMC',</span><br><span class="line">    <span class="attr">kAudioFormatQDesign2</span>                = 'QDM2',</span><br><span class="line">    <span class="attr">kAudioFormatQUALCOMM</span>                = 'Qclp',</span><br><span class="line">    <span class="attr">kAudioFormatMPEGLayer1</span>              = '.mp1',</span><br><span class="line">    <span class="attr">kAudioFormatMPEGLayer2</span>              = '.mp2',</span><br><span class="line">    <span class="attr">kAudioFormatMPEGLayer3</span>              = '.mp3',</span><br><span class="line">    <span class="attr">kAudioFormatTimeCode</span>                = 'time',</span><br><span class="line">    <span class="attr">kAudioFormatMIDIStream</span>              = 'midi',</span><br><span class="line">    <span class="attr">kAudioFormatParameterValueStream</span>    = 'apvs',</span><br><span class="line">    <span class="attr">kAudioFormatAppleLossless</span>           = 'alac',</span><br><span class="line">    <span class="attr">kAudioFormatMPEG4AAC_HE</span>             = 'aach',</span><br><span class="line">    <span class="attr">kAudioFormatMPEG4AAC_LD</span>             = 'aacl',</span><br><span class="line">    <span class="attr">kAudioFormatMPEG4AAC_ELD</span>            = 'aace',</span><br><span class="line">    <span class="attr">kAudioFormatMPEG4AAC_ELD_SBR</span>        = 'aacf',</span><br><span class="line">    <span class="attr">kAudioFormatMPEG4AAC_ELD_V2</span>         = 'aacg',    </span><br><span class="line">    <span class="attr">kAudioFormatMPEG4AAC_HE_V2</span>          = 'aacp',</span><br><span class="line">    <span class="attr">kAudioFormatMPEG4AAC_Spatial</span>        = 'aacs',</span><br><span class="line">    <span class="attr">kAudioFormatAMR</span>                     = 'samr',</span><br><span class="line">    <span class="attr">kAudioFormatAMR_WB</span>                  = 'sawb',</span><br><span class="line">    <span class="attr">kAudioFormatAudible</span>                 = 'AUDB',</span><br><span class="line">    <span class="attr">kAudioFormatiLBC</span>                    = 'ilbc',</span><br><span class="line">    <span class="attr">kAudioFormatDVIIntelIMA</span>             = <span class="number">0</span>x6D730011,</span><br><span class="line">    <span class="attr">kAudioFormatMicrosoftGSM</span>            = <span class="number">0</span>x6D730031,</span><br><span class="line">    <span class="attr">kAudioFormatAES3</span>                    = 'aes3',</span><br><span class="line">    <span class="attr">kAudioFormatEnhancedAC3</span>             = 'ec-<span class="number">3</span>'</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/12/20/%E9%9F%B3%E8%A7%86%E9%A2%91%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%92%8C%E9%9F%B3%E8%A7%86%E9%A2%91%E7%BC%96%E8%A7%A3%E7%A0%81%E6%A0%BC%E5%BC%8F/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/19/UIBarButtonItem%E5%9D%91/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1084,105 +1219,11 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/%E4%B8%8D%E5%B0%8F%E5%BF%83%E9%87%8D%E5%86%99%E4%BA%86%E7%88%B6%E7%B1%BB%E7%9A%84%E6%96%B9%E6%B3%95%E5%AF%BC%E8%87%B4%E7%9A%84%E5%B4%A9%E6%BA%83/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而奋斗">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/07/20/%E4%B8%8D%E5%B0%8F%E5%BF%83%E9%87%8D%E5%86%99%E4%BA%86%E7%88%B6%E7%B1%BB%E7%9A%84%E6%96%B9%E6%B3%95%E5%AF%BC%E8%87%B4%E7%9A%84%E5%B4%A9%E6%BA%83/" class="post-title-link" itemprop="url">不小心重写了父类的某个方法导致的崩溃</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-07-20 16:59:48" itemprop="dateCreated datePublished" datetime="2018-07-20T16:59:48+08:00">2018-07-20</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2018-07-22 17:16:23" itemprop="dateModified" datetime="2018-07-22T17:16:23+08:00">2018-07-22</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2018/07/20/%E4%B8%8D%E5%B0%8F%E5%BF%83%E9%87%8D%E5%86%99%E4%BA%86%E7%88%B6%E7%B1%BB%E7%9A%84%E6%96%B9%E6%B3%95%E5%AF%BC%E8%87%B4%E7%9A%84%E5%B4%A9%E6%BA%83/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/07/20/不小心重写了父类的方法导致的崩溃/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="不小心重写了父类的某个方法导致的崩溃"><a href="#不小心重写了父类的某个方法导致的崩溃" class="headerlink" title="不小心重写了父类的某个方法导致的崩溃"></a>不小心重写了父类的某个方法导致的崩溃</h3><p>ZAEButton类里有一个commonInit方法,该方法会注册KVO “enabled”.</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">instancetype</span>)initWithFrame:(<span class="built_in">CGRect</span>)frame</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">self</span> = [<span class="keyword">super</span> initWithFrame:frame];</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>) &#123;</span><br><span class="line">        [<span class="keyword">self</span> commonInit];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)commonInit</span><br><span class="line">&#123;</span><br><span class="line">    [<span class="keyword">self</span> addObserver:<span class="keyword">self</span> forKeyPath:<span class="string">@"enabled"</span> options:<span class="built_in">NSKeyValueObservingOptionOld</span> | <span class="built_in">NSKeyValueObservingOptionNew</span> context:<span class="literal">nil</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)dealloc</span><br><span class="line">&#123;</span><br><span class="line">    [<span class="keyword">self</span> removeObserver:<span class="keyword">self</span> forKeyPath:<span class="string">@"enabled"</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>ZAECountDownButton类为ZAEButton的子类,如果不仔细看父类的实现的话,可能也会定义一个commonInit方法.此时就是重写了该方法,虽然这并不是你的意愿.</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">instancetype</span>)initWithFrame:(<span class="built_in">CGRect</span>)frame</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">self</span> = [<span class="keyword">super</span> initWithFrame:frame];</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>) &#123;</span><br><span class="line">        [<span class="keyword">self</span> commonInit];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)commonInit</span><br><span class="line">&#123;</span><br><span class="line">    _duration = <span class="number">30</span>;</span><br><span class="line">    _autoCountDown = <span class="literal">YES</span>;</span><br><span class="line">    _timerStartState = ZAECountDownButtonTimerStartStateFromBegining;</span><br><span class="line">    [<span class="keyword">self</span> addTarget:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(buttonDidClicked:) forControlEvents:<span class="built_in">UIControlEventTouchUpInside</span>];</span><br><span class="line">    _activityView = [[<span class="built_in">UIActivityIndicatorView</span> alloc] initWithActivityIndicatorStyle:<span class="built_in">UIActivityIndicatorViewStyleGray</span>];</span><br><span class="line">    [<span class="keyword">self</span> addSubview:_activityView];</span><br><span class="line">    _activityView.center = <span class="built_in">CGPointMake</span>(<span class="keyword">self</span>.bounds.size.width/<span class="number">2.0</span>, <span class="keyword">self</span>.bounds.size.height/<span class="number">2.0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>崩溃就这样产生了:</p>
-<p>当实例化一个ZAECountDownButton对象,调用到[super initWithFrame:frame]时,由于子类和父类都有一个commonInit方法,子类会覆盖父类的方法,最终调用的是子类的commonInit方法.此时,子类就不会注册kvo,而当对象销毁时,会执行到父类的dealloc方法移除KVO,于是程序会因为KVO注册—移除不匹配而导致崩溃.</p>
-<p>这或许就是有些框架中父类的初始化方法都有”_”的缘故吧.</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1248,7 +1289,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">110</span>
+          <span class="site-state-item-count">111</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1261,7 +1302,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">71</span>
+        <span class="site-state-item-count">72</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
