@@ -8,5 +8,5 @@ tags:
 categories:
 - 分类1
 - 分类2
-comments: false
+comments: true
 ---

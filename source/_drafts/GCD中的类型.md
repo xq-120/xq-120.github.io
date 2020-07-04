@@ -1,5 +1,5 @@
 ---
-title: iOS GCD
+title: GCD中的类型
 tags:
   - 标签1
   - 标签2
@@ -7,11 +7,11 @@ tags:
 categories:
   - 分类1
   - 分类2
-comments: false
-date: 2020-05-23 15:23:33
+comments: true
+date: 2020-07-04 14:00:24
 ---
 
-GCD类型
+### GCD中的类型
 
 dispatch_object_t，dispatch_queue_t，dispatch_group_t
 
@@ -219,13 +219,9 @@ void *do_finalizer;
         @end
 ```
 
+对`DISPATCH_CLASS_DECL(semaphore, OBJECT);`展开：
 
-
-展开：
-
-```
-DISPATCH_CLASS_DECL(semaphore, OBJECT);
-    
+```c
 @protocol OS_dispatch_semaphore <OS_dispatch_object>
 @end
 @interface OS_dispatch_semaphore () <OS_dispatch_semaphore>
@@ -236,42 +232,18 @@ struct dispatch_semaphore_extra_vtable_s {
     void (*const do_dispose)(struct dispatch_semaphore_s *, _Bool *allow_free);
     size_t (*const do_debug)(struct dispatch_semaphore_s *, char *, size_t);
     void (*const do_invoke)(struct dispatch_semaphore_s *, dispatch_invoke_context_t, dispatch_invoke_flags_t);
-
 };
 struct dispatch_semaphore_vtable_s {
     void *_os_obj_objc_class_t[5];
     struct dispatch_semaphore_extra_vtable_s _os_obj_vtable;
-
 };
 extern const struct dispatch_semaphore_vtable_s _OS_dispatch_semaphore_vtable;
 extern const struct dispatch_semaphore_vtable_s OS_dispatch_semaphore_class __asm__("_OBJC_CLASS_$_" "OS_dispatch_semaphore");
 ```
 
-
-
-
-
-GCD 501版本的还不算复杂
-
-Dispatch Group的本质是一个初始value为LONG_MAX的semaphore，通过信号量来实现一组任务的管理。
-
-#### 参考
-
-[Concurrency Programming Guide](https://developer.apple.com/library/archive/documentation/General/Conceptual/ConcurrencyProgrammingGuide/Introduction/Introduction.html)  官方并发编程指南
-
-[线程安全类的设计](https://objccn.io/issue-2-4/)  王巍译
-
-[我所理解的 iOS 并发编程](https://blog.boolchow.com/2018/04/06/iOS-Concurrency-Programming/)  很全
-
-[深入理解 GCD](https://www.cnblogs.com/LiLihongqiang/p/7599390.html)  很不错
+### 参考
 
 [GCD 中的类型](https://blog.csdn.net/u011374318/article/details/87870585)
 
-[GCD源码吐血分析(1)——GCD Queue](https://blog.csdn.net/u013378438/article/details/81031938)  GCD版本变化太大了，新版本里面的宏简直到了令人发指的地步了。作者的博客还可以，是成系列的。
-
-[GCD源码分析（一）——“对象”和数据结构]([https://chy305chy.github.io/2018/11/29/GCD%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%EF%BC%88%E4%B8%80%EF%BC%89%E2%80%94%E2%80%94%E2%80%9C%E5%AF%B9%E8%B1%A1%E2%80%9D%E5%92%8C%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/](https://chy305chy.github.io/2018/11/29/GCD源码分析（一）——"对象"和数据结构/))  913版本的
-
-[深入浅出 GCD 之 dispatch_group](https://xiaozhuanlan.com/topic/0863519247)  比较旧的版本的
-
-[GCD源码解析(一)-dispatch_queue_create、dispatch_get_main_queue、dispatch_get_global_queue](https://www.jianshu.com/p/7702c06cda4c)
+[GCD源码分析（一）——“对象”和数据结构](https://chy305chy.github.io/2018/11/29/GCD%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%EF%BC%88%E4%B8%80%EF%BC%89%E2%80%94%E2%80%94%E2%80%9C%E5%AF%B9%E8%B1%A1%E2%80%9D%E5%92%8C%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/)  913版本的
 
