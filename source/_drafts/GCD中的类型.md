@@ -466,6 +466,9 @@ struct dispatch_group_s {
 
 现在都是操作dg_bits进行加减，dg_gen用来记录dg_bits变为0的次数。
 
+1. 高32位dg_gen是用来干嘛的？
+2. notify block是如何知道所有block都执行完成了的？
+
 ### 参考
 
 [GCD 中的类型](https://blog.csdn.net/u011374318/article/details/87870585)
