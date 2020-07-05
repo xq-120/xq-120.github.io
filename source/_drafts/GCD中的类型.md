@@ -11,9 +11,25 @@ comments: true
 date: 2020-07-04 14:00:24
 ---
 
-### GCD中的类型
+版本`libdispatch-1173.40.5`。
 
-dispatch_object_t，dispatch_queue_t，dispatch_group_t
+### GCD中的类型声明
+
+`libdispatch`库是纯C语言编写的，因此并不存在类似面向对象语言中的类、对象之类的概念。
+
+常见的几个类型：dispatch_object_t，dispatch_queue_t，dispatch_group_t，dispatch_semaphore_t。在OC文件中：
+
+```
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    dispatch_object_t obj = nil;
+    dispatch_semaphore_t sm = nil;
+    dispatch_queue_t queue = nil;
+}
+```
+
+点进去后发现声明如下：
 
 ```
 OS_OBJECT_DECL_CLASS(dispatch_object);
@@ -21,6 +37,8 @@ OS_OBJECT_DECL_CLASS(dispatch_object);
 DISPATCH_DECL(dispatch_queue);
 
 DISPATCH_DECL(dispatch_group);
+
+DISPATCH_DECL(dispatch_semaphore);
 ```
 
 首先是`OS_OBJECT_DECL_CLASS(name)`宏：
@@ -59,23 +77,18 @@ typedef NSObject<OS_dispatch_object> * __attribute__((objc_independent_class)) d
 1. 定义了一个OS_name的协议，协议遵守父协议NSObject协议。
 2. 定义了一个类型别名name_t，原类型是`NSObject<OS_name> *`，即遵守了OS_name协议的NSObject类
 
-name_t指向的对象就是一个遵守了OS_name协议的OC对象。
+name_t指向的对象就是一个遵守了OS_name协议的OC对象。虽说name_t指向的应该是一个OC对象，但是创建的时候并不是通过alloc init创建的还是调用C函数创建的，如`dispatch_semaphore_create`。这是由于`libdispatch`库是纯C语言编写的，它内部实际上指向的是一个C结构体实例。
 
 还有一个宏`OS_OBJECT_DECL_SUBCLASS(name, super)`：
 
 ```
 #define OS_OBJECT_DECL_SUBCLASS(name, super) \
 		OS_OBJECT_DECL_IMPL(name, <OS_OBJECT_CLASS(super)>)
-
-#define OS_OBJECT_DECL_IMPL(name, ...) \
-		OS_OBJECT_DECL_PROTOCOL(name, __VA_ARGS__) \
-		typedef NSObject<OS_OBJECT_CLASS(name)> \
-				* OS_OBJC_INDEPENDENT_CLASS name##_t
 ```
 
 展开后：
 
-```
+```objc
 @protocol OS_name <OS_super> 
 @end 
 typedef NSObject<OS_name> * __attribute__((objc_independent_class)) name_t;
@@ -83,7 +96,7 @@ typedef NSObject<OS_name> * __attribute__((objc_independent_class)) name_t;
 
 也是说`OS_OBJECT_DECL_SUBCLASS(name, super)`宏：
 
-1. 定义了一个OS_name的协议，协议遵守父协议OS_super协议。
+1. 定义了一个OS_name的协议，协议**遵守父协议OS_super协议**。这也是语义里的SUBCLASS。
 2. 定义了一个类型别名name_t，原类型是`NSObject<OS_name> *`，即遵守了OS_name协议的NSObject类
 
 以上看懂之后，下面的宏就很简单了
@@ -93,11 +106,19 @@ typedef NSObject<OS_name> * __attribute__((objc_independent_class)) name_t;
 #define DISPATCH_DECL_SUBCLASS(name, base) OS_OBJECT_DECL_SUBCLASS(name, base)
 ```
 
-`DISPATCH_DECL(name)`宏定义了一个协议OS_name，该协议遵守父协议OS_dispatch_object，还定义了一个类型别名name_t，即遵守了OS_name协议的NSObject类。
+`DISPATCH_DECL(name)`宏定义了一个协议OS_name，该协议遵守父协议OS_dispatch_object，还定义了一个类型别名name_t，即遵守了OS_name协议的NSObject类。以后看到DISPATCH_DECL宏就表明这里声明的类型是“继承”自dispatch_object的。
 
 `DISPATCH_DECL_SUBCLASS(name, base)`宏定义了一个协议OS_name，该协议遵守父协议OS_base，还定义了一个类型别名name_t，即遵守了OS_name协议的NSObject类。
 
-将上述展开：
+举个例子：`DISPATCH_DECL_SUBCLASS(dispatch_queue_global, dispatch_queue);`
+
+```objc
+@protocol OS_dispatch_queue_global <OS_dispatch_queue> 
+@end 
+typedef NSObject<OS_dispatch_queue_global> * __attribute__((objc_independent_class)) dispatch_queue_global_t;
+```
+
+将上述dispatch_object_t，dispatch_queue_t，dispatch_group_t，dispatch_semaphore_t展开来看一下：
 
 ```objc
 @protocol OS_dispatch_object <NSObject> 
@@ -111,56 +132,60 @@ typedef NSObject<OS_dispatch_queue> * __attribute__((objc_independent_class)) di
 @protocol OS_dispatch_group <OS_dispatch_object> 
 @end 
 typedef NSObject<OS_dispatch_group> * __attribute__((objc_independent_class)) dispatch_group_t;
+
+@protocol OS_dispatch_semaphore <OS_dispatch_object> 
+@end 
+typedef NSObject<OS_dispatch_semaphore> * __attribute__((objc_independent_class)) dispatch_semaphore_t;
 ```
 
-以后看到`OS_OBJECT_DECL_CLASS(name)`和`DISPATCH_DECL(name)`这些宏可以简单的理解为定义了一个类型别名，真实类型是一个遵守OS_name协议的NSObject类型。
-
-#### GCD
-
-`DISPATCH_OBJECT_HEADER(x);`
-
-宏：
+可以看到它们其实都是一个遵守了某个协议的NSObject类型的别名。
 
 ```
-#define DISPATCH_OBJECT_HEADER(x) \
-    struct dispatch_object_s _as_do[0]; \
-    _DISPATCH_OBJECT_HEADER(x)
-
-#define _DISPATCH_OBJECT_HEADER(x) \
-    struct _os_object_s _as_os_obj[0]; \
-    OS_OBJECT_STRUCT_HEADER(dispatch_##x); \
-    struct dispatch_##x##_s *volatile do_next; \
-    struct dispatch_queue_s *do_targetq; \
-    void *do_ctxt; \
-    void *do_finalizer
-
-#define OS_OBJECT_STRUCT_HEADER(x) \
-    _OS_OBJECT_HEADER(\
-    const struct x##_vtable_s *do_vtable, \
-    do_ref_cnt, \
-    do_xref_cnt)
-
-#define _OS_OBJECT_HEADER(isa, ref_cnt, xref_cnt) \
-    isa; /* must be pointer-sized */ \
-    int volatile ref_cnt; \
-    int volatile xref_cnt
+/*
+ * By default, dispatch objects are declared as Objective-C types when building
+ * with an Objective-C compiler. This allows them to participate in ARC, in RR
+ * management by the Blocks runtime and in leaks checking by the static
+ * analyzer, and enables them to be added to Cocoa collections.
+ * See <os/object.h> for details.
+ */
+ OS_OBJECT_DECL_CLASS(dispatch_object);
 ```
 
-展开：
+在OC编译器下dispatch objects都被声明为OC类型，主要是为了能够利用ARC的优势。
 
-```
-struct dispatch_object_s _as_do[0];
-struct _os_object_s _as_os_obj[0];
-const struct dispatch_group_vtable_s *do_vtable;
-int volatile do_ref_cnt;
-int volatile do_xref_cnt;
-struct dispatch_group_s *volatile do_next;
-struct dispatch_queue_s *do_targetq;
-void *do_ctxt;
-void *do_finalizer;
+下面的是纯C编译器下dispatch_object_t的声明：
+
+```c
+#else /* Plain C */
+typedef union {
+	struct _os_object_s *_os_obj;
+	struct dispatch_object_s *_do;
+	struct dispatch_queue_s *_dq;
+	struct dispatch_queue_attr_s *_dqa;
+	struct dispatch_group_s *_dg;
+	struct dispatch_source_s *_ds;
+	struct dispatch_channel_s *_dch;
+	struct dispatch_mach_s *_dm;
+	struct dispatch_mach_msg_s *_dmsg;
+	struct dispatch_semaphore_s *_dsema;
+	struct dispatch_data_s *_ddata;
+	struct dispatch_io_s *_dchannel;
+} dispatch_object_t DISPATCH_TRANSPARENT_UNION;
+#define DISPATCH_DECL(name) typedef struct name##_s *name##_t
+#define DISPATCH_DECL_SUBCLASS(name, base) typedef base##_t name##_t
+#define DISPATCH_GLOBAL_OBJECT(type, object) ((type)&(object))
+#define DISPATCH_RETURNS_RETAINED
 ```
 
-另一个宏`DISPATCH_CLASS_DECL(name, cluster)`：
+纯C下dispatch_object_t其实是一个联合体类型。
+
+dispatch object在不同语言的源文件中的声明是不一样的。dispatch_object_t在OC中则被声明为遵守了某个协议的NSObject类型，在C中则是一个联合体类型。
+
+### GCD中的类继承关系
+
+两大宏：
+
+宏`DISPATCH_CLASS_DECL(name, cluster)`：
 
 ```
 #define DISPATCH_CLASS_DECL(name, cluster) \
@@ -219,7 +244,102 @@ void *do_finalizer;
         @end
 ```
 
-对`DISPATCH_CLASS_DECL(semaphore, OBJECT);`展开：
+宏`DISPATCH_OBJECT_HEADER(x);`：
+
+```
+#define DISPATCH_OBJECT_HEADER(x) \
+    struct dispatch_object_s _as_do[0]; \
+    _DISPATCH_OBJECT_HEADER(x)
+
+#define _DISPATCH_OBJECT_HEADER(x) \
+    struct _os_object_s _as_os_obj[0]; \
+    OS_OBJECT_STRUCT_HEADER(dispatch_##x); \
+    struct dispatch_##x##_s *volatile do_next; \
+    struct dispatch_queue_s *do_targetq; \
+    void *do_ctxt; \
+    void *do_finalizer
+
+#define OS_OBJECT_STRUCT_HEADER(x) \
+    _OS_OBJECT_HEADER(\
+    const struct x##_vtable_s *do_vtable, \
+    do_ref_cnt, \
+    do_xref_cnt)
+
+#define _OS_OBJECT_HEADER(isa, ref_cnt, xref_cnt) \
+    isa; /* must be pointer-sized */ \
+    int volatile ref_cnt; \
+    int volatile xref_cnt
+```
+
+这两个宏就是让C语言模拟出面向对象语言继承特性的宏，一些公共变量的类型会根据传入的参数进行替换拼接。这两个宏的作用就是把一些公共变量和父类结构体成员拷贝到子类里。如果手动拷贝的话不仅麻烦而且容易出错，所以系统就封装了这两个宏。
+
+#### struct _os_object_s
+
+```c
+typedef struct _os_object_vtable_s {
+	_OS_OBJECT_CLASS_HEADER();
+} _os_object_vtable_s;
+
+typedef struct _os_object_s {
+	_OS_OBJECT_HEADER(
+	const _os_object_vtable_s *os_obj_isa,
+	os_obj_ref_cnt,
+	os_obj_xref_cnt);
+} _os_object_s;
+```
+
+展开：
+
+```c
+typedef struct _os_object_vtable_s {
+    void *_os_obj_objc_class_t[5];
+} _os_object_vtable_s;
+
+typedef struct _os_object_s {
+    const _os_object_vtable_s *os_obj_isa; //有一个isa指针
+    int volatile os_obj_ref_cnt;
+    int volatile os_obj_xref_cnt;
+} _os_object_s;
+```
+
+#### struct dispatch_object_s
+
+```
+struct dispatch_object_s {
+	_DISPATCH_OBJECT_HEADER(object);
+};
+```
+
+展开：
+
+```c
+struct dispatch_object_s {
+    struct _os_object_s _as_os_obj[0]; //父类
+    const struct dispatch_object_vtable_s *do_vtable;
+    int volatile do_ref_cnt;
+    int volatile do_xref_cnt;
+    struct dispatch_object_s *volatile do_next;
+    struct dispatch_queue_s *do_targetq;
+    void *do_ctxt;
+    void *do_finalizer;
+};
+```
+
+#### struct dispatch_semaphore_s
+
+```c
+struct dispatch_queue_s;
+
+DISPATCH_CLASS_DECL(semaphore, OBJECT);
+struct dispatch_semaphore_s {
+	DISPATCH_OBJECT_HEADER(semaphore);
+	long volatile dsema_value;
+	long dsema_orig;
+	_dispatch_sema4_t dsema_sema;
+};
+```
+
+展开：
 
 ```c
 @protocol OS_dispatch_semaphore <OS_dispatch_object>
@@ -239,7 +359,112 @@ struct dispatch_semaphore_vtable_s {
 };
 extern const struct dispatch_semaphore_vtable_s _OS_dispatch_semaphore_vtable;
 extern const struct dispatch_semaphore_vtable_s OS_dispatch_semaphore_class __asm__("_OBJC_CLASS_$_" "OS_dispatch_semaphore");
+
+struct dispatch_semaphore_s {
+    //这里的变量都是通过DISPATCH_OBJECT_HEADER(semaphore);宏展开得来的
+    struct dispatch_object_s _as_do[0]; //直接父类
+    struct _os_object_s _as_os_obj[0]; //dispatch_object_s的父类_os_object_s
+    const struct dispatch_semaphore_vtable_s *do_vtable; //根据传入的名字替换
+    int volatile do_ref_cnt;
+    int volatile do_xref_cnt; 
+    struct dispatch_semaphore_s *volatile do_next; //根据传入的名字替换
+    struct dispatch_queue_s *do_targetq; 
+    void *do_ctxt; 
+    void *do_finalizer;
+  
+    long volatile dsema_value;
+    long dsema_orig;
+    _dispatch_sema4_t dsema_sema;
+};
 ```
+
+其中do_vtable和do_next会根据传入的名称替换。其他的就是父类里的变量，其实就是拷贝到自己里面。因为C语言没有继承。
+
+#### struct dispatch_group_s
+
+源码：
+
+```c
+DISPATCH_CLASS_DECL(group, OBJECT);
+struct dispatch_group_s {
+	DISPATCH_OBJECT_HEADER(group);
+	DISPATCH_UNION_LE(uint64_t volatile dg_state,
+			uint32_t dg_bits,
+			uint32_t dg_gen
+	) DISPATCH_ATOMIC64_ALIGN;
+	struct dispatch_continuation_s *volatile dg_notify_head;
+	struct dispatch_continuation_s *volatile dg_notify_tail;
+};
+```
+
+展开：
+
+```c
+struct dispatch_group_s {
+    struct dispatch_object_s _as_do[0];
+    struct _os_object_s _as_os_obj[0];
+    const struct dispatch_group_vtable_s *do_vtable;
+    int volatile do_ref_cnt;
+    int volatile do_xref_cnt;
+    struct dispatch_group_s *volatile do_next;
+    struct dispatch_queue_s *do_targetq;
+    void *do_ctxt;
+    void *do_finalizer;
+  
+    _Static_assert(sizeof(struct { uint64_t volatile dg_state; }) == sizeof(struct { uint32_t dg_bits; uint32_t dg_gen; }), "bogus union");
+    union {
+        uint64_t volatile dg_state;
+        struct {
+            uint32_t dg_bits;
+            uint32_t dg_gen;
+        };
+    } __attribute__((aligned(8)));
+    struct dispatch_continuation_s *volatile dg_notify_head;
+    struct dispatch_continuation_s *volatile dg_notify_tail;
+};
+```
+
+之前版本dispatch_group_s里面是有`_dispatch_sema4_t dsema_sema;`成员变量的现在已经没了。有可能实现方式已经更改了。
+
+看它的注释：
+
+```
+/*
+ * Dispatch Group State:
+ *
+ * Generation (32 - 63):
+ *   32 bit counter that is incremented each time the group value reaches
+ *   0 after a dispatch_group_leave. This 32bit word is used to block waiters
+ *   (threads in dispatch_group_wait) in _dispatch_wait_on_address() until the
+ *   generation changes.
+ *
+ * Value (2 - 31):
+ *   30 bit value counter of the number of times the group was entered.
+ *   dispatch_group_enter counts downward on 32bits, and dispatch_group_leave
+ *   upward on 64bits, which causes the generation to bump each time the value
+ *   reaches 0 again due to carry propagation.
+ *
+ * Has Notifs (1):
+ *   This bit is set when the list of notifications on the group becomes non
+ *   empty. It is also used as a lock as the thread that successfuly clears this
+ *   bit is the thread responsible for firing the notifications.
+ *
+ * Has Waiters (0):
+ *   This bit is set when there are waiters (threads in dispatch_group_wait)
+ *   that need to be woken up the next time the value reaches 0. Waiters take
+ *   a snapshot of the generation before waiting and will wait for the
+ *   generation to change before they return.
+ */
+#define DISPATCH_GROUP_GEN_MASK         0xffffffff00000000ULL
+#define DISPATCH_GROUP_VALUE_MASK       0x00000000fffffffcULL
+#define DISPATCH_GROUP_VALUE_INTERVAL   0x0000000000000004ULL
+#define DISPATCH_GROUP_VALUE_1          DISPATCH_GROUP_VALUE_MASK
+#define DISPATCH_GROUP_VALUE_MAX        DISPATCH_GROUP_VALUE_INTERVAL
+#define DISPATCH_GROUP_HAS_NOTIFS       0x0000000000000002ULL
+#define DISPATCH_GROUP_HAS_WAITERS      0x0000000000000001ULL
+```
+
+现在都是操作dg_bits进行加减，dg_gen用来记录dg_bits变为0的次数。
 
 ### 参考
 
