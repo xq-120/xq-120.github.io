@@ -183,95 +183,9 @@ dispatch object在不同语言的源文件中的声明是不一样的。dispatch
 
 ### GCD中的类继承关系
 
-两大宏：
+宏`DISPATCH_OBJECT_HEADER(x)`是GCD结构体定义里面出现较多的宏。
 
-宏`DISPATCH_CLASS_DECL(name, cluster)`：
-
-```
-#define DISPATCH_CLASS_DECL(name, cluster) \
-        _OS_OBJECT_DECL_PROTOCOL(dispatch_##name, dispatch_object) \
-        _OS_OBJECT_CLASS_IMPLEMENTS_PROTOCOL(dispatch_##name, dispatch_##name) \
-        DISPATCH_CLASS_DECL_BARE(name, cluster)
-        
-#define DISPATCH_CLASS_DECL_BARE(name, cluster) \
-        OS_OBJECT_CLASS_DECL(dispatch_##name, \
-        DISPATCH_##cluster##_VTABLE_HEADER(dispatch_##name))
-        
-// define a new proper class
-#define OS_OBJECT_CLASS_DECL(name, ...) \
-        struct name##_s; \
-        struct name##_extra_vtable_s { \
-            __VA_ARGS__; \
-        }; \
-        struct name##_vtable_s { \
-            _OS_OBJECT_CLASS_HEADER(); \
-            struct name##_extra_vtable_s _os_obj_vtable; \
-        }; \
-        OS_OBJECT_EXTRA_VTABLE_DECL(name, name) \
-        extern const struct name##_vtable_s OS_OBJECT_CLASS_SYMBOL(name) \
-                __asm__(OS_OBJC_CLASS_RAW_SYMBOL_NAME(OS_OBJECT_CLASS(name)))
-                
-#define OS_OBJC_CLASS_RAW_SYMBOL_NAME(name) "_OBJC_CLASS_$_" OS_STRINGIFY(name)
-// Must match size of compiler-generated OBJC_CLASS structure rdar://10640168
-#define _OS_OBJECT_CLASS_HEADER() \
-        void *_os_obj_objc_class_t[5]
-        
-#define OS_OBJECT_EXTRA_VTABLE_DECL(name, ctype) \
-        extern const struct ctype##_vtable_s \
-                OS_OBJECT_EXTRA_VTABLE_SYMBOL(name);
-                
-#define OS_OBJECT_EXTRA_VTABLE_SYMBOL(name) _OS_##name##_vtable
-
-#define DISPATCH_OBJECT_VTABLE_HEADER(x) \
-        unsigned long const do_type; \
-        void (*const do_dispose)(struct x##_s *, bool *allow_free); \
-        size_t (*const do_debug)(struct x##_s *, char *, size_t); \
-        void (*const do_invoke)(struct x##_s *, dispatch_invoke_context_t, \
-                dispatch_invoke_flags_t)
-
-#define OS_OBJECT_CLASS_SYMBOL(name) OS_##name##_class
-
-#define _OS_OBJECT_DECL_PROTOCOL(name, super) \
-        OS_OBJECT_DECL_PROTOCOL(name, <OS_OBJECT_CLASS(super)>)
-#define _OS_OBJECT_CLASS_IMPLEMENTS_PROTOCOL(name, super) \
-        OS_OBJECT_CLASS_IMPLEMENTS_PROTOCOL(name, super)
-#define OS_OBJECT_CLASS(name) OS_##name
-#define OS_OBJECT_DECL_PROTOCOL(name, ...) \
-        @protocol OS_OBJECT_CLASS(name) __VA_ARGS__ \
-        @end
-#define OS_OBJECT_CLASS_IMPLEMENTS_PROTOCOL_IMPL(name, proto) \
-        @interface name () <proto> \
-        @end
-```
-
-宏`DISPATCH_OBJECT_HEADER(x);`：
-
-```
-#define DISPATCH_OBJECT_HEADER(x) \
-    struct dispatch_object_s _as_do[0]; \
-    _DISPATCH_OBJECT_HEADER(x)
-
-#define _DISPATCH_OBJECT_HEADER(x) \
-    struct _os_object_s _as_os_obj[0]; \
-    OS_OBJECT_STRUCT_HEADER(dispatch_##x); \
-    struct dispatch_##x##_s *volatile do_next; \
-    struct dispatch_queue_s *do_targetq; \
-    void *do_ctxt; \
-    void *do_finalizer
-
-#define OS_OBJECT_STRUCT_HEADER(x) \
-    _OS_OBJECT_HEADER(\
-    const struct x##_vtable_s *do_vtable, \
-    do_ref_cnt, \
-    do_xref_cnt)
-
-#define _OS_OBJECT_HEADER(isa, ref_cnt, xref_cnt) \
-    isa; /* must be pointer-sized */ \
-    int volatile ref_cnt; \
-    int volatile xref_cnt
-```
-
-这两个宏就是让C语言模拟出面向对象语言继承特性的宏，一些公共变量的类型会根据传入的参数进行替换拼接。这两个宏的作用就是把一些公共变量和父类结构体成员拷贝到子类里。如果手动拷贝的话不仅麻烦而且容易出错，所以系统就封装了这两个宏。
+这宏就是让C语言模拟出面向对象语言继承特性的宏，一些公共变量的类型会根据传入的参数进行替换拼接。这个宏的作用就是把一些公共变量和父类结构体成员变量拷贝到子类里。如果手动拷贝的话不仅麻烦而且容易出错，所以系统就封装了这个宏。
 
 #### struct _os_object_s
 
@@ -324,6 +238,103 @@ struct dispatch_object_s {
     void *do_finalizer;
 };
 ```
+
+#### struct dispatch_queue_s
+
+定义：使用宏DISPATCH_QUEUE_CLASS_HEADER
+
+```c
+struct dispatch_queue_s {
+	DISPATCH_QUEUE_CLASS_HEADER(queue, void *__dq_opaque1);
+	/* 32bit hole on LP64 */
+} DISPATCH_ATOMIC64_ALIGN;
+```
+
+展开：
+
+```c
+struct dispatch_queue_s {
+    struct dispatch_object_s _as_do[0]; //父类
+    struct _os_object_s _as_os_obj[0];
+    const struct dispatch_queue_vtable_s *do_vtable;
+    int volatile do_ref_cnt;
+    int volatile do_xref_cnt;
+    struct dispatch_queue_s *volatile do_next;
+    struct dispatch_queue_s *do_targetq;
+    void *do_ctxt;
+    void *do_finalizer;
+    void *__dq_opaque1;
+    _Static_assert(sizeof(struct { uint64_t volatile dq_state; }) == sizeof(struct { dispatch_lock dq_state_lock; uint32_t dq_state_bits; }), "bogus union");
+    union {
+        uint64_t volatile dq_state;
+        struct {
+            dispatch_lock dq_state_lock;
+            uint32_t dq_state_bits;
+        };
+    };
+    unsigned long dq_serialnum;
+    const char *dq_label;
+    _Static_assert(sizeof(struct { uint32_t volatile dq_atomic_flags; }) == sizeof(struct { const uint16_t dq_width; const uint16_t __dq_opaque2; }), "bogus union");
+    union {
+        uint32_t volatile dq_atomic_flags;
+        struct {
+            const uint16_t dq_width;
+            const uint16_t __dq_opaque2;
+        };
+    };
+    dispatch_priority_t dq_priority; //queue的优先级
+    union {
+        struct dispatch_queue_specific_head_s *dq_specific_head;
+        struct dispatch_source_refs_s *ds_refs;
+        struct dispatch_timer_source_refs_s *ds_timer_refs;
+        struct dispatch_mach_recv_refs_s *dm_recv_refs;
+        struct dispatch_channel_callbacks_s const *dch_callbacks;
+    };
+    int volatile dq_sref_cnt;
+} __attribute__((aligned(8)));
+```
+
+dispatch_queue_s结构体是整个GCD中最重要的数据结构了。
+
+#### struct dispatch_continuation_s
+
+定义：
+
+```c
+typedef struct dispatch_continuation_s {
+	DISPATCH_CONTINUATION_HEADER(continuation);
+} *dispatch_continuation_t;
+```
+
+continuation使用的是另一个宏：DISPATCH_CONTINUATION_HEADER。
+
+展开：
+
+```c
+typedef struct dispatch_continuation_s {
+    union {
+        const void *do_vtable; 
+        uintptr_t dc_flags;
+    };
+    union {
+        pthread_priority_t dc_priority;
+        int dc_cache_cnt;
+        uintptr_t dc_pad;
+    };
+    struct dispatch_continuation_s *volatile do_next;
+    struct voucher_s *dc_voucher;
+    dispatch_function_t dc_func;
+    void *dc_ctxt;
+    void *dc_data;
+    void *dc_other;
+} *dispatch_continuation_t;
+```
+
+之前版本里的还有一个`struct dispatch_object_s _as_do[0];`成员变量的，代表继承自dispatch_object_s，现在没了。可能觉得没必要有这种耦合。
+
+另：`typedef void (*dispatch_function_t)(void *_Nullable);`，为一个函数指针。dc_func就是为了执行block的。
+
+dispatch_continuation_s 应该是内部对block任务的一层封装。
 
 #### struct dispatch_semaphore_s
 
@@ -468,6 +479,35 @@ struct dispatch_group_s {
 
 1. 高32位dg_gen是用来干嘛的？
 2. notify block是如何知道所有block都执行完成了的？
+
+
+
+```
+os_atomic_cmpxchgv2o(dg, dg_state, old_state, new_state, &old_state, relaxed)
+```
+
+展开：
+
+```
+({
+    __typeof__(__c11_atomic_load(((__typeof__(*(&(dg)->dg_state)) _Atomic *)(&(dg)->dg_state)), memory_order_relaxed)) _r = ((old_state));
+    _Bool _b = __c11_atomic_compare_exchange_strong(((__typeof__(*(&(dg)->dg_state)) _Atomic *)(&(dg)->dg_state)), &_r, (new_state), memory_order_relaxed, memory_order_relaxed);
+    *((&old_state)) = _r;
+    _b;
+})
+```
+
+`_Bool atomic_compare_exchange_strong( volatile A* obj, C* expected, C desired );`
+
+函数说明：
+
+```
+Atomically compares the contents of memory pointed to by obj with the contents of memory pointed to by expected, and if those are bitwise equal, replaces the former with desired (performs read-modify-write operation). Otherwise, loads the actual contents of memory pointed to by obj into *expected (performs load operation).
+
+The result of the comparison: true if *obj was equal to *exp, false otherwise.
+```
+
+obj和expected相等则用desired更新obj的数据，否则用obj更新expected的数据。
 
 ### 参考
 
