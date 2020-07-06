@@ -509,6 +509,44 @@ The result of the comparison: true if *obj was equal to *exp, false otherwise.
 
 obj和expected相等则用desired更新obj的数据，否则用obj更新expected的数据。
 
+
+
+```c
+({
+    _Bool _result = 0;
+    __typeof__(&(dg)->dg_state) _p = (&(dg)->dg_state);
+    old_state = os_atomic_load(_p, relaxed);
+    do {
+        {
+            if ((old_state & DISPATCH_GROUP_VALUE_MASK) == 0) {
+                ({
+                    __c11_atomic_thread_fence(memory_order_acquire);
+                    return 0;
+                    __builtin_unreachable();
+                });
+            } if (unlikely(timeout == 0)) {
+                ({
+                    __c11_atomic_thread_fence(memory_order_relaxed);
+                    return _DSEMA4_TIMEOUT();
+                    __builtin_unreachable();
+                });
+            }
+            new_state = old_state | DISPATCH_GROUP_HAS_WAITERS;
+            if (unlikely(old_state & DISPATCH_GROUP_HAS_WAITERS)) {
+                ({
+                    __c11_atomic_thread_fence(memory_order_relaxed);
+                    break;
+                    __builtin_unreachable();
+                });
+            } };
+        _result = os_atomic_cmpxchgvw(_p, old_state, new_state, &old_state, relaxed);
+    } while (unlikely(!_result));
+    _result;
+});
+```
+
+
+
 ### 参考
 
 [GCD 中的类型](https://blog.csdn.net/u011374318/article/details/87870585)
