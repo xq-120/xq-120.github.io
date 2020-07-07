@@ -195,3 +195,75 @@ dispatch_group_enter(dispatch_group_t dg)
 原子操作对dg_bits变量的值减”1“（DISPATCH_GROUP_VALUE_INTERVAL 0x0100）。
 
 如果old_value等于DISPATCH_GROUP_VALUE_MAX其实也就是（DISPATCH_GROUP_VALUE_INTERVAL），表示减的实在是太多了（从...000000 --> ...111100 --> ...111000 ---> ...000100）而且又没有WAITERS和NOTIFS，这种情况下直接崩溃"Too many nested calls to dispatch_group_enter()"
+
+
+
+#### 1
+
+实现：
+
+```c
+void
+dispatch_group_leave(dispatch_group_t dg)
+{
+	// The value is incremented on a 64bits wide atomic so that the carry for
+	// the -1 -> 0 transition increments the generation atomically.
+	uint64_t new_state, old_state = os_atomic_add_orig2o(dg, dg_state,
+			DISPATCH_GROUP_VALUE_INTERVAL, release);
+	uint32_t old_value = (uint32_t)(old_state & DISPATCH_GROUP_VALUE_MASK);
+
+	if (unlikely(old_value == DISPATCH_GROUP_VALUE_1)) {
+		old_state += DISPATCH_GROUP_VALUE_INTERVAL;
+		do {
+			new_state = old_state;
+			if ((old_state & DISPATCH_GROUP_VALUE_MASK) == 0) {
+				new_state &= ~DISPATCH_GROUP_HAS_WAITERS;
+				new_state &= ~DISPATCH_GROUP_HAS_NOTIFS;
+			} else {
+				// If the group was entered again since the atomic_add above,
+				// we can't clear the waiters bit anymore as we don't know for
+				// which generation the waiters are for
+				new_state &= ~DISPATCH_GROUP_HAS_NOTIFS;
+			}
+			if (old_state == new_state) break;
+		} while (unlikely(!os_atomic_cmpxchgv2o(dg, dg_state,
+				old_state, new_state, &old_state, relaxed)));
+		return _dispatch_group_wake(dg, old_state, true);
+	}
+
+	if (unlikely(old_value == 0)) {
+		DISPATCH_CLIENT_CRASH((uintptr_t)old_value,
+				"Unbalanced call to dispatch_group_leave()");
+	}
+}
+```
+
+该函数大致流程:
+
+1. 原子操作，dg_state的值加上DISPATCH_GROUP_VALUE_INTERVAL，并返回dg_state之前的值。
+2. 根据old_state计算出old_value
+3. 如果old_value等于DISPATCH_GROUP_VALUE_1，最终将调研_dispatch_group_wake
+4. 如果old_value等于0，则崩溃"Unbalanced call to dispatch_group_leave()"
+
+主要是几个原子操作的函数的理解。
+
+```
+os_atomic_add_orig2o(dg, dg_state, DISPATCH_GROUP_VALUE_INTERVAL, release);
+```
+
+展开：
+
+```
+__c11_atomic_fetch_add(((__typeof__(*((&(dg)->dg_state))) _Atomic *)((&(dg)->dg_state))), ((DISPATCH_GROUP_VALUE_INTERVAL)), memory_order_release);
+```
+
+函数：
+
+```
+T atomic_fetch_add (volatile A* obj, M val) noexcept;
+```
+
+原子操作，obj的值加上val，并返回obj之前的值。
+
+先来看下old_value等于0的情况，等于0则表示在本次调用dispatch_group_leave之前，value 值就已经恢复初始状态，本次调用是多余的，因此崩溃"Unbalanced call to dispatch_group_leave()"。
+
