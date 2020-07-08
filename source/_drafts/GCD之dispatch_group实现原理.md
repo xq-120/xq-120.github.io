@@ -103,7 +103,7 @@ struct dispatch_group_s {
 
 占据dg_state的全部高32位（32-63），对应dg_gen字段。
 
-每次group value的值变为0的时候，dg_gen就会+1。线程进入等待前会先保存当时的generation的快照，只有当dg_gen发生变化的时候那些wait的线程才会退出等待。
+每次group value的值变为0的时候，dg_gen就会+1。线程进入等待前会先保存当时的generation的快照，只有当dg_gen发生变化的时候那些wait的线程才会退出等待。dg_gen是用来作为一个验证条件的，避免其他原因的唤醒。
 
 **Value**
 
@@ -127,15 +127,13 @@ struct dispatch_group_s {
 
 占据dg_state的低32位中的第0位，对应dg_bits字段。
 
-表示是否有正在等待的线程，当有线程调用dispatch_group_wait进入等待时，该标志位会被置为1，这些线程等待Value重新变为0并产生一次generation，在等待之前它们会保存一份generation的快照，退出等待的条件就是比对generation是否发生改变。
-
-其中第0位表示是否有正在等待的线程，当有线程调用dispatch_group_wait进入等待时，该标志位会被置为1，这些线程等待Value重新变为0，在等待之前它们会保存一份generation的快照，会比对generation是否发生改变。
+表示是否有正在等待的线程，当线程调用dispatch_group_wait进入等待时，该标志位会被置为1，这些线程等待Value重新变为0并产生一次generation，在等待之前dispatch_group_wait会保存一份generation的快照，当被唤醒时会验证generation是否发生改变。
 
 这就是C语言，一个64位的uint64_t被玩出了花。这就是对性能的极致追求，源码里面很多这样的操作。不过对阅读代码来说是真滴不友好。
 
 这里看不懂没有关系，后面结合源码分析的时候会好理解一些。
 
-以下为了表述方便加1，减1，都表示加减DISPATCH_GROUP_VALUE_INTERVAL。
+以下为了表述方便加减1，都表示加减DISPATCH_GROUP_VALUE_INTERVAL。
 
 下面正式源码分析
 
@@ -437,7 +435,7 @@ dispatch_group_wait(dispatch_group_t dg, dispatch_time_t timeout)
 		if (unlikely(timeout == 0)) {
 			os_atomic_rmw_loop_give_up(return _DSEMA4_TIMEOUT());
 		}
-		new_state = old_state | DISPATCH_GROUP_HAS_WAITERS;
+		new_state = old_state | DISPATCH_GROUP_HAS_WAITERS; //更新标志位
 		if (unlikely(old_state & DISPATCH_GROUP_HAS_WAITERS)) {
 			os_atomic_rmw_loop_give_up(break);
 		}
@@ -449,8 +447,8 @@ dispatch_group_wait(dispatch_group_t dg, dispatch_time_t timeout)
 
 大致流程：
 
-1. 简单判断下条件看能不能快速返回或者是快速进入常规逻辑。
-2. 进入常规逻辑，调用_dispatch_group_wait_slow 进行等待。阻塞住线程。
+1. 简单判断下条件看能不能快速返回。
+2. 进入常规逻辑，调用_dispatch_group_wait_slow 进行等待，阻塞住线程。等待直到有线程调用wake。
 
 os_atomic_rmw_loop2o宏展开：
 
@@ -503,7 +501,7 @@ _dispatch_group_wait_slow(dispatch_group_t dg, uint32_t gen,
 {
 	for (;;) {
 		int rc = _dispatch_wait_on_address(&dg->dg_gen, gen, timeout, 0);
-		if (likely(gen != os_atomic_load2o(dg, dg_gen, acquire))) {
+		if (likely(gen != os_atomic_load2o(dg, dg_gen, acquire))) { //验证确实是发生了一次generation
 			return 0;
 		}
 		if (rc == ETIMEDOUT) {
@@ -630,3 +628,46 @@ _dispatch_group_notify(dispatch_group_t dg, dispatch_queue_t dq,
 ```
 
 os_atomic_rmw_loop2o宏逻辑里面会更新dg_state的HAS_NOTIFS标志位为DISPATCH_GROUP_HAS_NOTIFS。表示有通知者。
+
+#### _dispatch_group_dispose
+
+dispatch_group_t对象销毁时调用
+
+```c
+void
+_dispatch_group_dispose(dispatch_object_t dou, DISPATCH_UNUSED bool *allow_free)
+{
+	uint64_t dg_state = os_atomic_load2o(dou._dg, dg_state, relaxed);
+
+	if (unlikely((uint32_t)dg_state)) {
+		DISPATCH_CLIENT_CRASH((uintptr_t)dg_state,
+				"Group object deallocated while in use");
+	}
+}
+```
+
+os_atomic_load2o(dou._dg, dg_state, relaxed);
+
+展开：
+
+```
+__c11_atomic_load(((__typeof__(*(&(dou._dg)->dg_state)) _Atomic *)(&(dou._dg)->dg_state)), memory_order_relaxed);
+```
+
+原子的读取dg_state的值。
+
+此时dg_state的低32位应该等于0，即value计数器恢复到0（enter/leave是配对的），has_wait标志位也为0，has_notify标志位也为0，一切如初。否则crash。
+
+有意思的是generation计数值所在的高32位不管了。
+
+#### 总结
+
+
+
+#### 问题
+
+1 notify是如何监听到所有block都已经执行完成了的？
+
+2 dispatch_group_async的工作原理？
+
+3 队列的工作原理？
