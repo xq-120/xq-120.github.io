@@ -29,9 +29,11 @@ _dispatch_async_redirect_invoke
 
 [我所理解的 iOS 并发编程](https://blog.boolchow.com/2018/04/06/iOS-Concurrency-Programming/)  很全
 
-[深入理解 GCD--转载](https://www.cnblogs.com/LiLihongqiang/p/7599390.html)  
-
 [深入理解GCD](https://juejin.im/post/57cb8e8367f3560057bf4da1) 很不错
+
+[Concurrent Programming: APIs and Challenges](https://www.objc.io/issues/2-concurrency/concurrency-apis-and-pitfalls/) 非常不错，尤其里面其他知识点文章也很不错
+
+[Concurrent Programming](https://www.objc.io/issues/2-concurrency/)  2013/08 objc.io出品的系列文章
 
 [GCD源码吐血分析(1)——GCD Queue](https://blog.csdn.net/u013378438/article/details/81031938)  GCD版本变化太大了，新版本里面的宏简直到了令人发指的地步了。作者的博客还可以，是成系列的。
 
