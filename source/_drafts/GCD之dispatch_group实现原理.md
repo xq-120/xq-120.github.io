@@ -52,8 +52,8 @@ struct dispatch_group_s {
             uint32_t dg_gen;
         };
     } __attribute__((aligned(8)));
-    struct dispatch_continuation_s *volatile dg_notify_head;
-    struct dispatch_continuation_s *volatile dg_notify_tail;
+    struct dispatch_continuation_s *volatile dg_notify_head; //指向链表的头
+    struct dispatch_continuation_s *volatile dg_notify_tail; //指向链表的尾
 };
 ```
 
@@ -346,13 +346,28 @@ _dispatch_continuation_group_async(dispatch_group_t dg, dispatch_queue_t dq,
 	dc->dc_data = dg;
 	_dispatch_continuation_async(dq, dc, qos, dc->dc_flags);
 }
+
+DISPATCH_ALWAYS_INLINE
+static inline void
+_dispatch_continuation_async(dispatch_queue_class_t dqu,
+		dispatch_continuation_t dc, dispatch_qos_t qos, uintptr_t dc_flags)
+{
+#if DISPATCH_INTROSPECTION
+	if (!(dc_flags & DC_FLAG_NO_INTROSPECTION)) {
+		_dispatch_trace_item_push(dqu, dc);
+	}
+#else
+	(void)dc_flags;
+#endif
+	return dx_push(dqu._dq, dc, qos);
+}
 ```
 
 该函数大致流程：
 
 1. 创建一个dispatch_continuation_t对象，并用传入的block初始化。其实传入的block都会封装为内部的dispatch_continuation_t对象。
-2. 调用dispatch_group_enter
-3. 调用_dispatch_continuation_async，将任务push到队列里。
+2. 调用dispatch_group_enter，计数器-1
+3. 调用_dispatch_continuation_async，将任务加入到队列里。
 
 可以看到该函数也会调用一次dispatch_group_enter。按照上面的分析有enter应该还有leave。
 
@@ -418,6 +433,194 @@ _dispatch_continuation_with_group_invoke(dispatch_continuation_t dc)
 
 这种情况下其实dispatch_group_async都可以去掉了。
 
+_dispatch_continuation_async 逻辑：
+
+主要是dx_push(dqu._dq, dc, qos);这dx_push是一个宏，会根据队列的类型（串行，并发，全局队列）调用不同的方法，方法里面其中一个逻辑就是将任务添加到链表中。
+
+比如如果是串行队列会直接调用到_dispatch_lane_push
+
+```c
+DISPATCH_NOINLINE
+void
+_dispatch_lane_push(dispatch_lane_t dq, dispatch_object_t dou,
+		dispatch_qos_t qos)
+{
+	dispatch_wakeup_flags_t flags = 0;
+	struct dispatch_object_s *prev;
+
+	if (unlikely(_dispatch_object_is_waiter(dou))) {
+		return _dispatch_lane_push_waiter(dq, dou._dsc, qos);
+	}
+
+	dispatch_assert(!_dispatch_object_is_global(dq));
+	qos = _dispatch_queue_push_qos(dq, qos);
+
+	// If we are going to call dx_wakeup(), the queue must be retained before
+	// the item we're pushing can be dequeued, which means:
+	// - before we exchange the tail if we have to override
+	// - before we set the head if we made the queue non empty.
+	// Otherwise, if preempted between one of these and the call to dx_wakeup()
+	// the blocks submitted to the queue may release the last reference to the
+	// queue when invoked by _dispatch_lane_drain. <rdar://problem/6932776>
+
+  //链表操作
+	prev = os_mpsc_push_update_tail(os_mpsc(dq, dq_items), dou._do, do_next);
+	if (unlikely(os_mpsc_push_was_empty(prev))) {
+		_dispatch_retain_2_unsafe(dq);
+		flags = DISPATCH_WAKEUP_CONSUME_2 | DISPATCH_WAKEUP_MAKE_DIRTY;
+	} else if (unlikely(_dispatch_queue_need_override(dq, qos))) {
+		// There's a race here, _dispatch_queue_need_override may read a stale
+		// dq_state value.
+		//
+		// If it's a stale load from the same drain streak, given that
+		// the max qos is monotonic, too old a read can only cause an
+		// unnecessary attempt at overriding which is harmless.
+		//
+		// We'll assume here that a stale load from an a previous drain streak
+		// never happens in practice.
+		_dispatch_retain_2_unsafe(dq);
+		flags = DISPATCH_WAKEUP_CONSUME_2;
+	}
+	os_mpsc_push_update_prev(os_mpsc(dq, dq_items), prev, dou._do, do_next); //链表操作
+	if (flags) {
+		return dx_wakeup(dq, qos, flags);
+	}
+}
+```
+
+主要的两个宏展开如下：
+
+```c
+prev = ({
+    __typeof__(__c11_atomic_load(((__typeof__(*(&(dq)->dq_items_head)) _Atomic *)(&(dq)->dq_items_head)), memory_order_relaxed)) _tl = (dou._do);
+    __c11_atomic_store(((__typeof__(*(&(_tl)->do_next)) _Atomic *)(&(_tl)->do_next)), (((void*)0)), memory_order_relaxed);
+    __c11_atomic_exchange(((__typeof__(*(&(dq)->dq_items_tail)) _Atomic *)(&(dq)->dq_items_tail)), _tl, memory_order_release);
+
+});
+
+({
+    __typeof__(__c11_atomic_load(((__typeof__(*(&(dq)->dq_items_head)) _Atomic *)(&(dq)->dq_items_head)), memory_order_relaxed)) _prev = (prev);
+    if (likely(_prev)) {
+        (void)__c11_atomic_store(((__typeof__(*(&(_prev)->do_next)) _Atomic *)(&(_prev)->do_next)), ((dou._do)), memory_order_relaxed);
+    } else {
+        (void)__c11_atomic_store(((__typeof__(*(&(dq)->dq_items_head)) _Atomic *)(&(dq)->dq_items_head)), (dou._do), memory_order_relaxed);
+    }
+});
+```
+
+链表操作过程如图：
+
+![](https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20200709111854.png)
+
+我们每次调用dispatch_group_async时，gcd就将block任务添加到链表尾部。
+
+#### dispatch_group_notify
+
+实现：
+
+```c
+void
+dispatch_group_notify(dispatch_group_t dg, dispatch_queue_t dq,
+		dispatch_block_t db)
+{
+	dispatch_continuation_t dsn = _dispatch_continuation_alloc();
+	_dispatch_continuation_init(dsn, dq, db, 0, DC_FLAG_CONSUME);
+	_dispatch_group_notify(dg, dq, dsn);
+}
+
+DISPATCH_ALWAYS_INLINE
+static inline void
+_dispatch_group_notify(dispatch_group_t dg, dispatch_queue_t dq,
+		dispatch_continuation_t dsn)
+{
+	uint64_t old_state, new_state;
+	dispatch_continuation_t prev;
+
+	dsn->dc_data = dq;
+	_dispatch_retain(dq);
+
+	prev = os_mpsc_push_update_tail(os_mpsc(dg, dg_notify), dsn, do_next);
+	if (os_mpsc_push_was_empty(prev)) _dispatch_retain(dg);
+	os_mpsc_push_update_prev(os_mpsc(dg, dg_notify), prev, dsn, do_next);
+	if (os_mpsc_push_was_empty(prev)) {
+		os_atomic_rmw_loop2o(dg, dg_state, old_state, new_state, release, {
+			new_state = old_state | DISPATCH_GROUP_HAS_NOTIFS;
+			if ((uint32_t)old_state == 0) {
+				os_atomic_rmw_loop_give_up({
+					return _dispatch_group_wake(dg, new_state, false);
+				});
+			}
+		});
+	}
+}
+```
+
+该函数大致流程：
+
+1. 根据传入的dispatch_block_t db创建一个dispatch_continuation_t dsn
+2. 更新dg_notify_tail的值为dsn
+3. 将dsn添加到链表末尾
+4. 如果之前的dg_notify_tail为空则更新dg_state的HAS_NOTIFS标志位，如果old_state为0，说明业务层直勾勾的就调了dispatch_group_notify，此时就直接调用_dispatch_group_wake，然后返回。
+5. 如果之前的dg_notify_tail不为空就啥也不干。
+
+具体看一下：
+
+prev = os_mpsc_push_update_tail(os_mpsc(dg, dg_notify), dsn, do_next);
+
+展开：
+
+```c
+prev = ({
+    __typeof__(__c11_atomic_load(((__typeof__(*(&(dg)->dg_notify_head)) _Atomic *)(&(dg)->dg_notify_head)), memory_order_relaxed)) _tl = (dsn);
+    __c11_atomic_store(((__typeof__(*(&(_tl)->do_next)) _Atomic *)(&(_tl)->do_next)), (((void*)0)), memory_order_relaxed);
+    __c11_atomic_exchange(((__typeof__(*(&(dg)->dg_notify_tail)) _Atomic *)(&(dg)->dg_notify_tail)), _tl, memory_order_release); 
+});
+```
+
+函数：
+
+```
+T atomic_exchange (volatile A* obj, T val) noexcept;
+```
+
+说明：
+
+Replaces the value contained in obj with val and returns the value obj had immediately before.
+
+prev = os_mpsc_push_update_tail(os_mpsc(dg, dg_notify), dsn, do_next);的含义：
+
+1. 将dsn的do_next赋值为0
+2. 更新dg_notify_tail的值为dsn，并返回dg_notify_tail之前的值
+
+os_mpsc_push_was_empty(prev)
+
+展开：
+
+```
+((prev) == ((void*)0))
+```
+
+就是和地址0比较。判断是不是空。
+
+os_mpsc_push_update_prev(os_mpsc(dg, dg_notify), prev, dsn, do_next);
+
+展开：
+
+```c
+({
+    __typeof__(__c11_atomic_load(((__typeof__(*(&(dg)->dg_notify_head)) _Atomic *)(&(dg)->dg_notify_head)), memory_order_relaxed)) _prev = (prev);
+    if (likely(_prev)) {
+        (void)__c11_atomic_store(((__typeof__(*(&(_prev)->do_next)) _Atomic *)(&(_prev)->do_next)), ((dsn)), memory_order_relaxed);
+    } else {
+        (void)__c11_atomic_store(((__typeof__(*(&(dg)->dg_notify_head)) _Atomic *)(&(dg)->dg_notify_head)), (dsn), memory_order_relaxed);
+    }
+});
+```
+
+这里就是操作链表，将dsn添加到链表最后，dsn成为新的链表tail。上面dg_notify_tail保存的就是它。
+
+os_atomic_rmw_loop2o宏逻辑里面会更新dg_state的HAS_NOTIFS标志位为DISPATCH_GROUP_HAS_NOTIFS。表示有通知者。
+
 #### dispatch_group_wait
 
 实现：
@@ -448,7 +651,7 @@ dispatch_group_wait(dispatch_group_t dg, dispatch_time_t timeout)
 大致流程：
 
 1. 简单判断下条件看能不能快速返回。
-2. 进入常规逻辑，调用_dispatch_group_wait_slow 进行等待，阻塞住线程。等待直到有线程调用wake。
+2. 进入常规逻辑，调用_dispatch_group_wait_slow 进行等待，阻塞住线程。等待直到某个时机调用了wake。
 
 os_atomic_rmw_loop2o宏展开：
 
@@ -501,7 +704,7 @@ _dispatch_group_wait_slow(dispatch_group_t dg, uint32_t gen,
 {
 	for (;;) {
 		int rc = _dispatch_wait_on_address(&dg->dg_gen, gen, timeout, 0);
-		if (likely(gen != os_atomic_load2o(dg, dg_gen, acquire))) { //验证确实是发生了一次generation
+		if (likely(gen != os_atomic_load2o(dg, dg_gen, acquire))) { //验证dg_gen是否发生改变
 			return 0;
 		}
 		if (rc == ETIMEDOUT) {
@@ -586,49 +789,6 @@ _dispatch_group_wake(dispatch_group_t dg, uint64_t dg_state, bool needs_release)
 }
 ```
 
-#### dispatch_group_notify
-
-实现：
-
-```c
-void
-dispatch_group_notify(dispatch_group_t dg, dispatch_queue_t dq,
-		dispatch_block_t db)
-{
-	dispatch_continuation_t dsn = _dispatch_continuation_alloc();
-	_dispatch_continuation_init(dsn, dq, db, 0, DC_FLAG_CONSUME);
-	_dispatch_group_notify(dg, dq, dsn);
-}
-
-DISPATCH_ALWAYS_INLINE
-static inline void
-_dispatch_group_notify(dispatch_group_t dg, dispatch_queue_t dq,
-		dispatch_continuation_t dsn)
-{
-	uint64_t old_state, new_state;
-	dispatch_continuation_t prev;
-
-	dsn->dc_data = dq;
-	_dispatch_retain(dq);
-
-	prev = os_mpsc_push_update_tail(os_mpsc(dg, dg_notify), dsn, do_next);
-	if (os_mpsc_push_was_empty(prev)) _dispatch_retain(dg);
-	os_mpsc_push_update_prev(os_mpsc(dg, dg_notify), prev, dsn, do_next);
-	if (os_mpsc_push_was_empty(prev)) {
-		os_atomic_rmw_loop2o(dg, dg_state, old_state, new_state, release, {
-			new_state = old_state | DISPATCH_GROUP_HAS_NOTIFS;
-			if ((uint32_t)old_state == 0) {
-				os_atomic_rmw_loop_give_up({
-					return _dispatch_group_wake(dg, new_state, false);
-				});
-			}
-		});
-	}
-}
-```
-
-os_atomic_rmw_loop2o宏逻辑里面会更新dg_state的HAS_NOTIFS标志位为DISPATCH_GROUP_HAS_NOTIFS。表示有通知者。
-
 #### _dispatch_group_dispose
 
 dispatch_group_t对象销毁时调用
@@ -666,8 +826,5 @@ __c11_atomic_load(((__typeof__(*(&(dou._dg)->dg_state)) _Atomic *)(&(dou._dg)->d
 
 #### 问题
 
-1 notify是如何监听到所有block都已经执行完成了的？
-
-2 dispatch_group_async的工作原理？
-
-3 队列的工作原理？
+1. notify是如何在所有block都执行完成之后再执行的？
+2. 添加到链表的任务最后又是在哪里被执行的？
