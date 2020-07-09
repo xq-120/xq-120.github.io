@@ -17,7 +17,9 @@ date: 2020-07-04 14:00:24
 
 `libdispatch`库是纯C语言编写的，因此并不存在类似面向对象语言中的类、对象之类的概念。
 
-常见的几个类型：dispatch_object_t，dispatch_queue_t，dispatch_group_t，dispatch_semaphore_t。在OC文件中：
+常见的几个类型：dispatch_object_t，dispatch_queue_t，dispatch_group_t，dispatch_semaphore_t。
+
+在OC文件中：
 
 ```
 - (void)viewDidLoad {
@@ -72,7 +74,7 @@ DISPATCH_DECL(dispatch_semaphore);
 typedef NSObject<OS_dispatch_object> * __attribute__((objc_independent_class)) dispatch_object_t;
 ```
 
-也是说`OS_OBJECT_DECL_CLASS(name)`宏：
+也就是说`OS_OBJECT_DECL_CLASS(name)`宏：
 
 1. 定义了一个OS_name的协议，协议遵守父协议NSObject协议。
 2. 定义了一个类型别名name_t，原类型是`NSObject<OS_name> *`，即遵守了OS_name协议的NSObject类
@@ -102,6 +104,8 @@ typedef NSObject<OS_name> * __attribute__((objc_independent_class)) name_t;
 以上看懂之后，下面的宏就很简单了
 
 ```
+#if OS_OBJECT_USE_OBJC  //在OC文件中我们只需要看这个条件宏，如果是在C文件中那就是其他定义了。
+
 #define DISPATCH_DECL(name) OS_OBJECT_DECL_SUBCLASS(name, dispatch_object)
 #define DISPATCH_DECL_SUBCLASS(name, base) OS_OBJECT_DECL_SUBCLASS(name, base)
 ```
@@ -171,7 +175,7 @@ typedef union {
 	struct dispatch_data_s *_ddata;
 	struct dispatch_io_s *_dchannel;
 } dispatch_object_t DISPATCH_TRANSPARENT_UNION;
-#define DISPATCH_DECL(name) typedef struct name##_s *name##_t
+#define DISPATCH_DECL(name) typedef struct name##_s *name##_t   //在C中的定义
 #define DISPATCH_DECL_SUBCLASS(name, base) typedef base##_t name##_t
 #define DISPATCH_GLOBAL_OBJECT(type, object) ((type)&(object))
 #define DISPATCH_RETURNS_RETAINED
@@ -278,7 +282,7 @@ struct dispatch_queue_s {
     union {
         uint32_t volatile dq_atomic_flags;
         struct {
-            const uint16_t dq_width;
+            const uint16_t dq_width; //并发数，1:串行队列
             const uint16_t __dq_opaque2;
         };
     };
@@ -439,7 +443,9 @@ struct dispatch_group_s {
 
 
 
+TSD和TLS
 
+`线程特有数据`（Thread-Specific Data 或 TSD），或者`线程局部存储`（Thread-Local Storage 或 TLS）。同一个东西。
 
 ### 参考
 
