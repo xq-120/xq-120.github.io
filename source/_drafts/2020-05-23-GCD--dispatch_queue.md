@@ -257,6 +257,8 @@ struct dispatch_queue_global_s _dispatch_root_queues[] = {
 }
 ```
 
+rootQueue的do_targetq是NULL。
+
 创建的方式：
 
 ```c

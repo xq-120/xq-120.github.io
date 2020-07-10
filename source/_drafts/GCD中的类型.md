@@ -488,13 +488,13 @@ typedef struct dispatch_continuation_s {
         uintptr_t dc_flags;
     };
     union {
-        pthread_priority_t dc_priority;
+        pthread_priority_t dc_priority; //任务优先级
         int dc_cache_cnt;
         uintptr_t dc_pad;
     };
-    struct dispatch_continuation_s *volatile do_next;
+    struct dispatch_continuation_s *volatile do_next; //下一个任务
     struct voucher_s *dc_voucher;
-    dispatch_function_t dc_func;
+    dispatch_function_t dc_func;  //block所在的函数
     void *dc_ctxt;
     void *dc_data;
     void *dc_other;

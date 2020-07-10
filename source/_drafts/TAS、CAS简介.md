@@ -1,3 +1,9 @@
+原子操作是指操作是不可分割的，要么发生，要么不发生。事物只会处于原始状态和成功状态两种中的一种，不会处于一种完成一半的状态。
+
+原子操作没规定两个核不可以同时执行该原子操作吧？比如一条汇编指令就是原子的操作，但这条指令可以被两个核同时执行。
+
+TAS和CAS指令的原子性，我感觉不仅是原子操作而且还是排他的。
+
 ### volatile
 
 作用：
@@ -117,3 +123,8 @@ CAS 相关：
 [CAS操作在ARM和x86下的不同实现](https://blog.csdn.net/a7980718/article/details/82860505)  硬件汇编层面分析
 
 [CH13-线程安全与锁优化](https://infilos.com/reading/RD02-VM/Dive-Into-Jvm/CH13.html)  一本书，还不错。
+
+[多核环境下的内存屏障指令](https://blog.codingnow.com/2007/12/fence_in_multi_core.html)
+
+[x86 cache locking 的猜想](https://yemablog.com/posts/cache-locking)
+
