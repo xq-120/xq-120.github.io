@@ -267,7 +267,9 @@ struct dispatch_queue_s {
     struct dispatch_queue_s *do_targetq;
     void *do_ctxt;
     void *do_finalizer;
+  
     void *__dq_opaque1;
+  
     _Static_assert(sizeof(struct { uint64_t volatile dq_state; }) == sizeof(struct { dispatch_lock dq_state_lock; uint32_t dq_state_bits; }), "bogus union");
     union {
         uint64_t volatile dq_state;
@@ -282,7 +284,7 @@ struct dispatch_queue_s {
     union {
         uint32_t volatile dq_atomic_flags;
         struct {
-            const uint16_t dq_width; //并发数，1:串行队列
+            const uint16_t dq_width; 
             const uint16_t __dq_opaque2;
         };
     };
@@ -299,6 +301,171 @@ struct dispatch_queue_s {
 ```
 
 dispatch_queue_s结构体是整个GCD中最重要的数据结构了。
+
+#### struct dispatch_queue_attr_s
+
+队列的属性queue_attr
+
+定义：
+
+```
+struct dispatch_queue_attr_s {
+    OS_OBJECT_STRUCT_HEADER(dispatch_queue_attr);
+};
+```
+
+展开：
+
+```c
+struct dispatch_queue_attr_s {
+    const struct dispatch_queue_attr_vtable_s *do_vtable;
+    int volatile do_ref_cnt;
+    int volatile do_xref_cnt;
+};
+```
+
+跟它相关的queue_attr_info：
+
+```c
+typedef struct dispatch_queue_attr_info_s {
+	dispatch_qos_t dqai_qos : 8;
+	int      dqai_relpri : 8;
+	uint16_t dqai_overcommit:2;
+	uint16_t dqai_autorelease_frequency:2;
+	uint16_t dqai_concurrent:1;  
+	uint16_t dqai_inactive:1;
+} dispatch_queue_attr_info_t;
+
+typedef enum {
+	_dispatch_queue_attr_overcommit_unspecified = 0,
+	_dispatch_queue_attr_overcommit_enabled,
+	_dispatch_queue_attr_overcommit_disabled,
+} _dispatch_queue_attr_overcommit_t;
+```
+
+#### struct dispatch_lane_s
+
+定义：
+
+```c
+typedef struct dispatch_lane_s {
+    DISPATCH_LANE_CLASS_HEADER(lane);
+    /* 32bit hole on LP64 */
+} DISPATCH_ATOMIC64_ALIGN *dispatch_lane_t;
+```
+
+展开：
+
+```c
+typedef struct dispatch_lane_s {
+    struct dispatch_queue_s _as_dq[0]; //父类
+    struct dispatch_object_s _as_do[0];
+    struct _os_object_s _as_os_obj[0];
+    const struct dispatch_lane_vtable_s *do_vtable;
+    int volatile do_ref_cnt;
+    int volatile do_xref_cnt;
+    struct dispatch_lane_s *volatile do_next;
+    struct dispatch_queue_s *do_targetq;
+    void *do_ctxt;
+    void *do_finalizer;
+  
+    struct dispatch_object_s *volatile dq_items_tail;
+  
+    _Static_assert(sizeof(struct { uint64_t volatile dq_state; }) == sizeof(struct { dispatch_lock dq_state_lock; uint32_t dq_state_bits; }), "bogus union");
+    union {
+        uint64_t volatile dq_state;
+        struct {
+            dispatch_lock dq_state_lock;
+            uint32_t dq_state_bits;
+        };
+    };
+    unsigned long dq_serialnum;
+    const char *dq_label;
+    _Static_assert(sizeof(struct { uint32_t volatile dq_atomic_flags; }) == sizeof(struct { const uint16_t dq_width; const uint16_t __dq_opaque2; }), "bogus union");
+    union {
+        uint32_t volatile dq_atomic_flags;
+        struct {
+            const uint16_t dq_width; //队列宽度，串行队列为1，并发队列为一个较大的数
+            const uint16_t __dq_opaque2;
+        };
+    };
+    dispatch_priority_t dq_priority;
+    union {
+        struct dispatch_queue_specific_head_s *dq_specific_head;
+        struct dispatch_source_refs_s *ds_refs;
+        struct dispatch_timer_source_refs_s *ds_timer_refs;
+        struct dispatch_mach_recv_refs_s *dm_recv_refs;
+        struct dispatch_channel_callbacks_s const *dch_callbacks;
+    };
+    int volatile dq_sref_cnt;
+  
+    dispatch_unfair_lock_s dq_sidelock;
+    struct dispatch_object_s *volatile dq_items_head;
+    uint32_t dq_side_suspend_cnt;
+} __attribute__((aligned(8))) *dispatch_lane_t;
+```
+
+#### struct dispatch_queue_global_s
+
+定义：
+
+```c
+struct dispatch_queue_global_s {
+    DISPATCH_QUEUE_ROOT_CLASS_HEADER(lane);
+} DISPATCH_CACHELINE_ALIGN;
+```
+
+展开：
+
+```c
+struct dispatch_queue_global_s {
+    struct dispatch_queue_s _as_dq[0]; //父类
+    struct dispatch_object_s _as_do[0];
+    struct _os_object_s _as_os_obj[0];
+    const struct dispatch_lane_vtable_s *do_vtable;
+    int volatile do_ref_cnt;
+    int volatile do_xref_cnt;
+    struct dispatch_lane_s *volatile do_next;
+    struct dispatch_queue_s *do_targetq;
+    void *do_ctxt;
+    void *do_finalizer;
+  
+    struct dispatch_object_s *volatile dq_items_tail;
+  
+    _Static_assert(sizeof(struct { uint64_t volatile dq_state; }) == sizeof(struct { dispatch_lock dq_state_lock; uint32_t dq_state_bits; }), "bogus union");
+    union {
+        uint64_t volatile dq_state;
+        struct {
+            dispatch_lock dq_state_lock;
+            uint32_t dq_state_bits;  
+        };
+    };
+    unsigned long dq_serialnum;
+    const char *dq_label;
+    _Static_assert(sizeof(struct { uint32_t volatile dq_atomic_flags; }) == sizeof(struct { const uint16_t dq_width; const uint16_t __dq_opaque2; }), "bogus union");
+    union {
+        uint32_t volatile dq_atomic_flags;
+        struct {
+            const uint16_t dq_width;
+            const uint16_t __dq_opaque2;
+        };
+    };
+    dispatch_priority_t dq_priority;
+    union {
+        struct dispatch_queue_specific_head_s *dq_specific_head;
+        struct dispatch_source_refs_s *ds_refs;
+        struct dispatch_timer_source_refs_s *ds_timer_refs;
+        struct dispatch_mach_recv_refs_s *dm_recv_refs;
+        struct dispatch_channel_callbacks_s
+        const *dch_callbacks;
+    };
+    int volatile dq_sref_cnt;
+  
+    int volatile dgq_thread_pool_size;
+    struct dispatch_object_s *volatile dq_items_head;
+    int volatile dgq_pending;
+} DISPATCH_CACHELINE_ALIGN;
+```
 
 #### struct dispatch_continuation_s
 
@@ -377,8 +544,8 @@ extern const struct dispatch_semaphore_vtable_s OS_dispatch_semaphore_class __as
 
 struct dispatch_semaphore_s {
     //这里的变量都是通过DISPATCH_OBJECT_HEADER(semaphore);宏展开得来的
-    struct dispatch_object_s _as_do[0]; //直接父类
-    struct _os_object_s _as_os_obj[0]; //dispatch_object_s的父类_os_object_s
+    struct dispatch_object_s _as_do[0]; //父类
+    struct _os_object_s _as_os_obj[0]; 
     const struct dispatch_semaphore_vtable_s *do_vtable; //根据传入的名字替换
     int volatile do_ref_cnt;
     int volatile do_xref_cnt; 
