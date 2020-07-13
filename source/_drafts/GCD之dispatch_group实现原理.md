@@ -435,9 +435,26 @@ _dispatch_continuation_with_group_invoke(dispatch_continuation_t dc)
 
 _dispatch_continuation_async 逻辑：
 
-主要是dx_push(dqu._dq, dc, qos);这dx_push是一个宏，会根据队列的类型（串行，并发，全局队列）调用不同的方法，方法里面其中一个逻辑就是将任务添加到链表中。
+```c
+DISPATCH_ALWAYS_INLINE
+static inline void
+_dispatch_continuation_async(dispatch_queue_class_t dqu,
+		dispatch_continuation_t dc, dispatch_qos_t qos, uintptr_t dc_flags)
+{
+#if DISPATCH_INTROSPECTION
+	if (!(dc_flags & DC_FLAG_NO_INTROSPECTION)) {
+		_dispatch_trace_item_push(dqu, dc);
+	}
+#else
+	(void)dc_flags;
+#endif
+	return dx_push(dqu._dq, dc, qos);
+}
+```
 
-比如如果是串行队列会直接调用到_dispatch_lane_push
+主要是`dx_push(dqu._dq, dc, qos);`。dx_push是一个宏，会根据队列的类调用不同的方法，方法里面其中一个逻辑就是将任务添加到链表中。也就是说队列对象里面维护着一个任务链表，任务就是添加的一个个dispatch_continuation_t。
+
+比如如果是queue_serial则会调用到_dispatch_lane_push
 
 ```c
 DISPATCH_NOINLINE

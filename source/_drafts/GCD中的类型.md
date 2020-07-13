@@ -284,7 +284,7 @@ struct dispatch_queue_s {
     union {
         uint32_t volatile dq_atomic_flags;
         struct {
-            const uint16_t dq_width; 
+            const uint16_t dq_width; //串行队列为1，在执行任务时会判断该值
             const uint16_t __dq_opaque2;
         };
     };
@@ -369,7 +369,7 @@ typedef struct dispatch_lane_s {
     void *do_ctxt;
     void *do_finalizer;
   
-    struct dispatch_object_s *volatile dq_items_tail;
+    struct dispatch_object_s *volatile dq_items_tail; //指向任务链表的尾部
   
     _Static_assert(sizeof(struct { uint64_t volatile dq_state; }) == sizeof(struct { dispatch_lock dq_state_lock; uint32_t dq_state_bits; }), "bogus union");
     union {
@@ -400,7 +400,7 @@ typedef struct dispatch_lane_s {
     int volatile dq_sref_cnt;
   
     dispatch_unfair_lock_s dq_sidelock;
-    struct dispatch_object_s *volatile dq_items_head;
+    struct dispatch_object_s *volatile dq_items_head; //指向任务链表的头部
     uint32_t dq_side_suspend_cnt;
 } __attribute__((aligned(8))) *dispatch_lane_t;
 ```
