@@ -13,19 +13,13 @@ date: 2020-05-23 15:23:33
 
 GCD 501版本的还不算复杂，但我就是不想看旧版本的于是入坑最新版本`libdispatch-1173.40.5`。
 
-_dispatch_async_redirect_invoke
-
-调用_dispatch_continuation_pop
-
-调用_dispatch_continuation_invoke_inline
-
-调用`_dispatch_continuation_with_group_invoke`或`_dispatch_client_callout`
-
-1. 队列创建的过程
+1. 队列的创建过程
 2. GCD默认的队列
-3. 自定义串行队列与并发队列，主队列，全局队列等各队列之间的关系
-4. 传入的任务是如何保存的，又是如何被执行的
-5. 线程池
+3. 自定义的串行队列、并发队列与主队列，全局队列之间的关系
+4. dispatch_sync和dispatch_async工作流程
+5. dispatch_sync死锁检测是如何检测的，是否会有检测不到的情况？
+6. 传入的任务是如何保存的，又是如何被执行的，特别是有targetQueue变更时任务的执行过程
+7. 线程池的工作流程（线程池的管理及维护）
 
 ### dispatch_queue_t
 
@@ -104,7 +98,7 @@ _dispatch_lane_create_with_target(const char *label, dispatch_queue_attr_t dqa,
 	if (!tq) {
 		tq = _dispatch_get_root_queue(
 				qos == DISPATCH_QOS_UNSPECIFIED ? DISPATCH_QOS_DEFAULT : qos,
-				overcommit == _dispatch_queue_attr_overcommit_enabled)->_as_dq;
+				overcommit == _dispatch_queue_attr_overcommit_enabled)->_as_dq; //qos未指定则取默认值DISPATCH_QOS_DEFAULT，因此一般我们创建的并发queue的tq其实是同一个。串行queue的tq是另外的同一个。
 		if (unlikely(!tq)) {
 			DISPATCH_CLIENT_CRASH(qos, "Invalid queue attribute");
 		}
@@ -175,8 +169,16 @@ _dispatch_lane_create_with_target(const char *label, dispatch_queue_attr_t dqa,
 4. 根据dqai.dqai_concurrent的值设置vtable，应该是对象类型。如果是并发队列则vtable = (&OS_dispatch_queue_concurrent_class);否则为串行队列vtable = (&OS_dispatch_queue_serial_class);
 5. 队列的label设置
 6. 调用`_dispatch_object_alloc(vtable, sizeof(struct dispatch_lane_s))`创建队列对象dq。
-7. 初始化dq及dq部分属性的更改。这里包括dq_width、dq_label、dq_priority还有do_targetq的设置等。
+7. 初始化dq及dq部分属性的更改。这里包括dq_width、dq_label、dq_priority还有do_targetq的设置等。如果队列是串行队列则dq_width=1，如果是并发队列则dq_width=DISPATCH_QUEUE_WIDTH_MAX（0xffe）。另外系统默认的全局队列的dq_width=DISPATCH_QUEUE_WIDTH_POOL（0xfff）
 8. 返回创建的dq对象。
+
+dq_width的一些取值：
+
+```c
+#define DISPATCH_QUEUE_WIDTH_FULL			0x1000ull
+#define DISPATCH_QUEUE_WIDTH_POOL (DISPATCH_QUEUE_WIDTH_FULL - 1) //0xfff
+#define DISPATCH_QUEUE_WIDTH_MAX  (DISPATCH_QUEUE_WIDTH_FULL - 2) //0xffe
+```
 
 这里看下tq的获取：
 
@@ -194,10 +196,10 @@ DISPATCH_ALWAYS_INLINE DISPATCH_CONST
 static inline dispatch_queue_global_t
 _dispatch_get_root_queue(dispatch_qos_t qos, bool overcommit)
 {
-	if (unlikely(qos < DISPATCH_QOS_MIN || qos > DISPATCH_QOS_MAX)) {
+	if (unlikely(qos < DISPATCH_QOS_MIN || qos > DISPATCH_QOS_MAX)) { //1,6。这样计算出的index就刚好在0-11之间
 		DISPATCH_CLIENT_CRASH(qos, "Corrupted priority");
 	}
-	return &_dispatch_root_queues[2 * (qos - 1) + overcommit]; //从全局数组中取出一个root_queue
+	return &_dispatch_root_queues[2 * (qos - 1) + overcommit]; //从全局数组中取出一个root_queue，qos越大，数组的index也越大。
 }
 ```
 
@@ -225,10 +227,27 @@ extern struct dispatch_queue_global_s _dispatch_mgr_root_queue; // serial 3
 extern struct dispatch_queue_global_s _dispatch_root_queues[]; // serials 4 - 15
 ```
 
-它的初始化，部分代码：
+它的初始化：每种优先级都有两种类型
 
 ```c
+// 6618342 Contact the team that owns the Instrument DTrace probe before
+//         renaming this symbol
 struct dispatch_queue_global_s _dispatch_root_queues[] = {
+#define _DISPATCH_ROOT_QUEUE_IDX(n, flags) \
+		((flags & DISPATCH_PRIORITY_FLAG_OVERCOMMIT) ? \
+		DISPATCH_ROOT_QUEUE_IDX_##n##_QOS_OVERCOMMIT : \
+		DISPATCH_ROOT_QUEUE_IDX_##n##_QOS)
+#define _DISPATCH_ROOT_QUEUE_ENTRY(n, flags, ...) \
+	[_DISPATCH_ROOT_QUEUE_IDX(n, flags)] = { \
+		DISPATCH_GLOBAL_OBJECT_HEADER(queue_global), \
+		.dq_state = DISPATCH_ROOT_QUEUE_STATE_INIT_VALUE, \
+		.do_ctxt = _dispatch_root_queue_ctxt(_DISPATCH_ROOT_QUEUE_IDX(n, flags)), \
+		.dq_atomic_flags = DQF_WIDTH(DISPATCH_QUEUE_WIDTH_POOL), \  //全局队列width都是0xfff 
+		.dq_priority = flags | ((flags & DISPATCH_PRIORITY_FLAG_FALLBACK) ? \
+				_dispatch_priority_make_fallback(DISPATCH_QOS_##n) : \
+				_dispatch_priority_make(DISPATCH_QOS_##n, 0)), \
+		__VA_ARGS__ \
+	}
 	_DISPATCH_ROOT_QUEUE_ENTRY(MAINTENANCE, 0,
 		.dq_label = "com.apple.root.maintenance-qos",
 		.dq_serialnum = 4,
@@ -253,22 +272,146 @@ struct dispatch_queue_global_s _dispatch_root_queues[] = {
 		.dq_label = "com.apple.root.utility-qos.overcommit",
 		.dq_serialnum = 9,
 	),
-	...
-}
+	_DISPATCH_ROOT_QUEUE_ENTRY(DEFAULT, DISPATCH_PRIORITY_FLAG_FALLBACK,
+		.dq_label = "com.apple.root.default-qos",
+		.dq_serialnum = 10,
+	),
+	_DISPATCH_ROOT_QUEUE_ENTRY(DEFAULT,
+			DISPATCH_PRIORITY_FLAG_FALLBACK | DISPATCH_PRIORITY_FLAG_OVERCOMMIT,
+		.dq_label = "com.apple.root.default-qos.overcommit",
+		.dq_serialnum = 11,
+	),
+	_DISPATCH_ROOT_QUEUE_ENTRY(USER_INITIATED, 0,
+		.dq_label = "com.apple.root.user-initiated-qos",
+		.dq_serialnum = 12,
+	),
+	_DISPATCH_ROOT_QUEUE_ENTRY(USER_INITIATED, DISPATCH_PRIORITY_FLAG_OVERCOMMIT,
+		.dq_label = "com.apple.root.user-initiated-qos.overcommit",
+		.dq_serialnum = 13,
+	),
+	_DISPATCH_ROOT_QUEUE_ENTRY(USER_INTERACTIVE, 0,
+		.dq_label = "com.apple.root.user-interactive-qos",
+		.dq_serialnum = 14,
+	),
+	_DISPATCH_ROOT_QUEUE_ENTRY(USER_INTERACTIVE, DISPATCH_PRIORITY_FLAG_OVERCOMMIT,
+		.dq_label = "com.apple.root.user-interactive-qos.overcommit",
+		.dq_serialnum = 15,
+	),
+};
 ```
 
-rootQueue的do_targetq是NULL。
-
-创建的方式：
+展开其中两个：
 
 ```c
-dispatch_queue_attr_t attr = dispatch_queue_attr_make_with_qos_class(NULL, QOS_CLASS_DEFAULT, QOS_MIN_RELATIVE_PRIORITY);
-dispatch_queue_t queue = dispatch_queue_create("xq.www.jk", attr);
-queue = dispatch_queue_create("xq.www.jk", NULL);
-queue = dispatch_queue_create("xq.www.jk", DISPATCH_QUEUE_SERIAL);
-queue = dispatch_queue_create("xq.www.jk", DISPATCH_QUEUE_CONCURRENT); 
-//_dispatch_queue_attr_concurrent是一个全局struct dispatch_queue_attr_s变量
-queue = dispatch_queue_create("xq.www.jk", ((__bridge dispatch_queue_attr_t)&(_dispatch_queue_attr_concurrent)));
+[((DISPATCH_PRIORITY_FLAG_FALLBACK & DISPATCH_PRIORITY_FLAG_OVERCOMMIT) ? DISPATCH_ROOT_QUEUE_IDX_DEFAULT_QOS_OVERCOMMIT : DISPATCH_ROOT_QUEUE_IDX_DEFAULT_QOS)] = {
+    .do_vtable = (&OS_dispatch_queue_global_class),
+    .do_ref_cnt = DISPATCH_OBJECT_GLOBAL_REFCNT,
+    .do_xref_cnt = DISPATCH_OBJECT_GLOBAL_REFCNT,
+    .dq_state = DISPATCH_ROOT_QUEUE_STATE_INIT_VALUE,
+    .do_ctxt = _dispatch_root_queue_ctxt(((DISPATCH_PRIORITY_FLAG_FALLBACK & DISPATCH_PRIORITY_FLAG_OVERCOMMIT) ? DISPATCH_ROOT_QUEUE_IDX_DEFAULT_QOS_OVERCOMMIT : DISPATCH_ROOT_QUEUE_IDX_DEFAULT_QOS)),
+    .dq_atomic_flags = DQF_WIDTH(DISPATCH_QUEUE_WIDTH_POOL),
+    .dq_priority = DISPATCH_PRIORITY_FLAG_FALLBACK | ((DISPATCH_PRIORITY_FLAG_FALLBACK & DISPATCH_PRIORITY_FLAG_FALLBACK) ? _dispatch_priority_make_fallback(DISPATCH_QOS_DEFAULT) : _dispatch_priority_make(DISPATCH_QOS_DEFAULT, 0)),
+    .dq_label = "com.apple.root.default-qos",
+    .dq_serialnum = 10,
+},
+
+[((DISPATCH_PRIORITY_FLAG_FALLBACK | DISPATCH_PRIORITY_FLAG_OVERCOMMIT & DISPATCH_PRIORITY_FLAG_OVERCOMMIT) ? DISPATCH_ROOT_QUEUE_IDX_DEFAULT_QOS_OVERCOMMIT : DISPATCH_ROOT_QUEUE_IDX_DEFAULT_QOS)] = {
+    .do_vtable = (&OS_dispatch_queue_global_class),
+    .do_ref_cnt = DISPATCH_OBJECT_GLOBAL_REFCNT,
+    .do_xref_cnt = DISPATCH_OBJECT_GLOBAL_REFCNT,
+    .dq_state = DISPATCH_ROOT_QUEUE_STATE_INIT_VALUE,
+    .do_ctxt = _dispatch_root_queue_ctxt(((DISPATCH_PRIORITY_FLAG_FALLBACK | DISPATCH_PRIORITY_FLAG_OVERCOMMIT & DISPATCH_PRIORITY_FLAG_OVERCOMMIT) ? DISPATCH_ROOT_QUEUE_IDX_DEFAULT_QOS_OVERCOMMIT : DISPATCH_ROOT_QUEUE_IDX_DEFAULT_QOS)),
+    .dq_atomic_flags = DQF_WIDTH(DISPATCH_QUEUE_WIDTH_POOL),
+    .dq_priority = DISPATCH_PRIORITY_FLAG_FALLBACK | DISPATCH_PRIORITY_FLAG_OVERCOMMIT | ((DISPATCH_PRIORITY_FLAG_FALLBACK | DISPATCH_PRIORITY_FLAG_OVERCOMMIT & DISPATCH_PRIORITY_FLAG_FALLBACK) ? _dispatch_priority_make_fallback(DISPATCH_QOS_DEFAULT) : _dispatch_priority_make(DISPATCH_QOS_DEFAULT, 0)),
+    .dq_label = "com.apple.root.default-qos.overcommit",
+    .dq_serialnum = 11,
+},
+
+另：
+#define DISPATCH_PRIORITY_FLAG_OVERCOMMIT    ((dispatch_priority_t)0x80000000) // _PTHREAD_PRIORITY_OVERCOMMIT_FLAG
+#define DISPATCH_PRIORITY_FLAG_FALLBACK      ((dispatch_priority_t)0x04000000) // _PTHREAD_PRIORITY_FALLBACK_FLAG
+#define DISPATCH_PRIORITY_FLAG_MANAGER       ((dispatch_priority_t)0x02000000) // _PTHREAD_PRIORITY_EVENT_MANAGER_FLAG
+```
+
+其实就是初始化[6]和[7]这两个元素的值。用宏的话省去了一些重复代码。另外rootQueue的do_targetq都是NULL。
+
+一般通过dispatch_queue_create创建我们自己的队列：
+
+```c
+dispatch_queue_t
+dispatch_queue_create(const char *_Nullable label,
+		dispatch_queue_attr_t _Nullable attr);
+```
+
+可以传入两个参数label和attr（队列属性）
+
+attr的创建：
+
+```c
+ * @param qos_class
+ * A QOS class value:
+ *  - QOS_CLASS_USER_INTERACTIVE
+ *  - QOS_CLASS_USER_INITIATED
+ *  - QOS_CLASS_DEFAULT
+ *  - QOS_CLASS_UTILITY
+ *  - QOS_CLASS_BACKGROUND
+ * Passing any other value results in NULL being returned.
+   
+dispatch_queue_attr_t
+dispatch_queue_attr_make_with_qos_class(dispatch_queue_attr_t _Nullable attr,
+		dispatch_qos_class_t qos_class, int relative_priority);
+```
+
+有三个参数，可以参看官方详细注释
+
+dispatch_qos_class_t qos_class：
+
+```
+__QOS_ENUM(qos_class, unsigned int,
+	QOS_CLASS_USER_INTERACTIVE
+			__QOS_CLASS_AVAILABLE(macos(10.10), ios(8.0)) = 0x21,
+	QOS_CLASS_USER_INITIATED
+			__QOS_CLASS_AVAILABLE(macos(10.10), ios(8.0)) = 0x19,
+	QOS_CLASS_DEFAULT
+			__QOS_CLASS_AVAILABLE(macos(10.10), ios(8.0)) = 0x15,
+	QOS_CLASS_UTILITY
+			__QOS_CLASS_AVAILABLE(macos(10.10), ios(8.0)) = 0x11,
+	QOS_CLASS_BACKGROUND
+			__QOS_CLASS_AVAILABLE(macos(10.10), ios(8.0)) = 0x09,
+	QOS_CLASS_UNSPECIFIED
+			__QOS_CLASS_AVAILABLE(macos(10.10), ios(8.0)) = 0x00,
+);
+```
+
+relative_priority: [-15, 0]
+
+```
+/*!
+ * @constant QOS_MIN_RELATIVE_PRIORITY
+ * @abstract The minimum relative priority that may be specified within a
+ * QOS class. These priorities are relative only within a given QOS class
+ * and meaningful only for the current process.
+ */
+#define QOS_MIN_RELATIVE_PRIORITY (-15)
+```
+
+示例：
+
+```c
+//第一个参数用于设置串行队列/并发队列,第二个参数用于设置QOS会影响优先级，第三个参数用于设置相对优先级[QOS_MIN_RELATIVE_PRIORITY(-15), 0]
+dispatch_queue_attr_t attr0 = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_USER_INITIATED, QOS_MIN_RELATIVE_PRIORITY); //串行队列属性
+dispatch_queue_attr_t attr1 = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_CONCURRENT, QOS_CLASS_DEFAULT, -3); //并发队列属性
+dispatch_queue_t queue0 = dispatch_queue_create("xq.www.jk0", attr0);
+dispatch_queue_t queue1 = dispatch_queue_create("xq.www.jk1", attr1);
+dispatch_queue_t queue2 = dispatch_queue_create("xq.www.jk2", NULL);
+dispatch_queue_t queue3 = dispatch_queue_create("xq.www.jk3", DISPATCH_QUEUE_SERIAL);
+dispatch_queue_t queue4 = dispatch_queue_create("xq.www.jk4", DISPATCH_QUEUE_CONCURRENT);
+dispatch_queue_t queue5 = dispatch_queue_create("xq.www.jk5", ((__bridge dispatch_queue_attr_t)&(_dispatch_queue_attr_concurrent)));
+dispatch_queue_t mainQueue = dispatch_get_main_queue();
+dispatch_queue_t glQueue1 = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+dispatch_queue_t glQueue2 = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
+dispatch_queue_t glQueue3 = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0);
+dispatch_queue_t glQueue4 = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0);
 ```
 
 DISPATCH_QUEUE_CONCURRENT宏展开：
@@ -285,9 +428,32 @@ struct dispatch_queue_attr_s _dispatch_queue_attr_concurrent = {
 };
 ```
 
+打印：
+
+```
+Printing description of queue2:
+<OS_dispatch_queue_serial: xq.www.jk2[0x6000036a1780] = { xref = 1, ref = 1, sref = 1, target = com.apple.root.default-qos.overcommit[0x108316f80], width = 0x1, state = 0x001ffe2000000000, in-flight = 0}>
+Printing description of queue3:
+<OS_dispatch_queue_serial: xq.www.jk3[0x6000036a0b00] = { xref = 1, ref = 1, sref = 1, target = com.apple.root.default-qos.overcommit[0x108316f80], width = 0x1, state = 0x001ffe2000000000, in-flight = 0}>
+Printing description of mainQueue:
+<OS_dispatch_queue_main: com.apple.main-thread[0x108316b00] = { xref = -2147483648, ref = -2147483648, sref = 1, target = com.apple.root.default-qos.overcommit[0x108316f80], width = 0x1, state = 0x001ffe9000000300, dirty, in-flight = 0, thread = 0x303 }>
+Printing description of glQueue1:
+<OS_dispatch_queue_global: com.apple.root.default-qos[0x108316f00] = { xref = -2147483648, ref = -2147483648, sref = 1, target = [0x0], width = 0xfff, state = 0x0060000000000000, in-barrier}>
+Printing description of glQueue2:
+<OS_dispatch_queue_global: com.apple.root.user-initiated-qos[0x108317000] = { xref = -2147483648, ref = -2147483648, sref = 1, target = [0x0], width = 0xfff, state = 0x0060000000000000, in-barrier}>
+Printing description of glQueue3:
+<OS_dispatch_queue_global: com.apple.root.utility-qos[0x108316e00] = { xref = -2147483648, ref = -2147483648, sref = 1, target = [0x0], width = 0xfff, state = 0x0060000000000000, in-barrier}>
+Printing description of glQueue4:
+<OS_dispatch_queue_global: com.apple.root.background-qos[0x108316d00] = { xref = -2147483648, ref = -2147483648, sref = 1, target = [0x0], width = 0xfff, state = 0x0060000000000000, in-barrier}>
+Printing description of queue4:
+<OS_dispatch_queue_concurrent: xq.www.jk4[0x6000036a1a80] = { xref = 1, ref = 1, sref = 1, target = com.apple.root.default-qos[0x108316f00], width = 0xffe, state = 0x0000041000000000, in-flight = 0}>
+Printing description of queue5:
+<OS_dispatch_queue_concurrent: xq.www.jk5[0x6000036a0d00] = { xref = 1, ref = 1, sref = 1, target = com.apple.root.default-qos[0x108316f00], width = 0xffe, state = 0x0000041000000000, in-flight = 0}>
+```
+
 #### main_queue
 
-dispatch_queue_t mainQueue = dispatch_get_main_queue();
+`dispatch_queue_t mainQueue = dispatch_get_main_queue();`
 
 ```c
 dispatch_queue_main_t
@@ -323,11 +489,50 @@ struct dispatch_queue_static_s _dispatch_main_q = {
 	.dq_atomic_flags = DQF_THREAD_BOUND | DQF_WIDTH(1),
 	.dq_serialnum = 1,
 };
+
+#define _dispatch_get_default_queue(overcommit) \
+		_dispatch_root_queues[DISPATCH_ROOT_QUEUE_IDX_DEFAULT_QOS + \
+				!!(overcommit)]._as_dq
+
+// must be in lowest to highest qos order (as encoded in dispatch_qos_t)
+// overcommit qos index values need bit 1 set
+enum {
+	DISPATCH_ROOT_QUEUE_IDX_MAINTENANCE_QOS = 0,
+	DISPATCH_ROOT_QUEUE_IDX_MAINTENANCE_QOS_OVERCOMMIT,
+	DISPATCH_ROOT_QUEUE_IDX_BACKGROUND_QOS,
+	DISPATCH_ROOT_QUEUE_IDX_BACKGROUND_QOS_OVERCOMMIT,
+	DISPATCH_ROOT_QUEUE_IDX_UTILITY_QOS,
+	DISPATCH_ROOT_QUEUE_IDX_UTILITY_QOS_OVERCOMMIT,
+	DISPATCH_ROOT_QUEUE_IDX_DEFAULT_QOS, //6
+	DISPATCH_ROOT_QUEUE_IDX_DEFAULT_QOS_OVERCOMMIT,  
+	DISPATCH_ROOT_QUEUE_IDX_USER_INITIATED_QOS,
+	DISPATCH_ROOT_QUEUE_IDX_USER_INITIATED_QOS_OVERCOMMIT,
+	DISPATCH_ROOT_QUEUE_IDX_USER_INTERACTIVE_QOS,
+	DISPATCH_ROOT_QUEUE_IDX_USER_INTERACTIVE_QOS_OVERCOMMIT, //11
+	_DISPATCH_ROOT_QUEUE_IDX_COUNT, //12
+};
+```
+
+main_queue的targetQueue是取的_dispatch_root_queues的第7个元素：
+
+```
+_DISPATCH_ROOT_QUEUE_ENTRY(DEFAULT,
+    DISPATCH_PRIORITY_FLAG_FALLBACK | DISPATCH_PRIORITY_FLAG_OVERCOMMIT,
+  .dq_label = "com.apple.root.default-qos.overcommit",
+  .dq_serialnum = 11,
+),
+```
+
+打印一下mainQueue：
+
+```
+Printing description of mainQueue:
+<OS_dispatch_queue_main: com.apple.main-thread[0x10c5b6b00] = { xref = -2147483648, ref = -2147483648, sref = 1, target = com.apple.root.default-qos.overcommit[0x10c5b6f80], width = 0x1, state = 0x001ffe9000000300, dirty, in-flight = 0, thread = 0x303 }>
 ```
 
 #### global_queue
 
-dispatch_queue_t glQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+`dispatch_queue_t glQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);`
 
 实现：
 
@@ -356,7 +561,48 @@ dispatch_get_global_queue(long priority, unsigned long flags)
 }
 ```
 
-其实就是从全局数组中取出的一个root_queue。
+priority转qos:
+
+```c
+DISPATCH_ALWAYS_INLINE
+static inline dispatch_qos_t
+_dispatch_qos_from_queue_priority(long priority)
+{
+	switch (priority) {
+	case DISPATCH_QUEUE_PRIORITY_BACKGROUND:      return DISPATCH_QOS_BACKGROUND; //2
+	case DISPATCH_QUEUE_PRIORITY_NON_INTERACTIVE: return DISPATCH_QOS_UTILITY; //3
+	case DISPATCH_QUEUE_PRIORITY_LOW:             return DISPATCH_QOS_UTILITY; //3
+	case DISPATCH_QUEUE_PRIORITY_DEFAULT:         return DISPATCH_QOS_DEFAULT; //4
+	case DISPATCH_QUEUE_PRIORITY_HIGH:            return DISPATCH_QOS_USER_INITIATED; //5
+	default: return _dispatch_qos_from_qos_class((qos_class_t)priority);
+	}
+}
+
+DISPATCH_ALWAYS_INLINE
+static inline dispatch_qos_t
+_dispatch_qos_from_qos_class(qos_class_t cls)
+{
+	switch ((unsigned int)cls) {
+	case QOS_CLASS_USER_INTERACTIVE: return DISPATCH_QOS_USER_INTERACTIVE;
+	case QOS_CLASS_USER_INITIATED:   return DISPATCH_QOS_USER_INITIATED;
+	case QOS_CLASS_DEFAULT:          return DISPATCH_QOS_DEFAULT;
+	case QOS_CLASS_UTILITY:          return DISPATCH_QOS_UTILITY;
+	case QOS_CLASS_BACKGROUND:       return DISPATCH_QOS_BACKGROUND;
+	case QOS_CLASS_MAINTENANCE:      return DISPATCH_QOS_MAINTENANCE;
+	default: return DISPATCH_QOS_UNSPECIFIED;
+	}
+}
+```
+
+其实就是从全局数组_dispatch_root_queues中取出的一个root_queue。另外rootQueue的do_targetq是NULL。
+
+**总结**
+
+队列之间的关系：
+
+### dispatch_sync
+
+
 
 ### dispatch_async
 
@@ -370,7 +616,7 @@ dispatch_async(dispatch_queue_t dq, dispatch_block_t work)
 	uintptr_t dc_flags = DC_FLAG_CONSUME;
 	dispatch_qos_t qos;
 
-	qos = _dispatch_continuation_init(dc, dq, work, 0, dc_flags);
+	qos = _dispatch_continuation_init(dc, dq, work, 0, dc_flags); //传入了dq,work,dc_flags
 	_dispatch_continuation_async(dq, dc, qos, dc->dc_flags);
 }
 ```
@@ -424,7 +670,7 @@ _dispatch_continuation_async(dispatch_queue_class_t dqu,
 ```c
 DISPATCH_VTABLE_INSTANCE(queue,
 	// This is the base class for queues, no objects of this type are made
-	.do_type        = _DISPATCH_QUEUE_CLUSTER,
+	.do_type        = _DISPATCH_QUEUE_CLUSTER, //类簇，抽象类
 	.do_dispose     = _dispatch_object_no_dispose,
 	.do_debug       = _dispatch_queue_debug,
 	.do_invoke      = _dispatch_object_no_invoke,
@@ -923,12 +1169,6 @@ _dispatch_root_queue_drain(dispatch_queue_global_t dq,
 }
 ```
 
-
-
-### dispatch_sync
-
-
-
 ### dispatch_barrier_async
 
 
@@ -959,7 +1199,7 @@ _dispatch_root_queue_drain(dispatch_queue_global_t dq,
 
 ### 附录
 
-dispatch_qos_t
+dispatch_qos_t  优先级，会影响index的计算，因为targetQueue是从全局队列数组中取的。
 
 定义：
 
@@ -1016,4 +1256,12 @@ typedef struct dispatch_introspection_queue_s {
 } dispatch_introspection_queue_s;
 typedef dispatch_introspection_queue_s *dispatch_introspection_queue_t;
 ```
+
+
+
+已知的
+
+1. 系统创建了一个全局数组变量里面共12个全局队列，一个全局变量mainQueue。
+2. 系统维护了一个线程池
+3. 传入的block任务会添加到队列的链表中
 

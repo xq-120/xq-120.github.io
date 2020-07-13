@@ -34,13 +34,13 @@ struct dispatch_group_s {
 
 ```c
 struct dispatch_group_s {
-    struct dispatch_object_s _as_do[0];
+    struct dispatch_object_s _as_do[0]; //dispatch_group_s不是dispatch_queue_s的子类
     struct _os_object_s _as_os_obj[0];
     const struct dispatch_group_vtable_s *do_vtable;
     int volatile do_ref_cnt;
     int volatile do_xref_cnt;
     struct dispatch_group_s *volatile do_next;
-    struct dispatch_queue_s *do_targetq;
+    struct dispatch_queue_s *do_targetq; //target的queue。
     void *do_ctxt;
     void *do_finalizer;
   
@@ -52,8 +52,8 @@ struct dispatch_group_s {
             uint32_t dg_gen;
         };
     } __attribute__((aligned(8)));
-    struct dispatch_continuation_s *volatile dg_notify_head; //指向链表的头
-    struct dispatch_continuation_s *volatile dg_notify_tail; //指向链表的尾
+    struct dispatch_continuation_s *volatile dg_notify_head; //指向notify任务链表的头，因为可能有多个notify任务
+    struct dispatch_continuation_s *volatile dg_notify_tail; //指向notify任务链表的尾
 };
 ```
 
@@ -452,7 +452,7 @@ _dispatch_continuation_async(dispatch_queue_class_t dqu,
 }
 ```
 
-主要是`dx_push(dqu._dq, dc, qos);`。dx_push是一个宏，会根据队列的类调用不同的方法，方法里面其中一个逻辑就是将任务添加到链表中。也就是说队列对象里面维护着一个任务链表，任务就是添加的一个个dispatch_continuation_t。
+主要是`dx_push(dqu._dq, dc, qos);`。dx_push是一个宏，会根据队列的类调用不同的方法，方法里面其中一个逻辑就是将任务添加到队列的任务链表中。也就是说队列对象里面维护着一个任务链表，任务就是添加的一个个dispatch_continuation_t。
 
 比如如果是queue_serial则会调用到_dispatch_lane_push
 
@@ -529,7 +529,7 @@ prev = ({
 
 ![](https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20200709111854.png)
 
-我们每次调用dispatch_group_async时，gcd就将block任务添加到链表尾部。
+我们每次调用dispatch_group_async时，gcd就将block任务添加到队列的任务链表尾部。
 
 #### dispatch_group_notify
 
