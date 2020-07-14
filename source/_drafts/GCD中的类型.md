@@ -343,6 +343,43 @@ typedef enum {
 } _dispatch_queue_attr_overcommit_t;
 ```
 
+#### dispatch_lane_class_t，dispatch_queue_class_t
+
+```c
+// Lane cluster class: type for all the queues that have a single head/tail pair
+typedef union {
+	struct dispatch_lane_s *_dl;
+	struct dispatch_queue_static_s *_dsq; 
+	struct dispatch_queue_global_s *_dgq;
+	struct dispatch_queue_pthread_root_s *_dpq;
+	struct dispatch_source_s *_ds;
+	struct dispatch_channel_s *_dch;
+	struct dispatch_mach_s *_dm;
+#ifdef __OBJC__
+	id<OS_dispatch_queue> _objc_dq; // unsafe cast for the sake of object.m
+#endif
+} dispatch_lane_class_t DISPATCH_TRANSPARENT_UNION;
+
+// Dispatch queue cluster class: type for any dispatch_queue_t
+typedef union {
+	struct dispatch_queue_s *_dq;
+	struct dispatch_workloop_s *_dwl;
+	struct dispatch_lane_s *_dl;
+	struct dispatch_queue_static_s *_dsq;
+	struct dispatch_queue_global_s *_dgq;
+	struct dispatch_queue_pthread_root_s *_dpq;
+	struct dispatch_source_s *_ds;
+	struct dispatch_channel_s *_dch;
+	struct dispatch_mach_s *_dm;
+	dispatch_lane_class_t _dlu;
+#ifdef __OBJC__
+	id<OS_dispatch_queue> _objc_dq;
+#endif
+} dispatch_queue_class_t DISPATCH_TRANSPARENT_UNION;
+```
+
+最好参考`queue_internal.h`头文件里的注释。
+
 #### struct dispatch_lane_s
 
 定义：
@@ -404,43 +441,6 @@ typedef struct dispatch_lane_s {
     uint32_t dq_side_suspend_cnt;
 } __attribute__((aligned(8))) *dispatch_lane_t;
 ```
-
-#### dispatch_lane_class_t，dispatch_queue_class_t
-
-```c
-// Lane cluster class: type for all the queues that have a single head/tail pair
-typedef union {
-	struct dispatch_lane_s *_dl;
-	struct dispatch_queue_static_s *_dsq;
-	struct dispatch_queue_global_s *_dgq;
-	struct dispatch_queue_pthread_root_s *_dpq;
-	struct dispatch_source_s *_ds;
-	struct dispatch_channel_s *_dch;
-	struct dispatch_mach_s *_dm;
-#ifdef __OBJC__
-	id<OS_dispatch_queue> _objc_dq; // unsafe cast for the sake of object.m
-#endif
-} dispatch_lane_class_t DISPATCH_TRANSPARENT_UNION;
-
-// Dispatch queue cluster class: type for any dispatch_queue_t
-typedef union {
-	struct dispatch_queue_s *_dq;
-	struct dispatch_workloop_s *_dwl;
-	struct dispatch_lane_s *_dl;
-	struct dispatch_queue_static_s *_dsq;
-	struct dispatch_queue_global_s *_dgq;
-	struct dispatch_queue_pthread_root_s *_dpq;
-	struct dispatch_source_s *_ds;
-	struct dispatch_channel_s *_dch;
-	struct dispatch_mach_s *_dm;
-	dispatch_lane_class_t _dlu;
-#ifdef __OBJC__
-	id<OS_dispatch_queue> _objc_dq;
-#endif
-} dispatch_queue_class_t DISPATCH_TRANSPARENT_UNION;
-```
-
-最好参考`queue_internal.h`头文件里的注释。
 
 #### struct dispatch_queue_global_s
 

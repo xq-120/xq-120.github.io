@@ -525,11 +525,9 @@ prev = ({
 });
 ```
 
-链表操作过程如图：
+上述代码，其实就是添加元素到链表的过程。
 
-![](https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20200709111854.png)
-
-我们每次调用dispatch_group_async时，gcd就将block任务添加到队列的任务链表尾部。
+我们每次调用dispatch_group_async时，就会将一个block任务添加到队列的任务链表尾部。
 
 #### dispatch_group_notify
 
@@ -635,6 +633,10 @@ os_mpsc_push_update_prev(os_mpsc(dg, dg_notify), prev, dsn, do_next);
 ```
 
 这里就是操作链表，将dsn添加到链表最后，dsn成为新的链表tail。上面dg_notify_tail保存的就是它。
+
+如下图：
+
+![](https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20200709111854.png)
 
 os_atomic_rmw_loop2o宏逻辑里面会更新dg_state的HAS_NOTIFS标志位为DISPATCH_GROUP_HAS_NOTIFS。表示有通知者。
 
