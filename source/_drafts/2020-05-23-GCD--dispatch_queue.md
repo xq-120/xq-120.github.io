@@ -606,6 +606,8 @@ _dispatch_qos_from_qos_class(qos_class_t cls)
 
 ### dispatch_sync
 
+一般来说同步任务是在当前线程中执行（丢到主队列的除外），同时它会阻塞当前线程直到任务执行完毕。
+
 实现：
 
 ```c
@@ -655,16 +657,21 @@ _dispatch_sync_f_inline(dispatch_queue_t dq, void *ctxt,
 
 大致流程：
 
-1. 判断队列的dq_width是否等于1，即是否是串行队列，如果是串行队列则走_dispatch_barrier_sync_f
-2. 如果是并发队列，则走正常的_dispatch_sync_invoke_and_complete逻辑
+1. 判断队列的dq_width是否等于1，即是否是串行队列，如果是串行队列则走_dispatch_barrier_sync_f逻辑
+2. 如果是全局并发队列，基本上走_dispatch_sync_f_slow逻辑
+3. 其他情况比如自定义的并发队列则走正常的_dispatch_sync_invoke_and_complete逻辑，直接在当前线程执行block就完事了。不存在死锁不死锁的。
 
-可以看到dispatch_sync并没有将block封装为一个dispatch_continuation_s对象。
+可以看到dispatch_sync并没有将block封装为一个dispatch_continuation_s对象然后添加到队列的链表上去，而是直接执行。
+
+为啥dispatch_sync逻辑要分串行队列还是并发队列呢？因为串行队列必须是前一个任务执行完后才能执行后一个任务，所以它内部会有一个try_acquire_barrier“加锁”的操作，保证即使在多线程同时调用dispatch_sync时也不会出现同时执行两个任务的情况。而并发队列就是可以同时执行任务的，所以可以不用“加锁”的操作。
+
+因此dispatch_sync逻辑主要看第一个分支dq是串行队列时的_dispatch_barrier_sync_f逻辑。
 
 #### _dispatch_barrier_sync_f
 
-直接调用了`_dispatch_barrier_sync_f_inline`。  ps:`dispatch_barrier_sync`也是调用它完成工作的。
+直接调用了`_dispatch_barrier_sync_f_inline`。  
 
-因此`_dispatch_barrier_sync_f_inline`函数里的dq参数有可能是串行队列也有可能是并发队列或全局队列。
+ps：`dispatch_barrier_sync` 内部也是调用`_dispatch_barrier_sync_f`完成工作的。分析完`_dispatch_barrier_sync_f_inline`，也就等于知道了`dispatch_barrier_sync` 的工作原理了。因此`dispatch_sync`到串行队列逻辑和`dispatch_barrier_sync` 到串行队列逻辑是一样的。
 
 ```c
 DISPATCH_NOINLINE
@@ -696,7 +703,7 @@ _dispatch_barrier_sync_f_inline(dispatch_queue_t dq, void *ctxt,
 	//
 	// Global concurrent queues and queues bound to non-dispatch threads
 	// always fall into the slow case, see DISPATCH_ROOT_QUEUE_STATE_INIT_VALUE
-	if (unlikely(!_dispatch_queue_try_acquire_barrier_sync(dl, tid))) {
+	if (unlikely(!_dispatch_queue_try_acquire_barrier_sync(dl, tid))) { //尝试获得栅栏
 		return _dispatch_sync_f_slow(dl, ctxt, func, DC_FLAG_BARRIER, dl,
 				DC_FLAG_BARRIER | dc_flags); //try_acquire_barrier失败，线程进入_dispatch_sync_f_slow逻辑，slow表明不是那么快的执行block任务，而是可能会等待一会才会执行。
 	}
@@ -710,18 +717,28 @@ _dispatch_barrier_sync_f_inline(dispatch_queue_t dq, void *ctxt,
 			DISPATCH_TRACE_ARG(_dispatch_trace_item_sync_push_pop(
 					dq, ctxt, func, dc_flags | DC_FLAG_BARRIER)));
 }
+
+void
+dispatch_barrier_sync(dispatch_queue_t dq, dispatch_block_t work)
+{
+	uintptr_t dc_flags = DC_FLAG_BARRIER | DC_FLAG_BLOCK;
+	if (unlikely(_dispatch_block_has_private_data(work))) {
+		return _dispatch_sync_block_with_privdata(dq, work, dc_flags);
+	}
+	_dispatch_barrier_sync_f(dq, work, _dispatch_Block_invoke(work), dc_flags);
+}
 ```
 
 大致流程：
 
-1. 获取线程id--tid标识。队列死锁检测也会用到tid。
-2. 调用`_dispatch_queue_try_acquire_barrier_sync`尝试获得屏障，该函数会更新队列的dq_state的值为new_state（与tid相关），如果失败则进入`_dispatch_sync_f_slow`，线程进入等待状态直到可以执行时才执行。对于并发队列try_acquire_barrier一般都会失败。
+1. 获取线程id--tid标识。try_acquire_barrier会用到。另外队列死锁检测也会用到tid。
+2. 调用`_dispatch_queue_try_acquire_barrier_sync`尝试获得屏障，该函数会更新队列的dq_state的值为new_state（与tid相关），如果失败则进入`_dispatch_sync_f_slow`，线程进入等待状态直到可以执行时才执行。对于全局并发队列try_acquire_barrier一般都会失败。
 3. 如果dl->do_targetq->do_targetq有值则说明是比较高层次的队列，则走`_dispatch_sync_recurse`逻辑
 4. 最后走常规逻辑`_dispatch_lane_barrier_sync_invoke_and_complete`。
 
-#### _dispatch_queue_try_acquire_barrier_sync
+这里着重看一下`_dispatch_queue_try_acquire_barrier_sync` ，主要是了解一下dq_state的新值new_state是怎么计算得来的。
 
-这里着重看一下`_dispatch_queue_try_acquire_barrier_sync`：
+#### _dispatch_queue_try_acquire_barrier_sync
 
 ```c
 DISPATCH_ALWAYS_INLINE DISPATCH_WARN_RESULT
@@ -755,10 +772,10 @@ _dispatch_queue_try_acquire_barrier_sync_and_suspend(dispatch_lane_t dq,
 
 	return os_atomic_rmw_loop2o(dq, dq_state, old_state, new_state, acquire, {
 		uint64_t role = old_state & DISPATCH_QUEUE_ROLE_MASK;
-		if (old_state != (init | role)) { //尝试失败了，则退出循环并返回false。
+		if (old_state != (init | role)) { //尝试失败了，则退出循环并返回false，这里如果一来就break，那么将不会更新dq_state的值（可能是全局并发队列的情况）。
 			os_atomic_rmw_loop_give_up(break); 
 		}
-		new_state = value | role;  //更新队列的dq_state的值为new_state，这个值跟tid是有关系的。后面会根据该值与tid进行比较，用于判断是否是同一个线程重复获取
+		new_state = value | role;  //更新队列的dq_state的值为new_state，这个值跟tid是有关系的。后面会根据该值与tid进行比较，用于判断是否是同一个线程重复获取栅栏
 	});
 }
 
@@ -770,7 +787,7 @@ _dispatch_lock_value_from_tid(dispatch_tid tid)
 }
 ```
 
-该函数主要的工作就是更新队列的dq_state的值为new_state，new_state跟tid是有关系的。后面会根据该值与tid进行比较，用于判断是否是同一个线程重复获取，如果是表明检测到了队列死锁于是抛出崩溃。
+该函数主要的工作就是更新队列的dq_state的值为new_state，new_state的值跟tid是有关系的。
 
 #### _dispatch_sync_f_slow
 
@@ -822,9 +839,9 @@ _dispatch_sync_f_slow(dispatch_queue_class_t top_dqu, void *ctxt,
 1. 调用`__DISPATCH_WAIT_FOR_QUEUE__`进入等待
 2. 等待结束后，调用_dispatch_sync_invoke_and_complete_recurse执行block任务。
 
-#### __DISPATCH_WAIT_FOR_QUEUE__
+这里着重看`__DISPATCH_WAIT_FOR_QUEUE__`函数的实现。
 
-这里着重看`__DISPATCH_WAIT_FOR_QUEUE__`函数的实现：
+#### __DISPATCH_WAIT_FOR_QUEUE__
 
 ```c
 DISPATCH_NOINLINE
@@ -909,8 +926,8 @@ _dispatch_lock_owner(dispatch_lock lock_value)
 
 该函数的作用：
 
-1. 设置队列的dq_state的SYNC_WAIT位为1，
-2. 进行死锁检测。因为dq_state中有保存加锁成功的线程id，因此当该线程重复加锁时必然和dq_state中保存的tid相等。于是判断为死锁，崩溃。
+1. 设置队列的dq_state的SYNC_WAIT位为1。
+2. 进行死锁检测。如果dq_state中有保存获得barrier成功的线程id（一般串行队列会有更新dq_state的值），当该线程再次进入时必然和dq_state中保存的tid相等，于是判断为死锁，崩溃。
 3. 进入等待
 
 总结一下，GCD会发生死锁的情况必须同时满足3个条件，才会形成task1和task2相互等待的情况：
@@ -1502,8 +1519,6 @@ _dispatch_root_queue_drain(dispatch_queue_global_t dq,
 
 [Concurrency Programming Guide](https://developer.apple.com/library/archive/documentation/General/Conceptual/ConcurrencyProgrammingGuide/Introduction/Introduction.html)  官方并发编程指南
 
-[我所理解的 iOS 并发编程](https://blog.boolchow.com/2018/04/06/iOS-Concurrency-Programming/)  很全
-
 [深入理解GCD](https://juejin.im/post/57cb8e8367f3560057bf4da1) 很不错
 
 [GCD源码吐血分析(1)——GCD Queue](https://blog.csdn.net/u013378438/article/details/81031938)  作者的博客还可以，是成系列的。
@@ -1512,7 +1527,11 @@ _dispatch_root_queue_drain(dispatch_queue_global_t dq,
 
 [GCD源码解析(一)-dispatch_queue_create、dispatch_get_main_queue、dispatch_get_global_queue](https://www.jianshu.com/p/7702c06cda4c)  分析了队列的创建过程
 
+[GCD源码分析（二）——Dispatch Queue和Thread Pool]([https://chy305chy.github.io/2018/11/29/GCD%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%EF%BC%88%E4%BA%8C%EF%BC%89%E2%80%94%E2%80%94Dispatch-Queue%E5%92%8CThread-Pool/](https://chy305chy.github.io/2018/11/29/GCD源码分析（二）——Dispatch-Queue和Thread-Pool/))
+
 [iOS GCD源码浅析](https://juejin.im/post/5e50e193f265da576f5303ca)  分析的还行
+
+[我所理解的 iOS 并发编程](https://blog.boolchow.com/2018/04/06/iOS-Concurrency-Programming/)  很全
 
 [Concurrent Programming: APIs and Challenges](https://www.objc.io/issues/2-concurrency/concurrency-apis-and-pitfalls/) 不错，尤其里面其他知识点文章也很不错
 
