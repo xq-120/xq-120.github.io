@@ -274,7 +274,7 @@ struct dispatch_queue_s {
     union {
         uint64_t volatile dq_state;
         struct {
-            dispatch_lock dq_state_lock;
+            dispatch_lock dq_state_lock; //一个32位的整型数
             uint32_t dq_state_bits;
         };
     };
