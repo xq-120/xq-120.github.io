@@ -13,6 +13,10 @@ date: 2020-05-23 15:23:33
 
 GCD 501版本的还不算复杂，但我就是不想看旧版本的于是入坑最新版本`libdispatch-1173.40.5`。
 
+GCD版本变化太大了，新版本里面的宏简直到了令人发指的地步了。
+
+问题：
+
 1. 队列的创建过程
 2. GCD默认的队列
 3. 自定义的串行队列、并发队列与主队列，全局队列之间的关系
@@ -602,6 +606,323 @@ _dispatch_qos_from_qos_class(qos_class_t cls)
 
 ### dispatch_sync
 
+实现：
+
+```c
+DISPATCH_NOINLINE
+void
+dispatch_sync(dispatch_queue_t dq, dispatch_block_t work)
+{
+	uintptr_t dc_flags = DC_FLAG_BLOCK;
+	if (unlikely(_dispatch_block_has_private_data(work))) {
+		return _dispatch_sync_block_with_privdata(dq, work, dc_flags);
+	}
+	_dispatch_sync_f(dq, work, _dispatch_Block_invoke(work), dc_flags);
+}
+```
+
+主要调用了`_dispatch_sync_f`-->`_dispatch_sync_f_inline`
+
+```c
+DISPATCH_ALWAYS_INLINE
+static inline void
+_dispatch_sync_f_inline(dispatch_queue_t dq, void *ctxt,
+		dispatch_function_t func, uintptr_t dc_flags)
+{
+	if (likely(dq->dq_width == 1)) {
+		return _dispatch_barrier_sync_f(dq, ctxt, func, dc_flags);
+	}
+
+	if (unlikely(dx_metatype(dq) != _DISPATCH_LANE_TYPE)) {
+		DISPATCH_CLIENT_CRASH(0, "Queue type doesn't support dispatch_sync");
+	}
+
+	dispatch_lane_t dl = upcast(dq)._dl;
+	// Global concurrent queues and queues bound to non-dispatch threads
+	// always fall into the slow case, see DISPATCH_ROOT_QUEUE_STATE_INIT_VALUE
+	if (unlikely(!_dispatch_queue_try_reserve_sync_width(dl))) {
+		return _dispatch_sync_f_slow(dl, ctxt, func, 0, dl, dc_flags);
+	}
+
+	if (unlikely(dq->do_targetq->do_targetq)) {
+		return _dispatch_sync_recurse(dl, ctxt, func, dc_flags);
+	}
+	_dispatch_introspection_sync_begin(dl);
+	_dispatch_sync_invoke_and_complete(dl, ctxt, func DISPATCH_TRACE_ARG(
+			_dispatch_trace_item_sync_push_pop(dq, ctxt, func, dc_flags)));
+}
+```
+
+大致流程：
+
+1. 判断队列的dq_width是否等于1，即是否是串行队列，如果是串行队列则走_dispatch_barrier_sync_f
+2. 如果是并发队列，则走正常的_dispatch_sync_invoke_and_complete逻辑
+
+可以看到dispatch_sync并没有将block封装为一个dispatch_continuation_s对象。
+
+#### _dispatch_barrier_sync_f
+
+直接调用了`_dispatch_barrier_sync_f_inline`。  ps:`dispatch_barrier_sync`也是调用它完成工作的。
+
+因此`_dispatch_barrier_sync_f_inline`函数里的dq参数有可能是串行队列也有可能是并发队列或全局队列。
+
+```c
+DISPATCH_NOINLINE
+static void
+_dispatch_barrier_sync_f(dispatch_queue_t dq, void *ctxt,
+		dispatch_function_t func, uintptr_t dc_flags)
+{
+	_dispatch_barrier_sync_f_inline(dq, ctxt, func, dc_flags);
+}
+
+DISPATCH_ALWAYS_INLINE
+static inline void
+_dispatch_barrier_sync_f_inline(dispatch_queue_t dq, void *ctxt,
+		dispatch_function_t func, uintptr_t dc_flags)
+{
+	dispatch_tid tid = _dispatch_tid_self(); //获取线程id--tid标识
+
+	if (unlikely(dx_metatype(dq) != _DISPATCH_LANE_TYPE)) {
+		DISPATCH_CLIENT_CRASH(0, "Queue type doesn't support dispatch_sync");
+	}
+
+	dispatch_lane_t dl = upcast(dq)._dl;
+	// The more correct thing to do would be to merge the qos of the thread
+	// that just acquired the barrier lock into the queue state.
+	//
+	// However this is too expensive for the fast path, so skip doing it.
+	// The chosen tradeoff is that if an enqueue on a lower priority thread
+	// contends with this fast path, this thread may receive a useless override.
+	//
+	// Global concurrent queues and queues bound to non-dispatch threads
+	// always fall into the slow case, see DISPATCH_ROOT_QUEUE_STATE_INIT_VALUE
+	if (unlikely(!_dispatch_queue_try_acquire_barrier_sync(dl, tid))) {
+		return _dispatch_sync_f_slow(dl, ctxt, func, DC_FLAG_BARRIER, dl,
+				DC_FLAG_BARRIER | dc_flags); //try_acquire_barrier失败，线程进入_dispatch_sync_f_slow逻辑，slow表明不是那么快的执行block任务，而是可能会等待一会才会执行。
+	}
+
+	if (unlikely(dl->do_targetq->do_targetq)) {
+		return _dispatch_sync_recurse(dl, ctxt, func,
+				DC_FLAG_BARRIER | dc_flags);
+	}
+	_dispatch_introspection_sync_begin(dl);
+	_dispatch_lane_barrier_sync_invoke_and_complete(dl, ctxt, func
+			DISPATCH_TRACE_ARG(_dispatch_trace_item_sync_push_pop(
+					dq, ctxt, func, dc_flags | DC_FLAG_BARRIER)));
+}
+```
+
+大致流程：
+
+1. 获取线程id--tid标识。队列死锁检测也会用到tid。
+2. 调用`_dispatch_queue_try_acquire_barrier_sync`尝试获得屏障，该函数会更新队列的dq_state的值为new_state（与tid相关），如果失败则进入`_dispatch_sync_f_slow`，线程进入等待状态直到可以执行时才执行。对于并发队列try_acquire_barrier一般都会失败。
+3. 如果dl->do_targetq->do_targetq有值则说明是比较高层次的队列，则走`_dispatch_sync_recurse`逻辑
+4. 最后走常规逻辑`_dispatch_lane_barrier_sync_invoke_and_complete`。
+
+#### _dispatch_queue_try_acquire_barrier_sync
+
+这里着重看一下`_dispatch_queue_try_acquire_barrier_sync`：
+
+```c
+DISPATCH_ALWAYS_INLINE DISPATCH_WARN_RESULT
+static inline bool
+_dispatch_queue_try_acquire_barrier_sync(dispatch_queue_class_t dq, uint32_t tid)
+{
+	return _dispatch_queue_try_acquire_barrier_sync_and_suspend(dq._dl, tid, 0);
+}
+
+/* Used by _dispatch_barrier_{try,}sync
+ *
+ * Note, this fails if any of e:1 or dl!=0, but that allows this code to be a
+ * simple cmpxchg which is significantly faster on Intel, and makes a
+ * significant difference on the uncontended codepath.
+ *
+ * See discussion for DISPATCH_QUEUE_DIRTY in queue_internal.h
+ *
+ * Initial state must be `completely idle`
+ * Final state forces { ib:1, qf:1, w:0 }
+ */
+DISPATCH_ALWAYS_INLINE DISPATCH_WARN_RESULT
+static inline bool
+_dispatch_queue_try_acquire_barrier_sync_and_suspend(dispatch_lane_t dq,
+		uint32_t tid, uint64_t suspend_count)
+{
+	uint64_t init  = DISPATCH_QUEUE_STATE_INIT_VALUE(dq->dq_width);
+	uint64_t value = DISPATCH_QUEUE_WIDTH_FULL_BIT | DISPATCH_QUEUE_IN_BARRIER |
+			_dispatch_lock_value_from_tid(tid) |
+			(suspend_count * DISPATCH_QUEUE_SUSPEND_INTERVAL); //value值的计算，混合了tid。
+	uint64_t old_state, new_state;
+
+	return os_atomic_rmw_loop2o(dq, dq_state, old_state, new_state, acquire, {
+		uint64_t role = old_state & DISPATCH_QUEUE_ROLE_MASK;
+		if (old_state != (init | role)) { //尝试失败了，则退出循环并返回false。
+			os_atomic_rmw_loop_give_up(break); 
+		}
+		new_state = value | role;  //更新队列的dq_state的值为new_state，这个值跟tid是有关系的。后面会根据该值与tid进行比较，用于判断是否是同一个线程重复获取
+	});
+}
+
+DISPATCH_ALWAYS_INLINE
+static inline dispatch_lock
+_dispatch_lock_value_from_tid(dispatch_tid tid)
+{
+	return tid & DLOCK_OWNER_MASK;
+}
+```
+
+该函数主要的工作就是更新队列的dq_state的值为new_state，new_state跟tid是有关系的。后面会根据该值与tid进行比较，用于判断是否是同一个线程重复获取，如果是表明检测到了队列死锁于是抛出崩溃。
+
+#### _dispatch_sync_f_slow
+
+```c
+DISPATCH_NOINLINE
+static void
+_dispatch_sync_f_slow(dispatch_queue_class_t top_dqu, void *ctxt,
+		dispatch_function_t func, uintptr_t top_dc_flags,
+		dispatch_queue_class_t dqu, uintptr_t dc_flags)
+{
+	dispatch_queue_t top_dq = top_dqu._dq;
+	dispatch_queue_t dq = dqu._dq;
+	if (unlikely(!dq->do_targetq)) {
+		return _dispatch_sync_function_invoke(dq, ctxt, func);
+	}
+
+	pthread_priority_t pp = _dispatch_get_priority();
+	struct dispatch_sync_context_s dsc = {
+		.dc_flags    = DC_FLAG_SYNC_WAITER | dc_flags,
+		.dc_func     = _dispatch_async_and_wait_invoke,
+		.dc_ctxt     = &dsc,
+		.dc_other    = top_dq,
+		.dc_priority = pp | _PTHREAD_PRIORITY_ENFORCE_FLAG,
+		.dc_voucher  = _voucher_get(),
+		.dsc_func    = func,
+		.dsc_ctxt    = ctxt,
+		.dsc_waiter  = _dispatch_tid_self(), //获取线程ID
+	};
+
+	_dispatch_trace_item_push(top_dq, &dsc);
+	__DISPATCH_WAIT_FOR_QUEUE__(&dsc, dq); //进入等待，设置队列的dq_state的SYNC_WAIT位为1，并且还会进行死锁检测
+
+	if (dsc.dsc_func == NULL) {
+		// dsc_func being cleared means that the block ran on another thread ie.
+		// case (2) as listed in _dispatch_async_and_wait_f_slow.
+		dispatch_queue_t stop_dq = dsc.dc_other;
+		return _dispatch_sync_complete_recurse(top_dq, stop_dq, top_dc_flags);
+	}
+
+	_dispatch_introspection_sync_begin(top_dq);
+	_dispatch_trace_item_pop(top_dq, &dsc);
+	_dispatch_sync_invoke_and_complete_recurse(top_dq, ctxt, func,top_dc_flags
+			DISPATCH_TRACE_ARG(&dsc));
+}
+```
+
+该函数主要过程：
+
+1. 调用`__DISPATCH_WAIT_FOR_QUEUE__`进入等待
+2. 等待结束后，调用_dispatch_sync_invoke_and_complete_recurse执行block任务。
+
+#### __DISPATCH_WAIT_FOR_QUEUE__
+
+这里着重看`__DISPATCH_WAIT_FOR_QUEUE__`函数的实现：
+
+```c
+DISPATCH_NOINLINE
+static void
+__DISPATCH_WAIT_FOR_QUEUE__(dispatch_sync_context_t dsc, dispatch_queue_t dq)
+{
+	uint64_t dq_state = _dispatch_wait_prepare(dq);
+	if (unlikely(_dq_state_drain_locked_by(dq_state, dsc->dsc_waiter))) {
+		DISPATCH_CLIENT_CRASH((uintptr_t)dq_state,
+				"dispatch_sync called on queue "
+				"already owned by current thread");
+	}
+	// Blocks submitted to the main thread MUST run on the main thread, and
+	// dispatch_async_and_wait also executes on the remote context rather than
+	// the current thread.
+	//
+	// For both these cases we need to save the frame linkage for the sake of
+	// _dispatch_async_and_wait_invoke
+	_dispatch_thread_frame_save_state(&dsc->dsc_dtf);
+	
+	...
+
+}
+
+DISPATCH_ALWAYS_INLINE
+static inline uint64_t
+_dispatch_wait_prepare(dispatch_queue_t dq)
+{
+	uint64_t old_state, new_state;
+
+	os_atomic_rmw_loop2o(dq, dq_state, old_state, new_state, relaxed, {
+		if (_dq_state_is_suspended(old_state) ||
+				!_dq_state_is_base_wlh(old_state)) {
+			os_atomic_rmw_loop_give_up(return old_state);
+		}
+		if (!_dq_state_drain_locked(old_state) ||
+				_dq_state_in_sync_transfer(old_state)) {
+			os_atomic_rmw_loop_give_up(return old_state);
+		}
+		new_state = old_state | DISPATCH_QUEUE_RECEIVED_SYNC_WAIT; //设置队列的dq_state的SYNC_WAIT位为1
+	});
+	return new_state;
+}
+
+DISPATCH_ALWAYS_INLINE
+static inline bool
+_dq_state_drain_locked_by(uint64_t dq_state, dispatch_tid tid)
+{
+	return _dispatch_lock_is_locked_by((dispatch_lock)dq_state, tid);
+}
+
+DISPATCH_ALWAYS_INLINE
+static inline bool
+_dispatch_lock_is_locked_by(dispatch_lock lock_value, dispatch_tid tid)
+{
+	// equivalent to _dispatch_lock_owner(lock_value) == tid
+	return ((lock_value ^ tid) & DLOCK_OWNER_MASK) == 0;
+}
+
+#if TARGET_OS_MAC
+
+typedef mach_port_t dispatch_tid;
+typedef uint32_t dispatch_lock;
+
+#define DLOCK_OWNER_MASK			((dispatch_lock)0xfffffffc)
+#define DLOCK_WAITERS_BIT			((dispatch_lock)0x00000001)
+#define DLOCK_FAILED_TRYLOCK_BIT	((dispatch_lock)0x00000002)
+
+#define DLOCK_OWNER_NULL			((dispatch_tid)MACH_PORT_NULL)
+#define _dispatch_tid_self()		((dispatch_tid)_dispatch_thread_port())
+
+DISPATCH_ALWAYS_INLINE
+static inline dispatch_tid
+_dispatch_lock_owner(dispatch_lock lock_value)
+{
+	if (lock_value & DLOCK_OWNER_MASK) {
+		return lock_value | DLOCK_WAITERS_BIT | DLOCK_FAILED_TRYLOCK_BIT;
+	}
+	return DLOCK_OWNER_NULL;
+}
+```
+
+该函数的作用：
+
+1. 设置队列的dq_state的SYNC_WAIT位为1，
+2. 进行死锁检测。因为dq_state中有保存加锁成功的线程id，因此当该线程重复加锁时必然和dq_state中保存的tid相等。于是判断为死锁，崩溃。
+3. 进入等待
+
+总结一下，GCD会发生死锁的情况必须同时满足3个条件，才会形成task1和task2相互等待的情况：
+
+* 串行队列正在执行task1
+
+* 在task1中又向串行队列投递了task2
+
+* task2是以dispatch_sync 方式投递的，会阻塞当前线程
+
+
+其实在GCD的死锁检测中，并没有完全覆盖以上3个条件。为了避免死锁，GCD对于条件2的处理，是假设了一个条件限制，即task2是在task1的执行线程中提交的。而条件2其实是没有这个限制的，task2可以在和task1不同的线程中提交，同样可以造成死锁。因此，在这种情况下的死锁，GCD是检测不出来的，也就不会crash，仅仅是死锁。
 
 
 ### dispatch_async
@@ -1185,17 +1506,21 @@ _dispatch_root_queue_drain(dispatch_queue_global_t dq,
 
 [深入理解GCD](https://juejin.im/post/57cb8e8367f3560057bf4da1) 很不错
 
+[GCD源码吐血分析(1)——GCD Queue](https://blog.csdn.net/u013378438/article/details/81031938)  作者的博客还可以，是成系列的。
+
+[GCD源码吐血分析(2)——dispatch_async/dispatch_sync/dispatch_once/dispatch group](https://blog.csdn.net/u013378438/article/details/81076116?utm_medium=distribute.pc_relevant_right.none-task-blog-BlogCommendFromMachineLearnPai2-3.nonecase&depth_1-utm_source=distribute.pc_relevant_right.none-task-blog-BlogCommendFromMachineLearnPai2-3.nonecase)  作者对死锁问题有比较深入的分析
+
+[GCD源码解析(一)-dispatch_queue_create、dispatch_get_main_queue、dispatch_get_global_queue](https://www.jianshu.com/p/7702c06cda4c)  分析了队列的创建过程
+
+[iOS GCD源码浅析](https://juejin.im/post/5e50e193f265da576f5303ca)  分析的还行
+
 [Concurrent Programming: APIs and Challenges](https://www.objc.io/issues/2-concurrency/concurrency-apis-and-pitfalls/) 不错，尤其里面其他知识点文章也很不错
 
-主要讲了实现并发的几种方法，以及并发编程可能会带来的几个问题。
+主要讲了实现并发的几种方法，以及列举了一些并发编程可能会带来的问题。
 
-[Concurrent Programming](https://www.objc.io/issues/2-concurrency/)  2013/08 objc.io出品的系列文章
+[Concurrent Programming](https://www.objc.io/issues/2-concurrency/)  2013/08 objc.io出品的系列文章，都是些理论和建议，感觉不是很深入。
 
 [线程安全类的设计](https://objccn.io/issue-2-4/)  王巍译
-
-[GCD源码吐血分析(1)——GCD Queue](https://blog.csdn.net/u013378438/article/details/81031938)  GCD版本变化太大了，新版本里面的宏简直到了令人发指的地步了。作者的博客还可以，是成系列的。
-
-[GCD源码解析(一)-dispatch_queue_create、dispatch_get_main_queue、dispatch_get_global_queue](https://www.jianshu.com/p/7702c06cda4c)  分析了队列的创建
 
 ### 附录
 
@@ -1261,7 +1586,7 @@ typedef dispatch_introspection_queue_s *dispatch_introspection_queue_t;
 
 已知的
 
-1. 系统创建了一个全局数组变量里面共12个全局队列，一个全局变量mainQueue。
-2. 系统维护了一个线程池
-3. 传入的block任务会添加到队列的链表中
+1. gcd创建了一个全局数组变量里面共12个全局队列，一个全局变量mainQueue。
+2. gcd底层维护了一个线程池
+3. 传入的block任务会添加到队列的单链表中
 
