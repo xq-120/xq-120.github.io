@@ -362,8 +362,8 @@ typedef union {
 
 // Dispatch queue cluster class: type for any dispatch_queue_t
 typedef union {
-	struct dispatch_queue_s *_dq;
-	struct dispatch_workloop_s *_dwl;
+	struct dispatch_queue_s *_dq;  //
+	struct dispatch_workloop_s *_dwl; //
 	struct dispatch_lane_s *_dl;
 	struct dispatch_queue_static_s *_dsq;
 	struct dispatch_queue_global_s *_dgq;
@@ -441,6 +441,57 @@ typedef struct dispatch_lane_s {
     uint32_t dq_side_suspend_cnt;
 } __attribute__((aligned(8))) *dispatch_lane_t;
 ```
+
+#### struct dispatch_queue_static_s
+
+```c
+struct dispatch_queue_static_s {
+    struct dispatch_lane_s _as_dl[0];
+    struct dispatch_queue_s _as_dq[0];
+    struct dispatch_object_s _as_do[0];
+    struct _os_object_s _as_os_obj[0];
+    const struct dispatch_lane_vtable_s *do_vtable;
+    int volatile do_ref_cnt;
+    int volatile do_xref_cnt;
+    struct dispatch_lane_s *volatile do_next;
+    struct dispatch_queue_s *do_targetq;
+    void *do_ctxt;
+    void *do_finalizer;
+    struct dispatch_object_s *volatile dq_items_tail;
+    _Static_assert(sizeof(struct { uint64_t volatile dq_state; }) == sizeof(struct { dispatch_lock dq_state_lock; uint32_t dq_state_bits; }), "bogus union");
+    union {
+        uint64_t volatile dq_state;
+        struct {
+            dispatch_lock dq_state_lock;
+            uint32_t dq_state_bits;
+        };
+    };
+    unsigned long dq_serialnum;
+    const char *dq_label;
+    _Static_assert(sizeof(struct { uint32_t volatile dq_atomic_flags; }) == sizeof(struct { const uint16_t dq_width; const uint16_t __dq_opaque2; }), "bogus union");
+    union {
+        uint32_t volatile dq_atomic_flags;
+        struct {
+            const uint16_t dq_width;
+            const uint16_t __dq_opaque2;
+        };
+    };
+    dispatch_priority_t dq_priority;
+    union {
+        struct dispatch_queue_specific_head_s *dq_specific_head;
+        struct dispatch_source_refs_s *ds_refs;
+        struct dispatch_timer_source_refs_s *ds_timer_refs;
+        struct dispatch_mach_recv_refs_s *dm_recv_refs;
+        struct dispatch_channel_callbacks_s const *dch_callbacks;
+    };
+    int volatile dq_sref_cnt;
+    dispatch_unfair_lock_s dq_sidelock;
+    struct dispatch_object_s *volatile dq_items_head;
+    uint32_t dq_side_suspend_cnt;
+} DISPATCH_CACHELINE_ALIGN;
+```
+
+
 
 #### struct dispatch_queue_global_s
 
