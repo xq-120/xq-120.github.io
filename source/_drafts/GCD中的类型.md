@@ -589,7 +589,7 @@ typedef struct dispatch_continuation_s {
 } *dispatch_continuation_t;
 ```
 
-之前版本里的还有一个`struct dispatch_object_s _as_do[0];`成员变量的，代表继承自dispatch_object_s，现在没了。可能觉得没必要有这种耦合。
+之前版本里的还有一个`struct dispatch_object_s _as_do[0];`成员变量的，代表继承自dispatch_object_s，现在没了，感觉有问题啊，是不是漏了，要不然队列还怎么添加任务啊类型都不一样了。
 
 另：`typedef void (*dispatch_function_t)(void *_Nullable);`，为一个函数指针。dc_func就是为了执行block的。
 
