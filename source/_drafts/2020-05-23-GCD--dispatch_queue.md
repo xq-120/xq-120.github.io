@@ -631,7 +631,7 @@ static inline void
 _dispatch_sync_f_inline(dispatch_queue_t dq, void *ctxt,
 		dispatch_function_t func, uintptr_t dc_flags)
 {
-	if (likely(dq->dq_width == 1)) {
+	if (likely(dq->dq_width == 1)) { //串行队列走下面_dispatch_barrier_sync_f逻辑
 		return _dispatch_barrier_sync_f(dq, ctxt, func, dc_flags);
 	}
 
@@ -642,7 +642,7 @@ _dispatch_sync_f_inline(dispatch_queue_t dq, void *ctxt,
 	dispatch_lane_t dl = upcast(dq)._dl;
 	// Global concurrent queues and queues bound to non-dispatch threads
 	// always fall into the slow case, see DISPATCH_ROOT_QUEUE_STATE_INIT_VALUE
-	if (unlikely(!_dispatch_queue_try_reserve_sync_width(dl))) {
+	if (unlikely(!_dispatch_queue_try_reserve_sync_width(dl))) { //全局并发队列走_dispatch_sync_f_slow逻辑
 		return _dispatch_sync_f_slow(dl, ctxt, func, 0, dl, dc_flags);
 	}
 
@@ -671,7 +671,7 @@ _dispatch_sync_f_inline(dispatch_queue_t dq, void *ctxt,
 
 直接调用了`_dispatch_barrier_sync_f_inline`。  
 
-ps：`dispatch_barrier_sync` 内部也是调用`_dispatch_barrier_sync_f`完成工作的。分析完`_dispatch_barrier_sync_f_inline`，也就等于知道了`dispatch_barrier_sync` 的工作原理了。因此`dispatch_sync`到串行队列逻辑和`dispatch_barrier_sync` 到串行队列逻辑是一样的。
+ps：`dispatch_barrier_sync` 内部也是调用`_dispatch_barrier_sync_f`完成工作的。分析完`_dispatch_barrier_sync_f_inline`，也就等于知道了`dispatch_barrier_sync` 的工作原理了。因此`dispatch_sync`派发到串行队列逻辑和`dispatch_barrier_sync` 派发到串行队列逻辑是一样的。
 
 ```c
 DISPATCH_NOINLINE
@@ -703,7 +703,7 @@ _dispatch_barrier_sync_f_inline(dispatch_queue_t dq, void *ctxt,
 	//
 	// Global concurrent queues and queues bound to non-dispatch threads
 	// always fall into the slow case, see DISPATCH_ROOT_QUEUE_STATE_INIT_VALUE
-	if (unlikely(!_dispatch_queue_try_acquire_barrier_sync(dl, tid))) { //尝试获得栅栏
+	if (unlikely(!_dispatch_queue_try_acquire_barrier_sync(dl, tid))) { //尝试获得栅栏,Global concurrent queues always fall into the slow case
 		return _dispatch_sync_f_slow(dl, ctxt, func, DC_FLAG_BARRIER, dl,
 				DC_FLAG_BARRIER | dc_flags); //try_acquire_barrier失败，线程进入_dispatch_sync_f_slow逻辑，slow表明不是那么快的执行block任务，而是可能会等待一会才会执行。
 	}
@@ -767,12 +767,12 @@ _dispatch_queue_try_acquire_barrier_sync_and_suspend(dispatch_lane_t dq,
 	uint64_t init  = DISPATCH_QUEUE_STATE_INIT_VALUE(dq->dq_width);
 	uint64_t value = DISPATCH_QUEUE_WIDTH_FULL_BIT | DISPATCH_QUEUE_IN_BARRIER |
 			_dispatch_lock_value_from_tid(tid) |
-			(suspend_count * DISPATCH_QUEUE_SUSPEND_INTERVAL); //value值的计算，混合了tid。
+			(suspend_count * DISPATCH_QUEUE_SUSPEND_INTERVAL); //value值的计算，混合了WIDTH_FULL_BIT、IN_BARRIER、tid。
 	uint64_t old_state, new_state;
 
 	return os_atomic_rmw_loop2o(dq, dq_state, old_state, new_state, acquire, {
 		uint64_t role = old_state & DISPATCH_QUEUE_ROLE_MASK;
-		if (old_state != (init | role)) { //尝试失败了，则退出循环并返回false，这里如果一来就break，那么将不会更新dq_state的值（可能是全局并发队列的情况）。
+		if (old_state != (init | role)) { 
 			os_atomic_rmw_loop_give_up(break); 
 		}
 		new_state = value | role;  //更新队列的dq_state的值为new_state，这个值跟tid是有关系的。后面会根据该值与tid进行比较，用于判断是否是同一个线程重复获取栅栏
@@ -787,9 +787,54 @@ _dispatch_lock_value_from_tid(dispatch_tid tid)
 }
 ```
 
-该函数主要的工作就是更新队列的dq_state的值为new_state，new_state的值跟tid是有关系的。
+展开下宏：
+
+```c
+return ({
+    _Bool _result = 0;
+    __typeof__(&(dq)->dq_state) _p = (&(dq)->dq_state);
+    old_state = __c11_atomic_load(((__typeof__(*(_p)) _Atomic *)(_p)), memory_order_relaxed);
+    do {
+        {
+            uint64_t role = old_state & DISPATCH_QUEUE_ROLE_MASK;
+            if (old_state != (init | role)) {
+                ({
+                    __c11_atomic_thread_fence(memory_order_relaxed);
+                    break; __builtin_unreachable(); 
+                });
+            }
+            new_state = value | role;
+        };
+        _result = ({
+            __typeof__(__c11_atomic_load(((__typeof__(*(_p)) _Atomic *)(_p)), memory_order_relaxed)) _r = (old_state);
+            _Bool _b = __c11_atomic_compare_exchange_weak(((__typeof__(*(_p)) _Atomic *)(_p)), &_r, new_state, memory_order_acquire, memory_order_relaxed);
+            *(&old_state) = _r;
+            _b;
+        });
+    } while (unlikely(!_result));
+    _result;
+});
+```
+
+根据官方的注释：
+
+```
+/* Magic dq_state values for global queues: they have QUEUE_FULL and IN_BARRIER
+ * set to force the slow path in dispatch_barrier_sync() and dispatch_sync()
+ */
+#define DISPATCH_ROOT_QUEUE_STATE_INIT_VALUE \
+		(DISPATCH_QUEUE_WIDTH_FULL_BIT | DISPATCH_QUEUE_IN_BARRIER)
+```
+
+对于`if (old_state != (init | role))`条件判断：
+
+如果是全局并发队列，dq_state的值默认是`DISPATCH_ROOT_QUEUE_STATE_INIT_VALUE`，可以用这些值去运行下就会发现这里会满足条件马上break，返回false，dq_state的值也不会发生改变。
+
+如果是串行队列和自定义并发队列来说则会更新dq_state的值为new_state，new_state这个值跟tid是有关系的。后面`__DISPATCH_WAIT_FOR_QUEUE__`函数会根据该值与tid进行比较，用于判断线程是否已经获得栅栏进行死锁检测。所以使用dispatch_barrier_sync派发到自定义并发队列如果嵌套调用的话是会死锁崩溃的。
 
 #### _dispatch_sync_f_slow
+
+try_acquire_barrier失败，线程进入_dispatch_sync_f_slow逻辑，slow表明不是那么快的执行block任务，而是可能会等待一会才会执行。
 
 ```c
 DISPATCH_NOINLINE
@@ -800,7 +845,7 @@ _dispatch_sync_f_slow(dispatch_queue_class_t top_dqu, void *ctxt,
 {
 	dispatch_queue_t top_dq = top_dqu._dq;
 	dispatch_queue_t dq = dqu._dq;
-	if (unlikely(!dq->do_targetq)) {
+	if (unlikely(!dq->do_targetq)) { //全局队列满足条件走下面的逻辑，不会有死锁
 		return _dispatch_sync_function_invoke(dq, ctxt, func);
 	}
 
@@ -930,16 +975,49 @@ _dispatch_lock_owner(dispatch_lock lock_value)
 2. 进行死锁检测。如果dq_state中有保存获得barrier成功的线程id（一般串行队列会有更新dq_state的值），当该线程再次进入时必然和dq_state中保存的tid相等，于是判断为死锁，崩溃。
 3. 进入等待
 
-总结一下，GCD会发生死锁的情况必须同时满足3个条件，才会形成task1和task2相互等待的情况：
+崩溃的提示：
 
-* 串行队列正在执行task1
+![](https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/DDBEB112-9737-463C-B420-654ADFE083BC.png)
 
-* 在task1中又向串行队列投递了task2
+死锁的产生必须满足四个必要条件：
 
-* task2是以dispatch_sync 方式投递的，会阻塞当前线程
+- 资源互斥访问
+- 请求与保持
+- 不剥夺
+- 循环等待
+
+libdispatch中创建并分配线程来执行任务块的过程中，线程/队列对资源的操作满足上述前三个条件，那么如果再满足第四个条件，必然会发生死锁。因此在GCD中满足两个条件即会形成循环等待的情形：
+
+- **串行队列**正在执行任务Task 1（无论是sync还是async方式提交的）
+- Task 1未执行完成，又向队列中同步提交Task 2（**dispatch_sync**方式提交）
+
+在以前的版本中GCD是没有死锁检测的，当发生死锁时不会有任何反应（当然如果发生在主线程中那么会卡死界面，如果是在子线程中那就神不知鬼不觉了），后来苹果工程师可能觉得这样不好于是加入了死锁检测的功能，如果发生死锁则主动抛出异常。
+
+源码中死锁检测的实现并不复杂：
+
+如果dq_state中有保存获得barrier成功的线程id（一般串行队列会有更新dq_state的值），当该线程再次进入时必然和dq_state中保存的tid相等，于是判断为死锁，崩溃。
+
+但这种检测办法并不能检测出所有死锁的情况，它只能检测出同一线程--同一队列的情况，其他情况就检测不到了，比如下面的代码：会形成一个循环等待但并不是同一线程--同一队列的情况，所以检测不出来，也就不会崩溃。
+
+```
+- (void)test_dispatch_sync_serial_deadlock_but_not_checked {
+    //这里的死锁检测不到。
+    dispatch_queue_t sQ1 = dispatch_queue_create("st01", DISPATCH_QUEUE_SERIAL);
+    dispatch_async(sQ1, ^{
+        NSLog(@"Enter");
+        dispatch_sync(dispatch_get_main_queue(), ^{ //子线程拥有main_queue
+            NSLog(@"---");
+            dispatch_sync(sQ1, ^{ //主线程拥有sQ1
+                NSArray *a = [NSArray new];
+                NSLog(@"Enter again %@", a);
+            });
+        });
+        NSLog(@"Done");
+    });
+}
+```
 
 
-其实在GCD的死锁检测中，并没有完全覆盖以上3个条件。为了避免死锁，GCD对于条件2的处理，是假设了一个条件限制，即task2是在task1的执行线程中提交的。而条件2其实是没有这个限制的，task2可以在和task1不同的线程中提交，同样可以造成死锁。因此，在这种情况下的死锁，GCD是检测不出来的，也就不会crash，仅仅是死锁。
 
 
 ### dispatch_async
@@ -1513,6 +1591,20 @@ _dispatch_root_queue_drain(dispatch_queue_global_t dq,
 
 ### dispatch_barrier_sync
 
+`dispatch_barrier_sync` 内部是调用`_dispatch_barrier_sync_f`完成工作的。
+
+```c
+void
+dispatch_barrier_sync(dispatch_queue_t dq, dispatch_block_t work)
+{
+	uintptr_t dc_flags = DC_FLAG_BARRIER | DC_FLAG_BLOCK;
+	if (unlikely(_dispatch_block_has_private_data(work))) {
+		return _dispatch_sync_block_with_privdata(dq, work, dc_flags);
+	}
+	_dispatch_barrier_sync_f(dq, work, _dispatch_Block_invoke(work), dc_flags);
+}
+```
+
 
 
 ### 参考
@@ -1527,7 +1619,7 @@ _dispatch_root_queue_drain(dispatch_queue_global_t dq,
 
 [GCD源码解析(一)-dispatch_queue_create、dispatch_get_main_queue、dispatch_get_global_queue](https://www.jianshu.com/p/7702c06cda4c)  分析了队列的创建过程
 
-[GCD源码分析（二）——Dispatch Queue和Thread Pool]([https://chy305chy.github.io/2018/11/29/GCD%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%EF%BC%88%E4%BA%8C%EF%BC%89%E2%80%94%E2%80%94Dispatch-Queue%E5%92%8CThread-Pool/](https://chy305chy.github.io/2018/11/29/GCD源码分析（二）——Dispatch-Queue和Thread-Pool/))
+[GCD源码分析（二）——Dispatch Queue和Thread Pool](https://chy305chy.github.io/2018/11/29/GCD%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%EF%BC%88%E4%BA%8C%EF%BC%89%E2%80%94%E2%80%94Dispatch-Queue%E5%92%8CThread-Pool/) 主要是里面死锁的分析
 
 [iOS GCD源码浅析](https://juejin.im/post/5e50e193f265da576f5303ca)  分析的还行
 
