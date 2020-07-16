@@ -13,7 +13,7 @@ date: 2020-05-23 15:23:33
 
 GCD 501版本的还不算复杂，但我就是不想看旧版本的于是入坑当前最新版本`libdispatch-1173.40.5`。
 
-GCD版本变化太大了，新版本里面的宏简直到了令人发指的地步了，另外在这里你还可以看到C语言是如何模拟出了面向对象语言才有的多态。
+GCD版本变化太大了，新版本里面的宏简直到了令人发指的地步了，另外你还可以看到C语言是如何模拟出面向对象语言才有的继承和多态。
 
 问题：
 
@@ -1197,7 +1197,7 @@ DC_FLAG_CONSUME：
 #define DC_FLAG_CONSUME					0x004ul
 ```
 
-另外如果调用的是dispatch_group_async则uintptr_t dc_flags = DC_FLAG_CONSUME | DC_FLAG_GROUP_ASYNC;
+另外如果调用的是dispatch_group_async则`uintptr_t dc_flags = DC_FLAG_CONSUME | DC_FLAG_GROUP_ASYNC;`
 
 #### _dispatch_continuation_async
 
@@ -1257,7 +1257,7 @@ DISPATCH_VTABLE_SUBCLASS_INSTANCE(queue_serial, lane,
 	.do_invoke      = _dispatch_lane_invoke, //执行添加的block
 
 	.dq_activate    = _dispatch_lane_activate, //激活队列相关
-	.dq_wakeup      = _dispatch_lane_wakeup, //唤醒它的tq全局队列将自己添加到链表上
+	.dq_wakeup      = _dispatch_lane_wakeup, //唤醒它的tq全局队列将自己添加到全局队列的链表上
 	.dq_push        = _dispatch_lane_push, //将任务到队列的链表中
 );
 
@@ -1337,7 +1337,7 @@ _dispatch_lane_push(dispatch_lane_t dq, dispatch_object_t dou,
 大概流程：
 
 1. 将任务添加到队列的任务链表末尾
-2. 如果有需要的话调用dx_wakeup唤醒
+2. 如果flags>0，则调用dx_wakeup唤醒
 
 看一下dx_wakeup，和上面dx_push一样是一个宏，主要也是多态调用，这里看一下串行队列的实现
 
@@ -1437,7 +1437,7 @@ _dispatch_root_queue_push(dispatch_queue_global_t rq, dispatch_object_t dou,
 DISPATCH_ALWAYS_INLINE
 static inline void
 _dispatch_root_queue_push_inline(dispatch_queue_global_t dq,
-		dispatch_object_t _head, dispatch_object_t _tail, int n)
+		dispatch_object_t _head, dispatch_object_t _tail, int n) //参数为1
 {
 	struct dispatch_object_s *hd = _head._do, *tl = _tail._do;
 	if (unlikely(os_mpsc_push_list(os_mpsc(dq, dq_items), hd, tl, do_next))) {
@@ -1449,7 +1449,7 @@ _dispatch_root_queue_push_inline(dispatch_queue_global_t dq,
 大致流程：
 
 1. 将queue 添加到的全局队列的链表尾部。也就是说全局队列上的链表保存的既可以是queue也可以是dc。
-2. 如果之前全局队列的链表是空则执行_dispatch_root_queue_poke
+2. 如果全局队列的链表之前是空的则执行_dispatch_root_queue_poke，准备执行任务了。
 
 os_mpsc_push_list(os_mpsc(dq, dq_items), hd, tl, do_next)
 
@@ -1487,9 +1487,9 @@ os_mpsc_push_list(os_mpsc(dq, dq_items), hd, tl, do_next)
 ```c
 DISPATCH_NOINLINE
 void
-_dispatch_root_queue_poke(dispatch_queue_global_t dq, int n, int floor)
+_dispatch_root_queue_poke(dispatch_queue_global_t dq, int n, int floor) //串行 1，0
 {
-	if (!_dispatch_queue_class_probe(dq)) {
+	if (!_dispatch_queue_class_probe(dq)) { //dq为空则直接return
 		return;
 	}
 #if !DISPATCH_USE_INTERNAL_WORKQUEUE
@@ -1517,15 +1517,27 @@ _dispatch_root_queue_poke_slow(dispatch_queue_global_t dq, int n, int floor)
 	_dispatch_root_queues_init();
 	_dispatch_debug_root_queue(dq, __func__);
 	_dispatch_trace_runtime_event(worker_request, dq, (uint64_t)n);
-	
-	...
-	
+
+#if !DISPATCH_USE_INTERNAL_WORKQUEUE
+#if DISPATCH_USE_PTHREAD_ROOT_QUEUES
+	if (dx_type(dq) == DISPATCH_QUEUE_GLOBAL_ROOT_TYPE)
+#endif
+	{ //实际会执行这里的，因为gcd又优化了一下，没有直接使用线程池了，而是通过workqueue来管理了。不过这里不打算分析workqueue。因为_pthread_workqueue_addthreads是pthread库里的且最终调用了系统内部函数__workq_kernreturn，这就没得分析了。所以这里分析DISPATCH_USE_PTHREAD_POOL分支的。
+		_dispatch_root_queue_debug("requesting new worker thread for global "
+				"queue: %p", dq);
+		r = _pthread_workqueue_addthreads(remaining,
+				_dispatch_priority_to_pp_prefer_fallback(dq->dq_priority));
+		(void)dispatch_assume_zero(r);
+		return;
+	}
+#endif // !DISPATCH_USE_INTERNAL_WORKQUEUE
+#if DISPATCH_USE_PTHREAD_POOL
 	dispatch_pthread_root_queue_context_t pqc = dq->do_ctxt;
 	if (likely(pqc->dpq_thread_mediator.do_vtable)) {
 		while (dispatch_semaphore_signal(&pqc->dpq_thread_mediator)) {
 			_dispatch_root_queue_debug("signaled sleeping worker for "
 					"global queue: %p", dq);
-			if (!--remaining) {
+			if (!--remaining) { //有唤醒线程就不用创建了
 				return;
 			}
 		}
@@ -1553,7 +1565,7 @@ _dispatch_root_queue_poke_slow(dispatch_queue_global_t dq, int n, int floor)
 			os_atomic_sub2o(dq, dgq_pending, remaining - can_request, relaxed);
 			remaining = can_request;
 		}
-		if (remaining == 0) {
+		if (remaining == 0) { //线程池中没有可用的线程了，直接返回。
 			_dispatch_root_queue_debug("pthread pool is full for root queue: "
 					"%p", dq);
 			return;
@@ -1569,16 +1581,22 @@ _dispatch_root_queue_poke_slow(dispatch_queue_global_t dq, int n, int floor)
 		pthr = _dispatch_mgr_root_queue_init();
 	}
 #endif
-  //这里是重点
+  //这里是重点，创建线程执行_dispatch_worker_thread函数
 	do {
 		_dispatch_retain(dq); // released in _dispatch_worker_thread
-		while ((r = pthread_create(pthr, attr, _dispatch_worker_thread, dq))) {
+		while ((r = pthread_create(pthr, attr, _dispatch_worker_thread, dq))) { //创建线程的时候第四个参数是可以传入队列的
 			if (r != EAGAIN) {
 				(void)dispatch_assume_zero(r);
 			}
 			_dispatch_temporary_resource_shortage();
 		}
 	} while (--remaining);
+#else // defined(_WIN32)
+//..._WIN32的逻辑，先删除
+#endif // defined(_WIN32)
+#else
+	(void)floor;
+#endif // DISPATCH_USE_PTHREAD_POOL
 }
 ```
 
@@ -2228,6 +2246,113 @@ _dispatch_root_queue_push(dispatch_queue_global_t rq, dispatch_object_t dou,
 	_dispatch_root_queue_push_inline(rq, dou, dou, 1);
 }
 ```
+
+### 线程池
+
+在queue.c中的
+
+```
+#pragma mark -
+#pragma mark dispatch_pthread_root_queue
+#if DISPATCH_USE_PTHREAD_ROOT_QUEUES
+```
+
+有如下代码：
+
+```c
+dispatch_queue_global_t
+dispatch_pthread_root_queue_create(const char *label, unsigned long flags,
+		const pthread_attr_t *attr, dispatch_block_t configure)
+{
+	return _dispatch_pthread_root_queue_create(label, flags, attr, configure,
+			NULL);
+}
+
+static dispatch_queue_global_t
+_dispatch_pthread_root_queue_create(const char *label, unsigned long flags,
+		const pthread_attr_t *attr, dispatch_block_t configure,
+		dispatch_pthread_root_queue_observer_hooks_t observer_hooks)
+{
+	dispatch_queue_pthread_root_t dpq;
+	dispatch_queue_flags_t dqf = 0;
+	int32_t pool_size = flags & _DISPATCH_PTHREAD_ROOT_QUEUE_FLAG_POOL_SIZE ?
+			(int8_t)(flags & ~_DISPATCH_PTHREAD_ROOT_QUEUE_FLAG_POOL_SIZE) : 0;
+
+	if (label) {
+		const char *tmp = _dispatch_strdup_if_mutable(label);
+		if (tmp != label) {
+			dqf |= DQF_LABEL_NEEDS_FREE;
+			label = tmp;
+		}
+	}
+
+	dpq = _dispatch_queue_alloc(queue_pthread_root, dqf,
+			DISPATCH_QUEUE_WIDTH_POOL, 0)._dpq;
+	dpq->dq_label = label;
+	dpq->dq_state = DISPATCH_ROOT_QUEUE_STATE_INIT_VALUE;
+	dpq->dq_priority = DISPATCH_PRIORITY_FLAG_OVERCOMMIT;
+	dpq->do_ctxt = &dpq->dpq_ctxt;
+
+	dispatch_pthread_root_queue_context_t pqc = &dpq->dpq_ctxt;
+	_dispatch_root_queue_init_pthread_pool(dpq->_as_dgq, pool_size,
+			DISPATCH_PRIORITY_FLAG_OVERCOMMIT);
+
+#if !defined(_WIN32)
+	if (attr) {
+		memcpy(&pqc->dpq_thread_attr, attr, sizeof(pthread_attr_t));
+		_dispatch_mgr_priority_raise(&pqc->dpq_thread_attr);
+	} else {
+		(void)dispatch_assume_zero(pthread_attr_init(&pqc->dpq_thread_attr));
+	}
+	(void)dispatch_assume_zero(pthread_attr_setdetachstate(
+			&pqc->dpq_thread_attr, PTHREAD_CREATE_DETACHED));
+#else // defined(_WIN32)
+	dispatch_assert(attr == NULL);
+#endif // defined(_WIN32)
+	if (configure) {
+		pqc->dpq_thread_configure = _dispatch_Block_copy(configure);
+	}
+	if (observer_hooks) {
+		pqc->dpq_observer_hooks = *observer_hooks;
+	}
+	_dispatch_object_debug(dpq, "%s", __func__);
+	return _dispatch_trace_queue_create(dpq)._dgq;
+}
+
+static inline void
+_dispatch_root_queue_init_pthread_pool(dispatch_queue_global_t dq,
+		int pool_size, dispatch_priority_t pri)
+{
+	dispatch_pthread_root_queue_context_t pqc = dq->do_ctxt;
+	int thread_pool_size = DISPATCH_WORKQ_MAX_PTHREAD_COUNT;
+	if (!(pri & DISPATCH_PRIORITY_FLAG_OVERCOMMIT)) {
+		thread_pool_size = (int32_t)dispatch_hw_config(active_cpus);
+	}
+	if (pool_size && pool_size < thread_pool_size) thread_pool_size = pool_size;
+	dq->dgq_thread_pool_size = thread_pool_size;
+	qos_class_t cls = _dispatch_qos_to_qos_class(_dispatch_priority_qos(pri) ?:
+			_dispatch_priority_fallback_qos(pri));
+	if (cls) {
+#if !defined(_WIN32)
+		pthread_attr_t *attr = &pqc->dpq_thread_attr;
+		int r = pthread_attr_init(attr);
+		dispatch_assume_zero(r);
+		r = pthread_attr_setdetachstate(attr, PTHREAD_CREATE_DETACHED);
+		dispatch_assume_zero(r);
+#endif // !defined(_WIN32)
+#if HAVE_PTHREAD_WORKQUEUE_QOS
+		r = pthread_attr_set_qos_class_np(attr, cls, 0);
+		dispatch_assume_zero(r);
+#endif // HAVE_PTHREAD_WORKQUEUE_QOS
+	}
+	_dispatch_sema4_t *sema = &pqc->dpq_thread_mediator.dsema_sema;
+	pqc->dpq_thread_mediator.do_vtable = DISPATCH_VTABLE(semaphore);
+	_dispatch_sema4_init(sema, _DSEMA4_POLICY_LIFO);
+	_dispatch_sema4_create(sema, _DSEMA4_POLICY_LIFO);
+}
+```
+
+
 
 
 
