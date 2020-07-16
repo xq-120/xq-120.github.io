@@ -181,6 +181,8 @@ typedef union {
 #define DISPATCH_RETURNS_RETAINED
 ```
 
+以前版本里面还有个struct dispatch_continuation_s *_dc;的现在也没了，估计又是现实方式有改动，导致struct dispatch_continuation_s的继承关系变了。
+
 纯C下dispatch_object_t其实是一个联合体类型。
 
 dispatch object在不同语言的源文件中的声明是不一样的。dispatch_object_t在OC中则被声明为遵守了某个协议的NSObject类型，在C中则是一个联合体类型。
