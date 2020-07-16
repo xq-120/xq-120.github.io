@@ -260,7 +260,13 @@ extern struct dispatch_queue_global_s _dispatch_mgr_root_queue; // serial 3
 extern struct dispatch_queue_global_s _dispatch_root_queues[]; // serials 4 - 15
 ```
 
-它的初始化：每种优先级都有两种标识（带或不带overcommit）
+它的初始化：每种优先级都有两种标识（带或不带overcommit）串行队列的最终tq都是带overcommit，并发队列的最终tq是不带overcommit。
+
+overcommit代表的意思是可以创建超过核心数的线程数量。目前来看
+
+不带overcommit的全局队列最多同时可以开64个线程执行任务，
+
+带overcommit的全局队列最多同时可以开512个线程执行任务。
 
 ```c
 // 6618342 Contact the team that owns the Instrument DTrace probe before
@@ -2259,77 +2265,131 @@ _dispatch_root_queue_push(dispatch_queue_global_t rq, dispatch_object_t dou,
 
 有如下代码：
 
+#### _dispatch_root_queues_init
+
 ```c
-dispatch_queue_global_t
-dispatch_pthread_root_queue_create(const char *label, unsigned long flags,
-		const pthread_attr_t *attr, dispatch_block_t configure)
+DISPATCH_STATIC_GLOBAL(dispatch_once_t _dispatch_root_queues_pred);
+DISPATCH_ALWAYS_INLINE
+static inline void
+_dispatch_root_queues_init(void)
 {
-	return _dispatch_pthread_root_queue_create(label, flags, attr, configure,
-			NULL);
+	dispatch_once_f(&_dispatch_root_queues_pred, NULL,
+			_dispatch_root_queues_init_once);
 }
 
-static dispatch_queue_global_t
-_dispatch_pthread_root_queue_create(const char *label, unsigned long flags,
-		const pthread_attr_t *attr, dispatch_block_t configure,
-		dispatch_pthread_root_queue_observer_hooks_t observer_hooks)
+static void
+_dispatch_root_queues_init_once(void *context DISPATCH_UNUSED)
 {
-	dispatch_queue_pthread_root_t dpq;
-	dispatch_queue_flags_t dqf = 0;
-	int32_t pool_size = flags & _DISPATCH_PTHREAD_ROOT_QUEUE_FLAG_POOL_SIZE ?
-			(int8_t)(flags & ~_DISPATCH_PTHREAD_ROOT_QUEUE_FLAG_POOL_SIZE) : 0;
+	_dispatch_fork_becomes_unsafe();
+#if DISPATCH_USE_INTERNAL_WORKQUEUE  //现在的GCD已经不使用内部的workqueue了，但这里为分析方便还是采用这里的
+	size_t i;
+	for (i = 0; i < DISPATCH_ROOT_QUEUE_COUNT; i++) {
+		_dispatch_root_queue_init_pthread_pool(&_dispatch_root_queues[i], 0,
+				_dispatch_root_queues[i].dq_priority);
+	}
+#else
+	int wq_supported = _pthread_workqueue_supported();
+	int r = ENOTSUP;
 
-	if (label) {
-		const char *tmp = _dispatch_strdup_if_mutable(label);
-		if (tmp != label) {
-			dqf |= DQF_LABEL_NEEDS_FREE;
-			label = tmp;
-		}
+	if (!(wq_supported & WORKQ_FEATURE_MAINTENANCE)) {
+		DISPATCH_INTERNAL_CRASH(wq_supported,
+				"QoS Maintenance support required");
 	}
 
-	dpq = _dispatch_queue_alloc(queue_pthread_root, dqf,
-			DISPATCH_QUEUE_WIDTH_POOL, 0)._dpq;
-	dpq->dq_label = label;
-	dpq->dq_state = DISPATCH_ROOT_QUEUE_STATE_INIT_VALUE;
-	dpq->dq_priority = DISPATCH_PRIORITY_FLAG_OVERCOMMIT;
-	dpq->do_ctxt = &dpq->dpq_ctxt;
+#if DISPATCH_USE_KEVENT_SETUP //1
+	struct pthread_workqueue_config cfg = {
+		.version = PTHREAD_WORKQUEUE_CONFIG_VERSION,
+		.flags = 0,
+		.workq_cb = 0,
+		.kevent_cb = 0,
+		.workloop_cb = 0,
+		.queue_serialno_offs = dispatch_queue_offsets.dqo_serialnum,
+#if PTHREAD_WORKQUEUE_CONFIG_VERSION >= 2
+		.queue_label_offs = dispatch_queue_offsets.dqo_label,
+#endif
+	};
+#endif
 
-	dispatch_pthread_root_queue_context_t pqc = &dpq->dpq_ctxt;
-	_dispatch_root_queue_init_pthread_pool(dpq->_as_dgq, pool_size,
-			DISPATCH_PRIORITY_FLAG_OVERCOMMIT);
-
-#if !defined(_WIN32)
-	if (attr) {
-		memcpy(&pqc->dpq_thread_attr, attr, sizeof(pthread_attr_t));
-		_dispatch_mgr_priority_raise(&pqc->dpq_thread_attr);
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunreachable-code"
+	if (unlikely(!_dispatch_kevent_workqueue_enabled)) {
+#if DISPATCH_USE_KEVENT_SETUP
+		cfg.workq_cb = _dispatch_worker_thread2;
+		r = pthread_workqueue_setup(&cfg, sizeof(cfg));
+#else
+		r = _pthread_workqueue_init(_dispatch_worker_thread2,
+				offsetof(struct dispatch_queue_s, dq_serialnum), 0);
+#endif // DISPATCH_USE_KEVENT_SETUP
+#if DISPATCH_USE_KEVENT_WORKLOOP //1
+	} else if (wq_supported & WORKQ_FEATURE_WORKLOOP) {
+#if DISPATCH_USE_KEVENT_SETUP //1
+		cfg.workq_cb = _dispatch_worker_thread2;
+		cfg.kevent_cb = (pthread_workqueue_function_kevent_t) _dispatch_kevent_worker_thread;
+		cfg.workloop_cb = (pthread_workqueue_function_workloop_t) _dispatch_workloop_worker_thread;
+		r = pthread_workqueue_setup(&cfg, sizeof(cfg));
+#else
+		r = _pthread_workqueue_init_with_workloop(_dispatch_worker_thread2,
+				(pthread_workqueue_function_kevent_t)
+				_dispatch_kevent_worker_thread,
+				(pthread_workqueue_function_workloop_t)
+				_dispatch_workloop_worker_thread,
+				offsetof(struct dispatch_queue_s, dq_serialnum), 0);
+#endif // DISPATCH_USE_KEVENT_SETUP
+#endif // DISPATCH_USE_KEVENT_WORKLOOP
+#if DISPATCH_USE_KEVENT_WORKQUEUE
+	} else if (wq_supported & WORKQ_FEATURE_KEVENT) {
+#if DISPATCH_USE_KEVENT_SETUP
+		cfg.workq_cb = _dispatch_worker_thread2;
+		cfg.kevent_cb = (pthread_workqueue_function_kevent_t) _dispatch_kevent_worker_thread;
+		r = pthread_workqueue_setup(&cfg, sizeof(cfg));
+#else
+		r = _pthread_workqueue_init_with_kevent(_dispatch_worker_thread2,
+				(pthread_workqueue_function_kevent_t)
+				_dispatch_kevent_worker_thread,
+				offsetof(struct dispatch_queue_s, dq_serialnum), 0);
+#endif // DISPATCH_USE_KEVENT_SETUP
+#endif
 	} else {
-		(void)dispatch_assume_zero(pthread_attr_init(&pqc->dpq_thread_attr));
+		DISPATCH_INTERNAL_CRASH(wq_supported, "Missing Kevent WORKQ support");
 	}
-	(void)dispatch_assume_zero(pthread_attr_setdetachstate(
-			&pqc->dpq_thread_attr, PTHREAD_CREATE_DETACHED));
-#else // defined(_WIN32)
-	dispatch_assert(attr == NULL);
-#endif // defined(_WIN32)
-	if (configure) {
-		pqc->dpq_thread_configure = _dispatch_Block_copy(configure);
-	}
-	if (observer_hooks) {
-		pqc->dpq_observer_hooks = *observer_hooks;
-	}
-	_dispatch_object_debug(dpq, "%s", __func__);
-	return _dispatch_trace_queue_create(dpq)._dgq;
-}
+#pragma clang diagnostic pop
 
+	if (r != 0) {
+		DISPATCH_INTERNAL_CRASH((r << 16) | wq_supported,
+				"Root queue initialization failed");
+	}
+#endif // DISPATCH_USE_INTERNAL_WORKQUEUE
+}
+```
+
+如果只看DISPATCH_USE_INTERNAL_WORKQUEUE分支，那么该函数的作用：
+
+遍历设置全局队列数组中的全局队列的如下属性：
+
+do_ctxt属性的dpq_thread_mediator.dsema_sema
+
+dgq_thread_pool_size属性值的设置
+
+do_ctxt属性的dpq_thread_attr
+
+也就是说12个全局队列共享一个线程池。
+
+#### _dispatch_root_queue_init_pthread_pool
+
+实现：
+
+```c
 static inline void
 _dispatch_root_queue_init_pthread_pool(dispatch_queue_global_t dq,
 		int pool_size, dispatch_priority_t pri)
 {
 	dispatch_pthread_root_queue_context_t pqc = dq->do_ctxt;
-	int thread_pool_size = DISPATCH_WORKQ_MAX_PTHREAD_COUNT;
-	if (!(pri & DISPATCH_PRIORITY_FLAG_OVERCOMMIT)) {
+	int thread_pool_size = DISPATCH_WORKQ_MAX_PTHREAD_COUNT; //串行队列最多可开255条线程
+	if (!(pri & DISPATCH_PRIORITY_FLAG_OVERCOMMIT)) { //并发队列开的线程数和内核数相等
 		thread_pool_size = (int32_t)dispatch_hw_config(active_cpus);
 	}
 	if (pool_size && pool_size < thread_pool_size) thread_pool_size = pool_size;
-	dq->dgq_thread_pool_size = thread_pool_size;
+	dq->dgq_thread_pool_size = thread_pool_size; 
 	qos_class_t cls = _dispatch_qos_to_qos_class(_dispatch_priority_qos(pri) ?:
 			_dispatch_priority_fallback_qos(pri));
 	if (cls) {
@@ -2352,9 +2412,19 @@ _dispatch_root_queue_init_pthread_pool(dispatch_queue_global_t dq,
 }
 ```
 
+DISPATCH_WORKQ_MAX_PTHREAD_COUNT的定义：
 
+```
+#ifndef DISPATCH_WORKQ_MAX_PTHREAD_COUNT
+#define DISPATCH_WORKQ_MAX_PTHREAD_COUNT 255
+#endif
+```
 
+这里需要注意的是目前的GCD线程池的大小为：
 
+如果是派发到并发队列，线程池最多开64个线程。64个线程都在用的话，后面再丢任务到并发队列也不会新开线程了这个时候就得等待其中某个线程直到变为空闲。
+
+如果是派发到串行队列，线程池最多开512个线程。一个串行队列一个线程，最多可以同时运行512个串行队列。
 
 ### dispatch_barrier_sync
 

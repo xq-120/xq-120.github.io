@@ -517,7 +517,7 @@ struct dispatch_queue_global_s {
     int volatile do_xref_cnt;
     struct dispatch_lane_s *volatile do_next;
     struct dispatch_queue_s *do_targetq;
-    void *do_ctxt;
+    void *do_ctxt; //dispatch_pthread_root_queue_context_t
     void *do_finalizer;
   
     struct dispatch_object_s *volatile dq_items_tail;
@@ -571,7 +571,7 @@ typedef struct dispatch_queue_pthread_root_s {
 
 ```c
 typedef struct dispatch_queue_pthread_root_s {
-    struct dispatch_queue_global_s _as_dgq[0];
+    struct dispatch_queue_global_s _as_dgq[0]; //继承自struct dispatch_queue_global_s
     struct dispatch_queue_s _as_dq[0];
     struct dispatch_object_s _as_do[0];
     struct _os_object_s _as_os_obj[0];
@@ -615,8 +615,6 @@ typedef struct dispatch_queue_pthread_root_s {
     struct dispatch_pthread_root_queue_context_s dpq_ctxt;
 } *dispatch_queue_pthread_root_t;
 ```
-
-
 
 #### struct dispatch_pthread_root_queue_context_s
 
