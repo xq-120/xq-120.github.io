@@ -472,7 +472,7 @@ typedef struct dispatch_lane_s {
     int volatile dq_sref_cnt;
   
     dispatch_unfair_lock_s dq_sidelock;
-    struct dispatch_object_s *volatile dq_items_head; //指向任务链表的头部
+    struct dispatch_object_s *volatile dq_items_head; //指向任务链表的头部，里面的元素可以是dc也可以是dq
     uint32_t dq_side_suspend_cnt;
 } __attribute__((aligned(8))) *dispatch_lane_t;
 ```

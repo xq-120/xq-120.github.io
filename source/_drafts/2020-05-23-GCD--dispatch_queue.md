@@ -1290,6 +1290,17 @@ DISPATCH_VTABLE_SUBCLASS_INSTANCE(queue_global, lane,
 );
 ```
 
+这里我们以dispatch_async将任务派发到一个串行队列为例，进行分析
+
+```c
+dispatch_queue_t sQueue = dispatch_queue_create("xq.www.jk4", DISPATCH_QUEUE_SERIAL);
+dispatch_async(sQueue, ^{
+    NSLog(@"--1--");
+});
+```
+
+那么上面的dx_push就是_dispatch_lane_push的调用
+
 #### dx_push--串行队列的_dispatch_lane_push
 
 ```c
@@ -1343,7 +1354,7 @@ _dispatch_lane_push(dispatch_lane_t dq, dispatch_object_t dou,
 大概流程：
 
 1. 将任务添加到队列的任务链表末尾
-2. 如果flags>0，则调用dx_wakeup唤醒
+2. 如果flags>0（当前队列为空等），则调用dx_wakeup唤醒
 
 看一下dx_wakeup，和上面dx_push一样是一个宏，主要也是多态调用，这里看一下串行队列的实现
 
@@ -1357,13 +1368,13 @@ _dispatch_lane_wakeup(dispatch_lane_class_t dqu, dispatch_qos_t qos,
 {
 	dispatch_queue_wakeup_target_t target = DISPATCH_QUEUE_WAKEUP_NONE;
 
-	if (unlikely(flags & DISPATCH_WAKEUP_BARRIER_COMPLETE)) {
+	if (unlikely(flags & DISPATCH_WAKEUP_BARRIER_COMPLETE)) { //barrier分支
 		return _dispatch_lane_barrier_complete(dqu, qos, flags);
 	}
 	if (_dispatch_queue_class_probe(dqu)) {
 		target = DISPATCH_QUEUE_WAKEUP_TARGET;
 	}
-	return _dispatch_queue_wakeup(dqu, qos, flags, target);
+	return _dispatch_queue_wakeup(dqu, qos, flags, target); //正常分支
 }
 ```
 
@@ -1426,7 +1437,7 @@ _dispatch_queue_push_queue(dispatch_queue_t tq, dispatch_queue_class_t dq,
 }
 ```
 
-一般情况下串行队列的tq是全局队列，所以这里的dx_push调用的是_dispatch_root_queue_push
+串行队列的tq是全局队列，所以这里的dx_push调用的是_dispatch_root_queue_push。如果参数tq还不是全局队列那么又会绕一下会将queue自己作为一个任务添加到它的tq上，但最终会是全局队列，因为所有自定义的queue的tq最终都是全局队列。
 
 ##### _dispatch_root_queue_push
 
@@ -1454,8 +1465,8 @@ _dispatch_root_queue_push_inline(dispatch_queue_global_t dq,
 
 大致流程：
 
-1. 将queue 添加到的全局队列的链表尾部。也就是说全局队列上的链表保存的既可以是queue也可以是dc。
-2. 如果全局队列的链表之前是空的则执行_dispatch_root_queue_poke，准备执行任务了。
+1. 将queue 添加到的全局队列的链表尾部。也就是说队列上的链表保存的既可以是dq也可以是dc。
+2. 如果全局队列的链表之前是空的则执行_dispatch_root_queue_poke，准备执行任务了。如果不是空的那么就等着被pop执行就可以了。
 
 os_mpsc_push_list(os_mpsc(dq, dq_items), hd, tl, do_next)
 
@@ -1517,7 +1528,7 @@ DISPATCH_NOINLINE
 static void
 _dispatch_root_queue_poke_slow(dispatch_queue_global_t dq, int n, int floor)
 {
-	int remaining = n;
+	int remaining = n; //remaining表示希望线程池里有这么多个可用线程。如果不够就只能创建了。
 	int r = ENOSYS;
 
 	_dispatch_root_queues_init();
@@ -1543,7 +1554,7 @@ _dispatch_root_queue_poke_slow(dispatch_queue_global_t dq, int n, int floor)
 		while (dispatch_semaphore_signal(&pqc->dpq_thread_mediator)) { //先发送信号看看能不能唤醒一个等待的线程，信号量默认是0。
 			_dispatch_root_queue_debug("signaled sleeping worker for "
 					"global queue: %p", dq);
-			if (!--remaining) { //有唤醒线程就不用创建了
+			if (!--remaining) { //有唤醒线程而且刚好够就不用创建了，直接在唤醒的线程上执行就可以了。所以这里直接返回
 				return;
 			}
 		}
@@ -1564,7 +1575,7 @@ _dispatch_root_queue_poke_slow(dispatch_queue_global_t dq, int n, int floor)
 	// seq_cst with atomic store to tail <rdar://problem/16932833>
 	t_count = os_atomic_load2o(dq, dgq_thread_pool_size, ordered);
 	do {
-		can_request = t_count < floor ? 0 : t_count - floor;
+		can_request = t_count < floor ? 0 : t_count - floor; //可用的线程数
 		if (remaining > can_request) {
 			_dispatch_root_queue_debug("pthread pool reducing request from %d to %d",
 					remaining, can_request);
@@ -1745,6 +1756,8 @@ _dispatch_root_queue_drain(dispatch_queue_global_t dq,
 
 实现：
 
+\#define DISPATCH_ROOT_QUEUE_MEDIATOR ((struct dispatch_object_s *)~0ul)
+
 ```c
 DISPATCH_ALWAYS_INLINE_NDEBUG
 static inline struct dispatch_object_s *
@@ -1755,7 +1768,7 @@ _dispatch_root_queue_drain_one(dispatch_queue_global_t dq)
 start:
 	// The MEDIATOR value acts both as a "lock" and a signal
 	head = os_atomic_xchg2o(dq, dq_items_head,
-			DISPATCH_ROOT_QUEUE_MEDIATOR, relaxed);
+			DISPATCH_ROOT_QUEUE_MEDIATOR, relaxed); //原子替换并返回dq_items_head之前的值。
 
 	if (unlikely(head == NULL)) {
 		// The first xchg on the tail will tell the enqueueing thread that it
@@ -1794,13 +1807,13 @@ start:
 		//           above doesn't clobber head from concurrent enqueuer
 		if (os_atomic_cmpxchg2o(dq, dq_items_tail, head, NULL, release)) {
 			// both head and tail are NULL now
-			goto out;
+			goto out; //队列里目前确实只有一个，那么就走out。
 		}
 		// There must be a next item now.
 		next = os_mpsc_get_next(head, do_next);
 	}
 
-	os_atomic_store2o(dq, dq_items_head, next, relaxed);
+	os_atomic_store2o(dq, dq_items_head, next, relaxed); //更新头
 	_dispatch_root_queue_poke(dq, 1, 0); //开始递归调用了，没看懂，感觉应该是倒序的执行。
 out:
 	return head;
@@ -2134,12 +2147,6 @@ out_with_barrier_waiter:
 
 到此为止dispatch_async一个任务到串行队列的工作流程就完了。
 
-稍微总结一下：
-
-调用dispatch_async会创建一个dc，并将dc添加到队列的链表上，队列唤醒自己的tq直到tq是最终的全局队列，全局队列会将队列添加到自己的链表上，如果此时全局队列是空的则从链表上取出头部元素并创建线程开始执行。
-
-可以看到全局队列链表上的元素可能是dq也可能是dc。而我们自己队列上的元素基本上是dc。
-
 #### dx_push--自定义并发队列的_dispatch_lane_concurrent_push
 
 ```c
@@ -2385,6 +2392,12 @@ _dispatch_root_queue_push(dispatch_queue_global_t rq, dispatch_object_t dou,
 
 直接调用了_dispatch_root_queue_push_inline函数，作用就是将dc添加到队列的链表上。
 
+稍微总结一下：
+
+如果dispatch_async到全局队列，创建一个dc，并将dc添加到全局队列的链表上，全局队列开线程执行dc。
+
+如果dispatch_async到一个较高层的队列，会创建一个dc，并将dc添加到高层队列的链表上，高层队列唤醒自己的tq低层队列， 低层队列将高层队列作为一个任务添加到低层队列的链表上，然后低层队列唤醒它的tq，如此往复，一直到全局队列，最后全局队列将低层队列作为一个任务添加到自己的链表上，最后由全局队列开线程执行，那么执行的过程又是怎样的呢？
+
 ### 线程池
 
 在queue.c中的
@@ -2420,6 +2433,7 @@ _dispatch_root_queues_init_once(void *context DISPATCH_UNUSED)
 				_dispatch_root_queues[i].dq_priority);
 	}
 #else
+  //现在使用的是pthread_workqueue
 	int wq_supported = _pthread_workqueue_supported();
 	int r = ENOTSUP;
 
@@ -2455,7 +2469,7 @@ _dispatch_root_queues_init_once(void *context DISPATCH_UNUSED)
 #if DISPATCH_USE_KEVENT_WORKLOOP //1
 	} else if (wq_supported & WORKQ_FEATURE_WORKLOOP) {
 #if DISPATCH_USE_KEVENT_SETUP //1
-		cfg.workq_cb = _dispatch_worker_thread2;
+		cfg.workq_cb = _dispatch_worker_thread2; //开的线程调用的也是_dispatch_worker_thread2入口
 		cfg.kevent_cb = (pthread_workqueue_function_kevent_t) _dispatch_kevent_worker_thread;
 		cfg.workloop_cb = (pthread_workqueue_function_workloop_t) _dispatch_workloop_worker_thread;
 		r = pthread_workqueue_setup(&cfg, sizeof(cfg));
