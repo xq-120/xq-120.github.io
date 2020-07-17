@@ -13,9 +13,7 @@ date: 2020-07-04 14:00:24
 
 版本`libdispatch-1173.40.5`。
 
-### GCD中的类型声明
-
-`libdispatch`库是纯C语言编写的，因此并不存在类似面向对象语言中的类、对象之类的概念。
+### GCD中的类在OC中的声明
 
 常见的几个类型：dispatch_object_t，dispatch_queue_t，dispatch_group_t，dispatch_semaphore_t。
 
@@ -79,7 +77,7 @@ typedef NSObject<OS_dispatch_object> * __attribute__((objc_independent_class)) d
 1. 定义了一个OS_name的协议，协议遵守父协议NSObject协议。
 2. 定义了一个类型别名name_t，原类型是`NSObject<OS_name> *`，即遵守了OS_name协议的NSObject类
 
-name_t指向的对象就是一个遵守了OS_name协议的OC对象。虽说name_t指向的应该是一个OC对象，但是创建的时候并不是通过alloc init创建的还是调用C函数创建的，如`dispatch_semaphore_create`。这是由于`libdispatch`库是纯C语言编写的，它内部实际上指向的是一个C结构体实例。
+name_t指向的对象就是一个遵守了OS_name协议的OC对象。虽说name_t指向的应该是一个OC对象，但是创建的时候并不是通过alloc init创建的而是调用C函数创建的，如`dispatch_semaphore_create`。这是由于`libdispatch`库是纯C语言编写的，它内部实际上指向的是一个C结构体实例。
 
 还有一个宏`OS_OBJECT_DECL_SUBCLASS(name, super)`：
 
@@ -142,7 +140,7 @@ typedef NSObject<OS_dispatch_group> * __attribute__((objc_independent_class)) di
 typedef NSObject<OS_dispatch_semaphore> * __attribute__((objc_independent_class)) dispatch_semaphore_t;
 ```
 
-可以看到它们其实都是一个遵守了某个协议的NSObject类型的别名。
+可以看到它们其实都是一个遵守了某个协议的NSObject指针类型的别名。
 
 ```
 /*
@@ -181,19 +179,23 @@ typedef union {
 #define DISPATCH_RETURNS_RETAINED
 ```
 
-以前版本里面还有个struct dispatch_continuation_s *_dc;的现在也没了，估计又是现实方式有改动，导致struct dispatch_continuation_s的继承关系变了。
+以前版本里面还有个`struct dispatch_continuation_s *_dc;`的现在没了，估计又是现实方式有改动，导致`struct dispatch_continuation_s`的继承关系变了。
 
-纯C下dispatch_object_t其实是一个联合体类型。
+纯C下`dispatch_object_t`其实是一个联合体类型。
 
-dispatch object在不同语言的源文件中的声明是不一样的。dispatch_object_t在OC中则被声明为遵守了某个协议的NSObject类型，在C中则是一个联合体类型。
+dispatch_object在不同语言中的声明是不一样的。`dispatch_object_t`在OC中则被声明为遵守了某个协议的NSObject类型，在C中则是一个联合体类型。
 
-### GCD中的类继承关系
+### GCD中的类结构体
 
-宏`DISPATCH_OBJECT_HEADER(x)`是GCD结构体定义里面出现较多的宏。
+`libdispatch`库是纯C语言编写的，因此没有像OC中的类这样的东西，有的只是一个个结构体。
 
-这宏就是让C语言模拟出面向对象语言继承特性的宏，一些公共变量的类型会根据传入的参数进行替换拼接。这个宏的作用就是把一些公共变量和父类结构体成员变量拷贝到子类里。如果手动拷贝的话不仅麻烦而且容易出错，所以系统就封装了这个宏。
+为了让C语言模拟出面向对象语言继承的特性，一种办法就是把父结构体里的成员变量拷贝到子结构体里。手动拷贝的话不仅麻烦而且容易出错，因此源码里封装了很多宏避免手动拷贝，比如宏`DISPATCH_OBJECT_HEADER(x)`、`DISPATCH_QUEUE_CLASS_HEADER(x, __pointer_sized_field__)`等 。
 
 #### struct _os_object_s
+
+定义：
+
+使用了宏`_OS_OBJECT_HEADER(isa, ref_cnt, xref_cnt) `
 
 ```c
 typedef struct _os_object_vtable_s {
@@ -224,6 +226,10 @@ typedef struct _os_object_s {
 
 #### struct dispatch_object_s
 
+定义：
+
+使用了宏`_DISPATCH_OBJECT_HEADER(x)`
+
 ```
 struct dispatch_object_s {
 	_DISPATCH_OBJECT_HEADER(object);
@@ -247,9 +253,13 @@ struct dispatch_object_s {
 
 #### struct dispatch_queue_s
 
-定义：使用宏DISPATCH_QUEUE_CLASS_HEADER
+定义：
+
+使用了宏`DISPATCH_QUEUE_CLASS_HEADER(x, __pointer_sized_field__)`
 
 ```c
+DISPATCH_CLASS_DECL(queue, QUEUE);
+
 struct dispatch_queue_s {
 	DISPATCH_QUEUE_CLASS_HEADER(queue, void *__dq_opaque1);
 	/* 32bit hole on LP64 */
@@ -259,10 +269,31 @@ struct dispatch_queue_s {
 展开：
 
 ```c
+@protocol OS_dispatch_queue <OS_dispatch_object>
+@end
+@interface OS_dispatch_queue () <OS_dispatch_queue>
+@end
+struct dispatch_queue_s;
+struct dispatch_queue_extra_vtable_s {
+    unsigned long const do_type;
+    void (*const do_dispose)(struct dispatch_queue_s *, _Bool *allow_free);
+    size_t (*const do_debug)(struct dispatch_queue_s *, char *, size_t);
+    void (*const do_invoke)(struct dispatch_queue_s *, dispatch_invoke_context_t, dispatch_invoke_flags_t);
+    void (*const dq_activate)(dispatch_queue_class_t);
+    void (*const dq_wakeup)(dispatch_queue_class_t, dispatch_qos_t, dispatch_wakeup_flags_t);
+    void (*const dq_push)(dispatch_queue_class_t, dispatch_object_t, dispatch_qos_t);
+};
+struct dispatch_queue_vtable_s {
+    void *_os_obj_objc_class_t[5];
+    struct dispatch_queue_extra_vtable_s _os_obj_vtable;
+};
+extern const struct dispatch_queue_vtable_s _OS_dispatch_queue_vtable;
+extern const struct dispatch_queue_vtable_s OS_dispatch_queue_class __asm__("_OBJC_CLASS_$_" "OS_dispatch_queue");
+
 struct dispatch_queue_s {
     struct dispatch_object_s _as_do[0]; //父类
     struct _os_object_s _as_os_obj[0];
-    const struct dispatch_queue_vtable_s *do_vtable;
+    const struct dispatch_queue_vtable_s *do_vtable; //虚函数表，模拟多态调用。每个子类里都有一个自己的do_vtable，里面声名了一些函数指针，可以看做是一个函数派发表。
     int volatile do_ref_cnt;
     int volatile do_xref_cnt;
     struct dispatch_queue_s *volatile do_next;
@@ -386,6 +417,8 @@ typedef union {
 
 定义：
 
+使用了宏`DISPATCH_LANE_CLASS_HEADER(x)`
+
 ```c
 typedef struct dispatch_lane_s {
     DISPATCH_LANE_CLASS_HEADER(lane);
@@ -446,6 +479,20 @@ typedef struct dispatch_lane_s {
 
 #### struct dispatch_queue_static_s
 
+定义：
+
+使用了宏`DISPATCH_LANE_CLASS_HEADER(x)`
+
+```c
+// Cache aligned type for static queues (main queue, manager)
+struct dispatch_queue_static_s {
+	struct dispatch_lane_s _as_dl[0]; \
+	DISPATCH_LANE_CLASS_HEADER(lane);
+} DISPATCH_CACHELINE_ALIGN;
+```
+
+展开：
+
 ```c
 struct dispatch_queue_static_s {
     struct dispatch_lane_s _as_dl[0];
@@ -493,11 +540,11 @@ struct dispatch_queue_static_s {
 } DISPATCH_CACHELINE_ALIGN;
 ```
 
-
-
 #### struct dispatch_queue_global_s
 
 定义：
+
+使用了宏`DISPATCH_QUEUE_ROOT_CLASS_HEADER(x)`
 
 ```c
 struct dispatch_queue_global_s {
@@ -641,8 +688,6 @@ typedef struct dispatch_continuation_s {
 } *dispatch_continuation_t;
 ```
 
-continuation使用的是另一个宏：DISPATCH_CONTINUATION_HEADER。
-
 展开：
 
 ```c
@@ -669,7 +714,7 @@ typedef struct dispatch_continuation_s {
 
 另：`typedef void (*dispatch_function_t)(void *_Nullable);`，为一个函数指针。dc_func就是为了执行block的。
 
-dispatch_continuation_s 应该是内部对block任务的一层封装。
+dispatch_continuation_s 是内部对block任务的一层封装。
 
 #### struct dispatch_semaphore_s
 
@@ -728,7 +773,7 @@ struct dispatch_semaphore_s {
 
 #### struct dispatch_group_s
 
-源码：
+定义：
 
 ```c
 DISPATCH_CLASS_DECL(group, OBJECT);
@@ -770,13 +815,194 @@ struct dispatch_group_s {
 };
 ```
 
-之前版本dispatch_group_s里面是有`_dispatch_sema4_t dsema_sema;`成员变量的现在已经没了。有可能实现方式已经更改了。
+之前版本dispatch_group_s里面是有`_dispatch_sema4_t dsema_sema;`成员变量的现在已经没了。说明实现方式已经更改了。
 
+#### vtable
 
+queue_internal.h中声名了很多queue相关的do_vtable成员变量的类型
 
-TSD和TLS
+比如`const struct dispatch_queue_vtable_s *do_vtable;`中的struct dispatch_queue_vtable_s结构体的定义。
 
-`线程特有数据`（Thread-Specific Data 或 TSD），或者`线程局部存储`（Thread-Local Storage 或 TLS）。同一个东西。
+do_vtable相当于结构体里的一个函数派发表。
+
+```
+DISPATCH_CLASS_DECL(queue, QUEUE);
+DISPATCH_CLASS_DECL_BARE(lane, QUEUE);
+DISPATCH_CLASS_DECL(workloop, QUEUE);
+DISPATCH_SUBCLASS_DECL(queue_serial, queue, lane);
+DISPATCH_SUBCLASS_DECL(queue_main, queue_serial, lane);
+DISPATCH_SUBCLASS_DECL(queue_concurrent, queue, lane);
+DISPATCH_SUBCLASS_DECL(queue_global, queue, lane);
+#if DISPATCH_USE_PTHREAD_ROOT_QUEUES
+DISPATCH_INTERNAL_SUBCLASS_DECL(queue_pthread_root, queue, lane);
+#endif
+DISPATCH_INTERNAL_SUBCLASS_DECL(queue_runloop, queue_serial, lane);
+DISPATCH_INTERNAL_SUBCLASS_DECL(queue_mgr, queue_serial, lane);
+```
+
+这里的宏就不一一展开了。
+
+初始化在init.c：
+
+```c
+/*
+ * Dispatch queue cluster
+ */
+
+DISPATCH_NOINLINE
+static void
+_dispatch_queue_no_activate(dispatch_queue_class_t dqu)
+{
+	DISPATCH_INTERNAL_CRASH(dx_type(dqu._dq), "dq_activate called");
+}
+
+DISPATCH_VTABLE_INSTANCE(queue,
+	// This is the base class for queues, no objects of this type are made
+	.do_type        = _DISPATCH_QUEUE_CLUSTER,
+	.do_dispose     = _dispatch_object_no_dispose,
+	.do_debug       = _dispatch_queue_debug,
+	.do_invoke      = _dispatch_object_no_invoke,
+
+	.dq_activate    = _dispatch_queue_no_activate,
+);
+
+DISPATCH_VTABLE_INSTANCE(workloop,
+	.do_type        = DISPATCH_WORKLOOP_TYPE,
+	.do_dispose     = _dispatch_workloop_dispose,
+	.do_debug       = _dispatch_queue_debug,
+	.do_invoke      = _dispatch_workloop_invoke,
+
+	.dq_activate    = _dispatch_queue_no_activate,
+	.dq_wakeup      = _dispatch_workloop_wakeup,
+	.dq_push        = _dispatch_workloop_push,
+);
+
+DISPATCH_VTABLE_SUBCLASS_INSTANCE(queue_serial, lane,
+	.do_type        = DISPATCH_QUEUE_SERIAL_TYPE,
+	.do_dispose     = _dispatch_lane_dispose,
+	.do_debug       = _dispatch_queue_debug,
+	.do_invoke      = _dispatch_lane_invoke,
+
+	.dq_activate    = _dispatch_lane_activate,
+	.dq_wakeup      = _dispatch_lane_wakeup,
+	.dq_push        = _dispatch_lane_push,
+);
+
+DISPATCH_VTABLE_SUBCLASS_INSTANCE(queue_concurrent, lane,
+	.do_type        = DISPATCH_QUEUE_CONCURRENT_TYPE,
+	.do_dispose     = _dispatch_lane_dispose,
+	.do_debug       = _dispatch_queue_debug,
+	.do_invoke      = _dispatch_lane_invoke,
+
+	.dq_activate    = _dispatch_lane_activate,
+	.dq_wakeup      = _dispatch_lane_wakeup,
+	.dq_push        = _dispatch_lane_concurrent_push,
+);
+
+DISPATCH_VTABLE_SUBCLASS_INSTANCE(queue_global, lane,
+	.do_type        = DISPATCH_QUEUE_GLOBAL_ROOT_TYPE,
+	.do_dispose     = _dispatch_object_no_dispose,
+	.do_debug       = _dispatch_queue_debug,
+	.do_invoke      = _dispatch_object_no_invoke,
+
+	.dq_activate    = _dispatch_queue_no_activate,
+	.dq_wakeup      = _dispatch_root_queue_wakeup,
+	.dq_push        = _dispatch_root_queue_push,
+);
+
+#if DISPATCH_USE_PTHREAD_ROOT_QUEUES
+DISPATCH_VTABLE_SUBCLASS_INSTANCE(queue_pthread_root, lane,
+	.do_type        = DISPATCH_QUEUE_PTHREAD_ROOT_TYPE,
+	.do_dispose     = _dispatch_pthread_root_queue_dispose,
+	.do_debug       = _dispatch_queue_debug,
+	.do_invoke      = _dispatch_object_no_invoke,
+
+	.dq_activate    = _dispatch_queue_no_activate,
+	.dq_wakeup      = _dispatch_root_queue_wakeup,
+	.dq_push        = _dispatch_root_queue_push,
+);
+#endif // DISPATCH_USE_PTHREAD_ROOT_QUEUES
+
+DISPATCH_VTABLE_SUBCLASS_INSTANCE(queue_mgr, lane,
+	.do_type        = DISPATCH_QUEUE_MGR_TYPE,
+	.do_dispose     = _dispatch_object_no_dispose,
+	.do_debug       = _dispatch_queue_debug,
+#if DISPATCH_USE_MGR_THREAD
+	.do_invoke      = _dispatch_mgr_thread,
+#else
+	.do_invoke      = _dispatch_object_no_invoke,
+#endif
+
+	.dq_activate    = _dispatch_queue_no_activate,
+	.dq_wakeup      = _dispatch_mgr_queue_wakeup,
+	.dq_push        = _dispatch_mgr_queue_push,
+);
+
+DISPATCH_VTABLE_SUBCLASS_INSTANCE(queue_main, lane,
+	.do_type        = DISPATCH_QUEUE_MAIN_TYPE,
+	.do_dispose     = _dispatch_lane_dispose,
+	.do_debug       = _dispatch_queue_debug,
+	.do_invoke      = _dispatch_lane_invoke,
+
+	.dq_activate    = _dispatch_queue_no_activate,
+	.dq_wakeup      = _dispatch_main_queue_wakeup,
+	.dq_push        = _dispatch_main_queue_push,
+);
+
+#if DISPATCH_COCOA_COMPAT
+DISPATCH_VTABLE_SUBCLASS_INSTANCE(queue_runloop, lane,
+	.do_type        = DISPATCH_QUEUE_RUNLOOP_TYPE,
+	.do_dispose     = _dispatch_runloop_queue_dispose,
+	.do_debug       = _dispatch_queue_debug,
+	.do_invoke      = _dispatch_lane_invoke,
+
+	.dq_activate    = _dispatch_queue_no_activate,
+	.dq_wakeup      = _dispatch_runloop_queue_wakeup,
+	.dq_push        = _dispatch_lane_push,
+);
+#endif
+
+DISPATCH_VTABLE_INSTANCE(source,
+	.do_type        = DISPATCH_SOURCE_KEVENT_TYPE,
+	.do_dispose     = _dispatch_source_dispose,
+	.do_debug       = _dispatch_source_debug,
+	.do_invoke      = _dispatch_source_invoke,
+
+	.dq_activate    = _dispatch_source_activate,
+	.dq_wakeup      = _dispatch_source_wakeup,
+	.dq_push        = _dispatch_lane_push,
+);
+
+DISPATCH_VTABLE_INSTANCE(channel,
+	.do_type        = DISPATCH_CHANNEL_TYPE,
+	.do_dispose     = _dispatch_channel_dispose,
+	.do_debug       = _dispatch_channel_debug,
+	.do_invoke      = _dispatch_channel_invoke,
+
+	.dq_activate    = _dispatch_lane_activate,
+	.dq_wakeup      = _dispatch_channel_wakeup,
+	.dq_push        = _dispatch_lane_push,
+);
+
+#if HAVE_MACH
+DISPATCH_VTABLE_INSTANCE(mach,
+	.do_type        = DISPATCH_MACH_CHANNEL_TYPE,
+	.do_dispose     = _dispatch_mach_dispose,
+	.do_debug       = _dispatch_mach_debug,
+	.do_invoke      = _dispatch_mach_invoke,
+
+	.dq_activate    = _dispatch_mach_activate,
+	.dq_wakeup      = _dispatch_mach_wakeup,
+	.dq_push        = _dispatch_lane_push,
+);
+#endif // HAVE_MACH
+```
+
+#### TSD和TLS
+
+`线程特有数据`（Thread-Specific Data 或 TSD）
+
+`线程局部存储`（Thread-Local Storage 或 TLS）
 
 ### 参考
 

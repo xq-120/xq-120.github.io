@@ -781,7 +781,7 @@ _dispatch_sync_f_inline(dispatch_queue_t dq, void *ctxt,
 
 可以看到dispatch_sync并没有将block封装为一个dispatch_continuation_s对象然后添加到队列的链表上去，而是直接执行的。
 
-还可以看到`dispatch_sync` 的逻辑是根据派发队列类型分别处理的。由于串行队列的后一个任务必须等待前一个任务执行完后才能执行，为了保证这一特性，所以它会有一个`try_acquire_barrier`“加锁”的操作，保证即使在多线程同时调用dispatch_sync时也不会出现同时执行两个任务的情况，因此走了`_dispatch_barrier_sync_f`逻辑，串行队列的这一特性很容易让它陷入死锁的问题。
+还可以看到`dispatch_sync` 的逻辑是根据派发队列类型分别处理的。由于串行队列的后一个任务必须等待前一个任务执行完后才能执行，为了保证这一特性，所以它会有一个`try_acquire_barrier`“加锁”的操作，保证即使在多线程同时调用dispatch_sync时也不会出现同时执行两个任务的情况，因此走了`_dispatch_barrier_sync_f`逻辑。
 
 而全局队列就是可以同时执行任务的并不需要等前一个任务是否完成，所以即使在多线程同时调用dispatch_sync时也没什么和它的定义并不冲突，所以可以不用`try_acquire_barrier`“加锁”的操作而是直接进入`_dispatch_sync_f_slow`逻辑。对于自定义的并发队列，则直接在当前线程执行了，不存在死锁的问题。
 
@@ -1528,7 +1528,7 @@ _dispatch_root_queue_poke_slow(dispatch_queue_global_t dq, int n, int floor)
 #if DISPATCH_USE_PTHREAD_ROOT_QUEUES
 	if (dx_type(dq) == DISPATCH_QUEUE_GLOBAL_ROOT_TYPE)
 #endif
-	{ //实际会执行这里的，因为gcd又优化了一下，没有直接使用线程池了，而是通过workqueue来管理了。不过这里不打算分析workqueue。因为_pthread_workqueue_addthreads是pthread库里的且最终调用了系统内部函数__workq_kernreturn，这就没得分析了。所以这里分析DISPATCH_USE_PTHREAD_POOL分支的。
+	{ //实际会执行这里的，因为gcd又优化了一下，没有使用内部的workqueue了，而是通过PTHREAD_ROOT_QUEUES来管理了。不过这里不打算分析DISPATCH_USE_PTHREAD_ROOT_QUEUES这一分支。因为_pthread_workqueue_addthreads是pthread库里的且最终调用了系统内部函数__workq_kernreturn，这就没得分析了。所以这里分析DISPATCH_USE_PTHREAD_POOL分支的。
 		_dispatch_root_queue_debug("requesting new worker thread for global "
 				"queue: %p", dq);
 		r = _pthread_workqueue_addthreads(remaining,
@@ -1540,7 +1540,7 @@ _dispatch_root_queue_poke_slow(dispatch_queue_global_t dq, int n, int floor)
 #if DISPATCH_USE_PTHREAD_POOL
 	dispatch_pthread_root_queue_context_t pqc = dq->do_ctxt;
 	if (likely(pqc->dpq_thread_mediator.do_vtable)) {
-		while (dispatch_semaphore_signal(&pqc->dpq_thread_mediator)) {
+		while (dispatch_semaphore_signal(&pqc->dpq_thread_mediator)) { //先发送信号看看能不能唤醒一个等待的线程，信号量默认是0。
 			_dispatch_root_queue_debug("signaled sleeping worker for "
 					"global queue: %p", dq);
 			if (!--remaining) { //有唤醒线程就不用创建了
@@ -1590,7 +1590,7 @@ _dispatch_root_queue_poke_slow(dispatch_queue_global_t dq, int n, int floor)
   //这里是重点，创建线程执行_dispatch_worker_thread函数
 	do {
 		_dispatch_retain(dq); // released in _dispatch_worker_thread
-		while ((r = pthread_create(pthr, attr, _dispatch_worker_thread, dq))) { //创建线程的时候第四个参数是可以传入队列的
+		while ((r = pthread_create(pthr, attr, _dispatch_worker_thread, dq))) { //pthread_create第四个参数是第三个参数（一个函数）的参数，这里传入的是dq。
 			if (r != EAGAIN) {
 				(void)dispatch_assume_zero(r);
 			}
@@ -1671,13 +1671,13 @@ _dispatch_worker_thread(void *context)
 		_dispatch_reset_priority_and_voucher(pp, NULL);
 		_dispatch_trace_runtime_event(worker_park, NULL, 0);
 	} while (dispatch_semaphore_wait(&pqc->dpq_thread_mediator,
-			dispatch_time(0, timeout)) == 0);
+			dispatch_time(0, timeout)) == 0); //执行完一个任务后，线程调用dispatch_semaphore_wait，信号量-1，如果信号量的结果>=0，则返回0线程不阻塞继续do-while,否则线程阻塞等待5s，超时后返回1，退出循环。
 
 #if DISPATCH_USE_INTERNAL_WORKQUEUE
 	if (monitored) _dispatch_workq_worker_unregister(dq);
 #endif
 	(void)os_atomic_inc2o(dq, dgq_thread_pool_size, release);
-	_dispatch_root_queue_poke(dq, 1, 0);
+	_dispatch_root_queue_poke(dq, 1, 0); //退出循环后继续poke
 	_dispatch_release(dq); // retained in _dispatch_root_queue_poke_slow
 	return NULL;
 }
@@ -1739,7 +1739,7 @@ _dispatch_root_queue_drain(dispatch_queue_global_t dq,
 
 该函数主要作用：
 
-从全局队列的链表里取出头元素（一个queue或一个dc），循环操作调用_dispatch_continuation_pop_inline
+循环操作，从全局队列的链表里取出头元素（一个queue或一个dc），调用_dispatch_continuation_pop_inline执行任务
 
 ##### _dispatch_root_queue_drain_one
 
@@ -1778,7 +1778,7 @@ start:
 	if (unlikely(head == DISPATCH_ROOT_QUEUE_MEDIATOR)) {
 		// This thread lost the race for ownership of the queue.
 		if (likely(__DISPATCH_ROOT_QUEUE_CONTENDED_WAIT__(dq,
-				_dispatch_root_queue_mediator_is_gone))) {
+				_dispatch_root_queue_mediator_is_gone))) { //线程失去了队列的拥有权，就开始等待，在__DISPATCH_ROOT_QUEUE_CONTENDED_WAIT__里忙等。
 			goto start;
 		}
 		return NULL;
@@ -1801,7 +1801,7 @@ start:
 	}
 
 	os_atomic_store2o(dq, dq_items_head, next, relaxed);
-	_dispatch_root_queue_poke(dq, 1, 0);
+	_dispatch_root_queue_poke(dq, 1, 0); //开始递归调用了，没看懂，感觉应该是倒序的执行。
 out:
 	return head;
 }
@@ -2162,6 +2162,53 @@ _dispatch_lane_concurrent_push(dispatch_lane_t dq, dispatch_object_t dou,
 	_dispatch_lane_push(dq, dou, qos);
 }
 
+/* Used by target-queue recursing code
+ *
+ * Initial state must be { sc:0, ib:0, qf:0, pb:0, d:0 }
+ * Final state: { w += 1 }
+ */
+DISPATCH_ALWAYS_INLINE DISPATCH_WARN_RESULT
+static inline bool
+_dispatch_queue_try_acquire_async(dispatch_lane_t dq)
+{
+	uint64_t old_state, new_state;
+
+	return os_atomic_rmw_loop2o(dq, dq_state, old_state, new_state, acquire, {
+		if (unlikely(!_dq_state_is_runnable(old_state) ||
+				_dq_state_is_dirty(old_state) ||
+				_dq_state_has_pending_barrier(old_state))) {
+			os_atomic_rmw_loop_give_up(return false);
+		}
+		new_state = old_state + DISPATCH_QUEUE_WIDTH_INTERVAL;
+	});
+}
+
+DISPATCH_ALWAYS_INLINE
+static inline bool
+_dispatch_object_is_barrier(dispatch_object_t dou)
+{
+	dispatch_queue_flags_t dq_flags;
+
+	if (!_dispatch_object_has_vtable(dou)) {
+		return (dou._dc->dc_flags & DC_FLAG_BARRIER);
+	}
+	if (dx_cluster(dou._do) != _DISPATCH_QUEUE_CLUSTER) {
+		return false;
+	}
+	dq_flags = os_atomic_load2o(dou._dq, dq_atomic_flags, relaxed);
+	return dq_flags & DQF_BARRIER_BIT;
+}
+
+DISPATCH_ALWAYS_INLINE
+static inline bool
+_dispatch_object_is_waiter(dispatch_object_t dou)
+{
+	if (_dispatch_object_has_vtable(dou)) {
+		return false;
+	}
+	return (dou._dc->dc_flags & (DC_FLAG_SYNC_WAITER | DC_FLAG_ASYNC_AND_WAIT));
+}
+
 DISPATCH_NOINLINE
 static void
 _dispatch_continuation_redirect_push(dispatch_lane_t dl,
@@ -2177,7 +2224,7 @@ _dispatch_continuation_redirect_push(dispatch_lane_t dl,
 		(uintptr_t)_dispatch_queue_autorelease_frequency(dl);
 	}
 
-	dispatch_queue_t dq = dl->do_targetq;
+	dispatch_queue_t dq = dl->do_targetq; //这里假设没有太深queue层级，那么此时dq就是全局队列，下面的dx_push就是root_queue_push
 	if (!qos) qos = _dispatch_priority_qos(dq->dq_priority);
 	dx_push(dq, dou, qos);
 }
@@ -2205,6 +2252,89 @@ _dispatch_async_redirect_wrap(dispatch_lane_t dq, dispatch_object_t dou)
 
 1. 当前dq是空并且满足一定条件后，走_dispatch_continuation_redirect_push逻辑，如果没有太深的queue层级关系的话，这里最终会将任务添加到全局队列的链表上。
 2. 不满足上述条件的走_dispatch_lane_push逻辑。
+
+如果dq不为空，或dc是一个waiter，barrier等走_dispatch_lane_push逻辑。
+
+##### _dispatch_lane_push
+
+实现：
+
+```c
+DISPATCH_NOINLINE
+void
+_dispatch_lane_push(dispatch_lane_t dq, dispatch_object_t dou,
+		dispatch_qos_t qos)
+{
+	dispatch_wakeup_flags_t flags = 0;
+	struct dispatch_object_s *prev;
+
+	if (unlikely(_dispatch_object_is_waiter(dou))) {
+		return _dispatch_lane_push_waiter(dq, dou._dsc, qos);
+	}
+
+	dispatch_assert(!_dispatch_object_is_global(dq));
+	qos = _dispatch_queue_push_qos(dq, qos);
+
+	// If we are going to call dx_wakeup(), the queue must be retained before
+	// the item we're pushing can be dequeued, which means:
+	// - before we exchange the tail if we have to override
+	// - before we set the head if we made the queue non empty.
+	// Otherwise, if preempted between one of these and the call to dx_wakeup()
+	// the blocks submitted to the queue may release the last reference to the
+	// queue when invoked by _dispatch_lane_drain. <rdar://problem/6932776>
+
+	prev = os_mpsc_push_update_tail(os_mpsc(dq, dq_items), dou._do, do_next);
+	if (unlikely(os_mpsc_push_was_empty(prev))) {
+		_dispatch_retain_2_unsafe(dq);
+		flags = DISPATCH_WAKEUP_CONSUME_2 | DISPATCH_WAKEUP_MAKE_DIRTY;
+	} else if (unlikely(_dispatch_queue_need_override(dq, qos))) {
+		// There's a race here, _dispatch_queue_need_override may read a stale
+		// dq_state value.
+		//
+		// If it's a stale load from the same drain streak, given that
+		// the max qos is monotonic, too old a read can only cause an
+		// unnecessary attempt at overriding which is harmless.
+		//
+		// We'll assume here that a stale load from an a previous drain streak
+		// never happens in practice.
+		_dispatch_retain_2_unsafe(dq);
+		flags = DISPATCH_WAKEUP_CONSUME_2;
+	}
+	os_mpsc_push_update_prev(os_mpsc(dq, dq_items), prev, dou._do, do_next);
+	if (flags) {
+		return dx_wakeup(dq, qos, flags);
+	}
+}
+```
+
+这里也是将任务添加到队列的链表上。如果flags>0，则调用dx_wakeup。这里就是_dispatch_lane_wakeup
+
+##### _dispatch_lane_wakeup
+
+实现：
+
+```c
+DISPATCH_NOINLINE
+void
+_dispatch_lane_wakeup(dispatch_lane_class_t dqu, dispatch_qos_t qos,
+		dispatch_wakeup_flags_t flags)
+{
+	dispatch_queue_wakeup_target_t target = DISPATCH_QUEUE_WAKEUP_NONE;
+
+	if (unlikely(flags & DISPATCH_WAKEUP_BARRIER_COMPLETE)) {
+		return _dispatch_lane_barrier_complete(dqu, qos, flags); //跟barrier相关
+	}
+	if (_dispatch_queue_class_probe(dqu)) {
+		target = DISPATCH_QUEUE_WAKEUP_TARGET;
+	}
+	return _dispatch_queue_wakeup(dqu, qos, flags, target);
+}
+```
+
+大致逻辑：
+
+1. 如果flags跟barrier相关则走_dispatch_lane_barrier_complete逻辑，这里面又是一堆分支
+2. 回到_dispatch_queue_wakeup上来，最终也是将自己添加到最终的全局队列上去。
 
 #### dx_push--全局队列的_dispatch_root_queue_push
 
@@ -2252,6 +2382,8 @@ _dispatch_root_queue_push(dispatch_queue_global_t rq, dispatch_object_t dou,
 	_dispatch_root_queue_push_inline(rq, dou, dou, 1);
 }
 ```
+
+直接调用了_dispatch_root_queue_push_inline函数，作用就是将dc添加到队列的链表上。
 
 ### 线程池
 
@@ -2372,8 +2504,6 @@ dgq_thread_pool_size属性值的设置
 
 do_ctxt属性的dpq_thread_attr
 
-也就是说12个全局队列共享一个线程池。
-
 #### _dispatch_root_queue_init_pthread_pool
 
 实现：
@@ -2422,7 +2552,7 @@ DISPATCH_WORKQ_MAX_PTHREAD_COUNT的定义：
 
 这里需要注意的是目前的GCD线程池的大小为：
 
-如果是派发到并发队列，线程池最多开64个线程。64个线程都在用的话，后面再丢任务到并发队列也不会新开线程了这个时候就得等待其中某个线程直到变为空闲。
+如果是派发到并发队列，线程池最多开64个线程。64个线程都在用的话，后面再丢任务到并发队列也不会新开线程了这个时候就得等待其中某个线程直到变为空闲。需要注意的是64是线程池的最大线程数，也就是说即使两个全局队列同时执行任务，最多也只会开64个线程。
 
 如果是派发到串行队列，线程池最多开512个线程。一个串行队列一个线程，最多可以同时运行512个串行队列。
 
@@ -2465,7 +2595,7 @@ dispatch_barrier_async(dispatch_queue_t dq, dispatch_block_t work)
 }
 ```
 
-1. 创建并初始化dc，dc_flags
+1. 创建并初始化dc，dc_flags。dc_flags是DC_FLAG_CONSUME | DC_FLAG_BARRIER。跟普通async多了DC_FLAG_BARRIER标记。可以肯定后面会根据dc_flags对不同dc进行分开处理。
 2. 调用_dispatch_continuation_async。
 
 可以看到和dispatch_async类似，只不过调用_dispatch_continuation_async时传入的参数不同。
