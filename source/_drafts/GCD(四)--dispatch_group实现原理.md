@@ -40,7 +40,7 @@ struct dispatch_group_s {
     int volatile do_ref_cnt;
     int volatile do_xref_cnt;
     struct dispatch_group_s *volatile do_next;
-    struct dispatch_queue_s *do_targetq; //target的queue。
+    struct dispatch_queue_s *do_targetq; //target queue。
     void *do_ctxt;
     void *do_finalizer;
   
@@ -51,7 +51,7 @@ struct dispatch_group_s {
             uint32_t dg_bits;
             uint32_t dg_gen;
         };
-    } __attribute__((aligned(8)));
+    } __attribute__((aligned(8)));  //计数器，这个计数器功能很强大
     struct dispatch_continuation_s *volatile dg_notify_head; //指向notify任务链表的头，因为可能有多个notify任务
     struct dispatch_continuation_s *volatile dg_notify_tail; //指向notify任务链表的尾
 };
@@ -248,7 +248,7 @@ dispatch_group_leave(dispatch_group_t dg)
 			if (old_state == new_state) break;
 		} while (unlikely(!os_atomic_cmpxchgv2o(dg, dg_state,
 				old_state, new_state, &old_state, relaxed)));
-		return _dispatch_group_wake(dg, old_state, true);
+		return _dispatch_group_wake(dg, old_state, true); //计算器已经复位，唤醒组可以执行notify任务了
 	}
 
 	if (unlikely(old_value == 0)) {
@@ -262,7 +262,7 @@ dispatch_group_leave(dispatch_group_t dg)
 
 1. 原子操作，dg_state的值加上DISPATCH_GROUP_VALUE_INTERVAL，并返回dg_state之前的值。
 2. 根据old_state计算出old_value
-3. 如果old_value等于DISPATCH_GROUP_VALUE_1，最终将调用_dispatch_group_wake唤醒等待的线程。
+3. 如果old_value等于DISPATCH_GROUP_VALUE_1，最终将调用_dispatch_group_wake唤醒组执行notify任务。
 4. 如果old_value等于0，则崩溃"Unbalanced call to dispatch_group_leave()"
 
 看下old_value等于0的情况，等于0则表示在本次调用dispatch_group_leave之前，value 值就已经恢复初始状态，enter和leave已经是平衡的了，说明本次调用是没有配对的，因此崩溃"Unbalanced call to dispatch_group_leave()"。
@@ -575,7 +575,7 @@ _dispatch_group_notify(dispatch_group_t dg, dispatch_queue_t dq,
 1. 根据传入的dispatch_block_t db创建一个dispatch_continuation_t dsn
 2. 更新dg_notify_tail的值为dsn
 3. 将dsn添加到链表末尾
-4. 如果之前的dg_notify_tail为空则更新dg_state的HAS_NOTIFS标志位，如果old_state为0，说明业务层直勾勾的就调了dispatch_group_notify，此时就直接调用_dispatch_group_wake，然后返回。
+4. 如果之前的dg_notify_tail为空则更新dg_state的HAS_NOTIFS标志位，如果old_state为0，说明业务层直勾勾的就调了dispatch_group_notify，此时就直接调用_dispatch_group_wake唤醒组，然后返回。
 5. 如果之前的dg_notify_tail不为空就啥也不干。
 
 具体看一下：
@@ -762,6 +762,8 @@ _dispatch_wait_on_address(uint32_t volatile *_address, uint32_t value,
 	} while (usecs == UINT32_MAX && rc == ETIMEDOUT &&
 			(nsecs = _dispatch_timeout(timeout)) != 0);
 	return rc;
+  ...
+#endif
 }
 ```
 
@@ -772,8 +774,6 @@ _dispatch_wait_on_address(uint32_t volatile *_address, uint32_t value,
 有wait就有wake
 
 #### _dispatch_group_wake
-
-有三个地方会调用到wake：dispatch_group_leave函数和dispatch_group_notify，dispatch_group_notify_f
 
 实现：
 
@@ -793,7 +793,7 @@ _dispatch_group_wake(dispatch_group_t dg, uint64_t dg_state, bool needs_release)
 			dispatch_queue_t dsn_queue = (dispatch_queue_t)dc->dc_data;
 			next_dc = os_mpsc_pop_snapshot_head(dc, tail, do_next);
 			_dispatch_continuation_async(dsn_queue, dc,
-					_dispatch_qos_from_pp(dc->dc_priority), dc->dc_flags);
+					_dispatch_qos_from_pp(dc->dc_priority), dc->dc_flags); //异步执行dg上的notify任务
 			_dispatch_release(dsn_queue);
 		} while ((dc = next_dc));
 
@@ -801,12 +801,17 @@ _dispatch_group_wake(dispatch_group_t dg, uint64_t dg_state, bool needs_release)
 	}
 
 	if (dg_state & DISPATCH_GROUP_HAS_WAITERS) {
-		_dispatch_wake_by_address(&dg->dg_gen);
+		_dispatch_wake_by_address(&dg->dg_gen); //唤醒等待的线程。
 	}
 
 	if (refs) _dispatch_release_n(dg, refs);
 }
 ```
+
+主要做了两件事：
+
+1. 调用_dispatch_continuation_async异步执行dg上的notify任务
+2. 唤醒因调用dispatch_group_wait函数而进入等待的线程
 
 #### _dispatch_group_dispose
 
@@ -845,5 +850,7 @@ __c11_atomic_load(((__typeof__(*(&(dou._dg)->dg_state)) _Atomic *)(&(dou._dg)->d
 
 #### 问题
 
-1. notify是如何在所有block都执行完成之后再执行的？
-2. 添加到链表的任务最后又是在哪里被执行的，在哪里从链表中移除的？
+Q1：notify是如何在所有block都执行完成之后再执行的？
+
+每次调用dispatch_group_leave时会检测计数器是否已经复位，当复位时就调用`_dispatch_group_wake`唤醒组该函数里会循环调用`_dispatch_continuation_async`将组上的任务丢到派发队列上异步的执行。
+

@@ -705,7 +705,7 @@ typedef struct dispatch_continuation_s {
     struct voucher_s *dc_voucher;
     dispatch_function_t dc_func;  //block所在的函数
     void *dc_ctxt;
-    void *dc_data;
+    void *dc_data; //可能会保存当前队列
     void *dc_other;
 } *dispatch_continuation_t;
 ```
