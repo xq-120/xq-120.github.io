@@ -1,5 +1,5 @@
 ---
-title: GCD中的类型
+title: GCD(一)--GCD中的类型
 tags:
   - 标签1
   - 标签2

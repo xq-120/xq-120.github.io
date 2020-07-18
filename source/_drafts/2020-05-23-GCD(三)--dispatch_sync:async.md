@@ -1,5 +1,5 @@
 ---
-title: iOS GCD
+title: GCD(三)--dispatch_sync/async
 tags:
   - 标签1
   - 标签2
@@ -11,706 +11,15 @@ comments: true
 date: 2020-05-23 15:23:33
 ---
 
-GCD 501版本的还不算复杂，但我就是不想看旧版本的于是入坑当前最新版本`libdispatch-1173.40.5`。
-
-GCD版本变化太大了，新版本里面的宏简直到了令人发指的地步了，另外你还可以看到C语言是如何模拟出面向对象语言才有的继承和多态。
+GCD版本`libdispatch-1173.40.5`。
 
 问题：
 
-1. 队列的创建过程
-2. GCD默认的队列
-3. 自定义的串行队列、并发队列与主队列，全局队列之间的关系
-4. dispatch_sync工作流程
+1. dispatch_sync工作流程
 5. dispatch_sync死锁检测是如何检测的，是否会有检测不到的情况？
 6. dispatch_async工作流程
-7. dispatch_async传入的任务是如何保存的，又是如何被执行的，如果有targetQueue变更时任务的执行过程又是怎样的
+7. dispatch_async传入的任务是如何保存的，又是如何被执行的，派发到一个较高层级的queue时任务的执行过程又是怎样的
 8. 底层的线程池是如何维护和管理的
-
-### dispatch_queue的创建
-
-#### dispatch_queue_create
-
-队列的创建
-
-实现：
-
-```c
-dispatch_queue_t
-dispatch_queue_create(const char *label, dispatch_queue_attr_t attr)
-{
-	return _dispatch_lane_create_with_target(label, attr,
-			DISPATCH_TARGET_QUEUE_DEFAULT, true); //我们自己创建的队列第三个参数始终是NULL
-  //#define DISPATCH_TARGET_QUEUE_DEFAULT NULL
-}
-
-DISPATCH_NOINLINE
-static dispatch_queue_t
-_dispatch_lane_create_with_target(const char *label, dispatch_queue_attr_t dqa,
-		dispatch_queue_t tq, bool legacy)
-{
-	dispatch_queue_attr_info_t dqai = _dispatch_queue_attr_to_info(dqa);
-
-	//
-	// Step 1: Normalize arguments (qos, overcommit, tq)
-	//
-
-	dispatch_qos_t qos = dqai.dqai_qos;  //qos：quality of service
-#if !HAVE_PTHREAD_WORKQUEUE_QOS
-	if (qos == DISPATCH_QOS_USER_INTERACTIVE) {
-		dqai.dqai_qos = qos = DISPATCH_QOS_USER_INITIATED;
-	}
-	if (qos == DISPATCH_QOS_MAINTENANCE) {
-		dqai.dqai_qos = qos = DISPATCH_QOS_BACKGROUND;
-	}
-#endif // !HAVE_PTHREAD_WORKQUEUE_QOS
-
-	_dispatch_queue_attr_overcommit_t overcommit = dqai.dqai_overcommit;
-	if (overcommit != _dispatch_queue_attr_overcommit_unspecified && tq) {
-		if (tq->do_targetq) {
-			DISPATCH_CLIENT_CRASH(tq, "Cannot specify both overcommit and "
-					"a non-global target queue");
-		}
-	}
-
-	if (tq && dx_type(tq) == DISPATCH_QUEUE_GLOBAL_ROOT_TYPE) {
-		// Handle discrepancies between attr and target queue, attributes win
-		if (overcommit == _dispatch_queue_attr_overcommit_unspecified) {
-			if (tq->dq_priority & DISPATCH_PRIORITY_FLAG_OVERCOMMIT) {
-				overcommit = _dispatch_queue_attr_overcommit_enabled;
-			} else {
-				overcommit = _dispatch_queue_attr_overcommit_disabled;
-			}
-		}
-		if (qos == DISPATCH_QOS_UNSPECIFIED) {
-			qos = _dispatch_priority_qos(tq->dq_priority);
-		}
-		tq = NULL;
-	} else if (tq && !tq->do_targetq) {
-		// target is a pthread or runloop root queue, setting QoS or overcommit
-		// is disallowed
-		if (overcommit != _dispatch_queue_attr_overcommit_unspecified) {
-			DISPATCH_CLIENT_CRASH(tq, "Cannot specify an overcommit attribute "
-					"and use this kind of target queue");
-		}
-	} else {
-		if (overcommit == _dispatch_queue_attr_overcommit_unspecified) {
-			// Serial queues default to overcommit!
-			overcommit = dqai.dqai_concurrent ?
-					_dispatch_queue_attr_overcommit_disabled :
-					_dispatch_queue_attr_overcommit_enabled;
-		}
-	}
-	if (!tq) {
-		tq = _dispatch_get_root_queue(
-				qos == DISPATCH_QOS_UNSPECIFIED ? DISPATCH_QOS_DEFAULT : qos,
-				overcommit == _dispatch_queue_attr_overcommit_enabled)->_as_dq; //qos未指定则取默认值DISPATCH_QOS_DEFAULT，因此一般我们创建的并发queue的tq其实是同一个。串行queue的tq是另外的同一个。
-		if (unlikely(!tq)) {
-			DISPATCH_CLIENT_CRASH(qos, "Invalid queue attribute");
-		}
-	}
-
-	//
-	// Step 2: Initialize the queue
-	//
-
-	if (legacy) {
-		// if any of these attributes is specified, use non legacy classes
-		if (dqai.dqai_inactive || dqai.dqai_autorelease_frequency) {
-			legacy = false;
-		}
-	}
-
-	const void *vtable;  
-	dispatch_queue_flags_t dqf = legacy ? DQF_MUTABLE : 0;
-	if (dqai.dqai_concurrent) { //是否是并发队列
-		vtable = DISPATCH_VTABLE(queue_concurrent);
-	} else {
-		vtable = DISPATCH_VTABLE(queue_serial);
-	}
-	switch (dqai.dqai_autorelease_frequency) {
-	case DISPATCH_AUTORELEASE_FREQUENCY_NEVER:
-		dqf |= DQF_AUTORELEASE_NEVER;
-		break;
-	case DISPATCH_AUTORELEASE_FREQUENCY_WORK_ITEM:
-		dqf |= DQF_AUTORELEASE_ALWAYS;
-		break;
-	}
-	if (label) {
-		const char *tmp = _dispatch_strdup_if_mutable(label);
-		if (tmp != label) {
-			dqf |= DQF_LABEL_NEEDS_FREE;
-			label = tmp;
-		}
-	}
-
-	dispatch_lane_t dq = _dispatch_object_alloc(vtable,
-			sizeof(struct dispatch_lane_s));
-	_dispatch_queue_init(dq, dqf, dqai.dqai_concurrent ?
-			DISPATCH_QUEUE_WIDTH_MAX : 1, DISPATCH_QUEUE_ROLE_INNER |
-			(dqai.dqai_inactive ? DISPATCH_QUEUE_INACTIVE : 0));
-
-	dq->dq_label = label;
-	dq->dq_priority = _dispatch_priority_make((dispatch_qos_t)dqai.dqai_qos,
-			dqai.dqai_relpri);
-	if (overcommit == _dispatch_queue_attr_overcommit_enabled) {
-		dq->dq_priority |= DISPATCH_PRIORITY_FLAG_OVERCOMMIT;
-	}
-	if (!dqai.dqai_inactive) {
-		_dispatch_queue_priority_inherit_from_target(dq, tq);
-		_dispatch_lane_inherit_wlh_from_target(dq, tq);
-	}
-	_dispatch_retain(tq);
-	dq->do_targetq = tq; //关联到targetQueue上
-	_dispatch_object_debug(dq, "%s", __func__);
-	return _dispatch_trace_queue_create(dq)._dq;
-}
-
-void *
-_dispatch_object_alloc(const void *vtable, size_t size)
-{
-#if OS_OBJECT_HAVE_OBJC1
-	const struct dispatch_object_vtable_s *_vtable = vtable;
-	dispatch_object_t dou;
-	dou._os_obj = _os_object_alloc_realized(_vtable->_os_obj_objc_isa, size);
-	dou._do->do_vtable = vtable;
-	return dou._do;
-#else
-	return _os_object_alloc_realized(vtable, size);
-#endif
-}
-
-inline _os_object_t
-_os_object_alloc_realized(const void *cls, size_t size)
-{
-	_os_object_t obj;
-	dispatch_assert(size >= sizeof(struct _os_object_s));
-	while (unlikely(!(obj = calloc(1u, size)))) {
-		_dispatch_temporary_resource_shortage();
-	}
-	obj->os_obj_isa = cls; //设置isa，对象的类型
-	return obj;
-}
-```
-
-大致流程：
-
-1. 根据传入的dispatch_queue_attr_t dqa（对于自定义的一般是NULL或者DISPATCH_QUEUE_CONCURRENT）获取到队列属性信息dispatch_queue_attr_info_t dqai
-2. 根据dqai 规范化参数
-3. 因为自己创建的queue，tq参数默认为NULL，所以这里会调用_dispatch_get_root_queue获取一个target_queue。因此自己创建的queue最终会target到gcd创建好的某个全局的队列上。
-4. 根据dqai.dqai_concurrent的值设置vtable，应该是对象类型。如果是并发队列则vtable = (&OS_dispatch_queue_concurrent_class);否则为串行队列vtable = (&OS_dispatch_queue_serial_class);
-5. 队列的label设置
-6. 调用`_dispatch_object_alloc(vtable, sizeof(struct dispatch_lane_s))`创建队列对象dq。
-7. 初始化dq及dq部分属性的更改。这里包括dq_width、dq_label、dq_priority还有do_targetq的设置等。如果队列是串行队列则dq_width=1，如果是并发队列则dq_width=DISPATCH_QUEUE_WIDTH_MAX（0xffe）。另外系统默认的全局队列的dq_width=DISPATCH_QUEUE_WIDTH_POOL（0xfff）
-8. 返回创建的dq对象。
-
-dq_width的一些取值：
-
-```c
-#define DISPATCH_QUEUE_WIDTH_FULL			0x1000ull
-#define DISPATCH_QUEUE_WIDTH_POOL (DISPATCH_QUEUE_WIDTH_FULL - 1) //0xfff
-#define DISPATCH_QUEUE_WIDTH_MAX  (DISPATCH_QUEUE_WIDTH_FULL - 2) //0xffe
-```
-
-这里看下tq的获取：
-
-```c
-if (!tq) {
-  tq = _dispatch_get_root_queue(
-      qos == DISPATCH_QOS_UNSPECIFIED ? DISPATCH_QOS_DEFAULT : qos,
-      overcommit == _dispatch_queue_attr_overcommit_enabled)->_as_dq;
-  if (unlikely(!tq)) {
-    DISPATCH_CLIENT_CRASH(qos, "Invalid queue attribute");
-  }
-}
-
-DISPATCH_ALWAYS_INLINE DISPATCH_CONST
-static inline dispatch_queue_global_t
-_dispatch_get_root_queue(dispatch_qos_t qos, bool overcommit)
-{
-	if (unlikely(qos < DISPATCH_QOS_MIN || qos > DISPATCH_QOS_MAX)) { //1,6。这样计算出的index就刚好在0-11之间
-		DISPATCH_CLIENT_CRASH(qos, "Corrupted priority");
-	}
-	return &_dispatch_root_queues[2 * (qos - 1) + overcommit]; //从全局数组中取出一个root_queue，qos越大，数组的index也越大。
-}
-```
-
-可以看到`_dispatch_get_root_queue`就是根据qos和overcommit计算出index，然后从`_dispatch_root_queues` 数组的index处取出一个全局队列对象。
-
-_dispatch_root_queues是一个全局数组，里面有12个元素，数组的元素是struct dispatch_queue_global_s：
-
-```c
-// skip zero
-// 1 - main_q
-// 2 - mgr_q
-// 3 - mgr_root_q
-// 4,5,6,7,8,9,10,11,12,13,14,15 - global queues
-// 17 - workloop_fallback_q
-// we use 'xadd' on Intel, so the initial value == next assigned
-#define DISPATCH_QUEUE_SERIAL_NUMBER_INIT 17
-extern unsigned long volatile _dispatch_queue_serial_numbers;
-
-// mark the workloop fallback queue to avoid finalizing objects on the base
-// queue of custom outside-of-qos workloops
-#define DISPATCH_QUEUE_SERIAL_NUMBER_WLF 16
-
-extern struct dispatch_queue_static_s _dispatch_mgr_q; // serial 2
-#if DISPATCH_USE_MGR_THREAD && DISPATCH_USE_PTHREAD_ROOT_QUEUES
-extern struct dispatch_queue_global_s _dispatch_mgr_root_queue; // serial 3
-#endif
-extern struct dispatch_queue_global_s _dispatch_root_queues[]; // serials 4 - 15
-```
-
-它的初始化：每种优先级都有两种标识（带或不带overcommit）串行队列的最终tq都是带overcommit，并发队列的最终tq是不带overcommit。
-
-overcommit代表的意思是可以创建超过核心数的线程数量。目前来看
-
-不带overcommit的全局队列最多同时可以开64个线程执行任务，
-
-带overcommit的全局队列最多同时可以开512个线程执行任务。
-
-```c
-// 6618342 Contact the team that owns the Instrument DTrace probe before
-//         renaming this symbol
-struct dispatch_queue_global_s _dispatch_root_queues[] = {
-#define _DISPATCH_ROOT_QUEUE_IDX(n, flags) \
-		((flags & DISPATCH_PRIORITY_FLAG_OVERCOMMIT) ? \
-		DISPATCH_ROOT_QUEUE_IDX_##n##_QOS_OVERCOMMIT : \
-		DISPATCH_ROOT_QUEUE_IDX_##n##_QOS)
-#define _DISPATCH_ROOT_QUEUE_ENTRY(n, flags, ...) \
-	[_DISPATCH_ROOT_QUEUE_IDX(n, flags)] = { \
-		DISPATCH_GLOBAL_OBJECT_HEADER(queue_global), \
-		.dq_state = DISPATCH_ROOT_QUEUE_STATE_INIT_VALUE, \
-		.do_ctxt = _dispatch_root_queue_ctxt(_DISPATCH_ROOT_QUEUE_IDX(n, flags)), \
-		.dq_atomic_flags = DQF_WIDTH(DISPATCH_QUEUE_WIDTH_POOL), \  //全局队列width都是0xfff 
-		.dq_priority = flags | ((flags & DISPATCH_PRIORITY_FLAG_FALLBACK) ? \
-				_dispatch_priority_make_fallback(DISPATCH_QOS_##n) : \
-				_dispatch_priority_make(DISPATCH_QOS_##n, 0)), \
-		__VA_ARGS__ \
-	}
-	_DISPATCH_ROOT_QUEUE_ENTRY(MAINTENANCE, 0,
-		.dq_label = "com.apple.root.maintenance-qos",
-		.dq_serialnum = 4,
-	),
-	_DISPATCH_ROOT_QUEUE_ENTRY(MAINTENANCE, DISPATCH_PRIORITY_FLAG_OVERCOMMIT,
-		.dq_label = "com.apple.root.maintenance-qos.overcommit",
-		.dq_serialnum = 5,
-	),
-	_DISPATCH_ROOT_QUEUE_ENTRY(BACKGROUND, 0,
-		.dq_label = "com.apple.root.background-qos",
-		.dq_serialnum = 6,
-	),
-	_DISPATCH_ROOT_QUEUE_ENTRY(BACKGROUND, DISPATCH_PRIORITY_FLAG_OVERCOMMIT,
-		.dq_label = "com.apple.root.background-qos.overcommit",
-		.dq_serialnum = 7,
-	),
-	_DISPATCH_ROOT_QUEUE_ENTRY(UTILITY, 0,
-		.dq_label = "com.apple.root.utility-qos",
-		.dq_serialnum = 8,
-	),
-	_DISPATCH_ROOT_QUEUE_ENTRY(UTILITY, DISPATCH_PRIORITY_FLAG_OVERCOMMIT,
-		.dq_label = "com.apple.root.utility-qos.overcommit",
-		.dq_serialnum = 9,
-	),
-	_DISPATCH_ROOT_QUEUE_ENTRY(DEFAULT, DISPATCH_PRIORITY_FLAG_FALLBACK,
-		.dq_label = "com.apple.root.default-qos",
-		.dq_serialnum = 10,
-	),
-	_DISPATCH_ROOT_QUEUE_ENTRY(DEFAULT,
-			DISPATCH_PRIORITY_FLAG_FALLBACK | DISPATCH_PRIORITY_FLAG_OVERCOMMIT,
-		.dq_label = "com.apple.root.default-qos.overcommit",
-		.dq_serialnum = 11,
-	),
-	_DISPATCH_ROOT_QUEUE_ENTRY(USER_INITIATED, 0,
-		.dq_label = "com.apple.root.user-initiated-qos",
-		.dq_serialnum = 12,
-	),
-	_DISPATCH_ROOT_QUEUE_ENTRY(USER_INITIATED, DISPATCH_PRIORITY_FLAG_OVERCOMMIT,
-		.dq_label = "com.apple.root.user-initiated-qos.overcommit",
-		.dq_serialnum = 13,
-	),
-	_DISPATCH_ROOT_QUEUE_ENTRY(USER_INTERACTIVE, 0,
-		.dq_label = "com.apple.root.user-interactive-qos",
-		.dq_serialnum = 14,
-	),
-	_DISPATCH_ROOT_QUEUE_ENTRY(USER_INTERACTIVE, DISPATCH_PRIORITY_FLAG_OVERCOMMIT,
-		.dq_label = "com.apple.root.user-interactive-qos.overcommit",
-		.dq_serialnum = 15,
-	),
-};
-```
-
-展开其中两个：
-
-```c
-[((DISPATCH_PRIORITY_FLAG_FALLBACK & DISPATCH_PRIORITY_FLAG_OVERCOMMIT) ? DISPATCH_ROOT_QUEUE_IDX_DEFAULT_QOS_OVERCOMMIT : DISPATCH_ROOT_QUEUE_IDX_DEFAULT_QOS)] = {
-    .do_vtable = (&OS_dispatch_queue_global_class),
-    .do_ref_cnt = DISPATCH_OBJECT_GLOBAL_REFCNT,
-    .do_xref_cnt = DISPATCH_OBJECT_GLOBAL_REFCNT,
-    .dq_state = DISPATCH_ROOT_QUEUE_STATE_INIT_VALUE,
-    .do_ctxt = _dispatch_root_queue_ctxt(((DISPATCH_PRIORITY_FLAG_FALLBACK & DISPATCH_PRIORITY_FLAG_OVERCOMMIT) ? DISPATCH_ROOT_QUEUE_IDX_DEFAULT_QOS_OVERCOMMIT : DISPATCH_ROOT_QUEUE_IDX_DEFAULT_QOS)),
-    .dq_atomic_flags = DQF_WIDTH(DISPATCH_QUEUE_WIDTH_POOL),
-    .dq_priority = DISPATCH_PRIORITY_FLAG_FALLBACK | ((DISPATCH_PRIORITY_FLAG_FALLBACK & DISPATCH_PRIORITY_FLAG_FALLBACK) ? _dispatch_priority_make_fallback(DISPATCH_QOS_DEFAULT) : _dispatch_priority_make(DISPATCH_QOS_DEFAULT, 0)),
-    .dq_label = "com.apple.root.default-qos",
-    .dq_serialnum = 10,
-},
-
-[((DISPATCH_PRIORITY_FLAG_FALLBACK | DISPATCH_PRIORITY_FLAG_OVERCOMMIT & DISPATCH_PRIORITY_FLAG_OVERCOMMIT) ? DISPATCH_ROOT_QUEUE_IDX_DEFAULT_QOS_OVERCOMMIT : DISPATCH_ROOT_QUEUE_IDX_DEFAULT_QOS)] = {
-    .do_vtable = (&OS_dispatch_queue_global_class),
-    .do_ref_cnt = DISPATCH_OBJECT_GLOBAL_REFCNT,
-    .do_xref_cnt = DISPATCH_OBJECT_GLOBAL_REFCNT,
-    .dq_state = DISPATCH_ROOT_QUEUE_STATE_INIT_VALUE,
-    .do_ctxt = _dispatch_root_queue_ctxt(((DISPATCH_PRIORITY_FLAG_FALLBACK | DISPATCH_PRIORITY_FLAG_OVERCOMMIT & DISPATCH_PRIORITY_FLAG_OVERCOMMIT) ? DISPATCH_ROOT_QUEUE_IDX_DEFAULT_QOS_OVERCOMMIT : DISPATCH_ROOT_QUEUE_IDX_DEFAULT_QOS)),
-    .dq_atomic_flags = DQF_WIDTH(DISPATCH_QUEUE_WIDTH_POOL),
-    .dq_priority = DISPATCH_PRIORITY_FLAG_FALLBACK | DISPATCH_PRIORITY_FLAG_OVERCOMMIT | ((DISPATCH_PRIORITY_FLAG_FALLBACK | DISPATCH_PRIORITY_FLAG_OVERCOMMIT & DISPATCH_PRIORITY_FLAG_FALLBACK) ? _dispatch_priority_make_fallback(DISPATCH_QOS_DEFAULT) : _dispatch_priority_make(DISPATCH_QOS_DEFAULT, 0)),
-    .dq_label = "com.apple.root.default-qos.overcommit",
-    .dq_serialnum = 11,
-},
-
-另：
-#define DISPATCH_PRIORITY_FLAG_OVERCOMMIT    ((dispatch_priority_t)0x80000000) // _PTHREAD_PRIORITY_OVERCOMMIT_FLAG
-#define DISPATCH_PRIORITY_FLAG_FALLBACK      ((dispatch_priority_t)0x04000000) // _PTHREAD_PRIORITY_FALLBACK_FLAG
-#define DISPATCH_PRIORITY_FLAG_MANAGER       ((dispatch_priority_t)0x02000000) // _PTHREAD_PRIORITY_EVENT_MANAGER_FLAG
-```
-
-其实就是初始化[6]和[7]这两个元素的值。用宏的话省去了一些重复代码。另外rootQueue的do_targetq都是NULL。
-
-一般通过dispatch_queue_create创建我们自己的队列：
-
-```c
-dispatch_queue_t
-dispatch_queue_create(const char *_Nullable label,
-		dispatch_queue_attr_t _Nullable attr);
-```
-
-可以传入两个参数label和attr（队列属性）。attr一般传NULL或DISPATCH_QUEUE_CONCURRENT，但其实是可以自己创建一个的。
-
-attr的创建：
-
-```c
- * @param qos_class
- * A QOS class value:
- *  - QOS_CLASS_USER_INTERACTIVE
- *  - QOS_CLASS_USER_INITIATED
- *  - QOS_CLASS_DEFAULT
- *  - QOS_CLASS_UTILITY
- *  - QOS_CLASS_BACKGROUND
- * Passing any other value results in NULL being returned.
-   
-dispatch_queue_attr_t
-dispatch_queue_attr_make_with_qos_class(dispatch_queue_attr_t _Nullable attr,
-		dispatch_qos_class_t qos_class, int relative_priority);
-```
-
-有三个参数，可以参看官方详细注释
-
-dispatch_qos_class_t qos_class：
-
-```c
-__QOS_ENUM(qos_class, unsigned int,
-	QOS_CLASS_USER_INTERACTIVE
-			__QOS_CLASS_AVAILABLE(macos(10.10), ios(8.0)) = 0x21,
-	QOS_CLASS_USER_INITIATED
-			__QOS_CLASS_AVAILABLE(macos(10.10), ios(8.0)) = 0x19,
-	QOS_CLASS_DEFAULT
-			__QOS_CLASS_AVAILABLE(macos(10.10), ios(8.0)) = 0x15,
-	QOS_CLASS_UTILITY
-			__QOS_CLASS_AVAILABLE(macos(10.10), ios(8.0)) = 0x11,
-	QOS_CLASS_BACKGROUND
-			__QOS_CLASS_AVAILABLE(macos(10.10), ios(8.0)) = 0x09,
-	QOS_CLASS_UNSPECIFIED
-			__QOS_CLASS_AVAILABLE(macos(10.10), ios(8.0)) = 0x00,
-);
-```
-
-relative_priority: [-15, 0]
-
-```
-/*!
- * @constant QOS_MIN_RELATIVE_PRIORITY
- * @abstract The minimum relative priority that may be specified within a
- * QOS class. These priorities are relative only within a given QOS class
- * and meaningful only for the current process.
- */
-#define QOS_MIN_RELATIVE_PRIORITY (-15)
-```
-
-示例：
-
-```c
-//第一个参数用于设置串行队列/并发队列,第二个参数用于设置QOS会影响优先级，第三个参数用于设置相对优先级[QOS_MIN_RELATIVE_PRIORITY(-15), 0]
-dispatch_queue_attr_t attr0 = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_USER_INITIATED, QOS_MIN_RELATIVE_PRIORITY); //串行队列属性
-dispatch_queue_attr_t attr1 = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_CONCURRENT, QOS_CLASS_DEFAULT, -3); //并发队列属性
-dispatch_queue_t queue0 = dispatch_queue_create("xq.www.jk0", attr0);
-dispatch_queue_t queue1 = dispatch_queue_create("xq.www.jk1", attr1);
-dispatch_queue_t queue2 = dispatch_queue_create("xq.www.jk2", NULL);
-dispatch_queue_t queue3 = dispatch_queue_create("xq.www.jk3", DISPATCH_QUEUE_SERIAL);
-dispatch_queue_t queue4 = dispatch_queue_create("xq.www.jk4", DISPATCH_QUEUE_CONCURRENT);
-dispatch_queue_t queue5 = dispatch_queue_create("xq.www.jk5", ((__bridge dispatch_queue_attr_t)&(_dispatch_queue_attr_concurrent)));
-dispatch_queue_t mainQueue = dispatch_get_main_queue();
-dispatch_queue_t glQueue1 = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-dispatch_queue_t glQueue2 = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
-dispatch_queue_t glQueue3 = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0);
-dispatch_queue_t glQueue4 = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0);
-```
-
-我们经常传入的DISPATCH_QUEUE_SERIAL其实就是NULL。
-
-而另一个DISPATCH_QUEUE_CONCURRENT也是个宏：
-
-```c
-#define DISPATCH_QUEUE_CONCURRENT \
-		DISPATCH_GLOBAL_OBJECT(dispatch_queue_attr_t, \
-		_dispatch_queue_attr_concurrent)
-```
-
-展开：
-
-`((__bridge dispatch_queue_attr_t)&(_dispatch_queue_attr_concurrent))`
-
-_dispatch_queue_attr_concurrent是一个全局struct dispatch_queue_attr_s变量，定义如下：
-
-```c
-struct dispatch_queue_attr_s _dispatch_queue_attr_concurrent = {
-    .do_vtable = (&OS_dispatch_queue_attr_class),
-    .do_ref_cnt = DISPATCH_OBJECT_GLOBAL_REFCNT,
-    .do_xref_cnt = DISPATCH_OBJECT_GLOBAL_REFCNT,
-};
-```
-
-为了使用方便，系统使用宏封装了一下。
-
-打印：
-
-```
-Printing description of queue2:
-<OS_dispatch_queue_serial: xq.www.jk2[0x6000036a1780] = { xref = 1, ref = 1, sref = 1, target = com.apple.root.default-qos.overcommit[0x108316f80], width = 0x1, state = 0x001ffe2000000000, in-flight = 0}>
-Printing description of queue3:
-<OS_dispatch_queue_serial: xq.www.jk3[0x6000036a0b00] = { xref = 1, ref = 1, sref = 1, target = com.apple.root.default-qos.overcommit[0x108316f80], width = 0x1, state = 0x001ffe2000000000, in-flight = 0}>
-Printing description of mainQueue:
-<OS_dispatch_queue_main: com.apple.main-thread[0x108316b00] = { xref = -2147483648, ref = -2147483648, sref = 1, target = com.apple.root.default-qos.overcommit[0x108316f80], width = 0x1, state = 0x001ffe9000000300, dirty, in-flight = 0, thread = 0x303 }> //自定义的串行队列和主队列的tq也都是同一个com.apple.root.default-qos.overcommit[0x108316f80]
-
-Printing description of glQueue1:
-<OS_dispatch_queue_global: com.apple.root.default-qos[0x108316f00] = { xref = -2147483648, ref = -2147483648, sref = 1, target = [0x0], width = 0xfff, state = 0x0060000000000000, in-barrier}>
-Printing description of glQueue2:
-<OS_dispatch_queue_global: com.apple.root.user-initiated-qos[0x108317000] = { xref = -2147483648, ref = -2147483648, sref = 1, target = [0x0], width = 0xfff, state = 0x0060000000000000, in-barrier}>
-Printing description of glQueue3:
-<OS_dispatch_queue_global: com.apple.root.utility-qos[0x108316e00] = { xref = -2147483648, ref = -2147483648, sref = 1, target = [0x0], width = 0xfff, state = 0x0060000000000000, in-barrier}>
-Printing description of glQueue4:
-<OS_dispatch_queue_global: com.apple.root.background-qos[0x108316d00] = { xref = -2147483648, ref = -2147483648, sref = 1, target = [0x0], width = 0xfff, state = 0x0060000000000000, in-barrier}> //全局队列的tq都是NULL，width = 0xfff
-
-Printing description of queue4:
-<OS_dispatch_queue_concurrent: xq.www.jk4[0x6000036a1a80] = { xref = 1, ref = 1, sref = 1, target = com.apple.root.default-qos[0x108316f00], width = 0xffe, state = 0x0000041000000000, in-flight = 0}>
-Printing description of queue5:
-<OS_dispatch_queue_concurrent: xq.www.jk5[0x6000036a0d00] = { xref = 1, ref = 1, sref = 1, target = com.apple.root.default-qos[0x108316f00], width = 0xffe, state = 0x0000041000000000, in-flight = 0}> //自定义的并发队列q4和q5的tq是同一个，q4和q5的width = 0xffe
-```
-
-#### main_queue
-
-`dispatch_queue_t mainQueue = dispatch_get_main_queue();`
-
-```c
-dispatch_queue_main_t
-dispatch_get_main_queue(void)
-{
-	return DISPATCH_GLOBAL_OBJECT(dispatch_queue_main_t, _dispatch_main_q);
-}
-
-((__bridge dispatch_queue_main_t)&(_dispatch_main_q));
-```
-
-_dispatch_main_q其实是一个全局变量：
-
-```c
-API_AVAILABLE(macos(10.6), ios(4.0))
-DISPATCH_EXPORT
-struct dispatch_queue_s _dispatch_main_q;
-```
-
-它的初始化：
-
-```c
-// 6618342 Contact the team that owns the Instrument DTrace probe before
-//         renaming this symbol
-struct dispatch_queue_static_s _dispatch_main_q = {
-	DISPATCH_GLOBAL_OBJECT_HEADER(queue_main),
-#if !DISPATCH_USE_RESOLVERS
-	.do_targetq = _dispatch_get_default_queue(true),
-#endif
-	.dq_state = DISPATCH_QUEUE_STATE_INIT_VALUE(1) |
-			DISPATCH_QUEUE_ROLE_BASE_ANON,
-	.dq_label = "com.apple.main-thread",
-	.dq_atomic_flags = DQF_THREAD_BOUND | DQF_WIDTH(1),
-	.dq_serialnum = 1,
-};
-
-#define _dispatch_get_default_queue(overcommit) \
-		_dispatch_root_queues[DISPATCH_ROOT_QUEUE_IDX_DEFAULT_QOS + \
-				!!(overcommit)]._as_dq
-
-// must be in lowest to highest qos order (as encoded in dispatch_qos_t)
-// overcommit qos index values need bit 1 set
-enum {
-	DISPATCH_ROOT_QUEUE_IDX_MAINTENANCE_QOS = 0,
-	DISPATCH_ROOT_QUEUE_IDX_MAINTENANCE_QOS_OVERCOMMIT,
-	DISPATCH_ROOT_QUEUE_IDX_BACKGROUND_QOS,
-	DISPATCH_ROOT_QUEUE_IDX_BACKGROUND_QOS_OVERCOMMIT,
-	DISPATCH_ROOT_QUEUE_IDX_UTILITY_QOS,
-	DISPATCH_ROOT_QUEUE_IDX_UTILITY_QOS_OVERCOMMIT,
-	DISPATCH_ROOT_QUEUE_IDX_DEFAULT_QOS, //6
-	DISPATCH_ROOT_QUEUE_IDX_DEFAULT_QOS_OVERCOMMIT,  
-	DISPATCH_ROOT_QUEUE_IDX_USER_INITIATED_QOS,
-	DISPATCH_ROOT_QUEUE_IDX_USER_INITIATED_QOS_OVERCOMMIT,
-	DISPATCH_ROOT_QUEUE_IDX_USER_INTERACTIVE_QOS,
-	DISPATCH_ROOT_QUEUE_IDX_USER_INTERACTIVE_QOS_OVERCOMMIT, //11
-	_DISPATCH_ROOT_QUEUE_IDX_COUNT, //12
-};
-```
-
-main_queue的targetQueue是取的_dispatch_root_queues的第7个元素：
-
-```
-_DISPATCH_ROOT_QUEUE_ENTRY(DEFAULT,
-    DISPATCH_PRIORITY_FLAG_FALLBACK | DISPATCH_PRIORITY_FLAG_OVERCOMMIT,
-  .dq_label = "com.apple.root.default-qos.overcommit",
-  .dq_serialnum = 11,
-),
-```
-
-打印一下mainQueue：
-
-```
-Printing description of mainQueue:
-<OS_dispatch_queue_main: com.apple.main-thread[0x10c5b6b00] = { xref = -2147483648, ref = -2147483648, sref = 1, target = com.apple.root.default-qos.overcommit[0x10c5b6f80], width = 0x1, state = 0x001ffe9000000300, dirty, in-flight = 0, thread = 0x303 }>
-```
-
-#### global_queue
-
-`dispatch_queue_t glQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);`
-
-实现：
-
-```c
-dispatch_queue_global_t
-dispatch_get_global_queue(long priority, unsigned long flags)
-{
-	dispatch_assert(countof(_dispatch_root_queues) ==
-			DISPATCH_ROOT_QUEUE_COUNT);
-
-	if (flags & ~(unsigned long)DISPATCH_QUEUE_OVERCOMMIT) {
-		return DISPATCH_BAD_INPUT;
-	}
-	dispatch_qos_t qos = _dispatch_qos_from_queue_priority(priority);
-#if !HAVE_PTHREAD_WORKQUEUE_QOS
-	if (qos == QOS_CLASS_MAINTENANCE) {
-		qos = DISPATCH_QOS_BACKGROUND;
-	} else if (qos == QOS_CLASS_USER_INTERACTIVE) {
-		qos = DISPATCH_QOS_USER_INITIATED;
-	}
-#endif
-	if (qos == DISPATCH_QOS_UNSPECIFIED) {
-		return DISPATCH_BAD_INPUT;
-	}
-	return _dispatch_get_root_queue(qos, flags & DISPATCH_QUEUE_OVERCOMMIT);
-}
-```
-
-**priority**
-
-priority其实就是一个整数，系统定义的有两组：
-
-宏
-
-```c
-#define DISPATCH_QUEUE_PRIORITY_HIGH 2
-#define DISPATCH_QUEUE_PRIORITY_DEFAULT 0
-#define DISPATCH_QUEUE_PRIORITY_LOW (-2)
-#define DISPATCH_QUEUE_PRIORITY_BACKGROUND INT16_MIN
-```
-
-和qos_class_t
-
-```c
-__QOS_ENUM(qos_class, unsigned int,
-	QOS_CLASS_USER_INTERACTIVE
-			__QOS_CLASS_AVAILABLE(macos(10.10), ios(8.0)) = 0x21,
-	QOS_CLASS_USER_INITIATED
-			__QOS_CLASS_AVAILABLE(macos(10.10), ios(8.0)) = 0x19,
-	QOS_CLASS_DEFAULT
-			__QOS_CLASS_AVAILABLE(macos(10.10), ios(8.0)) = 0x15,
-	QOS_CLASS_UTILITY
-			__QOS_CLASS_AVAILABLE(macos(10.10), ios(8.0)) = 0x11,
-	QOS_CLASS_BACKGROUND
-			__QOS_CLASS_AVAILABLE(macos(10.10), ios(8.0)) = 0x09,
-	QOS_CLASS_UNSPECIFIED
-			__QOS_CLASS_AVAILABLE(macos(10.10), ios(8.0)) = 0x00,
-);
-```
-
-使用其他整数值将返回DISPATCH_QOS_UNSPECIFIED
-
-对应的priority转qos函数为：
-
-```c
-DISPATCH_ALWAYS_INLINE
-static inline dispatch_qos_t
-_dispatch_qos_from_queue_priority(long priority)
-{
-	switch (priority) {
-	case DISPATCH_QUEUE_PRIORITY_BACKGROUND:      return DISPATCH_QOS_BACKGROUND; //2
-	case DISPATCH_QUEUE_PRIORITY_NON_INTERACTIVE: return DISPATCH_QOS_UTILITY; //3
-	case DISPATCH_QUEUE_PRIORITY_LOW:             return DISPATCH_QOS_UTILITY; //3
-	case DISPATCH_QUEUE_PRIORITY_DEFAULT:         return DISPATCH_QOS_DEFAULT; //4
-	case DISPATCH_QUEUE_PRIORITY_HIGH:            return DISPATCH_QOS_USER_INITIATED; //5
-	default: return _dispatch_qos_from_qos_class((qos_class_t)priority);
-	}
-}
-
-DISPATCH_ALWAYS_INLINE
-static inline dispatch_qos_t
-_dispatch_qos_from_qos_class(qos_class_t cls)
-{
-	switch ((unsigned int)cls) {
-	case QOS_CLASS_USER_INTERACTIVE: return DISPATCH_QOS_USER_INTERACTIVE; 
-	case QOS_CLASS_USER_INITIATED:   return DISPATCH_QOS_USER_INITIATED;
-	case QOS_CLASS_DEFAULT:          return DISPATCH_QOS_DEFAULT;
-	case QOS_CLASS_UTILITY:          return DISPATCH_QOS_UTILITY;
-	case QOS_CLASS_BACKGROUND:       return DISPATCH_QOS_BACKGROUND;
-	case QOS_CLASS_MAINTENANCE:      return DISPATCH_QOS_MAINTENANCE;
-	default: return DISPATCH_QOS_UNSPECIFIED;
-	}
-}
-```
-
-qos的内部定义
-
-dispatch_qos_t  优先级，会影响index的计算，进而影响targetQueue的取值，因为targetQueue是根据index从全局队列数组中取的。
-
-```c
-typedef uint32_t dispatch_qos_t;
-typedef uint32_t dispatch_priority_t;
-
-#define DISPATCH_QOS_UNSPECIFIED        ((dispatch_qos_t)0)
-#define DISPATCH_QOS_MAINTENANCE        ((dispatch_qos_t)1)
-#define DISPATCH_QOS_BACKGROUND         ((dispatch_qos_t)2)
-#define DISPATCH_QOS_UTILITY            ((dispatch_qos_t)3)
-#define DISPATCH_QOS_DEFAULT            ((dispatch_qos_t)4)
-#define DISPATCH_QOS_USER_INITIATED     ((dispatch_qos_t)5)
-#define DISPATCH_QOS_USER_INTERACTIVE   ((dispatch_qos_t)6)
-#define DISPATCH_QOS_MIN                DISPATCH_QOS_MAINTENANCE
-#define DISPATCH_QOS_MAX                DISPATCH_QOS_USER_INTERACTIVE
-#define DISPATCH_QOS_SATURATED          ((dispatch_qos_t)15)
-
-#define DISPATCH_QOS_NBUCKETS           (DISPATCH_QOS_MAX - DISPATCH_QOS_MIN + 1)
-#define DISPATCH_QOS_BUCKET(qos)        ((qos) - DISPATCH_QOS_MIN)
-```
-
-dispatch_get_global_queue函数的作用就是从全局数组_dispatch_root_queues中根据priority计算出index后取出一个全局的root_queue。全局队列的tq是NULL。
-
-**总结**
-
-队列之间的关系：
-
-<img src="https://www.objc.io/images/issue-2/gcd-queues@2x-82965db9.png" style="zoom:50%;" />
 
 ### dispatch_sync
 
@@ -1195,7 +504,7 @@ dispatch_async(dispatch_queue_t dq, dispatch_block_t work)
 3. 初始化创建的dc，并返回qos。上述过程其实就是将我们传入的block封装为一个内部使用的dispatch_continuation_t对象。
 4. 调用_dispatch_continuation_async。
 
-DC_FLAG_CONSUME：
+DC_FLAG_CONSUME定义：
 
 ```c
 // continuation resources are freed on run
@@ -1226,7 +535,11 @@ _dispatch_continuation_async(dispatch_queue_class_t dqu,
 }
 ```
 
-主要是dx_push宏，展开：
+主要逻辑就是调用了`dx_push(dqu._dq, dc, qos)`
+
+#### dx_push(dqu._dq, dc, qos)
+
+dx_push是一个宏，展开：
 
 ```c
 (&(dqu._dq)->do_vtable->_os_obj_vtable)->dq_push(dqu._dq, dc, qos);
@@ -1290,156 +603,22 @@ DISPATCH_VTABLE_SUBCLASS_INSTANCE(queue_global, lane,
 );
 ```
 
-这里我们以dispatch_async将任务派发到一个串行队列为例，进行分析
+这里我们先看一个最简单的例子：
+
+调用dispatch_async将任务派发到一个全局队列，这样队列的层级最少，后面的分析会更清晰一些。
 
 ```c
-dispatch_queue_t sQueue = dispatch_queue_create("xq.www.jk4", DISPATCH_QUEUE_SERIAL);
-dispatch_async(sQueue, ^{
+dispatch_queue_t glQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+dispatch_async(glQueue, ^{
     NSLog(@"--1--");
 });
 ```
 
-那么上面的dx_push就是_dispatch_lane_push的调用
+此时队列的层级为：全
 
-#### dx_push--串行队列的_dispatch_lane_push
+那么上面的dx_push就是_dispatch_root_queue_push的调用。
 
-```c
-DISPATCH_NOINLINE
-void
-_dispatch_lane_push(dispatch_lane_t dq, dispatch_object_t dou,
-		dispatch_qos_t qos)
-{
-	dispatch_wakeup_flags_t flags = 0;
-	struct dispatch_object_s *prev;
-
-	if (unlikely(_dispatch_object_is_waiter(dou))) {
-		return _dispatch_lane_push_waiter(dq, dou._dsc, qos);
-	}
-
-	dispatch_assert(!_dispatch_object_is_global(dq));
-	qos = _dispatch_queue_push_qos(dq, qos);
-
-	// If we are going to call dx_wakeup(), the queue must be retained before
-	// the item we're pushing can be dequeued, which means:
-	// - before we exchange the tail if we have to override
-	// - before we set the head if we made the queue non empty.
-	// Otherwise, if preempted between one of these and the call to dx_wakeup()
-	// the blocks submitted to the queue may release the last reference to the
-	// queue when invoked by _dispatch_lane_drain. <rdar://problem/6932776>
-
-	prev = os_mpsc_push_update_tail(os_mpsc(dq, dq_items), dou._do, do_next);
-	if (unlikely(os_mpsc_push_was_empty(prev))) {
-		_dispatch_retain_2_unsafe(dq);
-		flags = DISPATCH_WAKEUP_CONSUME_2 | DISPATCH_WAKEUP_MAKE_DIRTY;
-	} else if (unlikely(_dispatch_queue_need_override(dq, qos))) {
-		// There's a race here, _dispatch_queue_need_override may read a stale
-		// dq_state value.
-		//
-		// If it's a stale load from the same drain streak, given that
-		// the max qos is monotonic, too old a read can only cause an
-		// unnecessary attempt at overriding which is harmless.
-		//
-		// We'll assume here that a stale load from an a previous drain streak
-		// never happens in practice.
-		_dispatch_retain_2_unsafe(dq);
-		flags = DISPATCH_WAKEUP_CONSUME_2;
-	}
-	os_mpsc_push_update_prev(os_mpsc(dq, dq_items), prev, dou._do, do_next);
-	if (flags) {
-		return dx_wakeup(dq, qos, flags);
-	}
-}
-```
-
-大概流程：
-
-1. 将任务添加到队列的任务链表末尾
-2. 如果flags>0（当前队列为空等），则调用dx_wakeup唤醒
-
-看一下dx_wakeup，和上面dx_push一样是一个宏，主要也是多态调用，这里看一下串行队列的实现
-
-##### dx_wakeup--串行队列的 _dispatch_lane_wakeup
-
-```c
-DISPATCH_NOINLINE
-void
-_dispatch_lane_wakeup(dispatch_lane_class_t dqu, dispatch_qos_t qos,
-		dispatch_wakeup_flags_t flags)
-{
-	dispatch_queue_wakeup_target_t target = DISPATCH_QUEUE_WAKEUP_NONE;
-
-	if (unlikely(flags & DISPATCH_WAKEUP_BARRIER_COMPLETE)) { //barrier分支
-		return _dispatch_lane_barrier_complete(dqu, qos, flags);
-	}
-	if (_dispatch_queue_class_probe(dqu)) {
-		target = DISPATCH_QUEUE_WAKEUP_TARGET;
-	}
-	return _dispatch_queue_wakeup(dqu, qos, flags, target); //正常分支
-}
-```
-
-##### _dispatch_queue_wakeup
-
-```c
-DISPATCH_NOINLINE
-void
-_dispatch_queue_wakeup(dispatch_queue_class_t dqu, dispatch_qos_t qos,
-		dispatch_wakeup_flags_t flags, dispatch_queue_wakeup_target_t target)
-{
-	dispatch_queue_t dq = dqu._dq;
-	dispatch_assert(target != DISPATCH_QUEUE_WAKEUP_WAIT_FOR_EVENT);
-
-	if (target && !(flags & DISPATCH_WAKEUP_CONSUME_2)) {
-		_dispatch_retain_2(dq);
-		flags |= DISPATCH_WAKEUP_CONSUME_2;
-	}
-	
-	...
-	if (likely((old_state ^ new_state) & enqueue)) {
-			dispatch_queue_t tq;
-			if (target == DISPATCH_QUEUE_WAKEUP_TARGET) {
-				// the rmw_loop above has no acquire barrier, as the last block
-				// of a queue asyncing to that queue is not an uncommon pattern
-				// and in that case the acquire would be completely useless
-				//
-				// so instead use depdendency ordering to read
-				// the targetq pointer.
-				os_atomic_thread_fence(dependency);
-				tq = os_atomic_load_with_dependency_on2o(dq, do_targetq,
-						(long)new_state); //获取dq的targetqueue
-			} else {
-				tq = target;
-			}
-			dispatch_assert(_dq_state_is_enqueued(new_state));
-			return _dispatch_queue_push_queue(tq, dq, new_state);
-		}
-		...
-}
-```
-
-##### _dispatch_queue_push_queue
-
-```c
-DISPATCH_ALWAYS_INLINE
-static inline void
-_dispatch_queue_push_queue(dispatch_queue_t tq, dispatch_queue_class_t dq,
-		uint64_t dq_state)
-{
-#if DISPATCH_USE_KEVENT_WORKLOOP
-	if (likely(_dq_state_is_base_wlh(dq_state))) {
-		_dispatch_trace_runtime_event(worker_request, dq._dq, 1);
-		return _dispatch_event_loop_poke((dispatch_wlh_t)dq._dq, dq_state,
-				DISPATCH_EVENT_LOOP_CONSUME_2);
-	}
-#endif // DISPATCH_USE_KEVENT_WORKLOOP
-	_dispatch_trace_item_push(tq, dq);
-	return dx_push(tq, dq, _dq_state_max_qos(dq_state));
-}
-```
-
-串行队列的tq是全局队列，所以这里的dx_push调用的是_dispatch_root_queue_push。如果参数tq还不是全局队列那么又会绕一下会将queue自己作为一个任务添加到它的tq上，但最终会是全局队列，因为所有自定义的queue的tq最终都是全局队列。
-
-##### _dispatch_root_queue_push
+#### dx_push多态调用--全局队列的_dispatch_root_queue_push
 
 ```c
 DISPATCH_NOINLINE
@@ -1447,10 +626,50 @@ void
 _dispatch_root_queue_push(dispatch_queue_global_t rq, dispatch_object_t dou,
 		dispatch_qos_t qos)
 {
-	...
+#if DISPATCH_USE_KEVENT_WORKQUEUE
+	dispatch_deferred_items_t ddi = _dispatch_deferred_items_get();
+	if (unlikely(ddi && ddi->ddi_can_stash)) {
+		dispatch_object_t old_dou = ddi->ddi_stashed_dou;
+		dispatch_priority_t rq_overcommit;
+		rq_overcommit = rq->dq_priority & DISPATCH_PRIORITY_FLAG_OVERCOMMIT;
+
+		if (likely(!old_dou._do || rq_overcommit)) {
+			dispatch_queue_global_t old_rq = ddi->ddi_stashed_rq;
+			dispatch_qos_t old_qos = ddi->ddi_stashed_qos;
+			ddi->ddi_stashed_rq = rq;
+			ddi->ddi_stashed_dou = dou;
+			ddi->ddi_stashed_qos = qos;
+			_dispatch_debug("deferring item %p, rq %p, qos %d",
+					dou._do, rq, qos);
+			if (rq_overcommit) {
+				ddi->ddi_can_stash = false;
+			}
+			if (likely(!old_dou._do)) {
+				return;
+			}
+			// push the previously stashed item
+			qos = old_qos;
+			rq = old_rq;
+			dou = old_dou;
+		}
+	}
+#endif
+#if HAVE_PTHREAD_WORKQUEUE_QOS
+	if (_dispatch_root_queue_push_needs_override(rq, qos)) {
+		return _dispatch_root_queue_push_override(rq, dou, qos);
+	}
+#else
+	(void)qos;
+#endif
 	_dispatch_root_queue_push_inline(rq, dou, dou, 1);
 }
+```
 
+直接调用了_dispatch_root_queue_push_inline函数，作用就是将dou添加到队列的链表上。
+
+##### _dispatch_root_queue_push_inline
+
+```c
 DISPATCH_ALWAYS_INLINE
 static inline void
 _dispatch_root_queue_push_inline(dispatch_queue_global_t dq,
@@ -1462,11 +681,6 @@ _dispatch_root_queue_push_inline(dispatch_queue_global_t dq,
 	}
 }
 ```
-
-大致流程：
-
-1. 将queue 添加到的全局队列的链表尾部。也就是说队列上的链表保存的既可以是dq也可以是dc。
-2. 如果全局队列的链表之前是空的则执行_dispatch_root_queue_poke，准备执行任务了。如果不是空的那么就等着被pop执行就可以了。
 
 os_mpsc_push_list(os_mpsc(dq, dq_items), hd, tl, do_next)
 
@@ -1493,7 +707,12 @@ os_mpsc_push_list(os_mpsc(dq, dq_items), hd, tl, do_next)
 })
 ```
 
-这里的操作还是在链表尾部添加元素的操作，并返回之前链表是否是空。
+这里的操作就是在链表尾部添加元素的操作，并返回之前链表是否是空。
+
+大致流程：
+
+1. 将任务添加到的全局队列的链表尾部。队列上的链表保存的既可以是dq也可以是dc。我们的例子这里自然就是dc。
+2. 如果全局队列的链表之前是空的则执行_dispatch_root_queue_poke，准备执行任务了。如果不是空的那么就等着被pop执行就可以了。
 
 ##### _dispatch_root_queue_poke
 
@@ -1750,7 +969,7 @@ _dispatch_root_queue_drain(dispatch_queue_global_t dq,
 
 该函数主要作用：
 
-循环操作，从全局队列的链表里取出头元素（一个queue或一个dc），调用_dispatch_continuation_pop_inline执行任务
+循环操作，从全局队列的链表里取出一个任务（一个queue或一个dc），调用_dispatch_continuation_pop_inline执行任务
 
 ##### _dispatch_root_queue_drain_one
 
@@ -1848,10 +1067,14 @@ _dispatch_continuation_pop_inline(dispatch_object_t dou,
 
 大致流程：
 
-1. 如果传入的dou是队列，则调用dx_invoke
+1. 如果传入的dou是队列，则调用dx_invoke。因为全局队列里的任务既可以是dc也可以是dq。
 2. 如果传入的dou是dc（真正我们提交的任务），则调用_dispatch_continuation_invoke_inline开始执行
 
-先来看是dc的情况：
+在我们的例子中这里的dou显然是dc，所以先来看是dc的情况，会调用_dispatch_continuation_invoke_inline开始执行我们的block。
+
+##### dx_invoke多态调用
+
+多态调用，后面会分析到。
 
 ##### _dispatch_continuation_invoke_inline
 
@@ -1922,7 +1145,258 @@ _dispatch_continuation_with_group_invoke(dispatch_continuation_t dc)
 }
 ```
 
-再来看dou是队列的情况，由于这里我们是串行队列，因此调用_dispatch_lane_invoke
+可以看到该函数就是在工作线程中执行我们提交的任务。如果该dc是任务组相关的则执行完后还会调用dispatch_group_leave，匹配之前的enter。
+
+到此为止dispatch_async一个任务到全局队列的过程就分析完了。
+
+稍微总结一下：
+
+dispatch_async到全局队列，dispatch_async会创建一个dc，并将dc添加到全局队列的链表上，全局队列唤醒一个线程或者创建一个线程执行dc。
+
+#### dx_push多态调用--串行队列的_dispatch_lane_push
+
+接下来我们再以dispatch_async将任务派发到一个串行队列为例，进行分析
+
+```c
+dispatch_queue_t sQueue = dispatch_queue_create("xq.www.jk4", DISPATCH_QUEUE_SERIAL);
+dispatch_async(sQueue, ^{
+    NSLog(@"--1--");
+});
+```
+
+此时队列的层级为：串-全
+
+回到我们最初分析的`dx_push(dqu._dq, dc, qos)` 那么这里的dx_push就是_dispatch_lane_push的调用
+
+```c
+DISPATCH_NOINLINE
+void
+_dispatch_lane_push(dispatch_lane_t dq, dispatch_object_t dou,
+		dispatch_qos_t qos)
+{
+	dispatch_wakeup_flags_t flags = 0;
+	struct dispatch_object_s *prev;
+
+	if (unlikely(_dispatch_object_is_waiter(dou))) {
+		return _dispatch_lane_push_waiter(dq, dou._dsc, qos);
+	}
+
+	dispatch_assert(!_dispatch_object_is_global(dq));
+	qos = _dispatch_queue_push_qos(dq, qos);
+
+	// If we are going to call dx_wakeup(), the queue must be retained before
+	// the item we're pushing can be dequeued, which means:
+	// - before we exchange the tail if we have to override
+	// - before we set the head if we made the queue non empty.
+	// Otherwise, if preempted between one of these and the call to dx_wakeup()
+	// the blocks submitted to the queue may release the last reference to the
+	// queue when invoked by _dispatch_lane_drain. <rdar://problem/6932776>
+
+	prev = os_mpsc_push_update_tail(os_mpsc(dq, dq_items), dou._do, do_next);
+	if (unlikely(os_mpsc_push_was_empty(prev))) {
+		_dispatch_retain_2_unsafe(dq);
+		flags = DISPATCH_WAKEUP_CONSUME_2 | DISPATCH_WAKEUP_MAKE_DIRTY;
+	} else if (unlikely(_dispatch_queue_need_override(dq, qos))) {
+		// There's a race here, _dispatch_queue_need_override may read a stale
+		// dq_state value.
+		//
+		// If it's a stale load from the same drain streak, given that
+		// the max qos is monotonic, too old a read can only cause an
+		// unnecessary attempt at overriding which is harmless.
+		//
+		// We'll assume here that a stale load from an a previous drain streak
+		// never happens in practice.
+		_dispatch_retain_2_unsafe(dq);
+		flags = DISPATCH_WAKEUP_CONSUME_2;
+	}
+	os_mpsc_push_update_prev(os_mpsc(dq, dq_items), prev, dou._do, do_next);
+	if (flags) {
+		return dx_wakeup(dq, qos, flags);
+	}
+}
+```
+
+大概流程：
+
+1. 将任务添加到队列的任务链表末尾
+2. 如果flags>0（当前队列为空等），则调用dx_wakeup唤醒
+
+看一下dx_wakeup，和上面dx_push一样是一个宏，主要也是多态调用，这里看一下串行队列的实现
+
+##### dx_wakeup--串行队列的 _dispatch_lane_wakeup
+
+```c
+DISPATCH_NOINLINE
+void
+_dispatch_lane_wakeup(dispatch_lane_class_t dqu, dispatch_qos_t qos,
+		dispatch_wakeup_flags_t flags)
+{
+	dispatch_queue_wakeup_target_t target = DISPATCH_QUEUE_WAKEUP_NONE;
+
+	if (unlikely(flags & DISPATCH_WAKEUP_BARRIER_COMPLETE)) { //barrier分支
+		return _dispatch_lane_barrier_complete(dqu, qos, flags);
+	}
+	if (_dispatch_queue_class_probe(dqu)) {
+		target = DISPATCH_QUEUE_WAKEUP_TARGET;
+	}
+	return _dispatch_queue_wakeup(dqu, qos, flags, target); //正常分支
+}
+```
+
+在我们的例子中这里自然是走正常分支_dispatch_queue_wakeup
+
+##### _dispatch_queue_wakeup
+
+```c
+DISPATCH_NOINLINE
+void
+_dispatch_queue_wakeup(dispatch_queue_class_t dqu, dispatch_qos_t qos,
+		dispatch_wakeup_flags_t flags, dispatch_queue_wakeup_target_t target)
+{
+	dispatch_queue_t dq = dqu._dq;
+	dispatch_assert(target != DISPATCH_QUEUE_WAKEUP_WAIT_FOR_EVENT);
+
+	if (target && !(flags & DISPATCH_WAKEUP_CONSUME_2)) {
+		_dispatch_retain_2(dq);
+		flags |= DISPATCH_WAKEUP_CONSUME_2;
+	}
+
+	if (unlikely(flags & DISPATCH_WAKEUP_BARRIER_COMPLETE)) {
+		//
+		// _dispatch_lane_class_barrier_complete() is about what both regular
+		// queues and sources needs to evaluate, but the former can have sync
+		// handoffs to perform which _dispatch_lane_class_barrier_complete()
+		// doesn't handle, only _dispatch_lane_barrier_complete() does.
+		//
+		// _dispatch_lane_wakeup() is the one for plain queues that calls
+		// _dispatch_lane_barrier_complete(), and this is only taken for non
+		// queue types.
+		//
+		dispatch_assert(dx_metatype(dq) == _DISPATCH_SOURCE_TYPE);
+		qos = _dispatch_queue_wakeup_qos(dq, qos);
+		return _dispatch_lane_class_barrier_complete(upcast(dq)._dl, qos,
+				flags, target, DISPATCH_QUEUE_SERIAL_DRAIN_OWNED);
+	}
+
+	if (target) {
+		uint64_t old_state, new_state, enqueue = DISPATCH_QUEUE_ENQUEUED;
+		if (target == DISPATCH_QUEUE_WAKEUP_MGR) {
+			enqueue = DISPATCH_QUEUE_ENQUEUED_ON_MGR;
+		}
+		qos = _dispatch_queue_wakeup_qos(dq, qos);
+		os_atomic_rmw_loop2o(dq, dq_state, old_state, new_state, release, {
+			new_state = _dq_state_merge_qos(old_state, qos);
+			if (flags & DISPATCH_WAKEUP_CLEAR_ACTIVATING) {
+				// When an event is being delivered to a source because its
+				// unote was being registered before the ACTIVATING state
+				// had a chance to be cleared, we don't want to fail the wakeup
+				// which could lead to a priority inversion.
+				//
+				// Instead, these wakeups are allowed to finish the pending
+				// activation.
+				if (_dq_state_is_activating(old_state)) {
+					new_state &= ~DISPATCH_QUEUE_ACTIVATING;
+				}
+			}
+			if (likely(!_dq_state_is_suspended(new_state) &&
+					!_dq_state_is_enqueued(old_state) &&
+					(!_dq_state_drain_locked(old_state) ||
+					enqueue != DISPATCH_QUEUE_ENQUEUED_ON_MGR))) {
+				// Always set the enqueued bit for async enqueues on all queues
+				// in the hierachy
+				new_state |= enqueue;
+			}
+			if (flags & DISPATCH_WAKEUP_MAKE_DIRTY) {
+				new_state |= DISPATCH_QUEUE_DIRTY;
+			} else if (new_state == old_state) {
+				os_atomic_rmw_loop_give_up(goto done);
+			}
+		});
+	  //重点看这里
+		if (likely((old_state ^ new_state) & enqueue)) {
+			dispatch_queue_t tq;
+			if (target == DISPATCH_QUEUE_WAKEUP_TARGET) {
+				// the rmw_loop above has no acquire barrier, as the last block
+				// of a queue asyncing to that queue is not an uncommon pattern
+				// and in that case the acquire would be completely useless
+				//
+				// so instead use depdendency ordering to read
+				// the targetq pointer.
+				os_atomic_thread_fence(dependency);
+				tq = os_atomic_load_with_dependency_on2o(dq, do_targetq,
+						(long)new_state); //取出dq的do_targetq
+			} else {
+				tq = target;
+			}
+			dispatch_assert(_dq_state_is_enqueued(new_state));
+			return _dispatch_queue_push_queue(tq, dq, new_state);
+		}
+#if HAVE_PTHREAD_WORKQUEUE_QOS
+		if (unlikely((old_state ^ new_state) & DISPATCH_QUEUE_MAX_QOS_MASK)) {
+			if (_dq_state_should_override(new_state)) {
+				return _dispatch_queue_wakeup_with_override(dq, new_state,
+						flags);
+			}
+		}
+	} else if (qos) {
+		//
+		// Someone is trying to override the last work item of the queue.
+		//
+		uint64_t old_state, new_state;
+		os_atomic_rmw_loop2o(dq, dq_state, old_state, new_state, relaxed, {
+			// Avoid spurious override if the item was drained before we could
+			// apply an override
+			if (!_dq_state_drain_locked(old_state) &&
+				!_dq_state_is_enqueued(old_state)) {
+				os_atomic_rmw_loop_give_up(goto done);
+			}
+			new_state = _dq_state_merge_qos(old_state, qos);
+			if (new_state == old_state) {
+				os_atomic_rmw_loop_give_up(goto done);
+			}
+		});
+		if (_dq_state_should_override(new_state)) {
+			return _dispatch_queue_wakeup_with_override(dq, new_state, flags);
+		}
+#endif // HAVE_PTHREAD_WORKQUEUE_QOS
+	}
+done:
+	if (likely(flags & DISPATCH_WAKEUP_CONSUME_2)) {
+		return _dispatch_release_2_tailcall(dq);
+	}
+}
+```
+
+1. 取出dq的do_targetq赋值给tq。
+2. 调用`_dispatch_queue_push_queue(tq, dq, new_state);` 看名称可以知道这里是将一个队列作为任务添加到另一个队列上。
+
+##### _dispatch_queue_push_queue
+
+```c
+DISPATCH_ALWAYS_INLINE
+static inline void
+_dispatch_queue_push_queue(dispatch_queue_t tq, dispatch_queue_class_t dq,
+		uint64_t dq_state)
+{
+#if DISPATCH_USE_KEVENT_WORKLOOP
+	if (likely(_dq_state_is_base_wlh(dq_state))) {
+		_dispatch_trace_runtime_event(worker_request, dq._dq, 1);
+		return _dispatch_event_loop_poke((dispatch_wlh_t)dq._dq, dq_state,
+				DISPATCH_EVENT_LOOP_CONSUME_2);
+	}
+#endif // DISPATCH_USE_KEVENT_WORKLOOP
+	_dispatch_trace_item_push(tq, dq);
+	return dx_push(tq, dq, _dq_state_max_qos(dq_state));
+}
+```
+
+串行队列的tq是全局队列，所以这里的dx_push调用的是_dispatch_root_queue_push（没错就是上面分析过的）。如果参数tq还不是全局队列那么又会绕一下会将queue自己作为一个任务添加到它的tq上，但最终会是全局队列，因为所有自定义的queue的tq最终都是全局队列。
+
+##### _dispatch_root_queue_push
+
+这里的例子就是将串行队列dq作为一个任务添加到全局队列的任务链表末尾。后面的逻辑跟前面全局队列一样的了。
+
+沿着上面的分析`_dispatch_continuation_pop_inline` 里面会有一个dx_invoke的多态调用由于这里我们是串行队列，因此调用`_dispatch_lane_invoke`
 
 ##### _dispatch_lane_invoke
 
@@ -1959,7 +1433,7 @@ _dispatch_lane_serial_drain(dispatch_lane_class_t dqu,
 		dispatch_invoke_context_t dic, dispatch_invoke_flags_t flags,
 		uint64_t *owned)
 {
-	flags &= ~(dispatch_invoke_flags_t)DISPATCH_INVOKE_REDIRECTING_DRAIN;
+	flags &= ~(dispatch_invoke_flags_t)DISPATCH_INVOKE_REDIRECTING_DRAIN; //serial_drain会更改flags标志。
 	return _dispatch_lane_drain(dqu._dl, dic, flags, owned, true);
 }
 
@@ -1972,6 +1446,13 @@ _dispatch_lane_concurrent_drain(dispatch_lane_class_t dqu,
 	return _dispatch_lane_drain(dqu._dl, dic, flags, owned, false);
 }
 ```
+
+大致流程：
+
+1. dq为串行队列走_dispatch_lane_serial_drain逻辑
+2. dq为并发队列走_dispatch_lane_concurrent_drain逻辑
+
+区别就是serial_drain会更改flags标志位，而concurrent_drain不会。二者最终调用了_dispatch_lane_drain。
 
 ##### _dispatch_lane_drain
 
@@ -2108,7 +1589,7 @@ first_iteration:
 				// qos, so pick up the current override of `dq` which includes
 				// dc's override (and maybe more)
 				_dispatch_continuation_redirect_push(dq, dc,
-						_dispatch_queue_max_qos(dq));
+						_dispatch_queue_max_qos(dq)); //重定向push。
 				continue;
 			}
 		}
@@ -2143,11 +1624,24 @@ out_with_barrier_waiter:
 }
 ```
 
-该函数的作用就是循环的从队列的链表中取出dc,执行_dispatch_continuation_pop_inline，又回到了之前的那个调用但这里的参数是dc终于是执行block任务了。
+该函数的作用就是循环的从队列的链表中取出dc，执行_dispatch_continuation_pop_inline，又回到了之前的那个调用但这里的参数是dc终于是执行block任务了。全局队列申请到一个线程，串行队列所有的任务都在该线程上执行。
 
 到此为止dispatch_async一个任务到串行队列的工作流程就完了。
 
-#### dx_push--自定义并发队列的_dispatch_lane_concurrent_push
+#### dx_push多态调用--自定义并发队列的_dispatch_lane_concurrent_push
+
+接下来我们再以dispatch_async将任务派发到一个并发队列为例，进行分析
+
+```c
+dispatch_queue_t cQueue = dispatch_queue_create("xq", DISPATCH_QUEUE_CONCURRENT);
+dispatch_async(cQueue, ^{
+    NSLog(@"--1--");
+});
+```
+
+此时队列的层级为：并-全
+
+回到我们最初分析的`dx_push(dqu._dq, dc, qos)` 那么这里的dx_push就是_dispatch_lane_concurrent_push的调用
 
 ```c
 DISPATCH_NOINLINE
@@ -2257,158 +1751,48 @@ _dispatch_async_redirect_wrap(dispatch_lane_t dq, dispatch_object_t dou)
 
 大致逻辑：
 
-1. 当前dq是空并且满足一定条件后，走_dispatch_continuation_redirect_push逻辑，如果没有太深的queue层级关系的话，这里最终会将任务添加到全局队列的链表上。
-2. 不满足上述条件的走_dispatch_lane_push逻辑。
+1. 当前dq是空并且满足一定条件后，走_dispatch_continuation_redirect_push逻辑，如果没有太深的queue层级关系的话，这里最终会将任务重定向的添加到全局队列的链表上。
+2. 如果dq不为空，或dc是一个waiter，barrier等走_dispatch_lane_push逻辑。
 
-如果dq不为空，或dc是一个waiter，barrier等走_dispatch_lane_push逻辑。
+在我们这个例子中，走的就是_dispatch_continuation_redirect_push逻辑。
+
+##### _dispatch_continuation_redirect_push
+
+```c
+DISPATCH_NOINLINE
+static void
+_dispatch_continuation_redirect_push(dispatch_lane_t dl,
+		dispatch_object_t dou, dispatch_qos_t qos)
+{
+	if (likely(!_dispatch_object_is_redirection(dou))) {
+		dou._dc = _dispatch_async_redirect_wrap(dl, dou);
+	} else if (!dou._dc->dc_ctxt) {
+		// find first queue in descending target queue order that has
+		// an autorelease frequency set, and use that as the frequency for
+		// this continuation.
+		dou._dc->dc_ctxt = (void *)
+		(uintptr_t)_dispatch_queue_autorelease_frequency(dl);
+	}
+
+	dispatch_queue_t dq = dl->do_targetq; 
+	if (!qos) qos = _dispatch_priority_qos(dq->dq_priority);
+	dx_push(dq, dou, qos);
+}
+```
+
+该函数就是将并发队列的任务重定向到它的tq上去。该例子中dq就是全局队列，于是又回到`_dispatch_root_queue_push`逻辑。如果dq是串行队列则回到`_dispatch_lan_push` 逻辑。如果dq是并发队列则回到自身逻辑。你可以想一想这里面的复杂度了。
 
 ##### _dispatch_lane_push
 
-实现：
-
-```c
-DISPATCH_NOINLINE
-void
-_dispatch_lane_push(dispatch_lane_t dq, dispatch_object_t dou,
-		dispatch_qos_t qos)
-{
-	dispatch_wakeup_flags_t flags = 0;
-	struct dispatch_object_s *prev;
-
-	if (unlikely(_dispatch_object_is_waiter(dou))) {
-		return _dispatch_lane_push_waiter(dq, dou._dsc, qos);
-	}
-
-	dispatch_assert(!_dispatch_object_is_global(dq));
-	qos = _dispatch_queue_push_qos(dq, qos);
-
-	// If we are going to call dx_wakeup(), the queue must be retained before
-	// the item we're pushing can be dequeued, which means:
-	// - before we exchange the tail if we have to override
-	// - before we set the head if we made the queue non empty.
-	// Otherwise, if preempted between one of these and the call to dx_wakeup()
-	// the blocks submitted to the queue may release the last reference to the
-	// queue when invoked by _dispatch_lane_drain. <rdar://problem/6932776>
-
-	prev = os_mpsc_push_update_tail(os_mpsc(dq, dq_items), dou._do, do_next);
-	if (unlikely(os_mpsc_push_was_empty(prev))) {
-		_dispatch_retain_2_unsafe(dq);
-		flags = DISPATCH_WAKEUP_CONSUME_2 | DISPATCH_WAKEUP_MAKE_DIRTY;
-	} else if (unlikely(_dispatch_queue_need_override(dq, qos))) {
-		// There's a race here, _dispatch_queue_need_override may read a stale
-		// dq_state value.
-		//
-		// If it's a stale load from the same drain streak, given that
-		// the max qos is monotonic, too old a read can only cause an
-		// unnecessary attempt at overriding which is harmless.
-		//
-		// We'll assume here that a stale load from an a previous drain streak
-		// never happens in practice.
-		_dispatch_retain_2_unsafe(dq);
-		flags = DISPATCH_WAKEUP_CONSUME_2;
-	}
-	os_mpsc_push_update_prev(os_mpsc(dq, dq_items), prev, dou._do, do_next);
-	if (flags) {
-		return dx_wakeup(dq, qos, flags);
-	}
-}
-```
-
-这里也是将任务添加到队列的链表上。如果flags>0，则调用dx_wakeup。这里就是_dispatch_lane_wakeup
-
-##### _dispatch_lane_wakeup
-
-实现：
-
-```c
-DISPATCH_NOINLINE
-void
-_dispatch_lane_wakeup(dispatch_lane_class_t dqu, dispatch_qos_t qos,
-		dispatch_wakeup_flags_t flags)
-{
-	dispatch_queue_wakeup_target_t target = DISPATCH_QUEUE_WAKEUP_NONE;
-
-	if (unlikely(flags & DISPATCH_WAKEUP_BARRIER_COMPLETE)) {
-		return _dispatch_lane_barrier_complete(dqu, qos, flags); //跟barrier相关
-	}
-	if (_dispatch_queue_class_probe(dqu)) {
-		target = DISPATCH_QUEUE_WAKEUP_TARGET;
-	}
-	return _dispatch_queue_wakeup(dqu, qos, flags, target);
-}
-```
-
-大致逻辑：
-
-1. 如果flags跟barrier相关则走_dispatch_lane_barrier_complete逻辑，这里面又是一堆分支
-2. 回到_dispatch_queue_wakeup上来，最终也是将自己添加到最终的全局队列上去。
-
-#### dx_push--全局队列的_dispatch_root_queue_push
-
-```c
-DISPATCH_NOINLINE
-void
-_dispatch_root_queue_push(dispatch_queue_global_t rq, dispatch_object_t dou,
-		dispatch_qos_t qos)
-{
-#if DISPATCH_USE_KEVENT_WORKQUEUE
-	dispatch_deferred_items_t ddi = _dispatch_deferred_items_get();
-	if (unlikely(ddi && ddi->ddi_can_stash)) {
-		dispatch_object_t old_dou = ddi->ddi_stashed_dou;
-		dispatch_priority_t rq_overcommit;
-		rq_overcommit = rq->dq_priority & DISPATCH_PRIORITY_FLAG_OVERCOMMIT;
-
-		if (likely(!old_dou._do || rq_overcommit)) {
-			dispatch_queue_global_t old_rq = ddi->ddi_stashed_rq;
-			dispatch_qos_t old_qos = ddi->ddi_stashed_qos;
-			ddi->ddi_stashed_rq = rq;
-			ddi->ddi_stashed_dou = dou;
-			ddi->ddi_stashed_qos = qos;
-			_dispatch_debug("deferring item %p, rq %p, qos %d",
-					dou._do, rq, qos);
-			if (rq_overcommit) {
-				ddi->ddi_can_stash = false;
-			}
-			if (likely(!old_dou._do)) {
-				return;
-			}
-			// push the previously stashed item
-			qos = old_qos;
-			rq = old_rq;
-			dou = old_dou;
-		}
-	}
-#endif
-#if HAVE_PTHREAD_WORKQUEUE_QOS
-	if (_dispatch_root_queue_push_needs_override(rq, qos)) {
-		return _dispatch_root_queue_push_override(rq, dou, qos);
-	}
-#else
-	(void)qos;
-#endif
-	_dispatch_root_queue_push_inline(rq, dou, dou, 1);
-}
-```
-
-直接调用了_dispatch_root_queue_push_inline函数，作用就是将dc添加到队列的链表上。
+这里的逻辑同先前分析的。
 
 稍微总结一下：
 
-如果dispatch_async到全局队列，创建一个dc，并将dc添加到全局队列的链表上，全局队列开线程执行dc。
-
-如果dispatch_async到一个较高层的队列，会创建一个dc，并将dc添加到高层队列的链表上，高层队列唤醒自己的tq低层队列， 低层队列将高层队列作为一个任务添加到低层队列的链表上，然后低层队列唤醒它的tq，如此往复，一直到全局队列，最后全局队列将低层队列作为一个任务添加到自己的链表上，最后由全局队列开线程执行，那么执行的过程又是怎样的呢？
+dispatch_async到一个高层的队列，dispatch_async会创建一个dc，并将dc添加到高层队列的链表上，高层队列唤醒自己的tq低层队列， 低层队列将高层队列作为一个任务添加到低层队列的链表上，然后低层队列唤醒它的tq，如此往复，一直到全局队列，最后全局队列将低层队列作为一个任务添加到自己的链表上，最后由全局队列开线程执行，那么执行的过程又是怎样的呢？
 
 ### 线程池
 
-在queue.c中的
-
-```
-#pragma mark -
-#pragma mark dispatch_pthread_root_queue
-#if DISPATCH_USE_PTHREAD_ROOT_QUEUES
-```
-
-有如下代码：
+在queue.c中有如下代码：
 
 #### _dispatch_root_queues_init
 
@@ -2512,11 +1896,11 @@ _dispatch_root_queues_init_once(void *context DISPATCH_UNUSED)
 
 遍历设置全局队列数组中的全局队列的如下属性：
 
-do_ctxt属性的dpq_thread_mediator.dsema_sema
+* do_ctxt属性的dpq_thread_mediator.dsema_sema，线程调度器，信号量实现。
 
-dgq_thread_pool_size属性值的设置
+* dgq_thread_pool_size属性值的设置
 
-do_ctxt属性的dpq_thread_attr
+* do_ctxt属性的dpq_thread_attr
 
 #### _dispatch_root_queue_init_pthread_pool
 
@@ -2528,8 +1912,8 @@ _dispatch_root_queue_init_pthread_pool(dispatch_queue_global_t dq,
 		int pool_size, dispatch_priority_t pri)
 {
 	dispatch_pthread_root_queue_context_t pqc = dq->do_ctxt;
-	int thread_pool_size = DISPATCH_WORKQ_MAX_PTHREAD_COUNT; //串行队列最多可开255条线程
-	if (!(pri & DISPATCH_PRIORITY_FLAG_OVERCOMMIT)) { //并发队列开的线程数和内核数相等
+	int thread_pool_size = DISPATCH_WORKQ_MAX_PTHREAD_COUNT; //带overcommit的全局队列最多可开255条线程
+	if (!(pri & DISPATCH_PRIORITY_FLAG_OVERCOMMIT)) { //普通全局队列开的线程数和内核数相等
 		thread_pool_size = (int32_t)dispatch_hw_config(active_cpus);
 	}
 	if (pool_size && pool_size < thread_pool_size) thread_pool_size = pool_size;
@@ -2566,9 +1950,9 @@ DISPATCH_WORKQ_MAX_PTHREAD_COUNT的定义：
 
 这里需要注意的是目前的GCD线程池的大小为：
 
-如果是派发到并发队列，线程池最多开64个线程。64个线程都在用的话，后面再丢任务到并发队列也不会新开线程了这个时候就得等待其中某个线程直到变为空闲。需要注意的是64是线程池的最大线程数，也就是说即使两个全局队列同时执行任务，最多也只会开64个线程。
+如果是不带overcommit的全局队列，线程池最多开64个线程。64个线程都在用的话，后面再丢任务到并发队列也不会新开线程了这个时候就得等待其中某个线程直到变为空闲。需要注意的是64是线程池的最大线程数，也就是说即使两个全局队列同时执行任务，最多也只会开64个线程。
 
-如果是派发到串行队列，线程池最多开512个线程。一个串行队列一个线程，最多可以同时运行512个串行队列。
+如果是带overcommit的全局队列，线程池最多开512个线程。一个串行队列一个线程，最多可以同时运行512个串行队列。
 
 ### dispatch_barrier_sync
 
@@ -2614,7 +1998,7 @@ dispatch_barrier_async(dispatch_queue_t dq, dispatch_block_t work)
 
 可以看到和dispatch_async类似，只不过调用_dispatch_continuation_async时传入的参数不同。
 
-主要分析
+问题
 
 1. 如何监听到之前的任务都完成了
 2. 自己执行时又是怎么阻止其他任务执行的
@@ -2628,11 +2012,7 @@ dispatch_barrier_async(dispatch_queue_t dq, dispatch_block_t work)
 
 [深入理解GCD](https://juejin.im/post/57cb8e8367f3560057bf4da1) 很不错
 
-[GCD源码吐血分析(1)——GCD Queue](https://blog.csdn.net/u013378438/article/details/81031938)  作者的博客还可以，是成系列的。
-
 [GCD源码吐血分析(2)——dispatch_async/dispatch_sync/dispatch_once/dispatch group](https://blog.csdn.net/u013378438/article/details/81076116?utm_medium=distribute.pc_relevant_right.none-task-blog-BlogCommendFromMachineLearnPai2-3.nonecase&depth_1-utm_source=distribute.pc_relevant_right.none-task-blog-BlogCommendFromMachineLearnPai2-3.nonecase)  作者对死锁问题有比较深入的分析
-
-[GCD源码解析(一)-dispatch_queue_create、dispatch_get_main_queue、dispatch_get_global_queue](https://www.jianshu.com/p/7702c06cda4c)  分析了队列的创建过程
 
 [GCD源码分析（二）——Dispatch Queue和Thread Pool](https://chy305chy.github.io/2018/11/29/GCD%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%EF%BC%88%E4%BA%8C%EF%BC%89%E2%80%94%E2%80%94Dispatch-Queue%E5%92%8CThread-Pool/) 主要是里面死锁的分析
 
@@ -2648,7 +2028,7 @@ dispatch_barrier_async(dispatch_queue_t dq, dispatch_block_t work)
 
 [线程安全类的设计](https://objccn.io/issue-2-4/)  王巍译
 
-[https://honkersk.github.io/2018/09/12/iOS%E9%9D%A2%E8%AF%95%E9%A2%9817-%E5%A4%9A%E7%BA%BF%E7%A8%8B/](https://honkersk.github.io/2018/09/12/iOS面试题17-多线程/)
+[iOS面试题17-多线程](https://honkersk.github.io/2018/09/12/iOS面试题17-多线程/)
 
 ### 附录
 
