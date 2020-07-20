@@ -19,7 +19,7 @@ date: 2020-07-18 23:32:40
 
 1. isa是什么
 2. tagged pointer对象的内存布局
-3. 对象的isa设置过程
+3. 对象的isa初始化过程
 4. OC对象，类，元类
 5. 类别的加载，关联对象的实现
 6. load方法与initialize方法
@@ -141,7 +141,7 @@ struct objc_class : objc_object { //现在是继承自结构体objc_object
   class_rw_t *data() const {
       return bits.data();
   }
-  void setData(class_rw_t *newData) {
+  void setData(class_rw_t *newData) { 
       bits.setData(newData);
   }
   ...
@@ -193,7 +193,7 @@ struct objc_class;
 struct objc_object;
 
 typedef struct objc_class *Class;
-typedef struct objc_object *id; //这里和旧版本一样
+  typedef struct objc_object *id; //这里和旧版本一样
 
 namespace {
     struct SideTable;
@@ -289,6 +289,8 @@ Tagged pointer对象是在64位系统才有的。
 
 objc_tag_index_t：
 
+用于查找对应的对象类型。
+
 ```c
 // Tagged pointer layout and usage is subject to change on different OS versions.
 
@@ -341,6 +343,8 @@ enum
 typedef enum objc_tag_index_t objc_tag_index_t;
 #endif
 ```
+
+tag bit位：
 
 tag bit位在x86_64和arm64是不同的
 
@@ -421,7 +425,7 @@ tag bit位在x86_64和arm64是不同的
 
 其他60位就是payload了，payload里面包含真正的数据以及数据的一些其他信息比如长度等。
 
-标志位 OBJC_TAG 数据 元数据
+标志位--OBJC_TAG--数据--元数据
 
 ### 参考
 
@@ -431,15 +435,15 @@ tag bit位在x86_64和arm64是不同的
 
 [探秘Runtime - Runtime源码分析](https://www.jianshu.com/p/3019605a4fc9)
 
-[Non-pointer isa](http://www.sealiesoftware.com/blog/archive/2013/09/24/objc_explain_Non-pointer_isa.html)  很详细的解释了OC对象的isa字段为什么不再是一个指针类型。主要是为了做优化。
-
-[objc 中的Tagged Pointer的应用](https://www.jianshu.com/p/31678563d00d)
-
 [Tagged Pointer小记](https://crmo.github.io/2018/07/04/Tagged Pointer小记/)  讲了tagged的内存布局
+
+[Objective-C中的伪指针](https://jinxuebin.cn/2019/06/Objective-C中的伪指针/)
 
 [【译】采用Tagged Pointer的字符串](http://www.cocoachina.com/ios/20150918/13449.html) 外国人写的，非常棒，深入探讨了tagged pointer的实现细节
 
-[Objective-C中的伪指针](https://jinxuebin.cn/2019/06/Objective-C中的伪指针/)
+[Let's Build Tagged Pointers](https://www.mikeash.com/pyblog/friday-qa-2012-07-27-lets-build-tagged-pointers.html)  原理性的一些讲解，深入的可以看看。
+
+[Non-pointer isa](http://www.sealiesoftware.com/blog/archive/2013/09/24/objc_explain_Non-pointer_isa.html)  很详细的解释了OC对象的isa字段为什么不再是一个指针类型。主要是为了做优化。
 
 内存对齐：
 
