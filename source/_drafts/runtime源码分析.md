@@ -1,5 +1,5 @@
 ---
-title: runtime源码分析
+	title: runtime源码分析
 tags:
   - 标签1
   - 标签2
@@ -21,8 +21,9 @@ date: 2020-07-18 23:32:40
 2. tagged pointer对象是什么以及它的布局规则
 3. 对象的isa初始化过程
 4. OC对象，类，元类
-5. 类别的加载，关联对象的实现
-6. load方法与initialize方法
+5. 类对象是何时创建的，由谁创建。
+6. 类别的加载，关联对象的实现
+7. load方法与initialize方法
 
 `__attribute__((deprecated))` ：标记为已弃用，表明新版本中已经不再使用该东西了，为了兼容旧版本还保留在这里，在以后的某个版本中将会被移除。业务层不应该继续使用。
 
@@ -173,7 +174,7 @@ struct objc_class : objc_object { //现在是继承自结构体objc_object
   // Class ISA;
   Class superclass;
   cache_t cache;             // formerly cache pointer and vtable
-  class_data_bits_t bits;    // class_rw_t * plus custom rr/alloc flags
+  class_data_bits_t bits;    // class_rw_t * plus custom rr/alloc flags //bits里面包含了class_rw_t地址和是否自定义retain/release.../alloc等方法标志。
 
   class_rw_t *data() const {
       return bits.data();
@@ -209,7 +210,7 @@ private:
 public:
 
     class_rw_t* data() const {
-        return (class_rw_t *)(bits & FAST_DATA_MASK);
+        return (class_rw_t *)(bits & FAST_DATA_MASK); //取bits的第[4,47]位值，得到一个地址。
     }
     void setData(class_rw_t *newData)
     {
@@ -226,7 +227,7 @@ public:
     // fixme this isn't really safe without a compiler barrier at least
     // and probably a memory barrier when realizeClass changes the data field
     const class_ro_t *safe_ro() {
-        class_rw_t *maybe_rw = data();
+        class_rw_t *maybe_rw = data(); //data方法返回的不一定就是class_rw_t。
         if (maybe_rw->flags & RW_REALIZED) {
             // maybe_rw is rw
             return maybe_rw->ro;
@@ -242,6 +243,50 @@ public:
 
 该结构体主要是用来获取class_rw_t的。
 
+**在编译期间 **class_data_bits_t bits其实指向的是一个 `class_ro_t *` 指针，realizeClassWithoutSwift之后bits才指向class_rw_t。
+
+可以看函数realizeClassWithoutSwift：
+
+```c
+static Class realizeClassWithoutSwift(Class cls, Class previously)
+{
+    runtimeLock.assertLocked();
+
+    const class_ro_t *ro;
+    class_rw_t *rw;
+    Class supercls;
+    Class metacls;
+    bool isMeta;
+
+    if (!cls) return nil;
+    if (cls->isRealized()) return cls;
+    ASSERT(cls == remapClass(cls));
+
+    // fixme verify class is not in an un-dlopened part of the shared cache?
+
+    ro = (const class_ro_t *)cls->data(); //这里还是一个class_ro_t指针
+    if (ro->flags & RO_FUTURE) {
+        // This was a future class. rw data is already allocated.
+        rw = cls->data();
+        ro = cls->data()->ro;
+        cls->changeInfo(RW_REALIZED|RW_REALIZING, RW_FUTURE);
+    } else {
+        // Normal class. Allocate writeable class data.
+        rw = (class_rw_t *)calloc(sizeof(class_rw_t), 1);
+        rw->ro = ro;
+        rw->flags = RW_REALIZED|RW_REALIZING;
+        cls->setData(rw); //创建一个可读写的class_rw_t并设置。
+    }
+		
+    ...
+    
+    // Attach categories
+    methodizeClass(cls, previously); //给rw的methods等成员赋值。
+
+    return cls;
+}
+```
+
 #### struct class_rw_t
 
 看名字rw应该是read-write的意思
@@ -249,7 +294,7 @@ public:
 ```c++
 struct class_rw_t {
     // Be warned that Symbolication knows the layout of this structure.
-    uint32_t flags;
+    uint32_t flags; //realize的状态。	
     uint16_t version;
     uint16_t witness;
 
@@ -267,7 +312,11 @@ struct class_rw_t {
 }
 ```
 
-保存了class_ro_t指针，方法列表，属性列表，遵守的协议列表
+保存了class_ro_t指针，方法列表，属性列表，遵守的协议列表。
+
+ro存储的是**当前类在编译期就已经确定的属性、方法以及遵循的协议**。ro是只读的不可更改。
+
+
 
 #### struct class_ro_t
 
@@ -298,7 +347,7 @@ struct class_ro_t {
 }
 ```
 
-##### TODO：struct class_ro_t和struct class_rw_t的作用需要深究一下
+##### TODO：struct class_ro_t和struct class_rw_t的初始化需要深究一下
 
 #### union isa_t
 
