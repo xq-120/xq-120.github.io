@@ -21,8 +21,8 @@ date: 2020-07-18 23:32:40
 2. tagged pointer对象是什么以及它的布局规则
 3. 对象的isa初始化过程
 4. OC对象，类，元类
-5. 类对象是何时创建的，由谁创建。
-6. 类别的加载，关联对象的实现
+5. 类的加载过程，特别是类对象的创建，方法，属性，协议的获取
+6. 类别的加载过程，关联对象的实现
 7. load方法与initialize方法
 
 `__attribute__((deprecated))` ：标记为已弃用，表明新版本中已经不再使用该东西了，为了兼容旧版本还保留在这里，在以后的某个版本中将会被移除。业务层不应该继续使用。
@@ -281,7 +281,7 @@ static Class realizeClassWithoutSwift(Class cls, Class previously)
     ...
     
     // Attach categories
-    methodizeClass(cls, previously); //给rw的methods等成员赋值。
+    methodizeClass(cls, previously); //给rw的methods等成员赋值及添加类别。
 
     return cls;
 }
@@ -314,9 +314,7 @@ struct class_rw_t {
 
 保存了class_ro_t指针，方法列表，属性列表，遵守的协议列表。
 
-ro存储的是**当前类在编译期就已经确定的属性、方法以及遵循的协议**。ro是只读的不可更改。
-
-
+ro存储的是**当前类在编译期就已经确定的属性、方法以及遵循的协议**。ro是只读的不可更改。rw里的方法等是可以更改的。
 
 #### struct class_ro_t
 
@@ -334,7 +332,7 @@ struct class_ro_t {
     const uint8_t * ivarLayout;
     
     const char * name;
-    method_list_t * baseMethodList; //也有方法列表，这说明和class_rw_t应该是有区别的
+    method_list_t * baseMethodList; //也有方法列表，这说明和class_rw_t是有区别的
     protocol_list_t * baseProtocols; //遵守的协议列表
     const ivar_list_t * ivars; //实例变量列表,指向一个只读区域。防止外部更改。
 
@@ -346,8 +344,6 @@ struct class_ro_t {
 		...
 }
 ```
-
-##### TODO：struct class_ro_t和struct class_rw_t的初始化需要深究一下
 
 #### union isa_t
 
@@ -441,6 +437,172 @@ union isa_t {
 isa 是什么：isa 的数据结构是一个 isa_t 联合体，其中包含其所属的 Class 的地址，通过访问对象的 isa，就可以获取到指向其所属 Class 的指针。
 
 isa 的作用：指向该对象所属类的地址。用于查找对象（或类对象）所属的类（或元类）。
+
+#### struct method_t
+
+别名:
+
+```c
+typedef struct method_t *Method;
+typedef struct ivar_t *Ivar;
+typedef struct category_t *Category;
+typedef struct property_t *objc_property_t;
+```
+
+定义：
+
+```c++
+struct method_t {
+    SEL name;
+    const char *types;
+    MethodListIMP imp; //IMP类型。
+
+    struct SortBySELAddress :
+        public std::binary_function<const method_t&,
+                                    const method_t&, bool>
+    {
+        bool operator() (const method_t& lhs,
+                         const method_t& rhs)
+        { return lhs.name < rhs.name; }
+    };
+};
+```
+
+我们定义的方法是以一个struct method_t结构体表示的，包含：
+
+name：方法的名称
+
+types：方法的返回值参数类型。一个将返回值类型，参数类型编码后的C字符串。具体是怎么编码的可以查看官方文档。
+
+imp：方法的地址
+
+#### struct ivar_t
+
+```c++
+struct ivar_t {
+#if __x86_64__
+    // *offset was originally 64-bit on some x86_64 platforms.
+    // We read and write only 32 bits of it.
+    // Some metadata provides all 64 bits. This is harmless for unsigned 
+    // little-endian values.
+    // Some code uses all 64 bits. class_addIvar() over-allocates the 
+    // offset for their benefit.
+#endif
+    int32_t *offset;
+    const char *name;
+    const char *type;
+    // alignment is sometimes -1; use alignment() instead
+    uint32_t alignment_raw;
+    uint32_t size;
+
+    uint32_t alignment() const {
+        if (alignment_raw == ~(uint32_t)0) return 1U << WORD_SHIFT;
+        return 1 << alignment_raw;
+    }
+};
+```
+
+我们定义的实例变量是以一个struct ivar_t结构体表示的，包含：
+
+name：实例变量的名称
+
+type：实例变量的类型
+
+size：实例变量的大小
+
+注意这里是不会保存实例变量的值的，实例变量的值是保存在实例对象里面的，不是保存在类里面的。
+
+#### struct property_t
+
+```c
+struct property_t {
+    const char *name;
+    const char *attributes;
+};
+```
+
+我们定义的属性是以一个struct property_t结构体表示的，包含：
+
+name：属性的名称
+
+attributes：属性的修饰符。比如atomic，strong，readwrite等。
+
+#### struct objc_selector
+
+别名：
+
+```c
+/// An opaque type that represents a method selector.
+typedef struct objc_selector *SEL;
+```
+
+源码里面没有看到定义，但基本上可以将 SEL 理解为一个 char* 指针。代表一个方法的名称。
+
+#### IMP
+
+```c
+/// A pointer to the function of a method implementation. 
+#if !OBJC_OLD_DISPATCH_PROTOTYPES
+typedef void (*IMP)(void /* id, SEL, ... */ ); //这个
+#else
+typedef id _Nullable (*IMP)(id _Nonnull, SEL _Nonnull, ...); 
+#endif
+```
+
+IMP就是一个函数指针，指向一个函数地址。
+
+#### struct protocol_t
+
+```c++
+struct protocol_t : objc_object {
+    const char *mangledName; //协议名称
+    struct protocol_list_t *protocols; //遵守的其他协议列表
+    method_list_t *instanceMethods; //实例方法列表
+    method_list_t *classMethods; //类方法列表
+    method_list_t *optionalInstanceMethods; //可选实例方法列表
+    method_list_t *optionalClassMethods; //可选类方法列表
+    property_list_t *instanceProperties; //实例属性列表
+    uint32_t size;   // sizeof(protocol_t)
+    uint32_t flags;
+    // Fields below this point are not always present on disk.
+    const char **_extendedMethodTypes;
+    const char *_demangledName;
+    property_list_t *_classProperties; //类属性列表
+    
+    ...
+}
+```
+
+我们定义的协议是以一个struct protocol_t结构体表示的。
+
+#### struct category_t
+
+```c++
+struct category_t {
+    const char *name;
+    classref_t cls;
+    struct method_list_t *instanceMethods;
+    struct method_list_t *classMethods;
+    struct protocol_list_t *protocols;
+    struct property_list_t *instanceProperties;
+    // Fields below this point are not always present on disk.
+    struct property_list_t *_classProperties;
+
+    method_list_t *methodsForMeta(bool isMeta) {
+        if (isMeta) return classMethods;
+        else return instanceMethods;
+    }
+
+    property_list_t *propertiesForMeta(bool isMeta, struct header_info *hi);
+    
+    protocol_list_t *protocolsForMeta(bool isMeta) {
+        if (isMeta) return nullptr;
+        else return protocols;
+    }
+};
+```
+
+别名：`typedef struct category_t *Category;`
 
 ### 对象的创建及isa的初始化
 
@@ -787,6 +949,199 @@ tag bit位在x86_64和arm64是不同的
 
 标志位--OBJC_TAG--数据--元数据
 
+### 类的加载
+
+```c
+/***********************************************************************
+* _objc_init
+* Bootstrap initialization. Registers our image notifier with dyld.
+* Called by libSystem BEFORE library initialization time
+**********************************************************************/
+
+void _objc_init(void)
+{
+    static bool initialized = false;
+    if (initialized) return;
+    initialized = true;
+    
+    // fixme defer initialization until an objc-using image is found?
+    environ_init();
+    tls_init();
+    static_init();
+    runtime_init();
+    exception_init();
+    cache_init();
+    _imp_implementationWithBlock_init();
+
+    _dyld_objc_notify_register(&map_images, load_images, unmap_image);
+}
+```
+
+runtime加载时会调用_objc_init函数。该函数主要是往dyld中注册了3个通知回调函数`map_images` , `load_images` , `unmap_image`。
+
+`map_images` 里面做了很多事情包括类的加载，类别的加载，协议的加载等等。
+
+`load_images` 里面会调用我们实现的`+load`方法。
+
+_dyld_objc_notify_register未公开，只能看到它的说明：
+
+```c
+//
+// Note: only for use by objc runtime
+// Register handlers to be called when objc images are mapped, unmapped, and initialized.
+// Dyld will call back the "mapped" function with an array of images that contain an objc-image-info section.
+// Those images that are dylibs will have the ref-counts automatically bumped, so objc will no longer need to
+// call dlopen() on them to keep them from being unloaded.  During the call to _dyld_objc_notify_register(),
+// dyld will call the "mapped" function with already loaded objc images.  During any later dlopen() call,
+// dyld will also call the "mapped" function.  Dyld will call the "init" function when dyld would be called
+// initializers in that image.  This is when objc calls any +load methods in that image.
+//
+void _dyld_objc_notify_register(_dyld_objc_notify_mapped    mapped,
+                                _dyld_objc_notify_init      init,
+                                _dyld_objc_notify_unmapped  unmapped);
+```
+
+mapped函数在调用_dyld_objc_notify_register时会回调一次，后面如果有调用dlopen时还会再回调。
+
+init函数在初始化image的时候会回调，通常一个APP会包含很多个image，所以该回调会回调很多次。
+
+image可以理解为一个个编译后的二进制库（比如系统的动态库，自己的工程代码编译后的二进制）。比如：
+
+```
+objc[6706]: IMAGES: loading image for /usr/lib/system/introspection/libdispatch.dylib (has class properties)
+
+objc[6706]: IMAGES: loading image for /usr/lib/system/libxpc.dylib (has class properties) (preoptimized)
+
+objc[6706]: IMAGES: loading image for /Users/xuequan/Library/Developer/Xcode/DerivedData/objc-cqxbandkuogzvugfeofcgrgddgkz/Build/Products/Debug/debug-objc (has class properties)
+```
+
+### map_images
+
+```c
+/***********************************************************************
+* map_images
+* Process the given images which are being mapped in by dyld.
+* Calls ABI-agnostic code after taking ABI-specific locks.
+*
+* Locking: write-locks runtimeLock
+**********************************************************************/
+void
+map_images(unsigned count, const char * const paths[],
+           const struct mach_header * const mhdrs[])
+{
+    mutex_locker_t lock(runtimeLock);
+    return map_images_nolock(count, paths, mhdrs);
+}
+```
+
+大致过程：
+
+1. 加锁
+2. 调用map_images_nolock
+
+因此主要是map_images_nolock逻辑。
+
+#### map_images_nolock
+
+```c
+void 
+map_images_nolock(unsigned mhCount, const char * const mhPaths[],
+                  const struct mach_header * const mhdrs[])
+{
+    static bool firstTime = YES;
+    header_info *hList[mhCount];
+    uint32_t hCount;
+    size_t selrefCount = 0;
+
+    // Perform first-time initialization if necessary.
+    // This function is called before ordinary library initializers. 
+    // fixme defer initialization until an objc-using image is found?
+    if (firstTime) {
+        preopt_init();
+    }
+
+    if (PrintImages) {
+        _objc_inform("IMAGES: processing %u newly-mapped images...\n", mhCount);
+    }
+
+
+    // Find all images with Objective-C metadata.
+    hCount = 0;
+
+    // Count classes. Size various table based on the total.
+    int totalClasses = 0;
+    int unoptimizedTotalClasses = 0;
+    {
+        uint32_t i = mhCount;
+        while (i--) {
+            const headerType *mhdr = (const headerType *)mhdrs[i];
+
+            auto hi = addHeader(mhdr, mhPaths[i], totalClasses, unoptimizedTotalClasses);
+            if (!hi) {
+                // no objc data in this entry
+                continue;
+            }
+            
+            if (mhdr->filetype == MH_EXECUTE) {
+                // Size some data structures based on main executable's size
+#if __OBJC2__
+                size_t count;
+                _getObjc2SelectorRefs(hi, &count);
+                selrefCount += count;
+                _getObjc2MessageRefs(hi, &count);
+                selrefCount += count;
+#else
+                _getObjcSelectorRefs(hi, &selrefCount);
+#endif
+                ...
+            }
+            
+            hList[hCount++] = hi;
+            
+            if (PrintImages) {
+                _objc_inform("IMAGES: loading image for %s%s%s%s%s\n", 
+                             hi->fname(),
+                             mhdr->filetype == MH_BUNDLE ? " (bundle)" : "",
+                             hi->info()->isReplacement() ? " (replacement)" : "",
+                             hi->info()->hasCategoryClassProperties() ? " (has class properties)" : "",
+                             hi->info()->optimizedByDyld()?" (preoptimized)":"");
+            }
+        }
+    }
+
+    // Perform one-time runtime initialization that must be deferred until 
+    // the executable itself is found. This needs to be done before 
+    // further initialization.
+    // (The executable may not be present in this infoList if the 
+    // executable does not contain Objective-C code but Objective-C 
+    // is dynamically loaded later.
+    if (firstTime) {
+        sel_init(selrefCount); //初始化全局namedSelectors选择子表
+        arr_init(); //这里会初始化三个全局的哈希表：自动释放池表，SideTables表，关联对象表
+        ...
+    }
+
+    if (hCount > 0) {
+        _read_images(hList, hCount, totalClasses, unoptimizedTotalClasses);
+    }
+
+    firstTime = NO;
+    
+    // Call image load funcs after everything is set up.
+    for (auto func : loadImageFuncs) {
+        for (uint32_t i = 0; i < mhCount; i++) {
+            func(mhdrs[i]);
+        }
+    }
+}
+```
+
+大致流程：
+
+1. 初始化全局namedSelectors选择子表。这说明runtime内部维护了一个巨大的选择子表。一个选择子代表一个方法名。名字相同但参数类型不同的方法对应的是同一个选择子。
+2. 初始化三个全局的哈希表：自动释放池表，SideTables表，关联对象表。
+3. 调用_read_images读取image。
+
 ### 参考
 
 [load 方法全程跟踪](https://www.desgard.com/iOS-Source-Probe/Objective-C/Runtime/load 方法全程跟踪.html)
@@ -829,3 +1184,6 @@ tagged pointer
 
 [Objective-C 引用计数原理](https://www.jianshu.com/p/2acbde294266)  主要是tagged部分
 
+
+
+[GNUstep](http://www.gnustep.org/) 一套和苹果cocoa框架对等的框架。
