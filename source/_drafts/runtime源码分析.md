@@ -19,7 +19,7 @@ date: 2020-07-18 23:32:40
 
 1. isa是什么
 2. tagged pointer对象是什么以及它的布局规则
-3. 对象的isa初始化过程
+3. 对象的创建及isa初始化过程
 4. OC对象，类，元类
 5. 类的加载过程，特别是类对象的创建，方法，属性，协议的获取
 6. 类别的加载过程，关联对象的实现
@@ -158,7 +158,7 @@ class_rw_t *data() const {
 }
 ```
 
-可以看到是调用了`struct objc_class`的data方法先获取到class_rw_t-->class_ro_t-->instanceSize。实例的大小在类加载的时候就已经计算好了，这里只是获取一下。
+可以看到是调用了`struct objc_class`的data方法先获取到class_rw_t-->class_ro_t-->instanceSize。实例的大小编译期间就已经计算好了，这里只是获取一下。
 
 分配内存后，接着是初始化isa：
 
@@ -411,7 +411,7 @@ runtime加载时会调用_objc_init函数。
 1. 各种初始化。比如初始化了unattachedCategories和allocatedClasses两张表。
 2. 往dyld中注册了3个通知回调函数`map_images` , `load_images` , `unmap_image`。
 
-unattachedCategories表：用于存储类别信息。
+unattachedCategories表：用于存储所有类的类别。
 
 allocatedClasses表：
 
@@ -588,6 +588,24 @@ map_images_nolock(unsigned mhCount, const char * const mhPaths[],
 
 这个方法很长做了很多事情。
 
+大致流程：
+
+1. fix up selector references
+2. discover classes
+3. Fix up remapped classes
+4. fix up objc_msgSend_fixup
+5. discover protocols
+6. Fix up @protocol references
+7. Discover categories.
+8. Realize non-lazy classes
+9. realize future classes
+
+接下来分段查看源码
+
+> fix up selector references
+
+代码：
+
 ```c
 void _read_images(header_info **hList, uint32_t hCount, int totalClasses, int unoptimizedTotalClasses)
 {
@@ -657,25 +675,14 @@ void _read_images(header_info **hList, uint32_t hCount, int totalClasses, int un
 }    
 ```
 
-大致流程：
+大致逻辑：
 
-1. fix up selector references。将所有选择子注册到namedSelectors选择子表中。
-2. discover classes
-3. Fix up remapped classes
-4. fix up objc_msgSend_fixup
-5. discover protocols
-6. Fix up @protocol references
-7. Discover categories.
-8. Realize non-lazy classes
-9. realize future classes
+1. 初始化一个全局的name-class哈希表。
+2. 将所有选择子注册到namedSelectors选择子表中。
 
-**懒加载的类和非懒加载的类**
 
-非懒加载的类指的是实现了+load方法的类，非懒加载的类在runtime启动时就会被实现。具体在`_read_images` 里实现。
 
-懒加载的类就是没有实现+load方法的类，懒加载的类是在第一次收到消息时才会被实现。在`lookUpImpOrForward` 里调用`realizeClassMaybeSwiftAndLeaveLocked` 实现。
-
-> 2. Discover classes. Fix up unresolved future classes. Mark bundle classes
+> Discover classes. Fix up unresolved future classes. Mark bundle classes
 
 ```c
 // Discover classes. Fix up unresolved future classes. Mark bundle classes.
@@ -709,12 +716,14 @@ for (EACH_HEADER) {
 }
 
 ts.log("IMAGE TIMES: discover classes");
+
+//GETSECT(_getObjc2ClassList,           classref_t const,      "__objc_classlist");
 ```
 
 大致流程：
 
 1. 调用`_getObjc2ClassList` 从_DATA的"__objc_classlist" section获取类
-2. 调用readClass，将类读取到runtime。主要是将类添加到gdb_objc_realized_classes 和 allocatedClasses表里去。一般情况下只有运行时创建的类才被添加到allocatedClasses表中，其他在编译时就已经确定的类runtime都能够知道所以就不会添加到allocatedClasses，运行时创建的类添加到表后，runtime再遇到时也就能够识别了。
+2. 调用readClass，将类读取到runtime。主要是将类添加到gdb_objc_realized_classes 和 allocatedClasses表里去。一般情况下只有运行时创建的类才被添加到allocatedClasses表中，其他在编译时就已经确定的类runtime都能够知道所以就不会添加到allocatedClasses，运行时创建的类添加到allocatedClasses表后，runtime再次遇到时也就能够识别了。
 
 这里主要是`_getObjc2ClassList`，可以`clang -rewrite-objc Person.m` 就能看到我们写的OC类会保存在一个数组中，数组保存在`_DATA`的"`__objc_classlist`" section处。我们自己也可也在`__DATA`区存储东西的。
 
@@ -746,7 +755,610 @@ static struct _class_t *_OBJC_LABEL_NONLAZY_CLASS_$[] = {
 };
 ```
 
+强烈建议深究 `__attribute__` 的用法。
 
+
+
+> discover protocols
+
+代码：
+
+```c
+// Discover protocols. Fix up protocol refs.
+for (EACH_HEADER) {
+    extern objc_class OBJC_CLASS_$_Protocol;
+    Class cls = (Class)&OBJC_CLASS_$_Protocol;
+    ASSERT(cls);
+    NXMapTable *protocol_map = protocols();
+    bool isPreoptimized = hi->hasPreoptimizedProtocols();
+
+    // Skip reading protocols if this is an image from the shared cache
+    // and we support roots
+    // Note, after launch we do need to walk the protocol as the protocol
+    // in the shared cache is marked with isCanonical() and that may not
+    // be true if some non-shared cache binary was chosen as the canonical
+    // definition
+    if (launchTime && isPreoptimized && cacheSupportsProtocolRoots) {
+        if (PrintProtocols) {
+            _objc_inform("PROTOCOLS: Skipping reading protocols in image: %s",
+                         hi->fname());
+        }
+        continue;
+    }
+
+    bool isBundle = hi->isBundle();
+
+    protocol_t * const *protolist = _getObjc2ProtocolList(hi, &count);
+    for (i = 0; i < count; i++) {
+        readProtocol(protolist[i], cls, protocol_map, 
+                     isPreoptimized, isBundle); //将协议注册到protocol_map表中
+    }
+}
+
+ts.log("IMAGE TIMES: discover protocols");
+
+//GETSECT(_getObjc2ProtocolList,        protocol_t * const,    "__objc_protolist");
+```
+
+大致流程：读取所有的协议protocol_t，并将其注册到protocol_map表中。
+
+协议也是从`__DATA` 区的`__objc_protolist` 段获取的。
+
+
+
+> Discover categories.
+
+代码：
+
+```c
+// Discover categories.
+for (EACH_HEADER) {
+    bool hasClassProperties = hi->info()->hasCategoryClassProperties();
+
+    auto processCatlist = [&](category_t * const *catlist) {
+        for (i = 0; i < count; i++) {
+            category_t *cat = catlist[i];
+            Class cls = remapClass(cat->cls); //从remapped_class_map表中获取类
+            locstamped_category_t lc{cat, hi};
+
+            if (!cls) {
+                // Category's target class is missing (probably weak-linked).
+                // Ignore the category.
+                if (PrintConnecting) {
+                    _objc_inform("CLASS: IGNORING category \?\?\?(%s) %p with "
+                                 "missing weak-linked target class",
+                                 cat->name, cat);
+                }
+                continue;
+            }
+
+            // Process this category.
+            if (cls->isStubClass()) {
+                // Stub classes are never realized. Stub classes
+                // don't know their metaclass until they're
+                // initialized, so we have to add categories with
+                // class methods or properties to the stub itself.
+                // methodizeClass() will find them and add them to
+                // the metaclass as appropriate.
+                if (cat->instanceMethods ||
+                    cat->protocols ||
+                    cat->instanceProperties ||
+                    cat->classMethods ||
+                    cat->protocols ||
+                    (hasClassProperties && cat->_classProperties))
+                {
+                    objc::unattachedCategories.addForClass(lc, cls);
+                }
+            } else {
+                // First, register the category with its target class.
+                // Then, rebuild the class's method lists (etc) if
+                // the class is realized.
+                //重点是这一段
+                if (cat->instanceMethods ||  cat->protocols
+                    ||  cat->instanceProperties)
+                {
+                    if (cls->isRealized()) { //这个时候一般类还没有被实现，所以大部分情况下不会走这里
+                        attachCategories(cls, &lc, 1, ATTACH_EXISTING);
+                    } else {
+                        objc::unattachedCategories.addForClass(lc, cls);
+                    }
+                }
+
+                if (cat->classMethods  ||  cat->protocols
+                    ||  (hasClassProperties && cat->_classProperties))
+                {
+                    if (cls->ISA()->isRealized()) {
+                        attachCategories(cls->ISA(), &lc, 1, ATTACH_EXISTING | ATTACH_METACLASS);
+                    } else {
+                        objc::unattachedCategories.addForClass(lc, cls->ISA());
+                    }
+                }
+            }
+        }
+    };
+    processCatlist(_getObjc2CategoryList(hi, &count));
+    processCatlist(_getObjc2CategoryList2(hi, &count));
+}
+
+ts.log("IMAGE TIMES: discover categories");
+
+//GETSECT(_getObjc2CategoryList,    category_t * const,  "__objc_catlist");
+```
+
+大致逻辑：
+
+1. 从`__DATA` 区的`__objc_catlist` 段获取类别数组。
+2. 获取类别对应的类。
+3. 如果类别中有实例方法，协议，实例属性则将cls(类)--lc键值对添加到unattachedCategories表中。最终会将实例方法，协议，实例属性等添加到类上。
+4. 如果类别中有类方法，协议，类属性则将cls->ISA()(元类)--lc键值对添加到unattachedCategories表中。最终会将类方法，协议，类属性等添加到元类上。
+
+主要的逻辑就是读取所有的类别到unattachedCategories表中。
+
+> Realize non-lazy classes
+
+代码：
+
+```c
+// Category discovery MUST BE Late to avoid potential races
+// when other threads call the new category code before
+// this thread finishes its fixups.
+
+// +load handled by prepare_load_methods()
+
+// Realize non-lazy classes (for +load methods and static instances)
+for (EACH_HEADER) {
+    classref_t const *classlist = 
+        _getObjc2NonlazyClassList(hi, &count);
+    for (i = 0; i < count; i++) {
+        Class cls = remapClass(classlist[i]);
+        if (!cls) continue;
+
+        addClassTableEntry(cls);
+
+        if (cls->isSwiftStable()) {
+            if (cls->swiftMetadataInitializer()) {
+                _objc_fatal("Swift class %s with a metadata initializer "
+                            "is not allowed to be non-lazy",
+                            cls->nameForLogging());
+            }
+            // fixme also disallow relocatable classes
+            // We can't disallow all Swift classes because of
+            // classes like Swift.__EmptyArrayStorage
+        }
+        realizeClassWithoutSwift(cls, nil);
+    }
+}
+
+ts.log("IMAGE TIMES: realize non-lazy classes");
+
+//GETSECT(_getObjc2NonlazyClassList,    classref_t const,      "__objc_nlclslist");
+```
+
+大致流程：
+
+1. 从`__DATA` 区的`__objc_nlclslist` 段获取类数组。由于获取的是非懒加载的类，所以懒加载的类此时并不会被实现。
+2. 调用realizeClassWithoutSwift实现类。主要是类的ro 和 rw，以及将类别添加到类上。
+
+懒加载的类和非懒加载的类：
+
+非懒加载的类指的是实现了+load方法的类，非懒加载的类在runtime启动时就会被实现。具体在`_read_images` 里实现。
+
+懒加载的类就是没有实现+load方法的类，懒加载的类是在第一次收到消息时才会被实现。具体在`lookUpImpOrForward` 里调用`realizeClassMaybeSwiftAndLeaveLocked` 实现。
+
+这里面的逻辑主要是realizeClassWithoutSwift了
+
+##### realizeClassWithoutSwift
+
+实现：
+
+```c
+/***********************************************************************
+* realizeClassWithoutSwift
+* Performs first-time initialization on class cls, 
+* including allocating its read-write data.
+* Does not perform any Swift-side initialization.
+* Returns the real class structure for the class. 
+* Locking: runtimeLock must be write-locked by the caller
+**********************************************************************/
+static Class realizeClassWithoutSwift(Class cls, Class previously)
+{
+    runtimeLock.assertLocked();
+
+    const class_ro_t *ro;
+    class_rw_t *rw;
+    Class supercls;
+    Class metacls;
+    bool isMeta;
+
+    if (!cls) return nil; //递归退出条件.NSObject的父类就是nil.所以递归必定会退出。
+    if (cls->isRealized()) return cls; //递归退出条件
+    ASSERT(cls == remapClass(cls));
+
+    // fixme verify class is not in an un-dlopened part of the shared cache?
+
+    ro = (const class_ro_t *)cls->data();
+    if (ro->flags & RO_FUTURE) {
+        // This was a future class. rw data is already allocated.
+        rw = cls->data();
+        ro = cls->data()->ro;
+        cls->changeInfo(RW_REALIZED|RW_REALIZING, RW_FUTURE);
+    } else {
+        // Normal class. Allocate writeable class data.
+        rw = (class_rw_t *)calloc(sizeof(class_rw_t), 1);
+        rw->ro = ro;
+        rw->flags = RW_REALIZED|RW_REALIZING;
+        cls->setData(rw); //设置rw。
+    }
+
+    isMeta = ro->flags & RO_META;
+#if FAST_CACHE_META
+    if (isMeta) cls->cache.setBit(FAST_CACHE_META);
+#endif
+    rw->version = isMeta ? 7 : 0;  // old runtime went up to 6
+
+
+    // Choose an index for this class.
+    // Sets cls->instancesRequireRawIsa if indexes no more indexes are available
+    cls->chooseClassArrayIndex();
+
+    if (PrintConnecting) {
+        _objc_inform("CLASS: realizing class '%s'%s %p %p #%u %s%s",
+                     cls->nameForLogging(), isMeta ? " (meta)" : "", 
+                     (void*)cls, ro, cls->classArrayIndex(),
+                     cls->isSwiftStable() ? "(swift)" : "",
+                     cls->isSwiftLegacy() ? "(pre-stable swift)" : "");
+    }
+
+    // Realize superclass and metaclass, if they aren't already.
+    // This needs to be done after RW_REALIZED is set above, for root classes.
+    // This needs to be done after class index is chosen, for root metaclasses.
+    // This assumes that none of those classes have Swift contents,
+    //   or that Swift's initializers have already been called.
+    //   fixme that assumption will be wrong if we add support
+    //   for ObjC subclasses of Swift classes.
+    // 递归的实现整个继承链上的class（类及元类）
+    supercls = realizeClassWithoutSwift(remapClass(cls->superclass), nil);
+    metacls = realizeClassWithoutSwift(remapClass(cls->ISA()), nil);
+
+#if SUPPORT_NONPOINTER_ISA
+    if (isMeta) {
+        // Metaclasses do not need any features from non pointer ISA
+        // This allows for a faspath for classes in objc_retain/objc_release.
+        cls->setInstancesRequireRawIsa();
+    } else {
+        // Disable non-pointer isa for some classes and/or platforms.
+        // Set instancesRequireRawIsa.
+        bool instancesRequireRawIsa = cls->instancesRequireRawIsa();
+        bool rawIsaIsInherited = false;
+        static bool hackedDispatch = false;
+
+        if (DisableNonpointerIsa) {
+            // Non-pointer isa disabled by environment or app SDK version
+            instancesRequireRawIsa = true;
+        }
+        else if (!hackedDispatch  &&  0 == strcmp(ro->name, "OS_object"))
+        {
+            // hack for libdispatch et al - isa also acts as vtable pointer
+            hackedDispatch = true;
+            instancesRequireRawIsa = true;
+        }
+        else if (supercls  &&  supercls->superclass  &&
+                 supercls->instancesRequireRawIsa())
+        {
+            // This is also propagated by addSubclass()
+            // but nonpointer isa setup needs it earlier.
+            // Special case: instancesRequireRawIsa does not propagate
+            // from root class to root metaclass
+            instancesRequireRawIsa = true;
+            rawIsaIsInherited = true;
+        }
+
+        if (instancesRequireRawIsa) {
+            cls->setInstancesRequireRawIsaRecursively(rawIsaIsInherited);
+        }
+    }
+// SUPPORT_NONPOINTER_ISA
+#endif
+
+    // Update superclass and metaclass in case of remapping
+    cls->superclass = supercls;
+    cls->initClassIsa(metacls);
+
+    // Reconcile instance variable offsets / layout.
+    // This may reallocate class_ro_t, updating our ro variable.
+    if (supercls  &&  !isMeta) reconcileInstanceVariables(cls, supercls, ro);
+
+    // Set fastInstanceSize if it wasn't set already.
+    cls->setInstanceSize(ro->instanceSize); //设置实例大小
+
+    // Copy some flags from ro to rw
+    if (ro->flags & RO_HAS_CXX_STRUCTORS) {
+        cls->setHasCxxDtor();
+        if (! (ro->flags & RO_HAS_CXX_DTOR_ONLY)) {
+            cls->setHasCxxCtor();
+        }
+    }
+    
+    // Propagate the associated objects forbidden flag from ro or from
+    // the superclass.
+    if ((ro->flags & RO_FORBIDS_ASSOCIATED_OBJECTS) ||
+        (supercls && supercls->forbidsAssociatedObjects()))
+    {
+        rw->flags |= RW_FORBIDS_ASSOCIATED_OBJECTS;
+    }
+
+    // Connect this class to its superclass's subclass lists
+    if (supercls) {
+        addSubclass(supercls, cls);
+    } else {
+        addRootClass(cls);
+    }
+
+    // Attach categories
+    methodizeClass(cls, previously);
+
+    return cls;
+}
+```
+
+大致逻辑：
+
+1. 分配rw内存，初始化 rw->ro = ro，rw->flags = RW_REALIZED|RW_REALIZING;
+2. 递归的实现该类的继承链往上的class（类及元类）
+3. 将类别里的信息添加到类上。
+
+这里最重要的就是methodizeClass的逻辑了。
+
+##### methodizeClass
+
+实现：
+
+```c
+/***********************************************************************
+* methodizeClass
+* Fixes up cls's method list, protocol list, and property list.
+* Attaches any outstanding categories.
+* Locking: runtimeLock must be held by the caller
+**********************************************************************/
+static void methodizeClass(Class cls, Class previously)
+{
+    runtimeLock.assertLocked();
+
+    bool isMeta = cls->isMetaClass();
+    auto rw = cls->data();
+    auto ro = rw->ro;
+
+    // Methodizing for the first time
+    if (PrintConnecting) {
+        _objc_inform("CLASS: methodizing class '%s' %s", 
+                     cls->nameForLogging(), isMeta ? "(meta)" : "");
+    }
+
+    // Install methods and properties that the class implements itself.
+    method_list_t *list = ro->baseMethods();
+    if (list) {
+        prepareMethodLists(cls, &list, 1, YES, isBundleClass(cls));
+        rw->methods.attachLists(&list, 1); //直接把方法列表数组作为一个整体添加到rw的methods里面去了，因此rw->methods是一个二维数组。
+    }
+
+    property_list_t *proplist = ro->baseProperties;
+    if (proplist) {
+        rw->properties.attachLists(&proplist, 1);
+    }
+
+    protocol_list_t *protolist = ro->baseProtocols;
+    if (protolist) {
+        rw->protocols.attachLists(&protolist, 1);
+    }
+
+    // Root classes get bonus method implementations if they don't have 
+    // them already. These apply before category replacements.
+    if (cls->isRootMetaclass()) {
+        // root metaclass
+        addMethod(cls, @selector(initialize), (IMP)&objc_noop_imp, "", NO);
+    }
+
+    // Attach categories.
+    if (previously) {
+        if (isMeta) {
+            objc::unattachedCategories.attachToClass(cls, previously,
+                                                     ATTACH_METACLASS);
+        } else {
+            // When a class relocates, categories with class methods
+            // may be registered on the class itself rather than on
+            // the metaclass. Tell attachToClass to look for those.
+            objc::unattachedCategories.attachToClass(cls, previously,
+                                                     ATTACH_CLASS_AND_METACLASS);
+        }
+    }
+    objc::unattachedCategories.attachToClass(cls, cls,
+                                             isMeta ? ATTACH_METACLASS : ATTACH_CLASS);
+}
+```
+
+大致流程：
+
+1. 把ro中的方法列表，协议列表，属性列表添加到rw的对应字段中。这说明ro是只读的，rw才是读写的。
+2. 从unattachedCategories表中根据cls键取出它的类别，然后把类别信息添加到类上。
+
+先看一下ro中的方法列表，协议列表，属性列表是如何添加到rw的对应字段中的。主要是attachLists的逻辑。
+
+attachLists实现：
+
+```c
+void attachLists(List* const * addedLists, uint32_t addedCount) {
+    if (addedCount == 0) return;
+
+    if (hasArray()) {
+        // many lists -> many lists
+        uint32_t oldCount = array()->count;
+        uint32_t newCount = oldCount + addedCount;
+        setArray((array_t *)realloc(array(), array_t::byteSize(newCount)));
+        array()->count = newCount;
+        memmove(array()->lists + addedCount, array()->lists, 
+                oldCount * sizeof(array()->lists[0])); //把旧的列表移到后面
+        memcpy(array()->lists, addedLists, 
+               addedCount * sizeof(array()->lists[0]));//把新的列表拷贝到前面，因此addedLists总是往前插入的而不是追加到数组末尾
+    }
+    else if (!list  &&  addedCount == 1) {
+        // 0 lists -> 1 list
+        list = addedLists[0];
+    } 
+    else {
+        // 1 list -> many lists
+        List* oldList = list;
+        uint32_t oldCount = oldList ? 1 : 0;
+        uint32_t newCount = oldCount + addedCount;
+        setArray((array_t *)malloc(array_t::byteSize(newCount)));
+        array()->count = newCount;
+        if (oldList) array()->lists[addedCount] = oldList;
+        memcpy(array()->lists, addedLists, 
+               addedCount * sizeof(array()->lists[0]));
+    }
+}
+```
+
+attachLists的作用就是把addedLists插入到表的头部。理解了这个后面的attachCategories就很容易了。
+
+接下来看一下类别是如何添加到类中的，这里主要是attachToClass的逻辑：
+
+实现：
+
+```c
+void attachToClass(Class cls, Class previously, int flags)
+{
+    runtimeLock.assertLocked();
+    ASSERT((flags & ATTACH_CLASS) ||
+           (flags & ATTACH_METACLASS) ||
+           (flags & ATTACH_CLASS_AND_METACLASS));
+
+    auto &map = get();
+    auto it = map.find(previously);
+
+    if (it != map.end()) {
+        category_list &list = it->second;
+        if (flags & ATTACH_CLASS_AND_METACLASS) {
+            int otherFlags = flags & ~ATTACH_CLASS_AND_METACLASS;
+            attachCategories(cls, list.array(), list.count(), otherFlags | ATTACH_CLASS);
+            attachCategories(cls->ISA(), list.array(), list.count(), otherFlags | ATTACH_METACLASS);
+        } else {
+            attachCategories(cls, list.array(), list.count(), flags);
+        }
+        map.erase(it);
+    }
+}
+```
+
+大致逻辑：
+
+1. 从unattachedCategories表中取出cls的类别
+2. 调用attachCategories将类别添加到类上。
+3. 添加后将类别从表中移除。
+
+attachCategories实现：
+
+```c
+// Attach method lists and properties and protocols from categories to a class.
+// Assumes the categories in cats are all loaded and sorted by load order, 
+// oldest categories first.
+static void
+attachCategories(Class cls, const locstamped_category_t *cats_list, uint32_t cats_count,
+                 int flags)
+{
+    if (slowpath(PrintReplacedMethods)) {
+        printReplacements(cls, cats_list, cats_count);
+    }
+    if (slowpath(PrintConnecting)) {
+        _objc_inform("CLASS: attaching %d categories to%s class '%s'%s",
+                     cats_count, (flags & ATTACH_EXISTING) ? " existing" : "",
+                     cls->nameForLogging(), (flags & ATTACH_METACLASS) ? " (meta)" : "");
+    }
+
+    /*
+     * Only a few classes have more than 64 categories during launch.
+     * This uses a little stack, and avoids malloc.
+     *
+     * Categories must be added in the proper order, which is back
+     * to front. To do that with the chunking, we iterate cats_list
+     * from front to back, build up the local buffers backwards,
+     * and call attachLists on the chunks. attachLists prepends the
+     * lists, so the final result is in the expected order.
+     */
+    constexpr uint32_t ATTACH_BUFSIZ = 64;
+    method_list_t   *mlists[ATTACH_BUFSIZ];
+    property_list_t *proplists[ATTACH_BUFSIZ];
+    protocol_list_t *protolists[ATTACH_BUFSIZ];
+
+    uint32_t mcount = 0;
+    uint32_t propcount = 0;
+    uint32_t protocount = 0;
+    bool fromBundle = NO;
+    bool isMeta = (flags & ATTACH_METACLASS);
+    auto rw = cls->data();
+
+    for (uint32_t i = 0; i < cats_count; i++) {
+        auto& entry = cats_list[i]; //从数组中取出一个locstamped_category_t，因为一个类可能有多个类别
+
+        method_list_t *mlist = entry.cat->methodsForMeta(isMeta);//取出类别的方法数组
+        if (mlist) {
+            if (mcount == ATTACH_BUFSIZ) { //等于64个时buff满了就添加到rw里，一般没这么多个类别。
+                prepareMethodLists(cls, mlists, mcount, NO, fromBundle);
+                rw->methods.attachLists(mlists, mcount);
+                mcount = 0;
+            }
+            mlists[ATTACH_BUFSIZ - ++mcount] = mlist; //倒序放入mlists
+            fromBundle |= entry.hi->isBundle();
+        }
+
+        property_list_t *proplist =
+            entry.cat->propertiesForMeta(isMeta, entry.hi);
+        if (proplist) {
+            if (propcount == ATTACH_BUFSIZ) {
+                rw->properties.attachLists(proplists, propcount);
+                propcount = 0;
+            }
+            proplists[ATTACH_BUFSIZ - ++propcount] = proplist;
+        }
+
+        protocol_list_t *protolist = entry.cat->protocolsForMeta(isMeta);
+        if (protolist) {
+            if (protocount == ATTACH_BUFSIZ) {
+                rw->protocols.attachLists(protolists, protocount);
+                protocount = 0;
+            }
+            protolists[ATTACH_BUFSIZ - ++protocount] = protolist;
+        }
+    }
+
+    if (mcount > 0) {
+        prepareMethodLists(cls, mlists + ATTACH_BUFSIZ - mcount, mcount, NO, fromBundle);
+        rw->methods.attachLists(mlists + ATTACH_BUFSIZ - mcount, mcount);
+        if (flags & ATTACH_EXISTING) flushCaches(cls);
+    }
+
+    rw->properties.attachLists(proplists + ATTACH_BUFSIZ - propcount, propcount);
+
+    rw->protocols.attachLists(protolists + ATTACH_BUFSIZ - protocount, protocount);
+}
+```
+
+大致流程：
+
+1. 声名了一个临时变量mlists 用于保存所有类别的方法列表。因此mlists是一个二维数组
+2. 取出类别的方法数组倒序放入mlists
+3. 调用attachLists将mlists往前插入到rw里。
+
+从数据段取出的类别数组------->放入unattachedCategories表中-------->从表中取出cls的类别数组即我们的参数cats_list。
+
+因此cats_list数组的元素顺序是[cat1, cat2, cat3]，也就是我们的文件编译时的顺序。
+
+mlists:  [[cat3_methodLists], [cat2_methodLists], [cat1_methodLists]]
+
+rw添加前： [[base_methodLists]]
+
+rw添加后： [[cat3_methodLists], [cat2_methodLists], [cat1_methodLists], [base_methodLists]]
+
+如果类别和类之间有重名的方法，则查找到的将是cat3里面的，原类里面的方法在后面并没有被删除，因此我们可以遍历方法列表找到它调用它。
 
 ### 参考
 
@@ -803,4 +1415,10 @@ tagged pointer
 [__attribute__](https://nshipster.com/__attribute__/)  mattt写的
 
 [__attribute__ 总结](https://www.jianshu.com/p/29eb7b5c8b2d)
+
+
+
+关于内存拷贝的：
+
+[memmove 和 memcpy的区别以及处理内存重叠问题](https://blog.csdn.net/Li_Ning_/article/details/51418400)
 

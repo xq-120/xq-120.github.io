@@ -13,17 +13,7 @@ date: 2020-07-18 23:32:40
 
 版本：`objc4-781`
 
-`TARGETS -> debug-objc -> Build Settings -> Enable Hardened Runtime = NO`，解决可编译但断点不起作用问题。
 
-问题
-
-1. isa是什么
-2. tagged pointer对象是什么以及它的布局规则
-3. 对象的isa初始化过程
-4. OC对象，类，元类
-5. 类的加载过程，特别是类对象的创建，方法，属性，协议的获取
-6. 类别的加载过程，关联对象的实现
-7. load方法与initialize方法
 
 `__attribute__((deprecated))` ：标记为已弃用，表明新版本中已经不再使用该东西了，为了兼容旧版本还保留在这里，在以后的某个版本中将会被移除。业务层不应该继续使用。
 
@@ -636,12 +626,12 @@ struct protocol_t : objc_object {
 struct category_t {
     const char *name;
     classref_t cls;
-    struct method_list_t *instanceMethods;
-    struct method_list_t *classMethods;
-    struct protocol_list_t *protocols;
-    struct property_list_t *instanceProperties;
+    struct method_list_t *instanceMethods; //实例方法
+    struct method_list_t *classMethods; //类方法
+    struct protocol_list_t *protocols; //协议
+    struct property_list_t *instanceProperties; //实例属性
     // Fields below this point are not always present on disk.
-    struct property_list_t *_classProperties;
+    struct property_list_t *_classProperties; //类属性
 
     method_list_t *methodsForMeta(bool isMeta) {
         if (isMeta) return classMethods;
@@ -658,3 +648,5 @@ struct category_t {
 ```
 
 别名：`typedef struct category_t *Category;`
+
+通过类别的定义可以看到不能通过类别给类添加实例变量，退而求其次只能添加关联对象。
