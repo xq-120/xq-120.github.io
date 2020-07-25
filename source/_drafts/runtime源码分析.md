@@ -106,11 +106,11 @@ _class_createInstanceFromZone(Class cls, size_t extraBytes, void *zone,
     }
 
     if (!zone && fast) {
-        obj->initInstanceIsa(cls, hasCxxDtor);
+        obj->initInstanceIsa(cls, hasCxxDtor); //Nonpointer的初始化isa
     } else {
         // Use raw pointer isa on the assumption that they might be
         // doing something weird with the zone or RR.
-        obj->initIsa(cls); //初始化isa
+        obj->initIsa(cls); //非Nonpointer的初始化isa
     }
 
     if (fastpath(!hasCxxCtor)) {
@@ -166,7 +166,7 @@ class_rw_t *data() const {
 inline void 
 objc_object::initIsa(Class cls)
 {
-    initIsa(cls, false, false); //默认情况下都是isa都是nonpointer
+    initIsa(cls, false, false); //默认情况下isa都是nonpointer
 }
 
 inline void 
@@ -216,7 +216,7 @@ objc_object::initIsa(Class cls, bool nonpointer, bool hasCxxDtor)
 4. 设置shiftcls为(uintptr_t)cls >> 3。cls是一个指针指向一个类对象的地址，这里将它的值（也就是类对象地址）右移3位，保存到shiftcls字段。这里为啥可以丢弃最后3位，也是因为一个对象的地址这个数值其实是占不满64位的最后3位是无用信息可以丢弃。有兴趣的可以深究下。
 5. 将newisa变量赋值给isa字段，完成isa的初始化。
 
-由此可知如果isa的最低位为1，那么isa就是nonpointer，否则为纯pointer。对于nonpointer的isa里面除了保存类对象地址外，还会保存很多其他信息比如对象的引用计数，是否有关联对象，是否有weak指针等，这样就可以减少一些哈希表的操作，提高了效率。
+由此可知如果isa的最低位为1，那么isa就是nonpointer，否则为非nonpointer（即纯pointer）。对于nonpointer的isa里面除了保存类对象地址外，还会保存很多其他信息比如对象的引用计数，是否有关联对象，是否有weak指针等，这样就可以减少一些哈希表的操作，提高了效率。
 
 ## Tagged Pointer对象
 
@@ -411,7 +411,7 @@ void runtime_init(void)
 1. 各种初始化。比如初始化了unattachedCategories和allocatedClasses两张表。
 2. 往dyld中注册了3个通知回调函数`map_images` , `load_images` , `unmap_image`。
 
-unattachedCategories表：用于存储所有类的类别。
+unattachedCategories表：用于存储所有类的类别，当类别添加到类上后，该类别将会从表中移除。
 
 allocatedClasses表：
 
@@ -677,7 +677,7 @@ void _read_images(header_info **hList, uint32_t hCount, int totalClasses, int un
 
 大致逻辑：
 
-1. 初始化一个全局的name-class哈希表。
+1. 初始化一个全局的name-class哈希表gdb_objc_realized_classes，里面包含了所有已实现的类，可以通过类名称来获取对应类对象。
 2. 将所有选择子注册到namedSelectors选择子表中。
 
 
@@ -939,7 +939,7 @@ ts.log("IMAGE TIMES: realize non-lazy classes");
 1. 从`__DATA` 区的`__objc_nlclslist` 段获取类数组。由于获取的是非懒加载的类，所以懒加载的类此时并不会被实现。
 2. 调用realizeClassWithoutSwift实现类。主要是类的ro 和 rw，以及将类别添加到类上。
 
-懒加载的类和非懒加载的类：
+**懒加载的类和非懒加载的类**
 
 非懒加载的类指的是实现了+load方法的类，非懒加载的类在runtime启动时就会被实现。具体在`_read_images` 里实现。
 
@@ -971,7 +971,7 @@ static Class realizeClassWithoutSwift(Class cls, Class previously)
     bool isMeta;
 
     if (!cls) return nil; //递归退出条件.NSObject的父类就是nil.所以递归必定会退出。
-    if (cls->isRealized()) return cls; //递归退出条件
+    if (cls->isRealized()) return cls; //递归退出条件.类已经实现
     ASSERT(cls == remapClass(cls));
 
     // fixme verify class is not in an un-dlopened part of the shared cache?
@@ -1253,7 +1253,7 @@ void attachToClass(Class cls, Class previously, int flags)
 
 1. 从unattachedCategories表中取出cls的类别
 2. 调用attachCategories将类别添加到类上。
-3. 添加后将类别从表中移除。
+3. 添加后将类别从unattachedCategories表中移除。
 
 attachCategories实现：
 
@@ -1929,6 +1929,16 @@ void callInitialize(Class cls)
 2. 方法交换时机
 3. 多次交换？
 4. 动态控制方法的交换与不交换可不可行？
+
+
+
+TODO
+
+## 消息机制
+
+TODO
+
+
 
 ## 参考
 
