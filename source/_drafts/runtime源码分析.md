@@ -25,7 +25,7 @@ date: 2020-07-18 23:32:40
 6. 类别的加载过程，关联对象的实现
 7. load方法与initialize方法
 
-### 对象的创建及isa的初始化
+## 对象的创建及isa的初始化
 
 在调用`Person *per = [[Person alloc] init];` ，调用alloc时会调用到callAlloc
 
@@ -218,7 +218,7 @@ objc_object::initIsa(Class cls, bool nonpointer, bool hasCxxDtor)
 
 由此可知如果isa的最低位为1，那么isa就是nonpointer，否则为纯pointer。对于nonpointer的isa里面除了保存类对象地址外，还会保存很多其他信息比如对象的引用计数，是否有关联对象，是否有weak指针等，这样就可以减少一些哈希表的操作，提高了效率。
 
-### Tagged Pointer对象
+## Tagged Pointer对象
 
 ```
 // Tagged pointer objects.
@@ -370,7 +370,7 @@ tag bit位在x86_64和arm64是不同的
 
 标志位--OBJC_TAG--数据--元数据
 
-### 类的加载
+## runtime的加载
 
 ```c
 /***********************************************************************
@@ -404,7 +404,7 @@ void runtime_init(void)
 }
 ```
 
-runtime加载时会调用_objc_init函数。
+在_objc_init函数中runtime会向dyld注册回调函数。
 
 该函数主要作用：
 
@@ -428,7 +428,7 @@ static ExplicitInitDenseSet<Class> allocatedClasses;
 
 包含了所有objc_allocateClassPair创建的类和元类(基本上是运行时创建的类)。
 
-`map_images` 里面做了很多事情包括类的加载，类别的加载，协议的加载等等。
+`map_images` 里面做了很多事情包括类的加载，类别的加载，类别添加到类上，协议的加载等等。
 
 `load_images` 里面会调用我们实现的`+load`方法。
 
@@ -1360,7 +1360,577 @@ rw添加后： [[cat3_methodLists], [cat2_methodLists], [cat1_methodLists], [bas
 
 如果类别和类之间有重名的方法，则查找到的将是cat3里面的，原类里面的方法在后面并没有被删除，因此我们可以遍历方法列表找到它调用它。
 
-### 参考
+### load_images （+load的调用）
+
+在方法load_images里面被调用
+
+```c
+void
+load_images(const char *path __unused, const struct mach_header *mh)
+{
+    // Return without taking locks if there are no +load methods here.
+    if (!hasLoadMethods((const headerType *)mh)) return;
+
+    recursive_mutex_locker_t lock(loadMethodLock);
+
+    // Discover load methods
+    {
+        mutex_locker_t lock2(runtimeLock);
+        prepare_load_methods((const headerType *)mh);
+    }
+
+    // Call +load methods (without runtimeLock - re-entrant)
+    call_load_methods();
+}
+```
+
+大致流程：
+
+1. Discover load methods。找到所有load方法
+2. Call +load methods。调用所有load方法
+
+先看下准备load方法，prepare_load_methods。
+
+#### prepare_load_methods
+
+```c
+void prepare_load_methods(const headerType *mhdr)
+{
+    size_t count, i;
+
+    runtimeLock.assertLocked();
+
+    classref_t const *classlist = 
+        _getObjc2NonlazyClassList(mhdr, &count); //获取所有的类
+    for (i = 0; i < count; i++) {
+        schedule_class_load(remapClass(classlist[i]));
+    }
+
+    category_t * const *categorylist = _getObjc2NonlazyCategoryList(mhdr, &count); //获取所有的类别
+    for (i = 0; i < count; i++) { 
+        category_t *cat = categorylist[i];
+        Class cls = remapClass(cat->cls);
+        if (!cls) continue;  // category for ignored weak-linked class
+        if (cls->isSwiftStable()) {
+            _objc_fatal("Swift class extensions and categories on Swift "
+                        "classes are not allowed to have +load methods");
+        }
+        realizeClassWithoutSwift(cls, nil); //load_images调用时类都已经实现，所以一般不会走这个方法逻辑。
+        ASSERT(cls->ISA()->isRealized());
+        add_category_to_loadable_list(cat); ////按顺序添加cat-load对到loadable_categories数组中
+    }
+}
+
+/***********************************************************************
+* prepare_load_methods
+* Schedule +load for classes in this image, any un-+load-ed 
+* superclasses in other images, and any categories in this image.
+**********************************************************************/
+// Recursively schedule +load for cls and any un-+load-ed superclasses.
+// cls must already be connected.
+static void schedule_class_load(Class cls)
+{
+    if (!cls) return;
+    ASSERT(cls->isRealized());  // _read_images should realize
+
+    if (cls->data()->flags & RW_LOADED) return;
+
+    // Ensure superclass-first ordering
+    schedule_class_load(cls->superclass); //递归的调用，父类优先
+
+    add_class_to_loadable_list(cls); //按顺序添加cls-load对到loadable_classes数组中
+    cls->setInfo(RW_LOADED);  //设置标志位RW_LOADED，用于退出递归
+}
+
+/***********************************************************************
+* add_class_to_loadable_list
+* Class cls has just become connected. Schedule it for +load if
+* it implements a +load method.
+**********************************************************************/
+void add_class_to_loadable_list(Class cls)
+{
+    IMP method;
+
+    loadMethodLock.assertLocked();
+
+    method = cls->getLoadMethod();
+    if (!method) return;  // Don't bother if cls has no +load method
+    
+    if (PrintLoading) {
+        _objc_inform("LOAD: class '%s' scheduled for +load", 
+                     cls->nameForLogging());
+    }
+    
+    if (loadable_classes_used == loadable_classes_allocated) {
+        loadable_classes_allocated = loadable_classes_allocated*2 + 16;
+        loadable_classes = (struct loadable_class *)
+            realloc(loadable_classes,
+                              loadable_classes_allocated *
+                              sizeof(struct loadable_class));
+    }
+    
+    loadable_classes[loadable_classes_used].cls = cls;
+    loadable_classes[loadable_classes_used].method = method;
+    loadable_classes_used++;
+}
+
+/***********************************************************************
+* add_category_to_loadable_list
+* Category cat's parent class exists and the category has been attached
+* to its class. Schedule this category for +load after its parent class
+* becomes connected and has its own +load method called.
+**********************************************************************/
+void add_category_to_loadable_list(Category cat)
+{
+    IMP method;
+
+    loadMethodLock.assertLocked();
+
+    method = _category_getLoadMethod(cat);
+
+    // Don't bother if cat has no +load method
+    if (!method) return;
+
+    if (PrintLoading) {
+        _objc_inform("LOAD: category '%s(%s)' scheduled for +load", 
+                     _category_getClassName(cat), _category_getName(cat));
+    }
+    
+    if (loadable_categories_used == loadable_categories_allocated) {
+        loadable_categories_allocated = loadable_categories_allocated*2 + 16;
+        loadable_categories = (struct loadable_category *)
+            realloc(loadable_categories,
+                              loadable_categories_allocated *
+                              sizeof(struct loadable_category));
+    }
+
+    loadable_categories[loadable_categories_used].cat = cat;
+    loadable_categories[loadable_categories_used].method = method;
+    loadable_categories_used++;
+}
+```
+
+准备的过程大致如下：
+
+1. 添加所有cls-load对到loadable_classes数组中。父类的在前子类的在后
+2. 添加所有cat-load对到loadable_categories数组中。元素的顺序是类别的编译顺序。
+
+再看一下调用方法：call_load_methods
+
+#### call_load_methods
+
+```c
+
+/***********************************************************************
+* call_load_methods
+* Call all pending class and category +load methods.
+* Class +load methods are called superclass-first. 
+* Category +load methods are not called until after the parent class's +load.
+* 
+* This method must be RE-ENTRANT, because a +load could trigger 
+* more image mapping. In addition, the superclass-first ordering 
+* must be preserved in the face of re-entrant calls. Therefore, 
+* only the OUTERMOST call of this function will do anything, and 
+* that call will handle all loadable classes, even those generated 
+* while it was running.
+*
+* The sequence below preserves +load ordering in the face of 
+* image loading during a +load, and make sure that no 
+* +load method is forgotten because it was added during 
+* a +load call.
+* Sequence:
+* 1. Repeatedly call class +loads until there aren't any more
+* 2. Call category +loads ONCE.
+* 3. Run more +loads if:
+*    (a) there are more classes to load, OR
+*    (b) there are some potential category +loads that have 
+*        still never been attempted.
+* Category +loads are only run once to ensure "parent class first" 
+* ordering, even if a category +load triggers a new loadable class 
+* and a new loadable category attached to that class. 
+*
+* Locking: loadMethodLock must be held by the caller 
+*   All other locks must not be held.
+**********************************************************************/
+void call_load_methods(void)
+{
+    static bool loading = NO;
+    bool more_categories;
+
+    loadMethodLock.assertLocked();
+
+    // Re-entrant calls do nothing; the outermost call will finish the job.
+    if (loading) return;
+    loading = YES;
+
+    void *pool = objc_autoreleasePoolPush();
+
+    do {
+        // 1. Repeatedly call class +loads until there aren't any more
+        while (loadable_classes_used > 0) { //先调用所有类的load方法
+            call_class_loads();
+        }
+
+        // 2. Call category +loads ONCE
+        more_categories = call_category_loads(); //再调用所有类别的load方法
+
+        // 3. Run more +loads if there are classes OR more untried categories
+    } while (loadable_classes_used > 0  ||  more_categories);
+
+    objc_autoreleasePoolPop(pool);
+
+    loading = NO;
+}
+```
+
+看一下如何调用类里面的load：
+
+##### call_class_loads
+
+实现：
+
+```c
+/***********************************************************************
+* call_class_loads
+* Call all pending class +load methods.
+* If new classes become loadable, +load is NOT called for them.
+*
+* Called only by call_load_methods().
+**********************************************************************/
+static void call_class_loads(void)
+{
+    int i;
+    
+    // Detach current loadable list.
+    struct loadable_class *classes = loadable_classes;
+    int used = loadable_classes_used;
+    loadable_classes = nil;
+    loadable_classes_allocated = 0;
+    loadable_classes_used = 0; //先标记为调用完了
+    
+    // Call all +loads for the detached list.
+    for (i = 0; i < used; i++) {
+        Class cls = classes[i].cls;
+        load_method_t load_method = (load_method_t)classes[i].method;
+        if (!cls) continue; 
+
+        if (PrintLoading) {
+            _objc_inform("LOAD: +[%s load]\n", cls->nameForLogging());
+        }
+        (*load_method)(cls, @selector(load)); //就是通过函数指针直接调用的
+    }
+    
+    // Destroy the detached list.
+    if (classes) free(classes); //释放数组
+}
+```
+
+循环通过IMP，调用load方法。
+
+看一下如何调用类别里的load：
+
+##### call_category_loads
+
+实现：
+
+```c
+/***********************************************************************
+* call_category_loads
+* Call some pending category +load methods.
+* The parent class of the +load-implementing categories has all of 
+*   its categories attached, in case some are lazily waiting for +initalize.
+* Don't call +load unless the parent class is connected.
+* If new categories become loadable, +load is NOT called, and they 
+*   are added to the end of the loadable list, and we return TRUE.
+* Return FALSE if no new categories became loadable.
+*
+* Called only by call_load_methods().
+**********************************************************************/
+static bool call_category_loads(void)
+{
+    int i, shift;
+    bool new_categories_added = NO;
+    
+    // Detach current loadable list.
+    struct loadable_category *cats = loadable_categories;
+    int used = loadable_categories_used;
+    int allocated = loadable_categories_allocated;
+    loadable_categories = nil;
+    loadable_categories_allocated = 0;
+    loadable_categories_used = 0;
+
+    // Call all +loads for the detached list.
+    for (i = 0; i < used; i++) {
+        Category cat = cats[i].cat;
+        load_method_t load_method = (load_method_t)cats[i].method;
+        Class cls;
+        if (!cat) continue;
+
+        cls = _category_getClass(cat);
+        if (cls  &&  cls->isLoadable()) {
+            if (PrintLoading) {
+                _objc_inform("LOAD: +[%s(%s) load]\n", 
+                             cls->nameForLogging(), 
+                             _category_getName(cat));
+            }
+            (*load_method)(cls, @selector(load)); //load方法的两个隐藏参数
+            cats[i].cat = nil;
+        }
+    }
+
+    // Compact detached list (order-preserving)
+    shift = 0;
+    for (i = 0; i < used; i++) {
+        if (cats[i].cat) {
+            cats[i-shift] = cats[i];
+        } else {
+            shift++;
+        }
+    }
+    used -= shift;
+
+    // Copy any new +load candidates from the new list to the detached list.
+    new_categories_added = (loadable_categories_used > 0);
+    for (i = 0; i < loadable_categories_used; i++) {
+        if (used == allocated) {
+            allocated = allocated*2 + 16;
+            cats = (struct loadable_category *)
+                realloc(cats, allocated *
+                                  sizeof(struct loadable_category));
+        }
+        cats[used++] = loadable_categories[i];
+    }
+
+    // Destroy the new list.
+    if (loadable_categories) free(loadable_categories);
+
+    // Reattach the (now augmented) detached list. 
+    // But if there's nothing left to load, destroy the list.
+    if (used) {
+        loadable_categories = cats;
+        loadable_categories_used = used;
+        loadable_categories_allocated = allocated;
+    } else {
+        if (cats) free(cats);
+        loadable_categories = nil;
+        loadable_categories_used = 0;
+        loadable_categories_allocated = 0;
+    }
+
+    if (PrintLoading) {
+        if (loadable_categories_used != 0) {
+            _objc_inform("LOAD: %d categories still waiting for +load\n",
+                         loadable_categories_used);
+        }
+    }
+
+    return new_categories_added;
+}
+```
+
+循环通过IMP，调用load方法。
+
+#### 总结
+
+1. 调用时机：类被实现后，load_images通知回调中被调用。
+2. 所有类和类别的load方法都会调用。是通过IMP函数指针直接调用的。
+3. 调用顺序为：先类再类别。类的顺序为先父类再子类。类别的顺序为编译顺序。
+4. 只执行一次
+
+## +initialize的调用
+
+第一次调用该类的类方法或实例方法前调用,可能永远不调用。
+
+给对象发送消息时会调用lookUpImpOrForward，而lookUpImpOrForward会查看initialize 方法有没有执行过，没有则先执行initialize.
+
+### lookUpImpOrForward
+
+```c
+IMP lookUpImpOrForward(id inst, SEL sel, Class cls, int behavior)
+{
+  const IMP forward_imp = (IMP)_objc_msgForward_impcache;
+  IMP imp = nil;
+  Class curClass;
+
+  runtimeLock.assertUnlocked();
+
+  // Optimistic cache lookup
+  if (fastpath(behavior & LOOKUP_CACHE)) {
+      imp = cache_getImp(cls, sel);
+      if (imp) goto done_nolock;
+  }
+  
+  ...
+  
+  if (slowpath((behavior & LOOKUP_INITIALIZE) && !cls->isInitialized())) {
+      cls = initializeAndLeaveLocked(cls, inst, runtimeLock);
+      // runtimeLock may have been dropped but is now locked again
+
+      // If sel == initialize, class_initialize will send +initialize and 
+      // then the messenger will send +initialize again after this 
+      // procedure finishes. Of course, if this is not being called 
+      // from the messenger then it won't happen. 2778172
+  }
+  
+  ...
+```
+
+调用initializeAndLeaveLocked执行+initialize方法。
+
+#### initializeNonMetaClass
+
+```c
+/***********************************************************************
+* class_initialize.  Send the '+initialize' message on demand to any
+* uninitialized class. Force initialization of superclasses first.
+**********************************************************************/
+void initializeNonMetaClass(Class cls)
+{
+    ASSERT(!cls->isMetaClass());
+
+    Class supercls;
+    bool reallyInitialize = NO;
+
+    // Make sure super is done initializing BEFORE beginning to initialize cls.
+    // See note about deadlock above.
+    supercls = cls->superclass;
+    if (supercls  &&  !supercls->isInitialized()) {
+        initializeNonMetaClass(supercls); //先执行父类的+initialize方法
+    }
+    
+    // Try to atomically set CLS_INITIALIZING.
+    SmallVector<_objc_willInitializeClassCallback, 1> localWillInitializeFuncs;
+    {
+        monitor_locker_t lock(classInitLock);
+        if (!cls->isInitialized() && !cls->isInitializing()) {
+            cls->setInitializing();
+            reallyInitialize = YES;
+
+            // Grab a copy of the will-initialize funcs with the lock held.
+            localWillInitializeFuncs.initFrom(willInitializeFuncs);
+        }
+    }
+    
+    if (reallyInitialize) {
+        // We successfully set the CLS_INITIALIZING bit. Initialize the class.
+        
+        // Record that we're initializing this class so we can message it.
+        _setThisThreadIsInitializingClass(cls);
+
+        if (MultithreadedForkChild) {
+            // LOL JK we don't really call +initialize methods after fork().
+            performForkChildInitialize(cls, supercls);
+            return;
+        }
+        
+        for (auto callback : localWillInitializeFuncs)
+            callback.f(callback.context, cls);
+
+        // Send the +initialize message.
+        // Note that +initialize is sent to the superclass (again) if 
+        // this class doesn't implement +initialize. 2157218
+        if (PrintInitializing) {
+            _objc_inform("INITIALIZE: thread %p: calling +[%s initialize]",
+                         objc_thread_self(), cls->nameForLogging());
+        }
+
+        // Exceptions: A +initialize call that throws an exception 
+        // is deemed to be a complete and successful +initialize.
+        //
+        // Only __OBJC2__ adds these handlers. !__OBJC2__ has a
+        // bootstrapping problem of this versus CF's call to
+        // objc_exception_set_functions().
+#if __OBJC2__
+        @try
+#endif
+        {
+            callInitialize(cls); //调用
+
+            if (PrintInitializing) {
+                _objc_inform("INITIALIZE: thread %p: finished +[%s initialize]",
+                             objc_thread_self(), cls->nameForLogging());
+            }
+        }
+#if __OBJC2__
+        @catch (...) {
+            if (PrintInitializing) {
+                _objc_inform("INITIALIZE: thread %p: +[%s initialize] "
+                             "threw an exception",
+                             objc_thread_self(), cls->nameForLogging());
+            }
+            @throw;
+        }
+        @finally
+#endif
+        {
+            // Done initializing.
+            lockAndFinishInitializing(cls, supercls);
+        }
+        return;
+    }
+    
+    else if (cls->isInitializing()) {
+        // We couldn't set INITIALIZING because INITIALIZING was already set.
+        // If this thread set it earlier, continue normally.
+        // If some other thread set it, block until initialize is done.
+        // It's ok if INITIALIZING changes to INITIALIZED while we're here, 
+        //   because we safely check for INITIALIZED inside the lock 
+        //   before blocking.
+        if (_thisThreadIsInitializingClass(cls)) {
+            return;
+        } else if (!MultithreadedForkChild) {
+            waitForInitializeToComplete(cls);
+            return;
+        } else {
+            // We're on the child side of fork(), facing a class that
+            // was initializing by some other thread when fork() was called.
+            _setThisThreadIsInitializingClass(cls);
+            performForkChildInitialize(cls, supercls);
+        }
+    }
+    
+    else if (cls->isInitialized()) {
+        // Set CLS_INITIALIZING failed because someone else already 
+        //   initialized the class. Continue normally.
+        // NOTE this check must come AFTER the ISINITIALIZING case.
+        // Otherwise: Another thread is initializing this class. ISINITIALIZED 
+        //   is false. Skip this clause. Then the other thread finishes 
+        //   initialization and sets INITIALIZING=no and INITIALIZED=yes. 
+        //   Skip the ISINITIALIZING clause. Die horribly.
+        return;
+    }
+    
+    else {
+        // We shouldn't be here. 
+        _objc_fatal("thread-safe class init in objc runtime is buggy!");
+    }
+}
+
+void callInitialize(Class cls)
+{
+    ((void(*)(Class, SEL))objc_msgSend)(cls, @selector(initialize)); //走的是消息发送，因此类别的同名方法会覆盖类的。
+    asm("");
+}
+```
+
+由于调用的时候走的是消息发送，因此类别里的会覆盖类里的方法。
+
+### 总结
+
+1. 调用时机：第一次调用该类的类方法或实例方法前调用，可能永远不调用。
+2. 调用顺序：先父类再子类。类别里的会覆盖类里的实现，多个类别同时实现时最后一个类别里的被执行。
+3. 只执行一次
+
+## 方法交换
+
+问题：
+
+1. 交换一个未实现的父类方法
+2. 方法交换时机
+3. 多次交换？
+4. 动态控制方法的交换与不交换可不可行？
+
+## 参考
 
 [load 方法全程跟踪](https://www.desgard.com/iOS-Source-Probe/Objective-C/Runtime/load 方法全程跟踪.html)
 
