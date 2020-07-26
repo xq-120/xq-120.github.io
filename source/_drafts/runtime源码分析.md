@@ -24,6 +24,7 @@ date: 2020-07-18 23:32:40
 5. 类的加载过程，特别是类对象的创建，方法，属性，协议的获取
 6. 类别的加载过程，关联对象的实现
 7. load方法与initialize方法
+8. load与initialize是否有线程安全问题？
 
 ## 对象的创建及isa的初始化
 
@@ -1735,7 +1736,7 @@ static bool call_category_loads(void)
 1. 调用时机：类被实现后，load_images通知回调中被调用。
 2. 所有类和类别的load方法都会调用。是通过IMP函数指针直接调用的。
 3. 调用顺序为：先类再类别。类的顺序为先父类再子类。类别的顺序为编译顺序。
-4. 只执行一次
+4. 只执行一次。由于runtime会保证所有load方法都会执行，所以最好不要在实现中调用super否则会造成多次执行，引发一些问题。
 
 ## +initialize的调用
 
@@ -1795,7 +1796,7 @@ void initializeNonMetaClass(Class cls)
     // See note about deadlock above.
     supercls = cls->superclass;
     if (supercls  &&  !supercls->isInitialized()) {
-        initializeNonMetaClass(supercls); //先执行父类的+initialize方法
+        initializeNonMetaClass(supercls); //递归调用，先执行父类的+initialize方法。因此在子类的实现中并不需要使用super。如果使用super反而会造成重复执行造成一些问题。
     }
     
     // Try to atomically set CLS_INITIALIZING.
@@ -1919,20 +1920,207 @@ void callInitialize(Class cls)
 
 1. 调用时机：第一次调用该类的类方法或实例方法前调用，可能永远不调用。
 2. 调用顺序：先父类再子类。类别里的会覆盖类里的实现，多个类别同时实现时最后一个类别里的被执行。
-3. 只执行一次
+3. 只执行一次。由于runtime会保证先调用父类的，所以最好不要在实现中调用super否则会造成多次执行，引发一些问题。
 
 ## 方法交换
 
 问题：
 
-1. 交换一个未实现的父类方法
-2. 方法交换时机
-3. 多次交换？
+1. 交换类的一个未实现的父类方法？
+2. 方法交换时机？
+3. 方法交换失效？
 4. 动态控制方法的交换与不交换可不可行？
 
+方法交换的核心实现：
+
+```c
+void method_exchangeImplementations(Method m1, Method m2)
+{
+    if (!m1  ||  !m2) return;
+
+    mutex_locker_t lock(runtimeLock);
+
+    IMP m1_imp = m1->imp;
+    m1->imp = m2->imp;
+    m2->imp = m1_imp;
 
 
-TODO
+    // RR/AWZ updates are slow because class is unknown
+    // Cache updates are slow because class is unknown
+    // fixme build list of classes whose Methods are known externally?
+
+    flushCaches(nil); //清除方法派发缓存，走正常的方法查找过程。
+
+    adjustCustomFlagsForMethodChange(nil, m1);
+    adjustCustomFlagsForMethodChange(nil, m2);
+}
+```
+
+原理很简单就是交换了两个方法的IMP，于是当收到sel1消息时执行的将是m2的实现imp2。当收到sel2消息时执行的将是m1的实现imp1。
+
+
+
+Q1：交换类的一个未实现的父类方法
+
+UINavigationController内部是没有实现viewDidLoad方法的，可以通过以下方法佐证：
+
+1. 通过打符号断点 `-[UINavigationController viewDidLoad]` 会发现并不会断住
+
+2. 通过打印IMP
+
+   ```objc
+   - (void)viewDidAppear:(BOOL)animated
+   {
+       [super viewDidAppear:animated];
+       
+       IMP imp1 = class_getMethodImplementation(self.class, @selector(viewDidLoad));
+       NSLog(@"ViewController viewDidLoad IMP = %p", imp1);
+       
+       IMP imp2 = class_getMethodImplementation(UIViewController.class, @selector(viewDidLoad));
+       NSLog(@"UIViewController viewDidLoad IMP = %p", imp2);
+       
+       IMP imp3 = class_getMethodImplementation(UINavigationController.class, @selector(viewDidLoad));
+       NSLog(@"UINavigationController viewDidLoad IMP = %p", imp3);
+   }
+   
+   2020-07-26 11:22:26.414393+0800 方法交换Demo[8806:230552] ViewController viewDidLoad IMP = 0x10d5f9a40
+   2020-07-26 11:22:26.414701+0800 方法交换Demo[8806:230552] UIViewController viewDidLoad IMP = 0x110d1ced7
+   2020-07-26 11:22:26.415099+0800 方法交换Demo[8806:230552] UINavigationController viewDidLoad IMP = 0x110d1ced7
+   ```
+
+   可以发现UINavigationController和父类UIViewController viewDidLoad的IMP是相同的说明UINavigationController并没有重写该方法。
+
+3. 通过class_copyMethodList遍历UINavigationController类的方法列表，查看是否有viewDidLoad在里面。
+
+如果在UINavigationController的类别中交换viewDidLoad方法，将导致其他UIViewController子类在执行viewDidLoad时崩溃。
+
+```
+UINavigationController+Helper.m
+
++ (void)load
+{
+    SEL originalSEL = @selector(viewDidLoad);
+    SEL swizzledSEL = @selector(fsn_viewDidLoad);
+
+    Method originalMethod = class_getInstanceMethod(self, originalSEL); //这里其实是它的父类的实现
+    Method swizzledMethod = class_getInstanceMethod(self, swizzledSEL);
+
+    method_exchangeImplementations(originalMethod, swizzledMethod);
+}
+
+- (void)fsn_viewDidLoad
+{
+    NSLog(@"先执行我的实现");
+
+    [self fsn_viewDidLoad]; //执行原来的实现
+
+    NSLog(@"执行完原先的实现后,继续执行");
+}
+```
+
+原因：
+
+由于UINavigationController内部并没有实现viewDidLoad方法，所以在方法交换时，交换的其实是它的父类UIViewController的viewDidLoad方法。
+
+当其他UIViewController子类执行-[XQViewController viewDidLoad]时：
+
+```
+- (void)viewDidLoad {
+    [super viewDidLoad]; //调用父类的实现
+    
+    self.navigationItem.title = @"首页";
+}
+```
+
+真正调用到的是-fsn_viewDidLoad的IMP实现。由于在fsn_viewDidLoad实现里有给自己发送fsn_viewDidLoad消息，此时根据消息分发机制XQViewController会先在自己的方法列表中查找fsn_viewDidLoad方法，当然是找不到的。于是再到它的父类UIViewController中查找，自然也是找不到的，因为fsn_viewDidLoad只存在于UINavigationController类里。经过一系列的查找，最终发生崩溃。提示`*** Terminating app due to uncaught exception 'NSInvalidArgumentException', reason: '-[ViewController fsn_viewDidLoad]: unrecognized selector sent to instance 0x7fca9040a0e0'` 。
+
+正确交换：
+
+```objc
++ (void)load
+{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+
+        SEL originalSEL = @selector(viewDidLoad);
+        SEL swizzledSEL = @selector(fsn_viewDidLoad);
+
+        Method originalMethod = class_getInstanceMethod(self, originalSEL);
+        Method swizzledMethod = class_getInstanceMethod(self, swizzledSEL);
+
+        class_addMethod(self,
+                        originalSEL,
+                        class_getMethodImplementation(self, originalSEL),
+                        method_getTypeEncoding(originalMethod)); //确保自身实现原始方法。
+        class_addMethod(self,
+                        swizzledSEL,
+                        class_getMethodImplementation(self, swizzledSEL),
+                        method_getTypeEncoding(swizzledMethod)); //确保自身实现目的方法。
+
+        method_exchangeImplementations(class_getInstanceMethod(self, originalSEL), class_getInstanceMethod(self, swizzledSEL));
+    });
+}
+```
+
+总结：
+
+在使用方法交换这个黑魔法时：
+
+1. 确保自身类已经实现了待交换的原始方法和目的方法，否则交换的将是父类的实现。
+2. 确保方法交换的代码只执行一次。
+3. 以上两点如果没有遵守，可能会导致崩溃或者没效果或效果不符合预期。
+4. 推荐使用GitHub上已经封装好的工具类。
+
+一些类簇在使用方法交换时需要对它们的真身做交换，否则会没效果。
+
+
+
+Q3：方法交换失效？
+
+方法交换的原理其实很简单。而方法交换失效的本质原因是方法交换的代码被多次执行了。比如父类里在load方法里做了方法交换，子类也在load方法里做了方法交换且调用了super，这就会导致父类里的交换执行了两次。一种可能的现象就是没效果了。
+
+没效果：
+
+```
+drinking
+1.子类没有实现。
+2.只有父类交换了drinking。
+3.子类load里调用了super
+子类没有实现也没有交换drinking，因此子类load里调用了super，相当于父类交换了两次因而又回到了初始状态。
+```
+
+不符合预期：
+
+```
+eat
+1.子类有实现。
+2.父类，子类都交换了eat。
+3.子类load里调用了super。
+由于子类load里调用了super，事情变的复杂。
+父类初始状态
+p_o_eat --> p_o_eat_imp
+p_d_eat --> p_d_eat_imp
+
+执行父类的load
+p_o_eat --> p_d_eat_imp
+p_d_eat --> p_o_eat_imp
+
+子类初始状态
+s_o_eat --> s_o_eat_imp
+s_d_eat --> s_d_eat_imp
+执行子类的load
+调用super
+s_o_eat --> p_o_eat_imp
+p_d_eat --> s_o_eat_imp
+执行自己的交换
+s_o_eat --> s_d_eat_imp
+s_d_eat --> p_o_eat_imp
+
+因此当执行[p eat]时：p_d_eat_imp -- s_o_eat_imp //给父对象发送eat消息，结果执行的是子类的实现，刺激不
+当执行[s eat]时：s_d_eat_imp -- p_o_eat_imp //执行的是父类的实现
+```
+
+
 
 ## 消息机制
 
