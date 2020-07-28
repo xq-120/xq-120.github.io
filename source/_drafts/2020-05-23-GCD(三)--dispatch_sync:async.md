@@ -943,7 +943,7 @@ _dispatch_root_queue_drain(dispatch_queue_global_t dq,
 	bool reset = false;
 	dispatch_invoke_context_s dic = { };
 #if DISPATCH_COCOA_COMPAT
-	_dispatch_last_resort_autorelease_pool_push(&dic);
+	_dispatch_last_resort_autorelease_pool_push(&dic); //push自动释放池
 #endif // DISPATCH_COCOA_COMPAT
 	_dispatch_queue_drain_init_narrowing_check_deadline(&dic, pri);
 	_dispatch_perfmon_start();
@@ -965,7 +965,7 @@ _dispatch_root_queue_drain(dispatch_queue_global_t dq,
 	}
 
 #if DISPATCH_COCOA_COMPAT
-	_dispatch_last_resort_autorelease_pool_pop(&dic);
+	_dispatch_last_resort_autorelease_pool_pop(&dic); //pop自动释放池
 #endif // DISPATCH_COCOA_COMPAT
 	_dispatch_reset_wlh();
 	_dispatch_clear_basepri();
@@ -976,6 +976,8 @@ _dispatch_root_queue_drain(dispatch_queue_global_t dq,
 该函数主要作用：
 
 循环操作，从全局队列的链表里取出一个任务（一个queue或一个dc），调用_dispatch_continuation_pop_inline执行任务
+
+另外：gcd在执行任务前也会push自动释放池，所有任务执行完后pop自动释放池。因此即使我们没有显式创建，也不会产生内存泄漏。
 
 ##### _dispatch_root_queue_drain_one
 
