@@ -95,9 +95,9 @@ struct __CFRunLoop {
     volatile _per_run_data *_perRunData;              // reset for runs of the run loop
     pthread_t _pthread; //所属线程
     uint32_t _winthread;
-    CFMutableSetRef _commonModes;
+    CFMutableSetRef _commonModes; //common modes集合
     CFMutableSetRef _commonModeItems;
-    CFRunLoopModeRef _currentMode;
+    CFRunLoopModeRef _currentMode; //当前mode
     CFMutableSetRef _modes; //mode集合，说明可以有多个mode
     struct _block_item *_blocks_head; //这个链表用于保存提交到runloop上的block
     struct _block_item *_blocks_tail;
@@ -124,12 +124,12 @@ struct __CFRunLoopMode {
     CFStringRef _name; //模式名称
     Boolean _stopped;
     char _padding[3];
-    CFMutableSetRef _sources0;  ////输入源0
-    CFMutableSetRef _sources1;  //输入源1
-    CFMutableArrayRef _observers;  //观察者
-    CFMutableArrayRef _timers;  //定时器
+    CFMutableSetRef _sources0;  ////输入源0集合
+    CFMutableSetRef _sources1;  //输入源1集合
+    CFMutableArrayRef _observers;  //观察者数组
+    CFMutableArrayRef _timers;  //定时器数组
     CFMutableDictionaryRef _portToV1SourceMap;
-    __CFPortSet _portSet; //端口集合，可能是用于source1的端口
+    __CFPortSet _portSet; //端口集合
     CFIndex _observerMask;
 #if USE_MK_TIMER_TOO
     mach_port_t _timerPort; //定时器端口
@@ -252,38 +252,38 @@ static CFMutableDictionaryRef __CFRunLoops = NULL;
 // t==0 is a synonym for "main thread" that always works
 CF_EXPORT CFRunLoopRef _CFRunLoopGet0(pthread_t t) {
     if (pthread_equal(t, kNilPthreadT)) {
-	t = pthread_main_thread_np();
+        t = pthread_main_thread_np();
     }
     __CFLock(&loopsLock);
     if (!__CFRunLoops) {
         __CFUnlock(&loopsLock);
-	CFMutableDictionaryRef dict = CFDictionaryCreateMutable(kCFAllocatorSystemDefault, 0, NULL, &kCFTypeDictionaryValueCallBacks);
-	CFRunLoopRef mainLoop = __CFRunLoopCreate(pthread_main_thread_np());
-	CFDictionarySetValue(dict, pthreadPointer(pthread_main_thread_np()), mainLoop);
-	if (!OSAtomicCompareAndSwapPtrBarrier(NULL, dict, (void * volatile *)&__CFRunLoops)) {
-	    CFRelease(dict);
-	}
-	CFRelease(mainLoop);
+        CFMutableDictionaryRef dict = CFDictionaryCreateMutable(kCFAllocatorSystemDefault, 0, NULL, &kCFTypeDictionaryValueCallBacks);
+        CFRunLoopRef mainLoop = __CFRunLoopCreate(pthread_main_thread_np());
+        CFDictionarySetValue(dict, pthreadPointer(pthread_main_thread_np()), mainLoop);
+        if (!OSAtomicCompareAndSwapPtrBarrier(NULL, dict, (void * volatile *)&__CFRunLoops)) {
+            CFRelease(dict);
+        }
+        CFRelease(mainLoop);
         __CFLock(&loopsLock);
     }
     CFRunLoopRef loop = (CFRunLoopRef)CFDictionaryGetValue(__CFRunLoops, pthreadPointer(t));
     __CFUnlock(&loopsLock);
     if (!loop) {
-	CFRunLoopRef newLoop = __CFRunLoopCreate(t);
+        CFRunLoopRef newLoop = __CFRunLoopCreate(t);
         __CFLock(&loopsLock);
-	loop = (CFRunLoopRef)CFDictionaryGetValue(__CFRunLoops, pthreadPointer(t));
-	if (!loop) {
-	    CFDictionarySetValue(__CFRunLoops, pthreadPointer(t), newLoop);
-	    loop = newLoop;
-	}
+        loop = (CFRunLoopRef)CFDictionaryGetValue(__CFRunLoops, pthreadPointer(t));
+        if (!loop) {
+            CFDictionarySetValue(__CFRunLoops, pthreadPointer(t), newLoop);
+            loop = newLoop;
+        }
         // don't release run loops inside the loopsLock, because CFRunLoopDeallocate may end up taking it
         __CFUnlock(&loopsLock);
-	CFRelease(newLoop);
+        CFRelease(newLoop);
     }
     if (pthread_equal(t, pthread_self())) {
         _CFSetTSD(__CFTSDKeyRunLoop, (void *)loop, NULL);
         if (0 == _CFGetTSD(__CFTSDKeyRunLoopCntr)) {
-            _CFSetTSD(__CFTSDKeyRunLoopCntr, (void *)(PTHREAD_DESTRUCTOR_ITERATIONS-1), (void (*)(void *))__CFFinalizeRunLoop);
+            _CFSetTSD(__CFTSDKeyRunLoopCntr, (void *)(PTHREAD_DESTRUCTOR_ITERATIONS-1), (void (*)(void *))__CFFinalizeRunLoop); //清除TSD时调用__CFFinalizeRunLoop销毁runloop
         }
     }
     return loop;
@@ -295,7 +295,7 @@ CF_EXPORT CFRunLoopRef _CFRunLoopGet0(pthread_t t) {
 1. 懒加载一个全局的字典，该字典用于保存所有的runloop对象。将mainLoop添加到字典
 2. 先从runloop字典中尝试获取线程的runloop对象
 3. 如果没获取到则调用 `__CFRunLoopCreate` 新创建一个runloop并保存到runloop字典中
-4. 得到runloop后设置到线程的TSD中，下次就直接从线程的TSD中取得了，加快速度。
+4. 得到runloop后设置到线程的TSD中，下次就直接从线程的TSD中取得了，加快速度。当线程销毁时会清除TSD，清除TSD就会调用__CFFinalizeRunLoop销毁runloop
 
 终于到创建runloop过程了：
 
@@ -308,7 +308,7 @@ static CFRunLoopRef __CFRunLoopCreate(pthread_t t) {
     uint32_t size = sizeof(struct __CFRunLoop) - sizeof(CFRuntimeBase);
     loop = (CFRunLoopRef)_CFRuntimeCreateInstance(kCFAllocatorSystemDefault, CFRunLoopGetTypeID(), size, NULL); //分配内存
     if (NULL == loop) {
-	return NULL;
+				return NULL;
     }
     (void)__CFRunLoopPushPerRunData(loop);
     __CFRunLoopLockInit(&loop->_lock); //初始化loop的锁
@@ -316,7 +316,7 @@ static CFRunLoopRef __CFRunLoopCreate(pthread_t t) {
     if (CFPORT_NULL == loop->_wakeUpPort) HALT;
     __CFRunLoopSetIgnoreWakeUps(loop);
     loop->_commonModes = CFSetCreateMutable(kCFAllocatorSystemDefault, 0, &kCFTypeSetCallBacks);
-    CFSetAddValue(loop->_commonModes, kCFRunLoopDefaultMode);
+    CFSetAddValue(loop->_commonModes, kCFRunLoopDefaultMode); //给_commonModes集合中添加了一个DefaultMode
     loop->_commonModeItems = NULL;
     loop->_currentMode = NULL;
     loop->_modes = CFSetCreateMutable(kCFAllocatorSystemDefault, 0, &kCFTypeSetCallBacks);
@@ -342,6 +342,49 @@ static CFRunLoopRef __CFRunLoopCreate(pthread_t t) {
 
 跟我们平时创建对象一样，先计算实例的大小，再在堆上申请那么多的内存，再初始化实例的属性。
 
+#### __CFFinalizeRunLoop
+
+销毁runloop实现：
+
+```c
+// Called for each thread as it exits
+CF_PRIVATE void __CFFinalizeRunLoop(uintptr_t data) {
+    CFRunLoopRef rl = NULL;
+    if (data <= 1) {
+        __CFLock(&loopsLock);
+        if (__CFRunLoops) {
+            rl = (CFRunLoopRef)CFDictionaryGetValue(__CFRunLoops, pthreadPointer(pthread_self()));
+            if (rl) CFRetain(rl);
+            CFDictionaryRemoveValue(__CFRunLoops, pthreadPointer(pthread_self()));
+        }
+        __CFUnlock(&loopsLock);
+    } else {
+        _CFSetTSD(__CFTSDKeyRunLoopCntr, (void *)(data - 1), (void (*)(void *))__CFFinalizeRunLoop);
+    }
+    if (rl && CFRunLoopGetMain() != rl) { // protect against cooperative threads
+        if (NULL != rl->_counterpart) {
+            CFRelease(rl->_counterpart);
+            rl->_counterpart = NULL;
+        }
+        // purge all sources before deallocation
+        CFArrayRef array = CFRunLoopCopyAllModes(rl);
+        for (CFIndex idx = CFArrayGetCount(array); idx--;) {
+            CFStringRef modeName = (CFStringRef)CFArrayGetValueAtIndex(array, idx);
+            __CFRunLoopRemoveAllSources(rl, modeName);
+        }
+        __CFRunLoopRemoveAllSources(rl, kCFRunLoopCommonModes);
+        CFRelease(array);
+    }
+    if (rl) CFRelease(rl);
+}
+```
+
+大致流程：
+
+1. 从全局字典中移除
+2. 移除所有mode的所有source
+3. 释放runloop
+
 #### CFRunLoopRunSpecific
 
 实现：
@@ -353,23 +396,23 @@ SInt32 CFRunLoopRunSpecific(CFRunLoopRef rl, CFStringRef modeName, CFTimeInterva
     __CFRunLoopLock(rl);
     CFRunLoopModeRef currentMode = __CFRunLoopFindMode(rl, modeName, false);
     if (NULL == currentMode || __CFRunLoopModeIsEmpty(rl, currentMode, rl->_currentMode)) {
-	Boolean did = false;
-	if (currentMode) __CFRunLoopModeUnlock(currentMode);
-	__CFRunLoopUnlock(rl);
-	return did ? kCFRunLoopRunHandledSource : kCFRunLoopRunFinished;
+        Boolean did = false;
+        if (currentMode) __CFRunLoopModeUnlock(currentMode);
+        __CFRunLoopUnlock(rl);
+        return did ? kCFRunLoopRunHandledSource : kCFRunLoopRunFinished;
     }
     volatile _per_run_data *previousPerRun = __CFRunLoopPushPerRunData(rl);
     CFRunLoopModeRef previousMode = rl->_currentMode;
     rl->_currentMode = currentMode;
     int32_t result = kCFRunLoopRunFinished;
-
-	if (currentMode->_observerMask & kCFRunLoopEntry ) __CFRunLoopDoObservers(rl, currentMode, kCFRunLoopEntry);
-	result = __CFRunLoopRun(rl, currentMode, seconds, returnAfterSourceHandled, previousMode);
-	if (currentMode->_observerMask & kCFRunLoopExit ) __CFRunLoopDoObservers(rl, currentMode, kCFRunLoopExit);
-
-        __CFRunLoopModeUnlock(currentMode);
-        __CFRunLoopPopPerRunData(rl, previousPerRun);
-	rl->_currentMode = previousMode;
+    
+    if (currentMode->_observerMask & kCFRunLoopEntry ) __CFRunLoopDoObservers(rl, currentMode, kCFRunLoopEntry);
+    result = __CFRunLoopRun(rl, currentMode, seconds, returnAfterSourceHandled, previousMode);
+    if (currentMode->_observerMask & kCFRunLoopExit ) __CFRunLoopDoObservers(rl, currentMode, kCFRunLoopExit);
+    
+    __CFRunLoopModeUnlock(currentMode);
+    __CFRunLoopPopPerRunData(rl, previousPerRun);
+    rl->_currentMode = previousMode;
     __CFRunLoopUnlock(rl);
     return result;
 }
@@ -491,7 +534,7 @@ static int32_t __CFRunLoopRun(CFRunLoopRef rl, CFRunLoopModeRef rlm, CFTimeInter
           memset(msg_buffer, 0, sizeof(msg_buffer));
        }
       msg = (mach_msg_header_t *)msg_buffer;
-      __CFRunLoopServiceMachPort(waitSet, &msg, sizeof(msg_buffer), &livePort, poll ? 0 : TIMEOUT_INFINITY, &voucherState, &voucherCopy); //进入休眠
+      __CFRunLoopServiceMachPort(waitSet, &msg, sizeof(msg_buffer), &livePort, poll ? 0 : TIMEOUT_INFINITY, &voucherState, &voucherCopy); //进入休眠，poll为真其实不会休眠
       
       __CFRunLoopLock(rl);
       __CFRunLoopModeLock(rlm);
@@ -571,17 +614,17 @@ static int32_t __CFRunLoopRun(CFRunLoopRef rl, CFRunLoopModeRef rlm, CFTimeInter
       __CFRunLoopDoBlocks(rl, rlm);
 
 
-      if (sourceHandledThisLoop && stopAfterHandle) {
+      if (sourceHandledThisLoop && stopAfterHandle) { //判断是否处理了source
           retVal = kCFRunLoopRunHandledSource;
-      } else if (timeout_context->termTSR < mach_absolute_time()) {
+      } else if (timeout_context->termTSR < mach_absolute_time()) { //判断是否超时
           retVal = kCFRunLoopRunTimedOut;
-      } else if (__CFRunLoopIsStopped(rl)) { //调用了CFRunLoopStop导致
+      } else if (__CFRunLoopIsStopped(rl)) { //判断是否调用了CFRunLoopStop
           __CFRunLoopUnsetStopped(rl);
           retVal = kCFRunLoopRunStopped;
       } else if (rlm->_stopped) {
           rlm->_stopped = false;
           retVal = kCFRunLoopRunStopped;
-      } else if (__CFRunLoopModeIsEmpty(rl, rlm, previousMode)) {
+      } else if (__CFRunLoopModeIsEmpty(rl, rlm, previousMode)) {//判断是否mode变成空的了
           retVal = kCFRunLoopRunFinished;
       }
 
@@ -648,4 +691,6 @@ NSRunLoop调用方法主要就是在kCFRunLoopBeforeSources和kCFRunLoopBeforeWa
 [CF源码](https://opensource.apple.com/tarballs/CF/)
 
 [iOS RunLoop 详解](https://imlifengfeng.github.io/article/487/) 作者有点东西.
+
+[深入理解RunLoop](https://blog.ibireme.com/2015/05/18/runloop/)    ibireme写的
 
