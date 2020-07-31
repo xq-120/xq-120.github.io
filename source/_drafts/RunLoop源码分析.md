@@ -116,7 +116,20 @@ struct _block_item {
 #### struct __CFRunLoopMode
 
 ```c
-typedef struct __CFRunLoopMode *CFRunLoopModeRef;
+/* unlock a run loop and modes before doing callouts/sleeping */
+/* never try to take the run loop lock with a mode locked */
+/* be very careful of common subexpression elimination and compacting code, particular across locks and unlocks! */
+/* run loop mode structures should never be deallocated, even if they become empty */
+
+//声明了几个TypeID
+static CFTypeID __kCFRunLoopModeTypeID = _kCFRuntimeNotATypeID;
+static CFTypeID __kCFRunLoopTypeID = _kCFRuntimeNotATypeID;
+static CFTypeID __kCFRunLoopSourceTypeID = _kCFRuntimeNotATypeID;
+static CFTypeID __kCFRunLoopObserverTypeID = _kCFRuntimeNotATypeID;
+static CFTypeID __kCFRunLoopTimerTypeID = _kCFRuntimeNotATypeID;
+
+typedef struct __CFRunLoopMode *CFRunLoopModeRef; //未暴露
+typedef CFStringRef CFRunLoopMode CF_EXTENSIBLE_STRING_ENUM; //对外只暴露了CFRunLoopMode，它就是一个字符串。
 
 struct __CFRunLoopMode {
     CFRuntimeBase _base;
@@ -129,7 +142,7 @@ struct __CFRunLoopMode {
     CFMutableArrayRef _observers;  //观察者数组
     CFMutableArrayRef _timers;  //定时器数组
     CFMutableDictionaryRef _portToV1SourceMap;
-    __CFPortSet _portSet; //端口集合
+    __CFPortSet _portSet; //端口集合,里面包含了_timerPort等。
     CFIndex _observerMask;
 #if USE_MK_TIMER_TOO
     mach_port_t _timerPort; //定时器端口
@@ -139,7 +152,48 @@ struct __CFRunLoopMode {
     uint64_t _timerSoftDeadline; /* TSR */
     uint64_t _timerHardDeadline; /* TSR */
 };
+
+typedef unsigned long CFTypeID;
+typedef unsigned long CFOptionFlags;
+typedef unsigned long CFHashCode;
+typedef signed long CFIndex;
 ```
+
+系统并不想让我们直接操作CFRunLoopModeRef对象，而是让我们通过字符串来操作mode。可以说一个modeName代表一个mode。
+
+操作mode的接口：
+
+```c
+//拷贝当前mode，实际上只是返回该mode的name
+CF_EXPORT CFRunLoopMode CFRunLoopCopyCurrentMode(CFRunLoopRef rl);
+
+CF_EXPORT CFArrayRef CFRunLoopCopyAllModes(CFRunLoopRef rl);
+
+CF_EXPORT void CFRunLoopAddCommonMode(CFRunLoopRef rl, CFRunLoopMode mode);
+
+CF_EXPORT CFAbsoluteTime CFRunLoopGetNextTimerFireDate(CFRunLoopRef rl, CFRunLoopMode mode);
+
+//source相关，给runloop的某个mode添加/移除一个source
+CF_EXPORT Boolean CFRunLoopContainsSource(CFRunLoopRef rl, CFRunLoopSourceRef source, CFRunLoopMode mode);
+CF_EXPORT void CFRunLoopAddSource(CFRunLoopRef rl, CFRunLoopSourceRef source, CFRunLoopMode mode);
+CF_EXPORT void CFRunLoopRemoveSource(CFRunLoopRef rl, CFRunLoopSourceRef source, CFRunLoopMode mode);
+
+//runloop观察者相关，给runloop的某个mode添加/移除一个Observer
+CF_EXPORT Boolean CFRunLoopContainsObserver(CFRunLoopRef rl, CFRunLoopObserverRef observer, CFRunLoopMode mode);
+CF_EXPORT void CFRunLoopAddObserver(CFRunLoopRef rl, CFRunLoopObserverRef observer, CFRunLoopMode mode);
+CF_EXPORT void CFRunLoopRemoveObserver(CFRunLoopRef rl, CFRunLoopObserverRef observer, CFRunLoopMode mode);
+
+//定时器相关，给runloop的某个mode添加/移除一个timer
+CF_EXPORT Boolean CFRunLoopContainsTimer(CFRunLoopRef rl, CFRunLoopTimerRef timer, CFRunLoopMode mode);
+CF_EXPORT void CFRunLoopAddTimer(CFRunLoopRef rl, CFRunLoopTimerRef timer, CFRunLoopMode mode);
+CF_EXPORT void CFRunLoopRemoveTimer(CFRunLoopRef rl, CFRunLoopTimerRef timer, CFRunLoopMode mode);
+```
+
+那到底该怎么创建一个自己的mode呢？
+
+其实很简单，你只需要想好mode的名字就可以了，然后调用CFRunLoopAddSource/AddObserver/AddTimer这些方法给mode添加源、定时器等，这些方法内部会调用 `__CFRunLoopFindMode` ，该方法如果没查找到会创建一个新的mode并添加到rl的_modes集合中。正如注释所说计算mode变成了一个空mode，mode对象也不会销毁。下一次如果有个名字一样的就直接把它拿出来了。
+
+所以业务层自始至终都是通过modeName来和mode对象交互的。
 
 #### struct __CFRunLoopSource
 
@@ -180,7 +234,7 @@ typedef struct {
     Boolean	(*equal)(const void *info1, const void *info2);
     CFHashCode	(*hash)(const void *info);
 #if (TARGET_OS_MAC && !(TARGET_OS_EMBEDDED || TARGET_OS_IPHONE)) || (TARGET_OS_EMBEDDED || TARGET_OS_IPHONE)
-    mach_port_t	(*getPort)(void *info);
+    mach_port_t	(*getPort)(void *info); //source1包含mach_port
     void *	(*perform)(void *msg, CFIndex size, CFAllocatorRef allocator, void *info);
 #else
     void *	(*getPort)(void *info);
@@ -188,6 +242,22 @@ typedef struct {
 #endif
 } CFRunLoopSourceContext1;
 ```
+
+和source相关的API：
+
+```c
+CF_EXPORT CFTypeID CFRunLoopSourceGetTypeID(void);
+//创建一个source
+CF_EXPORT CFRunLoopSourceRef CFRunLoopSourceCreate(CFAllocatorRef allocator, CFIndex order, CFRunLoopSourceContext *context);
+
+CF_EXPORT CFIndex CFRunLoopSourceGetOrder(CFRunLoopSourceRef source);
+CF_EXPORT void CFRunLoopSourceInvalidate(CFRunLoopSourceRef source);
+CF_EXPORT Boolean CFRunLoopSourceIsValid(CFRunLoopSourceRef source);
+CF_EXPORT void CFRunLoopSourceGetContext(CFRunLoopSourceRef source, CFRunLoopSourceContext *context);
+CF_EXPORT void CFRunLoopSourceSignal(CFRunLoopSourceRef source);
+```
+
+
 
 #### struct __CFRunLoopObserver
 
@@ -241,13 +311,21 @@ void CFRunLoopRun(void) {	/* DOES CALLOUT */
         CHECK_FOR_FORK();
     } while (kCFRunLoopRunStopped != result && kCFRunLoopRunFinished != result);
 }
+
+SInt32 CFRunLoopRunSpecific(CFRunLoopRef rl, CFStringRef modeName, CFTimeInterval seconds, Boolean returnAfterSourceHandled);
 ```
 
 外层是一个do-while循环用于驱动runloop退出时重新进入，只有当result为Stopped或Finished时才真正退出runloop。
 
 循环体内调用了CFRunLoopRunSpecific，它有四个参数，分别为当前runloop、模式名称（字符串）、超时时间，处理源后是否退出runloop。
 
-可以看到CFRunLoopRun的超时时间非常久基本上不会因为时间到了而退出，另外处理源后不退出runloop。
+模式名称传入的是kCFRunLoopDefaultMode，表明runloop将运行在DefaultMode下。
+
+超时时间传入的是1.0e10，非常久基本上不会因为时间到了而退出。
+
+处理源后是否退出runloop传入的是false，表明处理源后不退出runloop。
+
+因此当我们调用CFRunLoopRun函数时，runloop将运行在DefaultMode下，并且不会因为超时而退出，处理源后也不退出runloop。
 
 先来看一下是如何获取一个runloop的：
 
@@ -282,10 +360,10 @@ static CFMutableDictionaryRef __CFRunLoops = NULL;
 // t==0 is a synonym for "main thread" that always works
 CF_EXPORT CFRunLoopRef _CFRunLoopGet0(pthread_t t) {
     if (pthread_equal(t, kNilPthreadT)) {
-        t = pthread_main_thread_np();
+        t = pthread_main_thread_np(); //默认为主线程
     }
     __CFLock(&loopsLock);
-    if (!__CFRunLoops) {
+    if (!__CFRunLoops) { //字典为空
         __CFUnlock(&loopsLock);
         CFMutableDictionaryRef dict = CFDictionaryCreateMutable(kCFAllocatorSystemDefault, 0, NULL, &kCFTypeDictionaryValueCallBacks);
         CFRunLoopRef mainLoop = __CFRunLoopCreate(pthread_main_thread_np());
@@ -369,12 +447,85 @@ static CFRunLoopRef __CFRunLoopCreate(pthread_t t) {
 
 1. 分配内存
 2. 初始化loop，主要是给runloop的属性设置一些默认值。
+3. 给runloop添加一个默认的mode。
 
 跟我们平时创建对象一样，先计算实例的大小，再在堆上申请那么多的内存，再初始化实例的属性。
 
+#### __CFRunLoopFindMode
+
+根据modeName查找一个mode，并通过参数create决定如果没查找到是否创建一个mode。
+
+实现：
+
+```c
+/* call with rl locked, returns mode locked */
+static CFRunLoopModeRef __CFRunLoopFindMode(CFRunLoopRef rl, CFStringRef modeName, Boolean create) {
+    CHECK_FOR_FORK();
+    CFRunLoopModeRef rlm;
+    struct __CFRunLoopMode srlm;
+    memset(&srlm, 0, sizeof(srlm));
+    _CFRuntimeSetInstanceTypeIDAndIsa(&srlm, __kCFRunLoopModeTypeID);
+    srlm._name = modeName;
+    rlm = (CFRunLoopModeRef)CFSetGetValue(rl->_modes, &srlm);
+    if (NULL != rlm) {
+        __CFRunLoopModeLock(rlm);
+        return rlm;
+    }
+    if (!create) {
+        return NULL;
+    }
+    rlm = (CFRunLoopModeRef)_CFRuntimeCreateInstance(kCFAllocatorSystemDefault, __kCFRunLoopModeTypeID, sizeof(struct __CFRunLoopMode) - sizeof(CFRuntimeBase), NULL);
+    if (NULL == rlm) {
+        return NULL;
+    }
+    __CFRunLoopLockInit(&rlm->_lock);
+    rlm->_name = CFStringCreateCopy(kCFAllocatorSystemDefault, modeName); //命名mode
+    rlm->_stopped = false;
+    rlm->_portToV1SourceMap = NULL;
+    rlm->_sources0 = NULL;
+    rlm->_sources1 = NULL;
+    rlm->_observers = NULL;
+    rlm->_timers = NULL;
+    rlm->_observerMask = 0;
+    rlm->_portSet = __CFPortSetAllocate();
+    rlm->_timerSoftDeadline = UINT64_MAX;
+    rlm->_timerHardDeadline = UINT64_MAX;
+    
+    kern_return_t ret = KERN_SUCCESS;
+
+#if USE_MK_TIMER_TOO
+    rlm->_timerPort = mk_timer_create();
+    ret = __CFPortSetInsert(rlm->_timerPort, rlm->_portSet);
+    if (KERN_SUCCESS != ret) CRASH("*** Unable to insert timer port into port set. (%d) ***", ret);
+#endif
+    
+    ret = __CFPortSetInsert(rl->_wakeUpPort, rlm->_portSet);
+    if (KERN_SUCCESS != ret) CRASH("*** Unable to insert wake up port into port set. (%d) ***", ret);
+    
+#if DEPLOYMENT_TARGET_WINDOWS
+    rlm->_msgQMask = 0;
+    rlm->_msgPump = NULL;
+#endif
+    CFSetAddValue(rl->_modes, rlm); //添加到rl的_modes集合中
+    CFRelease(rlm);
+    __CFRunLoopModeLock(rlm);    /* return mode locked */
+    return rlm;
+}
+```
+
+大致过程：
+
+1. 先根据modeName在rl的_modes集合中查找是否有该名称的mode。
+2. 找到就返回，没找到就根据create参数决定是否创建一个。
+3. 创建一个mode，并添加到rl的_modes集合中。
+
+系统并没有提供一个显式创建mode的方法，而只在内部实现了一个查找并创建的方法。
+
 #### __CFFinalizeRunLoop
 
-销毁runloop实现：
+销毁runloop。
+
+实现：
 
 ```c
 // Called for each thread as it exits
@@ -424,7 +575,7 @@ SInt32 CFRunLoopRunSpecific(CFRunLoopRef rl, CFStringRef modeName, CFTimeInterva
     CHECK_FOR_FORK();
     if (__CFRunLoopIsDeallocating(rl)) return kCFRunLoopRunFinished;
     __CFRunLoopLock(rl);
-    CFRunLoopModeRef currentMode = __CFRunLoopFindMode(rl, modeName, false);
+    CFRunLoopModeRef currentMode = __CFRunLoopFindMode(rl, modeName, false); //false--查找时不创建
     if (NULL == currentMode || __CFRunLoopModeIsEmpty(rl, currentMode, rl->_currentMode)) {
         Boolean did = false;
         if (currentMode) __CFRunLoopModeUnlock(currentMode);
@@ -515,7 +666,7 @@ static int32_t __CFRunLoopRun(CFRunLoopRef rl, CFRunLoopModeRef rlm, CFTimeInter
 			mach_msg_header_t *msg = NULL;
       mach_port_t livePort = MACH_PORT_NULL;
       
-      __CFPortSet waitSet = rlm->_portSet;
+      __CFPortSet waitSet = rlm->_portSet; //端口集合
 
       __CFRunLoopUnsetIgnoreWakeUps(rl);
 
@@ -564,7 +715,7 @@ static int32_t __CFRunLoopRun(CFRunLoopRef rl, CFRunLoopModeRef rlm, CFTimeInter
           memset(msg_buffer, 0, sizeof(msg_buffer));
        }
       msg = (mach_msg_header_t *)msg_buffer;
-      __CFRunLoopServiceMachPort(waitSet, &msg, sizeof(msg_buffer), &livePort, poll ? 0 : TIMEOUT_INFINITY, &voucherState, &voucherCopy); //进入休眠，poll为真其实不会休眠
+      __CFRunLoopServiceMachPort(waitSet, &msg, sizeof(msg_buffer), &livePort, poll ? 0 : TIMEOUT_INFINITY, &voucherState, &voucherCopy); //进入休眠，poll为真其实不会休眠。等待waitSet这些端口发生一些事情
       
       __CFRunLoopLock(rl);
       __CFRunLoopModeLock(rlm);
@@ -627,7 +778,7 @@ static int32_t __CFRunLoopRun(CFRunLoopRef rl, CFRunLoopModeRef rlm, CFTimeInter
 
           // Despite the name, this works for windows handles as well
           CFRunLoopSourceRef rls = __CFRunLoopModeFindSourceForMachPort(rl, rlm, livePort);
-          if (rls) {
+          if (rls) { //source1可以包含端口
 							mach_msg_header_t *reply = NULL;
 							sourceHandledThisLoop = __CFRunLoopDoSource1(rl, rlm, rls, msg, msg->msgh_size, &reply) || sourceHandledThisLoop;  //处理source1
 							if (NULL != reply) {
@@ -673,6 +824,19 @@ static int32_t __CFRunLoopRun(CFRunLoopRef rl, CFRunLoopModeRef rlm, CFTimeInter
 
  `__CFRunLoopRun` 内部也有一个do-while循环
 
+### CFRunLoopRunInMode
+
+实现：
+
+```c
+SInt32 CFRunLoopRunInMode(CFStringRef modeName, CFTimeInterval seconds, Boolean returnAfterSourceHandled) {     /* DOES CALLOUT */
+    CHECK_FOR_FORK();
+    return CFRunLoopRunSpecific(CFRunLoopGetCurrent(), modeName, seconds, returnAfterSourceHandled);
+}
+```
+
+
+
 #### RunLoopMode
 
 runloop和mode
@@ -680,6 +844,62 @@ runloop和mode
 ![](https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/runloop%E4%B8%8Emode.png)
 
 一个 RunLoop 可以包含若干个 Mode，每个 Mode 又包含若干个 Source/Timer/Observer。每次调用 RunLoop 的主函数时，只能指定其中一个 Mode，这个Mode被称作 CurrentMode。如果需要切换 Mode，只能退出 Loop，再重新指定一个 Mode 进入。
+
+#### common mode
+
+只能通过名字来操作mode，常见的有两个：
+
+```c
+CONST_STRING_DECL(kCFRunLoopDefaultMode, "kCFRunLoopDefaultMode")
+CONST_STRING_DECL(kCFRunLoopCommonModes, "kCFRunLoopCommonModes")
+```
+
+
+
+CFRunLoopAddCommonMode
+
+将一个mode添加到CommonMode，也称为将这个mode标记为CommonMode。
+
+```c
+void CFRunLoopAddCommonMode(CFRunLoopRef rl, CFStringRef modeName) {
+    CHECK_FOR_FORK();
+    if (__CFRunLoopIsDeallocating(rl)) return;
+    __CFRunLoopLock(rl);
+    if (!CFSetContainsValue(rl->_commonModes, modeName)) {
+				CFSetRef set = rl->_commonModeItems ? CFSetCreateCopy(kCFAllocatorSystemDefault, rl->_commonModeItems) : NULL;
+				CFSetAddValue(rl->_commonModes, modeName);
+				if (NULL != set) {
+	    			CFTypeRef context[2] = {rl, modeName};
+	    			/* add all common-modes items to new mode */
+	    			CFSetApplyFunction(set, (__CFRunLoopAddItemsToCommonMode), (void *)context);
+	    			CFRelease(set);
+				}
+    } else {
+    
+    }
+    __CFRunLoopUnlock(rl);
+}
+
+static void __CFRunLoopAddItemsToCommonMode(const void *value, void *ctx) {
+    CFTypeRef item = (CFTypeRef)value;
+    CFRunLoopRef rl = (CFRunLoopRef)(((CFTypeRef *)ctx)[0]);
+    CFStringRef modeName = (CFStringRef)(((CFTypeRef *)ctx)[1]);
+    if (CFGetTypeID(item) == CFRunLoopSourceGetTypeID()) {
+				CFRunLoopAddSource(rl, (CFRunLoopSourceRef)item, modeName);
+    } else if (CFGetTypeID(item) == CFRunLoopObserverGetTypeID()) {
+				CFRunLoopAddObserver(rl, (CFRunLoopObserverRef)item, modeName);
+    } else if (CFGetTypeID(item) == CFRunLoopTimerGetTypeID()) {
+				CFRunLoopAddTimer(rl, (CFRunLoopTimerRef)item, modeName);
+    }
+}
+```
+
+大致流程：
+
+1. 加锁
+2. 先判断runloop的_commonModes是不是已经包含该mode了。
+3. 将mode添加到_commonModes这个集合里
+4. 将runloop的_commonModeItems里面所有的common-modes items添加到该mode里。这样当runloop运行在该common mode时
 
 **为什么要有这么多mode?**
 
@@ -720,7 +940,6 @@ NSRunLoop调用方法主要就是在kCFRunLoopBeforeSources和kCFRunLoopBeforeWa
 
 [CF源码](https://opensource.apple.com/tarballs/CF/)
 
-[iOS RunLoop 详解](https://imlifengfeng.github.io/article/487/) 作者有点东西.
+[深入理解RunLoop](https://blog.ibireme.com/2015/05/18/runloop/)    ibireme写的，大神就是大神。
 
-[深入理解RunLoop](https://blog.ibireme.com/2015/05/18/runloop/)    ibireme写的
-
+[iOS RunLoop 详解](https://imlifengfeng.github.io/article/487/) 这篇文章大部分也是参考的ibireme
