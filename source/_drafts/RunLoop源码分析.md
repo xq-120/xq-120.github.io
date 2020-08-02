@@ -1,30 +1,20 @@
 版本 `CF-1151.16`
 
-### RunLoop
-
-1、RunLoop和线程之间的关系
-
-（1）每条线程都有唯一的一个与之对应的RunLoop对象。
-
-（2）主线程的RunLoop默认已经开启，子线程的RunLoop需要主动开启。
-
-（3）RunLoop在第一次获取时创建，在线程结束时销毁。
-
-线程和 RunLoop 之间是一一对应的，其关系是保存在一个全局的 Dictionary 里。线程刚创建时并没有 RunLoop，如果你不主动获取，那它一直都不会有。**RunLoop 的创建是发生在第一次获取时，RunLoop 的销毁是发生在线程结束时**。你只能在一个线程的内部获取其 RunLoop（主线程除外）.
-
-#### RunLoop的伪代码实现
+### RunLoop的伪代码实现
 
 ```
 int runloop() {
     
-    // 即将进入runloop
+    // 通知即将进入runloop
     doObserversRunLoopEntry();
     
     int retVal = 0;
     do {
-        // 处理定时器
+        // 通知即将处理timers
         
-        // 处理输入源
+        // 通知即将处理sources
+        
+        // 处理source0
         
         // 通知外部runloop即将休眠
         
@@ -34,12 +24,14 @@ int runloop() {
         
         // 通知外部runloop已经被唤醒
         
-        // 处理输入源
+        // 如果是被Timer唤醒的，回调Timer
         
-        // 某种情况下retVal被赋值为其他值.
+        // 如果是被Source1 (基于port的) 的事件唤醒了，处理这个事件
+        
+        // 根据事务处理的结果更新retVal的值.
     } while (retVal == 0);
     
-    // 已经退出runloop
+    // 通知已经退出runloop
     doObserversRunLoopExit();
     
     return retVal;
@@ -53,7 +45,7 @@ void runloopRun() {
 }
 ```
 
-runloop相关的类型：
+### runloop相关的类型
 
 #### CFRunLoopActivity（RunLoop事件枚举）
 
@@ -95,10 +87,10 @@ struct __CFRunLoop {
     volatile _per_run_data *_perRunData;              // reset for runs of the run loop
     pthread_t _pthread; //所属线程
     uint32_t _winthread;
-    CFMutableSetRef _commonModes; //common modes集合
-    CFMutableSetRef _commonModeItems;
-    CFRunLoopModeRef _currentMode; //当前mode
-    CFMutableSetRef _modes; //mode集合，说明可以有多个mode
+    CFMutableSetRef _commonModes; //common modes（modeName）集合
+    CFMutableSetRef _commonModeItems; //item集合即source、observer、timer的集合
+    CFRunLoopModeRef _currentMode; //当前mode对象
+    CFMutableSetRef _modes; //mode对象集合，说明可以有多个mode
     struct _block_item *_blocks_head; //这个链表用于保存提交到runloop上的block
     struct _block_item *_blocks_tail;
     CFAbsoluteTime _runTime;
@@ -137,15 +129,15 @@ struct __CFRunLoopMode {
     CFStringRef _name; //模式名称
     Boolean _stopped;
     char _padding[3];
-    CFMutableSetRef _sources0;  ////输入源0集合
-    CFMutableSetRef _sources1;  //输入源1集合
+    CFMutableSetRef _sources0;  ////sources0集合
+    CFMutableSetRef _sources1;  //sources1集合
     CFMutableArrayRef _observers;  //观察者数组
     CFMutableArrayRef _timers;  //定时器数组
     CFMutableDictionaryRef _portToV1SourceMap;
     __CFPortSet _portSet; //端口集合,里面包含了_timerPort等。
     CFIndex _observerMask;
 #if USE_MK_TIMER_TOO
-    mach_port_t _timerPort; //定时器端口
+    mach_port_t _timerPort; //定时器端口，用于接收时间到了消息，从而调用定时器的回调处理事务。
     Boolean _mkTimerArmed;
 #endif
 
@@ -160,6 +152,8 @@ typedef signed long CFIndex;
 ```
 
 系统并不想让我们直接操作CFRunLoopModeRef对象，而是让我们通过字符串来操作mode。可以说一个modeName代表一个mode。
+
+上面的 Source/Timer/Observer 被统称为 **mode item**，一个 item 可以被同时加入到多个 mode。但一个 item 被重复加入同一个 mode 时是不会有效果的。如果一个 mode 中一个 item 都没有，则 RunLoop 会直接退出，不进入循环。
 
 操作mode的接口：
 
@@ -205,14 +199,14 @@ struct __CFRunLoopSource {
     uint32_t _bits;
     pthread_mutex_t _lock;
     CFIndex _order;			/* immutable */
-    CFMutableBagRef _runLoops;
+    CFMutableBagRef _runLoops; //关联的runloop集合。source被添加到runloop时会将runloop保存到_runLoops中。
     union {
 				CFRunLoopSourceContext version0;	/* immutable, except invalidation */
         CFRunLoopSourceContext1 version1;	/* immutable, except invalidation */
     } _context;
 };
 
-typedef struct {
+typedef struct { //source0
     CFIndex	version;
     void *	info;
     const void *(*retain)(const void *info);
@@ -220,12 +214,13 @@ typedef struct {
     CFStringRef	(*copyDescription)(const void *info);
     Boolean	(*equal)(const void *info1, const void *info2);
     CFHashCode	(*hash)(const void *info);
-    void	(*schedule)(void *info, CFRunLoopRef rl, CFStringRef mode);
-    void	(*cancel)(void *info, CFRunLoopRef rl, CFStringRef mode);
-    void	(*perform)(void *info);
+  
+    void	(*schedule)(void *info, CFRunLoopRef rl, CFStringRef mode); //A scheduler routine to let interested clients know how to contact your input source.
+    void	(*cancel)(void *info, CFRunLoopRef rl, CFStringRef mode); //A cancellation routine to invalidate your input source.
+    void	(*perform)(void *info); //A handler routine to perform requests sent by any clients.
 } CFRunLoopSourceContext;
 
-typedef struct {
+typedef struct { //source1
     CFIndex	version;
     void *	info;
     const void *(*retain)(const void *info);
@@ -233,6 +228,7 @@ typedef struct {
     CFStringRef	(*copyDescription)(const void *info);
     Boolean	(*equal)(const void *info1, const void *info2);
     CFHashCode	(*hash)(const void *info);
+  
 #if (TARGET_OS_MAC && !(TARGET_OS_EMBEDDED || TARGET_OS_IPHONE)) || (TARGET_OS_EMBEDDED || TARGET_OS_IPHONE)
     mach_port_t	(*getPort)(void *info); //source1包含mach_port
     void *	(*perform)(void *msg, CFIndex size, CFAllocatorRef allocator, void *info);
@@ -247,17 +243,21 @@ typedef struct {
 
 ```c
 CF_EXPORT CFTypeID CFRunLoopSourceGetTypeID(void);
-//创建一个source
+//创建一个source，这里创建source0或source1
 CF_EXPORT CFRunLoopSourceRef CFRunLoopSourceCreate(CFAllocatorRef allocator, CFIndex order, CFRunLoopSourceContext *context);
 
 CF_EXPORT CFIndex CFRunLoopSourceGetOrder(CFRunLoopSourceRef source);
 CF_EXPORT void CFRunLoopSourceInvalidate(CFRunLoopSourceRef source);
 CF_EXPORT Boolean CFRunLoopSourceIsValid(CFRunLoopSourceRef source);
-CF_EXPORT void CFRunLoopSourceGetContext(CFRunLoopSourceRef source, CFRunLoopSourceContext *context);
+CF_EXPORT void CFRunLoopSourceGetContext(CFRunLoopSourceRef source, CFRunLoopSourceContext *context); 
 CF_EXPORT void CFRunLoopSourceSignal(CFRunLoopSourceRef source);
 ```
 
+**CFRunLoopSourceRef** 是事件产生的地方。Source有两个版本：Source0 和 Source1。
+• Source0 （非基于端口的source）只包含了一个回调（函数指针），它并不能主动触发事件。使用时，你需要先调用 CFRunLoopSourceSignal(source)，将这个 Source 标记为待处理，然后手动调用 CFRunLoopWakeUp(runloop) 来唤醒 RunLoop，让其处理这个事件（这里不调的话，回调可能就会有延迟）。
+• Source1 （基于端口的source）包含了一个 mach_port 和一个回调（函数指针），被用于通过内核和其他线程相互发送消息。这种 Source 能主动唤醒 RunLoop 的线程。
 
+输入源包含Port-based input sources 和 Custom input sources 。使用NSPort或CFMachPortRef的就属于基于端口的输入源。Source0和Source1属于自定义输入源。
 
 #### struct __CFRunLoopObserver
 
@@ -267,7 +267,7 @@ typedef struct __CFRunLoopObserver * CFRunLoopObserverRef;
 struct __CFRunLoopObserver {
     CFRuntimeBase _base;
     pthread_mutex_t _lock;
-    CFRunLoopRef _runLoop;
+    CFRunLoopRef _runLoop; //关联的runloop。不是集合
     CFIndex _rlCount;
     CFOptionFlags _activities;		/* immutable */
     CFIndex _order;			/* immutable */
@@ -285,7 +285,7 @@ struct __CFRunLoopTimer {
     CFRuntimeBase _base;
     uint16_t _bits;
     pthread_mutex_t _lock;
-    CFRunLoopRef _runLoop; //所在的runloop
+    CFRunLoopRef _runLoop; //关联的runloop
     CFMutableSetRef _rlModes; //所属mode
     CFAbsoluteTime _nextFireDate;
     CFTimeInterval _interval;		/* immutable */  //定时器间隔时间
@@ -297,7 +297,9 @@ struct __CFRunLoopTimer {
 };
 ```
 
+NSTimer 其实就是 CFRunLoopTimerRef，他们之间是 toll-free bridged 的。一个 NSTimer 注册到 RunLoop 后，RunLoop 会为其重复的时间点注册好事件。例如 10:00, 10:10, 10:20 这几个时间点。RunLoop为了节省资源，并不会在非常准确的时间点回调这个Timer。Timer 有个属性叫做 Tolerance (宽容度)，标示了当时间点到后，容许有多少最大误差。
 
+如果某个时间点被错过了，例如执行了一个很长的任务，则那个时间点的回调也会跳过去，不会延后执行。就比如等公交，如果 10:10 时我忙着玩手机错过了那个点的公交，那我只能等 10:20 这一趟了。
 
 ### CFRunLoopRun
 
@@ -449,7 +451,7 @@ static CFRunLoopRef __CFRunLoopCreate(pthread_t t) {
 2. 初始化loop，主要是给runloop的属性设置一些默认值。
 3. 给runloop添加一个默认的mode。
 
-跟我们平时创建对象一样，先计算实例的大小，再在堆上申请那么多的内存，再初始化实例的属性。
+跟我们平时创建对象一样，先计算实例的大小，再在堆上申请那么多的内存，再初始化实例的属性。这里一个比较重要的逻辑就是 `__CFRunLoopFindMode` 。给runloop添加一个mode。
 
 #### __CFRunLoopFindMode
 
@@ -517,7 +519,7 @@ static CFRunLoopModeRef __CFRunLoopFindMode(CFRunLoopRef rl, CFStringRef modeNam
 
 1. 先根据modeName在rl的_modes集合中查找是否有该名称的mode。
 2. 找到就返回，没找到就根据create参数决定是否创建一个。
-3. 创建一个mode，并添加到rl的_modes集合中。
+3. 创建一个mode，并添加到rl的_modes集合中。刚创建的mode是没有任何源和观察者的。
 
 系统并没有提供一个显式创建mode的方法，而只在内部实现了一个查找并创建的方法。
 
@@ -664,7 +666,7 @@ static int32_t __CFRunLoopRun(CFRunLoopRef rl, CFRunLoopModeRef rlm, CFTimeInter
       voucher_t voucherCopy = NULL;
       uint8_t msg_buffer[3 * 1024];
 			mach_msg_header_t *msg = NULL;
-      mach_port_t livePort = MACH_PORT_NULL;
+      mach_port_t livePort = MACH_PORT_NULL; //记录当前活跃的端口
       
       __CFPortSet waitSet = rlm->_portSet; //端口集合
 
@@ -822,7 +824,29 @@ static int32_t __CFRunLoopRun(CFRunLoopRef rl, CFRunLoopModeRef rlm, CFTimeInter
 }
 ```
 
- `__CFRunLoopRun` 内部也有一个do-while循环
+ `__CFRunLoopRun` 内部也有一个do-while循环。
+
+大致流程：
+
+1. 通知即将处理timers
+2. 通知即将处理sources
+3. 调用`__CFRunLoopDoSources0` 处理source0
+4. 如果是主runloop，则调用 `__CFRunLoopServiceMachPort` 处理dispatchPort端口的事务如果有处理则跳转至8
+5. 通知即将休眠 （如果一直有事情做，这里不会被调用）
+6. 调用 `__CFRunLoopServiceMachPort` 处理端口事务，根据timeout参数决定是否进入休眠，等待唤醒。（timeout == 0会马上返回不休眠，如果一直有事情做timeout就会等于0）
+7. 通知已经唤醒 （如果一直有事情做，这里不会被调用）
+8. 根据唤醒端口livePort类型处理不同事务
+9. 如果是被 `_timerPort` 唤醒，则调用 `__CFRunLoopDoTimers` 处理定时器
+10. 如果是被`dispatchPort` 唤醒，则调用 `__CFRUNLOOP_IS_SERVICING_THE_MAIN_DISPATCH_QUEUE__` 处理派发任务
+11. 如果是被其他source1中的端口唤醒，则调用 `__CFRunLoopDoSource1` 处理source1
+12. 检查是否处理了source，是否超时，是否调用了CFRunLoopStop，是否mode变成空的了改变retVal的值
+13. 根据retVal的值决定是否退出do-while循环，否则继续do-while循环回到1。
+
+另外：
+
+source0：`__CFRUNLOOP_IS_CALLING_OUT_TO_A_SOURCE0_PERFORM_FUNCTION__`
+
+source1：`__CFRUNLOOP_IS_CALLING_OUT_TO_A_SOURCE1_PERFORM_FUNCTION__`
 
 ### CFRunLoopRunInMode
 
@@ -835,7 +859,9 @@ SInt32 CFRunLoopRunInMode(CFStringRef modeName, CFTimeInterval seconds, Boolean 
 }
 ```
 
+指定modeName运行runloop。
 
+注意：该modeName对应的mode应该先添加了输入源或定时器源等。
 
 #### RunLoopMode
 
@@ -845,18 +871,13 @@ runloop和mode
 
 一个 RunLoop 可以包含若干个 Mode，每个 Mode 又包含若干个 Source/Timer/Observer。每次调用 RunLoop 的主函数时，只能指定其中一个 Mode，这个Mode被称作 CurrentMode。如果需要切换 Mode，只能退出 Loop，再重新指定一个 Mode 进入。
 
-#### common mode
+### CommonMode
 
-只能通过名字来操作mode，常见的有两个：
+CommonMode并不是一个具体的mode，它只是一个占位mode，将source等添加到CommonMode，实际上是将source添加到_commonModes中的每一个具体mode中。
 
-```c
-CONST_STRING_DECL(kCFRunLoopDefaultMode, "kCFRunLoopDefaultMode")
-CONST_STRING_DECL(kCFRunLoopCommonModes, "kCFRunLoopCommonModes")
-```
+这样不管runloop当前运行在哪个mode下，只要这个mode已经标记为commonMode了，那么该source的事件都会被处理。
 
-
-
-CFRunLoopAddCommonMode
+#### CFRunLoopAddCommonMode
 
 将一个mode添加到CommonMode，也称为将这个mode标记为CommonMode。
 
@@ -866,10 +887,10 @@ void CFRunLoopAddCommonMode(CFRunLoopRef rl, CFStringRef modeName) {
     if (__CFRunLoopIsDeallocating(rl)) return;
     __CFRunLoopLock(rl);
     if (!CFSetContainsValue(rl->_commonModes, modeName)) {
-				CFSetRef set = rl->_commonModeItems ? CFSetCreateCopy(kCFAllocatorSystemDefault, rl->_commonModeItems) : NULL;
-				CFSetAddValue(rl->_commonModes, modeName);
+				CFSetRef set = rl->_commonModeItems ? CFSetCreateCopy(kCFAllocatorSystemDefault, rl->_commonModeItems) : NULL; //获取_commonModeItems集合
+				CFSetAddValue(rl->_commonModes, modeName); //把该modeName添加到_commonModes集合中
 				if (NULL != set) {
-	    			CFTypeRef context[2] = {rl, modeName};
+	    			CFTypeRef context[2] = {rl, modeName}; //数组
 	    			/* add all common-modes items to new mode */
 	    			CFSetApplyFunction(set, (__CFRunLoopAddItemsToCommonMode), (void *)context);
 	    			CFRelease(set);
@@ -897,17 +918,190 @@ static void __CFRunLoopAddItemsToCommonMode(const void *value, void *ctx) {
 大致流程：
 
 1. 加锁
-2. 先判断runloop的_commonModes是不是已经包含该mode了。
-3. 将mode添加到_commonModes这个集合里
-4. 将runloop的_commonModeItems里面所有的common-modes items添加到该mode里。这样当runloop运行在该common mode时
+2. 先判断runloop的_commonModes是不是已经包含该modeName了。
+3. 如果不包含，则将modeName添加到_commonModes这个集合里
+4. 将runloop的 `_commonModeItems` 里面所有的 items添加到该mode里。这样当`_commonModeItems`中的某个item产生事件时，该mode就可以知道并处理。
+5. 解锁
 
-**为什么要有这么多mode?**
+示意图：
+
+<img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/65DCE5795171AE4AB37615BFF262132D.jpg" width=4000 height=2600 style="zoom:25%;" />
+
+#### CFRunLoopAddSource
+
+将rls添加到rl的某个mode中
+
+```c
+void CFRunLoopAddSource(CFRunLoopRef rl, CFRunLoopSourceRef rls, CFStringRef modeName) {    /* DOES CALLOUT */
+    CHECK_FOR_FORK();
+    if (__CFRunLoopIsDeallocating(rl)) return;
+    if (!__CFIsValid(rls)) return;
+    Boolean doVer0Callout = false;
+    __CFRunLoopLock(rl);
+    if (modeName == kCFRunLoopCommonModes) {
+        //将rls添加到CommonModes，由于CommonModes并不是一个具体的mode它只是一个占位mode，所以rls最终是被添加到_commonModes中的每一个具体mode中。
+        CFSetRef set = rl->_commonModes ? CFSetCreateCopy(kCFAllocatorSystemDefault, rl->_commonModes) : NULL;
+        if (NULL == rl->_commonModeItems) {
+            rl->_commonModeItems = CFSetCreateMutable(kCFAllocatorSystemDefault, 0, &kCFTypeSetCallBacks);
+        }
+        CFSetAddValue(rl->_commonModeItems, rls); //把source添加到_commonModeItems集合中
+        if (NULL != set) {
+            CFTypeRef context[2] = {rl, rls};
+            /* add new item to all common-modes */
+            CFSetApplyFunction(set, (__CFRunLoopAddItemToCommonModes), (void *)context);
+            CFRelease(set);
+        }
+    } else {
+      	//将rls添加到真正Mode中
+        CFRunLoopModeRef rlm = __CFRunLoopFindMode(rl, modeName, true); //没找到mode则创建
+        if (NULL != rlm && NULL == rlm->_sources0) {
+            rlm->_sources0 = CFSetCreateMutable(kCFAllocatorSystemDefault, 0, &kCFTypeSetCallBacks);
+            rlm->_sources1 = CFSetCreateMutable(kCFAllocatorSystemDefault, 0, &kCFTypeSetCallBacks);
+            rlm->_portToV1SourceMap = CFDictionaryCreateMutable(kCFAllocatorSystemDefault, 0, NULL, NULL);
+        }
+        if (NULL != rlm && !CFSetContainsValue(rlm->_sources0, rls) && !CFSetContainsValue(rlm->_sources1, rls)) { //去重添加
+            if (0 == rls->_context.version0.version) { //说明为source0
+                CFSetAddValue(rlm->_sources0, rls); //将rls添加到mode的_sources0集合中
+            } else if (1 == rls->_context.version0.version) { //说明为source1
+                CFSetAddValue(rlm->_sources1, rls);//将rls添加到mode的_sources1集合中
+                __CFPort src_port = rls->_context.version1.getPort(rls->_context.version1.info);
+                if (CFPORT_NULL != src_port) { //rls有端口
+                    CFDictionarySetValue(rlm->_portToV1SourceMap, (const void *)(uintptr_t)src_port, rls);
+                    __CFPortSetInsert(src_port, rlm->_portSet); //插入到mode的_portSet端口集合中
+                }
+            }
+            __CFRunLoopSourceLock(rls);
+            if (NULL == rls->_runLoops) {
+                rls->_runLoops = CFBagCreateMutable(kCFAllocatorSystemDefault, 0, &kCFTypeBagCallBacks); // sources retain run loops!
+            }
+            CFBagAddValue(rls->_runLoops, rl); //重点。关联rl，说明一个rls可以关联很多个rl。signal source时还会唤醒目标线程的runloop，而runloop就是从这里保存的获取。
+            __CFRunLoopSourceUnlock(rls);
+            if (0 == rls->_context.version0.version) {
+                if (NULL != rls->_context.version0.schedule) {
+                    doVer0Callout = true;
+                }
+            }
+        }
+        if (NULL != rlm) {
+            __CFRunLoopModeUnlock(rlm);
+        }
+    }
+    __CFRunLoopUnlock(rl);
+    if (doVer0Callout) {
+        // although it looses some protection for the source, we have no choice but
+        // to do this after unlocking the run loop and mode locks, to avoid deadlocks
+        // where the source wants to take a lock which is already held in another
+        // thread which is itself waiting for a run loop/mode lock
+        rls->_context.version0.schedule(rls->_context.version0.info, rl, modeName);    /* CALLOUT */
+    }
+}
+
+static void __CFRunLoopAddItemToCommonModes(const void *value, void *ctx) {
+    CFStringRef modeName = (CFStringRef)value;
+    CFRunLoopRef rl = (CFRunLoopRef)(((CFTypeRef *)ctx)[0]);
+    CFTypeRef item = (CFTypeRef)(((CFTypeRef *)ctx)[1]);
+    if (CFGetTypeID(item) == CFRunLoopSourceGetTypeID()) {
+        CFRunLoopAddSource(rl, (CFRunLoopSourceRef)item, modeName);
+    } else if (CFGetTypeID(item) == CFRunLoopObserverGetTypeID()) {
+        CFRunLoopAddObserver(rl, (CFRunLoopObserverRef)item, modeName);
+    } else if (CFGetTypeID(item) == CFRunLoopTimerGetTypeID()) {
+        CFRunLoopAddTimer(rl, (CFRunLoopTimerRef)item, modeName);
+    }
+}
+```
+
+大致流程如下：以添加一个source到commonMode为例
+
+<img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/BAC092B3831C4FE0E947D00FF10DD436.jpg" style="zoom:50%;" />
+
+
+
+
+### RunLoop的生命周期
+
+![](https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/runloop%E5%86%85%E9%83%A8%E9%80%BB%E8%BE%91.png)
+
+
+### 使用RunLoop进行卡顿检测
+NSRunLoop调用方法主要就是在kCFRunLoopBeforeSources和kCFRunLoopBeforeWaiting之间,还有kCFRunLoopAfterWaiting之后,也就是如果我们发现这两个时间内耗时太长,那么就可以判定出此时主线程卡顿.
+
+再加上信号量等待超时特性.
+
+[iOS实时卡顿检测-RunLoop(附实例)](https://www.jianshu.com/p/d0aab0eb8ce4)
+
+### 问题
+
+1、RunLoop和线程之间的关系
+
+（1）每条线程都有唯一的一个与之对应的RunLoop对象。
+
+（2）主线程的RunLoop默认已经开启，子线程的RunLoop需要主动开启。
+
+（3）RunLoop在第一次获取时创建，在线程结束时销毁。
+
+线程和 RunLoop 之间是一一对应的，其关系是保存在一个全局的 Dictionary 里。线程刚创建时并没有 RunLoop，如果你不主动获取，那它一直都不会有。**RunLoop 的创建是发生在第一次获取时，RunLoop 的销毁是发生在线程结束时**。你只能在一个线程的内部获取其 RunLoop（主线程除外）.
+
+2、performSelector:onThread:withObject:waitUntilDone:modes:
+
+```
+- (void)performSelector:(SEL)aSelector 
+               onThread:(NSThread *)thr 
+             withObject:(id)arg 
+          waitUntilDone:(BOOL)wait 
+                  modes:(NSArray<NSString *> *)array;
+```
+
+说明:
+
+```
+You can use this method to deliver messages to other threads in your application. The message in this case is a method of the current object that you want to execute on the target thread.
+
+This method queues the message on the run loop of the target thread using the run loop modes specified in the array parameter. As part of its normal run loop processing, the target thread dequeues the message (assuming it is running in one of the specified modes) and invokes the desired method.
+```
+
+该方法内部会唤醒目标线程的runloop去处理source0的事务。这里的事务就是执行selector。
+
+示例：
+
+```objc
+- (IBAction)contactWithSonThread:(id)sender
+{
+    [self performSelector:@selector(doSomething) onThread:self.myThread withObject:nil waitUntilDone:NO];
+}
+```
+
+可以看一下调用栈：
+
+<img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20200802130857.png" style="zoom:50%;" />
+
+说明：`performSelector:onThread:withObject:waitUntilDone:modes:` 内部会调用 `CFRunLoopSourceSignal(runLoopSource);` 将source0标记为待处理。并且还会继续调用 `CFRunLoopWakeUp` 唤醒目标线程的runloop执行事务。
+
+3、performSelector:withObject:afterDelay:inModes:
+
+```
+- (void)performSelector:(SEL)aSelector 
+             withObject:(id)anArgument 
+             afterDelay:(NSTimeInterval)delay 
+                inModes:(NSArray<NSRunLoopMode> *)modes;
+```
+
+说明：
+
+```
+This method sets up a timer to perform the `aSelector` message on the current thread’s run loop. The timer is configured to run in the modes specified by the `modes` parameter. When the timer fires, the thread attempts to dequeue the message from the run loop and perform the selector. It succeeds if the run loop is running and in one of the specified modes; otherwise, the timer waits until the run loop is in one of those modes.
+```
+
+该方法是在当前线程的runloop中设置了一个定时器，来执行 `aSelector` message。
+
+**4、为什么要有这么多mode?**
 
 个人感觉应该是为了有个事件处理分类或者有个事件处理的优先级.比如ScrollView在滚动时,肯定处理追踪滚动的优先级要高,如果这个时候还去处理一些定时器事件,可能会导致追踪滚动处理不过来.
 
-**如何手动切换mode?**
+**5、如何手动切换mode?**
 
 指定mode调用CFRunLoopRunInMode就可以了。
+
+**6、系统的runloopMode**
 
 系统默认注册了5个Mode，其中常见的有1.2两种：
 
@@ -917,29 +1111,19 @@ static void __CFRunLoopAddItemsToCommonMode(const void *value, void *ctx) {
 4. GSEventReceiveRunLoopMode: 接受系统事件的内部 Mode，通常用不到
 5. kCFRunLoopCommonModes: 这是一个占位用的Mode，作为标记kCFRunLoopDefaultMode和UITrackingRunLoopMode用，并不是一种真正的Mode
 
-上面的 Source/Timer/Observer 被统称为 mode item，一个 item 可以被同时加入多个 mode。但一个 item 被重复加入同一个 mode 时是不会有效果的。如果一个 mode 中一个 item 都没有，则 RunLoop 会直接退出，不进入循环。
-
-#### RunLoop的输入源,定时器,观察者
-
-
-#### RunLoop的生命周期
-
-![](https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/runloop%E5%86%85%E9%83%A8%E9%80%BB%E8%BE%91.png)
-
-
-#### 使用RunLoop进行卡顿检测
-NSRunLoop调用方法主要就是在kCFRunLoopBeforeSources和kCFRunLoopBeforeWaiting之间,还有kCFRunLoopAfterWaiting之后,也就是如果我们发现这两个时间内耗时太长,那么就可以判定出此时主线程卡顿.
-
-再加上信号量等待超时特性.
-
-[iOS实时卡顿检测-RunLoop(附实例)](https://www.jianshu.com/p/d0aab0eb8ce4)
-
-
-
 ### 参考
 
 [CF源码](https://opensource.apple.com/tarballs/CF/)
 
 [深入理解RunLoop](https://blog.ibireme.com/2015/05/18/runloop/)    ibireme写的，大神就是大神。
 
-[iOS RunLoop 详解](https://imlifengfeng.github.io/article/487/) 这篇文章大部分也是参考的ibireme
+[iOS RunLoop 详解](https://imlifengfeng.github.io/article/487/) 这篇文章大部分也是参考的ibireme。
+
+[官方文档--Threading Programming Guide--Run Loops](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Multithreading/RunLoopManagement/RunLoopManagement.html)  必看
+
+[官方文档--performSelector:onThread:withObject:waitUntilDone:modes:](https://developer.apple.com/documentation/objectivec/nsobject/1417922-performselector)
+
+[官方文档--performSelector:withObject:afterDelay:inModes:](https://developer.apple.com/documentation/objectivec/nsobject/1415652-performselector)
+
+[官方文档--Kernel Programming Guide](https://developer.apple.com/library/archive/documentation/Darwin/Conceptual/KernelProgramming/Architecture/Architecture.html)   主要讲了Mach内核，BSD内核等。
+
