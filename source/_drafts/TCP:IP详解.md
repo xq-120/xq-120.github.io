@@ -25,9 +25,9 @@ TCP
 
 ### 参考
 
-[面试官，不要再问我三次握手和四次挥手](https://yuanrengu.com/2020/77eef79f.html)
+[不要再问我三次握手和四次挥手](https://yuanrengu.com/2020/77eef79f.html)
 
-[【115期】TCP协议面试10连问，总会用得到，建议收藏~](https://mp.weixin.qq.com/s/cfa1f8NR6hs42I5FYCkl6A?)
+[【115期】TCP协议10连问，总会用得到，建议收藏~](https://mp.weixin.qq.com/s/cfa1f8NR6hs42I5FYCkl6A?)
 
 [理解TCP序列号（Sequence Number）和确认号（Acknowledgment Number）](https://blog.csdn.net/a19881029/article/details/38091243?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-3.nonecase&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-3.nonecase)   译文,通过抓包来解释。
 
