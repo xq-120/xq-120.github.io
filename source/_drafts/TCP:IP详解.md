@@ -33,7 +33,9 @@ From Wikipedia:
 
 原话出自computer networks，作者Andrew S. Tanenbaum。
 
-用wireshark抓包也经常抓到三次挥手断开连接的。
+用wireshark抓包也经常抓到三次挥手断开连接的：
+
+![](https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20200805213029.png)
 
 我的理解是：比如客户端发送FIN，然后服务器也没有要发送的数据，也没有其他准备工作于是就可以发送FIN+ACK（两步并一步），最后客户端发送FIN，这样三次挥手后连接关闭。
 
