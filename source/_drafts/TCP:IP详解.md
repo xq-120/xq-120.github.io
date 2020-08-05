@@ -23,6 +23,20 @@ TCP
 
 
 
+3.四次挥手
+
+TCP一般是通过4次挥手后关闭连接，但在满足一些情况下3次挥手也可以关闭连接，这是一个优化。
+
+From Wikipedia:
+
+> It is also possible to terminate the connection by a 3-way handshake, when host A sends a FIN and host B replies with a FIN & ACK (merely combines 2 steps into one) and host A replies with an ACK.
+
+原话出自computer networks，作者Andrew S. Tanenbaum。
+
+用wireshark抓包也经常抓到三次挥手断开连接的。
+
+我的理解是：比如客户端发送FIN，然后服务器也没有要发送的数据，也没有其他准备工作于是就可以发送FIN+ACK（两步并一步），最后客户端发送FIN，这样三次挥手后连接关闭。
+
 ### 参考
 
 [不要再问我三次握手和四次挥手](https://yuanrengu.com/2020/77eef79f.html)
@@ -34,6 +48,8 @@ TCP
 [Understanding TCP Sequence and Acknowledgment Numbers](https://packetlife.net/blog/2010/jun/7/understanding-tcp-sequence-acknowledgment-numbers/)  原文
 
 [TCP中的序号和确认号](https://andrewpqc.github.io/2018/07/17/sequence-number-and-ack-number-in-tcp/)
+
+[就是要你懂 TCP](http://jm.taobao.org/2017/06/08/20170608/)   阿里中间件团队博客 
 
 
 
