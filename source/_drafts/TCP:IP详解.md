@@ -59,6 +59,26 @@ From Wikipedia:
 
 
 
+[TCP快速打开]([https://zh.wikipedia.org/wiki/TCP%E5%BF%AB%E9%80%9F%E6%89%93%E5%BC%80](https://zh.wikipedia.org/wiki/TCP快速打开))  wiki
+
+
+
+什么是RFC
+
+比如TCP的：
+
+<img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20200810174003.png" style="zoom:50%;" />
+
+[RFC](https://zh.wikipedia.org/wiki/RFC)  wiki
+
+[[译] 如何阅读 RFC 文档](https://juejin.im/post/6844903716051484679)  如何阅读RFC
+
+
+
+
+
+
+
 
 
 [干眼症如何预防和治疗？](https://www.zhihu.com/question/20100498)
