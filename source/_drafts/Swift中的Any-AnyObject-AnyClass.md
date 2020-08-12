@@ -25,3 +25,17 @@ let b = 3
 let c = a as! Int + b
 ```
 
+在使用AnyObject 对象时要特别注意如果你需要调用它的属性则最好先downcast为实际的类型，如果不downcast那么系统可能获取的是其他类的同名属性，得到的值将是nil。
+
+```swift
+let node1 = BinaryTreeNode.init(1)
+let node2 = BinaryTreeNode.init(2)
+node1.left = node2
+let curr: AnyObject = node1
+let left: AnyObject? = curr.left  //不会报错
+let left1: AnyObject? = (curr as! BinaryTreeNode).left
+print("left:\(left), left1:\(left1!)") //left:nil, left1:AlgorithmUtils.BinaryTreeNode
+```
+
+
+
