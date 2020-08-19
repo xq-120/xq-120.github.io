@@ -54,9 +54,9 @@ TCP协议位于四层模型中的传输层
 
 **目的端口**：16bit，接收方的端口号。
 
-**序号**：32bit，可靠传输服务的关键字段。序号（sequence number， seq）是报文段首字节的字节流编号，TCP把数据看成是有序的字节流，TCP会隐式地对数据流的每个字节进行编号。第一个包的编号由本地随机产生，到达2^32-1后会再回到0。客户端、服务器端有各自的seq序号。
+**序号**：32bit，可靠传输服务的关键字段。序号（sequence number， seq）是报文段首字节的字节流编号，TCP把数据看成是有序的字节流，TCP会隐式地对数据流的每个字节进行编号。第一个包的编号由本地随机产生，到达2^32-1后会再回到0。客户端、服务器端有各自的seq序号。序号主要**用来解决网络包乱序（reordering）问题**。
 
-**确认号**：32bit，可靠传输服务的关键字段。确认号（acknowledgment number，ack）是期望的对方的下一个序号。
+**确认号**：32bit，可靠传输服务的关键字段。确认号（acknowledgment number，ack）是期望的对方的下一个序号。主要**用来解决不丢包的问题**。
 
 **首部长度**：4bit，以32bits4字节为单位，这样首部最大长度为15 * 4 = 60字节。除去固定部分的长度20字节，可变部分的长度最大为40字节。首部长度也称数据偏移，由于报头的长度可变 ，首部长度指示了数据区在报文段中的起始偏移值 。
 
@@ -82,7 +82,7 @@ TCP协议位于四层模型中的传输层
 
 * FIN：终止标志，用于释放连接，值为1表示要发送的数据报已经发送完毕，需要释放传输连接。
 
-**窗口**：16bit，单位字节。滑动窗口大小，用于接收端告知发送端，本接受端的**缓存大小**，以此控制发送端发送数据的速率，从而达到流量控制。窗口最大为2^16-1=65535字节。这也限制了TCP的吞吐量，可以通过窗口缩放选项对这个值进行缩放。
+**窗口**：16bit，单位字节。滑动窗口大小，用于接收端告知发送端，本接受端的**缓存大小**，以此控制发送端发送数据的速率，从而达到**流量控制**。窗口最大为2^16-1=65535字节。这也限制了TCP的吞吐量，可以通过窗口缩放选项对这个值进行缩放。
 
 **校验和**：奇偶校验，此校验和是对整个的 TCP 报文段，包括 TCP 头部和 TCP 数据，以 16 位字节进行计算所得。由发送端计算和存储，并由接收端进行验证。
 
@@ -269,27 +269,41 @@ From Wikipedia:
 
 
 
-发送窗口和接收窗口
+滑动窗口
 
-5.1发送窗口是怎么移动的？
 
-发送窗口只有收到对端对于本段发送窗口内字节的ACK确认，才会移动发送窗口的左边界。
 
-5.2 接收窗口是怎么移动的？
+5.1发送端的发送窗口是怎么移动的？
 
-接收窗口只有在前面所有的段都确认的情况下才会移动左边界。当在前面还有字节未接收但收到后面字节的情况下，窗口不会移动，并不对后续字节确认。以此确保对端会对这些数据重传。
+发送窗口只有收到对端对于本段发送窗口内字节的ACK确认，才会移动发送窗口的左边界。并且发送窗口的大小将变为接收方回复的ACK中指定的大小。而发送窗口的右边界是否移动取决于窗口的大小，如果窗口相比上一次变小了则发送窗口的右边界不会向前移动。如果变大了则会向前移动。
+
+5.2 接收端的接收窗口是怎么移动的？
+
+接收窗口只有在前面所有的段都确认的情况下，才会移动接收窗口的左边界。当在前面还有字节未接收但收到后面字节的情况下，TCP不会对后续字节确认，以此确保对端会对这些数据重传。
+
+当应用进程读取了这些数据后，接收窗口的右边界才会向前移动。
+
+如果应用进程读取很慢甚至不读取这些已经确认的数据会怎样呢？结果就是接收窗口会变得越来越小（因为右边界没动），最后变为0，与此同时发送方在不断的接收到ACK时也会调整发送窗口的大小，也是越来越小，最后变为0。
+
+滑动窗口并不是一成不变的。比如，当接收方的应用进程读取数据的速度非常快的话，这样的话接收窗口可以很快的就空缺出来。那么新的接收窗口大小，是通过 TCP 报文中的 Windows 字段来告诉发送方。那么这个传输过程是存在时延的，所以接收窗口和发送窗口是约等于的关系。
 
 5.3 假如接收窗口不断缩小，缩小到0会怎样？
 
 5.4 有了滑动窗口，那发送方什么时候进行重传？
 
+滑动窗口和重传没有关联，滑动窗口只是让发送方可以在没收到确认应答时就可以发送后面的包。发送包的时候依然有超时重传和快速重传。
+
+
+
 参考：
 
-[TCP协议的滑动窗口具体是怎样控制流量的？](https://www.zhihu.com/question/32255109)
+[30张图解： TCP 重传、滑动窗口、流量控制、拥塞控制](https://www.cnblogs.com/xiaolincoding/p/12732052.html)   五星，博主也很棒
 
-[TCP-IP详解：滑动窗口（Sliding Window）](https://blog.csdn.net/wdscq1234/article/details/52444277)
+[TCP 的那些事儿（上）](https://coolshell.cn/articles/11564.html)  五星，博主也很棒
 
-[30张图解： TCP 重传、滑动窗口、流量控制、拥塞控制](https://www.cnblogs.com/xiaolincoding/p/12732052.html)   五星，非常棒
+[TCP 的那些事儿（下）](https://coolshell.cn/articles/11609.html)  五星，博主也很棒
+
+
 
 #### 6.TCP拥塞控制
 
@@ -297,7 +311,46 @@ From Wikipedia:
 
 #### 7.TCP粘包问题
 
-[为什么 TCP 协议有粘包问题](https://draveness.me/whys-the-design-tcp-message-frame/)
+粘包问题出现的核心原因：
+
+1. TCP 协议是基于字节流的传输层协议，其中不存在消息和数据包的概念；
+2. 应用层协议没有使用基于长度或者基于终结符的消息边界，导致多个消息的粘连；
+
+TCP自身可以随意拆分和重组，但上层的应用层协议如果没有设计好的话，在拆分后可能就出问题了。
+
+参考：
+
+[为什么 TCP 协议有粘包问题](https://draveness.me/whys-the-design-tcp-message-frame/)  五星
+
+
+
+#### 8. TCP报文确认应答（ACK）机制
+
+这个可能需要分阶段讨论：TCP建立连接阶段，连接建立后的数据传输阶段，TCP断开连接阶段。
+
+对于数据传输阶段，ACK可能会延迟确认。
+
+[TCP报文到达确认（ACK）机制](https://blog.csdn.net/wjtxt/article/details/6606022)
+
+[TCP的ACK原理和延迟确认机制](https://blog.csdn.net/gamekit/article/details/53898802)
+
+[基于TCP协议的应用层的ACK机制](https://www.cnblogs.com/maji233/p/11448797.html)  讲解了应用层协议为什么也需要有ACK机制。
+
+
+
+### RFC
+
+什么是RFC
+
+比如TCP的：
+
+<img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20200810174003.png" style="zoom:50%;" />
+
+[RFC](https://zh.wikipedia.org/wiki/RFC)  wiki
+
+[[译] 如何阅读 RFC 文档](https://juejin.im/post/6844903716051484679)  如何阅读RFC
+
+
 
 ### 参考
 
@@ -305,7 +358,7 @@ From Wikipedia:
 
 [【115期】TCP协议10连问，总会用得到，建议收藏~](https://mp.weixin.qq.com/s/cfa1f8NR6hs42I5FYCkl6A?)
 
-[理解TCP序列号（Sequence Number）和确认号（Acknowledgment Number）](https://blog.csdn.net/a19881029/article/details/38091243?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-3.nonecase&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-3.nonecase)   译文,通过抓包来解释。
+[理解TCP序列号（Sequence Number）和确认号（Acknowledgment Number）](https://blog.csdn.net/a19881029/article/details/38091243?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-3.nonecase&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-3.nonecase)   译文,通过抓包来解释seq number和ack number。
 
 [Understanding TCP Sequence and Acknowledgment Numbers](https://packetlife.net/blog/2010/jun/7/understanding-tcp-sequence-acknowledgment-numbers/)  原文
 
@@ -326,18 +379,6 @@ From Wikipedia:
 [TCP是如何保证可靠数据传输的？](https://blog.csdn.net/yjxsdzx/article/details/71937888)  
 
 [TCP的可靠性有多高？ CRC校验](https://www.cnblogs.com/my_life/articles/5367814.html)  讲解了TCP的校验和只能检出一些简单的错误，而对某些错误无能为力，因此TCP是一种可靠的协议但不是一种绝对可靠的协议。
-
-
-
-什么是RFC
-
-比如TCP的：
-
-<img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20200810174003.png" style="zoom:50%;" />
-
-[RFC](https://zh.wikipedia.org/wiki/RFC)  wiki
-
-[[译] 如何阅读 RFC 文档](https://juejin.im/post/6844903716051484679)  如何阅读RFC
 
 
 
