@@ -293,8 +293,6 @@ From Wikipedia:
 
 滑动窗口和重传没有关联，滑动窗口只是让发送方可以在没收到确认应答时就可以发送后面的包。发送包的时候依然有超时重传和快速重传。
 
-
-
 参考：
 
 [30张图解： TCP 重传、滑动窗口、流量控制、拥塞控制](https://www.cnblogs.com/xiaolincoding/p/12732052.html)   五星，博主也很棒
@@ -324,11 +322,26 @@ Msg3 就位于两个TCP segment中。
 
 ![](https://img.draveness.me/2020-03-05-15834216958612-nagle-algorithm.png)
 
+粘包其实和TCP协议没有任何关系。
+
+“TCP面向字节流”的含义是：虽然应用程序和 TCP 的交互是一次一个数据块(大小不等)，但 TCP 把应用程序交下来的数据仅仅看成是一连串的`无结构的字节流`。TCP 并不知道所传送的字节流的含义
+
+TCP 不保证接收方应用程序所收到的数据块和发送方应用程序所发出的数据块具有对应大小的关系。
+
+> 例如，发送方应用程序交给发送方的 TCP 共10个数据块，但接收方的 TCP 可能只用了4个数据块就把收到的字节流交付上层的应用程序
+
+接收方应用程序收到的字节流必须和发送方应用程序发出的字节流完全一样。接收方的应用程序必须有能力识别收到的字节流，把它还原成有意义的应用层数据。
+
+TCP 和 UDP 在发送报文时采用的方式完全不同。TCP 并不关心应用进程一次把多长的报文发送到 TCP 的缓存中，而是根据对方给出的窗口值和当前网络拥塞的程度来决定一个报文段应包含多少个字节(UDP 发送的报文长度是应用进程给出的)。如果应用进程传送到 TCP 缓存的数据块太长，TCP 就可以把它划分短一些再传送。如果应用进程一次只发来一个字节，TCP 也可以等待积累有足够多的字节后再构成报文段发送出去
+
+
 参考：
 
 [为什么 TCP 协议有粘包问题](https://draveness.me/whys-the-design-tcp-message-frame/)  五星
 
+[面向字节流的TCP](https://blog.csdn.net/jason_cuijiahui/article/details/79696557)
 
+[TCP协议详解](https://zhuanlan.zhihu.com/p/64155705)  4星
 
 #### 8. TCP报文确认应答（ACK）机制
 
@@ -385,6 +398,10 @@ Msg3 就位于两个TCP segment中。
 [TCP是如何保证可靠数据传输的？](https://blog.csdn.net/yjxsdzx/article/details/71937888)  
 
 [TCP的可靠性有多高？ CRC校验](https://www.cnblogs.com/my_life/articles/5367814.html)  讲解了TCP的校验和只能检出一些简单的错误，而对某些错误无能为力，因此TCP是一种可靠的协议但不是一种绝对可靠的协议。
+
+[大话TCP：TCP的可靠性机制](https://marvinsblog.net/post/2017-06-21-tcp-reliability-mechanism/)  三星，博主写了一个系列的，不过每一篇都太短了。
+
+
 
 
 
