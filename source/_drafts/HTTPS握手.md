@@ -77,7 +77,9 @@ Server Hello发出去后，服务端会**紧接着发送**一个 `Certificate, C
 
 **Server Key Exchange**
 
-该消息需要满足一定的条件才会发送，还记得刚刚在Server Hello中说的，选择不同的密码套件会有不同的动作产生，该信息的发送就是属于不同的动作。
+该信息用于密钥交换。核心是DH算法。两端通过交换DH公钥，再通过DH算法就可以分别计算出密钥K。这个密钥K就是第三个随机数，采用DH算法第三个随机数就可以不用通过网络传递而是在各自的本地计算出来。
+
+该消息的发送需要满足一定的条件，还记得刚刚在Server Hello中说的，选择不同的密码套件会有不同的动作产生，该信息的发送就是属于不同的动作。
 
 它发送的条件是，如果证书包含的信息不足以进行密钥交换，那么必须发送该信息。通常协商的加密套件属于下面的类型，就会发送：
 
@@ -94,14 +96,14 @@ Server Hello发出去后，服务端会**紧接着发送**一个 `Certificate, C
 
 DH公钥就是`Pubkey`，签名就是`Signatrue`，DH参数就是由`Curve Type`、`Named Curve`、`Pubkey`组成的。
 
-该信息是用于密钥交换。因为https在真正的通信阶段，是通过对称加密来对内容进行加密的。
-
 **Server Hello Done**
 
-告诉客户端服务器hello完毕，该信息的主要作用两点：
+告诉客户端服务器hello完毕，该信息的主要作用有两点：
 
 - 服务端发送了足够的信息，接下来可以和客户端一起协商出预备主密钥
 - 客户端接收到该信息后，可以进行证书校验、协商密钥等步骤
+
+为什么需要发送Server Hello Done这个信息？如果不发送，那么客户端根本不知道计算第三个随机数需要的信息是否足够。
 
 ## Client Key Exchange, Change Cipher Spec, Encrypted Handshake Message
 
@@ -111,10 +113,11 @@ DH公钥就是`Pubkey`，签名就是`Signatrue`，DH参数就是由`Curve Type`
 
 **Client Key Exchange**
 
-该信息的主要作用是协商出预备主密钥，一般有两种方式：
+该信息的主要作用是协商出预备主密钥（即第三个随机数），第三个随机数一般有两种方式生成：
 
-- 客户端通过RSA/ECDSA算法加密预备主密钥，然后发送给服务器
-- 通过服务器发送的DH参数计算出客户端的DH公钥，并传递给服务器。
+1. 由客户端生成一个随机数，然后通过服务器证书上的公钥加密，发送给服务器。服务器收到后通过私钥解密。
+
+2. 通过服务器发送的DH参数计算出客户端的DH公钥，并传递给服务器，然后双方通过DH算法在本地计算出第三个随机数。
 
 ![](https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20200823135300.png)
 
@@ -124,7 +127,7 @@ DH公钥就是`Pubkey`，签名就是`Signatrue`，DH参数就是由`Curve Type`
 
 最终，客户端和服务器会计算出相同的预备主密钥。而该预备主密钥就作为第三个随机数。
 
-我们知道前面已经得到了两个随机数了，最后客户端和服务端会根据这三个随机数计算出对称加密所需要的密钥，因为该密钥是在各自的本地进行计算的，并没有通过网络传输，所以该密钥是安全的。
+我们知道前面已经得到了两个随机数了，最后客户端和服务端会根据这三个随机数计算出对称加密所需要的密钥。
 
 **Change Cipher Spec**
 
@@ -171,4 +174,6 @@ DH公钥就是`Pubkey`，签名就是`Signatrue`，DH参数就是由`Curve Type`
 [iOS应用安全之HTTP/HTTPS详解（AFNetworking配套策略）](https://blog.csdn.net/Deft_MKJing/article/details/82868900)  这位博主介绍的是真的全而且是实践过的.TODO:自己也要重复试验一遍.
 
 [https握手流程详解](https://juejin.im/post/6844904135230390279)  4星
+
+[理解 Diffie-Hellman 密钥交换算法](http://wsfdl.com/algorithm/2016/02/04/%E7%90%86%E8%A7%A3Diffie-Hellman%E5%AF%86%E9%92%A5%E4%BA%A4%E6%8D%A2%E7%AE%97%E6%B3%95.html)
 
