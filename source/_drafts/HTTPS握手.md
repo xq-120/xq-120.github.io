@@ -165,7 +165,7 @@ DH公钥就是`Pubkey`，签名就是`Signatrue`，DH参数就是由`Curve Type`
 
 ## 参考
 
-[iOS安全系列之二：HTTPS进阶](http://oncenote.com/2015/09/16/Security-2-HTTPS2/)  这一篇结合了wireshark抓包分析,更加具体.
+[iOS安全系列之二：HTTPS进阶](https://www.jianshu.com/p/56bcc14ab052)  这一篇结合了wireshark抓包分析,更加具体.
 
 [SSL/TLS协议运行机制的概述](https://www.ruanyifeng.com/blog/2014/02/ssl_tls.html)
 
