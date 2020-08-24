@@ -163,6 +163,21 @@ DH公钥就是`Pubkey`，签名就是`Signatrue`，DH参数就是由`Curve Type`
 
 
 
+## DH算法
+
+简单来讲：
+
+1. Alice和Bob 公开同意使用一个素数p，一个基数g
+2. Alice选择一个秘密整数a作为自己的私钥，然后计算出自己的公钥A并发送给Bob
+3. Bob也选择一个秘密整数b作为自己的私钥，然后计算出自己的公钥B并发送给Alice
+4. Alice根据Bob的公钥B，自己的私钥a以及素数p，计算出秘密s
+5. Bob根据Alice的公钥A，自己的私钥b以及素数p，计算出秘密s
+6. 两人都拥有了一个秘密整数s，通常作为对称加密的密钥。
+
+上面一共涉及到两对公私钥（A-a，B-b）及素数p和基数g六个数，并由此计算出一个共享的秘密整数s。
+
+因为私钥并不传递所以是安全的。DH算法可以在一个不安全的信道上协商出一个安全的对称加密密钥。
+
 ## 参考
 
 [iOS安全系列之二：HTTPS进阶](https://www.jianshu.com/p/56bcc14ab052)  这一篇结合了wireshark抓包分析,更加具体.
@@ -176,4 +191,6 @@ DH公钥就是`Pubkey`，签名就是`Signatrue`，DH参数就是由`Curve Type`
 [https握手流程详解](https://juejin.im/post/6844904135230390279)  4星
 
 [理解 Diffie-Hellman 密钥交换算法](http://wsfdl.com/algorithm/2016/02/04/%E7%90%86%E8%A7%A3Diffie-Hellman%E5%AF%86%E9%92%A5%E4%BA%A4%E6%8D%A2%E7%AE%97%E6%B3%95.html)
+
+[Diffie–Hellman key exchange](https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange)  wiki百科，已经讲的很清楚了。
 
