@@ -24,18 +24,24 @@ categories:
 
 #### 数据错乱原因分析
 
-cell上的数据错乱显然是由于cell的重用导致的。由于图片是异步下载的，下载完成才给cell设置，但是在这个过程中用户可能会上下滑动，滑动的时候会导致cell的重用，比如第0行是设置大图片的，第11行是设置小图片的，用户在滑动的过程中，因为cell的重用第11行的cell可能使用的是第0行的cell，这时第0行的block回调设置的cell和第11行的block回调设置的cell是同一个，这就是问题的关键。
+cell上的数据错乱显然是由于cell的重用导致的。由于图片是异步下载的，下载完成才给cell设置，但是在这个过程中用户可能会上下滑动，滑动的时候会导致cell的重用，比如第0行是设置大图片的，第11行是设置小图片的，用户在滑动的过程中，因为cell的重用第11行的cell可能使用的是第0行的cell，这时第0行的block回调设置的cell和第11行的block回调设置的cell是同一个，即cell的重用导致两个block回调时设置的其实是同一个cell上的imageView。这就是问题的关键。
 
 因为图片是异步下载的，你也不知道哪个block会先回调，如果小图片的block先回调那么这个cell的图片就先被设置为小图片，如果后来大图片的block回来了，那么你会看到图片被替换成大图片，这种情况还算比较好，但如果大图片下载失败或者小图片的block最后回调，那么你看到的将是小图片加大图片的文字信息，这时数据就错乱了。
 
 #### 如何解决
-如果不重用cell，当然是可以解决该问题的，但是内存肯定会浪费不少。既然已经找到是因为cell的重用导致两个block回调时设置的其实是同一个cell上的imageView。那么我们只需要在下载完成的回调里进行区分，如果不一致则不设置imageView。
+如果不重用cell，当然是可以解决该问题的，但是内存肯定会浪费不少。
 
-有两种办法进行区分：
+解决的方案有两种：
+
+方案一：在下载完成的回调里进行区分，如果不一致则不设置imageView。
+
+方案二：每次下载前都先取消掉上一次的下载，这样就不会同时有两个block回调，这是很多第三方图片加载库的做法。
+
+如果采用方案一，那么有两种办法进行区分：
 
 **1. 通过indexPath来区分**
 
-block里截获的indexPath对象是以前的cell的indexPath。而通过`[tableView indexPathForCell:cell];`则可以获得当前显示的cell的indexPath。如果cell发生了重用的话，那么这两个indexPath将不一致。
+block里截获的indexPath对象是cell在下载前的indexPath，假设为t1时刻的indexPath。而通过`[tableView indexPathForCell:cell];` 则可以获得cell当前的indexPath，假设为t2时刻的indexPath。如果t1-t2这段时间内cell发生了重用的话，那么这两个indexPath将不一致。
 
 ```objc
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -47,6 +53,9 @@ block里截获的indexPath对象是以前的cell的indexPath。而通过`[tableV
     [[XQImageDownloader defaultImageDownloader] downloadImageWithUrlString:urlStr completion:^(NSString *imgUrl, UIImage *image, NSError *error) {
         if (!error) {
             NSIndexPath *currentIndexPath = [tableView indexPathForCell:weakCell];
+          	if (currentIndexPath == nil) { //表明cell没在屏幕上显示。
+              return;
+            }
             NSInteger currentRow = currentIndexPath.row;
             NSInteger originalRow = indexPath.row; //这里的indexPath是block截获的.
             if (originalRow != currentRow) {
@@ -63,9 +72,13 @@ block里截获的indexPath对象是以前的cell的indexPath。而通过`[tableV
     return cell;
 }
 ```
+这种办法的缺点是如果cell的配置方法是在别处，那么需要传递tableView和indexPath两个参数，对现有代码改动较大，不是很方便。
+
+注意：上述代码中和currentIndexPath比较的indexPath，必须是block截获的，不能直接使用 `cell.indexPath` （这里假设cell里有一个indexPath属性并在dequeue后就赋值为代理方法的indexPath参数）否则总是相等的。
+
 **2. 通过下载的图片URL来区分**
 
-下载前先记录当前imageView应该显示的图片URL，当下载完成时再进行比较。
+下载前先记录当前imageView应该显示的图片URL，当下载完成时再进行比较。这种办法比第一种要方便很多，我们可以写一个UIImageView的类别封装一下。
 
 ```objc
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -91,17 +104,62 @@ block里截获的indexPath对象是以前的cell的indexPath。而通过`[tableV
 }
 ```
 
-另外在下载图片之前先把cell的imageView的image置为nil。`cell.imgView.image = nil;`可以防止重用的cell万一图片下载失败而导致显示了以前的图片。
+另外在下载图片之前先把cell的imageView的image置为nil。`cell.imgView.image = nil;`可以防止重用的cell万一图片下载失败而导致显示了以前的图片，不过一般都会有占位图片所以这一步可有可无。
 
-cell上发生数据错乱的控件，大部分都是因为要显示的资源需要异步处理比如图片需要下载后才能设置到imageView上，这时就需要在block中进行区分。少部分同步显示资源的控件（比如UILabel）发生数据错乱则一般是因为你的条件判断有问题导致重用的cell上还留有旧的数据，可以重写`-prepareForReuse`在重用前先清除掉旧数据。
+如果采用方案二：每次下载前都先取消掉上一次的下载。那么你的图片下载器就需要实现取消下载功能，幸运的是SD或YY这样的图片加载器已经实现了这样的功能。
+
+比如SD：
+
+```objc
+- (void)sd_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageCompletionBlock)completedBlock {
+    [self sd_cancelCurrentImageLoad]; //下载前先取消掉当前ImageView上之前的下载
+    objc_setAssociatedObject(self, &imageURLKey, url, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+
+    if (!(options & SDWebImageDelayPlaceholder)) {
+        dispatch_main_async_safe(^{
+            self.image = placeholder;
+        });
+    }
+    ...
+}
+```
+
+YY：
+
+```objc
+- (void)yy_setImageWithURL:(NSURL *)imageURL
+               placeholder:(UIImage *)placeholder
+                   options:(YYWebImageOptions)options
+                   manager:(YYWebImageManager *)manager
+                  progress:(YYWebImageProgressBlock)progress
+                 transform:(YYWebImageTransformBlock)transform
+                completion:(YYWebImageCompletionBlock)completion {
+    if ([imageURL isKindOfClass:[NSString class]]) imageURL = [NSURL URLWithString:(id)imageURL];
+    manager = manager ? manager : [YYWebImageManager sharedManager];
+    
+    _YYWebImageSetter *setter = objc_getAssociatedObject(self, &_YYWebImageSetterKey);
+    if (!setter) {
+        setter = [_YYWebImageSetter new];
+        objc_setAssociatedObject(self, &_YYWebImageSetterKey, setter, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
+    int32_t sentinel = [setter cancelWithNewURL:imageURL]; //下载前先取消掉当前ImageView上之前的下载
+    ...
+}
+```
+
+所以直接使用这些第三方库就可以了。
+
+注意：如果你使用这些第三方库还出现图片错乱的问题，根本原因是因为重用的cell的imageView没有执行cancel下载操作，至于为啥会没有执行，老中医掐指一算，大概率是因为代码中出现了有if没else的逻辑或者if里用了SD而else里没使用。
+
+#### 总结
+
+cell上发生数据错乱的控件，大部分都是因为要显示的资源需要异步处理比如图片需要下载后才能设置到imageView上。少部分同步显示资源的控件（比如UILabel）发生数据错乱则一般是因为你的条件判断有问题导致重用的cell上还留有旧的数据，可以重写`-prepareForReuse`在重用前先清除掉旧数据。
 
 俺在开发过程中遇到的一些数据错乱的场景：
 
-cell上的imageView根据条件判断一会加载本地的图片，一会加载网络图片。
+cell上的imageView根据条件判断一会加载本地的图片，一会加载网络图片，这个就很典型。
 
 cell上的imageView根据条件判断一会用SDWebImage加载，一会用YYWebImage加载。同一个cell里的imageView千万不要使用两种框架去加载。
-
-有空再详细分析使用SDWebImage加载图片时为什么就不会出现图片错乱。
 
 以上，MADE BY XQ。
 

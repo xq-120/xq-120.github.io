@@ -1,4 +1,4 @@
-```
+```objc
 @interface ZAMatchmakerListCollectionCell : UICollectionViewCell
 
 @property (nonatomic, strong) NSIndexPath *indexPath;
