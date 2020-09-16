@@ -15,7 +15,7 @@ date: 2020-07-18 23:32:40
 
 `TARGETS -> debug-objc -> Build Settings -> Enable Hardened Runtime = NO`，解决可编译但断点不起作用问题。
 
-问题
+## 问题
 
 1. isa是什么
 2. tagged pointer对象是什么以及它的布局规则
@@ -87,7 +87,7 @@ _class_createInstanceFromZone(Class cls, size_t extraBytes, void *zone,
     // Read class's info bits all at once for performance
     bool hasCxxCtor = cxxConstruct && cls->hasCxxCtor();
     bool hasCxxDtor = cls->hasCxxDtor();
-    bool fast = cls->canAllocNonpointer();
+    bool fast = cls->canAllocNonpointer(); //TODO:这里没看懂怎么得来的
     size_t size;
 
     size = cls->instanceSize(extraBytes); //获取实例大小
@@ -106,12 +106,12 @@ _class_createInstanceFromZone(Class cls, size_t extraBytes, void *zone,
         return nil;
     }
 
-    if (!zone && fast) {
+    if (!zone && fast) { //一般情况下我们的对象走initInstanceIsa
         obj->initInstanceIsa(cls, hasCxxDtor); //Nonpointer的初始化isa
     } else {
         // Use raw pointer isa on the assumption that they might be
         // doing something weird with the zone or RR.
-        obj->initIsa(cls); //非Nonpointer的初始化isa
+        obj->initIsa(cls); //非Nonpointer(即纯pointer)的初始化isa
     }
 
     if (fastpath(!hasCxxCtor)) {
@@ -165,9 +165,18 @@ class_rw_t *data() const {
 
 ```c
 inline void 
+objc_object::initInstanceIsa(Class cls, bool hasCxxDtor)
+{
+    ASSERT(!cls->instancesRequireRawIsa());
+    ASSERT(hasCxxDtor == cls->hasCxxDtor());
+
+    initIsa(cls, true, hasCxxDtor);
+}
+
+inline void 
 objc_object::initIsa(Class cls)
 {
-    initIsa(cls, false, false); //默认情况下isa都是nonpointer
+    initIsa(cls, false, false); 
 }
 
 inline void 
@@ -1929,7 +1938,7 @@ void callInitialize(Class cls)
 1. 交换类的一个未实现的父类方法？
 2. 方法交换时机？
 3. 方法交换失效？
-4. 动态控制方法的交换与不交换可不可行？
+4. 动态控制方法的交换与不交换可不可行？P
 
 方法交换的核心实现：
 

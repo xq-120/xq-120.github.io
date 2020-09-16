@@ -52,7 +52,7 @@ NS_ROOT_CLASS
 }
 ```
 
-### 旧版定义
+### 旧版本定义
 
 #### struct objc_object
 
@@ -125,7 +125,7 @@ struct objc_class {
 
 这表明上述定义都已经弃用，核心思想可能相同但实现细节已经不同了，因此需要看新版本的定义了。其他源码库也是一样，如果你只是想看一下大概原理你可以看旧版，但新版里的一些性能优化、新增功能、代码的优化重构你就不知道了，所以建议能看新版本就看新版本，当然因为上面的原因新版本难度会更大一些。
 
-### 新版定义
+### 新版本定义
 
 #### struct objc_object
 
@@ -425,7 +425,7 @@ union isa_t {
 
 ISA_BITFIELD宏定义：
 
-```
+```c
     // extra_rc must be the MSB-most field (so it matches carry/overflow flags)
     // nonpointer must be the LSB (fixme or get rid of it)
     // shiftcls must occupy the same bits that a real class pointer would
