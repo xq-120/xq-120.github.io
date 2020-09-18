@@ -23,7 +23,7 @@
   <meta name="description" content="本文基于Exposing NSMutableArray 理解和扩展。 C语言中的数组可以说是最基本的数据结构了，其他一些数据结构比如队列，循环队列等都可以基于普通C数组的进一步封装来实现。 普通C数组 数组占据的是一段连续的内存空间，并根据顺序存储数据。 优点：时间效率很高 由于数组中的内存是连续的，因此可以根据下标读写任何元素，时间复杂度为O(1)。 缺点：空间效率较低 创建数组时需要先指定数组">
 <meta property="og:type" content="article">
 <meta property="og:title" content="NSMutableArray实现原理">
-<meta property="og:url" content="http://yoursite.com/2020/05/17/NSMutableArrayd%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/index.html">
+<meta property="og:url" content="http://yoursite.com/2020/05/17/NSMutableArray%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/index.html">
 <meta property="og:site_name" content="要为真理而奋斗">
 <meta property="og:description" content="本文基于Exposing NSMutableArray 理解和扩展。 C语言中的数组可以说是最基本的数据结构了，其他一些数据结构比如队列，循环队列等都可以基于普通C数组的进一步封装来实现。 普通C数组 数组占据的是一段连续的内存空间，并根据顺序存储数据。 优点：时间效率很高 由于数组中的内存是连续的，因此可以根据下标读写任何元素，时间复杂度为O(1)。 缺点：空间效率较低 创建数组时需要先指定数组">
 <meta property="og:locale" content="zh_CN">
@@ -34,13 +34,13 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/6C548BF9E45EA310CDBF27701E5131E7.jpg">
 <meta property="og:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/667D39026317F4D61F674BB94052BA4F.jpg">
 <meta property="article:published_time" content="2020-05-17T04:57:57.000Z">
-<meta property="article:modified_time" content="2020-05-17T04:58:59.593Z">
+<meta property="article:modified_time" content="2020-09-18T03:00:07.828Z">
 <meta property="article:author" content="jekyttt">
 <meta property="article:tag" content="NSMutableArray">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/618F53DD5E0AC45A98E4192354D0F63E.jpg">
 
-<link rel="canonical" href="http://yoursite.com/2020/05/17/NSMutableArrayd%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">
+<link rel="canonical" href="http://yoursite.com/2020/05/17/NSMutableArray%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">
 
 
 <script id="page-configurations">
@@ -196,7 +196,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/17/NSMutableArrayd%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/17/NSMutableArray%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -218,10 +218,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-05-17 12:57:57 / 修改时间：12:58:59" itemprop="dateCreated datePublished" datetime="2020-05-17T12:57:57+08:00">2020-05-17</time>
+              <time title="创建时间：2020-05-17 12:57:57" itemprop="dateCreated datePublished" datetime="2020-05-17T12:57:57+08:00">2020-05-17</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-09-18 11:00:07" itemprop="dateModified" datetime="2020-09-18T11:00:07+08:00">2020-09-18</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -241,8 +247,8 @@
       </span>
       <span class="post-meta-item-text">Disqus：</span>
     
-    <a title="disqus" href="/2020/05/17/NSMutableArrayd%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/05/17/NSMutableArrayd实现原理/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2020/05/17/NSMutableArray%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/05/17/NSMutableArray实现原理/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -272,7 +278,7 @@
 <p>例如，对于任何一个自然数，模上5，得到的结果都会在[0,4]之间。</p>
 <p>0%5  = 0，1%5  = 1，2%5  = 2，3%5  = 3，4%5  = 4，5%5  = 0，6%5  = 1，7%5  = 2， ……。看到没有，结果已经开始循环了。</p>
 <p>循环队列的声明：</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CircularQueue</span> </span>&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">private</span>(<span class="keyword">set</span>) <span class="keyword">var</span> size: <span class="built_in">Int</span> = <span class="number">0</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">private</span>(<span class="keyword">set</span>) <span class="keyword">var</span> count: <span class="built_in">Int</span> = <span class="number">0</span></span><br><span class="line">  <span class="keyword">var</span> head: <span class="built_in">Int</span> = <span class="number">0</span></span><br><span class="line">  <span class="keyword">var</span> tail: <span class="built_in">Int</span> = <span class="number">0</span></span><br><span class="line">  <span class="keyword">var</span> items: [<span class="built_in">Int</span>] = []</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CircularQueue</span> </span>&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">private</span>(<span class="keyword">set</span>) <span class="keyword">var</span> size: <span class="type">Int</span> = <span class="number">0</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">private</span>(<span class="keyword">set</span>) <span class="keyword">var</span> <span class="built_in">count</span>: <span class="type">Int</span> = <span class="number">0</span></span><br><span class="line">  <span class="keyword">var</span> head: <span class="type">Int</span> = <span class="number">0</span></span><br><span class="line">  <span class="keyword">var</span> tail: <span class="type">Int</span> = <span class="number">0</span></span><br><span class="line">  <span class="keyword">var</span> items: [<span class="type">Int</span>] = []</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>一般都会有head和tail两个指针，head总是指向第一个元素，tail总是指向下一个存储的元素的位置。也可以不使用tail，而使用head和count，因为tail = head + count。</p>
 <p>初始化时head==tail。另外head可以等于0也可以不等于0这个不重要，因为是循环的，所以无论从哪个点开始都是一样的。</p>
 <p>这里初始化：head==tail=0。</p>
@@ -307,7 +313,7 @@
 <p>NSMutableArray借鉴了循环双端队列数据结构的思想，只不过NSMutableArray还允许在中间进行插入删除。</p>
 <p>NSMutableArray是一个类簇，实际的类型是__NSArrayM。</p>
 <p>__NSArrayM的实例布局：</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">__NSArrayM</span> : <span class="title">NSMutableArray</span></span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> _used;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> _doHardRetain:<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> _doWeakAccess:<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> _size:<span class="number">62</span>;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> _hasObjects:<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> _hasStrongReferences:<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> _offset:<span class="number">62</span>;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> _mutations;</span><br><span class="line">    <span class="keyword">id</span> *_list;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">__NSArrayM</span> : <span class="title">NSMutableArray</span></span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> _used;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> _doHardRetain:<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> _doWeakAccess:<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> _size:<span class="number">62</span>;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> _hasObjects:<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> _hasStrongReferences:<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> _offset:<span class="number">62</span>;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> _mutations;</span><br><span class="line">    <span class="keyword">id</span> *_list;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>比较重要的几个属性：</p>
 <p>_used：当前已使用的内存空间个数，即当前数组中元素的个数。</p>
 <p>_size：数组的大小</p>
@@ -365,8 +371,8 @@
       <i class="fa fa-chevron-left"></i> OC类型自省函数
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/06/06/OC-atomic%E4%BF%AE%E9%A5%B0%E7%AC%A6/" rel="next" title="OC atomic修饰符">
-      OC atomic修饰符 <i class="fa fa-chevron-right"></i>
+    <a href="/2020/05/22/OC%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B9%8B%E8%87%AA%E5%8A%A8%E9%87%8A%E6%94%BE%E6%B1%A0%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" rel="next" title="OC内存管理之自动释放池实现原理">
+      OC内存管理之自动释放池实现原理 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -448,14 +454,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">111</span>
+          <span class="site-state-item-count">114</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-count">31</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -638,8 +644,8 @@ window.addEventListener('pjax:success', () => {
 </script>
 <script>
   var disqus_config = function() {
-    this.page.url = "http://yoursite.com/2020/05/17/NSMutableArrayd%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/";
-    this.page.identifier = "2020/05/17/NSMutableArrayd实现原理/";
+    this.page.url = "http://yoursite.com/2020/05/17/NSMutableArray%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/";
+    this.page.identifier = "2020/05/17/NSMutableArray实现原理/";
     this.page.title = "NSMutableArray实现原理";
     };
   NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {

@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-07-03T15:28:58.713Z</updated>
+  <updated>2020-09-18T04:58:11.419Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>OC内存管理之对象的引用计数</title>
+    <link href="http://yoursite.com/2020/09/16/OC%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B9%8B%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0/"/>
+    <id>http://yoursite.com/2020/09/16/OC%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B9%8B%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0/</id>
+    <published>2020-09-16T02:25:52.000Z</published>
+    <updated>2020-09-18T04:58:11.419Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;源码版本：&lt;a href=&quot;https://opensource.apple.com/tarballs/objc4/objc4-781.tar.gz&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;objc4-781&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;我们都知道OC的内存管理是通过引用计数来管理的，对象刚创建时引用计数为1，retain后+1，release后-1，当引用计数减为0时就会被销毁。那么问题就来了，操作的这个引用计数值是保存在哪的？今天就来研究一下这个问题。&lt;/p&gt;
+&lt;p&gt;先说结论：早期OC对象的引用计数都是存储在引用计数表中的，但是后来Apple的工程师可能觉得每次都从表中查找修改效率有点低，于是做了一些优化，如果引用计数值较小时就保存在 &lt;code&gt;struct objc_object&lt;/code&gt; 的isa成员变量里，只有当isa里装不下时才存放到引用计数表里，这一点可以从isa的类型变迁看出。除此之外，苹果还引入了Tagged pointer对象，这种对象实际上已经没有在堆上分配内存了，它的值就保存在指针里，这样的对象由于并没有真正在堆上分配内存因此讨论它的引用计数也就没有什么意义了。&lt;/p&gt;
+&lt;p&gt;之前的文章 &lt;code&gt;runtime源码分析(一)--类型&lt;/code&gt; 里专门分析了 &lt;code&gt;struct objc_object&lt;/code&gt; ，&lt;code&gt;struct objc_class&lt;/code&gt;，&lt;code&gt;isa&lt;/code&gt; 类型的定义，这里不再赘述，仅做简单说明。&lt;/p&gt;
+&lt;h3 id=&quot;isa的定义&quot;&gt;&lt;a href=&quot;#isa的定义&quot; class=&quot;headerlink&quot; title=&quot;isa的定义&quot;&gt;&lt;/a&gt;isa的定义&lt;/h3&gt;&lt;p&gt;旧版本的定义：&lt;/p&gt;
+&lt;p&gt;isa是一个指针类型 &lt;code&gt;struct objc_class *&lt;/code&gt; 。&lt;/p&gt;
+&lt;figure class=&quot;highlight objc&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;/// An opaque type that represents an Objective-C class.&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;typedef&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;struct&lt;/span&gt; objc_class *Class; &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;/// Represents an instance of a class.&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;struct&lt;/span&gt; objc_object &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    Class _Nonnull isa  OBJC_ISA_AVAILABILITY;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;struct&lt;/span&gt; objc_class &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    Class _Nonnull isa  OBJC_ISA_AVAILABILITY; &lt;span class=&quot;comment&quot;&gt;//旧版本isa为一个指针指向objc_class结构体&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;#&lt;span class=&quot;meta-keyword&quot;&gt;if&lt;/span&gt; !__OBJC2__&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    Class _Nullable super_class                              OBJC2_UNAVAILABLE;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;char&lt;/span&gt; * _Nonnull name                               OBJC2_UNAVAILABLE;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;long&lt;/span&gt; version                                             OBJC2_UNAVAILABLE;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;long&lt;/span&gt; info                                                OBJC2_UNAVAILABLE;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;long&lt;/span&gt; instance_size                                       OBJC2_UNAVAILABLE;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;struct&lt;/span&gt; objc_ivar_list * _Nullable ivars                  OBJC2_UNAVAILABLE;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;struct&lt;/span&gt; objc_method_list * _Nullable * _Nullable methodLists                    OBJC2_UNAVAILABLE;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;struct&lt;/span&gt; objc_cache * _Nonnull cache                       OBJC2_UNAVAILABLE;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;struct&lt;/span&gt; objc_protocol_list * _Nullable protocols          OBJC2_UNAVAILABLE;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;#&lt;span class=&quot;meta-keyword&quot;&gt;endif&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125; OBJC2_UNAVAILABLE;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;/* Use `Class` instead of `struct objc_class *` */&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;新版本oc 2.0定义：&lt;/p&gt;
+&lt;p&gt;isa是一个联合类型 &lt;code&gt;union isa_t&lt;/code&gt; 。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="OC" scheme="http://yoursite.com/categories/OC/"/>
+    
+    
+      <category term="内存管理" scheme="http://yoursite.com/tags/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/"/>
+    
+  </entry>
   
   <entry>
     <title>预处理命令之宏定义</title>
@@ -50,12 +79,12 @@
     <link href="http://yoursite.com/2020/06/21/%E4%BB%8E%E6%B1%87%E7%BC%96%E8%A7%92%E5%BA%A6%E7%9C%8BARC%E4%B8%AD%E7%9A%84%E6%89%80%E6%9C%89%E6%9D%83%E4%BF%AE%E9%A5%B0%E7%AC%A6/"/>
     <id>http://yoursite.com/2020/06/21/%E4%BB%8E%E6%B1%87%E7%BC%96%E8%A7%92%E5%BA%A6%E7%9C%8BARC%E4%B8%AD%E7%9A%84%E6%89%80%E6%9C%89%E6%9D%83%E4%BF%AE%E9%A5%B0%E7%AC%A6/</id>
     <published>2020-06-21T08:51:14.000Z</published>
-    <updated>2020-06-27T11:27:33.884Z</updated>
+    <updated>2020-09-16T12:52:05.742Z</updated>
     
     <summary type="html">
     
       &lt;p&gt;环境：Xcode11&lt;/p&gt;
-&lt;h3 id=&quot;ARC&quot;&gt;&lt;a href=&quot;#ARC&quot; class=&quot;headerlink&quot; title=&quot;ARC&quot;&gt;&lt;/a&gt;ARC&lt;/h3&gt;&lt;p&gt;自动引用计数。不再需要手动调用 retain 和 release 方法，而是由编译器在合适的地方自动添加。&lt;/p&gt;
+&lt;h3 id=&quot;ARC&quot;&gt;&lt;a href=&quot;#ARC&quot; class=&quot;headerlink&quot; title=&quot;ARC&quot;&gt;&lt;/a&gt;ARC&lt;/h3&gt;&lt;p&gt;自动引用计数。不再需要手动调用 retain 、release、autorelease 方法，而是由编译器在合适的地方自动添加。添加release的时机其实好办，编译器能够分析出变量的作用域，当变量作用域结束时，就添加release。那retain呢？编译器又是怎么知道啥时候加retain啥时候不加呢？这就需要所有权修饰符了。通过不同类型的所有权修饰符，编译器就知道该不该添加retain了。&lt;/p&gt;
 &lt;p&gt;ARC 有效时，&lt;strong&gt;id 类型和对象类型&lt;/strong&gt;必须附加所有权修饰符，有如下几种：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;__strong 修饰符&lt;/li&gt;
@@ -65,16 +94,45 @@
 &lt;/ul&gt;
 &lt;p&gt;接下来从汇编角度看，当一个指针变量使用这些修饰符后，编译器会作何处理。&lt;/p&gt;
 &lt;h3 id=&quot;strong-修饰符&quot;&gt;&lt;a href=&quot;#strong-修饰符&quot; class=&quot;headerlink&quot; title=&quot;__strong 修饰符&quot;&gt;&lt;/a&gt;__strong 修饰符&lt;/h3&gt;&lt;p&gt;对于下面的代码：&lt;/p&gt;
-&lt;figure class=&quot;highlight c&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(&lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; argc, &lt;span class=&quot;keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;char&lt;/span&gt; * argv[])&lt;/span&gt; &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     @autoreleasepool &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;         id obj = [NSObject &lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt;];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;         &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;           id __strong obj1 = obj; &lt;span class=&quot;comment&quot;&gt;//2&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;           NSLog(@&lt;span class=&quot;string&quot;&gt;&quot;obj1:%@&quot;&lt;/span&gt;, obj1);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;         &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;figure class=&quot;highlight c&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(&lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; argc, &lt;span class=&quot;keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;char&lt;/span&gt; * argv[])&lt;/span&gt; &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;   @autoreleasepool &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;       id obj = [NSObject &lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt;];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;       &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;         id __strong obj1 = obj; &lt;span class=&quot;comment&quot;&gt;//2&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;         NSLog(@&lt;span class=&quot;string&quot;&gt;&quot;obj1:%@&quot;&lt;/span&gt;, obj1);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;       &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;   &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;   &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
 &lt;p&gt;对应汇编：&lt;/p&gt;
     
     </summary>
     
     
-      <category term="OC内存管理" scheme="http://yoursite.com/categories/OC%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/"/>
+      <category term="OC" scheme="http://yoursite.com/categories/OC/"/>
     
     
-      <category term="ARC" scheme="http://yoursite.com/tags/ARC/"/>
+      <category term="内存管理" scheme="http://yoursite.com/tags/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>OC内存管理之weak修饰符实现原理</title>
+    <link href="http://yoursite.com/2020/06/15/OC%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B9%8Bweak%E4%BF%AE%E9%A5%B0%E7%AC%A6%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/"/>
+    <id>http://yoursite.com/2020/06/15/OC%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B9%8Bweak%E4%BF%AE%E9%A5%B0%E7%AC%A6%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/</id>
+    <published>2020-06-15T05:41:14.000Z</published>
+    <updated>2020-09-18T04:59:31.102Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;源码版本：&lt;a href=&quot;https://opensource.apple.com/tarballs/objc4/objc4-781.tar.gz&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;objc4-781&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&quot;0-weak-修饰符的作用&quot;&gt;&lt;a href=&quot;#0-weak-修饰符的作用&quot; class=&quot;headerlink&quot; title=&quot;0.weak 修饰符的作用&quot;&gt;&lt;/a&gt;0.weak 修饰符的作用&lt;/h3&gt;&lt;p&gt;之前的文章提到过 &lt;code&gt;__weak&lt;/code&gt; 修饰符作用：&lt;/p&gt;
+&lt;p&gt;当我们将一个对象赋值给一个 &lt;code&gt;__weak&lt;/code&gt; 修饰符的指针变量时，编译器会插入 &lt;code&gt;objc_initWeak&lt;/code&gt; 类似函数将该弱指针变量注册到对象的weak表里。&lt;/p&gt;
+&lt;p&gt;当使用附有 &lt;code&gt;__weak&lt;/code&gt; 修饰符的变量时，编译器会在使用前插入 &lt;code&gt;objc_loadWeakRetained&lt;/code&gt; 函数将对象引用计数+1，保证对象在后面的使用过程中不被释放。并在使用后插入 &lt;code&gt;objc_release(tmp1);&lt;/code&gt; 释放对象。&lt;/p&gt;
+&lt;p&gt;当弱指针变量超出作用域被废弃时，编译器会插入 &lt;code&gt;objc_destroyWeak&lt;/code&gt; 将该变量从对象的weak表里剔除。&lt;/p&gt;
+&lt;p&gt;当对象销毁时，对象的weak表中的所有弱指针变量会被赋值为nil，避免了部分野指针崩溃，比如对nil对象发送消息不会有任何反应，但是如果是对nil进行解引用还是会崩溃的。&lt;/p&gt;
+&lt;p&gt;note：weak 只能用于修饰对象类型。&lt;/p&gt;
+&lt;p&gt;今天就来看一下weak的上述功能是如何实现的，在看源码之前，可以带着一些问题，比如：&lt;/p&gt;
+&lt;p&gt;使用weak后为啥对象就不会被retain？&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="OC" scheme="http://yoursite.com/categories/OC/"/>
+    
+    
+      <category term="内存管理" scheme="http://yoursite.com/tags/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/"/>
     
   </entry>
   
@@ -175,11 +233,41 @@
   </entry>
   
   <entry>
+    <title>OC内存管理之自动释放池实现原理</title>
+    <link href="http://yoursite.com/2020/05/22/OC%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B9%8B%E8%87%AA%E5%8A%A8%E9%87%8A%E6%94%BE%E6%B1%A0%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/"/>
+    <id>http://yoursite.com/2020/05/22/OC%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B9%8B%E8%87%AA%E5%8A%A8%E9%87%8A%E6%94%BE%E6%B1%A0%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/</id>
+    <published>2020-05-22T14:34:25.000Z</published>
+    <updated>2020-09-18T04:58:47.265Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;整了8个小时，基本上算整明白了。&lt;/p&gt;
+&lt;p&gt;环境：&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://opensource.apple.com/source/objc4/objc4-781/runtime/NSObject.mm.auto.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;NSObject.mm源码&lt;/a&gt; 版本为objc4-781。&lt;/p&gt;
+&lt;p&gt;对代码&lt;/p&gt;
+&lt;figure class=&quot;highlight c&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(&lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; argc, &lt;span class=&quot;keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;char&lt;/span&gt; * argv[])&lt;/span&gt; &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    @autoreleasepool &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        NSLog(@&lt;span class=&quot;string&quot;&gt;&quot;Hello, World!&quot;&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;进行&lt;/p&gt;
+&lt;figure class=&quot;highlight coq&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;clang -&lt;span class=&quot;built_in&quot;&gt;rewrite&lt;/span&gt;-objc main.m&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;得到&lt;/p&gt;
+&lt;figure class=&quot;highlight c++&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(&lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; argc, &lt;span class=&quot;keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;char&lt;/span&gt; * argv[])&lt;/span&gt; &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;/* @autoreleasepool */&lt;/span&gt; &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#123; &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    __AtAutoreleasePool __autoreleasepool; &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        NSLog((NSString *)&amp;amp;__NSConstantStringImpl__var_folders_46_lys08y0137d41lbysrxxd0h80000gn_T_main_8ccfab_mi_0);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;看一下：&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="OC" scheme="http://yoursite.com/categories/OC/"/>
+    
+    
+      <category term="内存管理" scheme="http://yoursite.com/tags/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/"/>
+    
+  </entry>
+  
+  <entry>
     <title>NSMutableArray实现原理</title>
-    <link href="http://yoursite.com/2020/05/17/NSMutableArrayd%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/"/>
-    <id>http://yoursite.com/2020/05/17/NSMutableArrayd%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/</id>
+    <link href="http://yoursite.com/2020/05/17/NSMutableArray%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/"/>
+    <id>http://yoursite.com/2020/05/17/NSMutableArray%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/</id>
     <published>2020-05-17T04:57:57.000Z</published>
-    <updated>2020-05-17T04:58:59.593Z</updated>
+    <updated>2020-09-18T03:00:07.828Z</updated>
     
     <summary type="html">
     
@@ -552,90 +640,6 @@
     
     
       <category term="OC" scheme="http://yoursite.com/categories/OC/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Swift 数据模型转换框架比较</title>
-    <link href="http://yoursite.com/2020/03/08/Swift%20%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B%E8%BD%AC%E6%8D%A2%E6%A1%86%E6%9E%B6%E6%AF%94%E8%BE%83/"/>
-    <id>http://yoursite.com/2020/03/08/Swift%20%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B%E8%BD%AC%E6%8D%A2%E6%A1%86%E6%9E%B6%E6%AF%94%E8%BE%83/</id>
-    <published>2020-03-08T14:54:50.000Z</published>
-    <updated>2020-03-08T14:56:19.802Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Xcode11.3.1,Swift5环境.&lt;/p&gt;
-&lt;p&gt;在App开发中经常需要将服务端返回的JSON数据转化为模型使用,选择一个好的数据模型转换框架有助于提高开发体验以及减少转换过程中的错误.&lt;/p&gt;
-&lt;p&gt;我们希望框架支持纯Swift类,结构体,OC类,因此YYModel和MJExtension等一系列优秀的OC数据模型转换框架是不满足要求的,因为它们都需要模型继承自NSObject.&lt;/p&gt;
-&lt;p&gt;目前使用较多的数据模型转换框架有:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;系统自带的基于Codable的JSONDecoder/JSONEncoder.&lt;/li&gt;
-&lt;li&gt;HandyJSON&lt;/li&gt;
-&lt;li&gt;ObjectMapper&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;下面简单介绍一下各框架的使用,并从框架的使用便捷性和数据容错性上进行一个比较.&lt;/p&gt;
-&lt;h3 id=&quot;JSONDecoder-JSONEncoder&quot;&gt;&lt;a href=&quot;#JSONDecoder-JSONEncoder&quot; class=&quot;headerlink&quot; title=&quot;JSONDecoder/JSONEncoder&quot;&gt;&lt;/a&gt;JSONDecoder/JSONEncoder&lt;/h3&gt;&lt;p&gt;介绍JSONDecoder之前,先来看下Codable是什么.&lt;/p&gt;
-&lt;p&gt;Codable是Swift 4.0开始引入的新特性.Codable定义:&lt;code&gt;public typealias Codable = Decodable &amp;amp; Encodable&lt;/code&gt;,可以看到Codable是一个类型别名,代表同时遵守Decodable和Encodable协议.&lt;/p&gt;
-&lt;p&gt;Decodable协议定义了一个解码函数:&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="Swift" scheme="http://yoursite.com/categories/Swift/"/>
-    
-    
-      <category term="Codable" scheme="http://yoursite.com/tags/Codable/"/>
-    
-      <category term="HandyJSON" scheme="http://yoursite.com/tags/HandyJSON/"/>
-    
-      <category term="ObjectMapper" scheme="http://yoursite.com/tags/ObjectMapper/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>OC反射+多态调用类方法</title>
-    <link href="http://yoursite.com/2020/03/06/OC%E5%8F%8D%E5%B0%84+%E5%A4%9A%E6%80%81%E8%B0%83%E7%94%A8%E7%B1%BB%E6%96%B9%E6%B3%95/"/>
-    <id>http://yoursite.com/2020/03/06/OC%E5%8F%8D%E5%B0%84+%E5%A4%9A%E6%80%81%E8%B0%83%E7%94%A8%E7%B1%BB%E6%96%B9%E6%B3%95/</id>
-    <published>2020-03-06T15:19:00.000Z</published>
-    <updated>2020-03-07T10:06:31.643Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h4 id=&quot;多态&quot;&gt;&lt;a href=&quot;#多态&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-    
-      <category term="OC" scheme="http://yoursite.com/categories/OC/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Hello World</title>
-    <link href="http://yoursite.com/2020/03/01/hello-world/"/>
-    <id>http://yoursite.com/2020/03/01/hello-world/</id>
-    <published>2020-03-01T03:46:17.486Z</published>
-    <updated>2020-03-01T03:46:17.486Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;documentation&lt;/a&gt; for more info. If you get any problems when using Hexo, you can find the answer in &lt;a href=&quot;https://hexo.io/docs/troubleshooting.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;troubleshooting&lt;/a&gt; or you can ask me on &lt;a href=&quot;https://github.com/hexojs/hexo/issues&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
-&lt;h2 id=&quot;Quick-Start&quot;&gt;&lt;a href=&quot;#Quick-Start&quot; class=&quot;headerlink&quot; title=&quot;Quick Start&quot;&gt;&lt;/a&gt;Quick Start&lt;/h2&gt;&lt;h3 id=&quot;Create-a-new-post&quot;&gt;&lt;a href=&quot;#Create-a-new-post&quot; class=&quot;headerlink&quot; title=&quot;Create a new post&quot;&gt;&lt;/a&gt;Create a new post&lt;/h3&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ hexo new &lt;span class=&quot;string&quot;&gt;&quot;My New Post&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;More info: &lt;a href=&quot;https://hexo.io/docs/writing.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Writing&lt;/a&gt;&lt;/p&gt;
-&lt;h3 id=&quot;Run-server&quot;&gt;&lt;a href=&quot;#Run-server&quot; class=&quot;headerlink&quot; title=&quot;Run server&quot;&gt;&lt;/a&gt;Run server&lt;/h3&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ hexo server&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;More info: &lt;a href=&quot;https://hexo.io/docs/server.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Server&lt;/a&gt;&lt;/p&gt;
-&lt;h3 id=&quot;Generate-static-files&quot;&gt;&lt;a href=&quot;#Generate-static-files&quot; class=&quot;headerlink&quot; title=&quot;Generate static files&quot;&gt;&lt;/a&gt;Generate static files&lt;/h3&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ hexo generate&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-    
-    </summary>
-    
     
     
   </entry>

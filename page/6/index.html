@@ -191,6 +191,306 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/25/VPS%20shadowsocks%E6%90%AD%E5%BB%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而奋斗">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/11/25/VPS%20shadowsocks%E6%90%AD%E5%BB%BA/" class="post-title-link" itemprop="url">VPS shadowsocks搭建</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2018-11-25 22:19:02 / 修改时间：22:23:00" itemprop="dateCreated datePublished" datetime="2018-11-25T22:19:02+08:00">2018-11-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/vps/" itemprop="url" rel="index"><span itemprop="name">vps</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2018/11/25/VPS%20shadowsocks%E6%90%AD%E5%BB%BA/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/11/25/VPS shadowsocks搭建/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="VPS-shadowsocks搭建"><a href="#VPS-shadowsocks搭建" class="headerlink" title="VPS shadowsocks搭建"></a>VPS shadowsocks搭建</h4><p>本文主要是方便自己以后查找,如有侵权立删.</p>
+<p>主要参考:<br><a href="https://medium.com/@zoomyale/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91%E7%9A%84%E7%BB%88%E6%9E%81%E5%A7%BF%E5%8A%BF-%E5%9C%A8-vultr-vps-%E4%B8%8A%E6%90%AD%E5%BB%BA-shadowsocks-fd57c807d97e" target="_blank" rel="noopener">科学上网的终极姿势-在-vultr-vps-上搭建-shadowsocks</a></p>
+<h3 id="一、部署-Shadowsocks"><a href="#一、部署-Shadowsocks" class="headerlink" title="一、部署 Shadowsocks"></a>一、部署 Shadowsocks</h3><p>Shadowsocks 需要同时具备客户端和服务器端，所以它的部署也需要分两步。</p>
+<h4 id="1-1部署-Shadowsocks-服务器端"><a href="#1-1部署-Shadowsocks-服务器端" class="headerlink" title="1.1部署 Shadowsocks 服务器端"></a>1.1部署 Shadowsocks 服务器端</h4><h4 id="1-2-TCP-Fast-Open"><a href="#1-2-TCP-Fast-Open" class="headerlink" title="1.2 TCP Fast Open"></a>1.2 TCP Fast Open</h4><p>为了更好的连接速度，需要多做几步。首先是打开 TCP Fast Open.</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"server"</span>:<span class="string">"0.0.0.0"</span>,</span><br><span class="line">    <span class="attr">"local_address"</span>:<span class="string">"127.0.0.1"</span>,</span><br><span class="line">    <span class="attr">"local_port"</span>:<span class="number">1080</span>,</span><br><span class="line">    <span class="attr">"port_password"</span>:&#123;</span><br><span class="line">        <span class="attr">"1234"</span>:<span class="string">"yourpassword"</span>,</span><br><span class="line">        <span class="attr">"2234"</span>:<span class="string">"yourpassword"</span>,</span><br><span class="line">        <span class="attr">"3234"</span>:<span class="string">"yourpassword"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"timeout"</span>:<span class="number">300</span>,</span><br><span class="line">    <span class="attr">"method"</span>:<span class="string">"aes-256-gcm"</span>,</span><br><span class="line">    <span class="attr">"fast_open"</span>:<span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="1-3安装-BBR"><a href="#1-3安装-BBR" class="headerlink" title="1.3安装 BBR"></a>1.3安装 BBR</h4>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/11/25/VPS%20shadowsocks%E6%90%AD%E5%BB%BA/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/28/%E6%95%B0%E7%BB%84%E5%8E%BB%E9%87%8D%E6%B7%BB%E5%8A%A0%E5%85%83%E7%B4%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而奋斗">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/09/28/%E6%95%B0%E7%BB%84%E5%8E%BB%E9%87%8D%E6%B7%BB%E5%8A%A0%E5%85%83%E7%B4%A0/" class="post-title-link" itemprop="url">数组去重添加元素Block方式实现</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-09-28 21:04:35" itemprop="dateCreated datePublished" datetime="2018-09-28T21:04:35+08:00">2018-09-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2018-09-29 00:13:34" itemprop="dateModified" datetime="2018-09-29T00:13:34+08:00">2018-09-29</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Foundation/" itemprop="url" rel="index"><span itemprop="name">Foundation</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2018/09/28/%E6%95%B0%E7%BB%84%E5%8E%BB%E9%87%8D%E6%B7%BB%E5%8A%A0%E5%85%83%E7%B4%A0/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/09/28/数组去重添加元素/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>有时候我们需要该元素不在该数组中时才添加.</p>
+<p>由于使用场景还算比较多,所以自己简单封装了一下.这里用block作为过滤条件,使用还是很方便的.</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">NSMutableArray</span> (<span class="title">Tool</span>)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> 数组去重添加单个元素</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> @param anObject 被添加的元素</span></span><br><span class="line"><span class="comment"> @param filterBlk 过滤条件.element为原数组的元素,anObject为被添加的元素.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">- (<span class="keyword">void</span>)addObject:(<span class="keyword">id</span>)anObject filter:(<span class="built_in">BOOL</span> (^)(<span class="keyword">id</span> element, <span class="keyword">id</span> anObject))filterBlk;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> 数组去重添加一个数组里的元素</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> @param otherArray 被添加的数组</span></span><br><span class="line"><span class="comment"> @param filterBlk 过滤条件.element为原数组的元素,anObject为被添加的数组的元素.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">- (<span class="keyword">void</span>)addObjectsFromArray:(<span class="built_in">NSArray</span> *)otherArray filter:(<span class="built_in">BOOL</span> (^)(<span class="keyword">id</span> element, <span class="keyword">id</span> anObject))filterBlk;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">NSMutableArray</span> (<span class="title">Tool</span>)</span></span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)addObject:(<span class="keyword">id</span>)anObject filter:(<span class="built_in">BOOL</span> (^)(<span class="keyword">id</span>, <span class="keyword">id</span>))filterBlk</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (anObject == <span class="literal">nil</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">BOOL</span> isExist = <span class="literal">NO</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">id</span> obj <span class="keyword">in</span> <span class="keyword">self</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!filterBlk(obj, anObject)) &#123;</span><br><span class="line">            isExist = <span class="literal">YES</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (!isExist) &#123;</span><br><span class="line">        [<span class="keyword">self</span> addObject:anObject];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)addObjectsFromArray:(<span class="built_in">NSArray</span> *)otherArray filter:(<span class="built_in">BOOL</span> (^)(<span class="keyword">id</span>, <span class="keyword">id</span>))filterBlk</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (otherArray.count == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">id</span> element <span class="keyword">in</span> otherArray) &#123;</span><br><span class="line">        [<span class="keyword">self</span> addObject:element filter:filterBlk];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>使用如下:</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSMutableArray</span> *mArr = [@[<span class="string">@"3"</span>, <span class="string">@"4"</span>, <span class="string">@"5"</span>, <span class="string">@"33"</span>, <span class="string">@"7"</span>] mutableCopy];</span><br><span class="line">[mArr addObject:<span class="string">@"57"</span> filter:^<span class="built_in">BOOL</span>(<span class="built_in">NSString</span> *element, <span class="built_in">NSString</span> *anObject) &#123;</span><br><span class="line">    <span class="keyword">return</span> ![element isEqualToString:anObject]; <span class="comment">//不等于其中任何一个元素才添加</span></span><br><span class="line">&#125;];</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"%@"</span>, mArr);</span><br><span class="line">    </span><br><span class="line"><span class="built_in">NSArray</span> *arr = @[<span class="string">@"1"</span>, <span class="string">@"2"</span>, <span class="string">@"3"</span>, <span class="string">@"13"</span>, <span class="string">@"7"</span>];</span><br><span class="line">[mArr addObjectsFromArray:arr filter:^<span class="built_in">BOOL</span>(<span class="built_in">NSString</span> *element, <span class="built_in">NSString</span> *anObject) &#123;</span><br><span class="line">    <span class="keyword">return</span> ![element isEqualToString:anObject]; <span class="comment">//不等于其中任何一个元素才添加</span></span><br><span class="line">&#125;];</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"%@"</span>, mArr);</span><br></pre></td></tr></table></figure>
+<p>打印如下:</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2018</span><span class="number">-09</span><span class="number">-28</span> <span class="number">20</span>:<span class="number">52</span>:<span class="number">39.060469</span>+<span class="number">0800</span> testDemo[<span class="number">94995</span>:<span class="number">18270135</span>] (</span><br><span class="line">    <span class="number">3</span>,</span><br><span class="line">    <span class="number">4</span>,</span><br><span class="line">    <span class="number">5</span>,</span><br><span class="line">    <span class="number">33</span>,</span><br><span class="line">    <span class="number">7</span>,</span><br><span class="line">    <span class="number">57</span></span><br><span class="line">)</span><br><span class="line"><span class="number">2018</span><span class="number">-09</span><span class="number">-28</span> <span class="number">20</span>:<span class="number">52</span>:<span class="number">39.060571</span>+<span class="number">0800</span> testDemo[<span class="number">94995</span>:<span class="number">18270135</span>] (</span><br><span class="line">    <span class="number">3</span>,</span><br><span class="line">    <span class="number">4</span>,</span><br><span class="line">    <span class="number">5</span>,</span><br><span class="line">    <span class="number">33</span>,</span><br><span class="line">    <span class="number">7</span>,</span><br><span class="line">    <span class="number">57</span>,</span><br><span class="line">    <span class="number">1</span>,</span><br><span class="line">    <span class="number">2</span>,</span><br><span class="line">    <span class="number">13</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>也可以使用模型中的某个属性作为判断条件:</p>
+<figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[audienceList addObjectsFromArray:self.audienceList filter:<span class="comment">^BOOL</span>(<span class="name">ZAEAudienceModel</span> *element, ZAEAudienceModel *anObject) &#123;</span><br><span class="line">	return ![element.userID isEqualToString:anObject.userID]<span class="comment">;</span></span><br><span class="line">&#125;]<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/21/%E5%AE%9A%E6%97%B6%E5%99%A8%E5%90%AF%E7%A4%BA%E5%BD%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而奋斗">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/09/21/%E5%AE%9A%E6%97%B6%E5%99%A8%E5%90%AF%E7%A4%BA%E5%BD%95/" class="post-title-link" itemprop="url">定时器启示录</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-09-21 23:28:01" itemprop="dateCreated datePublished" datetime="2018-09-21T23:28:01+08:00">2018-09-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-31 14:55:46" itemprop="dateModified" datetime="2020-05-31T14:55:46+08:00">2020-05-31</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Foundation/" itemprop="url" rel="index"><span itemprop="name">Foundation</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2018/09/21/%E5%AE%9A%E6%97%B6%E5%99%A8%E5%90%AF%E7%A4%BA%E5%BD%95/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/09/21/定时器启示录/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>早些时候看过一些分析定时器内存方面的文章，但在遇到这个bug前我是不屑的。不就是定时器强引用ViewController，而ViewController再用strong属性去引用定时器，必然会导致循环引用么。解决办法也很简单，只需使用weak属性去引用定时器即可。然而这一次的经历却证明我还是图样，我单知道使用weak属性不会导致循环引用，我没注意到此时的定时器在无形中延长了ViewController的生命周期。这就为这个bug埋下了隐患。</p>
+<p>记录一下bug的解决总是有必要的。</p>
+<p>下午的一次自测中，偶尔发现观众端听不到主播端的声音。我先是诧异，接着是很不安，因为墨菲定律告诉我们：如果你担心某种情况发生，那么它就更有可能发生。最开始以为是主播端的问题，便仔细检查了主播端的代码，又加入了另一台手机设置为观众，作为对照。运行之后发现对照组是好的，但刚才那台手机的问题仍然偶现。这就说明主播端的推流是没问题的。接下来的工作便是在问题手机上尽可能找到复现的操作，以便根据操作路径定位大致原因。在某次频繁进入离开直播房间时，APP直接卡死了，再无任何交互的响应。问题开始变得严重，时间也一分一秒的流逝在这一次次的调试中，一晃下班时间快到了，周围开始变的嘈杂，安卓兄弟开始催我下班还说要带我上王者但我是不信的。我整理了下东西，但又不想在节前留下些许问题，便又坐了回去。等到周围开始安静时，夕阳已经西下。我努力回想之前的操作，发现只在直播预约状态下，问题才会重现。于是在页面的dealloc函数中打好断点，点击返回，果然函数没有被调用。这说明页面依然被某个对象持有而没有释放。在检查了所有Block回调都使用的是weakSelf后，最后只剩下定时器了。</p>
+<p>问题的根源算是找到了。原来在直播预约状态下会启动一个定时器，但在点击返回时忘记invalid定时器了。这让定时器延长了ViewController的生命周期。加上invalid后，问题搞定，收工。回家的路上碰巧遇到了K君，便给K君讲述了这个问题，K君听后哈哈大笑说：加上invalid只能解决这一次的bug，却不能避免下一次又忘记，而且根据页面dealloc函数里逻辑的不同，bug的外在表现形式也必然不同，到时候又得花费不少的时间找bug啊。闻道于朝，不禁感叹K君的身经百战。</p>
+<p>回到家后，打开谷歌又搜到了早些时候看过的那些文章，感慨颇多。系统的<code>NSTimer</code>简单却又不那么简单：</p>
+<ol>
+<li>不注意使用的话有内存泄漏的隐患</li>
+<li>需要在合适的地方invalid定时器，否则定时器会一直强引用target从而延长target的生命周期。</li>
+<li>使用时必须保证有一个活跃的runloop，并且需要指定mode</li>
+<li>精度可能不够</li>
+<li>创建和撤销必须在同一个线程上，在多线程环境下使用不便</li>
+<li>不支持block，造成使用上的不便。(iOS10开始，已经支持block了)</li>
+</ol>
+<p>为了从根本上避免上述问题，一个弱引用target的、能够在自身销毁时自动invalid的定时器想必是极好的，但又该如何实现呢？好在互联网在经过这么多年的发展，第三方开源库从未像现在这般丰富，唾手可得。不多时，便在GitHub上找到了<a href="https://github。com/mindsnacks/MSWeakTimer" target="_blank" rel="noopener">MSWeakTimer</a>。</p>
+<p><code>MSWeakTimer</code>提供了和系统<code>NSTimer</code>一致的接口，好的代码就该这样美美与共，和而不同：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) MSWeakTimer *weakTimer;</span><br><span class="line"></span><br><span class="line"><span class="keyword">self</span>.weakTimer = [MSWeakTimer scheduledTimerWithTimeInterval:<span class="number">3</span> target:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(doSome) userInfo:<span class="literal">nil</span> repeats:<span class="literal">YES</span> dispatchQueue:dispatch_get_main_queue()];</span><br><span class="line"><span class="comment">//立即触发回调方法</span></span><br><span class="line">[<span class="keyword">self</span>.weakTimer fire];</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)doSome &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"++++++%@"</span>, <span class="keyword">self</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>至于<code>MSWeakTimer</code>的实现原理自然是和<code>NSTimer</code>不同的：通过封装GCD定时器实现<code>NSTimer</code>的功能，但内部却是弱引用target，不仅如此<code>MSWeakTimer</code>还支持在其他线程中执行回调函数。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/09/21/%E5%AE%9A%E6%97%B6%E5%99%A8%E5%90%AF%E7%A4%BA%E5%BD%95/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/%E4%B8%8D%E5%B0%8F%E5%BF%83%E9%87%8D%E5%86%99%E4%BA%86%E7%88%B6%E7%B1%BB%E7%9A%84%E6%96%B9%E6%B3%95%E5%AF%BC%E8%87%B4%E7%9A%84%E5%B4%A9%E6%BA%83/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -864,286 +1164,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/09/TTTAttributedLabel%E4%BD%BF%E7%94%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而奋斗">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/07/09/TTTAttributedLabel%E4%BD%BF%E7%94%A8/" class="post-title-link" itemprop="url">TTTAttributedLabel使用</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-07-09 15:28:42" itemprop="dateCreated datePublished" datetime="2018-07-09T15:28:42+08:00">2018-07-09</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2018-07-15 08:47:28" itemprop="dateModified" datetime="2018-07-15T08:47:28+08:00">2018-07-15</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%BD%BF%E7%94%A8/" itemprop="url" rel="index"><span itemprop="name">第三方库使用</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2018/07/09/TTTAttributedLabel%E4%BD%BF%E7%94%A8/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/07/09/TTTAttributedLabel使用/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="TTTAttributedLabel使用"><a href="#TTTAttributedLabel使用" class="headerlink" title="TTTAttributedLabel使用"></a>TTTAttributedLabel使用</h2><p>Q1:使用pod管理TTTAttributedLabel,在XIB中使用会导致XIB报错并且一片空白.</p>
-<p>A:没找到一种好的解决办法,只能不使用XIB.</p>
-<p>Q2:使用TTTAttributedLabel,在聊天cell(xib实现)中,点击链接代理方法不被调用,原因是TTTAttributedLabel的touchesCancelled一直被调用了,touchesEnded没被调用.</p>
-<p>A2:代码中有添加点击手势导致label的touch事件总是被cancel.</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UITapGestureRecognizer</span> *tapGes = [[<span class="built_in">UITapGestureRecognizer</span> alloc] initWithTarget:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(tappedView:)];</span><br><span class="line">tapGes.delegate = <span class="keyword">self</span>;</span><br><span class="line">tapGes.cancelsTouchesInView = <span class="literal">NO</span>; <span class="comment">//重要</span></span><br><span class="line">[<span class="keyword">self</span>.view addGestureRecognizer:tapGes];</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>手势与响应者链</p>
-<p>父视图上添加了点击手势,有时(不是每次)会导致父视图上的UIButton的action方法不会被调用.<br>原因在于如果父视图识别出了手势,那么会cancel掉UITouch.从而第一响应者会收到touchesCancelled消息.基本上那些原本不接受用户事件的控件比如UILabel即使设置userInteractionEnabled=YES,但它的touchesEnded将不会被调用.而UIControl子类控件他们的action方法有时不会被调用.</p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/09/SCLAlertView%E4%BD%BF%E7%94%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而奋斗">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/07/09/SCLAlertView%E4%BD%BF%E7%94%A8/" class="post-title-link" itemprop="url">SCLAlertView使用</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-07-09 15:26:27" itemprop="dateCreated datePublished" datetime="2018-07-09T15:26:27+08:00">2018-07-09</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2018-07-15 08:47:28" itemprop="dateModified" datetime="2018-07-15T08:47:28+08:00">2018-07-15</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%BD%BF%E7%94%A8/" itemprop="url" rel="index"><span itemprop="name">第三方库使用</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2018/07/09/SCLAlertView%E4%BD%BF%E7%94%A8/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/07/09/SCLAlertView使用/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="SCLAlertView使用"><a href="#SCLAlertView使用" class="headerlink" title="SCLAlertView使用"></a>SCLAlertView使用</h2><p>SCLAlertView设置</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)showPopView</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//提交成功</span></span><br><span class="line">    SCLAlertView *alertView = [[SCLAlertView alloc] <span class="string">initWithNewWindowWidth:</span><span class="number">310</span>];</span><br><span class="line">    <span class="comment">//去掉顶部圆圈</span></span><br><span class="line">    [alertView removeTopCircle];</span><br><span class="line">    <span class="comment">//按钮水平放置</span></span><br><span class="line">    [alertView <span class="string">setHorizontalButtons:</span>YES];</span><br><span class="line">    <span class="comment">//设置出现动画</span></span><br><span class="line">    alertView.showAnimationType = SCLAlertViewShowAnimationSimplyAppear;</span><br><span class="line">    alertView.shouldDismissOnTapOutside = NO;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//设置title的字体和颜色</span></span><br><span class="line">    alertView.labelTitle.font = [UIFont <span class="string">pingFangSCWithSize:</span><span class="number">16</span>];</span><br><span class="line">    alertView.labelTitle.textColor = [UIColor blackColor];</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//设置富文本的subTitle</span></span><br><span class="line">    alertView.attributedFormatBlock = ^NSAttributedString *(NSString *value) &#123;</span><br><span class="line">        <span class="keyword">return</span> [NSString <span class="string">attributeString:</span>value <span class="string">subString:</span>@<span class="string">"13812341234"</span> <span class="string">subStrColor:</span>kRedColorRegular <span class="string">font:</span>[UIFont <span class="string">pingFangSCWithSize:</span><span class="number">16</span>] <span class="string">otherStrColor:</span>[UIColor <span class="string">colorWithHexString:</span>@<span class="string">"#818181"</span>]];</span><br><span class="line">    &#125;;</span><br><span class="line">    [alertView <span class="string">setBodyTextFontFamily:</span>@<span class="string">"PingFangSC-Regular"</span> <span class="string">withSize:</span><span class="number">16</span>];</span><br><span class="line">    <span class="comment">//设置普通文本的subTitle</span></span><br><span class="line"><span class="comment">//    alertView.viewText.font = [UIFont pingFangSCWithSize:16];</span></span><br><span class="line"><span class="comment">//    alertView.viewText.textColor = [UIColor colorWithHexString:@"#818181"];</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//设置Buttons, top circle and borders的颜色简便方法</span></span><br><span class="line">    alertView.customViewColor = [UIColor redColor];</span><br><span class="line">    <span class="comment">//统一设置按钮的配置强大方法</span></span><br><span class="line">    alertView.buttonFormatBlock = ^ NSDictionary *&#123;</span><br><span class="line">        <span class="keyword">return</span> @&#123;@<span class="string">"backgroundColor"</span>: [UIColor cyanColor]&#125;;</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    SCLButton *authPersonalBtn = [alertView <span class="string">addButton:</span>@<span class="string">"取消"</span> <span class="string">actionBlock:</span>^(<span class="keyword">void</span>) &#123;</span><br><span class="line">        DLog(@<span class="string">"取消按钮被按下"</span>);</span><br><span class="line">    &#125;];</span><br><span class="line">    authPersonalBtn.titleLabel.font = [UIFont <span class="string">pingFangSCWithSize:</span><span class="number">16</span>];</span><br><span class="line">    authPersonalBtn.buttonFormatBlock = ^ NSDictionary *&#123;</span><br><span class="line">        <span class="keyword">return</span> @&#123;@<span class="string">"backgroundColor"</span>: [UIColor whiteColor], @<span class="string">"textColor"</span>: [UIColor <span class="string">colorWithHexString:</span>@<span class="string">"#818181"</span>], @<span class="string">"borderWidth"</span>: @<span class="number">0</span>&#125;;</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    SCLButton *authCompanyBtn = [alertView <span class="string">addButton:</span>@<span class="string">"去注册"</span> <span class="string">actionBlock:</span>^(<span class="keyword">void</span>) &#123;</span><br><span class="line">        DLog(@<span class="string">"去注册按钮被按下"</span>);</span><br><span class="line">    &#125;];</span><br><span class="line">    authCompanyBtn.titleLabel.font = [UIFont <span class="string">pingFangSCWithSize:</span><span class="number">16</span>];</span><br><span class="line">    <span class="comment">//单独设置某个按钮的配置</span></span><br><span class="line">    authCompanyBtn.buttonFormatBlock = ^ NSDictionary *&#123;</span><br><span class="line">        <span class="keyword">return</span> @&#123;@<span class="string">"backgroundColor"</span>: [UIColor whiteColor], @<span class="string">"textColor"</span>: [UIColor blackColor], @<span class="string">"borderWidth"</span>: @<span class="number">0</span>&#125;;</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    [alertView <span class="string">showSuccess:</span>self <span class="string">title:</span>@<span class="string">"手机号码未注册"</span> <span class="string">subTitle:</span>@<span class="string">"手机号码 13812341234 未注册， 请注册后再登录。"</span> <span class="string">closeButtonTitle:</span>nil <span class="string">duration:</span><span class="number">0.0</span>f];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/09/UITextField%E7%AC%94%E8%AE%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而奋斗">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/07/09/UITextField%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">UITextField笔记</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-07-09 15:18:50" itemprop="dateCreated datePublished" datetime="2018-07-09T15:18:50+08:00">2018-07-09</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-17 20:41:27" itemprop="dateModified" datetime="2020-04-17T20:41:27+08:00">2020-04-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/UIKit/" itemprop="url" rel="index"><span itemprop="name">UIKit</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2018/07/09/UITextField%E7%AC%94%E8%AE%B0/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/07/09/UITextField笔记/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="UITextField笔记"><a href="#UITextField笔记" class="headerlink" title="UITextField笔记"></a>UITextField笔记</h2><h3 id="监听文本输入变化"><a href="#监听文本输入变化" class="headerlink" title="监听文本输入变化"></a>监听文本输入变化</h3><p>方法1: addTarget — UIControlEventValueChanged</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[self.passwordTextField <span class="string">addTarget:</span>self <span class="string">action:</span><span class="meta">@selector</span>(<span class="string">passwordTextFieldTextDidChanged:</span>) <span class="string">forControlEvents:</span>UIControlEventValueChanged];</span><br></pre></td></tr></table></figure>
-<p>方法2: 注册通知 — UITextFieldTextDidChangeNotification</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[NSNotificationCenter defaultCenter] <span class="string">addObserver:</span>self <span class="string">selector:</span><span class="meta">@selector</span>(<span class="string">passwordTextFieldTextDidChanged:</span>) <span class="string">name:</span>UITextFieldTextDidChangeNotification <span class="string">object:</span>nil];</span><br></pre></td></tr></table></figure>
-<p>note:</p>
-<ol>
-<li>当点击清空按钮时,只有注册通知的方案,回调方法被调用了.</li>
-<li>直接对textField的text属性赋值,<code>textField.text = @&quot;dfsfsd&quot;;</code>是不会触发UIControlEventValueChanged事件,和UITextFieldTextDidChangeNotification通知回调的.可以使用<code>textField.text = @&quot;&quot;;[textField insertText:newString];</code></li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1214,14 +1234,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">111</span>
+          <span class="site-state-item-count">114</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-count">31</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
