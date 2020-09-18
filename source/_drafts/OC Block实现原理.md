@@ -35,7 +35,7 @@ Block的类型有三种：
 
 MRC 环境
 
-```
+```objc
 void (^myblk)(void) = NULL;
 
 void (^mglblk)(void) = ^{ //mglblk指向的 block 对象类型是_NSConcreteGlobalBlock，存储在数据区。mglblk变量自身也是在数据区。
@@ -497,7 +497,9 @@ __Block_byref_va_0 va = {(void*)0,(__Block_byref_va_0 *)&va, 0, sizeof(__Block_b
 
 `__forwarding`：指针变量，指向自身。当被复制到堆上时，成员变量`__forwarding`的值将被替换为堆上的结构体实例的地址。保证无论在 block 语法中还语法外使用`__block`变量，访问的都是同一个。
 
-va：用于保存变量的值
+va：用于保存变量的值。
+
+当我们给普通变量添加 `__block` 修饰符后，变量会变为结构体变量，原来声明的变量会变为结构体里的一个成员，并且变量会被初始化为一个结构体实例，初始化传入的参数为原来定义变量时的初始值。
 
 3. `__main_block_impl_0`结构体中生成的是`__Block_byref_vb_1 *`结构体指针变量，而不是结构体实例本身。这样就可以从多个 block 中使用同一个`__block`变量了。
 
@@ -540,6 +542,73 @@ MRC 环境
 ```
 
 注：对栈上的 block 调用 retain 和 release 方法是不起任何作用的。
+
+再举个 `__block NSObject *a = nil;` 对象变量的：
+
+```objc
+int main(int argc, const char * argv[]) {
+    __block NSObject *a = nil; //添加__block后，a已经变成一个结构体变量，它的值是一个结构体实例，结构体里有一个NSObject *a成员变量。
+    void (^blk)(void) = ^{
+        int c = 12;
+        a = [NSObject new];
+        NSLog(@"blk:%@, c = %d", a, c);
+    };
+    blk();
+    
+    return 0;
+}
+```
+
+clang:
+
+```c++
+struct __Block_byref_a_0 {
+  void *__isa;
+__Block_byref_a_0 *__forwarding;
+ int __flags;
+ int __size;
+ void (*__Block_byref_id_object_copy)(void*, void*);
+ void (*__Block_byref_id_object_dispose)(void*);
+ NSObject *a;  //我们声明的变量NSObject *a，变为__Block_byref_a_0结构体的一个成员变量了。
+};
+
+struct __main_block_impl_0 {
+  struct __block_impl impl;
+  struct __main_block_desc_0* Desc;
+  __Block_byref_a_0 *a; // by ref
+  __main_block_impl_0(void *fp, struct __main_block_desc_0 *desc, __Block_byref_a_0 *_a, int flags=0) : a(_a->__forwarding) {
+    impl.isa = &_NSConcreteStackBlock;
+    impl.Flags = flags;
+    impl.FuncPtr = fp;
+    Desc = desc;
+  }
+};
+static void __main_block_func_0(struct __main_block_impl_0 *__cself) {
+  __Block_byref_a_0 *a = __cself->a; // bound by ref
+
+        int c = 12;
+        (a->__forwarding->a) = ((NSObject *(*)(id, SEL))(void *)objc_msgSend)((id)objc_getClass("NSObject"), sel_registerName("new"));
+        NSLog((NSString *)&__NSConstantStringImpl__var_folders_46_lys08y0137d41lbysrxxd0h80000gn_T_main_dda0f5_mii_0, (a->__forwarding->a), c);
+    }
+static void __main_block_copy_0(struct __main_block_impl_0*dst, struct __main_block_impl_0*src) {_Block_object_assign((void*)&dst->a, (void*)src->a, 8/*BLOCK_FIELD_IS_BYREF*/);}
+
+static void __main_block_dispose_0(struct __main_block_impl_0*src) {_Block_object_dispose((void*)src->a, 8/*BLOCK_FIELD_IS_BYREF*/);}
+
+static struct __main_block_desc_0 {
+  size_t reserved;
+  size_t Block_size;
+  void (*copy)(struct __main_block_impl_0*, struct __main_block_impl_0*);
+  void (*dispose)(struct __main_block_impl_0*);
+} __main_block_desc_0_DATA = { 0, sizeof(struct __main_block_impl_0), __main_block_copy_0, __main_block_dispose_0};
+int main(int argc, const char * argv[]) {
+    __attribute__((__blocks__(byref))) __Block_byref_a_0 a = {(void*)0,(__Block_byref_a_0 *)&a, 33554432, sizeof(__Block_byref_a_0), __Block_byref_id_object_copy_131, __Block_byref_id_object_dispose_131, __null}; //a变为一个结构体变量，__Block_byref_a_0的最后一个参数为null。
+    void (*blk)(void) = ((void (*)())&__main_block_impl_0((void *)__main_block_func_0, &__main_block_desc_0_DATA, (__Block_byref_a_0 *)&a, 570425344));
+    ((void (*)(__block_impl *))((__block_impl *)blk)->FuncPtr)((__block_impl *)blk);
+
+    return 0;
+}
+static struct IMAGE_INFO { unsigned version; unsigned flag; } _OBJC_IMAGE_INFO = { 0, 2 };
+```
 
 #### 截获__strong对象指针变量
 
