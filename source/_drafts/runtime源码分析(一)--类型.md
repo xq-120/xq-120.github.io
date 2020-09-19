@@ -1,12 +1,9 @@
 ---
-title: runtime源码分析
+title: runtime源码分析(一)--类型
 tags:
-  - 标签1
-  - 标签2
-  - 标签3
+  - runtime
 categories:
-  - 分类1
-  - 分类2
+  - OC
 comments: true
 date: 2020-07-18 23:32:40
 ---
@@ -26,7 +23,7 @@ OBJC_EXPORT
 @interface NSObject <NSObject> {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wobjc-interface-ivars"
-    Class isa  OBJC_ISA_AVAILABILITY; //oc2.0中已弃用，将来可能会被移除。
+    Class isa  OBJC_ISA_AVAILABILITY; //OC 2.0中已弃用，将来可能会被移除。
 #pragma clang diagnostic pop
 }
 
@@ -41,7 +38,7 @@ OBJC_EXPORT
 #endif
 ```
 
-上述的一些宏定义表明oc2.0中NSObject已经不使用`Class isa;`成员变量。isa 已经移到`struct objc_object`里面去了。
+上述的宏定义OBJC_ISA_AVAILABILITY表明在OC 2.0中NSObject已经不使用`Class isa;`成员变量。isa 已经移到`struct objc_object`里面去了。
 
 NSProxy定义：
 
@@ -139,10 +136,10 @@ private:
 public:
 
     // ISA() assumes this is NOT a tagged pointer object
-    Class ISA();
+    Class ISA(); //表明对象不是tagged pointer对象
 
     // rawISA() assumes this is NOT a tagged pointer object or a non pointer ISA
-    Class rawISA();
+    Class rawISA(); //表明对象不是tagged pointer对象以及不是非pointer isa。
 
     // getIsa() allows this to be a tagged pointer object
     Class getIsa();
@@ -160,7 +157,7 @@ objc_object中有一个isa，相比旧版本，新版本类型已经变成isa_t(
 ```c++
 //objc-runtime-new.h
 
-struct objc_class : objc_object { //现在是继承自结构体objc_object
+struct objc_class : objc_object { //现在objc_class是继承自结构体objc_object
   // Class ISA;
   Class superclass;
   cache_t cache;             // formerly cache pointer and vtable
@@ -179,7 +176,7 @@ struct objc_class : objc_object { //现在是继承自结构体objc_object
 
 superClass：指向自己的父类
 
-cache：用于缓存指针和 vtable，加速方法的调用
+cache：缓存的指针和 vtable，加速方法的调用
 
 bits：用于存储类的方法、属性、遵循的协议等信息。相比于旧版本，新版本将这些信息封装到一起了。
 
@@ -200,7 +197,7 @@ private:
 public:
 
     class_rw_t* data() const {
-        return (class_rw_t *)(bits & FAST_DATA_MASK); //取bits的第[4,47]位值，得到一个地址。
+        return (class_rw_t *)(bits & FAST_DATA_MASK); //取bits的第[4,47]位值，得到一个地址，强转为class_rw_t类型地址。
     }
     void setData(class_rw_t *newData)
     {
@@ -217,7 +214,7 @@ public:
     // fixme this isn't really safe without a compiler barrier at least
     // and probably a memory barrier when realizeClass changes the data field
     const class_ro_t *safe_ro() {
-        class_rw_t *maybe_rw = data(); //data方法返回的不一定就是class_rw_t。
+        class_rw_t *maybe_rw = data(); //类还没实现时data方法返回实际上是class_ro_t类型，实现后才是class_rw_t类型。
         if (maybe_rw->flags & RW_REALIZED) {
             // maybe_rw is rw
             return maybe_rw->ro;
@@ -474,7 +471,7 @@ union isa_t {
         uintptr_t weakly_referenced : 1;  //是否有弱引用指针。                                      
         uintptr_t deallocating      : 1; //是否正在被销毁                                      
         uintptr_t has_sidetable_rc  : 1; //是否有sidetable引用计数。对象的引用计数太大而不能在内部保存时会将引用计数保存到sidetable                                      
-        uintptr_t extra_rc          : 19 //MSB。对象的引用计数超过1时会存在这里。因此extra_rc加1后就是对象的引用计数。由于只有19位所以只有对象的引用计数不太大的时候才保存在这里
+        uintptr_t extra_rc          : 19 //MSB。对象的引用计数超过1时会存在这里。因此extra_rc加1后才是对象的引用计数。由于只有19位所以只有对象的引用计数不太大的时候才保存在这里
     };
 };
 ```
@@ -650,3 +647,4 @@ struct category_t {
 别名：`typedef struct category_t *Category;`
 
 通过类别的定义可以看到不能通过类别给类添加实例变量，退而求其次只能添加关联对象。
+

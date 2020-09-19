@@ -1,12 +1,9 @@
 ---
 title: runtime源码分析
 tags:
-  - 标签1
-  - 标签2
-  - 标签3
+  - runtime
 categories:
-  - 分类1
-  - 分类2
+  - OC
 comments: true
 date: 2020-07-18 23:32:40
 ---
