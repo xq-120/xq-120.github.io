@@ -2136,6 +2136,12 @@ TODO
 
 ## 参考
 
+[Objective-C Runtime Programming Guide](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Introduction/Introduction.html#//apple_ref/doc/uid/TP40008048)	官方文档
+
+[GNUstep](http://www.gnustep.org/) 一套和苹果cocoa框架对等的框架。
+
+
+
 [load 方法全程跟踪](https://www.desgard.com/iOS-Source-Probe/Objective-C/Runtime/load 方法全程跟踪.html)
 
 [读 objc4 源码，深入理解 Objective-C Runtime](https://www.jianshu.com/p/e3d521b2cb43)  提出了一些问题可以看看
@@ -2147,6 +2153,8 @@ TODO
 [深入解析 ObjC 中方法的结构](https://draveness.me/method-struct/)  也是oc类的系列文章
 
 [9. _read_images 从二进制文件中读取类信息](https://jianli2017.top/wiki/IOS/Runtime/objc/9__read_images/) 可以看看
+
+
 
 tagged pointer
 
@@ -2175,10 +2183,6 @@ tagged pointer
 [探寻Objective-C引用计数本质](https://crmo.github.io/2018/05/26/探寻Objective-C引用计数本质/)
 
 [Objective-C 引用计数原理](https://www.jianshu.com/p/2acbde294266)  主要是tagged部分
-
-
-
-[GNUstep](http://www.gnustep.org/) 一套和苹果cocoa框架对等的框架。
 
 
 
