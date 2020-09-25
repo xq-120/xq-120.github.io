@@ -2170,14 +2170,6 @@ tagged pointer
 
 
 
-内存对齐：
-
-[32位与64位系统基本数据类型的字节数](https://blog.csdn.net/u012611878/article/details/52455576)
-
-[C/C++内存对齐详解](https://zhuanlan.zhihu.com/p/30007037)
-
-
-
 引用计数
 
 [探寻Objective-C引用计数本质](https://crmo.github.io/2018/05/26/探寻Objective-C引用计数本质/)
