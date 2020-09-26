@@ -748,7 +748,7 @@ ts.log("IMAGE TIMES: discover classes");
 1. 调用`_getObjc2ClassList` 从_DATA的"__objc_classlist" section获取类
 2. 调用readClass，将类读取到runtime。主要是将类添加到gdb_objc_realized_classes 和 allocatedClasses表里去。一般情况下只有运行时创建的类才被添加到allocatedClasses表中，其他在编译时就已经确定的类runtime都能够知道所以就不会添加到allocatedClasses，运行时创建的类添加到allocatedClasses表后，runtime再次遇到时也就能够识别了。
 
-这里主要是`_getObjc2ClassList`，可以`clang -rewrite-objc Person.m` 就能看到我们写的OC类会保存在一个数组中，数组保存在`_DATA`的"`__objc_classlist`" section处。我们自己也可也在`__DATA`区存储东西的。
+这里主要是`_getObjc2ClassList`，可以`clang -rewrite-objc Person.m` 就能看到我们写的OC类会保存在一个数组中，数组保存在`_DATA`的"`__objc_classlist`" section处。我们自己也可以在`__DATA`区存储东西的。
 
 ```c++
 extern "C" __declspec(dllexport) struct _class_t OBJC_CLASS_$_Person __attribute__ ((used, section ("__DATA,__objc_data"))) = {
@@ -2149,6 +2149,12 @@ s_d_eat --> p_o_eat_imp
 TODO
 
 
+
+### 健壮的实例变量(Non Fragile ivars)
+
+Legacy Runtime 和 Modern Runtime
+
+[Objective-C 动态之 Non-fragile ivar](http://jefferyfan.com/programing/iOS/non-fragile-ivar/)
 
 ## 参考
 
