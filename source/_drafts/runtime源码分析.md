@@ -84,7 +84,7 @@ _class_createInstanceFromZone(Class cls, size_t extraBytes, void *zone,
     // Read class's info bits all at once for performance
     bool hasCxxCtor = cxxConstruct && cls->hasCxxCtor();
     bool hasCxxDtor = cls->hasCxxDtor();
-    bool fast = cls->canAllocNonpointer(); //TODO:这里没看懂怎么得来的
+    bool fast = cls->canAllocNonpointer(); //TODO:这里没看懂怎么得来的，不过看命名大多数情况下应该是true
     size_t size;
 
     size = cls->instanceSize(extraBytes); //获取实例大小
@@ -94,7 +94,7 @@ _class_createInstanceFromZone(Class cls, size_t extraBytes, void *zone,
     if (zone) {
         obj = (id)malloc_zone_calloc((malloc_zone_t *)zone, 1, size);
     } else {
-        obj = (id)calloc(1, size); //申请一块内存空间并初始化为0
+        obj = (id)calloc(1, size); //申请1个大小为size的内存空间并初始化为0
     }
     if (slowpath(!obj)) { //堆上内存不足，申请失败。
         if (construct_flags & OBJECT_CONSTRUCT_CALL_BADALLOC) {
@@ -225,6 +225,8 @@ objc_object::initIsa(Class cls, bool nonpointer, bool hasCxxDtor)
 
 由此可知如果isa的最低位为1，那么isa就是nonpointer，否则为非nonpointer（即纯pointer）。对于nonpointer的isa里面除了保存类对象地址外，还会保存很多其他信息比如对象的引用计数，是否有关联对象，是否有weak指针等，这样就可以减少一些哈希表的操作，提高了效率。
 
+这里说一下isa为啥可以变为结构体类型，我们都知道32位的指针就可以寻址4GB的内存大小了，苹果手机目前最大内存也就3GB，因此一个64位的指针变量最多用到32位，这样就有一半是空着的，那哪行啊，所以isa的类型就从原来的纯指针类型变为了一个联合体类型，类对象的地址就保存在shiftcls字段中，其他31位可以存放其他信息，充分利用了内存空间。另外isa的shiftcls在arm64中占33位，在`__x86_64__` 中占44位。33位可以寻址8GB，因此shiftcls坚挺个10年应该没有什么问题。即使以后苹果也上8GB甚至10GB内存，shiftcls只需要改为44位就可以了，44位已经可以寻址16T内存了估计可以用到苹果破产。
+
 ## Tagged Pointer对象
 
 ```
@@ -235,7 +237,9 @@ objc_object::initIsa(Class cls, bool nonpointer, bool hasCxxDtor)
 #endif
 ```
 
-Tagged pointer对象是在64位系统才有的。
+Tagged pointer对象是在64位系统才有的。对于一些小的对象比如整数对象，字符串对象等，他们的值一般情况下不会太大，如果还像普通对象那样从堆上申请内存，引用计数，释放内存一套下来效率必然低下。而64位的指针变量本身就可以保存较大的数值，因此可以把一些小对象的值直接保存到指针变量里，这样的对象就称为Tagged pointer对象。可以看到Tagged pointer对象已经不是传统意义上的对象了，什么申请内存，引用计数，释放内存统统不存在了。
+
+既然是将对象的值直接保存在指针变量里，自然就需要一套编码规则或者说协议规则。
 
 objc_tag_index_t：
 
@@ -294,7 +298,7 @@ typedef enum objc_tag_index_t objc_tag_index_t;
 #endif
 ```
 
-tag bit位：
+tag bit位：用于判断指针变量指向的是否是一个Tagged pointer对象。
 
 tag bit位在x86_64和arm64是不同的
 
@@ -367,7 +371,11 @@ tag bit位在x86_64和arm64是不同的
 2020-07-20 18:13:43.259030+0800 runtime方法使用Demo[1252:281045] greaterStr:0x2830e9420
 ```
 
+以numberInt：0xb7427616a082ae26为例
+
 最高位为1说明是Tagged pointer对象。是Tagged pointer对象后，我们才可以解码该地址，解码后可以看到TaggedPointer的真实布局。
+
+这里解码为0xb000000000000012
 
 最高4位为b(1011)：
 
@@ -375,7 +383,15 @@ tag bit位在x86_64和arm64是不同的
 
 其他60位就是payload了，payload里面包含真正的数据以及数据的一些其他信息比如长度等。
 
+这里最低4位是NSNumber的类型：比如，char是0、short是1、int是2、float是4。2代表为int类型。
+
+中间56位就是真正的数据了，这里为1。
+
+可以看到Tagged Pointer对象的编码规则基本上如下：
+
+```
 标志位--OBJC_TAG--数据--元数据
+```
 
 ## runtime的加载
 
