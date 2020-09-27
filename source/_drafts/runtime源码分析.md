@@ -1009,7 +1009,7 @@ static Class realizeClassWithoutSwift(Class cls, Class previously)
         // Normal class. Allocate writeable class data.
         rw = (class_rw_t *)calloc(sizeof(class_rw_t), 1);
         rw->ro = ro;
-        rw->flags = RW_REALIZED|RW_REALIZING;
+        rw->flags = RW_REALIZED|RW_REALIZING; //先设置标记位为已实现，稍后再真正实现。
         cls->setData(rw); //设置rw。
     }
 
@@ -1039,7 +1039,7 @@ static Class realizeClassWithoutSwift(Class cls, Class previously)
     //   or that Swift's initializers have already been called.
     //   fixme that assumption will be wrong if we add support
     //   for ObjC subclasses of Swift classes.
-    // 递归的实现整个继承链上的class（类及元类）
+    // 递归的实现从当前类到NSObject整个继承链上的class（类及元类），因此实现的顺序是先父类再子类
     supercls = realizeClassWithoutSwift(remapClass(cls->superclass), nil);
     metacls = realizeClassWithoutSwift(remapClass(cls->ISA()), nil);
 
@@ -1089,7 +1089,7 @@ static Class realizeClassWithoutSwift(Class cls, Class previously)
 
     // Reconcile instance variable offsets / layout.
     // This may reallocate class_ro_t, updating our ro variable.
-    if (supercls  &&  !isMeta) reconcileInstanceVariables(cls, supercls, ro);
+    if (supercls  &&  !isMeta) reconcileInstanceVariables(cls, supercls, ro); //调整实例变量的offset，很重要
 
     // Set fastInstanceSize if it wasn't set already.
     cls->setInstanceSize(ro->instanceSize); //设置实例大小
@@ -1112,7 +1112,7 @@ static Class realizeClassWithoutSwift(Class cls, Class previously)
 
     // Connect this class to its superclass's subclass lists
     if (supercls) {
-        addSubclass(supercls, cls);
+        addSubclass(supercls, cls); //设置父子类关系（树结构），这样就可以遍历某个父类所有的子类
     } else {
         addRootClass(cls);
     }
@@ -1127,10 +1127,180 @@ static Class realizeClassWithoutSwift(Class cls, Class previously)
 大致逻辑：
 
 1. 分配rw内存，初始化 rw->ro = ro，rw->flags = RW_REALIZED|RW_REALIZING;
-2. 递归的实现该类的继承链往上的class（类及元类）
-3. 将类别里的信息添加到类上。
+2. 递归的实现从当前类到NSObject整个继承链上的class（类及元类），因此实现的顺序是先父类再子类。
+3. 调整实例变量的offset和布局，调整好后设置实例大小，到此实例的布局及大小就确定好了，此后都是不可更改的。因此OC是无法在运行时动态添加实例变量的，只能通过关联对象来近似实现。至于为什么要调整类的实例变量的布局，主要是为了实现健壮的实例变量。
+4. 设置父子类关系（树结构），这样就可以遍历某个父类所有的子类。
+5. 调用methodizeClass。将ro里自身的方法列表，属性列表，协议列表添加到rw里，再将类别里的方法列表，属性列表，协议列表添加到rw里，至此这个类就算实现了。
 
-这里最重要的就是methodizeClass的逻辑了。
+这里最重要的就是reconcileInstanceVariables 和 methodizeClass的逻辑了。
+
+##### reconcileInstanceVariables
+
+该方法就是解决fragile ivar 问题，实现健壮的实例变量。
+
+什么是fragile ivar 问题？
+
+简单点讲就是，系统的类比如UIView可能某一天加了个成员变量，而我们的子类在编译后它的大小是固定的，如果不重新编译，那么子类在alloc的时候申请的实例大小肯定是小了，放不下那么多的成员变量，访问就会出错。但是APP已经上架了，不可能再重新编译。那怎么办呢？这个时候就该runtime出来救火了，在加载类的时候，当runtime检测到当前类的实例布局起始位置<父类的实例大小，说明父类的实例大小发生了变化，因此需要重新调整子类的实例布局及大小。reconcileInstanceVariables 就是来调整的。
+
+在 32 位的 Mac 上运行的是 Legacy Runtime，存在 fragile ivar 的问题，而 iPhone 以及 64 位 Mac 上运行的 runtime 是 Modern Runtime，已经解决了这个问题，具有 Non-fragile ivar 的特性。
+
+reconcileInstanceVariables 实现：
+
+```c
+static void reconcileInstanceVariables(Class cls, Class supercls, const class_ro_t*& ro) 
+{
+    class_rw_t *rw = cls->data();
+
+    ASSERT(supercls);
+    ASSERT(!cls->isMetaClass());
+
+    /* debug: print them all before sliding
+    if (ro->ivars) {
+        for (const auto& ivar : *ro->ivars) {
+            if (!ivar.offset) continue;  // anonymous bitfield
+
+            _objc_inform("IVARS: %s.%s (offset %u, size %u, align %u)", 
+                         ro->name, ivar.name, 
+                         *ivar.offset, ivar.size, ivar.alignment());
+        }
+    }
+    */
+
+    // Non-fragile ivars - reconcile this class with its superclass
+    const class_ro_t *super_ro = supercls->data()->ro;
+    
+    if (ro->instanceStart >= super_ro->instanceSize) {
+        // Superclass has not overgrown its space. We're done here.
+        return;
+    }
+    // fixme can optimize for "class has no new ivars", etc
+
+    if (ro->instanceStart < super_ro->instanceSize) {
+        // Superclass has changed size. This class's ivars must move.
+        // Also slide layout bits in parallel.
+        // This code is incapable of compacting the subclass to 
+        //   compensate for a superclass that shrunk, so don't do that.
+        if (PrintIvars) {
+            _objc_inform("IVARS: sliding ivars for class %s "
+                         "(superclass was %u bytes, now %u)", 
+                         cls->nameForLogging(), ro->instanceStart, 
+                         super_ro->instanceSize);
+        }
+        class_ro_t *ro_w = make_ro_writeable(rw);
+        ro = rw->ro;
+        moveIvars(ro_w, super_ro->instanceSize);
+        gdb_objc_class_changed(cls, OBJC_CLASS_IVARS_CHANGED, ro->name);
+    } 
+}
+```
+
+大致流程：
+
+1. 如果当前类的实例布局起始位置>=父类的实例大小，说明父类没有新增实例变量，子类也就不需要调整了。
+2. 其他情况需要调整。调用moveIvars进行调整。
+
+##### moveIvars
+
+实现：
+
+```c
+/***********************************************************************
+* moveIvars
+* Slides a class's ivars to accommodate the given superclass size.
+* Ivars are NOT compacted to compensate for a superclass that shrunk.
+* Locking: runtimeLock must be held by the caller.
+**********************************************************************/
+static void moveIvars(class_ro_t *ro, uint32_t superSize)
+{
+    runtimeLock.assertLocked();
+
+    uint32_t diff;
+
+    ASSERT(superSize > ro->instanceStart);
+    diff = superSize - ro->instanceStart;
+
+    if (ro->ivars) {
+        // Find maximum alignment in this class's ivars
+        uint32_t maxAlignment = 1;
+        for (const auto& ivar : *ro->ivars) {
+            if (!ivar.offset) continue;  // anonymous bitfield
+
+            uint32_t alignment = ivar.alignment();
+            if (alignment > maxAlignment) maxAlignment = alignment;
+        }
+
+        // Compute a slide value that preserves that alignment
+        uint32_t alignMask = maxAlignment - 1;
+        diff = (diff + alignMask) & ~alignMask;
+
+        // Slide all of this class's ivars en masse
+        for (const auto& ivar : *ro->ivars) {
+            if (!ivar.offset) continue;  // anonymous bitfield
+
+            uint32_t oldOffset = (uint32_t)*ivar.offset;
+            uint32_t newOffset = oldOffset + diff;
+            *ivar.offset = newOffset;
+
+            if (PrintIvars) {
+                _objc_inform("IVARS:    offset %u -> %u for %s "
+                             "(size %u, align %u)", 
+                             oldOffset, newOffset, ivar.name, 
+                             ivar.size, ivar.alignment());
+            }
+        }
+    }
+
+    *(uint32_t *)&ro->instanceStart += diff;
+    *(uint32_t *)&ro->instanceSize += diff;
+}
+```
+
+逻辑很简单：
+
+1. 把当前类的所有实例变量的offset都加一个diff。每个成员变量都有一个对应的全局变量，该全局变量记录成员变量的偏移量。offset就指向该成员变量。
+2. 类的instanceStart也加一个diff。
+3. 类的实例大小也加一个diff。
+
+clang的代码：
+
+```c
+static NSInteger _I_Person_age(Person * self, SEL _cmd) { return (*(NSInteger *)((char *)self + OBJC_IVAR_$_Person$_age)); }  //通过self的地址+偏移量取得成员变量的地址
+static void _I_Person_setAge_(Person * self, SEL _cmd, NSInteger age) { (*(NSInteger *)((char *)self + OBJC_IVAR_$_Person$_age)) = age; }
+
+struct _ivar_t {
+	unsigned long int *offset;  // pointer to ivar offset location
+	const char *name;
+	const char *type;
+	unsigned int alignment;
+	unsigned int  size;
+};
+
+extern "C" unsigned long int OBJC_IVAR_$_Person$_height __attribute__ ((used, section ("__DATA,__objc_ivar"))) = __OFFSETOFIVAR__(struct Person, _height);  //全局变量OBJC_IVAR_$_Person$_height，初始值为正常偏移量
+extern "C" unsigned long int OBJC_IVAR_$_Person$_weight __attribute__ ((used, section ("__DATA,__objc_ivar"))) = __OFFSETOFIVAR__(struct Person, _weight);
+extern "C" unsigned long int OBJC_IVAR_$_Person$_age __attribute__ ((used, section ("__DATA,__objc_ivar"))) = __OFFSETOFIVAR__(struct Person, _age);
+extern "C" unsigned long int OBJC_IVAR_$_Person$_firtName __attribute__ ((used, section ("__DATA,__objc_ivar"))) = __OFFSETOFIVAR__(struct Person, _firtName);
+extern "C" unsigned long int OBJC_IVAR_$_Person$_lastName __attribute__ ((used, section ("__DATA,__objc_ivar"))) = __OFFSETOFIVAR__(struct Person, _lastName);
+
+static struct /*_ivar_list_t*/ {
+	unsigned int entsize;  // sizeof(struct _prop_t)
+	unsigned int count;
+	struct _ivar_t ivar_list[5];
+} _OBJC_$_INSTANCE_VARIABLES_Person __attribute__ ((used, section ("__DATA,__objc_const"))) = {
+	sizeof(_ivar_t),
+	5,
+	{{(unsigned long int *)&OBJC_IVAR_$_Person$_height, "_height", "q", 3, 8}, //第一个值为全局变量的地址
+	 {(unsigned long int *)&OBJC_IVAR_$_Person$_weight, "_weight", "q", 3, 8},
+	 {(unsigned long int *)&OBJC_IVAR_$_Person$_age, "_age", "q", 3, 8},
+	 {(unsigned long int *)&OBJC_IVAR_$_Person$_firtName, "_firtName", "@\"NSString\"", 3, 8},
+	 {(unsigned long int *)&OBJC_IVAR_$_Person$_lastName, "_lastName", "@\"NSString\"", 3, 8}}
+};
+```
+
+总结一下 OC 是如何实现 Non-fragile ivar 特性的：
+
+1. 每个成员变量都有一个与之对应的全局变量，用于记录成员变量的偏移量。
+2. 类信息保存在 class_ro_t 结构体中，其中 ivars 保存所有成员变量的偏移量等信息，同时用 instanceSize 记录类的大小。
+3. App 启动时，调用 moveIvars 方法更新 ivar->offset 和 instanceSize，创建实例时根据 instanceSize 来申请所需内存。
 
 ##### methodizeClass
 
@@ -2150,12 +2320,6 @@ TODO
 
 
 
-## 健壮的实例变量(Non Fragile ivars)
-
-Legacy Runtime 和 Modern Runtime
-
-[Objective-C 动态之 Non-fragile ivar](http://jefferyfan.com/programing/iOS/non-fragile-ivar/)
-
 ## 参考
 
 [Objective-C Runtime Programming Guide](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Introduction/Introduction.html#//apple_ref/doc/uid/TP40008048)	官方文档
@@ -2214,3 +2378,6 @@ tagged pointer
 
 [memmove 和 memcpy的区别以及处理内存重叠问题](https://blog.csdn.net/Li_Ning_/article/details/51418400)
 
+
+
+[Objective-C 动态之 Non-fragile ivar](http://jefferyfan.com/programing/iOS/non-fragile-ivar/)
