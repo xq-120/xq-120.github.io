@@ -1138,6 +1138,15 @@ static Class realizeClassWithoutSwift(Class cls, Class previously)
 
 该方法就是解决fragile ivar 问题，实现健壮的实例变量。
 
+实例内存布局？
+
+```
+继承自父类的成员变量 （父类私有的成员变量不会出现在子类里）
+自身的所有的成员变量
+```
+
+instanceStart指向子类第一个成员变量。
+
 什么是fragile ivar 问题？
 
 简单点讲就是，系统的类比如UIView可能某一天加了个成员变量，而我们的子类在编译后它的大小是固定的，如果不重新编译，那么子类在alloc的时候申请的实例大小肯定是小了，放不下那么多的成员变量，访问就会出错。但是APP已经上架了，不可能再重新编译。那怎么办呢？这个时候就该runtime出来救火了，在加载类的时候，当runtime检测到当前类的实例布局起始位置<父类的实例大小，说明父类的实例大小发生了变化，因此需要重新调整子类的实例布局及大小。reconcileInstanceVariables 就是来调整的。
@@ -1275,12 +1284,13 @@ struct _ivar_t {
 	unsigned int  size;
 };
 
-extern "C" unsigned long int OBJC_IVAR_$_Person$_height __attribute__ ((used, section ("__DATA,__objc_ivar"))) = __OFFSETOFIVAR__(struct Person, _height);  //全局变量OBJC_IVAR_$_Person$_height，初始值为正常偏移量
+extern "C" unsigned long int OBJC_IVAR_$_Person$_height __attribute__ ((used, section ("__DATA,__objc_ivar"))) = __OFFSETOFIVAR__(struct Person, _height);  //全局变量OBJC_IVAR_$_Person$_height
 extern "C" unsigned long int OBJC_IVAR_$_Person$_weight __attribute__ ((used, section ("__DATA,__objc_ivar"))) = __OFFSETOFIVAR__(struct Person, _weight);
 extern "C" unsigned long int OBJC_IVAR_$_Person$_age __attribute__ ((used, section ("__DATA,__objc_ivar"))) = __OFFSETOFIVAR__(struct Person, _age);
 extern "C" unsigned long int OBJC_IVAR_$_Person$_firtName __attribute__ ((used, section ("__DATA,__objc_ivar"))) = __OFFSETOFIVAR__(struct Person, _firtName);
 extern "C" unsigned long int OBJC_IVAR_$_Person$_lastName __attribute__ ((used, section ("__DATA,__objc_ivar"))) = __OFFSETOFIVAR__(struct Person, _lastName);
 
+//继承自父类的不会在这里.这里只保存自身类的成员变量。即各自类只处理各自类的东西。
 static struct /*_ivar_list_t*/ {
 	unsigned int entsize;  // sizeof(struct _prop_t)
 	unsigned int count;
