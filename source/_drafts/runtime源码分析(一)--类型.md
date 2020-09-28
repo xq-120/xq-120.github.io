@@ -387,6 +387,238 @@ struct entsize_list_tt {
 }
 ```
 
+简单说明一下instanceSize值的来源。
+
+举例：有如下Animal和Person两个类：
+
+```objc
+@interface Animal : NSObject
+
+@property (nonatomic, assign) NSInteger age;
+
+- (void)eat;
+
+@end
+
+@implementation Animal
+
+- (void)dealloc {
+    NSLog(@"%@销毁", self);
+}
+
+- (void)eat {
+    NSLog(@"eat");
+}
+
+@end
+
+@interface Person : Animal
+
+@property (nonatomic, copy) NSString *firtName;
+@property (nonatomic, copy) NSString *lastName;
+
+- (void)eat;
+
+- (void)startNewThread;
+
+@end
+
+@implementation Person
+{
+    NSInteger _height;
+    NSInteger _weight;
+}
+
++ (void)load {
+    NSLog(@"Person load");
+}
+
++ (void)initialize {
+    NSLog(@"Person initialize");
+}
+
+- (void)eat {
+    NSLog(@"eat");
+}
+
+- (void)startNewThread {
+    [NSThread detachNewThreadSelector:@selector(test_child_thread_autorelease_obj_dealloc) toTarget:self withObject:nil];
+}
+
+- (void)test_child_thread_autorelease_obj_dealloc {
+    __autoreleasing Animal *ani = [[Animal alloc] init];
+    [ani eat];
+}
+
+@end
+```
+
+执行：`clang -rewrite-objc Person.m` ，将OC代码转换为C++代码：
+
+```c++
+#pragma clang assume_nonnull begin
+
+
+#ifndef _REWRITER_typedef_Animal
+#define _REWRITER_typedef_Animal
+typedef struct objc_object Animal;
+typedef struct {} _objc_exc_Animal;
+#endif
+
+struct Animal_IMPL {
+	struct NSObject_IMPL NSObject_IVARS;
+};
+
+
+// @property (nonatomic, assign) NSInteger age;
+
+// - (void)eat;
+
+/* @end */
+
+#pragma clang assume_nonnull end
+
+#pragma clang assume_nonnull begin
+
+
+#ifndef _REWRITER_typedef_Person
+#define _REWRITER_typedef_Person
+typedef struct objc_object Person;
+typedef struct {} _objc_exc_Person;
+#endif
+
+extern "C" unsigned long OBJC_IVAR_$_Person$_firtName;
+extern "C" unsigned long OBJC_IVAR_$_Person$_lastName;
+struct Person_IMPL {
+	struct Animal_IMPL Animal_IVARS;
+	NSInteger _height;
+	NSInteger _weight;
+	NSString * _Nonnull _firtName;
+	NSString * _Nonnull _lastName;
+};
+
+
+// @property (nonatomic, copy) NSString *firtName;
+// @property (nonatomic, copy) NSString *lastName;
+
+// - (void)eat;
+
+// - (void)startNewThread;
+
+/* @end */
+
+#pragma clang assume_nonnull end
+
+/** implementation Person
+{
+    NSInteger _height;
+    NSInteger _weight;
+**/ 
+
+
+static void _C_Person_load(Class self, SEL _cmd) {
+    NSLog((NSString *)&__NSConstantStringImpl__var_folders_5z_1pxqzfcn77s2n7z4gmr63sdr0000gn_T_Person_bd54e9_mi_0);
+}
+
+
+static void _C_Person_initialize(Class self, SEL _cmd) {
+    NSLog((NSString *)&__NSConstantStringImpl__var_folders_5z_1pxqzfcn77s2n7z4gmr63sdr0000gn_T_Person_bd54e9_mi_1);
+}
+
+
+static void _I_Person_eat(Person * self, SEL _cmd) {
+    NSLog((NSString *)&__NSConstantStringImpl__var_folders_5z_1pxqzfcn77s2n7z4gmr63sdr0000gn_T_Person_bd54e9_mi_2);
+}
+
+
+static void _I_Person_startNewThread(Person * self, SEL _cmd) {
+    ((void (*)(id, SEL, SEL _Nonnull, id _Nonnull, id _Nullable))(void *)objc_msgSend)((id)objc_getClass("NSThread"), sel_registerName("detachNewThreadSelector:toTarget:withObject:"), sel_registerName("test_child_thread_autorelease_obj_dealloc"), (id _Nonnull)self, (id _Nullable)__null);
+}
+
+
+static void _I_Person_test_child_thread_autorelease_obj_dealloc(Person * self, SEL _cmd) {
+    __attribute__((objc_ownership(autoreleasing))) Animal *ani = ((Animal *(*)(id, SEL))(void *)objc_msgSend)((id)((Animal *(*)(id, SEL))(void *)objc_msgSend)((id)objc_getClass("Animal"), sel_registerName("alloc")), sel_registerName("init"));
+    ((void (*)(id, SEL))(void *)objc_msgSend)((id)ani, sel_registerName("eat"));
+}
+
+
+
+static NSString * _Nonnull _I_Person_firtName(Person * self, SEL _cmd) { return (*(NSString * _Nonnull *)((char *)self + OBJC_IVAR_$_Person$_firtName)); }
+extern "C" __declspec(dllimport) void objc_setProperty (id, SEL, long, id, bool, bool);
+
+static void _I_Person_setFirtName_(Person * self, SEL _cmd, NSString * _Nonnull firtName) { objc_setProperty (self, _cmd, __OFFSETOFIVAR__(struct Person, _firtName), (id)firtName, 0, 1); }
+
+static NSString * _Nonnull _I_Person_lastName(Person * self, SEL _cmd) { return (*(NSString * _Nonnull *)((char *)self + OBJC_IVAR_$_Person$_lastName)); }
+static void _I_Person_setLastName_(Person * self, SEL _cmd, NSString * _Nonnull lastName) { objc_setProperty (self, _cmd, __OFFSETOFIVAR__(struct Person, _lastName), (id)lastName, 0, 1); }
+// @end
+```
+
+可以看到我们按照OC语法写的代码已经变为了C++代码。
+
+定义的OC类Person变为一个全局变量：`OBJC_CLASS_$_Person`。从这里可以看出我们写的代码经过编译后最终会变为某种类型的一个变量。这个变量里面记录了我们代码定义的方法，属性，实例变量，实现的协议，父类是谁等等信息，不过这里不是我们现在要讨论的重点。
+
+```c++
+struct _class_ro_t {
+	unsigned int flags;
+	unsigned int instanceStart;
+	unsigned int instanceSize;
+	unsigned int reserved;
+	const unsigned char *ivarLayout;
+	const char *name;
+	const struct _method_list_t *baseMethods;
+	const struct _objc_protocol_list *baseProtocols;
+	const struct _ivar_list_t *ivars;
+	const unsigned char *weakIvarLayout;
+	const struct _prop_list_t *properties;
+};
+
+struct _class_t {
+	struct _class_t *isa;
+	struct _class_t *superclass;
+	void *cache;
+	void *vtable;
+	struct _class_ro_t *ro;
+};
+
+...
+
+//静态变量 _OBJC_CLASS_RO_$_Person
+static struct _class_ro_t _OBJC_CLASS_RO_$_Person __attribute__ ((used, section ("__DATA,__objc_const"))) = {
+	0, __OFFSETOFIVAR__(struct Person, _height), sizeof(struct Person_IMPL), 
+	(unsigned int)0, 
+	0, 
+	"Person",
+	(const struct _method_list_t *)&_OBJC_$_INSTANCE_METHODS_Person,
+	0, 
+	(const struct _ivar_list_t *)&_OBJC_$_INSTANCE_VARIABLES_Person,
+	0, 
+	(const struct _prop_list_t *)&_OBJC_$_PROP_LIST_Person,
+};
+
+//全局变量 OBJC_CLASS_$_Person
+extern "C" __declspec(dllexport) struct _class_t OBJC_CLASS_$_Person __attribute__ ((used, section ("__DATA,__objc_data"))) = {
+	0, // &OBJC_METACLASS_$_Person,
+	0, // &OBJC_CLASS_$_Animal,
+	0, // (void *)&_objc_empty_cache,
+	0, // unused, was (void *)&_objc_empty_vtable,
+	&_OBJC_CLASS_RO_$_Person,  //ro初始化指向 _OBJC_CLASS_RO_$_Person
+};
+```
+
+这里着重看 `_OBJC_CLASS_RO_$_Person` 的初始化，可以看到instanceSize成员被赋值为 sizeof(struct Person_IMPL)
+
+```c
+struct Person_IMPL {
+	struct Animal_IMPL Animal_IVARS;
+	NSInteger _height;
+	NSInteger _weight;
+	NSString * _Nonnull _firtName;
+	NSString * _Nonnull _lastName;
+};
+```
+
+struct Person_IMPL 包含父类成员变量以及自身的几个成员变量。因此sizeof(struct Person_IMPL)的值就等于自身类所有的成员变量+继承自父类成员变量（父类私有的不再此列）占用的空间。因此instanceSize的值在编译的时候就已经确定了。我们根据类创建实例的时候alloc的内存大小就是instanceSize（实际可能要大于instanceSize，因为要对齐，并且最小要有16字节），这就是一个实例对象的大小。实例对象的内存布局里只有成员变量，不会包含什么方法列表这些信息，这些信息都包含在类对象里面。因此在给对象发送消息的时候是先根据对象的isa成员变量找到其所属的类，再在类里保存的方法列表里面查找该消息，最后执行。
+
 #### union isa_t
 
 isa的类型定义：
