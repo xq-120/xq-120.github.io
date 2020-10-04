@@ -309,7 +309,7 @@ struct dispatch_queue_s {
   
     _Static_assert(sizeof(struct { uint64_t volatile dq_state; }) == sizeof(struct { dispatch_lock dq_state_lock; uint32_t dq_state_bits; }), "bogus union");
     union {
-        uint64_t volatile dq_state;
+        uint64_t volatile dq_state; //队列状态
         struct {
             dispatch_lock dq_state_lock; //一个32位的整型数
             uint32_t dq_state_bits;
@@ -705,7 +705,7 @@ typedef struct dispatch_continuation_s {
         int dc_cache_cnt;
         uintptr_t dc_pad;
     };
-    struct dispatch_continuation_s *volatile do_next; //下一个任务
+    struct dispatch_continuation_s *volatile do_next; //下一个任务，是一个单链表。
     struct voucher_s *dc_voucher;
     dispatch_function_t dc_func;  //block所在的函数
     void *dc_ctxt;
