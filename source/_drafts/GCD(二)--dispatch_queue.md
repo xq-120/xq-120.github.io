@@ -730,7 +730,151 @@ eg：
 
 #### 队列与线程的关系
 
+1.主线程和主队列的关系
 
+结论：主线程和主队列不是同一个东西，在主线程不一定意味着你就在主队列，在主队列也不一定意味着你就在主线程，不过对于UI类apps比如iOS应用和mac应用在主队列就代表着在主线程，因为Cocoa应用系统已经将主队列绑定在主线程了。
+
+在主线程不一定意味着你就在主队列。这个很好理解，我可以在主线程执行一个派发到自定义串行队列的同步任务，这个block任务显然是在主线程执行的，但这个block所在的队列并不是主队列。
+
+eg:
+
+```swift
+override func viewDidLoad() {
+	super.viewDidLoad()
+	let myQueue = DispatchQueue.init(label: "xxx")
+  myQueue.sync {
+      if Thread.isMainThread {
+					...
+      }
+  }
+}
+```
+
+还有一个比较诡异的系统bug：MKMapView的addOverlay必须在主队列执行，在主线程执行都不行(至少在iOS10.3.3是崩溃的，后面的版本不知道系统有没有修复)。详细讨论可以参考下面的 [ReactiveCocoa](https://github.com/ReactiveCocoa/ReactiveCocoa) issue:
+
+[24025596: MapKit: It's not safe to call MKMapView's addOverlay on a non-main-queue, even if it is executed on the main thread](https://github.com/lionheart/openradar-mirror/issues/7053)
+
+[UIScheduler not working as expected](https://github.com/ReactiveCocoa/ReactiveCocoa/issues/2635)
+
+示例代码:
+
+```swift
+class ViewController: UIViewController, MKMapViewDelegate {
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        view.backgroundColor = UIColor.white
+        
+        let mapView = MKMapView(frame: CGRect(x: 0, y: 88, width: view.frame.size.width, height: 400))
+        view.addSubview(mapView)
+        mapView.delegate = self
+
+        let visibleRect = MKMapRect(origin: MKMapPoint(x: 146405966, y: 93063354),
+            size: MKMapSize(width: 18634, height: 28375))
+        mapView.setVisibleMapRect(visibleRect, animated: false)
+        var coords = [CLLocationCoordinate2D(latitude: 48.211151, longitude: 16.365379),
+            CLLocationCoordinate2D(latitude: 48.199167, longitude: 16.351016)]
+        let polyline = MKPolyline(coordinates: &coords, count: coords.count)
+        
+        //崩溃
+        let myQueue = DispatchQueue.init(label: "xxx")
+        myQueue.sync {
+            if Thread.isMainThread { //在主线程，但没在主队列，结果崩溃。
+                mapView.addOverlay(polyline, level: .aboveRoads)
+            }
+        }
+        //正常
+//        DispatchQueue.main.async {
+//            mapView.addOverlay(polyline, level: .aboveRoads)
+//        }
+    }
+
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        let renderer = MKPolylineRenderer(overlay: overlay)
+        renderer.lineWidth = 3
+        renderer.strokeColor = UIColor.blue
+        return renderer
+    }
+}
+```
+
+因此如果你仅仅以 `Thread.isMainThread` 判断在主线程了，就执行一些操作，可能还不够，还必须得保证在主队列。
+
+那么怎么判断正在执行的block属于哪个队列呢？系统提供了一个 `dispatch_get_current_queue` ，不过该方法已经被废弃了。目前来看只能通过 dispatch_queue_set_specific/dispatch_get_specific 给队列添加一个key-value 来判断：
+
+```objc
+- (void)btnDidClicked:(UIButton *)sender {
+    NSLog(@"btnDidClicked");
+   
+    dispatch_queue_set_specific(dispatch_get_main_queue(), "key", @"value", NULL);
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSString *value = (__bridge NSString *)(dispatch_get_specific("key"));
+        NSLog(@"1 value:%@  current_queue:%@", value, dispatch_get_current_queue());
+    });
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSString *value = (__bridge NSString *)(dispatch_get_specific("key"));
+        NSLog(@"2 value:%@  current_queue:%@", value, dispatch_get_current_queue());
+    });
+}
+```
+
+打印：
+
+```
+2020-10-05 11:49:08.634407+0800 multithreadDemo[2518:7725112] btnDidClicked
+2020-10-05 11:49:08.635368+0800 multithreadDemo[2518:7725201] 2 value:(null)  current_queue:<OS_dispatch_queue_global: com.apple.root.default-qos>
+2020-10-05 11:49:08.636136+0800 multithreadDemo[2518:7725112] 1 value:value  current_queue:<OS_dispatch_queue_main: com.apple.main-thread>
+```
+
+前面也已经说了对于Cocoa应用系统已经将主队列绑定在主线程了，因此对于上述问题最好的解决办法就是使用 `DispatchQueue.main.async` 确保即在主线程又在主队列。
+
+那么，怎么理解在主队列也不一定意味着你就在主线程？
+
+示例代码：
+
+我们新建一个非UI apps的Demo工程，使用dispatch_main，执行提交到主队列的block。
+
+```objc
+#import <Foundation/Foundation.h>
+
+int main(int argc, const char * argv[]) {
+    @autoreleasepool {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSLog(@"current_queue: %@", dispatch_get_current_queue());
+            NSLog(@"currentThread: %@", [NSThread currentThread]);
+            NSLog(@"is main thread? %i", (int)[NSThread isMainThread]);
+        });
+        dispatch_main();
+        NSLog(@"----");
+    }
+    return 0;
+}
+```
+
+打印：
+
+```
+2020-10-05 12:38:06.496003+0800 MainThreadDemo[3614:7773084] current_queue: <OS_dispatch_queue_main: com.apple.main-thread>
+2020-10-05 12:38:06.497073+0800 MainThreadDemo[3614:7773084] currentThread: <NSThread: 0x10050f650>{number = 2, name = (null)}
+2020-10-05 12:38:06.497202+0800 MainThreadDemo[3614:7773084] is main thread? 0
+```
+
+可以看到block并不是在主线程执行的。此时的主队列并没有绑定在主线程，就像普通的自定义串行队列，新开了一条线程执行block任务。
+
+2.全局队列，自定义并发队列，自定义串行队列与线程的关系
+
+没有关系，执行提交到队列的任务的线程是由系统管理的线程池分配的，线程执行完任务后会被回收。因此下一个提交到队列的任务可能还是上一次的线程执行，也可能是别的线程执行它。
+
+[DispatchQueue](https://developer.apple.com/documentation/dispatch/dispatchqueue) 的说明：
+
+```
+Dispatch queues are FIFO queues to which your application can submit tasks in the form of block objects. Dispatch queues execute tasks either serially or concurrently. Work submitted to dispatch queues executes on a pool of threads managed by the system. Except for the dispatch queue representing your app's main thread, the system makes no guarantees about which thread it uses to execute a task.
+```
+
+[Queues are not bound to any specific thread](https://blog.krzyzanowskim.com/2016/06/03/queues-are-not-bound-to-any-specific-thread/)
+
+总结：队列与线程没有对应或绑定关系，除了cocoa应用的主队列总是在主线程执行。
 
 #### 参考
 
