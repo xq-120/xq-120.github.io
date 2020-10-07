@@ -364,7 +364,7 @@ struct dispatch_queue_s {
   
     _Static_assert(sizeof(struct { uint64_t volatile dq_state; }) == sizeof(struct { dispatch_lock dq_state_lock; uint32_t dq_state_bits; }), "bogus union");
     union {
-        uint64_t volatile dq_state; //队列状态
+        uint64_t volatile dq_state; //队列状态,非常重要。queue_internal.h有比较详细的解释,读懂了dq_state对整个任务的执行过程有很大帮助
         struct {
             dispatch_lock dq_state_lock; //一个32位的整型数
             uint32_t dq_state_bits;
@@ -376,7 +376,7 @@ struct dispatch_queue_s {
     union {
         uint32_t volatile dq_atomic_flags;
         struct {
-            const uint16_t dq_width; //串行队列为1，在执行任务时会判断该值
+            const uint16_t dq_width; //串行队列为1，全局队列为0xfff,自定义并发队列为0xffe
             const uint16_t __dq_opaque2;
         };
     };
@@ -659,7 +659,7 @@ struct dispatch_queue_global_s {
     };
     int volatile dq_sref_cnt;
   
-    int volatile dgq_thread_pool_size; //线程池大小
+    int volatile dgq_thread_pool_size; //线程池大小，全局队列才有该属性
     struct dispatch_object_s *volatile dq_items_head;
     int volatile dgq_pending;
 } DISPATCH_CACHELINE_ALIGN;
@@ -755,7 +755,7 @@ typedef struct dispatch_continuation_s {
 typedef struct dispatch_continuation_s {
     union {
         const void *do_vtable; 
-        uintptr_t dc_flags;
+        uintptr_t dc_flags; //dc的类型标志
     };
     union {
         pthread_priority_t dc_priority; //任务优先级
@@ -1168,6 +1168,111 @@ DISPATCH_OPTIONS(dispatch_invoke_flags, uint32_t,
 #define _DISPATCH_INVOKE_AUTORELEASE_MASK	  0x03000000u
 );
 ```
+
+#### DC_FLAG
+
+continuation对象的种类标志
+
+```c
+// continuation is a dispatch_sync or dispatch_barrier_sync
+#define DC_FLAG_SYNC_WAITER				0x001ul
+// continuation acts as a barrier
+#define DC_FLAG_BARRIER					0x002ul
+// continuation resources are freed on run
+// this is set on async or for non event_handler source handlers
+#define DC_FLAG_CONSUME					0x004ul
+// continuation has a group in dc_data
+#define DC_FLAG_GROUP_ASYNC				0x008ul
+// continuation function is a block (copied in dc_ctxt)
+#define DC_FLAG_BLOCK					0x010ul
+// continuation function is a block with private data, implies BLOCK_BIT
+#define DC_FLAG_BLOCK_WITH_PRIVATE_DATA	0x020ul
+// source handler requires fetching context from source
+#define DC_FLAG_FETCH_CONTEXT			0x040ul
+// continuation is a dispatch_async_and_wait
+#define DC_FLAG_ASYNC_AND_WAIT			0x080ul
+// bit used to make sure dc_flags is never 0 for allocated continuations
+#define DC_FLAG_ALLOCATED				0x100ul
+// continuation is an internal implementation detail that should not be
+// introspected
+#define DC_FLAG_NO_INTROSPECTION		0x200ul
+// The item is a channel item, not a continuation
+#define DC_FLAG_CHANNEL_ITEM			0x400ul
+```
+
+#### dispatch_queue_flags
+
+队列标志：dq_atomic_flags
+
+```c
+#pragma mark -
+#pragma mark dispatch_queue_flags, dq_state
+
+DISPATCH_OPTIONS(dispatch_queue_flags, uint32_t,
+	DQF_NONE                = 0x00000000,
+	DQF_AUTORELEASE_ALWAYS  = 0x00010000,
+	DQF_AUTORELEASE_NEVER   = 0x00020000,
+#define _DQF_AUTORELEASE_MASK 0x00030000
+	DQF_THREAD_BOUND        = 0x00040000, // queue is bound to a thread
+	DQF_BARRIER_BIT         = 0x00080000, // queue is a barrier on its target
+	DQF_TARGETED            = 0x00100000, // queue is targeted by another object
+	DQF_LABEL_NEEDS_FREE    = 0x00200000, // queue label was strdup()ed
+	DQF_MUTABLE             = 0x00400000,
+	DQF_RELEASED            = 0x00800000, // xref_cnt == -1
+
+	//
+	// Only applies to sources
+	//
+	// @const DSF_STRICT
+	// Semantics of the source are strict (implies DQF_MUTABLE being unset):
+	// - handlers can't be changed past activation
+	// - EV_VANISHED causes a hard failure
+	// - source can't change WLH
+	//
+	// @const DSF_WLH_CHANGED
+	// The wlh for the source changed (due to retarget past activation).
+	// Only used for debugging and diagnostics purposes.
+	//
+	// @const DSF_CANCELED
+	// Explicit cancelation has been requested.
+	//
+	// @const DSF_CANCEL_WAITER
+	// At least one caller of dispatch_source_cancel_and_wait() is waiting on
+	// the cancelation to finish. DSF_CANCELED must be set if this bit is set.
+	//
+	// @const DSF_NEEDS_EVENT
+	// The source has started to delete its unotes due to cancelation, but
+	// couldn't finish its unregistration and is waiting for some asynchronous
+	// events to fire to be able to.
+	//
+	// This flag prevents spurious wakeups when the source state machine
+	// requires specific events to make progress. Events that are likely
+	// to unblock a source state machine pass DISPATCH_WAKEUP_EVENT
+	// which neuters the effect of DSF_NEEDS_EVENT.
+	//
+	// @const DSF_DELETED
+	// The source can now only be used as a queue and is not allowed to register
+	// any new unote anymore. All the previously registered unotes are inactive
+	// and their knote is gone. However, these previously registered unotes may
+	// still be in the process of delivering their last event.
+	//
+	// Sources have an internal refcount taken always while they use eventing
+	// subsystems which is consumed when this bit is set.
+	//
+	DSF_STRICT              = 0x04000000,
+	DSF_WLH_CHANGED         = 0x08000000,
+	DSF_CANCELED            = 0x10000000,
+	DSF_CANCEL_WAITER       = 0x20000000,
+	DSF_NEEDS_EVENT         = 0x40000000,
+	DSF_DELETED             = 0x80000000,
+
+#define DQF_FLAGS_MASK        ((dispatch_queue_flags_t)0xffff0000)
+#define DQF_WIDTH_MASK        ((dispatch_queue_flags_t)0x0000ffff)
+#define DQF_WIDTH(n)          ((dispatch_queue_flags_t)(uint16_t)(n))
+);
+```
+
+
 
 #### TSD和TLS
 
