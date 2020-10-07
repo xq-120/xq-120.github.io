@@ -158,6 +158,7 @@ typedef NSObject<OS_dispatch_semaphore> * __attribute__((objc_independent_class)
 下面的是纯C编译器下dispatch_object_t的声明：
 
 ```c
+Dispatch Public Headers/object.h头文件的定义，object.h里只暴露了internal.h的部分成员变量。
 #else /* Plain C */
 typedef union {
 	struct _os_object_s *_os_obj;
@@ -177,13 +178,67 @@ typedef union {
 #define DISPATCH_DECL_SUBCLASS(name, base) typedef base##_t name##_t
 #define DISPATCH_GLOBAL_OBJECT(type, object) ((type)&(object))
 #define DISPATCH_RETURNS_RETAINED
-```
 
-以前版本里面还有个`struct dispatch_continuation_s *_dc;`的现在没了，估计又是现实方式有改动，导致`struct dispatch_continuation_s`的继承关系变了。
+Dispatch Project Headers/internal.h 头文件里的定义
+typedef union {
+	struct _os_object_s *_os_obj;
+	struct dispatch_object_s *_do;
+	struct dispatch_queue_s *_dq;
+	struct dispatch_queue_attr_s *_dqa;
+	struct dispatch_group_s *_dg;
+	struct dispatch_source_s *_ds;
+	struct dispatch_channel_s *_dch;
+	struct dispatch_mach_s *_dm;
+	struct dispatch_mach_msg_s *_dmsg;
+	struct dispatch_semaphore_s *_dsema;
+	struct dispatch_data_s *_ddata;
+	struct dispatch_io_s *_dchannel;
+
+	struct dispatch_continuation_s *_dc; //_dc已经不暴露了
+	struct dispatch_sync_context_s *_dsc;
+	struct dispatch_operation_s *_doperation;
+	struct dispatch_disk_s *_ddisk;
+	struct dispatch_workloop_s *_dwl;
+	struct dispatch_lane_s *_dl;
+	struct dispatch_queue_static_s *_dsq;
+	struct dispatch_queue_global_s *_dgq;
+	struct dispatch_queue_pthread_root_s *_dpq;
+	dispatch_queue_class_t _dqu;
+	dispatch_lane_class_t _dlu;
+	uintptr_t _do_value;
+} dispatch_object_t DISPATCH_TRANSPARENT_UNION;
+```
 
 纯C下`dispatch_object_t`其实是一个联合体类型。
 
 dispatch_object在不同语言中的声明是不一样的。`dispatch_object_t`在OC中则被声明为遵守了某个协议的NSObject类型，在C中则是一个联合体类型。
+
+另：introspection_private.h
+
+```c
+#ifndef __DISPATCH_INDIRECT__
+/*
+ * Typedefs of opaque types, for direct inclusion of header in lldb expressions
+ */
+typedef __typeof__(sizeof(int)) size_t;
+typedef struct _opaque_pthread_t *pthread_t;
+typedef void (*dispatch_function_t)(void *);
+typedef struct Block_layout *dispatch_block_t;
+typedef struct dispatch_continuation_s *dispatch_continuation_t;
+typedef struct dispatch_queue_s *dispatch_queue_t;
+typedef struct dispatch_source_s *dispatch_source_t;
+typedef struct dispatch_group_s *dispatch_group_t;
+typedef struct dispatch_object_s *dispatch_object_t;
+#ifndef API_AVAILABLE
+#define API_AVAILABLE(...)
+#endif
+#ifndef DISPATCH_EXPORT
+#define DISPATCH_EXPORT extern
+#endif
+#endif // __DISPATCH_INDIRECT__
+```
+
+_s结尾的都是结构体类型，_t结尾的都是对应结构体指针类型。
 
 ### GCD中的类结构体
 
@@ -440,7 +495,7 @@ typedef struct dispatch_lane_s {
     const struct dispatch_lane_vtable_s *do_vtable;
     int volatile do_ref_cnt;
     int volatile do_xref_cnt;
-    struct dispatch_lane_s *volatile do_next;
+    struct dispatch_lane_s *volatile do_next; //队列也是一个单链表
     struct dispatch_queue_s *do_targetq;
     void *do_ctxt;
     void *do_finalizer;
@@ -480,6 +535,8 @@ typedef struct dispatch_lane_s {
     uint32_t dq_side_suspend_cnt;
 } __attribute__((aligned(8))) *dispatch_lane_t;
 ```
+
+我们派发到队列的block作为一个个的Item添加到队列的单链表中
 
 #### struct dispatch_queue_static_s
 
@@ -705,7 +762,7 @@ typedef struct dispatch_continuation_s {
         int dc_cache_cnt;
         uintptr_t dc_pad;
     };
-    struct dispatch_continuation_s *volatile do_next; //下一个任务，是一个单链表。
+    struct dispatch_continuation_s *volatile do_next; //下一个任务，dispatch_continuation_s是一个单链表。
     struct voucher_s *dc_voucher;
     dispatch_function_t dc_func;  //block所在的函数
     void *dc_ctxt;
@@ -714,7 +771,7 @@ typedef struct dispatch_continuation_s {
 } *dispatch_continuation_t;
 ```
 
-之前版本里的还有一个`struct dispatch_object_s _as_do[0];`成员变量的，代表继承自dispatch_object_s，现在没了，感觉有问题啊，是不是漏了，要不然队列还怎么添加任务啊类型都不一样了。
+之前版本里的还有一个`struct dispatch_object_s _as_do[0];`成员变量的，代表继承自dispatch_object_s，现在没了，感觉有问题啊，是不是漏了，要不然队列还怎么添加任务啊类型都不一样了（ps:共用体dispatch_object_t里面有 `struct dispatch_continuation_s *_dc;` 所以没问题）。
 
 另：`typedef void (*dispatch_function_t)(void *_Nullable);`，为一个函数指针。dc_func就是为了执行block的。
 
@@ -1000,6 +1057,116 @@ DISPATCH_VTABLE_INSTANCE(mach,
 	.dq_push        = _dispatch_lane_push,
 );
 #endif // HAVE_MACH
+```
+
+#### dispatch_wakeup_flags_t
+
+队列唤醒标志类型
+
+```c
+DISPATCH_OPTIONS(dispatch_wakeup_flags, uint32_t,
+	// The caller of dx_wakeup owns two internal refcounts on the object being
+	// woken up. Two are needed for WLH wakeups where two threads need
+	// the object to remain valid in a non-coordinated way
+	// - the thread doing the poke for the duration of the poke
+	// - drainers for the duration of their drain
+	DISPATCH_WAKEUP_CONSUME_2               = 0x00000001,
+
+	// Some change to the object needs to be published to drainers.
+	// If the drainer isn't the same thread, some scheme such as the dispatch
+	// queue DIRTY bit must be used and a release barrier likely has to be
+	// involved before dx_wakeup returns
+	DISPATCH_WAKEUP_MAKE_DIRTY              = 0x00000002,
+
+	// This wakeup is made by a sync owner that still holds the drain lock
+	DISPATCH_WAKEUP_BARRIER_COMPLETE        = 0x00000004,
+
+	// This wakeup is caused by a dispatch_block_wait()
+	DISPATCH_WAKEUP_BLOCK_WAIT              = 0x00000008,
+
+	// This wakeup may cause the source to leave its DSF_NEEDS_EVENT state
+	DISPATCH_WAKEUP_EVENT                   = 0x00000010,
+
+	// This wakeup is allowed to clear the ACTIVATING state of the object
+	DISPATCH_WAKEUP_CLEAR_ACTIVATING        = 0x00000020,
+);
+```
+
+#### dispatch_invoke_flags_t
+
+队列调用标志类型
+
+```c
+DISPATCH_OPTIONS(dispatch_invoke_flags, uint32_t,
+	DISPATCH_INVOKE_NONE					= 0x00000000,
+
+	// Invoke modes
+	//
+	// @const DISPATCH_INVOKE_STEALING
+	// This invoke is a stealer, meaning that it doesn't own the
+	// enqueue lock at drain lock time.
+	//
+	// @const DISPATCH_INVOKE_WLH
+	// This invoke is for a bottom WLH
+	//
+	DISPATCH_INVOKE_STEALING				= 0x00000001,
+	DISPATCH_INVOKE_WLH						= 0x00000002,
+
+	// Misc flags
+	//
+	// @const DISPATCH_INVOKE_ASYNC_REPLY
+	// An asynchronous reply to a message is being handled.
+	//
+	// @const DISPATCH_INVOKE_DISALLOW_SYNC_WAITERS
+	// The next serial drain should not allow sync waiters.
+	//
+	DISPATCH_INVOKE_ASYNC_REPLY				= 0x00000004,
+	DISPATCH_INVOKE_DISALLOW_SYNC_WAITERS	= 0x00000008,
+
+	// Below this point flags are propagated to recursive calls to drain(),
+	// continuation pop() or dx_invoke().
+#define _DISPATCH_INVOKE_PROPAGATE_MASK		  0xffff0000u
+
+	// Drain modes
+	//
+	// @const DISPATCH_INVOKE_WORKER_DRAIN
+	// Invoke has been issued by a worker thread (work queue thread, or
+	// pthread root queue) drain. This flag is NOT set when the main queue,
+	// manager queue or runloop queues are drained
+	//
+	// @const DISPATCH_INVOKE_REDIRECTING_DRAIN
+	// Has only been draining concurrent queues so far
+	// Implies DISPATCH_INVOKE_WORKER_DRAIN
+	//
+	// @const DISPATCH_INVOKE_MANAGER_DRAIN
+	// We're draining from a manager context
+	//
+	// @const DISPATCH_INVOKE_THREAD_BOUND
+	// We're draining from the context of a thread-bound queue (main thread)
+	//
+	// @const DISPATCH_INVOKE_WORKLOOP_DRAIN
+	// The queue at the bottom of this drain is a workloop that supports
+	// reordering.
+	//
+	DISPATCH_INVOKE_WORKER_DRAIN			= 0x00010000,
+	DISPATCH_INVOKE_REDIRECTING_DRAIN		= 0x00020000,
+	DISPATCH_INVOKE_MANAGER_DRAIN			= 0x00040000,
+	DISPATCH_INVOKE_THREAD_BOUND			= 0x00080000,
+	DISPATCH_INVOKE_WORKLOOP_DRAIN			= 0x00100000,
+#define _DISPATCH_INVOKE_DRAIN_MODE_MASK	  0x00ff0000u
+
+	// Autoreleasing modes
+	//
+	// @const DISPATCH_INVOKE_AUTORELEASE_ALWAYS
+	// Always use autoreleasepools around callouts
+	//
+	// @const DISPATCH_INVOKE_AUTORELEASE_NEVER
+	// Never use autoreleasepools around callouts
+	//
+	DISPATCH_INVOKE_AUTORELEASE_ALWAYS		= 0x01000000,
+	DISPATCH_INVOKE_AUTORELEASE_NEVER		= 0x02000000,
+#define _DISPATCH_INVOKE_AUTORELEASE_MASK	  0x03000000u
+);
 ```
 
 #### TSD和TLS
