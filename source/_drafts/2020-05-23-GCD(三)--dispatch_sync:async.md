@@ -1697,6 +1697,8 @@ done:
 1. 取出dq的do_targetq赋值给tq。
 2. 调用`_dispatch_queue_push_queue(tq, dq, new_state);` 看名称可以知道这里是将一个队列作为任务添加到另一个队列上。
 
+所以wakeup的作用就是把dq自己作为一个任务添加到它的tq上去。
+
 ##### _dispatch_queue_push_queue
 
 ```c
@@ -1833,14 +1835,14 @@ _dispatch_lane_drain(dispatch_lane_t dq, dispatch_invoke_context_t dic,
 		owned &= DISPATCH_QUEUE_WIDTH_MASK;
 	}
 
-	dc = _dispatch_queue_get_head(dq); //从队列（串行或并发）的任务链表中取出头元素
+	dc = _dispatch_queue_get_head(dq); //从队列（串行或并发）的任务链表中取出头元素，仅仅是get,并不会更新单链表的头
 	goto first_iteration;
 
 	for (;;) {
 		dispatch_assert(dic->dic_barrier_waiter == NULL);
 		dc = next_dc;
 		if (unlikely(!dc)) {
-			if (!dq->dq_items_tail) {
+			if (!dq->dq_items_tail) { //任务链表为空了，说明都执行完了。
 				break;
 			}
 			dc = _dispatch_queue_get_head(dq);
@@ -1882,7 +1884,7 @@ first_iteration:
 				dic->dic_barrier_waiter = dc;
 				goto out_with_barrier_waiter;
 			}
-			next_dc = _dispatch_queue_pop_head(dq, dc);
+			next_dc = _dispatch_queue_pop_head(dq, dc); //取出dc的下一个，会更新任务链表的头指针，如果是最后一个还会更新尾指针
 		} else {
 			if (owned == DISPATCH_QUEUE_IN_BARRIER) { //barrier相关的
 				// we just ran barrier work items, we have to make their
@@ -1921,7 +1923,7 @@ first_iteration:
 			}
 		} //else的
 		//循环从队列的链表中取出dc,执行_dispatch_continuation_pop_inline
-		_dispatch_continuation_pop_inline(dc, dic, flags, dq);
+		_dispatch_continuation_pop_inline(dc, dic, flags, dq); //带着flags的，如果此时的dc是并发dq，并且它的tq是串行队列，则下一次的时候是不会重定向的，因为这里传入的flags还是串行的，正如注释所说。
 	}//for的
 
 	if (owned == DISPATCH_QUEUE_IN_BARRIER) {
@@ -1953,7 +1955,7 @@ out_with_barrier_waiter:
 
 该函数的作用就是循环的从队列的链表中取出dc（也可能是dq），执行_dispatch_continuation_pop_inline，又回到了之前的那个调用。
 
-drain分为两种flavour (serial/concurrent)，两种mode(redirecting or not)。如果dq是串行队列则只支持non-redirecting mode。如果dq是并发队列则两种mode都支持，当处于non-redirecting mode时（比如自定义并发队列的tq为串行队列），block任务都将在这一条线程上执行，其实已经相当于串行执行了。当处于redirecting mode时，自定义并发队列上的任务将进行重定向到它的tq上去。
+drain分为两种flavour (serial/concurrent)，两种mode(redirecting or not)。如果dq是串行队列则只支持non-redirecting mode。如果dq是并发队列则两种mode都支持，当处于non-redirecting mode时（比如自定义并发队列的tq为串行队列），block任务都将在这一条线程上执行，其实已经变成串行执行了。当处于redirecting mode时，自定义并发队列上的非barrier任务将进行重定向到它的tq上去。
 
 到此为止dispatch_async一个任务到串行队列的工作流程就完了。
 
