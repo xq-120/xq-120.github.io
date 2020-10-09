@@ -23,7 +23,7 @@ dispatch_sync/async问题：
 
 dispatch_barrier_sync问题：(未完成)
 
-1. dispatch_barrier_sync会等待追加到自定义并发队列的并行执行的处理全部结束之后，再将指定的处理追加到队列中的，那么它是如何监听到之前的任务都完成了
+1. dispatch_barrier_sync会等待追加到自定义并发队列的并行执行的处理全部结束之后，再将指定的处理追加到队列中的，那么它是如何监听到之前的任务都完成了？
 
    猜测：因为dispatch_barrier_sync API会走尝试获取barrier逻辑，这种情况下应该会失败，从而线程进入等待状态，之前的任务完成后会唤醒该线程。但不清楚是怎么唤醒的，信号量？
 
@@ -33,13 +33,17 @@ dispatch_barrier_sync问题：(未完成)
 
 dispatch_barrier_async问题：(未完成)
 
-1. dispatch_barrier_async会等待追加到自定义并发队列的并行执行的处理全部结束之后，再将指定的处理追加到队列中的，那么它是如何监听到之前的任务都完成了
+1. dispatch_barrier_async会等待追加到自定义并发队列的并行执行的处理全部结束之后，再将指定的处理追加到队列中的，那么它是如何监听到之前的任务都完成了？
 
    可能跟out_with_no_width有关系，因为no_width它不会执行，因此它后面的也没法执行。
 
-2. 自己执行时又是怎么阻止其他任务执行的
+2. 自己执行时又是怎么阻止其他任务执行的？
 
-3. 自己执行完后又是怎么恢复后面任务的执行的
+3. 自己执行完后又是怎么恢复后面任务的执行的？
+
+当一个barrier任务在执行，或者还在队列中时，调用syn同步任务的线程会进入等待，调用asyn异步任务仅仅添加到队列上（队列暂停调度）不会执行。当barrier任务完成后，恢复队列drain。
+
+目前不清楚barrier任务是如何监听到之前的任务都完成了。主要是dq_state看不懂。
 
 ### dispatch_sync
 
@@ -95,48 +99,19 @@ static inline void
 		return _dispatch_sync_f_slow(dl, ctxt, func, 0, dl, dc_flags);
 	}
 
-	if (unlikely(dq->do_targetq->do_targetq)) { //层级较深
+	if (unlikely(dq->do_targetq->do_targetq)) { //层级较深的情况
 		return _dispatch_sync_recurse(dl, ctxt, func, dc_flags);
 	}
 	_dispatch_introspection_sync_begin(dl);
 	_dispatch_sync_invoke_and_complete(dl, ctxt, func DISPATCH_TRACE_ARG(
 			_dispatch_trace_item_sync_push_pop(dq, ctxt, func, dc_flags))); //该函数内部主要是执行block
 }
-
-/* Used by _dispatch_sync on non-serial queues
- *
- * Initial state must be { sc:0, ib:0, pb:0, d:0 }
- * Final state: { w += 1 }
- */
-DISPATCH_ALWAYS_INLINE DISPATCH_WARN_RESULT
-static inline bool
-_dispatch_queue_try_reserve_sync_width(dispatch_lane_t dq)
-{
-	uint64_t old_state, new_state;
-
-	// <rdar://problem/24738102&24743140> reserving non barrier width
-	// doesn't fail if only the ENQUEUED bit is set (unlike its barrier width
-	// equivalent), so we have to check that this thread hasn't enqueued
-	// anything ahead of this call or we can break ordering
-	if (unlikely(dq->dq_items_tail)) { //如果队列不为空，则try失败
-		return false;
-	}
-
-	return os_atomic_rmw_loop2o(dq, dq_state, old_state, new_state, relaxed, {
-		if (unlikely(!_dq_state_is_sync_runnable(old_state)) ||
-				_dq_state_is_dirty(old_state) ||
-				_dq_state_has_pending_barrier(old_state)) {
-			os_atomic_rmw_loop_give_up(return false); //当前dq的状态是不可同步执行状态或是dirty状态或是还有未开始的barrier任务，则返回false，其他就是返回true的情况。
-		}
-		new_state = old_state + DISPATCH_QUEUE_WIDTH_INTERVAL;
-	}); //类似os_atomic_rmw_loop2o这样的宏，就是原子的比较交换功能，这里代表的就是原子的修改dq_state的值为新值new_state。
-}
 ```
 
 大致流程：
 
 1. 判断队列的dq_width是否等于1，即是否是串行队列，如果是串行队列则走 `_dispatch_barrier_sync_f` 逻辑
-2. 如果是全局并发队列或绑定在非派发线程的队列(?)或 `try_reserve_sync_width` try失败的自定义并发队列，走 `_dispatch_sync_f_slow` 逻辑
+2. `try_reserve_sync_width` try失败的并发队列，走 `_dispatch_sync_f_slow` 逻辑。全局并发队列或绑定在非派发线程的队列总是失败的。
 3.  `try_reserve_sync_width` try成功的自定义并发队列走正常的 `_dispatch_sync_invoke_and_complete` 逻辑，直接在当前线程执行block就完事了。
 
 可以看到dispatch_sync并没有将block任务封装为一个dispatch_continuation_s对象添加到队列的任务链表上去，而是尽可能直接在当前线程执行的。
@@ -173,85 +148,7 @@ _dispatch_queue_try_reserve_sync_width(dispatch_lane_t dq)
 
 对于自定义的并发队列，也是直接在当前线程执行了。因此可以说dispatch_sync一个同步任务到并发队列，不管是全局并发队列还是自定义并发队列，怎么嵌套都不会导致死锁。
 
-因此dispatch_sync逻辑主要看dq是串行队列时的 `_dispatch_barrier_sync_f` 逻辑，和 `dispatch_queue_try_reserve_sync_width` try失败时的 `_dispatch_sync_f_slow` 逻辑。
-
-不过还是先来看`try_reserve_sync_width` try成功的自定义并发队列走的逻辑 `_dispatch_sync_invoke_and_complete` 。
-
-##### _dispatch_sync_invoke_and_complete
-
-该函数主要是执行block。
-
-实现：
-
-```c
-DISPATCH_NOINLINE
-static void
-_dispatch_sync_invoke_and_complete(dispatch_lane_t dq, void *ctxt,
-		dispatch_function_t func DISPATCH_TRACE_ARG(void *dc))
-{
-	_dispatch_sync_function_invoke_inline(dq, ctxt, func); //执行block
-	_dispatch_trace_item_complete(dc);
-	_dispatch_lane_non_barrier_complete(dq, 0); //里面有更新dq_state逻辑
-}
-
-DISPATCH_NOINLINE
-static void
-_dispatch_lane_non_barrier_complete(dispatch_lane_t dq,
-		dispatch_wakeup_flags_t flags)
-{
-	uint64_t old_state, new_state, owner_self = _dispatch_lock_value_for_self();
-
-	// see _dispatch_lane_resume()
-	os_atomic_rmw_loop2o(dq, dq_state, old_state, new_state, relaxed, {
-		new_state = old_state - DISPATCH_QUEUE_WIDTH_INTERVAL;
-		if (unlikely(_dq_state_drain_locked(old_state))) {
-			// make drain_try_unlock() fail and reconsider whether there's
-			// enough width now for a new item
-			new_state |= DISPATCH_QUEUE_DIRTY;
-		} else if (likely(_dq_state_is_runnable(new_state))) {
-			new_state = _dispatch_lane_non_barrier_complete_try_lock(dq,
-					old_state, new_state, owner_self);
-		}
-	});
-
-	_dispatch_lane_non_barrier_complete_finish(dq, flags, old_state, new_state);
-}
-
-DISPATCH_ALWAYS_INLINE
-static void
-_dispatch_lane_non_barrier_complete_finish(dispatch_lane_t dq,
-		dispatch_wakeup_flags_t flags, uint64_t old_state, uint64_t new_state)
-{
-	if (_dq_state_received_override(old_state)) {
-		// Ensure that the root queue sees that this thread was overridden.
-		_dispatch_set_basepri_override_qos(_dq_state_max_qos(old_state));
-	}
-
-	if ((old_state ^ new_state) & DISPATCH_QUEUE_IN_BARRIER) {
-		if (_dq_state_is_dirty(old_state)) {
-			// <rdar://problem/14637483>
-			// dependency ordering for dq state changes that were flushed
-			// and not acted upon
-			os_atomic_thread_fence(dependency);
-			dq = os_atomic_force_dependency_on(dq, old_state);
-		}
-		return _dispatch_lane_barrier_complete(dq, 0, flags);
-	}
-
-	if ((old_state ^ new_state) & DISPATCH_QUEUE_ENQUEUED) {
-		if (!(flags & DISPATCH_WAKEUP_CONSUME_2)) {
-			_dispatch_retain_2(dq);
-		}
-		dispatch_assert(!_dq_state_is_base_wlh(new_state));
-		_dispatch_trace_item_push(dq->do_targetq, dq);
-		return dx_push(dq->do_targetq, dq, _dq_state_max_qos(new_state));
-	}
-
-	if (flags & DISPATCH_WAKEUP_CONSUME_2) {
-		_dispatch_release_2_tailcall(dq);
-	}
-}
-```
+因此dispatch_sync逻辑主要看dq是串行队列时的 `_dispatch_barrier_sync_f` 逻辑，和 `_dispatch_sync_f_slow` 逻辑。
 
 ##### _dispatch_barrier_sync_f
 
@@ -323,7 +220,7 @@ dispatch_barrier_sync(dispatch_queue_t dq, dispatch_block_t work)
 4. 如果dl->do_targetq->do_targetq有值则说明是比较高层次的队列，则走`_dispatch_sync_recurse`逻辑
 5. 最后走常规逻辑`_dispatch_lane_barrier_sync_invoke_and_complete` 执行block。
 
-这里先来看一下 `_dispatch_lane_barrier_sync_invoke_and_complete` 函数，后面再着重看一下 `_dispatch_queue_try_acquire_barrier_sync` 主要是了解一下dq_state的新值new_state是怎么计算得来的。
+这里着重看一下 `_dispatch_queue_try_acquire_barrier_sync` 主要是了解一下dq_state的新值new_state是怎么计算得来的。
 
 ###### _dispatch_queue_try_acquire_barrier_sync
 
@@ -417,7 +314,7 @@ return ({
 
 如果是全局并发队列，dq_state的值默认是`DISPATCH_ROOT_QUEUE_STATE_INIT_VALUE`，可以用这些值去运行下就会发现这里会满足条件马上break，返回false，dq_state的值也不会发生改变。
 
-如果是串行队列和自定义并发队列则会更新dq_state的值为new_state，new_state这个值跟tid是有关系的。后面`__DISPATCH_WAIT_FOR_QUEUE__` 函数会根据该值与tid进行比较，用于判断当前线程是否已经获得栅栏进行死锁检测。所以使用dispatch_barrier_sync派发到自定义并发队列如果嵌套调用的话是会死锁崩溃的，而派发到全局队列则不会。比如：
+如果是串行队列和自定义并发队列则会更新dq_state的值为new_state，new_state这个值跟tid是有关系的。后面 `__DISPATCH_WAIT_FOR_QUEUE__` 函数会根据该值与tid进行比较，用于判断当前线程是否已经获得栅栏进行死锁检测。所以使用dispatch_barrier_sync派发到自定义并发队列如果嵌套调用的话是会死锁崩溃的，而派发到全局队列则不会。比如：
 
 ```c
 - (void)test_dispatch_barrier_sync_custom_concurrent_deadlock {
@@ -438,7 +335,7 @@ return ({
 
 barrier技术有点类似给队列加锁，执行任务的线程给队列上锁后，执行该任务后面的任务的线程try_acquire_barrier_sync就会失败，从而进入等待状态，等到队列解锁后，等待的线程被唤醒并继续执行block任务。同样的，同一线程重复给队列加锁将导致死锁。
 
-##### _dispatch_sync_f_slow
+###### _dispatch_sync_f_slow
 
 有如下两种情况会走slow逻辑：
 
@@ -519,9 +416,36 @@ __DISPATCH_WAIT_FOR_QUEUE__(dispatch_sync_context_t dsc, dispatch_queue_t dq)
 	// For both these cases we need to save the frame linkage for the sake of
 	// _dispatch_async_and_wait_invoke
 	_dispatch_thread_frame_save_state(&dsc->dsc_dtf);
-	
-	...
 
+	if (_dq_state_is_suspended(dq_state) ||
+			_dq_state_is_base_anon(dq_state)) {
+		dsc->dc_data = DISPATCH_WLH_ANON;
+	} else if (_dq_state_is_base_wlh(dq_state)) {
+		dsc->dc_data = (dispatch_wlh_t)dq;
+	} else {
+		_dispatch_wait_compute_wlh(upcast(dq)._dl, dsc);
+	}
+
+	if (dsc->dc_data == DISPATCH_WLH_ANON) {
+		dsc->dsc_override_qos_floor = dsc->dsc_override_qos =
+				(uint8_t)_dispatch_get_basepri_override_qos_floor();
+		_dispatch_thread_event_init(&dsc->dsc_event);
+	}
+	dx_push(dq, dsc, _dispatch_qos_from_pp(dsc->dc_priority)); //???
+	_dispatch_trace_runtime_event(sync_wait, dq, 0);
+	if (dsc->dc_data == DISPATCH_WLH_ANON) {
+		_dispatch_thread_event_wait(&dsc->dsc_event); // acquire
+	} else {
+		_dispatch_event_loop_wait_for_ownership(dsc);
+	}
+	if (dsc->dc_data == DISPATCH_WLH_ANON) {
+		_dispatch_thread_event_destroy(&dsc->dsc_event);
+		// If _dispatch_sync_waiter_wake() gave this thread an override,
+		// ensure that the root queue sees it.
+		if (dsc->dsc_override_qos > dsc->dsc_override_qos_floor) {
+			_dispatch_set_basepri_override_qos(dsc->dsc_override_qos);
+		}
+	}
 }
 
 DISPATCH_ALWAYS_INLINE
@@ -665,7 +589,7 @@ _dispatch_sync_complete_recurse(dispatch_queue_t dq, dispatch_queue_t stop_dq,
 }
 ```
 
-#### _dispatch_lane_barrier_sync_invoke_and_complete
+###### _dispatch_lane_barrier_sync_invoke_and_complete
 
 终于来到 `_dispatch_barrier_sync_f_inline` 函数最后调用的一个函数。
 
@@ -722,7 +646,7 @@ _dispatch_lane_barrier_sync_invoke_and_complete(dispatch_lane_t dq,
 2. 如果dq_items_tail有值或队列是并发队列则调用 `_dispatch_lane_barrier_complete` 后返回。函数 `_dispatch_lane_barrier_complete` 里其实做了很多事，比如让队列继续正常drain倾倒。
 3. 更新dq_state。因为前面dispatch_queue_try_acquire_barrier里有设置dq_state，所以这里应该是复位。
 
-##### _dispatch_lane_barrier_complete
+###### _dispatch_lane_barrier_complete
 
 ```c
 DISPATCH_NOINLINE
@@ -739,8 +663,8 @@ _dispatch_lane_barrier_complete(dispatch_lane_class_t dqu, dispatch_qos_t qos,
 			if (_dispatch_object_is_waiter(dc)) {
 				return _dispatch_lane_drain_barrier_waiter(dq, dc, flags, 0);
 			}
-		} else if (dq->dq_width > 1 && !_dispatch_object_is_barrier(dc)) {
-			return _dispatch_lane_drain_non_barriers(dq, dc, flags); //并发队列恢复为正常操作。
+		} else if (dq->dq_width > 1 && !_dispatch_object_is_barrier(dc)) { //并发队列，并且下一个dc不是barrier dc.则队列恢复为正常操作
+			return _dispatch_lane_drain_non_barriers(dq, dc, flags); //该函数里面也是各种清dq_state的标志位
 		}
 
 		if (!(flags & DISPATCH_WAKEUP_CONSUME_2)) {
@@ -752,7 +676,236 @@ _dispatch_lane_barrier_complete(dispatch_lane_class_t dqu, dispatch_qos_t qos,
 
 	uint64_t owned = DISPATCH_QUEUE_IN_BARRIER +
 			dq->dq_width * DISPATCH_QUEUE_WIDTH_INTERVAL;
-	return _dispatch_lane_class_barrier_complete(dq, qos, flags, target, owned);
+	return _dispatch_lane_class_barrier_complete(dq, qos, flags, target, owned); //该函数会更新队列状态 new_state &= ~DISPATCH_QUEUE_DRAIN_UNLOCK_MASK;  //解锁队列，就是清掉之前设置的标志位，如DISPATCH_QUEUE_RECEIVED_SYNC_WAIT
+}
+
+#define DISPATCH_QUEUE_DRAIN_UNLOCK_MASK \
+		(DISPATCH_QUEUE_DRAIN_OWNER_MASK | DISPATCH_QUEUE_RECEIVED_OVERRIDE | \
+		DISPATCH_QUEUE_RECEIVED_SYNC_WAIT | DISPATCH_QUEUE_SYNC_TRANSFER)
+```
+
+###### _dispatch_lane_class_barrier_complete
+
+实现：
+
+```c
+DISPATCH_NOINLINE
+static void
+_dispatch_lane_class_barrier_complete(dispatch_lane_t dq, dispatch_qos_t qos,
+		dispatch_wakeup_flags_t flags, dispatch_queue_wakeup_target_t target,
+		uint64_t owned)
+{
+	uint64_t old_state, new_state, enqueue;
+	dispatch_queue_t tq;
+
+	if (target == DISPATCH_QUEUE_WAKEUP_MGR) {
+		tq = _dispatch_mgr_q._as_dq;
+		enqueue = DISPATCH_QUEUE_ENQUEUED_ON_MGR;
+	} else if (target) {
+		tq = (target == DISPATCH_QUEUE_WAKEUP_TARGET) ? dq->do_targetq : target;
+		enqueue = DISPATCH_QUEUE_ENQUEUED;
+	} else {
+		tq = NULL;
+		enqueue = 0;
+	}
+
+	os_atomic_rmw_loop2o(dq, dq_state, old_state, new_state, release, {
+		new_state  = _dq_state_merge_qos(old_state - owned, qos);
+		new_state &= ~DISPATCH_QUEUE_DRAIN_UNLOCK_MASK;  //解锁队列
+		if (unlikely(_dq_state_is_suspended(old_state))) {
+			if (likely(_dq_state_is_base_wlh(old_state))) {
+				new_state &= ~DISPATCH_QUEUE_ENQUEUED;
+			}
+		} else if (enqueue) {
+			if (!_dq_state_is_enqueued(old_state)) {
+				new_state |= enqueue;
+			}
+		} else if (unlikely(_dq_state_is_dirty(old_state))) {
+			os_atomic_rmw_loop_give_up({
+				// just renew the drain lock with an acquire barrier, to see
+				// what the enqueuer that set DIRTY has done.
+				// the xor generates better assembly as DISPATCH_QUEUE_DIRTY
+				// is already in a register
+				os_atomic_xor2o(dq, dq_state, DISPATCH_QUEUE_DIRTY, acquire);
+				flags |= DISPATCH_WAKEUP_BARRIER_COMPLETE;
+				return dx_wakeup(dq, qos, flags);
+			});
+		} else {
+			new_state &= ~DISPATCH_QUEUE_MAX_QOS_MASK;
+		}
+	});
+	old_state -= owned;
+	dispatch_assert(_dq_state_drain_locked_by_self(old_state));
+	dispatch_assert(!_dq_state_is_enqueued_on_manager(old_state));
+
+	if (_dq_state_is_enqueued(new_state)) {
+		_dispatch_trace_runtime_event(sync_async_handoff, dq, 0);
+	}
+
+#if DISPATCH_USE_KEVENT_WORKLOOP
+	if (_dq_state_is_base_wlh(old_state)) {
+		// - Only non-"du_is_direct" sources & mach channels can be enqueued
+		//   on the manager.
+		//
+		// - Only dispatch_source_cancel_and_wait() and
+		//   dispatch_source_set_*_handler() use the barrier complete codepath,
+		//   none of which are used by mach channels.
+		//
+		// Hence no source-ish object can both be a workloop and need to use the
+		// manager at the same time.
+		dispatch_assert(!_dq_state_is_enqueued_on_manager(new_state));
+		if (_dq_state_is_enqueued_on_target(old_state) ||
+				_dq_state_is_enqueued_on_target(new_state) ||
+				_dq_state_received_sync_wait(old_state) ||
+				_dq_state_in_sync_transfer(old_state)) {
+			return _dispatch_event_loop_end_ownership((dispatch_wlh_t)dq,
+					old_state, new_state, flags);
+		}
+		_dispatch_event_loop_assert_not_owned((dispatch_wlh_t)dq);
+		if (flags & DISPATCH_WAKEUP_CONSUME_2) {
+			return _dispatch_release_2_tailcall(dq);
+		}
+		return;
+	}
+#endif
+
+	if (_dq_state_received_override(old_state)) {
+		// Ensure that the root queue sees that this thread was overridden.
+		_dispatch_set_basepri_override_qos(_dq_state_max_qos(old_state));
+	}
+
+	if (tq) {
+		if (likely((old_state ^ new_state) & enqueue)) {
+			dispatch_assert(_dq_state_is_enqueued(new_state));
+			dispatch_assert(flags & DISPATCH_WAKEUP_CONSUME_2);
+			return _dispatch_queue_push_queue(tq, dq, new_state);
+		}
+#if HAVE_PTHREAD_WORKQUEUE_QOS
+		// <rdar://problem/27694093> when doing sync to async handoff
+		// if the queue received an override we have to forecefully redrive
+		// the same override so that a new stealer is enqueued because
+		// the previous one may be gone already
+		if (_dq_state_should_override(new_state)) {
+			return _dispatch_queue_wakeup_with_override(dq, new_state, flags);
+		}
+#endif
+	}
+	if (flags & DISPATCH_WAKEUP_CONSUME_2) {
+		return _dispatch_release_2_tailcall(dq);
+	}
+}
+```
+
+##### _dispatch_queue_try_reserve_sync_width
+
+实现：
+
+```c
+/* Used by _dispatch_sync on non-serial queues
+ *
+ * Initial state must be { sc:0, ib:0, pb:0, d:0 }
+ * Final state: { w += 1 }
+ */
+DISPATCH_ALWAYS_INLINE DISPATCH_WARN_RESULT
+static inline bool
+_dispatch_queue_try_reserve_sync_width(dispatch_lane_t dq)
+{
+	uint64_t old_state, new_state;
+
+	// <rdar://problem/24738102&24743140> reserving non barrier width
+	// doesn't fail if only the ENQUEUED bit is set (unlike its barrier width
+	// equivalent), so we have to check that this thread hasn't enqueued
+	// anything ahead of this call or we can break ordering
+	if (unlikely(dq->dq_items_tail)) { //如果队列不为空，则try失败
+		return false;
+	}
+
+	return os_atomic_rmw_loop2o(dq, dq_state, old_state, new_state, relaxed, {
+		if (unlikely(!_dq_state_is_sync_runnable(old_state)) ||
+				_dq_state_is_dirty(old_state) ||
+				_dq_state_has_pending_barrier(old_state)) {
+			os_atomic_rmw_loop_give_up(return false); //当前dq的状态是不可同步执行状态或是dirty状态或是还有未开始的barrier任务，则返回false，其他就是返回true的情况。
+		}
+		new_state = old_state + DISPATCH_QUEUE_WIDTH_INTERVAL;
+	}); //类似os_atomic_rmw_loop2o这样的宏，就是原子的比较交换功能，这里代表的就是原子的修改dq_state的值为新值new_state。
+}
+```
+
+基本上队列不为空，或队列有未开始的barrier任务，则try_reserve_sync_width失败。
+
+##### _dispatch_sync_invoke_and_complete
+
+该函数主要是执行block。
+
+实现：
+
+```c
+DISPATCH_NOINLINE
+static void
+_dispatch_sync_invoke_and_complete(dispatch_lane_t dq, void *ctxt,
+		dispatch_function_t func DISPATCH_TRACE_ARG(void *dc))
+{
+	_dispatch_sync_function_invoke_inline(dq, ctxt, func); //执行block
+	_dispatch_trace_item_complete(dc);
+	_dispatch_lane_non_barrier_complete(dq, 0); //里面有更新dq_state逻辑
+}
+
+DISPATCH_NOINLINE
+static void
+_dispatch_lane_non_barrier_complete(dispatch_lane_t dq,
+		dispatch_wakeup_flags_t flags)
+{
+	uint64_t old_state, new_state, owner_self = _dispatch_lock_value_for_self();
+
+	// see _dispatch_lane_resume()
+	os_atomic_rmw_loop2o(dq, dq_state, old_state, new_state, relaxed, {
+		new_state = old_state - DISPATCH_QUEUE_WIDTH_INTERVAL; //减去之前加的DISPATCH_QUEUE_WIDTH_INTERVAL
+		if (unlikely(_dq_state_drain_locked(old_state))) {
+			// make drain_try_unlock() fail and reconsider whether there's
+			// enough width now for a new item
+			new_state |= DISPATCH_QUEUE_DIRTY;
+		} else if (likely(_dq_state_is_runnable(new_state))) {
+			new_state = _dispatch_lane_non_barrier_complete_try_lock(dq,
+					old_state, new_state, owner_self);
+		}
+	});
+
+	_dispatch_lane_non_barrier_complete_finish(dq, flags, old_state, new_state);
+}
+
+DISPATCH_ALWAYS_INLINE
+static void
+_dispatch_lane_non_barrier_complete_finish(dispatch_lane_t dq,
+		dispatch_wakeup_flags_t flags, uint64_t old_state, uint64_t new_state)
+{
+	if (_dq_state_received_override(old_state)) {
+		// Ensure that the root queue sees that this thread was overridden.
+		_dispatch_set_basepri_override_qos(_dq_state_max_qos(old_state));
+	}
+
+	if ((old_state ^ new_state) & DISPATCH_QUEUE_IN_BARRIER) { //
+		if (_dq_state_is_dirty(old_state)) {
+			// <rdar://problem/14637483>
+			// dependency ordering for dq state changes that were flushed
+			// and not acted upon
+			os_atomic_thread_fence(dependency);
+			dq = os_atomic_force_dependency_on(dq, old_state);
+		}
+		return _dispatch_lane_barrier_complete(dq, 0, flags);
+	}
+
+	if ((old_state ^ new_state) & DISPATCH_QUEUE_ENQUEUED) {
+		if (!(flags & DISPATCH_WAKEUP_CONSUME_2)) {
+			_dispatch_retain_2(dq);
+		}
+		dispatch_assert(!_dq_state_is_base_wlh(new_state));
+		_dispatch_trace_item_push(dq->do_targetq, dq);
+		return dx_push(dq->do_targetq, dq, _dq_state_max_qos(new_state));
+	}
+
+	if (flags & DISPATCH_WAKEUP_CONSUME_2) {
+		_dispatch_release_2_tailcall(dq);
+	}
 }
 ```
 
@@ -1992,7 +2145,7 @@ _dispatch_lane_concurrent_push(dispatch_lane_t dq, dispatch_object_t dou,
 			!_dispatch_object_is_waiter(dou) &&
 			!_dispatch_object_is_barrier(dou) &&
 			_dispatch_queue_try_acquire_async(dq)) {
-		return _dispatch_continuation_redirect_push(dq, dou, qos); //一来就重定向非常严格，首先队列必须为空，因为如果push了一个barrier的任务，那么没等它执行完，后面的任务是不能执行的，只能先入队排好队。
+		return _dispatch_continuation_redirect_push(dq, dou, qos); //一来就重定向非常严格，首先队列必须为空，这些情况下dou只能先入队排好队。
 	}
 
 	_dispatch_lane_push(dq, dou, qos);
@@ -2388,10 +2541,6 @@ dispatch_barrier_async(dispatch_queue_t dq, dispatch_block_t work)
 [iOS面试题17-多线程](https://honkersk.github.io/2018/09/12/iOS面试题17-多线程/)
 
 [Analysis of GCD source code principle](https://www.programmersought.com/article/78131683865/) 国外的，但广告有点多
-
-
-
-### 附录
 
 
 
