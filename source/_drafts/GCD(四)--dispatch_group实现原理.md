@@ -57,7 +57,7 @@ struct dispatch_group_s {
 };
 ```
 
-之前版本dispatch_group_s里面是有`_dispatch_sema4_t dsema_sema;`成员变量的现在已经没了。这表明实现方式已经更改了。
+之前版本dispatch_group_s里面是有 `_dispatch_sema4_t dsema_sema;` 成员变量的现在已经没了。这表明实现方式已经更改了。
 
 源码对dg_state做了比较详细的注释：看明白了这里的注释，后面的源码会理解的更快一些（其实应该结合来看，光看其中一个也会比较迷糊）。
 
@@ -109,7 +109,7 @@ struct dispatch_group_s {
 
 占据dg_state的低32位中的第2-31位，对应dg_bits字段。
 
-这30位是用于计数的。每次我们调用dispatch_group_enter时就会减“1”，每次调用dispatch_group_leave时就会加”1“。为啥加引号因为实际上是减`DISPATCH_GROUP_VALUE_INTERVAL`(0x0000000000000004ULL)，因为操作的是第2-31位。这个地方会有点难以理解，因为源码并没有单独用一个变量来计数。
+这30位是用于计数的。每次我们调用dispatch_group_enter时就会减“1”（即dispatch_group_enter是向下计数的），每次调用dispatch_group_leave时就会加”1“（即dispatch_group_leave是向上计数的）。为啥加引号因为实际上是减 `DISPATCH_GROUP_VALUE_INTERVAL` (0x0000000000000004ULL)，因为操作的是第2-31位。这个地方会有点难以理解，因为源码并没有单独用一个变量来计数。
 
 调用dispatch_group_enter减1时是在一个uint32_t变量上减”1“，初始时这30位自然是0，减1将得到-1，但作为一个无符号的32位整型变量来说，此时这30位将全部变为1。当减为DISPATCH_GROUP_VALUE_MAX（其实就是0x0000000000000004ULL）时会发生崩溃提示`"Too many nested calls to dispatch_group_enter()"`嵌套太深。
 
@@ -133,7 +133,7 @@ struct dispatch_group_s {
 
 这里看不懂没有关系，后面结合源码分析的时候会好理解一些。
 
-以下为了表述方便加减1，都表示加减DISPATCH_GROUP_VALUE_INTERVAL。
+以下为了表述方便，加减1，都表示加减DISPATCH_GROUP_VALUE_INTERVAL。
 
 下面正式源码分析
 
@@ -170,6 +170,8 @@ _dispatch_group_create_with_count(uint32_t n)
 创建一个dispatch_group_t对象。
 
 dispatch_group_create函数传入的count为0。因此初始时dg_bits是等于0的。如果是大于0的数会变成`(uint32_t)-n * DISPATCH_GROUP_VALUE_INTERVAL`，(uint32_t)-1其实等于0xffffffff。传1的话dg_bits的高30位就全为1了。这里乘以DISPATCH_GROUP_VALUE_INTERVAL是为了保证操作的是高30位，不能修改了低两位。
+
+这里为啥要将n，变为-n，并强转为`(uint32_t)-n` ，是因为dispatch_group_enter是向下计数的，dispatch_group_leave是向上计数的，所以需要反向操作。
 
 #### dispatch_group_enter
 
@@ -330,7 +332,7 @@ dispatch_group_async(dispatch_group_t dg, dispatch_queue_t dq,
 		dispatch_block_t db)
 {
 	dispatch_continuation_t dc = _dispatch_continuation_alloc();
-	uintptr_t dc_flags = DC_FLAG_CONSUME | DC_FLAG_GROUP_ASYNC;
+	uintptr_t dc_flags = DC_FLAG_CONSUME | DC_FLAG_GROUP_ASYNC; //DC_FLAG为CONSUME和GROUP_ASYNC
 	dispatch_qos_t qos;
 
 	qos = _dispatch_continuation_init(dc, dq, db, 0, dc_flags);
@@ -342,7 +344,7 @@ static inline void
 _dispatch_continuation_group_async(dispatch_group_t dg, dispatch_queue_t dq,
 		dispatch_continuation_t dc, dispatch_qos_t qos)
 {
-	dispatch_group_enter(dg);
+	dispatch_group_enter(dg); //调用了dispatch_group_enter
 	dc->dc_data = dg;
 	_dispatch_continuation_async(dq, dc, qos, dc->dc_flags);
 }
@@ -367,7 +369,7 @@ _dispatch_continuation_async(dispatch_queue_class_t dqu,
 
 1. 创建一个dispatch_continuation_t对象，并用传入的block初始化。其实传入的block都会封装为内部的dispatch_continuation_t对象。
 2. 调用dispatch_group_enter，计数器-1
-3. 调用_dispatch_continuation_async，将任务加入到队列里。
+3. 调用_dispatch_continuation_async，将任务加入到队列里。下面的逻辑就和dispatch_async一样了。
 
 可以看到该函数也会调用一次dispatch_group_enter。按照上面的分析有enter应该还有leave。
 
@@ -390,7 +392,7 @@ _dispatch_continuation_with_group_invoke(dispatch_continuation_t dc)
 
 在_dispatch_continuation_with_group_invoke函数里可以找到dispatch_group_leave的调用，因此enter和leave也是配对的。
 
-也就是说系统会在执行任务前调用enter，任务执行完后调用leave。这些都不需要我们自己去调用，既然这么优秀那其他地方都用dispatch_group_async不就完事了吗，也不会发生不配对的情况了，连dispatch_group_enter/leave这两个API似乎都没有必要公开了。
+也就是说调用 `dispatch_group_async` 系统会在执行任务前帮我们调用enter，任务执行完后又会调用leave。这些都不需要我们自己去调用，既然这么优秀那其他地方都用dispatch_group_async不就完事了吗，也不会发生不配对的情况了，连dispatch_group_enter/leave这两个API似乎都没有必要公开了。
 
 真实情况当然不是这样。如果你的block任务是会再发一个子线程去执行，那么这个任务在丢到队列里后其实马上就会执行完了（这里执行完，指得是block任务本身，而任务真正的完成是子线程里的完成才算），这时notify也会马上调用，这应该不是我们所期望的。
 
@@ -808,6 +810,8 @@ _dispatch_group_wake(dispatch_group_t dg, uint64_t dg_state, bool needs_release)
 }
 ```
 
+每次调用dispatch_group_leave时，都会检查计数器是否已经复位，如果复位则调用 _dispatch_group_wake 。
+
 主要做了两件事：
 
 1. 调用_dispatch_continuation_async异步执行dg上的notify任务
@@ -846,11 +850,50 @@ __c11_atomic_load(((__typeof__(*(&(dou._dg)->dg_state)) _Atomic *)(&(dou._dg)->d
 
 #### 总结
 
+dispatch_group_t 内部由一个计数器和一个dg_notify单链表组成，enter计数器-1，leave计数器+1，当计数器重新变为0时，唤醒组，并执行dg_notify单链表所有的notify任务，如果有waiter则唤醒waiter。
 
+enter/leave次数匹配问题：
+
+```
+enter < leave
+会直接崩溃在dispatch_group_leave(group);
+libdispatch.dylib`dispatch_group_leave.cold.1:
+   0x10e06866d <+0>:  movq   %rdi, %rax
+   0x10e068670 <+3>:  leaq   0x5bd6(%rip), %rcx        ; "BUG IN CLIENT OF LIBDISPATCH: Unbalanced call to dispatch_group_leave()"
+   0x10e068677 <+10>: movq   %rcx, 0x27ad2(%rip)       ; gCRAnnotations + 8
+   0x10e06867e <+17>: movq   %rax, 0x27afb(%rip)       ; gCRAnnotations + 56
+->  0x10e068685 <+24>: ud2
+
+enter > leave,dispatch_group_wait将不会被唤醒，notify也将不会执行。
+```
+
+另外如果dispatch_group_t 对象销毁时，计数器没有复位，也会崩溃。
+
+因此enter/leave次数需要平衡调用。
 
 #### 问题
 
 Q1：notify是如何在所有block都执行完成之后再执行的？
 
 每次调用dispatch_group_leave时会检测计数器是否已经复位，当复位时就调用`_dispatch_group_wake`唤醒组该函数里会循环调用`_dispatch_continuation_async`将组上的任务丢到派发队列上异步的执行。
+
+另外dispatch_group_notify只是将一个notify任务添加到notify链表末尾，然后更新dg_state的HAS_NOTIFS标志位。并不是说调用dispatch_group_notify后就会执行该block任务。只有当组被wake时，notify链表上的任务才会执行。
+
+Q2：上溢和下溢
+
+上溢就是超出了最大值，下溢就是超出了最小值。
+
+```
+UInt32 underflowCounter = 0;
+underflowCounter -= 1;
+printf("underflowCounter = %u  %x\n", underflowCounter, underflowCounter);
+
+UInt32 overflowCounter = 0xffffffff;
+overflowCounter += 1;
+printf("overflowCounter = %u  %x\n", overflowCounter, overflowCounter);
+
+打印：
+underflowCounter = 4294967295  ffffffff
+overflowCounter = 0  0
+```
 
