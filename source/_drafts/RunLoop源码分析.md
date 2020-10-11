@@ -185,7 +185,7 @@ CF_EXPORT void CFRunLoopRemoveTimer(CFRunLoopRef rl, CFRunLoopTimerRef timer, CF
 
 那到底该怎么创建一个自己的mode呢？
 
-其实很简单，你只需要想好mode的名字就可以了，然后调用CFRunLoopAddSource/AddObserver/AddTimer这些方法给mode添加源、定时器等，这些方法内部会调用 `__CFRunLoopFindMode` ，该方法如果没查找到会创建一个新的mode并添加到rl的_modes集合中。正如注释所说计算mode变成了一个空mode，mode对象也不会销毁。下一次如果有个名字一样的就直接把它拿出来了。
+其实很简单，你只需要想好mode的名字就可以了，然后调用CFRunLoopAddSource/AddObserver/AddTimer这些方法给mode添加源、定时器等，这些方法内部会调用 `__CFRunLoopFindMode` ，该方法如果没查找到会创建一个新的mode并添加到rl的_modes集合中。正如注释所说即使mode变成了一个空mode，mode对象也不会销毁。下一次如果有个名字一样的就直接把它拿出来了。
 
 所以业务层自始至终都是通过modeName来和mode对象交互的。
 
@@ -425,7 +425,7 @@ static CFRunLoopRef __CFRunLoopCreate(pthread_t t) {
     loop->_wakeUpPort = __CFPortAllocate();
     if (CFPORT_NULL == loop->_wakeUpPort) HALT;
     __CFRunLoopSetIgnoreWakeUps(loop);
-    loop->_commonModes = CFSetCreateMutable(kCFAllocatorSystemDefault, 0, &kCFTypeSetCallBacks);
+    loop->_commonModes = CFSetCreateMutable(kCFAllocatorSystemDefault, 0, &kCFTypeSetCallBacks); //创建一个集合赋值给_commonModes
     CFSetAddValue(loop->_commonModes, kCFRunLoopDefaultMode); //给_commonModes集合中添加了一个DefaultMode
     loop->_commonModeItems = NULL;
     loop->_currentMode = NULL;
@@ -830,17 +830,18 @@ static int32_t __CFRunLoopRun(CFRunLoopRef rl, CFRunLoopModeRef rlm, CFTimeInter
 
 1. 通知即将处理timers
 2. 通知即将处理sources
-3. 调用`__CFRunLoopDoSources0` 处理source0
-4. 如果是主runloop，则调用 `__CFRunLoopServiceMachPort` 处理dispatchPort端口的事务如果有处理则跳转至8
-5. 通知即将休眠 （如果一直有事情做，这里不会被调用）
-6. 调用 `__CFRunLoopServiceMachPort` 处理端口事务，根据timeout参数决定是否进入休眠，等待唤醒。（timeout == 0会马上返回不休眠，如果一直有事情做timeout就会等于0）
-7. 通知已经唤醒 （如果一直有事情做，这里不会被调用）
-8. 根据唤醒端口livePort类型处理不同事务
-9. 如果是被 `_timerPort` 唤醒，则调用 `__CFRunLoopDoTimers` 处理定时器
-10. 如果是被`dispatchPort` 唤醒，则调用 `__CFRUNLOOP_IS_SERVICING_THE_MAIN_DISPATCH_QUEUE__` 处理派发任务
-11. 如果是被其他source1中的端口唤醒，则调用 `__CFRunLoopDoSource1` 处理source1
-12. 检查是否处理了source，是否超时，是否调用了CFRunLoopStop，是否mode变成空的了改变retVal的值
-13. 根据retVal的值决定是否退出do-while循环，否则继续do-while循环回到1。
+3. 执行block。通过CFRunLoopPerformBlock函数添加到runloop的block。
+4. 调用`__CFRunLoopDoSources0` 处理source0
+5. 如果是主runloop，则调用 `__CFRunLoopServiceMachPort` 处理dispatchPort端口的事务，如果有处理则跳转至9
+6. 通知即将休眠 （如果一直有事情做，这里不会被调用）
+7. 调用 `__CFRunLoopServiceMachPort` 处理端口事务，根据timeout参数决定是否进入休眠，等待唤醒。（timeout == 0会马上返回不休眠，如果一直有事情做timeout就会等于0）
+8. 通知已经唤醒 （如果一直有事情做，这里不会被调用）
+9. 根据唤醒端口livePort类型处理不同事务
+10. 如果是被 `_timerPort` 唤醒，则调用 `__CFRunLoopDoTimers` 处理定时器
+11. 如果是被`dispatchPort` 唤醒，则调用 `__CFRUNLOOP_IS_SERVICING_THE_MAIN_DISPATCH_QUEUE__` 处理派发任务
+12. 如果是被其他source1中的端口唤醒，则调用 `__CFRunLoopDoSource1` 处理source1
+13. 检查是否处理了source，是否超时，是否调用了CFRunLoopStop，是否mode变成空的了改变retVal的值
+14. 根据retVal的值决定是否退出do-while循环，否则继续do-while循环回到1。
 
 另外：
 
@@ -1023,9 +1024,16 @@ static void __CFRunLoopAddItemToCommonModes(const void *value, void *ctx) {
 
 
 ### 使用RunLoop进行卡顿检测
-NSRunLoop调用方法主要就是在kCFRunLoopBeforeSources和kCFRunLoopBeforeWaiting之间,还有kCFRunLoopAfterWaiting之后,也就是如果我们发现这两个时间内耗时太长,那么就可以判定出此时主线程卡顿.
+NSRunLoop调用方法主要就是在kCFRunLoopBeforeSources和kCFRunLoopBeforeWaiting之间,还有kCFRunLoopAfterWaiting之后,如果runloop一直处于kCFRunLoopBeforeSources或kCFRunLoopAfterWaiting，就代表这两个时间内耗时太长,那么就可以判定出此时主线程卡顿.
 
-再加上信号量等待超时特性.
+具体步骤：
+
+1. 创建一个子线程，用于卡顿检测。
+2. 添加一个观察者到主runloop
+3. 调用dispatch_semaphore_wait，并设置超时时间。代表检测间隔。如果超时则查看当前runloop的状态，检测是否出现卡顿，如果状态一直在kCFRunLoopBeforeSources或kCFRunLoopAfterWaiting则代表发生了卡顿。
+4. 在runloop的状态回调中，调用dispatch_semaphore_signal发送信号，
+
+再加上信号量等待超时特性.在一个子线程中调用dispatch_semaphore_wait，并设置超时时间。
 
 [iOS实时卡顿检测-RunLoop(附实例)](https://www.jianshu.com/p/d0aab0eb8ce4)
 
