@@ -232,6 +232,18 @@ static NSString *musicUrl = @"http://sc1.111ttt.cn/2014/1/09/24/2242313311.mp3";
 
 ```
 
+#### 1.先接管系统的请求
+
+一个resource对应一个loader，一个loader管理多个request。
+
+#### 2.再缓存数据，并建立缓存配置文件
+
+
+
+#### 3.最后实现缓存策略
+
+
+
 参考:
 
 [iOS音视频实现边下载边播放](http://sky-weihao.github.io/2015/10/06/Video-streaming-and-caching-in-iOS/)
