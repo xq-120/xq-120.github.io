@@ -234,7 +234,19 @@ static NSString *musicUrl = @"http://sc1.111ttt.cn/2014/1/09/24/2242313311.mp3";
 
 #### 1.先接管系统的请求
 
-一个resource对应一个loader，一个loader管理多个request。
+一个resource对应一个loader，一个loader管理多个loadingRequest，每个loadingRequest对应一个真正的request。
+
+问题：出现range的left>right的现象
+
+```
+[headers setValue:[NSString stringWithFormat:@"bytes=%lld-%ld", loadingRequest.dataRequest.requestedOffset, loadingRequest.dataRequest.requestedLength-1] forKey:@"range"];
+
+2020-12-02 11:54:07.771421+0800 AudioDemo[16910:1323807] headers:{
+    range = "bytes=31706735-6368701";
+}
+```
+
+后台返回了 `416 Range Not Satisfiable` 错误。
 
 #### 2.再缓存数据，并建立缓存配置文件
 
