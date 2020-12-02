@@ -236,17 +236,18 @@ static NSString *musicUrl = @"http://sc1.111ttt.cn/2014/1/09/24/2242313311.mp3";
 
 一个resource对应一个loader，一个loader管理多个loadingRequest，每个loadingRequest对应一个真正的request。
 
-问题：出现range的left>right的现象
+问题：在缓存到80%的时候，出现range的left>right的现象。
 
 ```
 [headers setValue:[NSString stringWithFormat:@"bytes=%lld-%ld", loadingRequest.dataRequest.requestedOffset, loadingRequest.dataRequest.requestedLength-1] forKey:@"range"];
 
-2020-12-02 11:54:07.771421+0800 AudioDemo[16910:1323807] headers:{
-    range = "bytes=31706735-6368701";
+<AVAssetResourceLoadingDataRequest: 0x281423340, requested offset = 32178176, requested length = 5897261, requests all data to end of resource = YES, current offset = 32178176>
+2020-12-02 22:08:14.738839+0800 AudioDemo[19856:1539854] headers:{
+    range = "bytes=32178176-5897260";
 }
 ```
 
-后台返回了 `416 Range Not Satisfiable` 错误。
+后台返回了 `416 Range Not Satisfiable` 错误。	
 
 #### 2.再缓存数据，并建立缓存配置文件
 
@@ -257,6 +258,8 @@ static NSString *musicUrl = @"http://sc1.111ttt.cn/2014/1/09/24/2242313311.mp3";
 
 
 参考:
+
+[Audio streaming and caching in iOS using AVAssetResourceLoader and AVPlayer](https://www.codeproject.com/Articles/875105/Audio-streaming-and-caching-in-iOS-using)
 
 [iOS音视频实现边下载边播放](http://sky-weihao.github.io/2015/10/06/Video-streaming-and-caching-in-iOS/)
 
@@ -271,3 +274,4 @@ static NSString *musicUrl = @"http://sc1.111ttt.cn/2014/1/09/24/2242313311.mp3";
 [AVPlayer 视频缓存](https://mochangxing.github.io/2018/08/11/AVPlayer%E7%BC%93%E5%AD%98%E7%9A%84%E5%AE%9E%E7%8E%B0/)  架构图挺好的
 
 [iOS音视频开发-----流媒体](https://blog.csdn.net/szk972092933/article/details/82771631)  系统提供的一种缓存办法，有iOS版本限制。
+
