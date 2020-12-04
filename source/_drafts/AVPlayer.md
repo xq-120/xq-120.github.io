@@ -236,7 +236,7 @@ static NSString *musicUrl = @"http://sc1.111ttt.cn/2014/1/09/24/2242313311.mp3";
 
 一个resource对应一个loader，一个loader管理多个loadingRequest，每个loadingRequest对应一个真正的request。
 
-问题：在缓存到80%的时候，出现range的left>right的现象。
+##### 问题0：在缓存到80%的时候，出现range的left>right的现象。
 
 ```
 [headers setValue:[NSString stringWithFormat:@"bytes=%lld-%ld", loadingRequest.dataRequest.requestedOffset, loadingRequest.dataRequest.requestedLength-1] forKey:@"range"];
@@ -249,7 +249,7 @@ static NSString *musicUrl = @"http://sc1.111ttt.cn/2014/1/09/24/2242313311.mp3";
 
 后台返回了 `416 Range Not Satisfiable` 错误。	
 
-问题1：下载请求失败了，但是播放器没有收到任何回调。
+##### 问题1：下载请求失败了，但是播放器没有收到任何回调。
 
 ```
 2020-12-03 18:58:47.770897+0800 AudioDemo[23569:1843035] headers:{
@@ -261,6 +261,114 @@ static NSString *musicUrl = @"http://sc1.111ttt.cn/2014/1/09/24/2242313311.mp3";
 2020-12-03 18:59:48.766937+0800 AudioDemo[23569:1846557] error:Error Domain=NSURLErrorDomain Code=-1001 "The request timed out." UserInfo={_kCFStreamErrorCodeKey=-2102, NSUnderlyingError=0x281a90570 {Error Domain=kCFErrorDomainCFNetwork Code=-1001 "(null)" UserInfo={_kCFStreamErrorCodeKey=-2102, _kCFStreamErrorDomainKey=4}}, _NSURLErrorFailingURLSessionTaskErrorKey=LocalDataTask <02047503-697B-4DF0-A6DE-780421F142D7>.<8>, _NSURLErrorRelatedURLSessionTaskErrorKey=(
     "LocalDataTask <02047503-697B-4DF0-A6DE-780421F142D7>.<8>"
 ), NSLocalizedDescription=The request timed out., NSErrorFailingURLStringKey=https://zhenai4saylove-1251661065.file.myqcloud.com/psychology/2019/08/3628348681546230.mp3, NSErrorFailingURLKey=https://zhenai4saylove-1251661065.file.myqcloud.com/psychology/2019/08/3628348681546230.mp3, _kCFStreamErrorDomainKey=4}
+```
+
+##### 问题2：自定义scheme URL <---> 原URL互推。
+
+在原scheme上拼接字符串，这样就可以方便互推。
+
+##### 问题3：自定义后，iOS14上播放正常，但iOS10上却无法播放。
+
+明明请求的是0-9587589，但返回的却是bytes 0-1。
+
+```
+2020-12-04 17:04:40.618715+0800 AudioDemo[401:47404] request:{
+    Accept = "*/*";
+    "Accept-Encoding" = "gzip, deflate";
+    "Accept-Language" = "zh-Hans-CN;q=1";
+    Range = "bytes=0-9587589";
+    "User-Agent" = "AudioDemo/1.0 (iPhone; iOS 10.3.3; Scale/3.00)";
+}
+response:<NSHTTPURLResponse: 0x174223da0> { URL: http://1251661065.vod2.myqcloud.com/98deaa00vodgzp1251661065/bd17bc125285890786674261612/mVsqUwWaIywA.mp3 } { status code: 206, headers {
+    "Access-Control-Allow-Credentials" = true;
+    "Access-Control-Allow-Headers" = "Origin,No-Cache,X-Requested-With,If-Modified-Since,Pragma,Last-Modified,Cache-Control,Expires,Content-Type,X_Requested_With,Range";
+    "Access-Control-Allow-Methods" = "GET,POST,OPTIONS";
+    "Access-Control-Allow-Origin" = "*";
+    "Cache-Control" = "max-age=600";
+    "Content-Length" = 2;
+    "Content-Range" = "bytes 0-1/9587590";
+    "Content-Type" = "audio/mp3";
+    Date = "Fri, 04 Dec 2020 09:00:41 GMT";
+    Expires = "Fri, 04 Dec 2020 09:10:41 GMT";
+    "Last-Modified" = "Mon, 11 Mar 2019 17:11:12 GMT";
+    "Proxy-Connection" = "keep-alive";
+    Server = "NWS_VP";
+    "X-Cache-Lookup" = "Hit From Disktank3, Hit From Inner Cluster, Hit From Inner Cluster";
+    "X-Daa-Tunnel" = "hop_count=1";
+    "X-NWS-LOG-UUID" = "2c325051-4888-4af4-9a71-6d7f96616d17 73052cfbf9529a51ed878f7d1692e466";
+} }
+```
+
+看抓包都没有，应该是请求没有发出去。
+
+如果直接使用NSURLSession简单实现的，
+
+```
+- (void)test_range_request {
+    NSString *rUrlStr = @"http://1251661065.vod2.myqcloud.com/98deaa00vodgzp1251661065/bd17bc125285890786674261612/mVsqUwWaIywA.mp3";
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:rUrlStr]];
+    [request addValue:@"bytes=1244-958700" forHTTPHeaderField:@"range"];
+    NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        NSLog(@"error-->%@  data:%d", error, data.length);
+    }];
+    [dataTask resume];
+}
+```
+
+发现请求不会带有 `If-Modified-Since: Mon, 11 Mar 2019 17:11:12 GMT` 头部，这时每次都会有请求发出：
+
+```
+GET /98deaa00vodgzp1251661065/bd17bc125285890786674261612/mVsqUwWaIywA.mp3 HTTP/1.1
+Host: 1251661065.vod2.myqcloud.com
+Range: bytes=1244-958700
+Accept: */*
+User-Agent: AudioDemo/1 CFNetwork/811.5.4 Darwin/16.7.0
+Accept-Language: zh-cn
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+
+
+HTTP/1.1 206 Partial Content
+Server: NWS_VP
+Date: Fri, 04 Dec 2020 09:37:52 GMT
+Cache-Control: max-age=600
+Expires: Fri, 04 Dec 2020 09:47:52 GMT
+Last-Modified: Mon, 11 Mar 2019 17:11:12 GMT
+Content-Range: bytes 1244-958700/9587590
+Content-Type: audio/mp3
+Content-Length: 957457
+X-NWS-LOG-UUID: 5b23e80d-ff4b-4848-b7c8-2dabe74e24fd 73052cfbf9529a51b556a601f57ece1b
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Headers: Origin,No-Cache,X-Requested-With,If-Modified-Since,Pragma,Last-Modified,Cache-Control,Expires,Content-Type,X_Requested_With,Range
+Access-Control-Allow-Methods: GET,POST,OPTIONS
+Access-Control-Allow-Origin: *
+X-Cache-Lookup: Hit From Disktank3
+X-Daa-Tunnel: hop_count=1
+X-Cache-Lookup: Hit From Inner Cluster
+Proxy-Connection: keep-alive
+
+="16Int"
+```
+
+原因：
+
+AF 的requestSerializer的cachePolicy默认是NSURLRequestUseProtocolCachePolicy。导致后续请求除了第一个请求正常，后面的请求都没发出去。系统一直把第一次请求的2byte一直返回给当前请求。
+
+改为：
+
+```
+_httpSessionManager.requestSerializer.cachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
+```
+
+##### 问题5：播放失败没有cancel掉dataRequest，还在那下载数据。
+
+
+
+##### 问题6：自定义后，在iOS10.3.3上，播放结束后，马上seek到0会崩溃
+
+```
+*** Terminating app due to uncaught exception 'NSInvalidArgumentException', reason: 'AVPlayerItem cannot service a seek request with a completion handler until its status is AVPlayerItemStatusReadyToPlay.'
+terminating with uncaught exception of type NSException
 ```
 
 
