@@ -238,6 +238,10 @@ static NSString *musicUrl = @"http://sc1.111ttt.cn/2014/1/09/24/2242313311.mp3";
 
 一个loader虽然管理多个loadingRequest，但同一时刻只能有一个dataTask下载数据。所以当接收到一个loadingRequest时必须先取消掉之前所有的loadingRequest。
 
+1.先获取contentInfo信息，再请求数据
+2.loaderDict什么时候移除loader
+3.requestDict什么时候移除loadingRequest
+
 ##### 问题0：在缓存到80%的时候，出现range的left>right的现象。
 
 ```
