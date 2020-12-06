@@ -377,7 +377,7 @@ terminating with uncaught exception of type NSException
 
 突然间又不会了，莫名其妙。
 
-原来是：
+原来是：播放结束会播放下一首导致会resetAudio，从而上一个AVPlayerItem被销毁。因此seek崩溃。把seekToTime提前就可以了。
 
 ```
 - (void)playerDidPlayToEnd:(id<ZAEPlayerAudioPlayback>)playerManager
