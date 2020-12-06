@@ -234,7 +234,9 @@ static NSString *musicUrl = @"http://sc1.111ttt.cn/2014/1/09/24/2242313311.mp3";
 
 #### 1.先接管系统的请求
 
-一个resource对应一个loader，一个loader管理多个loadingRequest，每个loadingRequest对应一个真正的request。
+一个resource对应一个loader，一个loader管理多个loadingRequest，每个loadingRequest对应一个真正的dataTask。
+
+一个loader虽然管理多个loadingRequest，但同一时刻只能有一个dataTask下载数据。所以当接收到一个loadingRequest时必须先取消掉之前所有的loadingRequest。
 
 ##### 问题0：在缓存到80%的时候，出现range的left>right的现象。
 
@@ -249,7 +251,9 @@ static NSString *musicUrl = @"http://sc1.111ttt.cn/2014/1/09/24/2242313311.mp3";
 
 后台返回了 `416 Range Not Satisfiable` 错误。	
 
-##### 问题1：下载请求失败了，但是播放器没有收到任何回调。
+##### 问题1：下载请求超时失败了，但是播放器没有收到任何回调。
+
+频繁seek导致。
 
 ```
 2020-12-03 18:58:47.770897+0800 AudioDemo[23569:1843035] headers:{
@@ -369,6 +373,20 @@ _httpSessionManager.requestSerializer.cachePolicy = NSURLRequestReloadIgnoringLo
 ```
 *** Terminating app due to uncaught exception 'NSInvalidArgumentException', reason: 'AVPlayerItem cannot service a seek request with a completion handler until its status is AVPlayerItemStatusReadyToPlay.'
 terminating with uncaught exception of type NSException
+```
+
+突然间又不会了，莫名其妙。
+
+原来是：
+
+```
+- (void)playerDidPlayToEnd:(id<ZAEPlayerAudioPlayback>)playerManager
+{
+    //播放完成seek到0s处.
+    [self seekToTime:0 completionHandler:nil];
+    
+    [self.multicastDelegate playerDidPlayToEnd:self]; //这里逻辑会播放下一首导致会resetAudio，从而AVPlayerItem被销毁。因此seek崩溃。把seekToTime提前就可以了。
+}
 ```
 
 
