@@ -232,15 +232,41 @@ static NSString *musicUrl = @"http://sc1.111ttt.cn/2014/1/09/24/2242313311.mp3";
 
 ```
 
-#### 1.先接管系统的请求
+#### 1.接管系统的请求
 
-一个resource对应一个loader，一个loader管理多个loadingRequest，每个loadingRequest对应一个真正的dataTask。
+7天
 
-一个loader虽然管理多个loadingRequest，但同一时刻只能有一个dataTask下载数据。所以当接收到一个loadingRequest时必须先取消掉之前所有的loadingRequest。
+系统请求的机制：
+
+在无seek的情况下：先请求0-1的数据段，成功后再请求一大段数据，但只接收一小段数据就cancel掉请求。播放一小段后又请求一大段数据，但接收一小段数据后又cancel掉请求，循环这个操作直到接收所有数据。
+
+在有seek的情况下：会取消之前的下载请求，然后从seek处发起一个新请求。
+
+一个resource对应一个loader，一个loader管理多个loadingRequest，每个loadingRequest对应一个真正的dataTask。一个loader虽然管理多个loadingRequest，但同一时刻只能有一个dataTask下载数据。所以当接收到一个loadingRequest时必须先取消掉之前所有的loadingRequest，确保同一时刻只有一个dataTask在下载数据。
+
+经过测试发现在iOS10.3.3中
+
+```
+- (void)resourceLoader:(AVAssetResourceLoader *)resourceLoader didCancelLoadingRequest:(AVAssetResourceLoadingRequest *)loadingRequest API_AVAILABLE(macos(10.9), ios(7.0), tvos(9.0)) API_UNAVAILABLE(watchos);
+```
+
+didCancelLoadingRequest:方法不会被调用，而在iOS14上，AVAssetResourceLoader在开启下一个请求时，会先调用didCancelLoadingRequest:让你有机会cancel掉之前的。为了兼容系统，当接收到一个loadingRequest时必须先取消掉之前所有的loadingRequest。
 
 1.先获取contentInfo信息，再请求数据
+
+没必要
+
 2.loaderDict什么时候移除loader
-3.requestDict什么时候移除loadingRequest
+
+a.播放新音频时清空loaderDict
+
+b.下载失败时，清除当前loader
+
+3.loadingRequests什么时候移除loadingRequest
+
+a.在addLoadingRequest准备发起一个下载请求时需要取消掉之前所有的loadingRequest，并清空loadingRequests。
+
+b.下载完成后移除当前loadingRequest。
 
 ##### 问题0：在缓存到80%的时候，出现range的left>right的现象。
 
@@ -270,6 +296,8 @@ static NSString *musicUrl = @"http://sc1.111ttt.cn/2014/1/09/24/2242313311.mp3";
     "LocalDataTask <02047503-697B-4DF0-A6DE-780421F142D7>.<8>"
 ), NSLocalizedDescription=The request timed out., NSErrorFailingURLStringKey=https://zhenai4saylove-1251661065.file.myqcloud.com/psychology/2019/08/3628348681546230.mp3, NSErrorFailingURLKey=https://zhenai4saylove-1251661065.file.myqcloud.com/psychology/2019/08/3628348681546230.mp3, _kCFStreamErrorDomainKey=4}
 ```
+
+某次loader下载超时后，系统会再次发起一个新请求的。
 
 ##### 问题2：自定义scheme URL <---> 原URL互推。
 
@@ -368,18 +396,12 @@ AF 的requestSerializer的cachePolicy默认是NSURLRequestUseProtocolCachePolicy
 _httpSessionManager.requestSerializer.cachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
 ```
 
-##### 问题5：播放失败没有cancel掉dataRequest，还在那下载数据。
-
-
-
-##### 问题6：自定义后，在iOS10.3.3上，播放结束后，马上seek到0会崩溃
+##### 问题4：自定义后，在iOS10.3.3上，播放结束后，马上seek到0会崩溃
 
 ```
 *** Terminating app due to uncaught exception 'NSInvalidArgumentException', reason: 'AVPlayerItem cannot service a seek request with a completion handler until its status is AVPlayerItemStatusReadyToPlay.'
 terminating with uncaught exception of type NSException
 ```
-
-突然间又不会了，莫名其妙。
 
 原来是：播放结束会播放下一首导致会resetAudio，从而上一个AVPlayerItem被销毁。因此seek崩溃。把seekToTime提前就可以了。
 
@@ -393,13 +415,11 @@ terminating with uncaught exception of type NSException
 }
 ```
 
-
-
-#### 2.再缓存数据，并建立缓存配置文件
+#### 2.缓存数据，并建立缓存配置文件
 
 
 
-#### 3.最后实现缓存策略
+#### 3.实现缓存策略
 
 
 
