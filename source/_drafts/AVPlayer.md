@@ -415,7 +415,7 @@ terminating with uncaught exception of type NSException
 }
 ```
 
-#### 2.缓存数据，并建立缓存配置文件
+#### 2.缓存数据，并建立区间记录表
 
 1.读取区间记录表。
 
@@ -427,7 +427,7 @@ terminating with uncaught exception of type NSException
 
 音频元数据的保存，音频文件的保存，区间记录表的保存？读写同步问题？
 
-#### 3.实现缓存策略
+#### 3.缓存清除策略
 
 
 
