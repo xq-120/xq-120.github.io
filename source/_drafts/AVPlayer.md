@@ -427,6 +427,8 @@ terminating with uncaught exception of type NSException
 
 音频元数据的保存，音频文件的保存，区间记录表的保存？读写同步问题？
 
+问题5：拿缓存的文件播放时，在某秒滋了一声。但原URL播放则没有，难搞。
+
 #### 3.缓存清除策略
 
 
