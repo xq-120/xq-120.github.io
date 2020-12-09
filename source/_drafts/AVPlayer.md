@@ -427,7 +427,9 @@ terminating with uncaught exception of type NSException
 
 音频元数据的保存，音频文件的保存，区间记录表的保存？读写同步问题？
 
-问题5：拿缓存的文件播放时，在某秒滋了一声。但原URL播放则没有，难搞。
+##### 问题5：拿缓存的文件播放时，在某一秒滋了一声。但原URL播放则没有，难搞。
+
+原因：缓存的文件二进制数据和原文件二进制数据有几个地方不相同导致。不知道什么原因导致。
 
 #### 3.缓存清除策略
 
@@ -450,4 +452,8 @@ terminating with uncaught exception of type NSException
 [AVPlayer 视频缓存](https://mochangxing.github.io/2018/08/11/AVPlayer%E7%BC%93%E5%AD%98%E7%9A%84%E5%AE%9E%E7%8E%B0/)  架构图挺好的
 
 [iOS音视频开发-----流媒体](https://blog.csdn.net/szk972092933/article/details/82771631)  系统提供的一种缓存办法，有iOS版本限制。
+
+[iOS 获取视频的任意一帧](https://blog.csdn.net/kevinpake/article/details/25626587)
+
+[IOS音视频（四十五）HTTPS 自签名证书 实现边下边播](https://juejin.cn/post/6844904115416334343)  比较完整的介绍
 
