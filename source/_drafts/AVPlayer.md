@@ -250,7 +250,7 @@ static NSString *musicUrl = @"http://sc1.111ttt.cn/2014/1/09/24/2242313311.mp3";
 - (void)resourceLoader:(AVAssetResourceLoader *)resourceLoader didCancelLoadingRequest:(AVAssetResourceLoadingRequest *)loadingRequest API_AVAILABLE(macos(10.9), ios(7.0), tvos(9.0)) API_UNAVAILABLE(watchos);
 ```
 
-didCancelLoadingRequest:方法不会被调用，而在iOS14上，AVAssetResourceLoader在开启下一个请求时，会先调用didCancelLoadingRequest:让你有机会cancel掉之前的。为了兼容系统，当接收到一个loadingRequest时必须先取消掉之前所有的loadingRequest。
+didCancelLoadingRequest:方法不会被调用（加上使用缓存后，又会被调用了，真操了）。而在iOS14上，AVAssetResourceLoader在开启下一个请求时，会先调用didCancelLoadingRequest:让你有机会cancel掉之前的。为了兼容系统，当接收到一个loadingRequest时必须先取消掉之前所有的loadingRequest。
 
 1.先获取contentInfo信息，再请求数据
 
@@ -428,6 +428,50 @@ terminating with uncaught exception of type NSException
 ##### 问题5：拿缓存的文件播放时，在某一秒滋了一声。但原URL播放则没有，难搞。
 
 原因：缓存的文件二进制数据和原文件二进制数据有几个地方不相同导致。不知道什么原因导致。
+
+##### 问题6：有时候读取本地缓存特别是0-1区间的2个字节耗时非常严重
+
+```
+执行本地请求：0-1，请求总长度：2，实际返回：2, 耗时：4830.241084ms
+执行本地请求：0-1，请求总长度：2，实际返回：2, 耗时：13428.519011ms
+```
+
+这里不知道为啥读取本地文件耗时这么久（难道是串行IO队列阻塞了？），导致阻塞主线程，暂时解决办法：异步读取数据。
+
+#####问题7：边下边播时，频繁seek，然后直接seek到结尾处，会播放失败，而系统的则会正常播放完成。
+
+```
+2020-12-10 12:12:01.581702+0800 AudioDemo[1320:781576] 执行远程请求：38074245-38075436，请求总长度：1192
+2020-12-10 12:12:01.582358+0800 AudioDemo[1320:781576] weakSelf：(null) error:cancelled
+2020-12-10 12:12:01.580476+0800 AudioDemo[1320:781600] [] __nwlog_err_simulate_crash simulate crash already simulated "tcp_connection_write called with null connection"
+2020-12-10 12:12:01.583532+0800 AudioDemo[1320:781600] [] tcp_connection_write called with null connection, dumping backtrace:
+        [arm64] libnetcore-856.60.1
+    0   libsystem_network.dylib             0x000000018c26d2ac __nw_create_backtrace_string + 116
+    1   libnetwork.dylib                    0x0000000199e4d49c tcp_connection_write + 264
+    2   CFNetwork                           0x000000018d9b9a3c <redacted> + 248
+    3   CFNetwork                           0x000000018da26228 <redacted> + 1424
+    4   libdispatch.dylib                   0x00000001015e5a50 _dispatch_call_block_and_release + 24
+    5   libdispatch.dylib                   0x00000001015e5a10 _dispatch_client_callout + 16
+    6   libdispatch.dylib                   0x00000001015f32e8 _dispatch_queue_serial_drain + 1140
+    7   libdispatch.dylib                   0x00000001015e9634 _dispatch_queue_invoke + 852
+    8   libdispatch.dylib                   0x00000001015f5630 _dispatch_root_queue_drain + 552
+    9   libdispatch.dylib                   0x00000001015f539c _dispatch_worker_thread3 + 140
+    10  libsystem_pthread.dylib             0x000000018c2c7100 _pthread_wqthread + 1096
+    11  libsystem_pthread.dylib             0x000000018c2c6cac start_wqthread + 4
+2020-12-10 12:12:02.700802+0800 AudioDemo[1320:781576] weakSelf：<ZAEResourceRequestOperation: 0x17409a810> error:(null)
+2020-12-10 12:12:02.700887+0800 AudioDemo[1320:781576] 本次请求序列以远程请求结束
+2020-12-10 12:12:02.701170+0800 AudioDemo[1320:781576] 下载完成,error:(null),移除LoadingRequest：0x170008580,当前：
+loadingRequests：(
+    "<AVAssetResourceLoadingRequest: 0x170008580, URL request = <NSMutableURLRequest: 0x170008550> { URL: https-mine://zhenai4saylove-1251661065.file.myqcloud.com/psychology/2019/08/3628348681546230.mp3 }, request ID = 30, content information request = (null), data request = <AVAssetResourceLoadingDataRequest: 0x170008720, requested offset = 38074245, requested length = 1192, requests all data to end of resource = YES, current offset = 38075437>>"
+)
+dataOperationDict：{
+    0x170008580 = "<ZAEResourceRequestOperation: 0x17409a810>";
+}
+2020-12-10 12:12:02.701235+0800 AudioDemo[1320:781576] <ZAEResourceRequestOperation: 0x17409a810>销毁
+2020-12-10 12:13:05.106830+0800 AudioDemo[1320:781576] 播放失败,error:Error Domain=AVFoundationErrorDomain Code=-11819 "Cannot Complete Action" UserInfo={NSLocalizedDescription=Cannot Complete Action, NSLocalizedRecoverySuggestion=Try again later.}
+```
+
+
 
 #### 3.缓存清除策略
 
