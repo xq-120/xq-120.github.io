@@ -236,6 +236,15 @@ terminating with uncaught exception of type NSException
 
 暂时解决办法：改为异步子线程读取数据。
 
+这个问题在旧设备特别突出：
+
+```
+2020-12-14 16:19:52.889086+0800 AudioDemo[2449:1316027] 执行本地请求：21823488-22397262，请求总长度：573775，实际返回：573775, 耗时：20084.769011ms
+2020-12-14 16:19:09.954618+0800 AudioDemo[2449:1316027] 执行本地请求：225722-4470625，请求总长度：4244904，实际返回：4244904, 耗时：34085.933089ms
+```
+
+
+
 ##### 问题7：代理系统请求，iOS10系统。开始播放后，直接seek到结尾处，会播放失败，而系统的则会正常播放完成。与此同时在请求完成之后会卡UI，直到提示播放失败才不卡UI。在此期间还不能切歌，即使切到下一首了，还会导致下一首也失败。难搞。
 
 暂时解决办法：当直接seek到末尾时，取消代理系统请求。这个时候走的就是系统自己的，于是正常播放完成。感觉很trick。（已真正解决）
@@ -311,11 +320,94 @@ dataOperationDict：{
 
 ##### 问题10：播放一个527M，8分54秒的视频，当完全缓存后，下一次播放时会从本地读取，但是由于请求的range是0-end，导致一次性读取整个文件大小到内存，5s直接OOM了。难搞。
 
-
+渐进式读取本地数据，每次读取16M，问题解决。
 
 ##### 问题11：弱网播放时，频繁seek，偶尔出现声音正常但画面卡住的情况。
 
 视频播放非常棘手的问题：声音正常播放但画面卡住或黑屏无画面，画面正常播放但无声音，声画都有但不同步。
+
+##### 问题12：响应头信息的回调代码有问题，在iOS10.3.3 iPhone6plus上卡主线程。越旧的机器越明显。
+
+```
+2020-12-14 15:42:26.767489+0800 AudioDemo[2433:1309838] --------响应头 code:206, Operation：<ZAEResourceRequestOperation: 0x174093bf0, remoteDataTask:0x14bdacc40>
+2020-12-14 15:42:32.476195+0800 AudioDemo[2433:1309838] +++++++++++响应头 code:206, Operation：<ZAEResourceRequestOperation: 0x174093bf0, remoteDataTask:0x14bdacc40>
+```
+
+直接卡了6秒。
+
+问题代码：
+
+```objc
+__weak typeof(self) weakSelf = self;
+[_httpSessionManager setDataTaskDidReceiveResponseBlock:^NSURLSessionResponseDisposition(NSURLSession * _Nonnull session, NSURLSessionDataTask * _Nonnull dataTask, NSURLResponse * _Nonnull response) {
+    //子线程
+    __block NSURLSessionResponseDisposition disposition = NSURLSessionResponseCancel;
+    if (NSThread.isMainThread) {
+        disposition = [weakSelf dataTaskDidReceiveResponseWithSession:session dataTask:dataTask response:response];
+    } else {
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            disposition = [weakSelf dataTaskDidReceiveResponseWithSession:session dataTask:dataTask response:response];
+        });
+    }
+    return disposition;
+}];
+        
+- (NSURLSessionResponseDisposition)dataTaskDidReceiveResponseWithSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask response:(NSURLResponse *)response {
+    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+    NSLog(@"--------响应头 code:%d, Operation：%@",httpResponse.statusCode, self);
+    
+    NSDictionary *headers = [httpResponse allHeaderFields];
+    NSDictionary *caseInsensitiveHeaders = [self caseInsensitiveKeyWithDict:headers];
+    if (httpResponse.statusCode >= 200 && httpResponse.statusCode < 300) {
+        ZAEResourceContentInfoModel *contentInfo = [self contentInfoModelWithHeaderFields:caseInsensitiveHeaders];
+        if (![self.mediaCache diskContentInfoExistsWithKey:self.resourceURL.absoluteString]) {
+            [self.mediaCache storeContentInfoSync:contentInfo forKey:self.resourceURL.absoluteString];
+        }
+        self.contentInfo = contentInfo;
+        if (self.delgate && [self.delgate respondsToSelector:@selector(requestOperation:didLoadContentInfo:)]) {
+            [self.delgate requestOperation:self didLoadContentInfo:contentInfo];
+        }
+        
+        NSLog(@"+++++++++++响应头 code:%d, Operation：%@",httpResponse.statusCode, self);
+        return NSURLSessionResponseAllow;
+    }
+    
+    return NSURLSessionResponseCancel;
+}
+```
+
+主线程要等IO队列操作完才能返回，所以卡住了。
+
+改为：
+
+```
+__weak typeof(self) weakSelf = self;
+[_httpSessionManager setDataTaskDidReceiveResponseBlock:^NSURLSessionResponseDisposition(NSURLSession * _Nonnull session, NSURLSessionDataTask * _Nonnull dataTask, NSURLResponse * _Nonnull response) {
+    //子线程
+    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+    NSLog(@"响应头 code:%ld, Operation：%@", httpResponse.statusCode, weakSelf);
+
+    NSDictionary *headers = [httpResponse allHeaderFields];
+    NSDictionary *caseInsensitiveHeaders = [weakSelf caseInsensitiveKeyWithDict:headers];
+    if (httpResponse.statusCode >= 200 && httpResponse.statusCode < 300) {
+        ZAEResourceContentInfoModel *contentInfo = [weakSelf contentInfoModelWithHeaderFields:caseInsensitiveHeaders];
+        if (![weakSelf.mediaCache diskContentInfoExistsWithKey:weakSelf.resourceURL.absoluteString]) {
+            [weakSelf.mediaCache storeContentInfoSync:contentInfo forKey:weakSelf.resourceURL.absoluteString];
+        }
+        weakSelf.contentInfo = contentInfo;
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf dataTaskDidReceiveResponseWithSession:session dataTask:dataTask contentInfo:contentInfo];
+        });
+
+        return NSURLSessionResponseAllow;
+    }
+
+    return NSURLSessionResponseCancel;
+}];
+```
+
+解决。
 
 ### 参考
 
