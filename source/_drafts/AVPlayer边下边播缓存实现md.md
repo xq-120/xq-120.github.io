@@ -344,3 +344,6 @@ dataOperationDict：{
 [基于AVPlayer实现音视频播放和缓存，支持视频画面的同步输出](https://caisanze.com/post/swift-avplayer/)
 
 [如果视频拖动快进这时候会有声音但画面卡住了](https://github.com/vitoziv/VIMediaCache/issues/19)  非常棘手的问题
+
+[iOS性能优化实践：头条抖音如何实现OOM崩溃率下降50%+](https://www.mdeditor.tw/pl/ptm8)  稍微看下方案
+
