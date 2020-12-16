@@ -332,6 +332,8 @@ dataOperationDict：{
 
 其实用串行队列只是解决了OOM的问题，但是没有解决没有取消的问题。看下面的一段日志：后面堆积的读取任务结束时已经耗时到131662ms了，该过程中还会导致视频无法播放的问题（确定问题，频繁seek一段完全缓存的视频，就会导致播放不了，要等一会才能播放）。
 
+实现了本地读取操作取消功能后，完美解决。5s播放大视频也毫无压力了。最后看一下是否能够将串行队列改为并发队列。
+
 ```
 2020-12-15 23:19:31:198 AudioDemo:-[ZAEResourceLoader requestOperation:didCompleteWithError:],[Line 91]:
 下载完成,error:(null),移除Loading Request：0x174012300,op:<ZAEResourceRequestOperation: 0x17008fe10, loadingRequest:0x174012300, remoteDataTask:0x0>
