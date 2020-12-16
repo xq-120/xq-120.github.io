@@ -324,6 +324,8 @@ dataOperationDict：{
 
 ##### 问题10：播放一个527M，8分54秒的视频，当完全缓存后，下一次播放时会从本地读取，但是由于请求的range是0-end，导致一次性读取整个文件大小到内存，5s直接OOM了。难搞。
 
+5s 1g内存太容易oom了。
+
 1.渐进式读取本地数据，每次读取10M（最初是16M但测试后发现还是太多了）
 
 2.加@autoreleasepool
@@ -332,7 +334,7 @@ dataOperationDict：{
 
 其实用串行队列只是解决了OOM的问题，但是没有解决没有取消的问题。看下面的一段日志：后面堆积的读取任务结束时已经耗时到131662ms了，该过程中还会导致视频无法播放的问题（确定问题，频繁seek一段完全缓存的视频，就会导致播放不了，要等一会才能播放）。
 
-实现了本地读取操作取消功能后，完美解决。5s播放大视频也毫无压力了。最后看一下是否能够将串行队列改为并发队列。
+实现了本地读取操作取消功能后，完美解决。5s播放大视频也毫无压力了。
 
 ```
 2020-12-15 23:19:31:198 AudioDemo:-[ZAEResourceLoader requestOperation:didCompleteWithError:],[Line 91]:
@@ -363,13 +365,36 @@ dataOperationDict：{
 执行本地请求完成:<ZAEResourceRequestOperation: 0x170294870, loadingRequest:0x170014450, remoteDataTask:0x0>：113901568-553363383，请求总长度：439461816，本地请求返回数据长度：439461816, 耗时：3133.759022ms
 ```
 
+最后看一下是否能够将串行队列改为并发队列。经过不断的测试发现串行队列容易引起性能问题，特别是缓存了一部分，又要下载一部分，导致需要同时写入和读取，但貌似总是写入操作抢夺成功，如下日志：
 
+```
+2020-12-16 10:11:43.589060+0800 AudioDemo[2769:1572353] 读取405733376--405733375数据完成!!!
+2020-12-16 10:11:43:589 AudioDemo:-[ZAEResourceRequestOperation dequeueRequestRanges:]_block_invoke,[Line 150]:
+执行本地请求完成:(null), error:Error Domain=com.zhenai.emotioncounsel Code=-999 "取消操作" UserInfo={NSLocalizedDescription=取消操作},请求范围：405733376-405798911，请求总长度：65536，本地请求返回数据长度：0, 耗时：29618.003011ms
+2020-12-16 10:11:43:589 AudioDemo:-[ZAEResourceRequestOperation dequeueRequestRanges:]_block_invoke,[Line 154]:
+本次请求序列：(null)以本地请求结束
+2020-12-16 10:11:43.590776+0800 AudioDemo[2769:1572353] 读取406323200--406388735数据完成!!!
+2020-12-16 10:11:43:591 AudioDemo:-[ZAEResourceRequestOperation dequeueRequestRanges:]_block_invoke,[Line 150]:
+执行本地请求完成:<ZAEResourceRequestOperation: 0x1702ae760, loadingRequest:0x174016cd0, remoteDataTask:0x0>, error:(null),请求范围：406323200-406388735，请求总长度：65536，本地请求返回数据长度：65536, 耗时：23951.740026ms
+2020-12-16 10:11:43:610 AudioDemo:-[ZAEResourceRequestOperation dequeueRequestRanges:]_block_invoke,[Line 154]:
+本次请求序列：<ZAEResourceRequestOperation: 0x1702ae760, loadingRequest:0x174016cd0, remoteDataTask:0x0>以本地请求结束
+2020-12-16 10:11:43:611 AudioDemo:-[ZAEResourceLoader requestOperation:didCompleteWithError:],[Line 91]:
+下载完成,error:(null),移除Loading Request：0x174016cd0,op:<ZAEResourceRequestOperation: 0x1702ae760, loadingRequest:0x174016cd0, remoteDataTask:0x0>
+2020-12-16 10:11:43:611 AudioDemo:-[ZAEResourceRequestOperation dealloc],[Line 34]:
+<ZAEResourceRequestOperation: 0x1702ae760, loadingRequest:0x174016cd0, remoteDataTask:0x0>销毁
+2020-12-16 10:11:44.498601+0800 AudioDemo[2769:1572353] 读取427819008--539092859数据完成!!!
+2020-12-16 10:11:44:666 AudioDemo:-[ZAEResourceRequestOperation dequeueRequestRanges:]_block_invoke,[Line 150]:
+执行本地请求完成:<ZAEResourceRequestOperation: 0x1742b63e0, loadingRequest:0x174017470, remoteDataTask:0x0>, error:(null),请求范围：427819008-539092859，请求总长度：111273852，本地请求返回数据长度：111273852, 耗时：17000.121951ms
+2020-12-16 10:11:44:667 AudioDemo:-[ZAEResourceRequestOperation dequeueRequestRanges:],[Line 166]:
+```
 
-5s 1g内存太容易oom了。
+新问题，OOM是解决了，但是CPU一直居高不下。
 
-页面vc有一个属性A是单例，然后调用A的一个耗时方法，然后点击vc返回，问vc会不会被销毁？
+10.1页面vc有一个属性A是单例，然后调用A的一个耗时方法，然后点击vc返回，问vc会不会被销毁？
 
 会马上销毁，但A的耗时任务仍然在进行，执行完后依然会调用complete回调。其实就跟在页面内发起了一个网络请求一样的。
+
+10.2 偶尔出现
 
 ```
 2020-12-15 22:29:40.859833+0800 AudioDemo[3260:707689] *** -[AVAssetResourceLoadingRequest finishLoading] was sent to an instance of AVAssetResourceLoadingRequest that was already finished. Ignoring.
