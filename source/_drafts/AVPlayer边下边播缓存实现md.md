@@ -85,9 +85,11 @@ TODO
 
 dataRequest的几个偏移量属性没搞清楚导致。
 
-##### 问题1：下载请求超时失败了，但是播放器没有收到任何回调。
+##### 问题1：下载请求超时失败了，但是播放器没有收到任何回调，并且也没有后续请求发起。（偶现）
 
 频繁seek导致。
+
+一般情况，某次loader下载超时后，系统会再次发起一个新请求的。但有时候不会，待观察。
 
 ```
 2020-12-03 18:58:47.770897+0800 AudioDemo[23569:1843035] headers:{
@@ -101,7 +103,7 @@ dataRequest的几个偏移量属性没搞清楚导致。
 ), NSLocalizedDescription=The request timed out., NSErrorFailingURLStringKey=https://zhenai4saylove-1251661065.file.myqcloud.com/psychology/2019/08/3628348681546230.mp3, NSErrorFailingURLKey=https://zhenai4saylove-1251661065.file.myqcloud.com/psychology/2019/08/3628348681546230.mp3, _kCFStreamErrorDomainKey=4}
 ```
 
-某次loader下载超时后，系统会再次发起一个新请求的。属正常情况。
+
 
 ##### 问题2：自定义scheme URL <---> 原URL互推。
 
