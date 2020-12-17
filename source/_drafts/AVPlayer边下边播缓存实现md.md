@@ -324,19 +324,19 @@ dataOperationDict：{
 2020-12-12 11:42:00.294096+0800 AudioDemo[1251:456747] <ZAEResourceLoader: 0x17024fb10>销毁
 ```
 
-##### 问题10：播放一个527M，8分54秒的视频，当完全缓存后，下一次播放时会从本地读取，但是由于请求的range是0-end，导致一次性读取整个文件大小到内存，5s直接OOM了。难搞。
+##### 问题10：播放一个527M，8分54秒的视频，当完全缓存后，下一次播放时会从本地读取，但是由于请求的range是0-end，导致一次性读取整个文件大小到内存，5s直接OOM了。非常难搞。
 
-5s 1g内存太容易oom了。
+解决步骤：
 
-1.渐进式读取本地数据，每次读取10M（最初是16M但测试后发现还是太多了）
+1.渐进式读取本地数据，每次读取1M（最初是16M-->10M-->1M）（必须）
 
-2.加@autoreleasepool
+2.加@autoreleasepool （必须）
 
-3.须使用串行队列读取，不能用并发队列读取否则在频繁seek时还是OOM。因为用并发队列读取的话，由于本地读取操作没有取消功能，频繁seek会导致有很多个本地读取的操作同时进行，于是炸了。看来必须实现本地读取操作的取消功能，要不然有的本地读取请求s1--end，请求的范围很大，如果不能取消就太浪费性能了。
+3.本地读取操作取消功能 （必须）
 
-其实用串行队列只是解决了OOM的问题，但是没有解决没有取消的问题。看下面的一段日志：后面堆积的读取任务结束时已经耗时到131662ms了，该过程中还会导致视频无法播放的问题（确定问题，频繁seek一段完全缓存的视频，就会导致播放不了，要等一会才能播放）。
+必须实现本地读取操作的取消功能，要不然如果有多个范围很大的本地读取请求s1--end，如果不能取消很快就会OOM。
 
-实现了本地读取操作取消功能后，完美解决。5s播放大视频也毫无压力了。
+串行队列下，看下面的一段日志：后面堆积的读取任务结束时已经耗时到131662ms了，该过程中还会导致视频无法播放的问题（确定问题，频繁seek一段完全缓存的视频，就会导致播放不了，要等一会才能播放）。
 
 ```
 2020-12-15 23:19:31:198 AudioDemo:-[ZAEResourceLoader requestOperation:didCompleteWithError:],[Line 91]:
@@ -357,17 +357,9 @@ dataOperationDict：{
 执行本地请求完成:<ZAEResourceRequestOperation: 0x174091260, loadingRequest:0x170014ca0, remoteDataTask:0x0>：427884544-553363383，请求总长度：125478840，本地请求返回数据长度：125478840, 耗时：131847.939014ms
 ```
 
-如果不需要等待的话439461816字节读取只需要：3133ms。
+4.本地读取操作的队列选择
 
-```
-2020-12-15 23:31:51:927 AudioDemo:-[ZAEResourceRequestOperation dequeueRequestRanges:],[Line 140]:
-执行本地请求开始：113901568-553363383，请求总长度：439461816
-2020-12-15 23:31:55.000052+0800 AudioDemo[3343:715418] 读取113901568--553363383数据完成!!!
-2020-12-15 23:31:55:061 AudioDemo:-[ZAEResourceRequestOperation dequeueRequestRanges:]_block_invoke,[Line 149]:
-执行本地请求完成:<ZAEResourceRequestOperation: 0x170294870, loadingRequest:0x170014450, remoteDataTask:0x0>：113901568-553363383，请求总长度：439461816，本地请求返回数据长度：439461816, 耗时：3133.759022ms
-```
-
-最后看一下是否能够将串行队列改为并发队列。经过不断的测试发现串行队列容易引起性能问题，特别是缓存了一部分，又要下载一部分，导致需要同时写入和读取，但貌似总是写入操作抢夺成功，如下日志：
+选取串行队列。以上三步完成后，再配合串行队列就可以解决OOM的问题。但是串行队列有性能问题，经过不断的测试发现串行队列容易引起性能问题，特别是缓存了一部分，又要下载一部分，导致需要同时写入和读取，但貌似总是写入操作抢夺成功，如下日志：
 
 ```
 2020-12-16 10:11:43.589060+0800 AudioDemo[2769:1572353] 读取405733376--405733375数据完成!!!
@@ -390,13 +382,25 @@ dataOperationDict：{
 2020-12-16 10:11:44:667 AudioDemo:-[ZAEResourceRequestOperation dequeueRequestRanges:],[Line 166]:
 ```
 
-新问题，OOM是解决了，但是CPU一直居高不下。
+选取并发队列。如果选择并发队列，则以上三步也不能解决OOM。还要加上product-consume模式，不能无限制的生产，因为系统调用取消操作有时不会那么及时。
 
-10.1页面vc有一个属性A是单例，然后调用A的一个耗时方法，然后点击vc返回，问vc会不会被销毁？
+另外并发队列只是减轻了串行队列的性能问题，但没有完全解决，因为如果是部分缓存部分需要下载的情况，那么还是有可能导致读操作被阻塞。
+
+选取读写锁。效果非常棒，避免了读饥饿或写饥饿。
+
+10.1新问题，OOM是解决了，但是CPU一直居高不下。
+
+10.2新问题，并发队列，在无seek操作下，从头到尾的播放无缓存的视频，内存会缓慢增长一度增长到400M直到网络问题被暂停了才回落到70M。如果是播放完全缓存的则没有这个情况，内存一直在24M左右。
+
+原来后面的请求超时失败了，但前面的一个请求一直在下载，一直在下载。
+
+或者当前请求没有问题，一直在下载，播放器也一直在正常播放，就会导致内存一直缓慢增长直到播放完成才又缓慢回落。
+
+10.3页面vc有一个属性A是单例，然后调用A的一个耗时方法，然后点击vc返回，问vc会不会被销毁？
 
 会马上销毁，但A的耗时任务仍然在进行，执行完后依然会调用complete回调。其实就跟在页面内发起了一个网络请求一样的。
 
-10.2 偶尔出现
+10.4 偶尔出现
 
 ```
 2020-12-15 22:29:40.859833+0800 AudioDemo[3260:707689] *** -[AVAssetResourceLoadingRequest finishLoading] was sent to an instance of AVAssetResourceLoadingRequest that was already finished. Ignoring.
@@ -493,6 +497,25 @@ __weak typeof(self) weakSelf = self;
 
 
 
+##### 问题14：塞数据给播放器及保存到本地文件注意点currentOffset
+
+```objc
+- (void)dataTaskDidReceiveDataWithSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask data:(NSData *)data {
+//    DDLogError(@"接收数据LoadingRequest：%ld，Operation：%@", self.loadingRequest.hash, self);
+    [self.mediaCache storeMediaDataWithContentInfo:self.contentInfo
+                                     currentOffset:self.loadingRequest.dataRequest.currentOffset
+                                              data:data
+                                            forKey:self.resourceURL.absoluteString
+                                        completion:nil];
+    
+    if (self.delgate && [self.delgate respondsToSelector:@selector(requestOperation:didReceiveData:)]) {
+        [self.delgate requestOperation:self didReceiveData:data];
+    }
+}
+```
+
+上面两个方法不能交换位置，因为只要给播放器塞了数据self.loadingRequest.dataRequest.currentOffset的值就变了，导致保存到本地时offset与实际应该的位置就错了。
+
 ### 参考
 
 [Audio streaming and caching in iOS using AVAssetResourceLoader and AVPlayer](https://www.codeproject.com/Articles/875105/Audio-streaming-and-caching-in-iOS-using)
@@ -522,4 +545,122 @@ __weak typeof(self) weakSelf = self;
 [如果视频拖动快进这时候会有声音但画面卡住了](https://github.com/vitoziv/VIMediaCache/issues/19)  非常棘手的问题
 
 [iOS性能优化实践：头条抖音如何实现OOM崩溃率下降50%+](https://www.mdeditor.tw/pl/ptm8)  稍微看下方案
+
+
+
+一次典型的请求:从创建到执行到取消到销毁。
+
+```
+2020-12-17 10:24:31.398959+0800 AudioDemo[4018:1759248] add Loading Request:0x17000d970，op：<ZAEResourceRequestOperation: 0x1740aa4a0, loadingRequest:0x17000d970, remoteDataTask:0x0, localDataTask:0x0, isCancelled:NO>
+当前：loadingRequests：(
+    "<AVAssetResourceLoadingRequest: 0x17000c950, URL request = <NSMutableURLRequest: 0x17000c990> { URL: http-mine://1251661065.vod2.myqcloud.com/98deaa00vodgzp1251661065/c6200b325285890794913485240/saGb5NcsJREA.mp4 }, request ID = 31, content information request = (null), data request = <AVAssetResourceLoadingDataRequest: 0x17000dbe0, requested offset = 0, requested length = 553363384, requests all data to end of resource = YES, current offset = 8456368>>",
+    "<AVAssetResourceLoadingRequest: 0x17000d970, URL request = <NSMutableURLRequest: 0x17400fc70> { URL: http-mine://1251661065.vod2.myqcloud.com/98deaa00vodgzp1251661065/c6200b325285890794913485240/saGb5NcsJREA.mp4 }, request ID = 32, content information request = (null), data request = <AVAssetResourceLoadingDataRequest: 0x17400fc30, requested offset = 6356992, requested length = 547006392, requests all data to end of resource = YES, current offset = 6356992>>"
+)
+dataOperationDict：{
+    0x17000c950 = "<ZAEResourceRequestOperation: 0x1700abe80, loadingRequest:0x17000c950, remoteDataTask:0x102024cb0, localDataTask:0x170224640, isCancelled:NO>";
+    0x17000d970 = "<ZAEResourceRequestOperation: 0x1740aa4a0, loadingRequest:0x17000d970, remoteDataTask:0x0, localDataTask:0x0, isCancelled:NO>";
+}
+2020-12-17 10:24:31.407478+0800 AudioDemo[4018:1758891] start op:<ZAEResourceRequestOperation: 0x1740aa4a0, loadingRequest:0x17000d970, remoteDataTask:0x0, localDataTask:0x0, isCancelled:NO>, 原始请求：6356992-553363383
+已缓存区间列表：
+(
+    "type:1,start:0,end:8456367,length:8456368",
+    "type:1,start:63045632,end:63067393,length:21762",
+    "type:1,start:65863680,end:65929919,length:66240",
+    "type:1,start:111542272,end:162518719,length:50976448",
+    "type:1,start:168820736,end:168886271,length:65536",
+    "type:1,start:192741376,end:192760695,length:19320",
+    "type:1,start:200015872,end:200031051,length:15180",
+    "type:1,start:200933376,end:200945795,length:12420",
+    "type:1,start:202178560,end:202179939,length:1380",
+    "type:1,start:212664320,end:212698887,length:34568",
+    "type:1,start:224722944,end:224788479,length:65536",
+    "type:1,start:225312768,end:225356159,length:43392",
+    "type:1,start:241565696,end:241593295,length:27600",
+    "type:1,start:250347520,end:250348899,length:1380",
+    "type:1,start:327483392,end:327498911,length:15520",
+    "type:1,start:336855040,end:336896439,length:41400",
+    "type:1,start:337575936,end:337615955,length:40020",
+    "type:1,start:339345408,end:339375767,length:30360",
+    "type:1,start:388956160,end:389021695,length:65536",
+    "type:1,start:389873664,end:389902643,length:28980",
+    "type:1,start:393871360,end:393936895,length:65536",
+    "type:1,start:394330112,end:394419431,length:89320",
+    "type:1,start:400687104,end:401080319,length:393216",
+    "type:1,start:401145856,end:447009547,length:45863692",
+    "type:1,start:489291776,end:489314779,length:23004",
+    "type:1,start:490143744,end:490146503,length:2760"
+)
+拆分请求列表：
+(
+    "type:1,start:6356992,end:8456367,length:2099376",
+    "type:0,start:8456368,end:63045631,length:54589264",
+    "type:1,start:63045632,end:63067393,length:21762",
+    "type:0,start:63067394,end:65863679,length:2796286",
+    "type:1,start:65863680,end:65929919,length:66240",
+    "type:0,start:65929920,end:111542271,length:45612352",
+    "type:1,start:111542272,end:162518719,length:50976448",
+    "type:0,start:162518720,end:168820735,length:6302016",
+    "type:1,start:168820736,end:168886271,length:65536",
+    "type:0,start:168886272,end:192741375,length:23855104",
+    "type:1,start:192741376,end:192760695,length:19320",
+    "type:0,start:192760696,end:200015871,length:7255176",
+    "type:1,start:200015872,end:200031051,length:15180",
+    "type:0,start:200031052,end:200933375,length:902324",
+    "type:1,start:200933376,end:200945795,length:12420",
+    "type:0,start:200945796,end:202178559,length:1232764",
+    "type:1,start:202178560,end:202179939,length:1380",
+    "type:0,start:202179940,end:212664319,length:10484380",
+    "type:1,start:212664320,end:212698887,length:34568",
+    "type:0,start:212698888,end:224722943,length:12024056",
+    "type:1,start:224722944,end:224788479,length:65536",
+    "type:0,start:224788480,end:225312767,length:524288",
+    "type:1,start:225312768,end:225356159,length:43392",
+    "type:0,start:225356160,end:241565695,length:16209536",
+    "type:1,start:241565696,end:241593295,length:27600",
+    "type:0,start:241593296,end:250347519,length:8754224",
+    "type:1,start:250347520,end:250348899,length:1380",
+    "type:0,start:250348900,end:327483391,length:77134492",
+    "type:1,start:327483392,end:327498911,length:15520",
+    "type:0,start:327498912,end:336855039,length:9356128",
+    "type:1,start:336855040,end:336896439,length:41400",
+    "type:0,start:336896440,end:337575935,length:679496",
+    "type:1,start:337575936,end:337615955,length:40020",
+    "type:0,start:337615956,end:339345407,length:1729452",
+    "type:1,start:339345408,end:339375767,length:30360",
+    "type:0,start:339375768,end:388956159,length:49580392",
+    "type:1,start:388956160,end:389021695,length:65536",
+    "type:0,start:389021696,end:389873663,length:851968",
+    "type:1,start:389873664,end:389902643,length:28980",
+    "type:0,start:389902644,end:393871359,length:3968716",
+    "type:1,start:393871360,end:393936895,length:65536",
+    "type:0,start:393936896,end:394330111,length:393216",
+    "type:1,start:394330112,end:394419431,length:89320",
+    "type:0,start:394419432,end:400687103,length:6267672",
+    "type:1,start:400687104,end:401080319,length:393216",
+    "type:0,start:401080320,end:401145855,length:65536",
+    "type:1,start:401145856,end:447009547,length:45863692",
+    "type:0,start:447009548,end:489291775,length:42282228",
+    "type:1,start:489291776,end:489314779,length:23004",
+    "type:0,start:489314780,end:490143743,length:828964",
+    "type:1,start:490143744,end:490146503,length:2760",
+    "type:0,start:490146504,end:553363383,length:63216880"
+)
+
+执行本地请求：<NSOperation: 0x17022bf00>开始：6356992-8456367，请求总长度：2099376，op:<ZAEResourceRequestOperation: 0x1740aa4a0, loadingRequest:0x17000d970, remoteDataTask:0x0, localDataTask:0x17022bf00, isCancelled:NO>
+
+本地请求完成:<ZAEResourceRequestOperation: 0x1740aa4a0, loadingRequest:0x17000d970, remoteDataTask:0x0, localDataTask:0x17022bf00, isCancelled:NO>, error:(null), 请求范围：6356992-8456367，请求总长度：2099376，本地请求返回数据长度：2099376, 耗时：15.187025ms
+
+执行远程请求：<__NSCFLocalDataTask: 0x1020619d0>{ taskIdentifier: 1 } { running }开始：8456368-63045631，请求总长度：54589264，op:<ZAEResourceRequestOperation: 0x1740aa4a0, loadingRequest:0x17000d970, remoteDataTask:0x1020619d0, localDataTask:0x17022bf00, isCancelled:NO>
+
+响应头 code:206, Operation：<ZAEResourceRequestOperation: 0x1740aa4a0, loadingRequest:0x17000d970, remoteDataTask:0x1020619d0, localDataTask:0x17022bf00, isCancelled:NO>
+
+
+取消部分 Loading Request:<AVAssetResourceLoadingRequest: 0x17000d970, URL request = <NSMutableURLRequest: 0x17400fc70> { URL: http-mine://1251661065.vod2.myqcloud.com/98deaa00vodgzp1251661065/c6200b325285890794913485240/saGb5NcsJREA.mp4 }, request ID = 32, content information request = (null), data request = <AVAssetResourceLoadingDataRequest: 0x17400fc30, requested offset = 6356992, requested length = 547006392, requests all data to end of resource = YES, current offset = 9178448>> op:<ZAEResourceRequestOperation: 0x1740aa4a0, loadingRequest:0x17000d970, remoteDataTask:0x1020619d0, localDataTask:0x17022bf00, isCancelled:NO>
+
+2020-12-17 10:24:34.468351+0800 AudioDemo[4018:1759249] 将要取消请求序列，当前op：<ZAEResourceRequestOperation: 0x1740aa4a0, loadingRequest:0x17000d970, remoteDataTask:0x1020619d0, localDataTask:0x17022bf00, isCancelled:NO>
+
+2020-12-17 10:24:34.469033+0800 AudioDemo[4018:1759249] <ZAEResourceRequestOperation: 0x1740aa4a0, loadingRequest:0x17000d970, remoteDataTask:0x1020619d0, localDataTask:0x17022bf00, isCancelled:YES>销毁
+
+2020-12-17 10:24:34.492829+0800 AudioDemo[4018:1759171] 远程请求完成, error:cancelled, weakSelf：(null)，dataTask:<__NSCFLocalDataTask: 0x1020619d0>{ taskIdentifier: 1 } { completed }
+```
 
