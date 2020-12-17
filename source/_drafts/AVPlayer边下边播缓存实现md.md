@@ -406,7 +406,7 @@ dataOperationDict：{
 2020-12-15 22:29:40.859833+0800 AudioDemo[3260:707689] *** -[AVAssetResourceLoadingRequest finishLoading] was sent to an instance of AVAssetResourceLoadingRequest that was already finished. Ignoring.
 ```
 
-##### 问题11：弱网播放时，频繁seek，偶尔出现声音正常但画面卡住的情况。非常难搞。
+##### 问题11：弱网播放视频时，频繁seek，偶尔出现声音正常但画面卡住或画面正常声音没有的情况。非常难搞。
 
 视频播放非常棘手的问题：声音正常播放但画面卡住或黑屏无画面，画面正常播放但无声音，声画都有但不同步。
 
@@ -515,6 +515,41 @@ __weak typeof(self) weakSelf = self;
 ```
 
 上面两个方法不能交换位置，因为只要给播放器塞了数据self.loadingRequest.dataRequest.currentOffset的值就变了，导致保存到本地时offset与实际应该的位置就错了。
+
+##### 问题15：读写锁，播放1.5h的音频，疯狂seek快进又快退，直接卡死UI，有时候能够恢复有时隔10s左右等到真播放失败后又自行恢复了。
+
+后面直接用系统播放的也一样，疯狂seek快进又快退，也会突然卡死，直到真播放失败后又自行恢复了。看来是音频本身有问题。
+
+```
+http://1251661065.vod2.myqcloud.com/98deaa00vodgzp1251661065/023401157447398156618029358/MfWImeetaJgA.wav
+```
+
+日志：
+
+```
+2020-12-17 23:02:18.843146+0800 AudioDemo[4001:832133] 执行本地请求：<NSOperation: 0x174034ce0>开始：127729664-160825343，请求总长度：33095680，op:<ZAEResourceRequestOperation: 0x1700a7ce0, loadingRequest:0x174014710, remoteDataTask:0x0, localDataTask:0x174034ce0, isCancelled:NO>
+2020-12-17 23:02:18.843948+0800 AudioDemo[4001:832133] 远程请求完成, error:cancelled, weakSelf：(null)，dataTask:<__NSCFLocalDataTask: 0x13fd44110>{ taskIdentifier: 1 } { completed }
+2020-12-17 23:02:19.032940+0800 AudioDemo[4001:832220] 响应头 code:206, Operation：<ZAEResourceRequestOperation: 0x1740a7e60, loadingRequest:0x1700176f0, remoteDataTask:0x13fe6a560, localDataTask:0x174034f80, isCancelled:NO>
+2020-12-17 23:02:28.090267+0800 AudioDemo[4001:831634] TouchUpOutside:0.192500,  seekTime:1049.333644
+2020-12-17 23:02:28.090407+0800 AudioDemo[4001:831634] seekToTime 1331.078636,是否完成:0
+2020-12-17 23:02:28.120611+0800 AudioDemo[4001:831634] seek cmTime
+{629600/600 = 1049.333, rounded}
+2020-12-17 23:02:28.128934+0800 AudioDemo[4001:831634] seekToTime 1049.333644,是否完成:0
+2020-12-17 23:02:28.129970+0800 AudioDemo[4001:831634] TouchUpOutside:0.250000,  seekTime:1362.771000
+2020-12-17 23:02:28.130234+0800 AudioDemo[4001:831634] seek cmTime
+{817662/600 = 1362.770, rounded}
+2020-12-17 23:02:28.132094+0800 AudioDemo[4001:831634] TouchUpOutside:0.413953,  seekTime:2256.495208
+2020-12-17 23:02:28.132215+0800 AudioDemo[4001:831634] seekToTime 1362.771000,是否完成:0
+2020-12-17 23:02:28.132857+0800 AudioDemo[4001:831634] seek cmTime
+{1353897/600 = 2256.495, rounded}
+2020-12-17 23:02:28.134917+0800 AudioDemo[4001:831634] TouchUpOutside:0.646512,  seekTime:3524.189117
+2020-12-17 23:02:28.135034+0800 AudioDemo[4001:831634] seekToTime 2256.495208,是否完成:0
+2020-12-17 23:02:28.135441+0800 AudioDemo[4001:831634] seek cmTime
+{2114513/600 = 3524.188, rounded}
+2020-12-17 23:02:29.023626+0800 AudioDemo[4001:831634] 播放失败,error:Error Domain=AVFoundationErrorDomain Code=-11819 "Cannot Complete Action" UserInfo={NSLocalizedDescription=Cannot Complete Action, NSLocalizedRecoverySuggestion=Try again later.}
+```
+
+
 
 ### 参考
 
