@@ -68,6 +68,34 @@ b.下载完成后移除当前loadingRequest。
 
 TODO
 
+#### 4.缓冲估算
+
+> 正在播放10s，然后seek快退到未下载的5s，loading不及时。
+
+在seek前，想通过loadedTimeRanges判断，但发现没效果。
+
+```
+- (BOOL)loadedTimeRangesContainTime:(NSTimeInterval)time {
+    CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
+    BOOL ret = NO;
+    NSArray *loadedTimeRanges = [[self.player currentItem] loadedTimeRanges];
+    for (NSValue *val in loadedTimeRanges) {
+        CMTimeRange timeRange = [val CMTimeRangeValue];// 获取缓冲区域
+        float startSeconds = CMTimeGetSeconds(timeRange.start);
+        float durationSeconds = CMTimeGetSeconds(timeRange.duration);
+        if (startSeconds <= time && time < startSeconds + durationSeconds) {
+            ret = YES;
+            break;
+        }
+    }
+    CFAbsoluteTime linkTime = (CFAbsoluteTimeGetCurrent() - startTime);
+    NSLog(@"判断是否包含time:%f, 耗时：%fms", time, linkTime * 1000);
+    return ret;
+}
+```
+
+TODO另一种办法：[keyPath isEqualToString:@"loadedTimeRanges"]，当KVO回调时，合并区间。当用户seek时，就从区间里判断是否包含。
+
 ### 问题
 
 ##### 问题0：在缓存到80%的时候，出现range的left>right的现象。
