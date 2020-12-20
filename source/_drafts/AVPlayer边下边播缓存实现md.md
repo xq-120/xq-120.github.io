@@ -597,7 +597,11 @@ http://1251661065.vod2.myqcloud.com/98deaa00vodgzp1251661065/c6200b3252858907949
 
 <img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20201220152927.png" style="zoom:50%;" />
 
-参考：[一次读锁重入导致的死锁故障](https://blog.thinkeridea.com/201812/go/yi_ci_du_suo_chong_ru_dao_zhi_de_si_suo_gu_zhang.html)
+参考：
+
+[一次读锁重入导致的死锁故障](https://blog.thinkeridea.com/201812/go/yi_ci_du_suo_chong_ru_dao_zhi_de_si_suo_gu_zhang.html)
+
+[Code that debugs itself: Fixing a deadlock with a watchdog](https://medium.com/bluecore-engineering/code-that-debugs-itself-fixing-a-deadlock-with-a-watchdog-cd83019cce2e)
 
 去掉所有同步方法的读写锁后，没有出现卡死的现象。但是会有声画不同步的问题。
 
