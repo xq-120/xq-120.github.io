@@ -406,7 +406,7 @@ dataOperationDict：{
 
 4.本地读取操作的队列选择
 
-选取串行队列。以上三步完成后，再配合串行队列就可以解决OOM的问题。但是串行队列有性能问题，经过不断的测试发现串行队列容易引起性能问题，特别是缓存了一部分，又要下载一部分，导致需要同时写入和读取，但貌似总是写入操作抢夺成功，如下日志：
+**选取串行队列**。以上三步完成后，再配合串行队列就可以解决OOM的问题。但是串行队列有性能问题，经过不断的测试发现串行队列容易引起性能问题，特别是缓存了一部分，又要下载一部分，导致需要同时写入和读取，但貌似总是写入操作抢夺成功，如下日志：
 
 ```
 2020-12-16 10:11:43.589060+0800 AudioDemo[2769:1572353] 读取405733376--405733375数据完成!!!
@@ -429,11 +429,92 @@ dataOperationDict：{
 2020-12-16 10:11:44:667 AudioDemo:-[ZAEResourceRequestOperation dequeueRequestRanges:],[Line 166]:
 ```
 
-选取并发队列。如果选择并发队列，则以上三步也不能解决OOM。还要加上product-consume模式，不能无限制的生产，因为系统调用取消操作有时不会那么及时。
+**选取并发队列**。需要加上product-consume模式，不能无限制的生产，因为系统调用取消操作有时不会那么及时。
 
 另外并发队列只是减轻了串行队列的性能问题，但没有完全解决，因为如果是部分缓存部分需要下载的情况，那么还是有可能导致读操作被阻塞。
 
-选取读写锁。效果非常棒，避免了读饥饿或写饥饿。又遇到新的问题，频繁seek偶尔会发生死锁，主线程无响应。
+1：5s，完全缓存，并发队列，读数据耗时
+
+```
+2020-12-27 10:58:53.554633+0800 AudioDemo[4832:1236190] 本地请求完成:<ZAEResourceRequestOperation: 0x1700b4dc0, loadingRequest:0x17401e030, remoteDataTask:0x0, localDataTask:0x174220d40, isCancelled:NO>, error:(null), 请求范围：118685696-118751231，请求总长度：65536，本地请求返回数据长度：65536, 耗时：11.551023ms
+2020-12-27 10:58:51.081115+0800 AudioDemo[4832:1236301] 本地请求完成:<ZAEResourceRequestOperation: 0x1740b3fe0, loadingRequest:0x17401cd60, remoteDataTask:0x0, localDataTask:0x17403fa00, isCancelled:NO>, error:(null), 请求范围：7340032-553363383，请求总长度：546023352，本地请求返回数据长度：546023352, 耗时：5453.183055ms
+2020-12-27 10:58:54.157903+0800 AudioDemo[4832:1236346] 本地请求完成:<ZAEResourceRequestOperation: 0x1740b4100, loadingRequest:0x17401e220, remoteDataTask:0x0, localDataTask:0x1742208c0, isCancelled:NO>, error:(null), 请求范围：305594368-305659903，请求总长度：65536，本地请求返回数据长度：65536, 耗时：39.137959ms
+2020-12-27 10:58:55.466520+0800 AudioDemo[4832:1236348] 本地请求完成:<ZAEResourceRequestOperation: 0x1700b4a60, loadingRequest:0x17401e190, remoteDataTask:0x0, localDataTask:0x1742224e0, isCancelled:NO>, error:(null), 请求范围：450035712-450101247，请求总长度：65536，本地请求返回数据长度：65536, 耗时：10.172963ms
+2020-12-27 10:59:27.158853+0800 AudioDemo[4832:1236410] 本地请求完成:<ZAEResourceRequestOperation: 0x1700b9680, loadingRequest:0x17001d6b0, remoteDataTask:0x0, localDataTask:0x174229d80, isCancelled:NO>, error:(null), 请求范围：104267776-406978559，请求总长度：302710784，本地请求返回数据长度：302710784, 耗时：3870.321989ms
+2020-12-27 10:59:31.458737+0800 AudioDemo[4832:1236190] 本地请求完成:<ZAEResourceRequestOperation: 0x1740b8a80, loadingRequest:0x17001d760, remoteDataTask:0x0, localDataTask:0x174229e00, isCancelled:NO>, error:(null), 请求范围：118751232-553363383，请求总长度：434612152，本地请求返回数据长度：434612152, 耗时：4573.812008ms
+2020-12-27 10:59:39.325969+0800 AudioDemo[4832:1236410] 本地请求完成:<ZAEResourceRequestOperation: 0x1700b9740, loadingRequest:0x17001d7a0, remoteDataTask:0x0, localDataTask:0x174229640, isCancelled:NO>, error:(null), 请求范围：125239296-553363383，请求总长度：428124088，本地请求返回数据长度：428124088, 耗时：5554.340005ms
+2020-12-27 10:59:42.040332+0800 AudioDemo[4832:1236190] 本地请求完成:<ZAEResourceRequestOperation: 0x1740b9560, loadingRequest:0x17401ef10, remoteDataTask:0x0, localDataTask:0x17422a060, isCancelled:NO>, error:(null), 请求范围：129040384-553363383，请求总长度：424323000，本地请求返回数据长度：424323000, 耗时：5944.846988ms
+```
+
+2：5s，部分缓存，并发队列，读数据耗时
+
+```
+2020-12-27 11:10:52.500520+0800 AudioDemo[4835:1237791] 本地请求完成:<ZAEResourceRequestOperation: 0x1740b4fa0, loadingRequest:0x174011bd0, remoteDataTask:0x0, localDataTask:0x17422e420, isCancelled:NO>, error:(null), 请求范围：293984-1516801，请求总长度：1222818，本地请求返回数据长度：1222818, 耗时：24.111986ms
+2020-12-27 11:14:48.790028+0800 AudioDemo[4835:1238458] 本地请求完成:<ZAEResourceRequestOperation: 0x1740b82a0, loadingRequest:0x174012360, remoteDataTask:0x113df48e0, localDataTask:0x17042b5e0, isCancelled:NO>, error:(null), 请求范围：349831168-349860103，请求总长度：28936，本地请求返回数据长度：28936, 耗时：22693.680048ms
+2020-12-27 11:14:49.307740+0800 AudioDemo[4835:1238458] 本地请求完成:<ZAEResourceRequestOperation: 0x1740b82a0, loadingRequest:0x174012360, remoteDataTask:0x113df5830, localDataTask:0x174230c00, isCancelled:NO>, error:(null), 请求范围：350224384-350240095，请求总长度：15712，本地请求返回数据长度：15712, 耗时：80.983043ms
+2020-12-27 11:14:53.432821+0800 AudioDemo[4835:1238410] 本地请求完成:<ZAEResourceRequestOperation: 0x1740b82a0, loadingRequest:0x174012360, remoteDataTask:0x113e51370, localDataTask:0x17042c7a0, isCancelled:NO>, error:(null), 请求范围：353042432-353053727，请求总长度：11296，本地请求返回数据长度：11296, 耗时：2354.549050ms
+2020-12-27 11:14:54.806763+0800 AudioDemo[4835:1238458] 本地请求完成:<ZAEResourceRequestOperation: 0x1702a14a0, loadingRequest:0x174013a50, remoteDataTask:0x0, localDataTask:0x17423c340, isCancelled:NO>, error:(null), 请求范围：187564032-188415999，请求总长度：851968，本地请求返回数据长度：851968, 耗时：21.830082ms
+2020-12-27 11:14:55.613672+0800 AudioDemo[4835:1238458] 本地请求完成:<ZAEResourceRequestOperation: 0x1740bec60, loadingRequest:0x174013cd0, remoteDataTask:0x0, localDataTask:0x170427f20, isCancelled:NO>, error:(null), 请求范围：197001216-197066751，请求总长度：65536，本地请求返回数据长度：65536, 耗时：8.183002ms
+2020-12-27 11:14:54.917223+0800 AudioDemo[4835:1238524] 本地请求完成:(null), error:(null), 请求范围：190185472-190251007，请求总长度：65536，本地请求返回数据长度：65536, 耗时：29.088974ms
+2020-12-27 11:14:56.980426+0800 AudioDemo[4835:1238461] 本地请求完成:<ZAEResourceRequestOperation: 0x1740bca40, loadingRequest:0x170016300, remoteDataTask:0x0, localDataTask:0x1742316a0, isCancelled:NO>, error:(null), 请求范围：296353792-296419327，请求总长度：65536，本地请求返回数据长度：65536, 耗时：120.229006ms
+2020-12-27 11:15:24.526798+0800 AudioDemo[4835:1238410] 本地请求完成:<ZAEResourceRequestOperation: 0x1702a4e60, loadingRequest:0x170017e80, remoteDataTask:0x0, localDataTask:0x174425ca0, isCancelled:NO>, error:(null), 请求范围：474873856-474939391，请求总长度：65536，本地请求返回数据长度：65536, 耗时：63.163042ms
+2020-12-27 11:15:24.547313+0800 AudioDemo[4835:1238585] 本地请求完成:<ZAEResourceRequestOperation: 0x1702a5280, loadingRequest:0x174015040, remoteDataTask:0x0, localDataTask:0x17042e5e0, isCancelled:NO>, error:(null), 请求范围：475201536-475267071，请求总长度：65536，本地请求返回数据长度：65536, 耗时：2.254963ms
+```
+
+和读写锁一样，如果需要等待的话，读取操作就慢一些。
+
+在播放未缓存视频时，突然切换下一首，有时候读操作很耗时：概率还比较大。
+
+```
+2020-12-27 11:35:16.467090+0800 AudioDemo[4835:1240861] 本地请求完成:<ZAEResourceRequestOperation: 0x1702b8a20, loadingRequest:0x17401d120, remoteDataTask:0x0, localDataTask:0x174632700, isCancelled:NO>, error:(null), 请求范围：0-1，请求总长度：2，本地请求返回数据长度：2, 耗时：3814.440966ms
+```
+
+有时候读操作会很慢：
+
+```
+2020-12-27 11:55:37.796402+0800 AudioDemo[4835:1244386] 执行本地请求：<NSOperation: 0x174a35000>开始：157810688-157822031，请求总长度：11344，op:<ZAEResourceRequestOperation: 0x1744bad60, loadingRequest:0x174204e20, remoteDataTask:0x115c02d60, localDataTask:0x174a35000, isCancelled:NO>
+2020-12-27 11:55:53.277064+0800 AudioDemo[4835:1237693] 等待播放，网络出现问题
+2020-12-27 11:56:55.503979+0800 AudioDemo[4835:1244100] 读取157810688-157822031数据完成!!!,请求长度：11344,实际返回：11344,是否取消：0，总耗时:77707.650900ms
+2020-12-27 11:56:55.505475+0800 AudioDemo[4835:1244100] 本地请求完成:<ZAEResourceRequestOperation: 0x1744bad60, loadingRequest:0x174204e20, remoteDataTask:0x115c02d60, localDataTask:0x174a35000, isCancelled:NO>, error:(null), 请求范围：157810688-157822031，请求总长度：11344，本地请求返回数据长度：11344, 耗时：77708.058000ms
+```
+
+应该是一直在等写操作完成。使用读写锁目前没有看到有等待这么久的。总体来说读写锁还是优于barrier。
+
+新问题：
+
+偶现声音正常但画面卡住。
+
+**选取读写锁**。需要要加上product-consume模式，否则如果渐进式读取选择一次10M，依然会OOM，如果选择1M，虽然不会OOM（偶尔也会彪很高300-400M有OOM的风险），但频繁seek会明显感觉到滑动条很卡，因为CPU消耗太严重。加上product-consume模式后，频繁seek卡的问题，可以得到很好的解决。效果非常棒，避免了读饥饿或写饥饿。
+
+又遇到新的问题：
+
+频繁seek偶尔会发生死锁，主线程无响应。已解决。
+
+无缓存情况下频繁seek偶尔出现画面正常但无声音。
+
+1：5s，完全缓存，读写锁，读数据耗时
+
+```
+2020-12-27 09:11:02.886212+0800 AudioDemo[4803:1220972] 本地请求完成:<ZAEResourceRequestOperation: 0x1740b4ca0, loadingRequest:0x174009450, remoteDataTask:0x0, localDataTask:0x17403cb20, isCancelled:NO>, error:(null), 请求范围：242155520-349831167，请求总长度：107675648，本地请求返回数据长度：107675648, 耗时：1206.562042ms
+2020-12-27 09:11:05.629485+0800 AudioDemo[4803:1220857] 本地请求完成:<ZAEResourceRequestOperation: 0x1700b4400, loadingRequest:0x1740094f0, remoteDataTask:0x0, localDataTask:0x170226c00, isCancelled:NO>, error:(null), 请求范围：272826368-553363383，请求总长度：280537016，本地请求返回数据长度：280537016, 耗时：2723.701000ms
+2020-12-27 09:11:08.503392+0800 AudioDemo[4803:1220857] 本地请求完成:(null), error:Error Domain=com.zhenai.emotioncounsel Code=-999 "取消操作" UserInfo={NSLocalizedDescription=取消操作}, 请求范围：273154048-553363383，请求总长度：280209336，本地请求返回数据长度：1048576, 耗时：59.594989ms
+2020-12-27 09:11:09.036530+0800 AudioDemo[4803:1220985] 本地请求完成:<ZAEResourceRequestOperation: 0x1740b53c0, loadingRequest:0x17000de30, remoteDataTask:0x0, localDataTask:0x170226160, isCancelled:NO>, error:(null), 请求范围：277217280-277282815，请求总长度：65536，本地请求返回数据长度：65536, 耗时：8.244991ms
+```
+
+可以看到如果没有写数据的操作，仅仅是读的话其实还是挺快的，65536byte只需要8ms。
+
+2：5s，部分缓存，读写锁，读数据耗时
+
+```
+2020-12-27 09:33:38.384659+0800 AudioDemo[4809:1224349] 本地请求完成:<ZAEResourceRequestOperation: 0x1740b77c0, loadingRequest:0x17000a490, remoteDataTask:0x10193a480, localDataTask:0x1700311c0, isCancelled:NO>, error:(null), 请求范围：11665408-11730943，请求总长度：65536，本地请求返回数据长度：65536, 耗时：54.841042ms
+2020-12-27 09:33:40.679697+0800 AudioDemo[4809:1224484] 本地请求完成:<ZAEResourceRequestOperation: 0x1740b77c0, loadingRequest:0x17000a490, remoteDataTask:0x101844140, localDataTask:0x17403ad60, isCancelled:NO>, error:(null), 请求范围：12910592-12976127，请求总长度：65536，本地请求返回数据长度：65536, 耗时：109.176993ms
+2020-12-27 09:33:40.996406+0800 AudioDemo[4809:1224451] 本地请求完成:<ZAEResourceRequestOperation: 0x1740b77c0, loadingRequest:0x17000a490, remoteDataTask:0x101941760, localDataTask:0x17003a980, isCancelled:NO>, error:(null), 请求范围：13238272-13303807，请求总长度：65536，本地请求返回数据长度：65536, 耗时：140.053034ms
+2020-12-27 09:33:43.090620+0800 AudioDemo[4809:1224501] 本地请求完成:<ZAEResourceRequestOperation: 0x1740b77c0, loadingRequest:0x17000a490, remoteDataTask:0x101843cb0, localDataTask:0x170033dc0, isCancelled:NO>, error:(null), 请求范围：15007744-15104799，请求总长度：97056，本地请求返回数据长度：97056, 耗时：236.387014ms
+2020-12-27 09:34:14.196842+0800 AudioDemo[4809:1224583] 本地请求完成:<ZAEResourceRequestOperation: 0x1700b6440, loadingRequest:0x174007870, remoteDataTask:0x0, localDataTask:0x17403cf00, isCancelled:NO>, error:(null), 请求范围：163708928-163774463，请求总长度：65536，本地请求返回数据长度：65536, 耗时：69.718003ms
+2020-12-27 09:37:39.098472+0800 AudioDemo[4809:1225406] 本地请求完成:<ZAEResourceRequestOperation: 0x1740b77c0, loadingRequest:0x17000b750, remoteDataTask:0x0, localDataTask:0x17022e280, isCancelled:NO>, error:(null), 请求范围：177995776-190151099，请求总长度：12155324，本地请求返回数据长度：12155324, 耗时：108.645082ms
+```
+
+部分缓存时，一些数据就需要下载及写数据到磁盘，导致读操作有时需要等待，65536byte就需要50-150ms。
 
 10.1新问题，OOM是解决了，但是CPU一直居高不下。
 
@@ -581,7 +662,7 @@ http://1251661065.vod2.myqcloud.com/98deaa00vodgzp1251661065/0234011574473981566
 2020-12-17 23:02:29.023626+0800 AudioDemo[4001:831634] 播放失败,error:Error Domain=AVFoundationErrorDomain Code=-11819 "Cannot Complete Action" UserInfo={NSLocalizedDescription=Cannot Complete Action, NSLocalizedRecoverySuggestion=Try again later.}
 ```
 
-问题14.1 读写锁缓存，iphone7plus 上播放视频，疯狂seek会卡死UI。卡死时CPU为0，内存也正常。
+问题14.1 读写锁缓存，iphone7plus，iOS14.2 上播放视频，疯狂seek会卡死UI。卡死时CPU为0，内存也正常。
 
 直接系统播放，不管怎样seek不会卡死也不会声画不同步。
 
@@ -591,11 +672,204 @@ http://1251661065.vod2.myqcloud.com/98deaa00vodgzp1251661065/0234011574473981566
 http://1251661065.vod2.myqcloud.com/98deaa00vodgzp1251661065/c6200b325285890794913485240/saGb5NcsJREA.mp4
 ```
 
-目前猜测是读写锁死锁了？
+已经确定是读写锁死锁了。
 
-直接断点，堆栈信息：
+死锁代码：
+
+```objc
+- (ZAERangeRecordTable *)rangeRecordTableFromCacheForKey:(NSString *)key {
+    DDLogError(@"读区间表,将要加读锁,线程:%@", [NSThread currentThread]);
+    int lockRet = pthread_rwlock_rdlock(&self->_rwlock);
+//    int lockRet = pthread_rwlock_tryrdlock(&self->_rwlock);
+    if (lockRet == EDEADLK) {
+        NSAssert(NO, @"死锁了！！！");
+    } else {
+        DDLogError(@"读区间表,加读锁code:%d,线程:%@", lockRet, [NSThread currentThread]);
+    }
+    ZAERangeRecordTable *table = [self diskRangeRecordTableForKey:key];
+    DDLogError(@"读区间表,将要解读锁,线程:%@", [NSThread currentThread]);
+    pthread_rwlock_unlock(&self->_rwlock);
+    return table;
+}
+
+- (NSOperation *)mediaDataWithStartOffset:(unsigned long long)startOffset length:(unsigned long long)numberOfBytesToRespondWith forKey:(nonnull NSString *)key didLoadData:(nullable void (^)(NSInteger, NSData * _Nonnull))didLoadDataBlock completion:(nullable void (^)(BOOL, unsigned long long, NSError * _Nullable))completionBlock {
+    if (didLoadDataBlock == nil) {
+        if (completionBlock) {
+            completionBlock(YES, numberOfBytesToRespondWith, nil);
+        }
+        return [NSOperation new];
+    }
+    CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
+    NSOperation *operation = [NSOperation new];
+    dispatch_async(_ioQueue, ^{
+    
+        DDLogError(@"读mediaData,将要加读锁,线程:%@", [NSThread currentThread]);
+        int lockRet = pthread_rwlock_rdlock(&self->_rwlock);
+        if (lockRet == EDEADLK) {
+            NSAssert(NO, @"死锁了！！！");
+        } else {
+            DDLogError(@"读mediaData,加读锁code:%d,线程:%@", lockRet, [NSThread currentThread]);
+        }
+        
+        NSString *cachePathForKey = [self defaultCachePathForKey:key];
+        NSFileHandle *readingFileHandle = [NSFileHandle fileHandleForReadingAtPath:cachePathForKey];
+        
+        unsigned long long off = startOffset;
+        unsigned long long total = numberOfBytesToRespondWith;
+        unsigned long long numberOfBytesResponded = 0;
+        NSInteger sliceIndex = 0;
+        NSError *error = nil;
+        DDLogError(@"1111");
+        while (total > 0) {
+            DDLogError(@"2222");
+//            dispatch_semaphore_wait(self.pcSemaphore, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(30 * NSEC_PER_SEC)));
+            dispatch_semaphore_wait(self.pcSemaphore, DISPATCH_TIME_FOREVER);
+            DDLogError(@"3333");
+            if (operation.isCancelled) {
+                DDLogError(@"44444");
+                dispatch_semaphore_signal(self.pcSemaphore);
+                error = [NSError errorWithCode:-999 msg:@"取消操作"];
+                break;
+            }
+            unsigned long long currReadLength = total;
+            if (currReadLength > kMaxLocalDataPerPage) {
+                currReadLength = kMaxLocalDataPerPage;
+            }
+            
+            @autoreleasepool {
+                NSData *mediaData = [self mediaDataWithStartOffset:off length:currReadLength readingFileHandle:readingFileHandle error:&error];
+                if (error) {
+                    DDLogError(@"55555");
+                    dispatch_semaphore_signal(self.pcSemaphore);
+                    break;
+                }
+                if (didLoadDataBlock) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        didLoadDataBlock(sliceIndex, mediaData);
+                        dispatch_semaphore_signal(self.pcSemaphore);
+                    });
+                } else {
+                    dispatch_semaphore_signal(self.pcSemaphore);
+                    NSAssert(NO, @"咋回事啊");
+                }
+            }
+            
+            off += currReadLength;
+            total -= currReadLength;
+            sliceIndex += 1;
+            numberOfBytesResponded += currReadLength;
+        }
+        [readingFileHandle closeFile];
+
+        if (operation.isCancelled && error == nil) {
+            error = [NSError errorWithCode:-999 msg:@"取消操作"];
+        }
+        
+        CFAbsoluteTime linkTime = (CFAbsoluteTimeGetCurrent() - startTime);
+        DDLogError(@"读取%lld-%lld数据完成!!!,请求长度：%lld,实际返回：%lld,是否取消：%d，总耗时:%fms", startOffset, startOffset + numberOfBytesToRespondWith - 1, numberOfBytesToRespondWith, numberOfBytesResponded, operation.isCancelled, linkTime * 1000.0);
+        DDLogError(@"读mediaData,将要解读锁,线程:%@", [NSThread currentThread]);
+        pthread_rwlock_unlock(&self->_rwlock);
+        
+        if (completionBlock) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completionBlock(error == nil ? YES : NO, numberOfBytesResponded, error);
+            });
+        }
+    });
+    return operation;
+}
+```
+
+打印：
+
+```
+2020-12-26 11:59:28.421577+0800 AudioDemo[28718:2344773] start op:<ZAEResourceRequestOperation: 0x283d4a4c0, loadingRequest:0x281b68ce0, remoteDataTask:0x0, localDataTask:0x0, isCancelled:NO>, 原始请求：255655936-365690879
+2020-12-26 11:59:28.425667+0800 AudioDemo[28718:2344773] 执行本地请求：<NSOperation: 0x282562500>开始：255655936-260357955，请求总长度：4702020，op:<ZAEResourceRequestOperation: 0x283d4a4c0, loadingRequest:0x281b68ce0, remoteDataTask:0x0, localDataTask:0x282562500, isCancelled:NO>
+2020-12-26 11:59:28.426131+0800 AudioDemo[28718:2344649] 读mediaData,将要加读锁,线程:<NSThread: 0x280c85f40>{number = 214, name = (null)}
+2020-12-26 11:59:28.426539+0800 AudioDemo[28718:2344649] 写MediaData,将要加写锁,线程:<NSThread: 0x28037ce00>{number = 179, name = (null)}
+2020-12-26 11:59:28.426747+0800 AudioDemo[28718:2344649] 读mediaData,加读锁code:0,线程:<NSThread: 0x280c85f40>{number = 214, name = (null)}
+2020-12-26 11:59:28.427955+0800 AudioDemo[28718:2344649] 1111
+2020-12-26 11:59:28.428102+0800 AudioDemo[28718:2344649] 2222
+2020-12-26 11:59:28.428217+0800 AudioDemo[28718:2344649] 3333
+2020-12-26 11:59:28.430432+0800 AudioDemo[28718:2344645] 写MediaData,将要加写锁,线程:<NSThread: 0x280cc2b00>{number = 155, name = (null)}
+2020-12-26 11:59:28.434168+0800 AudioDemo[28718:2344616] 2222
+2020-12-26 11:59:28.435470+0800 AudioDemo[28718:2344645] 远程请求完成, error:(null), weakSelf：<ZAEResourceRequestOperation: 0x283d4b2a0, loadingRequest:0x281b5b4c0, remoteDataTask:0x11f6d5f50, localDataTask:0x0, isCancelled:NO>，dataTask:LocalDataTask <769FF02C-435E-41E4-A568-FEEC36578C70>.<1>
+2020-12-26 11:59:28.435743+0800 AudioDemo[28718:2344540] 3333
+2020-12-26 11:59:28.435915+0800 AudioDemo[28718:2344540] 下载完成,error:(null),移除Loading Request：0x281b5b4c0, op:<ZAEResourceRequestOperation: 0x283d4b2a0, loadingRequest:0x281b5b4c0, remoteDataTask:0x11f6d5f50, localDataTask:0x0, isCancelled:NO>
+2020-12-26 11:59:28.436225+0800 AudioDemo[28718:2344540] <ZAEResourceRequestOperation: 0x283d4b2a0, loadingRequest:0x281b5b4c0, remoteDataTask:0x11f6d5f50, localDataTask:0x0, isCancelled:NO>销毁
+2020-12-26 11:59:28.439967+0800 AudioDemo[28718:2344645] 2222
+2020-12-26 11:59:28.440811+0800 AudioDemo[28718:2344540] 3333
+2020-12-26 11:59:28.444460+0800 AudioDemo[28718:2344540] 2222
+2020-12-26 11:59:28.444742+0800 AudioDemo[28718:2344645] add Loading Request:0x281b5abf0，op：<ZAEResourceRequestOperation: 0x283d391a0, loadingRequest:0x281b5abf0, remoteDataTask:0x0, localDataTask:0x0, isCancelled:NO>
+当前：loadingRequests：(
+    "<AVAssetResourceLoadingRequest: 0x281b68ce0, URL request = <NSMutableURLRequest: 0x281b69b40> { URL: http-mine://1251661065.vod2.myqcloud.com/98deaa00vodgzp1251661065/c6200b325285890794913485240/saGb5NcsJREA.mp4 }, request ID = 1376, content information request = (null), data request = <AVAssetResourceLoadingDataRequest: 0x281b69c60, requested offset = 255655936, requested length = 110034944, requests all data to end of resource = NO, current offset = 257753088>>",
+    "<AVAssetResourceLoadingRequest: 0x281b5abf0, URL request = <NSMutableURLRequest: 0x281b5b760> { URL: http-mine://1251661065.vod2.myqcloud.com/98deaa00vodgzp1251661065/c6200b325285890794913485240/saGb5NcsJREA.mp4 }, request ID = 1378, content information request = (null), data request = <AVAssetResourceLoadingDataRequest: 0x281b5b5b0, requested offset = 255000576, requested length = 65536, requests all data to end of resource = NO, current offset = 255000576>>"
+)
+dataOperationDict：{
+    0x281b5abf0 = "<ZAEResourceRequestOperation: 0x283d391a0, loadingRequest:0x281b5abf0, remoteDataTask:0x0, localDataTask:0x0, isCancelled:NO>";
+    0x281b68ce0 = "<ZAEResourceRequestOperation: 0x283d4a4c0, loadingRequest:0x281b68ce0, remoteDataTask:0x0, localDataTask:0x282562500, isCancelled:NO>";
+}
+2020-12-26 11:59:28.445280+0800 AudioDemo[28718:2344645] 读区间表,将要加读锁,线程:<NSThread: 0x280c78440>{number = 1, name = main}
+```
+
+后再无其他日志。莫名其妙的死锁。初步怀疑是和pcSemaphore信号量共同导致，注释掉信号量相关代码试了很久也没有死锁了。
+
+此时如果断点，堆栈信息：
 
 <img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20201220152927.png" style="zoom:50%;" />
+
+查看日志发现加写锁和解写锁是配对的。最后一次加锁是读mediaData,加的读锁。然而诡异的是为什么此时主线程去加读锁却没有成功，导致进入休眠等待状态。而读mediaData方法里线程还等着主线程发送信号量唤醒，但由于主线程已经休眠，于是读mediaData子线程也就没法继续执行，也没法解读锁，写线程也就进入等待。
+
+这里搞不懂的是读写锁不是可以同时加读锁的吗？为啥主线程却阻塞了。
+
+如果把信号量改为只等待30s,将会看到主线程在加读锁时也等待了30s，直到读mediaData线程解锁。
+
+```
+2020-12-26 12:45:01.874347+0800 AudioDemo[28970:2361196] add Loading Request:0x28345e810，op：<ZAEResourceRequestOperation: 0x28137c8a0, loadingRequest:0x28345e810, remoteDataTask:0x0, localDataTask:0x0, isCancelled:NO>
+当前：loadingRequests：(
+    "<AVAssetResourceLoadingRequest: 0x28345e4e0, URL request = <NSMutableURLRequest: 0x28345e470> { URL: http-mine://1251661065.vod2.myqcloud.com/98deaa00vodgzp1251661065/c6200b325285890794913485240/saGb5NcsJREA.mp4 }, request ID = 2644, content information request = (null), data request = <AVAssetResourceLoadingDataRequest: 0x28345e450, requested offset = 111673344, requested length = 71106560, requests all data to end of resource = NO, current offset = 160956416>>",
+    "<AVAssetResourceLoadingRequest: 0x28345e810, URL request = <NSMutableURLRequest: 0x28345e290> { URL: http-mine://1251661065.vod2.myqcloud.com/98deaa00vodgzp1251661065/c6200b325285890794913485240/saGb5NcsJREA.mp4 }, request ID = 2646, content information request = (null), data request = <AVAssetResourceLoadingDataRequest: 0x28345ea10, requested offset = 112001024, requested length = 65536, requests all data to end of resource = NO, current offset = 112001024>>"
+)
+dataOperationDict：{
+    0x28345e4e0 = "<ZAEResourceRequestOperation: 0x28137c780, loadingRequest:0x28345e4e0, remoteDataTask:0x0, localDataTask:0x280a5be00, isCancelled:NO>";
+    0x28345e810 = "<ZAEResourceRequestOperation: 0x28137c8a0, loadingRequest:0x28345e810, remoteDataTask:0x0, localDataTask:0x0, isCancelled:NO>";
+}
+2020-12-26 12:45:01.874819+0800 AudioDemo[28970:2361196] 读区间表,将要加读锁,线程:<NSThread: 0x282340780>{number = 1, name = main}
+2020-12-26 12:45:01.874905+0800 AudioDemo[28970:2361196] 2222
+
+
+2020-12-26 12:45:31.880032+0800 AudioDemo[28970:2361156] 3333
+2020-12-26 12:45:31.881952+0800 AudioDemo[28970:2361156] 读取111673344-162301823数据完成!!!,请求长度：50628480,实际返回：50628480,是否取消：0，总耗时:30072.767019ms
+2020-12-26 12:45:31.883266+0800 AudioDemo[28970:2361156] 读mediaData,将要解读锁,线程:<NSThread: 0x282c7f540>{number = 438, name = (null)}
+2020-12-26 12:45:31.884302+0800 AudioDemo[28970:2361156] 写MediaData,加写锁code:0,线程:<NSThread: 0x282c77a80>{number = 446, name = (null)}
+2020-12-26 12:45:31.906985+0800 AudioDemo[28970:2361156] 写MediaData,将要解写锁,线程:<NSThread: 0x282c77a80>{number = 446, name = (null)}
+2020-12-26 12:45:31.907870+0800 AudioDemo[28970:2361216] 写MediaData,加写锁code:0,线程:<NSThread: 0x2823c1180>{number = 419, name = (null)}
+2020-12-26 12:45:31.924607+0800 AudioDemo[28970:2361156] 写MediaData,将要解写锁,线程:<NSThread: 0x2823c1180>{number = 419, name = (null)}
+2020-12-26 12:45:31.925254+0800 AudioDemo[28970:2361150] 读区间表,加读锁code:0,线程:<NSThread: 0x282340780>{number = 1, name = main}
+2020-12-26 12:45:31.928500+0800 AudioDemo[28970:2361150] 读区间表,将要解读锁,线程:<NSThread: 0x282340780>{number = 1, name = main}
+```
+
+难道是因为读mediaData线程加读锁后，后面又跟了两个写MediaData的线程在等着，此时主线程来了，想加读锁，因为写线程优先级高一些，系统想让写线程先执行于是让读加锁的主线程先等着呢？我感觉应该是这样子，要不然写线程就饿死了。事实确实如此。还是没有理解好pthread_rwlock_rdlock的机制。
+
+**pthread_rwlock_rdlock**
+
+如果当前**没有写线程持有锁**或者**没有写线程阻塞在取锁**时则可以立刻获取到锁，否则请求锁的线程阻塞等待。
+
+一直怀疑是某次写线程没有解写锁导致读线程等待。然后有一次发现日志加写锁和解写锁次数不一致，查了半个多小时，原来是乌龙事件，有一行打印被串了：
+
+```
+2020-12-24 23:02:13.240206+0800 AudioDemo[22805:1868765] <ZAEResourceRequestOperation: 0x282a3a8e0, loadingRequest:0x280c18690, remoteDataTask:0x1062c0300, localDataTask:0x0, isCancelled:YES>销毁
+2020-12-24 23:02:13.240650+0800 AudioDemo[22805:1868729] 写2020-12-24 23:02:13.241134+0800 AudioDemo[22805:1868765] 远程请求完成, error:cancelled, weakSelf：(null)，dataTask:LocalDataTask <F70C9F6C-22D1-494E-8085-BAB6F2023F2C>.<1>
+加锁MediaData code将要解锁，线程：<NSThread: 0x281b87c80>{number = 143, name = (null)} //串的
+2020-12-24 23:02:13.241281+0800 AudioDemo[22805:1868728] 写加锁MediaData code:0,线程：<NSThread: 0x281b86c40>{number = 142, name = (null)}
+2020-12-24 23:02:13.245148+0800 AudioDemo[22805:1868728] 写加锁MediaData code将要解锁，线程：<NSThread: 0x281b86c40>{number = 142, name = (null)}
+```
+
+看来急需一个不会被打断输出的日志工具。
+
+至此，这个问题终于找到原因，这个问题大概花了我3-4天时间查找原因。
+
+如果当前在写模式，然后等待线程为写写写写读读读读，系统会怎样调度？会让前面的写线程都完成才开始读，还是说会穿插执行？
 
 参考：
 
@@ -631,6 +905,10 @@ dataOperationDict：{
     "type:1,start:11075584,end:11599871,length:524288"
 )
 ```
+
+
+
+
 
 ### 参考
 
