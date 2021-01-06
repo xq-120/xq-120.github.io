@@ -1,6 +1,4 @@
-[IGListKit](http://blog.danthought.com/programming/2018/06/22/iglistkit/)
-
-IGListKit demo编译
+### IGListKit demo编译
 
 1. 可能需要升级bundler
 
@@ -22,4 +20,12 @@ IGListKit demo编译
 解决办法：
 
 `brew install swiftlint`
+
+
+
+### 参考
+
+[Refactoring at Scale – Lessons of Rewriting Instagram’s Feed](https://academy.realm.io/posts/tryswift-ryan-nystrom-refactoring-at-scale-lessons-learned-rewriting-instagram-feed/)
+
+[IGListKit](http://blog.danthought.com/programming/2018/06/22/iglistkit/)
 
