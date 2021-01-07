@@ -33,7 +33,15 @@ it will only be called when you tell the infrastructure to update.
 
 IGListBindingSectionController
 
-可以参考IGListKit 官方demo的MonthSectionController类，或者参考 [IGListKit-Binding-Guide](https://github.com/rnystrom/IGListKit-Binding-Guide)。
+使用方法可以参考IGListKit 官方demo的MonthSectionController类，或者参考 [IGListKit-Binding-Guide](https://github.com/rnystrom/IGListKit-Binding-Guide)。
+
+提供了一个统一的view-model配置方法：
+
+```
+- (void)bindViewModel:(id)viewModel;
+```
+
+如果有自己统一的配置方法也可以不用该类。所以一般还是继承IGListSectionController多一些。
 
 ### 参考
 
@@ -42,3 +50,6 @@ IGListBindingSectionController
 [IGListKit](http://blog.danthought.com/programming/2018/06/22/iglistkit/)
 
 [IGListKit-Github](https://github.com/Instagram/IGListKit)
+
+[IGListKit官方文档](https://instagram.github.io/IGListKit/getting-started.html)
+
