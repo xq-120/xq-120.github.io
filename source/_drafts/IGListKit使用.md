@@ -23,9 +23,22 @@
 
 
 
+```
+- (NSArray<id <IGListDiffable>> *)objectsForListAdapter:(IGListAdapter *)listAdapter;
+```
+
+it will only be called when you tell the infrastructure to update.
+
+
+
+IGListBindingSectionController
+
+可以参考IGListKit 官方demo的MonthSectionController类，或者参考 [IGListKit-Binding-Guide](https://github.com/rnystrom/IGListKit-Binding-Guide)。
+
 ### 参考
 
 [Refactoring at Scale – Lessons of Rewriting Instagram’s Feed](https://academy.realm.io/posts/tryswift-ryan-nystrom-refactoring-at-scale-lessons-learned-rewriting-instagram-feed/)
 
 [IGListKit](http://blog.danthought.com/programming/2018/06/22/iglistkit/)
 
+[IGListKit-Github](https://github.com/Instagram/IGListKit)
