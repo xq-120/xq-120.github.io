@@ -53,5 +53,11 @@ IGListBindingSectionController
 
 [IGListKit官方文档](https://instagram.github.io/IGListKit/getting-started.html)
 
-[Diff应用：从LCS到UICollectionView](https://mp.weixin.qq.com/s?__biz=MzI1MzYzMjE0MQ==&amp;mid=2247484479&amp;idx=1&amp;sn=b0115be0958910e7b9bee48606a81296&amp;chksm=e9d0cfdddea746cbc89d6e78a2e8e547fd670e94f0c15fc10a9bc560459d46b7d998a88de581#rd)
+[Diff应用：从LCS到UICollectionView](https://mp.weixin.qq.com/s?__biz=MzI1MzYzMjE0MQ==&amp;mid=2247484479&amp;idx=1&amp;sn=b0115be0958910e7b9bee48606a81296&amp;chksm=e9d0cfdddea746cbc89d6e78a2e8e547fd670e94f0c15fc10a9bc560459d46b7d998a88de581#rd)  字节的，但主要参考的Noah的博客
+
+[Longest Common Subsequence Diff [Part 1]](https://nghiatran.me/longest-common-subsequence-diff-part-1)  Noah的博客很不错。这一篇主要介绍LCS的实现。
+
+[Diff in iOS [Part 2]](https://nghiatran.me/diff-in-real-world-ios-part-2)
+
+[A better way to update UICollectionView data in Swift with diff framework](https://medium.com/flawless-app-stories/a-better-way-to-update-uicollectionview-data-in-swift-with-diff-framework-924db158db86)
 
