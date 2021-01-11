@@ -53,3 +53,5 @@ IGListBindingSectionController
 
 [IGListKit官方文档](https://instagram.github.io/IGListKit/getting-started.html)
 
+[Diff应用：从LCS到UICollectionView](https://mp.weixin.qq.com/s?__biz=MzI1MzYzMjE0MQ==&amp;mid=2247484479&amp;idx=1&amp;sn=b0115be0958910e7b9bee48606a81296&amp;chksm=e9d0cfdddea746cbc89d6e78a2e8e547fd670e94f0c15fc10a9bc560459d46b7d998a88de581#rd)
+
