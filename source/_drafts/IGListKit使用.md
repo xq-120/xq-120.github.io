@@ -57,7 +57,7 @@ IGListBindingSectionController
 
 [Longest Common Subsequence Diff [Part 1]](https://nghiatran.me/longest-common-subsequence-diff-part-1)  Noah的博客很不错。这一篇主要介绍LCS的实现。
 
-[Diff in iOS [Part 2]](https://nghiatran.me/diff-in-real-world-ios-part-2)
+[Diff in iOS [Part 2]](https://nghiatran.me/diff-in-real-world-ios-part-2) 这一篇主要介绍LCS在iOS中的应用。
 
 [A better way to update UICollectionView data in Swift with diff framework](https://medium.com/flawless-app-stories/a-better-way-to-update-uicollectionview-data-in-swift-with-diff-framework-924db158db86)
 
