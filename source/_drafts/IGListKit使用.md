@@ -174,3 +174,5 @@ func apply(_ diff: Diff<Element>) -> [Element] {
 
 [A better way to update UICollectionView data in Swift with diff framework](https://medium.com/flawless-app-stories/a-better-way-to-update-uicollectionview-data-in-swift-with-diff-framework-924db158db86)
 
+[Wagner–Fischer algorithm--wiki](https://en.wikipedia.org/wiki/Wagner%E2%80%93Fischer_algorithm)
+
