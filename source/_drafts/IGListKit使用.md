@@ -156,6 +156,30 @@ func apply(_ diff: Diff<Element>) -> [Element] {
 
 先对旧数组进行删除操作，再对旧数组进行插入操作。这样旧数组就变成了新数组。
 
+
+
+### Levenshtein距离
+
+莱文斯坦距离，又称Levenshtein距离，是编辑距离的一种。指两个字符串之间，由一个转成另一个所需的最少编辑操作次数。
+
+允许的编辑操作包括：
+
+1. 将一个字符替换成另一个字符
+
+2. 插入一个字符
+
+3. 删除一个字符
+
+由俄罗斯科学家[Vladimir Levenshtein](https://en.wikipedia.org/wiki/Vladimir_Levenshtein)于1965年提出了这一概念。而Wagner-Fischer算法是levenshtein距离的高效解决办法。
+
+![](https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/equation1.png)
+
+[莱文斯坦距离 知乎](https://www.zhihu.com/question/315634571/answer/620984468)  
+
+[莱文斯坦距离 zh-wiki](https://zh.wikipedia.org/wiki/%E8%90%8A%E6%96%87%E6%96%AF%E5%9D%A6%E8%B7%9D%E9%9B%A2)
+
+[Levenshtein distance 编辑距离算法](https://hddhyq.github.io/2018/12/08/Levenshtein-distance-%E7%BC%96%E8%BE%91%E8%B7%9D%E7%A6%BB%E7%AE%97%E6%B3%95/)  挺不错的
+
 ### 参考
 
 [Refactoring at Scale – Lessons of Rewriting Instagram’s Feed](https://academy.realm.io/posts/tryswift-ryan-nystrom-refactoring-at-scale-lessons-learned-rewriting-instagram-feed/)
