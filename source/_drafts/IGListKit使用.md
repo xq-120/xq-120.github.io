@@ -200,3 +200,5 @@ func apply(_ diff: Diff<Element>) -> [Element] {
 
 [Wagner–Fischer algorithm--wiki](https://en.wikipedia.org/wiki/Wagner%E2%80%93Fischer_algorithm)
 
+[Heckel算法介绍](https://gist.github.com/ndarville/3166060)
+
