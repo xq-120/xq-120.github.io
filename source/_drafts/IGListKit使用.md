@@ -180,6 +180,82 @@ func apply(_ diff: Diff<Element>) -> [Element] {
 
 [Levenshtein distance 编辑距离算法](https://hddhyq.github.io/2018/12/08/Levenshtein-distance-%E7%BC%96%E8%BE%91%E8%B7%9D%E7%A6%BB%E7%AE%97%E6%B3%95/)  挺不错的
 
+
+
+### 问题
+
+#### 为什么pass 2 必须是倒序遍历旧数组？
+
+这是因为 `IGListEntry` 里定义的oldIndexes是栈结构
+
+```c++
+/// Used to track data stats while diffing.
+struct IGListEntry {
+    /// The number of times the data occurs in the old array
+    NSInteger oldCounter = 0;
+    /// The number of times the data occurs in the new array
+    NSInteger newCounter = 0;
+    /// The indexes of the data in the old array
+    stack<NSInteger> oldIndexes;
+    /// Flag marking if the data has been updated between arrays by checking the isEqual: method
+    BOOL updated = NO;
+};
+```
+
+而在pass 3里处理公共元素是顺序遍历newResultsArray的。
+
+```c++
+// pass 3
+// handle data that occurs in both arrays
+for (NSInteger i = 0; i < newCount; i++) {
+    IGListEntry *entry = newResultsArray[i].entry;
+
+    // grab and pop the top original index. if the item was inserted this will be NSNotFound
+    NSCAssert(!entry->oldIndexes.empty(), @"Old indexes is empty while iterating new item %li. Should have NSNotFound", (long)i);
+    const NSInteger originalIndex = entry->oldIndexes.top();
+    entry->oldIndexes.pop();
+
+    if (originalIndex < oldCount) {
+        const id<IGListDiffable> n = newArray[i];
+        const id<IGListDiffable> o = oldArray[originalIndex];
+        switch (option) {
+            case IGListDiffPointerPersonality:
+                // flag the entry as updated if the pointers are not the same
+                if (n != o) {
+                    entry->updated = YES;
+                }
+                break;
+            case IGListDiffEquality:
+                // use -[IGListDiffable isEqualToDiffableObject:] between both version of data to see if anything has changed
+                // skip the equality check if both indexes point to the same object
+                if (n != o && ![n isEqualToDiffableObject:o]) {
+                    entry->updated = YES;
+                }
+                break;
+        }
+    }
+    if (originalIndex != NSNotFound
+        && entry->newCounter > 0
+        && entry->oldCounter > 0) {
+        // if an item occurs in the new and old array, it is unique
+        // assign the index of new and old records to the opposite index (reverse lookup)
+        newResultsArray[i].index = originalIndex;
+        oldResultsArray[originalIndex].index = i;
+    }
+}
+```
+
+由于栈先入后出的特点，所以pass 2 必须是倒序遍历旧数组。要不然originalIndex 索引值可能会不正确。
+
+eg: t 的originalIndex 
+
+```
+kitten
+sitting
+```
+
+
+
 ### 参考
 
 [Refactoring at Scale – Lessons of Rewriting Instagram’s Feed](https://academy.realm.io/posts/tryswift-ryan-nystrom-refactoring-at-scale-lessons-learned-rewriting-instagram-feed/)
