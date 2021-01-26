@@ -66,7 +66,7 @@ b.下载完成后移除当前loadingRequest。
 
 #### 3.缓存清除策略
 
-计算文件大小
+> 计算文件大小
 
 [How can I calculate the size of a folder?](https://stackoverflow.com/questions/2188469/how-can-i-calculate-the-size-of-a-folder/28660040#28660040)
 
@@ -121,6 +121,70 @@ NSURLFileSizeKey 返回的是文件自身的大小。
 ```
 
 iOS 14.3上“ iPhone存储空间”里的App“文稿与数据”只显示App沙盒Documents目录下文件占用的空间，并且展示的是文件实际占用的磁盘大小即NSURLTotalFileAllocatedSizeKey的值，而Cache目录下的文件并不会计算在内。主要是因为Cache目录下的文件在磁盘空间紧张时系统会自动清理。
+
+iOS 10.3.3上“ iPhone存储空间”里的App“文稿与数据”显示的是所有沙盒目录下的文件占用的空间。
+
+> 2.OC 二级指针的内存管理
+
+在传出error时，error对象过早释放导致野指针崩溃。
+
+```objc
+- (NSData *)mediaDataWithStartOffset:(unsigned long long)startOffset length:(unsigned long long)numberOfBytesToRespondWith readingFileHandle:(NSFileHandle *)readingFileHandle error:(NSError **)error {
+    @try {
+        @autoreleasepool {
+            [readingFileHandle seekToFileOffset:startOffset];
+            NSData *retData = [readingFileHandle readDataOfLength:numberOfBytesToRespondWith];
+            if (retData == nil || retData.length != numberOfBytesToRespondWith) {
+								*error = [[NSError alloc] initWithDomain:@"com.zhenai.emotioncounsel" code:-1001 userInfo:@{NSLocalizedDescriptionKey: @"read cached data length error"}]; //方法退出后，调用者野指针崩溃，因为访问了已经释放了的error对象地址。
+                
+                return nil;
+            }
+            return retData;
+        }
+    }
+    @catch (NSException *exception) {
+        DDLogError(@"read cached data error %@",exception);
+        *error = [NSError errorWithCode:-1000 msg:@"read cached data error"];
+        return nil;
+    }
+}
+
+想修改：
+- (NSData *)mediaDataWithStartOffset:(unsigned long long)startOffset length:(unsigned long long)numberOfBytesToRespondWith readingFileHandle:(NSFileHandle *)readingFileHandle error:(NSError **)error {
+    @try {
+//        NSError *myErr = nil;
+//        NSError *myErr = [[NSError alloc] initWithDomain:@"com.zhenai.emotioncounsel" code:-1001 userInfo:@{NSLocalizedDescriptionKey: @"read cached data length error"}];
+        NSError *myErr = [NSError errorWithCode:-1001 msg:@"read cached data length error"];
+        @autoreleasepool {
+            [readingFileHandle seekToFileOffset:startOffset];
+            NSData *retData = [readingFileHandle readDataOfLength:numberOfBytesToRespondWith];
+            if (retData == nil || retData.length != numberOfBytesToRespondWith) {
+//                *error = [NSError errorWithCode:-1001 msg:@"read cached data length error"];
+//                *error = [[NSError alloc] initWithDomain:@"com.zhenai.emotioncounsel" code:-1001 userInfo:@{NSLocalizedDescriptionKey: @"read cached data length error"}];
+//                NSError *myErr = [[NSError alloc] initWithDomain:@"com.zhenai.emotioncounsel" code:-1001 userInfo:@{NSLocalizedDescriptionKey: @"read cached data length error"}];
+//                *error = myErr;
+                
+//                myErr = [[NSError alloc] initWithDomain:@"com.zhenai.emotioncounsel" code:-1001 userInfo:@{NSLocalizedDescriptionKey: @"read cached data length error"}];
+//                *error = myErr;
+                
+                *error = myErr;
+                
+                return nil;
+            }
+            return retData;
+        }
+    }
+    @catch (NSException *exception) {
+        DDLogError(@"read cached data error %@",exception);
+        *error = [NSError errorWithCode:-1000 msg:@"read cached data error"];
+        return nil;
+    }
+}
+```
+
+本质上是因为*error指向的是一个注册到自动释放池的对象，而刚好外面包了一层autoreleasepool，导致超出autoreleasepool作用域后对象就释放销毁了。
+
+参考：[二级指针与ARC不为人知的特性](http://www.cocoachina.com/articles/18861)
 
 #### 4.缓冲估算
 
@@ -960,7 +1024,9 @@ dataOperationDict：{
 )
 ```
 
+##### 问题16：iOS10.3.3 iPhone6plus，最大3请求，播放视频偶现服务器503错误 “java.net.SocketException: Too many open files”。然后视频就播不了了。
 
+等了一会后，服务器又好了。
 
 
 
