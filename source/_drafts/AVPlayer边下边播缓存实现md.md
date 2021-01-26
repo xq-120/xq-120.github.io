@@ -66,7 +66,61 @@ b.下载完成后移除当前loadingRequest。
 
 #### 3.缓存清除策略
 
-TODO
+计算文件大小
+
+[How can I calculate the size of a folder?](https://stackoverflow.com/questions/2188469/how-can-i-calculate-the-size-of-a-folder/28660040#28660040)
+
+[“文件大小”和“占用空间”的区别](https://blog.csdn.net/duyusean/article/details/78643475)
+
+系统提供了一些key用于获取文件信息
+
+```objc
+/* Resource keys applicable only to regular files
+ */
+FOUNDATION_EXPORT NSURLResourceKey const NSURLFileSizeKey                    API_AVAILABLE(macos(10.6), ios(4.0), watchos(2.0), tvos(9.0)); // Total file size in bytes (Read-only, value type NSNumber)
+FOUNDATION_EXPORT NSURLResourceKey const NSURLFileAllocatedSizeKey           API_AVAILABLE(macos(10.6), ios(4.0), watchos(2.0), tvos(9.0)); // Total size allocated on disk for the file in bytes (number of blocks times block size) (Read-only, value type NSNumber)
+FOUNDATION_EXPORT NSURLResourceKey const NSURLTotalFileSizeKey               API_AVAILABLE(macos(10.7), ios(5.0), watchos(2.0), tvos(9.0)); // Total displayable size of the file in bytes (this may include space used by metadata), or nil if not available. (Read-only, value type NSNumber)
+FOUNDATION_EXPORT NSURLResourceKey const NSURLTotalFileAllocatedSizeKey      API_AVAILABLE(macos(10.7), ios(5.0), watchos(2.0), tvos(9.0)); // Total allocated size of the file in bytes (this may include space used by metadata), or nil if not available. This can be less than the value returned by NSURLTotalFileSizeKey if the resource is compressed. (Read-only, value type NSNumber)
+FOUNDATION_EXPORT NSURLResourceKey const NSURLIsAliasFileKey                 API_AVAILABLE(macos(10.6), ios(4.0), watchos(2.0), tvos(9.0)); // true if the resource is a Finder alias file or a symlink, false otherwise ( Read-only, value type boolean NSNumber)
+FOUNDATION_EXPORT NSURLResourceKey const NSURLFileProtectionKey              API_AVAILABLE(macos(10.11), ios(9.0), watchos(2.0), tvos(9.0)); // The protection level for this file
+```
+
+注意NSURLTotalFileAllocatedSizeKey的说明：This can be less than the value returned by NSURLTotalFileSizeKey if the resource is compressed. 也就是说文件大小和文件实际占用的磁盘大小有可能不一致，系统在存储文件时有可能会进行压缩。
+
+eg: 
+
+```
+http://1251661065.vod2.myqcloud.com/98deaa00vodgzp1251661065/c6200b325285890794913485240/saGb5NcsJREA.mp4
+```
+
+上面视频有553M，在缓存时会先初始化一个553M的占位盒子，然后边下载边往里面填充实际数据。如果没有缓存完就停止缓存，此时用NSURLFileSizeKey 和 NSURLTotalFileAllocatedSizeKey去获取文件大小就会发现二者的值不一样。
+
+NSURLFileSizeKey 返回的是文件自身的大小。
+
+而NSURLTotalFileAllocatedSizeKey 返回的是该文件占用的磁盘大小，因为实际只缓存了一点点数据，系统会对他进行压缩。所以该值会小于NSURLFileSizeKey 返回的值。当完全缓存时，该值就会约等于NSURLFileSizeKey 返回的值（实际会稍大于，因为NSURLTotalFileAllocatedSizeKey 还会计算元数据占用的空间）。
+
+```
+2021-01-26 11:01:24.590838+0800 AudioDemo[6292:586528] attrs:{
+    NSFileCreationDate = "2021-01-25 09:31:02 +0000";
+    NSFileExtensionHidden = 0;
+    NSFileGroupOwnerAccountID = 501;
+    NSFileGroupOwnerAccountName = mobile;
+    NSFileModificationDate = "2021-01-26 02:43:28 +0000";
+    NSFileOwnerAccountID = 501;
+    NSFileOwnerAccountName = mobile;
+    NSFilePosixPermissions = 420;
+    NSFileProtectionKey = NSFileProtectionCompleteUntilFirstUserAuthentication;
+    NSFileReferenceCount = 1;
+    NSFileSize = 553363384;
+    NSFileSystemFileNumber = 4470737601;
+    NSFileSystemNumber = 16777223;
+    NSFileType = NSFileTypeRegular;
+}
+
+2021-01-26 11:03:29.875546+0800 AudioDemo[6292:586700] 文件：file:///private/var/mobile/Containers/Data/Application/407F45FC-F6D8-411F-89FA-F014ADC5F4EA/Library/Caches/ZAEAudioCache/com.xq.ZAEAudioCache.ZAEAudioCache/ddcada74ee08d06dda5cd13b4117ad30.mp4，totalAllocatedSize：553365504
+```
+
+iOS 14.3上“ iPhone存储空间”里的App“文稿与数据”只显示App沙盒Documents目录下文件占用的空间，并且展示的是文件实际占用的磁盘大小即NSURLTotalFileAllocatedSizeKey的值，而Cache目录下的文件并不会计算在内。主要是因为Cache目录下的文件在磁盘空间紧张时系统会自动清理。
 
 #### 4.缓冲估算
 
