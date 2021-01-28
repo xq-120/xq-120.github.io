@@ -1050,6 +1050,8 @@ dataOperationDict：{
 
 ##### 问题18：iOS10.3.3 iPhone6plus，正常播放时，一边下载一边缓存，发现内存在缓慢增长，如果网速稳定，感觉如果不下载完，内存会一直缓慢增长，目前观察到会增长到320M。
 
+貌似系统达到一定程度后会发起一些新请求，然后我这边把它取消后，内存就回落了。
+
 ### 参考
 
 [Audio streaming and caching in iOS using AVAssetResourceLoader and AVPlayer](https://www.codeproject.com/Articles/875105/Audio-streaming-and-caching-in-iOS-using)
