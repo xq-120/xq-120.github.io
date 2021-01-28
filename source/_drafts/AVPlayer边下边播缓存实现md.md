@@ -1048,6 +1048,8 @@ dataOperationDict：{
 
 2.做好步骤1后，已经在很大程度上降低了问题的出现。但是如果是系统自动清理的Cache目录，则不能保证，因此在拆分请求序列后，请求本地数据如果失败，那么先检查音频文件是否存在，如果不存在则清除url相关的所有缓存，同时将该失败的本地请求转为远程请求继续请求。
 
+##### 问题18：iOS10.3.3 iPhone6plus，正常播放时，一边下载一边缓存，发现内存在缓慢增长，如果网速稳定，感觉如果不下载完，内存会一直缓慢增长，目前观察到会增长到320M。
+
 ### 参考
 
 [Audio streaming and caching in iOS using AVAssetResourceLoader and AVPlayer](https://www.codeproject.com/Articles/875105/Audio-streaming-and-caching-in-iOS-using)
