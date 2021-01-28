@@ -68,7 +68,7 @@ b.下载完成后移除当前loadingRequest。
 
 #### 3.缓存清除策略
 
-> 计算文件大小
+> 1.计算文件大小
 
 [How can I calculate the size of a folder?](https://stackoverflow.com/questions/2188469/how-can-i-calculate-the-size-of-a-folder/28660040#28660040)
 
@@ -215,6 +215,10 @@ iOS 10.3.3上“ iPhone存储空间”里的App“文稿与数据”显示的是
 ```
 
 TODO另一种办法：[keyPath isEqualToString:@"loadedTimeRanges"]，当KVO回调时，合并区间。当用户seek时，就从区间里判断是否包含。
+
+#### 5.优化
+
+> 1.如果本地请求失败了，则转为远程请求继续请求。OK
 
 ### 问题
 
@@ -1034,7 +1038,13 @@ dataOperationDict：{
 
 等了一会后，服务器又好了。应该还是请求取消策略问题。
 
+##### 问题17：清理缓存时必须确保rta文件和音频文件一起删除。否则如果遗留了rta文件没有删除则会导致实际从本地获取不到数据而播放失败，这个问题还是比较严重的。
 
+解决办法：
+
+1.当清理到规定的最大磁盘缓存的一半以下后，继续查询是否遗漏了rta文件没有删，如果有则继续删除。cia文件和其他两个文件没有关联关系，有没有同时删除没有关系。
+
+2.做好步骤1后，已经在很大程度上降低了问题的出现。但是如果是系统自动清理的Cache目录，则不能保证，因此在拆分请求序列后，请求本地数据如果失败，那么先检查音频文件是否存在，如果不存在则清除url相关的所有缓存，同时将该失败的本地请求转为远程请求继续请求。
 
 ### 参考
 
@@ -1183,4 +1193,12 @@ dataOperationDict：{
 
 2020-12-17 10:24:34.492829+0800 AudioDemo[4018:1759171] 远程请求完成, error:cancelled, weakSelf：(null)，dataTask:<__NSCFLocalDataTask: 0x1020619d0>{ taskIdentifier: 1 } { completed }
 ```
+
+
+
+### 其他
+
+Charles出问题，前面请求还好好的，后面突然解析不了host到IP。导致播放失败，如果此时关掉Charles就可以继续播放。
+
+![](https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20210128173301.png)
 
