@@ -188,6 +188,8 @@ iOS 10.3.3上“ iPhone存储空间”里的App“文稿与数据”显示的是
 
 参考：[二级指针与ARC不为人知的特性](http://www.cocoachina.com/articles/18861)
 
+> 播放缓存中，进入后台，发现磁盘空间满了，然后清除掉缓存，由于有做本地请求失败转为远程请求，所以不会出现播放失败的现象。
+
 #### 4.缓冲估算
 
 > 正在播放10s，然后seek快退到未下载的5s，loading不及时。
@@ -1009,6 +1011,62 @@ dataOperationDict：{
 
 去掉所有同步方法的读写锁后，没有出现卡死的现象。但是会有声画不同步的问题。
 
+其他试过的办法：本来还想用子线程来发送信号量解决死锁，结果一样很容易导致读写锁死锁，不过这一次死锁发生后主线程不受影响。
+
+```
+if (didLoadDataBlock) {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        didLoadDataBlock(sliceIndex, mediaData);
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            dispatch_semaphore_signal(pcSemaphore);
+        });
+    });
+}
+```
+
+不是很明白为啥还会死锁。
+
+最终解决办法：不使用信号量，而是使用一个bool变量进行标记，每次循环开始时先检测变量的值，当didLoadDataBlock回调完成后才修改变量的值。从根本上解决了死锁的可能。
+
+```objc
+__block BOOL isFeed = YES;
+while (total > 0) {
+    if (operation.isCancelled) {
+        error = [NSError errorWithCode:-999 msg:@"取消操作"];
+        break;
+    }
+    if (!isFeed) {
+        continue;
+    }
+
+    unsigned long long currReadLength = total;
+    if (currReadLength > kMaxLocalDataPerPage) {
+        currReadLength = kMaxLocalDataPerPage;
+    }
+
+    @autoreleasepool {
+        NSData *mediaData = [self mediaDataWithStartOffset:off length:currReadLength readingFileHandle:readingFileHandle error:&error];
+        if (error) {
+            break;
+        }
+        if (didLoadDataBlock) {
+            isFeed = NO;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                didLoadDataBlock(sliceIndex, mediaData);
+                isFeed = YES;
+            });
+        }
+    }
+
+    off += currReadLength;
+    total -= currReadLength;
+    sliceIndex += 1;
+    numberOfBytesResponded += currReadLength;
+}
+```
+
+
+
 ##### 问题15：5s,iOS10.3.3系统。读写锁缓存，播放视频，loadingRequest都请求完成了，但是系统过了15s才又发起请求，导致缓冲已经完成了，但却没有播放。
 
 ```
@@ -1050,7 +1108,28 @@ dataOperationDict：{
 
 ##### 问题18：iOS10.3.3 iPhone6plus，正常播放时，一边下载一边缓存，发现内存在缓慢增长，如果网速稳定，感觉如果不下载完，内存会一直缓慢增长，目前观察到会增长到320M。
 
-貌似系统达到一定程度后会发起一些新请求，然后我这边把它取消后，内存就回落了。直接系统播放内存几乎无变化维持在23M左右。
+貌似系统达到一定程度后会发起一些新请求，然后我这边有做控制最大3请求，超出后把它取消，内存就回落了。直接系统播放内存几乎无变化维持在23M左右。
+
+在接收数据的回调方法中加入autoreleasepool也没有用。
+
+```objc
+- (void)dataTaskDidReceiveDataWithSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask data:(NSData *)data {
+//    DDLogError(@"接收数据LoadingRequest：%ld，Operation：%@", self.loadingRequest.hash, self);
+    @autoreleasepool {
+        [self.mediaCache storeMediaDataWithContentInfo:self.contentInfo
+                                         currentOffset:self.loadingRequest.dataRequest.currentOffset
+                                                  data:data
+                                                forKey:self.resourceURL.absoluteString
+                                            completion:nil];
+        
+        if (self.delgate && [self.delgate respondsToSelector:@selector(requestOperation:didReceiveData:)]) {
+            [self.delgate requestOperation:self didReceiveData:data];
+        }
+    }
+}
+```
+
+
 
 ### 参考
 
