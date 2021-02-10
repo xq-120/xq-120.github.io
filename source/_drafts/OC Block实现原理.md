@@ -787,13 +787,24 @@ int main(int argc, const char * argv[]) {
 static struct IMAGE_INFO { unsigned version; unsigned flag; } _OBJC_IMAGE_INFO = { 0, 2 };
 ```
 
-问题:
+### 问题
 
 * Block是如何截获自动变量的值? ok
+
+  如果block语法里有使用外部的自动变量，那么编译器产生的block结构体里将会有一个对应的成员变量，在创建block对象时，自动变量会被当做参数传入。这样block就截获了自动变量的值。
+
 * 为什么在Block语法外声明的自动变量需要添加__block修饰符才能在Block内修改? ok
+
 * 为什么使用__weak修饰的对象指针变量可以避免Block循环引用?
+
+  因为block捕获后，内部的指针变量也是weak，而weak弱引用的，所以不会产生引用循环。
+
 * 避免Block循环引用有哪几种方式?
+
+  解决办法：1.预防法，一开始就不让引用形成循环，一般使用weak。2.治疗法，循环已经形成，但我们可以在某个时机将环剪断，一般在block调用后主动将指针变量置为nil。
+
 * 如何检测Block循环引用导致的内存泄漏?(FBRetainCycleDetector(facebook开源工具库), MLeaksFinder(WeRead开源))
+
 * 如何查看一个变量在堆上还是栈上？
 
 ### 参考
