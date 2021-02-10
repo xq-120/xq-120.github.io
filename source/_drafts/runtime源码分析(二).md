@@ -223,7 +223,7 @@ objc_object::initIsa(Class cls, bool nonpointer, bool hasCxxDtor)
 4. 设置shiftcls为(uintptr_t)cls >> 3。cls是一个指针指向一个类对象的地址，这里将它的值（也就是类对象地址）右移3位，保存到shiftcls字段。这里为啥可以丢弃最后3位，也是因为一个对象的地址这个数值其实是占不满64位的最后3位是无用信息可以丢弃。有兴趣的可以深究下。
 5. 将newisa变量赋值给isa字段，完成isa的初始化。
 
-由此可知如果isa的最低位为1，那么isa就是nonpointer，否则为非nonpointer（即纯pointer）。对于nonpointer的isa里面除了保存类对象地址外，还会保存很多其他信息比如对象的引用计数，是否有关联对象，是否有weak指针等，这样就可以减少一些哈希表的操作，提高了效率。
+由此可知如果isa的最低位为1，那么isa就是nonpointer，否则为非nonpointer（即纯pointer）。对于nonpointer的isa里面除了保存类对象地址外，还会保存很多其他信息比如对象的引用计数，是否有关联对象，是否有weak指针，是否正在销毁等，这样就可以减少一些哈希表的操作，提高了效率。
 
 这里说一下isa为啥可以变为结构体类型，我们都知道32位的指针就可以寻址4GB的内存大小了，苹果手机目前最大内存也就3GB，因此一个64位的指针变量最多用到32位，这样就有一半是空着的，那哪行啊，所以isa的类型就从原来的纯指针类型变为了一个联合体类型，类对象的地址就保存在shiftcls字段中，其他31位可以存放其他信息，充分利用了内存空间。另外isa的shiftcls在arm64中占33位，在`__x86_64__` 中占44位。33位可以寻址8GB，因此shiftcls坚挺个10年应该没有什么问题。即使以后苹果也上8GB甚至10GB内存，shiftcls只需要改为44位就可以了，44位已经可以寻址16T内存了估计可以用到苹果破产。
 
@@ -1938,7 +1938,8 @@ static bool call_category_loads(void)
 1. 调用时机：类被实现后，load_images通知回调中被调用。
 2. 所有类和类别的load方法都会调用。是通过IMP函数指针直接调用的。
 3. 调用顺序为：先类再类别。类的顺序为先父类再子类。类别的顺序为编译顺序。
-4. 只执行一次。由于runtime会保证所有load方法都会执行，所以最好不要在实现中调用super否则会造成多次执行，引发一些问题。
+4. 调用方式：使用IMP直接执行。
+5. 只执行一次。由于runtime会保证所有load方法都会执行，所以最好不要在实现中调用super否则会造成多次执行，引发一些问题。
 
 ## +initialize的调用
 
@@ -1978,7 +1979,7 @@ IMP lookUpImpOrForward(id inst, SEL sel, Class cls, int behavior)
   ...
 ```
 
-调用initializeAndLeaveLocked执行+initialize方法。
+调用initializeAndLeaveLocked，该方法最终会调用到+initialize方法。
 
 #### initializeNonMetaClass
 
@@ -2122,13 +2123,14 @@ void callInitialize(Class cls)
 
 1. 调用时机：第一次调用该类的类方法或实例方法前调用，可能永远不调用。
 2. 调用顺序：先父类再子类。类别里的会覆盖类里的实现，多个类别同时实现时最后一个类别里的被执行。
-3. 只执行一次。由于runtime会保证先调用父类的，所以最好不要在实现中调用super否则会造成多次执行，引发一些问题。
+3. 调用方式：消息发送
+4. 只执行一次。由于runtime会保证先调用父类的，所以最好不要在实现中调用super否则会造成多次执行，引发一些问题。
 
 ## 方法交换
 
 问题：
 
-1. 交换类的一个未实现的父类方法？
+1. 交换一个继承自父类但子类并未重写的方法？
 2. 方法交换时机？
 3. 方法交换失效？
 4. 动态控制方法的交换与不交换可不可行？P
@@ -2162,7 +2164,7 @@ void method_exchangeImplementations(Method m1, Method m2)
 
 
 
-Q1：交换类的一个未实现的父类方法
+Q1：交换一个继承自父类但子类并未重写的方法？
 
 UINavigationController内部是没有实现viewDidLoad方法的，可以通过以下方法佐证：
 
@@ -2277,6 +2279,12 @@ UINavigationController+Helper.m
 
 
 
+Q2：方法交换时机？
+
+一般在+load方法里进行方法交换。
+
+
+
 Q3：方法交换失效？
 
 方法交换的原理其实很简单。而方法交换失效的本质原因是方法交换的代码被多次执行了。比如父类里在load方法里做了方法交换，子类也在load方法里做了方法交换且调用了super，这就会导致父类里的交换执行了两次。一种可能的现象就是没效果了。
@@ -2288,7 +2296,7 @@ drinking
 1.子类没有实现。
 2.只有父类交换了drinking。
 3.子类load里调用了super
-子类没有实现也没有交换drinking，因此子类load里调用了super，相当于父类交换了两次因而又回到了初始状态。
+子类没有实现也没有交换drinking，但是子类load里调用了super，这样会导致方法被交换了两次因而又回到了初始状态。
 ```
 
 不符合预期：
@@ -2391,3 +2399,12 @@ tagged pointer
 
 
 [Objective-C 动态之 Non-fragile ivar](http://jefferyfan.com/programing/iOS/non-fragile-ivar/)
+
+
+
+dyld的
+
+[iOS 底层 - 从头梳理 dyld 加载流程](https://juejin.cn/post/6844904040149729294)
+
+[iOS 优化篇 - 启动优化之Clang插桩实现二进制重排](https://juejin.cn/post/6844904130406793224)  非常棒
+
