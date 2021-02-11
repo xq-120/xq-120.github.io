@@ -582,7 +582,7 @@ map_images_nolock(unsigned mhCount, const char * const mhPaths[],
     // is dynamically loaded later.
     if (firstTime) {
         sel_init(selrefCount); //初始化全局namedSelectors选择子表
-        arr_init(); //这里会初始化三个全局的哈希表：自动释放池表，SideTables表，关联对象表
+        arr_init(); //这里会初始化：自动释放池，SideTablesMap，关联对象表
         ...
     }
 
@@ -604,7 +604,7 @@ map_images_nolock(unsigned mhCount, const char * const mhPaths[],
 大致流程：
 
 1. 初始化全局namedSelectors选择子表。这说明runtime内部维护了一个巨大的选择子表。一个选择子代表一个方法名。名字相同但参数类型不同的方法对应的是同一个选择子。
-2. 初始化三个全局的哈希表：自动释放池表，SideTables表，关联对象表。
+2. 初始化自动释放池（主要是往TLS上设置AUTORELEASE_POOL_KEY--tls_dealloc键值对，线程销毁时会调用tls_dealloc 销毁自动释放池），SideTablesMap表，关联对象表。
 3. 调用_read_images读取image。
 
 #### _read_images
@@ -1620,7 +1620,7 @@ void prepare_load_methods(const headerType *mhdr)
         }
         realizeClassWithoutSwift(cls, nil); //load_images调用时类都已经实现，所以一般不会走这个方法逻辑。
         ASSERT(cls->ISA()->isRealized());
-        add_category_to_loadable_list(cat); ////按顺序添加cat-load对到loadable_categories数组中
+        add_category_to_loadable_list(cat); ////按顺序添加cat--load对到loadable_categories数组中
     }
 }
 
@@ -1641,7 +1641,7 @@ static void schedule_class_load(Class cls)
     // Ensure superclass-first ordering
     schedule_class_load(cls->superclass); //递归的调用，父类优先
 
-    add_class_to_loadable_list(cls); //按顺序添加cls-load对到loadable_classes数组中
+    add_class_to_loadable_list(cls); //按顺序添加cls--load对到loadable_classes数组中
     cls->setInfo(RW_LOADED);  //设置标志位RW_LOADED，用于退出递归
 }
 
@@ -1715,8 +1715,8 @@ void add_category_to_loadable_list(Category cat)
 
 准备的过程大致如下：
 
-1. 添加所有cls-load对到loadable_classes数组中。父类的在前子类的在后
-2. 添加所有cat-load对到loadable_categories数组中。元素的顺序是类别的编译顺序。
+1. 添加所有cls--load对到loadable_classes数组中。父类的在前子类的在后
+2. 添加所有cat--load对到loadable_categories数组中。元素的顺序是类别的编译顺序。
 
 再看一下调用方法：call_load_methods
 
@@ -1936,9 +1936,9 @@ static bool call_category_loads(void)
 #### 总结
 
 1. 调用时机：类被实现后，load_images通知回调中被调用。
-2. 所有类和类别的load方法都会调用。是通过IMP函数指针直接调用的。
+2. 所有类和类别的load方法都会调用。
 3. 调用顺序为：先类再类别。类的顺序为先父类再子类。类别的顺序为编译顺序。
-4. 调用方式：使用IMP直接执行。
+4. 调用方式：通过IMP函数指针直接调用。
 5. 只执行一次。由于runtime会保证所有load方法都会执行，所以最好不要在实现中调用super否则会造成多次执行，引发一些问题。
 
 ## +initialize的调用
@@ -2122,7 +2122,7 @@ void callInitialize(Class cls)
 ### 总结
 
 1. 调用时机：第一次调用该类的类方法或实例方法前调用，可能永远不调用。
-2. 调用顺序：先父类再子类。类别里的会覆盖类里的实现，多个类别同时实现时最后一个类别里的被执行。
+2. 调用顺序：先父类再子类。类别里的会覆盖类里的实现，多个类别同时实现时最后一个类别里的被执行。（这就是为啥方法交换一般放在load方法里而不是initialize方法里，因为initialize方法可能会被类别覆盖）
 3. 调用方式：消息发送
 4. 只执行一次。由于runtime会保证先调用父类的，所以最好不要在实现中调用super否则会造成多次执行，引发一些问题。
 
