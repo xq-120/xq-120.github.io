@@ -472,7 +472,7 @@ static SyncData* id2data(id object, enum usage why)
 
 2 从TLS中的SyncCache缓存中获取锁
 
-3 从全局变量sDataLists哈希表中获取锁，并加入到FastCache缓存或SyncCache缓存
+3 从全局变量sDataLists哈希表中获取锁，并优先加入到FastCache缓存(SUPPORT_DIRECT_THREAD_KEYS并且FastCache空闲)，其次加入到SyncCache缓存。
 
 4 新创建一把锁，并添加到sDataLists中的对应单链表中以及加入到FastCache缓存或SyncCache缓存
 
