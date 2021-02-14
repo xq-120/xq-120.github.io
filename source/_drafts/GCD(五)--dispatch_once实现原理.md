@@ -51,7 +51,7 @@ typedef struct dispatch_once_gate_s {
 #define DISPATCH_ONCE_IS_GEN(gen)    (((gen) & 3) == DLOCK_FAILED_TRYLOCK_BIT)
 ```
 
-另：dispatch_lock其实就是uint32_t的别名。详情可以查看附录。
+另：dispatch_lock其实就是uint32_t的别名。
 
 ##### dispatch_lock及DLOCK标志
 
@@ -569,7 +569,7 @@ likely(x)的作用就是告诉编译器需要优化生成的汇编指令，likel
 
 
 
-结构体
+#### 结构体
 
 ```c
 typedef struct MyStruct {
