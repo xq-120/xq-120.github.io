@@ -1,3 +1,7 @@
+HTTPS是使用TLS/SSL加密的HTTP协议。HTTP协议通过明文进行信息传输，存在信息窃听、信息篡改和身份冒充的风险，而协议TLS/SSL具有**信息加密**、**完整性校验**和**身份验证**的功能，可以避免此类问题。
+
+TLS/SSL全称为：安全传输层协议（Transport Layer Security），是介于TCP和HTTP之间的一层安全协议，不影响原有的TCP协议和HTTP协议，所以使用HTTPS基本上不需要对HTTP页面进行太多的改造。
+
 HTTPS握手过程，主要是为了验证双方身份和协商对称加密的密钥。
 
 打开Wireshark，输入 `tcp.port == 443` 过滤请求，打开掘金网站。
@@ -14,9 +18,11 @@ HTTPS握手过程，主要是为了验证双方身份和协商对称加密的密
 
 客户端发起Client Hello，主要向服务器提供以下信息：
 
-**支持的TLS版本号**
+**支持的最高TLS版本号**
 
-Version: TLS 1.2 (0x0303)
+Version: TLS 1.2 (0x0303)。
+
+注：上面还有一个TLS版本，它表示的是本次通信使用的TLS版本为1.0。
 
 **一个随机数**
 
@@ -38,7 +44,7 @@ Random: 773ed2572a0a82ff9da714fe306e41051e76caea546b2fbea0bfc64e5eba7e77
 
 **确认使用的TLS协议版本**
 
-如果浏览器与服务器支持的版本不一致，则服务器关闭加密通信。
+服务端确认通信使用的TLS版本：TLS 1.2。如果浏览器与服务器支持的版本不一致，则服务器关闭加密通信。
 
 **一个随机数**
 
@@ -54,7 +60,7 @@ Random: 09b429492132f3f5ee2d35b7406861b9a55be4e3893f54cd71d4f9f21fd5d472
 
 这里选择的是null。
 
-此时客户端和服务端就已经协商好了版本号，密码套件，并且客户端和服务端都拥有了两个随机数。
+此时客户端和服务端就已经协商好了将要使用的TLS版本号，密码套件，并且客户端和服务端都拥有了两个随机数。
 
 ## Server Certificate, Certificate Status, Server Key Exchange, Server Hello Done
 
@@ -88,11 +94,13 @@ Server Hello发出去后，服务端会**紧接着发送**一个 `Certificate, C
 - ECDHE_ECDSA
 - ECDHE_RSA
 
+基本上里面都有用到DH算法。
+
 而刚刚服务器确定的是`TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384` 所以这里我们才看到该信息的发送。并且该信息是紧跟着Server Certificate信息的。
 
 ![](https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20200823134002.png)
 
-客户端每次连接服务器的时候，服务器都会发送动态DH信息（DH参数和DH公钥，DH公钥并不是证书上的那个公钥），这些信息不存在证书中，需要通过Server Key Exchange信息来进行信息传递，**并且传递的DH信息需要使用服务器的私钥进行签名。**
+客户端每次连接服务器的时候，服务器都会发送动态DH信息（DH参数和DH公钥，DH公钥并不是证书上的那个公钥），这些信息不存在证书中，需要通过Server Key Exchange信息来进行信息传递，**并且传递的DH信息需要使用服务器证书的私钥进行签名。这样客户端就可以用服务器证书的公钥进行解密验证是否一致确保不被篡改。**
 
 DH公钥就是`Pubkey`，签名就是`Signatrue`，DH参数就是由`Curve Type`、`Named Curve`、`Pubkey`组成的。
 
@@ -137,6 +145,12 @@ DH公钥就是`Pubkey`，签名就是`Signatrue`，DH参数就是由`Curve Type`
 
 客户端将上面的信息通过协商的密钥加密后发送给服务器，服务器收到后如果有第三个随机数预备主密钥，就可以计算出对称加密密钥，从而解密该消息，如果解密不出，说明某个环节出了问题。
 
+到此为止客户端这边就算是准备完成了。
+
+Q：客户端是如何验证服务器身份的？
+
+TODO：这里需要一些前置知识，需要知道CA证书是什么东西。
+
 ## New Session Ticket, Change Cipher Spec, Encrypted Handshake Message
 
 服务器收到客户端的消息后，会计算出对称加密的密钥，然后解密客户端的Encrypted Handshake Message。如果解密成功则代表双方协商出的对称加密密钥没毛病，于是发送该消息。
@@ -157,9 +171,7 @@ DH公钥就是`Pubkey`，签名就是`Signatrue`，DH参数就是由`Curve Type`
 
 同样服务器也会将上面的信息通过协商的密钥加密后发送给服务器，供客户端验证。
 
-## 总结
-
-到此为止整个HTTPS握手就完成了。
+到此为止服务器端也准备完成了，于是整个HTTPS握手就完成了，后续传输的信息都是经过密钥加密后的密文。
 
 
 
@@ -193,4 +205,6 @@ DH公钥就是`Pubkey`，签名就是`Signatrue`，DH参数就是由`Curve Type`
 [理解 Diffie-Hellman 密钥交换算法](http://wsfdl.com/algorithm/2016/02/04/%E7%90%86%E8%A7%A3Diffie-Hellman%E5%AF%86%E9%92%A5%E4%BA%A4%E6%8D%A2%E7%AE%97%E6%B3%95.html)
 
 [Diffie–Hellman key exchange](https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange)  wiki百科，已经讲的很清楚了。
+
+[从 wireshark 抓包开始学习 https](https://cloud.tencent.com/developer/article/1004578)  不错
 
