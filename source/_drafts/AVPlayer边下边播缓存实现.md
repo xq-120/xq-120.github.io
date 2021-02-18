@@ -18,47 +18,154 @@ AVPlayer边下边播缓存实现
  */
 ```
 
+什么是边下边播？
+
+边下边播指的是从服务器获取到的数据一边供给播放器播放一边缓存到本地，即使用一遍的流量完成播放和缓存。下次播放时有缓存的地方则播放缓存数据，没有缓存的地方则从服务器获取再播放。
+
+边下边播缓存实现的思路其实很简单：
+
+1. 代理播放器的请求
+
+2. 向服务器发起请求，接收到数据后塞给播放器播放并缓存到本地。
+3. 缓存清除策略。
+
+思路虽然简单，但每一步的实现着实不容易。
+
 ### 方案选择
 
+#### 方案1：前台播放，后台下载
+
+该方案其实不算边下边播，因为下载的数据并没有提供给播放器播放，二者是各自独立的，总共消耗了两遍的流量。不过该方案实现简单，在早期没有充足的时间下可以考虑使用。
+
+#### 方案2：使用本地代理服务器
+
+该方案是在播放器与视频源服务器之间加一层代理服务器，截取视频播放器发送的请求，根据截取的请求，向网络服务器请求数据，然后写到本地。本地代理服务器从文件中读取数据并发送给播放器进行播放。
+
+![](http://www.samirchen.com/images/video-playback-bandwidth-cost/player-cache-proxy.png)
+
+对于 iOS 端代理服务器的实现，可以参考和使用 CocoaHTTPServer。对于 iOS 端的视频缓存管理，可以参考和使用 KTVHTTPCache。
+
+HTTPServer 不管我们有没有使用缓存功能，都要在应用打开的时候默默开启，对APP性能是一大损耗。并且引入 HTTPServer 库也会增加一些包体积。
+
+TODO：这种方案没有试过，感觉技术难度比较高。
+
+#### 方案3：使用系统原生API--AVAssetResourceLoaderDelegate
+
+方案三跟方案二原理差不多，但是不需要我们自己开启本地服务器，实现相对简单。默认情况下使用AVPlayer播放音视频，系统是不会把数据缓存到本地的。但是我们可以通过设置AVAssetResourceLoader的delegate来代理系统的请求。代理系统请求后我们就可以对数据进行缓存。
+
+本文采用方案三来实现边下边播缓存实现。接下来将围绕如何代理播放器请求，如何缓存数据，缓存清除策略，遇到的问题这几个方面来详细讲解。
+
+### 整体架构设计
 
 
-#### 1.代理系统的请求
 
-7天
+### 1.代理系统的请求
 
-系统请求的机制：
+在代理系统的请求前，可以通过抓包，大致了解下AVPlayer播放一个URL时的请求机制：  
+先请求0-1的数据段，成功后再请求一大段数据，但只接收一小段数据就cancel掉请求。播放一小段后又请求一大段数据，但接收一小段数据后又cancel掉请求，循环这个操作直到接收所有数据。而当用户seek时会马上取消当前的下载请求，然后从seek处发起一个新请求。
 
-在无seek的情况下：先请求0-1的数据段，成功后再请求一大段数据，但只接收一小段数据就cancel掉请求。播放一小段后又请求一大段数据，但接收一小段数据后又cancel掉请求，循环这个操作直到接收所有数据。
+了解这一过程对后面的实现非常有帮助，下面正式代理系统的请求。
 
-在有seek的情况下：会取消之前的下载请求，然后从seek处发起一个新请求。
+代理系统的请求非常简单，只需要将我们的对象设置为 `AVAssetResourceLoader` 的代理，并实现 `AVAssetResourceLoaderDelegate` 协议。
 
-一个resource对应一个loader，一个loader管理多个loadingRequest，每个loadingRequest对应一个真正的dataTask。一个loader虽然管理多个loadingRequest，但同一时刻只能有一个dataTask下载数据。所以当接收到一个loadingRequest时必须先取消掉之前所有的loadingRequest，确保同一时刻只有一个dataTask在下载数据（这里思路错误，导致后面测试发现很多问题）。正确做法是限制最大请求数，不能全部取消。
+```objc
+//1.将正常的scheme替换为自定义的scheme，并将self设置为resourceLoader的代理
+- (AVURLAsset *)getCustomSchemeAssetWithItemUrl:(NSURL *)url {
+    NSURL *csUrl = [ZAEPlayerUtils customSchemeUrlWithUrl:url]; 
+    AVURLAsset *urlAsset = [[AVURLAsset alloc] initWithURL:csUrl options:nil];
+    [urlAsset.resourceLoader setDelegate:self queue:dispatch_get_main_queue()]; 
+    return urlAsset;
+}
 
-经过测试发现在iOS10.3.3中
+//2.实现`AVAssetResourceLoaderDelegate`协议中的如下两个，如果有其他的需求可以实现其他几个协议。
+//在系统不知道如何处理URLAsset资源时回调。如果scheme是我们自定义的则返回YES表示我们将接管资源的请求，否则返回NO。
+- (BOOL)resourceLoader:(AVAssetResourceLoader *)resourceLoader shouldWaitForLoadingOfRequestedResource:(AVAssetResourceLoadingRequest *)loadingRequest {
+    NSURLRequest *req = loadingRequest.request;
+    if ([ZAEPlayerUtils isCustomSchemeUrl:req.URL]) {
+        ZAEResourceLoader *loader = [self resourceLoaderWithKey:req.URL.absoluteString];
+        if (loader == nil) {
+            NSURL *originUrl = [ZAEPlayerUtils originalUrlWithUrl:req.URL];
+            loader = [[ZAEResourceLoader alloc] initWithURL:originUrl];
+            [self setResourceLoader:loader withKey:req.URL.absoluteString];
+        }
+        [loader addLoadingRequest:loadingRequest];
+        return YES;
+    } else {
+        return NO;
+    }
+}
 
+//系统取消加载资源后回调。在该方法里我们需要取消掉我们之前发的请求。
+- (void)resourceLoader:(AVAssetResourceLoader *)resourceLoader didCancelLoadingRequest:(AVAssetResourceLoadingRequest *)loadingRequest {
+    NSURLRequest *req = loadingRequest.request;
+    ZAEResourceLoader *loader = [self resourceLoaderWithKey:req.URL.absoluteString];
+    [loader cancelLoadingRequest:loadingRequest];
+}
 ```
+
+这里唯一需要注意的是 URL 必须是自定义的 URLScheme，我们需要把原始 URL 的 `http://` 或 `https://` 替换成 `xxx://`，协议方法才会生效。这里我们在原scheme后面拼接“-mine”作为自定义的scheme。选择在原scheme后面拼接的好处就是当我们自己去服务器请求的时候能够很方便的解析出原scheme。到此为止我们就成功拦截了播放器的请求，拦截请求之后我们就需要获取数据并提供给播放器。数据可以从本地缓存获取也可以从服务器获取，这是我们后面要做的事。
+
+然而非常坑人的事情来了，经过测试发现在iOS10.3.3中
+
+```objc
 - (void)resourceLoader:(AVAssetResourceLoader *)resourceLoader didCancelLoadingRequest:(AVAssetResourceLoadingRequest *)loadingRequest API_AVAILABLE(macos(10.9), ios(7.0), tvos(9.0)) API_UNAVAILABLE(watchos);
 ```
 
-didCancelLoadingRequest:方法不会被调用。而在iOS14上，AVAssetResourceLoader在开启下一个请求时，会先调用didCancelLoadingRequest:让你有机会cancel掉之前的。
+didCancelLoadingRequest:方法除了手机重启后的第一次运行会被调用，其他时候都不会被调用，非常诡异。而在iOS14上则正常，AVAssetResourceLoader在开启下一个请求时，会先调用didCancelLoadingRequest:让你有机会cancel掉之前的请求。
 
-1.先获取contentInfo信息，再请求数据
+参考：[AVAssetResourceLoaderDelegate -resourceLoader: didCancelLoadingRequest: naver called (in the Device only)](https://developer.apple.com/forums/thread/29039)
 
-没必要
+一个resource对应一个loader，一个loader管理多个loadingRequest，每个loadingRequest对应一个真正的dataTask。一个loader虽然管理多个loadingRequest，但同一时刻只能有一个dataTask下载数据，所以当接收到一个loadingRequest时必须先取消掉之前所有的loadingRequest，确保同一时刻只有一个dataTask在下载数据（这里思路错误，导致后面测试发现很多问题）。正确做法是限制最大请求数，不能全部取消。
+
+1.有没有必要先发一次获取contentInfo信息的请求比如HEAD请求，再请求数据？
+
+没必要，因为系统每次播放前都会先发一个0-1的range请求，服务器响应后，我们可以从响应head里获取到contentInfo信息，同时保存到本地。
 
 2.loaderDict什么时候移除loader
 
-a.播放新音频时清空loaderDict
-
-b.下载失败时清除当前loader
+a.ZAEResourceLoaderManager 调用cancel时清空loaderDict。
 
 3.loadingRequests什么时候移除loadingRequest
 
-a.在addLoadingRequest准备发起一个下载请求时需要取消掉之前所有的loadingRequest，并清空loadingRequests。
+a.在addLoadingRequest准备发起一个下载请求时，取消并移除最旧的、较小range请求的loadingRequest。
 
 b.下载完成后移除当前loadingRequest。
 
-由于在iOS 10.3.3上didCancelLoadingRequest:方法不会被调用，目前设置了最大请求数3，但是抓包发现其实有一些请求请求的长度完全一样，或者处于包含关系，这里应该可以优化一下
+c.系统调用didCancelLoadingRequest时移除。
+
+
+
+AVAssetResourceLoadingDataRequest：
+
+```objc
+@interface AVAssetResourceLoadingDataRequest : NSObject {
+@private
+	AVAssetResourceLoadingDataRequestInternal *_dataRequest;
+}
+AV_INIT_UNAVAILABLE
+  
+@property (nonatomic, readonly) long long requestedOffset;
+@property (nonatomic, readonly) NSInteger requestedLength;
+@property (nonatomic, readonly) BOOL requestsAllDataToEndOfResource API_AVAILABLE(macos(10.11), ios(9.0), tvos(9.0)) API_UNAVAILABLE(watchos);
+@property (nonatomic, readonly) long long currentOffset;
+- (void)respondWithData:(NSData *)data;
+
+@end
+```
+
+requestedOffset：本次range请求的起始字节位置。
+
+requestedLength：本次range请求的长度。
+
+currentOffset：当前已下载的数据的偏移量。requestedOffset + data.length = currentOffset。每次调用respondWithData:方法后，currentOffset会改变。
+
+示意图：
+
+
+
+
+
+TODO：由于在iOS 10.3.3上didCancelLoadingRequest:方法不会被调用，目前设置了最大请求数3，但是抓包发现其实有一些请求请求的长度完全一样，或者处于包含关系，这里应该可以优化一下。
 
 #### 2.缓存数据，并建立区间记录表
 
@@ -1168,6 +1275,12 @@ dataOperationDict：{
 [如果视频拖动快进这时候会有声音但画面卡住了](https://github.com/vitoziv/VIMediaCache/issues/19)  非常棘手的问题
 
 [iOS性能优化实践：头条抖音如何实现OOM崩溃率下降50%+](https://www.mdeditor.tw/pl/ptm8)  稍微看下方案
+
+[点播中的流量成本优化](http://www.samirchen.com/video-playback-bandwidth-cost/) 可以看一下。博主很不错，音视频的可以看看。
+
+[腾讯研发总监王辉：十亿级视频播放技术优化揭秘](https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&mid=2650997049&idx=1&sn=079d954687944e74778df58f31078bd3&chksm=bdbef96a8ac9707cd094f3737f6a32ce849066f50857b0b260fc2804e2eda22d3f6452b3cbfa&scene=27#wechat_redirect)   可以看下大公司的实现方案以及其他考量。当然源码、细节、关键坑等肯定就没有了。
+
+[NicooM3u8Downloader](https://cocoapods.org/pods/NicooM3u8Downloader)  m3u8的缓存	
 
 
 
