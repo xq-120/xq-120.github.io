@@ -115,7 +115,7 @@ TODO：这种方案没有试过，感觉技术难度比较高。
 - (void)resourceLoader:(AVAssetResourceLoader *)resourceLoader didCancelLoadingRequest:(AVAssetResourceLoadingRequest *)loadingRequest API_AVAILABLE(macos(10.9), ios(7.0), tvos(9.0)) API_UNAVAILABLE(watchos);
 ```
 
-didCancelLoadingRequest:方法除了手机重启后的第一次运行会被调用，其他时候都不会被调用，非常诡异。而在iOS14上则正常，AVAssetResourceLoader在开启下一个请求时，会先调用didCancelLoadingRequest:让你有机会cancel掉之前的请求。
+didCancelLoadingRequest:方法除了手机重启后的第一次运行会被调用，其他时候都不会被调用，非常诡异。而在iOS14上则正常，AVAssetResourceLoader会时不时调用didCancelLoadingRequest:让你有机会cancel掉之前的请求。
 
 参考：[AVAssetResourceLoaderDelegate -resourceLoader: didCancelLoadingRequest: naver called (in the Device only)](https://developer.apple.com/forums/thread/29039)
 
