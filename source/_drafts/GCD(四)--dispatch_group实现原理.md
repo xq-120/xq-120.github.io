@@ -850,12 +850,12 @@ __c11_atomic_load(((__typeof__(*(&(dou._dg)->dg_state)) _Atomic *)(&(dou._dg)->d
 
 #### 总结
 
-dispatch_group_t 内部由一个计数器和一个dg_notify单链表组成，enter计数器-1，leave计数器+1，当计数器重新变为0时，唤醒组，并执行dg_notify单链表所有的notify任务，如果有waiter则唤醒waiter。
+dispatch_group_t 内部由一个计数器和一个dg_notify单链表组成，enter计数器-1，leave计数器+1，leave时会检测如果计数器重新变为0则唤醒组并执行dg_notify单链表所有的notify任务，如果有waiter则唤醒waiter。
 
 enter/leave次数匹配问题：
 
 ```
-enter < leave
+1.enter < leave
 会直接崩溃在dispatch_group_leave(group);
 libdispatch.dylib`dispatch_group_leave.cold.1:
    0x10e06866d <+0>:  movq   %rdi, %rax
@@ -864,7 +864,7 @@ libdispatch.dylib`dispatch_group_leave.cold.1:
    0x10e06867e <+17>: movq   %rax, 0x27afb(%rip)       ; gCRAnnotations + 56
 ->  0x10e068685 <+24>: ud2
 
-enter > leave,dispatch_group_wait将不会被唤醒，notify也将不会执行。
+2.enter > leave,dispatch_group_wait将不会被唤醒，notify也将不会执行。
 ```
 
 另外如果dispatch_group_t 对象销毁时，计数器没有复位，也会崩溃。
