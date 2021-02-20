@@ -296,7 +296,7 @@ for (NSInteger i = oldCount - 1; i >= 0; i--) {
 }
 ```
 
-倒序遍历旧数组，为每个旧数组里的元素关联一个entry并保存到符号表里和OA里。这个entry可能是新创建的，也可能是符号表里已存在的。为什么会是已存在的？因为这个元素在新旧数组都有出现，而在pass1中已经创建并保存在符号表里。
+倒序遍历旧数组，为每个旧数组里的元素关联一个entry并保存到符号表里和OA里。这个entry可能是新创建的，也可能是符号表里已存在的。为什么会是已存在的？因为如果这个元素在新旧数组都有出现，则在pass1中就已经创建并保存在符号表里。
 
 oldCounter++
 
@@ -345,7 +345,7 @@ for (NSInteger i = 0; i < newCount; i++) {
 }
 ```
 
-处理在旧新数组都出现的元素。在旧新数组中都出现表明该元素可能需要移动或者移动并更新或者位置没变只是单纯的更新或者什么都不用操作。但不管怎样最后都在NA中的index记录元素在旧数组中的位置，在OA中的index记录元素在新数组中的位置。主要作用为：
+处理在旧新数组都出现的元素。在旧新数组中都出现表明该元素可能需要移动或者移动并更新或者位置没变只是单纯的更新或者什么都不用操作。但不管怎样最后都在NA中的record的index记录元素在旧数组中的位置，在OA中的record的index记录元素在新数组中的位置。主要作用为：
 
 1. 为后面的move操作记录必要的信息。
 2. 筛选出需要删除的旧元素
@@ -376,6 +376,8 @@ for (NSInteger i = 0; i < oldCount; i++) {
 顺序遍历OA，取出record，index为NSNotFound的，则代表该元素不存在NA里，所以需要删除。将其添加到mDeletes操作数组里。
 
 为什么OA里record的index为NSNotFound的元素就是要删除的？因为record的index默认是NSNotFound，如果该元素也存在于NA里那么经过pass3的处理，index必然不是NSNotFound。现在是NSNotFound，说明就不存在于NA里，所以需要删除。
+
+mDeletes里记录了需要删除旧数组里位置i处的元素。
 
 pass5
 
@@ -421,6 +423,67 @@ for (NSInteger i = 0; i < newCount; i++) {
 顺序遍历NA。取出record，index为NSNotFound的，代表是新插入的元素。所以需要插入。将其添加到mInserts操作数组里。
 
 为什么NA里record的index为NSNotFound的元素就是要插入的？理由同上。
+
+当index不为NSNotFound则说明该元素可能需要更新或移动。如果需要更新则添加到mUpdates操作数组里。如果需要move则添加到mMoves操作数组里。
+
+mInserts里记录了新元素需要插入在新数组的位置i处。
+
+mUpdates里记录了旧数组的位置oldIndex的元素需要更新。
+
+mMoves里记录的了是从旧数组的位置oldIndex移动到新数组的位置i。
+
+有了mDeletes，mInserts，mUpdates，mMoves就得到了从旧数组到新数组的变化。究竟先应用哪个操作呢？是不是随便都可以。其实不是的，必须按照先mUpdates，再mDeletes，再mInserts，最后mMoves。
+
+```objc
+result = IGListDiff(oldViewModels, self.viewModels, IGListDiffEquality);
+        
+[result.updates enumerateIndexesUsingBlock:^(NSUInteger oldUpdatedIndex, BOOL *stop) {
+    id identifier = [oldViewModels[oldUpdatedIndex] diffIdentifier];
+    const NSInteger indexAfterUpdate = [result newIndexForIdentifier:identifier];
+      if (indexAfterUpdate != NSNotFound) {
+          UICollectionViewCell<IGListBindable> *cell = [collectionContext cellForItemAtIndex:oldUpdatedIndex
+                                                                           sectionController:self];
+          [cell bindViewModel:self.viewModels[indexAfterUpdate]];
+      }
+	}];
+
+  if (IGListExperimentEnabled(self.collectionContext.experiments, IGListExperimentInvalidateLayoutForUpdates)) {
+      [batchContext invalidateLayoutInSectionController:self atIndexes:result.updates];
+  }
+  [batchContext deleteInSectionController:self atIndexes:result.deletes];
+  [batchContext insertInSectionController:self atIndexes:result.inserts];
+
+  for (IGListMoveIndex *move in result.moves) {
+      [batchContext moveInSectionController:self fromIndex:move.from toIndex:move.to];
+  }
+
+  self.state = IGListDiffingSectionStateUpdateApplied;
+} completion:^(BOOL finished) {
+  self.state = IGListDiffingSectionStateIdle;
+  if (completion != nil) {
+      completion(YES);
+  }
+}];
+
+- (void)ig_applyBatchUpdateData:(IGListBatchUpdateData *)updateData {    
+    [self deleteItemsAtIndexPaths:updateData.deleteIndexPaths];
+    [self insertItemsAtIndexPaths:updateData.insertIndexPaths];
+    [self reloadItemsAtIndexPaths:updateData.updateIndexPaths];
+
+    for (IGListMoveIndexPath *move in updateData.moveIndexPaths) {
+        [self moveItemAtIndexPath:move.from toIndexPath:move.to];
+    }
+
+    for (IGListMoveIndex *move in updateData.moveSections) {
+        [self moveSection:move.from toSection:move.to];
+    }
+
+    [self deleteSections:updateData.deleteSections];
+    [self insertSections:updateData.insertSections];
+}
+```
+
+
 
 ### 问题
 
