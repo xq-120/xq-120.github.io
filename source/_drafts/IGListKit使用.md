@@ -182,6 +182,246 @@ func apply(_ diff: Diff<Element>) -> [Element] {
 
 
 
+### IGListDiff实现
+
+diff算法是用来比较旧新两个数组的不同，并找出从旧数组变化到新数组需要的操作，这里允许的编辑操作包括：
+
+1. 更新元素（update）
+2. 插入一个元素（insert）
+3. 删除一个元素（delete）
+4. 移动一个元素（move）
+
+界面只需要更新这些变化，而不需要全部更新。
+
+涉及到的数据结构有3个：一个key-value的符号表(symbol table)、两个数组(OA, NA)。
+
+符号表里的key是数组元素的diffIdentifier，value是IGListEntry。
+
+所以IGList才定义了一个协议，数组里的元素必须实现：
+
+```objc
+@protocol IGListDiffable
+
+- (nonnull id<NSObject>)diffIdentifier;
+
+- (BOOL)isEqualToDiffableObject:(nullable id<IGListDiffable>)object;
+
+@end
+```
+
+IGListEntry：
+
+```objc
+/// Used to track data stats while diffing.
+struct IGListEntry {
+    /// The number of times the data occurs in the old array
+    NSInteger oldCounter = 0; //元素出现在旧数组里的次数
+    /// The number of times the data occurs in the new array
+    NSInteger newCounter = 0; //元素出现在新数组里的次数
+    /// The indexes of the data in the old array
+    stack<NSInteger> oldIndexes; //元素在旧数组里的index
+    /// Flag marking if the data has been updated between arrays by checking the isEqual: method
+    BOOL updated = NO;
+};
+```
+
+IGListRecord：
+
+```objc
+/// Track both the entry and algorithm index. Default the index to NSNotFound
+struct IGListRecord {
+    IGListEntry *entry;
+    mutable NSInteger index;
+
+    IGListRecord() {
+        entry = NULL;
+        index = NSNotFound;
+    }
+};
+```
+
+entry可以让我们快速访问到数据对应的entry，index则用于记录一个新数据在旧数据中的位置（如果存在的情况下）或一个旧数据在新数据中的位置（如果存在的情况下）。
+
+这里OA里面保存的是旧数组里每个元素对应的IGListRecord。
+
+这里NA里面保存的是新数组里每个元素对应的IGListRecord。
+
+可以预见如果一个元素在旧新数组都有出现，则OA，NA里的entry是同一个。
+
+pass1
+
+```objc
+// pass 1
+// create an entry for every item in the new array
+// increment its new count for each occurence
+vector<IGListRecord> newResultsArray(newCount); //初始化newResultsArray
+for (NSInteger i = 0; i < newCount; i++) {
+    id<NSObject> key = IGListTableKey(newArray[i]);
+    IGListEntry &entry = table[key];
+    entry.newCounter++;
+
+    // add NSNotFound for each occurence of the item in the new array
+    entry.oldIndexes.push(NSNotFound);
+
+    // note: the entry is just a pointer to the entry which is stack-allocated in the table
+    newResultsArray[i].entry = &entry;
+}
+```
+
+顺序遍历新数组，为新数组里的每个元素创建一个entry并保存到符号表里和NA里。因为记录的是新数组的所以entry的oldCounter始终是0。
+
+newCounter++
+
+oldIndexes则push NSNotFound。
+
+pass 2
+
+```objc
+// pass 2
+// update or create an entry for every item in the old array
+// increment its old count for each occurence
+// record the original index of the item in the old array
+// MUST be done in descending order to respect the oldIndexes stack construction
+vector<IGListRecord> oldResultsArray(oldCount); //初始化oldResultsArray
+for (NSInteger i = oldCount - 1; i >= 0; i--) {
+    id<NSObject> key = IGListTableKey(oldArray[i]);
+    IGListEntry &entry = table[key];
+    entry.oldCounter++;
+
+    // push the original indices where the item occurred onto the index stack
+    entry.oldIndexes.push(i);
+
+    // note: the entry is just a pointer to the entry which is stack-allocated in the table
+    oldResultsArray[i].entry = &entry;
+}
+```
+
+倒序遍历旧数组，为每个旧数组里的元素关联一个entry并保存到符号表里和OA里。这个entry可能是新创建的，也可能是符号表里已存在的。为什么会是已存在的？因为这个元素在新旧数组都有出现，而在pass1中已经创建并保存在符号表里。
+
+oldCounter++
+
+oldIndexes压入元素在旧数组里的位置。
+
+pass3
+
+```objc
+// pass 3
+// handle data that occurs in both arrays
+for (NSInteger i = 0; i < newCount; i++) {
+    IGListEntry *entry = newResultsArray[i].entry;
+
+    // grab and pop the top original index. if the item was inserted this will be NSNotFound
+    NSCAssert(!entry->oldIndexes.empty(), @"Old indexes is empty while iterating new item %li. Should have NSNotFound", (long)i);
+    const NSInteger originalIndex = entry->oldIndexes.top();
+    entry->oldIndexes.pop();
+
+    if (originalIndex < oldCount) {  //这里没看懂？？？
+        const id<IGListDiffable> n = newArray[i];
+        const id<IGListDiffable> o = oldArray[originalIndex];
+        switch (option) {
+            case IGListDiffPointerPersonality:
+                // flag the entry as updated if the pointers are not the same
+                if (n != o) {
+                    entry->updated = YES;
+                }
+                break;
+            case IGListDiffEquality:
+                // use -[IGListDiffable isEqualToDiffableObject:] between both version of data to see if anything has changed
+                // skip the equality check if both indexes point to the same object
+                if (n != o && ![n isEqualToDiffableObject:o]) {
+                    entry->updated = YES;
+                }
+                break;
+        }
+    }
+    if (originalIndex != NSNotFound
+        && entry->newCounter > 0
+        && entry->oldCounter > 0) { //在旧新数组都出现
+        // if an item occurs in the new and old array, it is unique
+        // assign the index of new and old records to the opposite index (reverse lookup)
+        newResultsArray[i].index = originalIndex;
+        oldResultsArray[originalIndex].index = i;
+    }
+}
+```
+
+处理在旧新数组都出现的元素。在旧新数组中都出现表明该元素可能需要移动或者移动并更新或者位置没变只是单纯的更新或者什么都不用操作。但不管怎样最后都在NA中的index记录元素在旧数组中的位置，在OA中的index记录元素在新数组中的位置。主要作用为：
+
+1. 为后面的move操作记录必要的信息。
+2. 筛选出需要删除的旧元素
+3. 筛选出需要插入的新元素
+
+pass4
+
+```objc
+// track offsets from deleted items to calculate where items have moved
+vector<NSInteger> deleteOffsets(oldCount), insertOffsets(newCount);
+NSInteger runningOffset = 0;
+
+// iterate old array records checking for deletes
+// incremement offset for each delete
+for (NSInteger i = 0; i < oldCount; i++) {
+    deleteOffsets[i] = runningOffset;
+    const IGListRecord record = oldResultsArray[i];
+    // if the record index in the new array doesn't exist, its a delete
+    if (record.index == NSNotFound) {
+        addIndexToCollection(returnIndexPaths, mDeletes, fromSection, i);
+        runningOffset++;
+    }
+
+    addIndexToMap(returnIndexPaths, fromSection, i, oldArray[i], oldMap);
+}
+```
+
+顺序遍历OA，取出record，index为NSNotFound的，则代表该元素不存在NA里，所以需要删除。将其添加到mDeletes操作数组里。
+
+为什么OA里record的index为NSNotFound的元素就是要删除的？因为record的index默认是NSNotFound，如果该元素也存在于NA里那么经过pass3的处理，index必然不是NSNotFound。现在是NSNotFound，说明就不存在于NA里，所以需要删除。
+
+pass5
+
+```objc
+// reset and track offsets from inserted items to calculate where items have moved
+    runningOffset = 0;
+
+for (NSInteger i = 0; i < newCount; i++) {
+    insertOffsets[i] = runningOffset;
+    const IGListRecord record = newResultsArray[i];
+    const NSInteger oldIndex = record.index;
+    // add to inserts if the opposing index is NSNotFound
+    if (record.index == NSNotFound) {
+        addIndexToCollection(returnIndexPaths, mInserts, toSection, i);
+        runningOffset++;
+    } else {
+        // note that an entry can be updated /and/ moved
+        if (record.entry->updated) {
+            addIndexToCollection(returnIndexPaths, mUpdates, fromSection, oldIndex);
+        }
+
+        // calculate the offset and determine if there was a move
+        // if the indexes match, ignore the index
+        const NSInteger insertOffset = insertOffsets[i];
+        const NSInteger deleteOffset = deleteOffsets[oldIndex];
+        if ((oldIndex - deleteOffset + insertOffset) != i) {
+            id move;
+            if (returnIndexPaths) {
+                NSIndexPath *from = [NSIndexPath indexPathForItem:oldIndex inSection:fromSection];
+                NSIndexPath *to = [NSIndexPath indexPathForItem:i inSection:toSection];
+                move = [[IGListMoveIndexPath alloc] initWithFrom:from to:to];
+            } else {
+                move = [[IGListMoveIndex alloc] initWithFrom:oldIndex to:i];
+            }
+            [mMoves addObject:move];
+        }
+    }
+
+    addIndexToMap(returnIndexPaths, toSection, i, newArray[i], newMap);
+}
+```
+
+顺序遍历NA。取出record，index为NSNotFound的，代表是新插入的元素。所以需要插入。将其添加到mInserts操作数组里。
+
+为什么NA里record的index为NSNotFound的元素就是要插入的？理由同上。
+
 ### 问题
 
 #### 为什么pass 2 必须是倒序遍历旧数组？
@@ -277,4 +517,6 @@ sitting
 [Wagner–Fischer algorithm--wiki](https://en.wikipedia.org/wiki/Wagner%E2%80%93Fischer_algorithm)
 
 [Heckel算法介绍](https://gist.github.com/ndarville/3166060)
+
+[IGListKit 学习(1) 一种高效的 diff 算法](https://sunshineyg888.github.io/2019/12/15/IGListKit%E5%AD%A6%E4%B9%A0(1)--%E9%AB%98%E6%95%88%E7%9A%84diff%E7%AE%97%E6%B3%95/)   不错
 
