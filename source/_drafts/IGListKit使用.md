@@ -315,7 +315,7 @@ for (NSInteger i = 0; i < newCount; i++) {
     const NSInteger originalIndex = entry->oldIndexes.top();
     entry->oldIndexes.pop();
 
-    if (originalIndex < oldCount) {  //这里没看懂？？？
+    if (originalIndex < oldCount) {  //这里没看懂？？？,因为遍历的是NRA，所以originalIndex < oldCount的只可能是在旧新数组都出现的元素，
         const id<IGListDiffable> n = newArray[i];
         const id<IGListDiffable> o = oldArray[originalIndex];
         switch (option) {
@@ -345,7 +345,7 @@ for (NSInteger i = 0; i < newCount; i++) {
 }
 ```
 
-处理在旧新数组都出现的元素。在旧新数组中都出现表明该元素可能需要移动或者移动并更新或者位置没变只是单纯的更新或者什么都不用操作。但不管怎样最后都在NA中的record的index记录元素在旧数组中的位置，在OA中的record的index记录元素在新数组中的位置。主要作用为：
+顺序遍历NRA数组。处理在旧新数组都出现的元素。在旧新数组中都出现表明该元素可能需要移动或者移动并更新或者位置没变只是单纯的更新或者什么都不用操作。但不管怎样最后都在NA中的record的index记录元素在旧数组中的位置，在OA中的record的index记录元素在新数组中的位置。主要作用为：
 
 1. 为后面的move操作记录必要的信息。
 2. 筛选出需要删除的旧元素
