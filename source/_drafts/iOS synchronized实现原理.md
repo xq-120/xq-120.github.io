@@ -989,6 +989,19 @@ MRC下不会，ARC下会。
 
 而id _sync_obj = (id)obj;在MRC下这仅仅是一个赋值语句因此obj的引用计数不变，但在ARC下编译后会插入一条retain语句。当@synchronized代码块执行完后，临时变量销毁时又会释放对象。因此ARC下在@synchronized代码块内同步对象是被强引用的，代码块没执行完同步对象是不会被销毁的。
 
+可以打印下引用计数：
+
+```objc
+- (void)test_synchronized_retain_obj1 {
+    NSObject *obj = [NSObject new];
+    printf("1retain count = %ld\n", CFGetRetainCount((__bridge CFTypeRef)(obj))); //1
+    @synchronized (obj) {
+        printf("2retain count = %ld\n", CFGetRetainCount((__bridge CFTypeRef)(obj))); //2
+    }
+    printf("3retain count = %ld\n", CFGetRetainCount((__bridge CFTypeRef)(obj))); //1
+}
+```
+
 3.假如你传入 `@synchronized` 的对象在 `@synchronized` 的代码块里面被赋值为 `nil` 将会怎么样？
 
 对本次加解锁不会造成影响，但是当被置为nil后，如果此时恰好有一个线程执行到@synchronized，那么@synchronized(obj) 相当于@synchronized(nil)即无锁状态，于是会导致多个线程同时访问临界区代码，造成线程安全问题。
