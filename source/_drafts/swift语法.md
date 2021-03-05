@@ -79,3 +79,31 @@ open class Person: NSObject {
 
 
 Q1:父类实现了某个协议，子类能不能也实现它？
+
+# Swift之属性重写
+
+Todo 
+
+# 实现协议里的属性
+
+
+
+# 协议与weak
+
+**Weak Cannot be applied to non-class type:**
+
+有两类协议：
+
+```
+1.
+protocol SomeProtocol {
+    func doSomething()  
+}
+
+2.
+protocol SomeProtocol: class {
+    func doSomething()
+}
+```
+
+因为weak只能用于引用类型，所以相应的协议必须是类协议。
