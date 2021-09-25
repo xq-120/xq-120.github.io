@@ -218,7 +218,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+                <time title="修改时间：2021-08-15 15:24:59" itemprop="dateModified" datetime="2021-08-15T15:24:59+08:00">2021-08-15</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -250,7 +250,7 @@
 <h4 id="函数说明"><a href="#函数说明" class="headerlink" title="函数说明"></a>函数说明</h4><ol>
 <li><p><code>dispatch_semaphore_t semaphoreTask1 = dispatch_semaphore_create(0);</code><br>创建一个信号量，并赋予初始值(最好传一个&gt;=0的值)。eg：传入2则表示同时最多两个线程可以访问临界区。</p>
 </li>
-<li><p><code>long signalRs = dispatch_semaphore_signal(semaphoreTask1);</code><br>发出一个信号，将信号量加1。如果有通过dispatch_semaphore_wait()函数等待dispatch semaphore的计数值增加的线程，那么该函数在返回前将唤醒最先处于等待状态的线程。</p>
+<li><p><code>long signalRs = dispatch_semaphore_signal(semaphoreTask1);</code><br>发出一个信号，将信号量加1。如果之前的信号量小于0，说明有等待dispatch semaphore的计数值增加的线程，那么该函数在返回前将唤醒最先处于等待状态的线程。</p>
 <p>返回值：This function returns non-zero if a thread is woken. Otherwise, zero is returned。如果有线程被唤醒则返回一个非0值，否则返回0。</p>
 </li>
 <li><p><code>long waitRs = dispatch_semaphore_wait(semaphoreTask1, DISPATCH_TIME_FOREVER);</code><br>将信号量-1。减去1后如果得到的值<0，则该函数在返回前将一直等待信号的发出，线程会被阻塞。减去1后如果得到的值>=0，则正常返回0，不阻塞线程。</0，则该函数在返回前将一直等待信号的发出，线程会被阻塞。减去1后如果得到的值></p>
