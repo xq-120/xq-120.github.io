@@ -187,6 +187,357 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/15/Swift%20%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而奋斗">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/09/15/Swift%20%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6/" class="post-title-link" itemprop="url">Swift 访问控制</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-09-15 17:16:55" itemprop="dateCreated datePublished" datetime="2019-09-15T17:16:55+08:00">2019-09-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2019/09/15/Swift%20%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/09/15/Swift 访问控制/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="Swift-访问控制"><a href="#Swift-访问控制" class="headerlink" title="Swift 访问控制"></a>Swift 访问控制</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th></th>
+<th>In Module</th>
+<th>Out Module</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>open</td>
+<td>可访问,可继承,可重写</td>
+<td>可访问,可继承,可重写</td>
+</tr>
+<tr>
+<td>public</td>
+<td>可访问,可继承,可重写</td>
+<td>可访问</td>
+</tr>
+<tr>
+<td>internal</td>
+<td>可访问,可继承,可重写</td>
+<td>X</td>
+</tr>
+<tr>
+<td>fileprivate</td>
+<td>在同一源文件里可访问,可继承,可重写</td>
+<td>X</td>
+</tr>
+<tr>
+<td>private</td>
+<td>如果修饰的是类中的成员,则成员只能在自身定义里或同一源文件中的自身扩展里可访问.如果修饰的是类则在同一源文件里可访问,可继承</td>
+<td>X</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>open只能用于修饰类和类的成员(属性,方法和下标).</p>
+<p>对于初始化器如果需要对外公开,则只能使用public.如果子类的初始化器和父类的初始化器签名相同则子类还需要加上override关键字.是不是感觉有点疑惑,不是说public的在其他Module只能访问吗,为啥public修饰的初始化器在其他Module还可以override?无他—龟腚.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">open</span> <span class="class"><span class="keyword">class</span> <span class="title">Machine</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">var</span> numberID: <span class="type">String</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">open</span> <span class="function"><span class="keyword">init</span>(<span class="keyword">_</span> <span class="params">numberID</span>: <span class="type">String</span>)</span> &#123; <span class="comment">//这里报错:Only classes and overridable class members can be declared &#x27;open&#x27;; use &#x27;public&#x27;</span></span><br><span class="line">        <span class="keyword">self</span>.numberID <span class="operator">=</span> numberID</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>唯一找到的解释如下:</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/apple/swift-evolution/blob/master/proposals/0117-non-public-subclassable-by-default.md">Allow distinguishing between public access and public overridability</a></p>
+<p>Initializers do not participate in open checking; they cannot be declared open, and there are no restrictions on providing an initializer that has the same signature as an initializer in the superclass. This is true even of required initializers. A class’s initializers provide an interface for constructing instances of that class that is logically distinct from the interface of its superclass, even when signatures happen to match and there are well-understood patterns of delegation. Constructing an object of a subclass necessarily involves running code associated with that subclass, and there is no value in arbitrarily restricting what initializers the subclass may declare.</p>
+<p>大意就是初始化器不参与open检查,并且它们也不能被声明为open.没有啥限制说子类的初始化器不能和父类的初始化器相同(实际上如果相同又必须添加override简直哔了狗).</p>
+<blockquote>
+<p>fileprivate 和 private 区别</p>
+</blockquote>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/09/15/Swift%20%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/13/Swift%E4%B8%AD%E7%9A%84AnyClass%E3%80%81AnyObject%E3%80%81Any/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而奋斗">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/09/13/Swift%E4%B8%AD%E7%9A%84AnyClass%E3%80%81AnyObject%E3%80%81Any/" class="post-title-link" itemprop="url">Swift中的AnyClass、AnyObject、Any</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-09-13 12:39:40" itemprop="dateCreated datePublished" datetime="2019-09-13T12:39:40+08:00">2019-09-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2019/09/13/Swift%E4%B8%AD%E7%9A%84AnyClass%E3%80%81AnyObject%E3%80%81Any/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/09/13/Swift中的AnyClass、AnyObject、Any/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>1.AnyObject</p>
+<p>定义:<br>public typealias AnyObject</p>
+<p>说明:<br>The protocol to which all classes implicitly conform.</p>
+<p>AnyObject can be used as the concrete type for an instance of any class, class type, or class-only protocol.</p>
+<p>The flexible behavior of the <code>AnyObject</code> protocol is similar to<br>Objective-C’s <code>id</code> type.</p>
+<p>AnyObject:用于表示任意类,元类,类协议的实例.</p>
+<p>对于”123”或123这些基础数据类型在Swift中是结构体类型,所以这里需要将其强转为AnyObject类型,此时它们的类型将是<br>OC的NSTaggedPointerString和__NSCFNumber等对象类型.不强转的话编译会出错.</p>
+<p>eg:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> anyA: <span class="type">AnyObject</span> <span class="operator">=</span> <span class="type">People</span>.<span class="keyword">init</span>()</span><br><span class="line"><span class="keyword">let</span> anyB: <span class="type">AnyObject</span> <span class="operator">=</span> <span class="type">People</span>.<span class="keyword">self</span></span><br><span class="line"><span class="keyword">let</span> arr1: [<span class="type">AnyObject</span>] <span class="operator">=</span> [<span class="string">&quot;123&quot;</span> <span class="keyword">as</span> <span class="type">AnyObject</span>, <span class="number">123</span> <span class="keyword">as</span> <span class="type">AnyObject</span>, [<span class="number">123</span>] <span class="keyword">as</span> <span class="type">AnyObject</span>]</span><br><span class="line"> </span><br><span class="line"><span class="keyword">let</span> arr2: [<span class="type">AnyObject</span>] <span class="operator">=</span> [<span class="type">NSString</span>(<span class="string">&quot;123&quot;</span>),</span><br><span class="line">                             <span class="type">NSNumber</span>(<span class="number">123</span>),</span><br><span class="line">                             <span class="literal">true</span> <span class="keyword">as</span> <span class="type">AnyObject</span>,</span><br><span class="line">                             <span class="type">People</span>.<span class="keyword">init</span>(),</span><br><span class="line">                             <span class="type">People</span>.<span class="keyword">self</span></span><br><span class="line">                             ]</span><br><span class="line"><span class="built_in">print</span>(arr2)</span><br><span class="line"></span><br><span class="line"><span class="operator">...</span></span><br><span class="line">[<span class="number">123</span>, <span class="number">123</span>, <span class="number">1</span>, <span class="operator">&lt;</span><span class="type">OSHybridDemo</span>.<span class="type">People</span>: <span class="number">0x600002348b90</span><span class="operator">&gt;</span>, <span class="type">OSHybridDemo</span>.<span class="type">People</span>]</span><br></pre></td></tr></table></figure>
+<p>2.AnyClass</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/09/13/Swift%E4%B8%AD%E7%9A%84AnyClass%E3%80%81AnyObject%E3%80%81Any/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/12/Swift%E3%80%81OC%E5%8F%8D%E5%B0%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而奋斗">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/09/12/Swift%E3%80%81OC%E5%8F%8D%E5%B0%84/" class="post-title-link" itemprop="url">Swift、OC反射</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-09-12 16:56:14" itemprop="dateCreated datePublished" datetime="2019-09-12T16:56:14+08:00">2019-09-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2019/09/12/Swift%E3%80%81OC%E5%8F%8D%E5%B0%84/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/09/12/Swift、OC反射/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="Swift、OC反射"><a href="#Swift、OC反射" class="headerlink" title="Swift、OC反射"></a>Swift、OC反射</h3><p>反射即根据类名字符串,生成对应实例对象的过程.</p>
+<p>分为两步:</p>
+<ol>
+<li>根据字符串,得到对应的类对象.</li>
+<li>通过类对象调用初始化方法生成一个实例.</li>
+</ol>
+<h3 id="获取类对象"><a href="#获取类对象" class="headerlink" title="获取类对象"></a>获取类对象</h3><p>OC:</p>
+<figure class="highlight cos"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">+ (<span class="keyword">Class</span>)<span class="keyword">class</span> OBJC_SWIFT_UNAVAILABLE(<span class="string">&quot;use &#x27;aClass.self&#x27; instead&quot;</span>)<span class="comment">;</span></span><br><span class="line">- (<span class="keyword">Class</span>)<span class="keyword">class</span> OBJC_SWIFT_UNAVAILABLE(<span class="string">&quot;use &#x27;type(of: anObject)&#x27; instead&quot;</span>)<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<p>这俩方法都是返回一个类对象.    </p>
+<p>Swift:</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">aClass<span class="selector-class">.self</span></span><br><span class="line"><span class="function"><span class="title">type</span><span class="params">(of: anObject)</span></span></span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/09/12/Swift%E3%80%81OC%E5%8F%8D%E5%B0%84/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/01/OC%E6%87%92%E5%8A%A0%E8%BD%BD%E4%B8%8ESwift%E6%87%92%E5%8A%A0%E8%BD%BD/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -908,340 +1259,6 @@ objc_msgSend(id _Nullable self, SEL _Nonnull op, ...);</code><br>它的第二个
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/20/%E9%9F%B3%E8%A7%86%E9%A2%91%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%92%8C%E9%9F%B3%E8%A7%86%E9%A2%91%E7%BC%96%E8%A7%A3%E7%A0%81%E6%A0%BC%E5%BC%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而奋斗">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/12/20/%E9%9F%B3%E8%A7%86%E9%A2%91%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%92%8C%E9%9F%B3%E8%A7%86%E9%A2%91%E7%BC%96%E8%A7%A3%E7%A0%81%E6%A0%BC%E5%BC%8F/" class="post-title-link" itemprop="url">音视频文件格式和音视频编解码格式</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-12-20 00:23:55" itemprop="dateCreated datePublished" datetime="2018-12-20T00:23:55+08:00">2018-12-20</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/" itemprop="url" rel="index"><span itemprop="name">音视频</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2018/12/20/%E9%9F%B3%E8%A7%86%E9%A2%91%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%92%8C%E9%9F%B3%E8%A7%86%E9%A2%91%E7%BC%96%E8%A7%A3%E7%A0%81%E6%A0%BC%E5%BC%8F/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/12/20/音视频文件格式和音视频编解码格式/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="音视频文件格式和音视频编解码格式"><a href="#音视频文件格式和音视频编解码格式" class="headerlink" title="音视频文件格式和音视频编解码格式"></a>音视频文件格式和音视频编解码格式</h4><p>音视频文件格式它是一个容器,是一种封装格式,里面包含了音频,视频数据,字幕等.而对音频或视频数据进行编解码的算法才叫做音视频的编解码格式.二者不能搞混.因此同一种文件格式里面的音视频编码格式可能会不同.这样就有可能出现播放器有时能够播放某个文件格式,有时又播放不了.</p>
-<p>对于音频文件,虽然一种音频文件格式可以支持多种编码，例如AVI文件格式，但多数的音频文件仅支持一种音频编码。</p>
-<p>有两类主要的音频文件格式：</p>
-<ul>
-<li>无损格式，例如WAV，PCM，ALS，ALAC，TAK，FLAC，APE，WavPack(WV)</li>
-<li>有损格式，例如MP3，AAC，WMA，Ogg Vorbis</li>
-</ul>
-<p>iOS支持的音频文件格式  </p>
-<p>iOS supports the audio file formats listed in Table 2-1. For information on audio data formats available in iOS, see Codecs.</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th>Format name</th>
-<th>Format filename extensions</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>AIFF</td>
-<td>.aif, .aiff</td>
-</tr>
-<tr>
-<td>CAF</td>
-<td>.caf</td>
-</tr>
-<tr>
-<td>MPEG-1, layer 3</td>
-<td>.mp3</td>
-</tr>
-<tr>
-<td>MPEG-2 or MPEG-4 ADTS</td>
-<td>.aac</td>
-</tr>
-<tr>
-<td>MPEG-4</td>
-<td>.m4a, .mp4</td>
-</tr>
-<tr>
-<td>WAV</td>
-<td>.wav</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>In iOS, Core Audio capabilities include recording, playback, sound effects, positioning, format conversion, and file stream parsing.<br>Core Audio Overview is for all developers interested in creating audio software. Before reading this document you should have basic knowledge of <strong>general audio, digital audio, and MIDI terminology</strong>.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">#<span class="keyword">import</span> &lt;CoreAudio/CoreAudioTypes.h&gt;</span><br><span class="line"><span class="function"><span class="title">CF_ENUM</span>(<span class="params">AudioFormatID</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    kAudioFormatLinearPCM               = <span class="string">&#x27;lpcm&#x27;</span>,</span><br><span class="line">    kAudioFormatAC3                     = <span class="string">&#x27;ac-3&#x27;</span>,</span><br><span class="line">    kAudioFormat60958AC3                = <span class="string">&#x27;cac3&#x27;</span>,</span><br><span class="line">    kAudioFormatAppleIMA4               = <span class="string">&#x27;ima4&#x27;</span>,</span><br><span class="line">    kAudioFormatMPEG4AAC                = <span class="string">&#x27;aac &#x27;</span>,</span><br><span class="line">    kAudioFormatMPEG4CELP               = <span class="string">&#x27;celp&#x27;</span>,</span><br><span class="line">    kAudioFormatMPEG4HVXC               = <span class="string">&#x27;hvxc&#x27;</span>,</span><br><span class="line">    kAudioFormatMPEG4TwinVQ             = <span class="string">&#x27;twvq&#x27;</span>,</span><br><span class="line">    kAudioFormatMACE3                   = <span class="string">&#x27;MAC3&#x27;</span>,</span><br><span class="line">    kAudioFormatMACE6                   = <span class="string">&#x27;MAC6&#x27;</span>,</span><br><span class="line">    kAudioFormatULaw                    = <span class="string">&#x27;ulaw&#x27;</span>,</span><br><span class="line">    kAudioFormatALaw                    = <span class="string">&#x27;alaw&#x27;</span>,</span><br><span class="line">    kAudioFormatQDesign                 = <span class="string">&#x27;QDMC&#x27;</span>,</span><br><span class="line">    kAudioFormatQDesign2                = <span class="string">&#x27;QDM2&#x27;</span>,</span><br><span class="line">    kAudioFormatQUALCOMM                = <span class="string">&#x27;Qclp&#x27;</span>,</span><br><span class="line">    kAudioFormatMPEGLayer1              = <span class="string">&#x27;.mp1&#x27;</span>,</span><br><span class="line">    kAudioFormatMPEGLayer2              = <span class="string">&#x27;.mp2&#x27;</span>,</span><br><span class="line">    kAudioFormatMPEGLayer3              = <span class="string">&#x27;.mp3&#x27;</span>,</span><br><span class="line">    kAudioFormatTimeCode                = <span class="string">&#x27;time&#x27;</span>,</span><br><span class="line">    kAudioFormatMIDIStream              = <span class="string">&#x27;midi&#x27;</span>,</span><br><span class="line">    kAudioFormatParameterValueStream    = <span class="string">&#x27;apvs&#x27;</span>,</span><br><span class="line">    kAudioFormatAppleLossless           = <span class="string">&#x27;alac&#x27;</span>,</span><br><span class="line">    kAudioFormatMPEG4AAC_HE             = <span class="string">&#x27;aach&#x27;</span>,</span><br><span class="line">    kAudioFormatMPEG4AAC_LD             = <span class="string">&#x27;aacl&#x27;</span>,</span><br><span class="line">    kAudioFormatMPEG4AAC_ELD            = <span class="string">&#x27;aace&#x27;</span>,</span><br><span class="line">    kAudioFormatMPEG4AAC_ELD_SBR        = <span class="string">&#x27;aacf&#x27;</span>,</span><br><span class="line">    kAudioFormatMPEG4AAC_ELD_V2         = <span class="string">&#x27;aacg&#x27;</span>,    </span><br><span class="line">    kAudioFormatMPEG4AAC_HE_V2          = <span class="string">&#x27;aacp&#x27;</span>,</span><br><span class="line">    kAudioFormatMPEG4AAC_Spatial        = <span class="string">&#x27;aacs&#x27;</span>,</span><br><span class="line">    kAudioFormatAMR                     = <span class="string">&#x27;samr&#x27;</span>,</span><br><span class="line">    kAudioFormatAMR_WB                  = <span class="string">&#x27;sawb&#x27;</span>,</span><br><span class="line">    kAudioFormatAudible                 = <span class="string">&#x27;AUDB&#x27;</span>,</span><br><span class="line">    kAudioFormatiLBC                    = <span class="string">&#x27;ilbc&#x27;</span>,</span><br><span class="line">    kAudioFormatDVIIntelIMA             = <span class="number">0x6D730011</span>,</span><br><span class="line">    kAudioFormatMicrosoftGSM            = <span class="number">0x6D730031</span>,</span><br><span class="line">    kAudioFormatAES3                    = <span class="string">&#x27;aes3&#x27;</span>,</span><br><span class="line">    kAudioFormatEnhancedAC3             = <span class="string">&#x27;ec-3&#x27;</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/12/20/%E9%9F%B3%E8%A7%86%E9%A2%91%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%92%8C%E9%9F%B3%E8%A7%86%E9%A2%91%E7%BC%96%E8%A7%A3%E7%A0%81%E6%A0%BC%E5%BC%8F/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/19/UIBarButtonItem%E5%9D%91/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而奋斗">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/12/19/UIBarButtonItem%E5%9D%91/" class="post-title-link" itemprop="url">UIBarButtonItem坑</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-12-19 21:34:06" itemprop="dateCreated datePublished" datetime="2018-12-19T21:34:06+08:00">2018-12-19</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/UIKit/" itemprop="url" rel="index"><span itemprop="name">UIKit</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2018/12/19/UIBarButtonItem%E5%9D%91/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/12/19/UIBarButtonItem坑/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>使用系统设置,在iOS11.4上会出现点击时,文字变大,颜色变为蓝色.所以使用按钮还是靠谱些.</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UIBarButtonItem</span> *allReadItem = [[<span class="built_in">UIBarButtonItem</span> alloc] initWithTitle:<span class="string">@&quot;全部已读&quot;</span> style:<span class="built_in">UIBarButtonItemStylePlain</span> target:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(allReadItemDidClicked:)];</span><br><span class="line">[allReadItem setTitleTextAttributes:@&#123;<span class="built_in">NSFontAttributeName</span> : [<span class="built_in">UIFont</span> pingFangSCWithSize:<span class="number">14</span>], <span class="built_in">NSForegroundColorAttributeName</span> : [<span class="built_in">UIColor</span> colorWithHexString:<span class="string">@&quot;#333333&quot;</span>]&#125; forState:<span class="built_in">UIControlStateNormal</span>];</span><br><span class="line"><span class="keyword">self</span>.navigationItem.rightBarButtonItem = allReadItem;</span><br></pre></td></tr></table></figure>
-<p>解决办法使用自定义按钮:</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UIButton</span> *btn = [<span class="built_in">UIButton</span> buttonWithType:<span class="built_in">UIButtonTypeCustom</span>];</span><br><span class="line">    btn.titleLabel.font = [<span class="built_in">UIFont</span> pingFangSCWithSize:<span class="number">14</span>];</span><br><span class="line">    [btn setTitle:<span class="string">@&quot;全部已读&quot;</span> forState:<span class="built_in">UIControlStateNormal</span>];</span><br><span class="line">    [btn setTitleColor:[<span class="built_in">UIColor</span> colorWithHexString:<span class="string">@&quot;#333333&quot;</span>] forState:<span class="built_in">UIControlStateNormal</span>];</span><br><span class="line">    [btn addTarget:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(allReadItemDidClicked:) forControlEvents:<span class="built_in">UIControlEventTouchUpInside</span>];</span><br><span class="line">    [btn sizeToFit]; <span class="comment">//需要设置一下否则在iOS10会没有大小.</span></span><br><span class="line">    <span class="built_in">UIBarButtonItem</span> *allReadItem = [[<span class="built_in">UIBarButtonItem</span> alloc] initWithCustomView:btn];</span><br><span class="line">    <span class="keyword">self</span>.navigationItem.rightBarButtonItem = allReadItem;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/09/iOS%20UIApplicationState%E7%8A%B6%E6%80%81%E5%8F%98%E5%8C%96/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而奋斗">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/12/09/iOS%20UIApplicationState%E7%8A%B6%E6%80%81%E5%8F%98%E5%8C%96/" class="post-title-link" itemprop="url">iOS UIApplicationState状态变化</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-12-09 23:48:59" itemprop="dateCreated datePublished" datetime="2018-12-09T23:48:59+08:00">2018-12-09</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/UIKit/" itemprop="url" rel="index"><span itemprop="name">UIKit</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2018/12/09/iOS%20UIApplicationState%E7%8A%B6%E6%80%81%E5%8F%98%E5%8C%96/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/12/09/iOS UIApplicationState状态变化/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>实验设备:iPhone5s,10.3.3系统.</p>
-<p>应用状态:</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="built_in">NS_ENUM</span>(<span class="built_in">NSInteger</span>, <span class="built_in">UIApplicationState</span>) &#123;</span><br><span class="line">    <span class="built_in">UIApplicationStateActive</span>, <span class="comment">//0</span></span><br><span class="line">    <span class="built_in">UIApplicationStateInactive</span>, <span class="comment">//1</span></span><br><span class="line">    <span class="built_in">UIApplicationStateBackground</span> <span class="comment">//2</span></span><br><span class="line">&#125; <span class="built_in">NS_ENUM_AVAILABLE_IOS</span>(<span class="number">4</span>_0);</span><br></pre></td></tr></table></figure>
-<p>APP未启动,点击图片执行顺序:</p>
-<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">默认	<span class="number">23</span>:<span class="number">07</span>:<span class="number">51.443320</span> +<span class="number">0800</span>	pictureInMemory	-[AppDelegate application:didFinishLaunchingWithOptions:]  应用状态:<span class="number">1</span></span><br><span class="line"></span><br><span class="line">默认	<span class="number">23</span>:<span class="number">07</span>:<span class="number">51.515796</span> +<span class="number">0800</span>	pictureInMemory	-[AppDelegate applicationDidBecomeActive:]  应用状态:<span class="number">0</span></span><br></pre></td></tr></table></figure>
-<p>在应用处于UIApplicationStateActive时,分别进行如下操作:</p>
-<h4 id="1-按下home键"><a href="#1-按下home键" class="headerlink" title="1.按下home键"></a>1.按下home键</h4><figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">默认	<span class="number">23</span>:<span class="number">09</span>:<span class="number">50.067690</span> +<span class="number">0800</span>	pictureInMemory	-[AppDelegate applicationWillResignActive:]  应用状态:<span class="number">0</span></span><br><span class="line">默认	<span class="number">23</span>:<span class="number">09:50.602224</span> +<span class="number">0800</span>	pictureInMemory	-[AppDelegate applicationDidEnterBackground:]  应用状态:<span class="number">2</span></span><br></pre></td></tr></table></figure>
-<p>1.1处于后台时,再点击图标</p>
-<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">默认	<span class="number">23</span>:<span class="number">11</span>:<span class="number">34.897752</span> +<span class="number">0800</span>	pictureInMemory	-[AppDelegate applicationWillEnterForeground:]  应用状态:<span class="number">2</span></span><br><span class="line">默认	<span class="number">23</span>:<span class="number">11:35.218295</span> +<span class="number">0800</span>	pictureInMemory	-[AppDelegate applicationDidBecomeActive:]  应用状态:<span class="number">0</span></span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/12/09/iOS%20UIApplicationState%E7%8A%B6%E6%80%81%E5%8F%98%E5%8C%96/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1312,7 +1329,7 @@ objc_msgSend(id _Nullable self, SEL _Nonnull op, ...);</code><br>它的第二个
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">116</span>
+          <span class="site-state-item-count">119</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1325,7 +1342,7 @@ objc_msgSend(id _Nullable self, SEL _Nonnull op, ...);</code><br>它的第二个
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">75</span>
+        <span class="site-state-item-count">78</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1361,7 +1378,7 @@ objc_msgSend(id _Nullable self, SEL _Nonnull op, ...);</code><br>它的第二个
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2021</span>
+  <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
