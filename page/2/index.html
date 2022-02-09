@@ -313,7 +313,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-02-09 14:45:25" itemprop="dateModified" datetime="2022-02-09T14:45:25+08:00">2022-02-09</time>
+                <time title="修改时间：2022-02-09 19:28:34" itemprop="dateModified" datetime="2022-02-09T19:28:34+08:00">2022-02-09</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -340,10 +340,10 @@
       
           <p>源码版本：<a target="_blank" rel="noopener" href="https://opensource.apple.com/tarballs/objc4/objc4-781.tar.gz">objc4-781</a></p>
 <h3 id="0-weak-修饰符的作用"><a href="#0-weak-修饰符的作用" class="headerlink" title="0.weak 修饰符的作用"></a>0.weak 修饰符的作用</h3><p>之前的文章提到过 <code>__weak</code> 修饰符作用：</p>
-<p>1.当我们将一个对象赋值给一个 <code>__weak</code> 修饰符的指针变量时，编译器会插入 <code>objc_initWeak</code> 函数将该弱指针变量注册到对象的weak表里。</p>
+<p>1.当我们将一个对象赋值给一个 <code>__weak</code> 修饰符的指针变量时，编译器会插入 <code>objc_initWeak</code> 函数将该弱引用指针变量添加到weak表里。</p>
 <p>2.当使用附有 <code>__weak</code> 修饰符的变量时，编译器会在使用前插入 <code>objc_loadWeakRetained</code> 函数将对象引用计数+1，保证对象在后面的使用过程中不被释放。并在使用后插入 <code>objc_release(tmp1);</code> 释放对象。</p>
-<p>3.当弱指针变量超出作用域被废弃时，编译器会插入 <code>objc_destroyWeak</code> 将该指针变量从对象的weak表里剔除。</p>
-<p>4.当对象销毁时，对象的weak表中的所有弱指针变量会被赋值为nil，避免了野指针崩溃，比如对nil对象发送消息不会有任何反应，但是如果是对nil进行解引用还是会崩溃的。</p>
+<p>3.当弱引用指针变量超出作用域被废弃时，编译器会插入 <code>objc_destroyWeak</code> 将该指针变量从weak表里移除。</p>
+<p>4.当对象销毁时，weak表中对象的所有弱引用指针变量会被赋值为nil，避免了野指针崩溃。比如对nil对象发送消息不会有任何反应，需要注意的是如果是对nil进行解引用还是会崩溃的。</p>
 <p>这些功能是assign所不具备的，assign唯一与weak相同的地方就是不会导致对象的引用计数+1。</p>
 <p>note：weak 只能用于修饰对象类型。并且只能用于iOS5及以上，在iOS4可以使用 <code>__unsafe_unretained</code> 代替.另外weak在MRC下也是有效果的，不过需要设置 <code>Weak References in Manual Retain Release</code> 为 YES。</p>
 <p>今天就来看一下weak的上述功能是如何实现的，在看源码之前，可以带着一些问题，比如：</p>
