@@ -187,6 +187,99 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/11/UIScrollView%E4%BB%A3%E7%90%86%E6%96%B9%E6%B3%95%E6%B3%A8%E8%A7%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而奋斗">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/12/11/UIScrollView%E4%BB%A3%E7%90%86%E6%96%B9%E6%B3%95%E6%B3%A8%E8%A7%A3/" class="post-title-link" itemprop="url">UIScrollView代理方法</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-12-11 10:16:24" itemprop="dateCreated datePublished" datetime="2017-12-11T10:16:24+08:00">2017-12-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/UIKit/" itemprop="url" rel="index"><span itemprop="name">UIKit</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2017/12/11/UIScrollView%E4%BB%A3%E7%90%86%E6%96%B9%E6%B3%95%E6%B3%A8%E8%A7%A3/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/12/11/UIScrollView代理方法注解/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>将要开始发生拖拽.<br><code>- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView</code></p>
+<p>将要结束拖拽,velocity:结束时的速度;targetContentOffset:想要滚动到的指定位置.(使用该方法可以让UIScrollView停在我们想要的地方)<br><code>- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset</code></p>
+<p>拖拽结束,decelerate=YES:表明拖拽结束的时候,scrollView还有速度,将会减速滑动一段距离,最终停止时会回调scrollViewDidEndDecelerating方法;=NO:表明拖拽结束,scrollView也随即停止,此时不会再回调scrollViewDidEndDecelerating方法.<br><code>- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate</code></p>
+<p>已经结束减速.表明滚动停止.只有在停止前有速度的时候才会被回调.<br><code>- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView</code></p>
+<p>已经滚动.scrollView处于滚动状态时,该方法会被频繁调用,因此该方法里面不应该有太复杂的处理.动画scrollToItemAtIndexPath:atScrollPosition:animated:;并不会使该代理方法调用.<br><code>- (void)scrollViewDidScroll:(UIScrollView *)scrollView</code></p>
+<p>called when setContentOffset/scrollRectVisible:animated: finishes. not called if not animating. 因为动画原因滚动结束.<br><code>- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView</code></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/03/OC%20block%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C--Block%E7%9A%84%E5%A3%B0%E6%98%8E%E3%80%81%E8%B5%8B%E5%80%BC%E4%B8%8E%E8%B0%83%E7%94%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1067,99 +1160,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/21/%E9%87%87%E7%94%A8%20Modern%20Objective-C/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而奋斗">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/10/21/%E9%87%87%E7%94%A8%20Modern%20Objective-C/" class="post-title-link" itemprop="url">采用 Modern Objective-C</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2017-10-21 13:21:24" itemprop="dateCreated datePublished" datetime="2017-10-21T13:21:24+08:00">2017-10-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
-                </span>
-            </span>
-
-          
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="采用-Modern-Objective-C"><a href="#采用-Modern-Objective-C" class="headerlink" title="采用 Modern Objective-C"></a>采用 Modern Objective-C</h2><p>参考:<a target="_blank" rel="noopener" href="https://developer.apple.com/library/content/releasenotes/ObjectiveC/ModernizationObjC/AdoptingModernObjective-C/AdoptingModernObjective-C.html">Adopting Modern Objective-C</a></p>
-<p>These modernizations <strong>improve type safety, memory management, performance, and other aspects of Objective-C</strong>, making it easier for you to write correct code. It’s important to adopt these changes in your existing and future code to help it become more consistent, readable, and resilient.</p>
-<h3 id="instancetype"><a href="#instancetype" class="headerlink" title="instancetype"></a>instancetype</h3><p>Use the instancetype keyword as the return type of methods that return an instance of the class they are called on (or a subclass of that class).<br>Using instancetype instead of id in appropriate places <strong>improves type safety</strong> in your Objective-C code.<br>使用instancetype后,如果给对象发送一条不能识别的消息那么编译器就会提示错误,这样就可以提前解决错误,因此提高了类型安全.参考官方文档上的例子说明.</p>
-<p>Note that you should replace id with instancetype for return values only, not elsewhere in your code. Unlike id, the instancetype keyword can be used only as the result type in a method declaration.</p>
-<h3 id="property语法"><a href="#property语法" class="headerlink" title="@property语法"></a><code>@property</code>语法</h3><p>使用properties代替实例变量有许多好处.</p>
-<ul>
-<li>自动合成getter和setter.</li>
-<li>更好的声明一系列方法的意图.</li>
-<li>Property关键字可以传递额外的信息.比如assign (vs copy), weak, atomic (vs nonatomic), and so on.</li>
-</ul>
-<p>Property methods follow a simple naming convention. The getter is the name of the property (for example, date), and the setter is the name of the property with the set prefix, written in camel case (for example, setDate). The naming convention for Boolean properties is to declare them with a named getter starting with the word “is”:<br><code>@property (readonly, getter=isBlue) BOOL blue;</code></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2017/10/21/%E9%87%87%E7%94%A8%20Modern%20Objective-C/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1230,7 +1230,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">119</span>
+          <span class="site-state-item-count">120</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1243,7 +1243,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">78</span>
+        <span class="site-state-item-count">79</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
