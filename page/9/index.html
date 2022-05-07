@@ -187,6 +187,408 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/04/12/Swift%E9%9D%99%E6%80%81%E5%BA%93%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而奋斗">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/04/12/Swift%E9%9D%99%E6%80%81%E5%BA%93%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/" class="post-title-link" itemprop="url">Swift静态库注意事项</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-04-12 15:56:35" itemprop="dateCreated datePublished" datetime="2018-04-12T15:56:35+08:00">2018-04-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%9D%99%E6%80%81%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">静态库</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2018/04/12/Swift%E9%9D%99%E6%80%81%E5%BA%93%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/04/12/Swift静态库注意事项/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="Swift静态库注意事项"><a href="#Swift静态库注意事项" class="headerlink" title="Swift静态库注意事项"></a>Swift静态库注意事项</h3><p>工程是Swift,OC混编.开发完成后,需要将工程制作为一个静态库.制作完成测试使用时,发现一运行就崩溃.提示:<br>Unknown class KDLHomeLotteryKindCollectionCell in Interface Builder file.应该是宿主工程在加载静态库对应的bundle里的XIB文件时出问题了.</p>
+<p>原因分析及解决办法:<br>确定以及肯定的是系统在查找XIB对应的类时没有找到导致的.</p>
+<p>在制作静态库和Bundle时,类和XIB文件被分离到各自的target.而XIB文件是被拖入到bundle中的,因此需要更改XIB之前的默认Module设置,尤其是创建时选择Swift语言.否则系统在查找XIB的类时是在Bundle这个Module中找,当然是找不到的,从而在加载时崩溃.</p>
+<p>解决办法:<br>需要更改XIB对应类的所属Module为静态库的Module.或者不勾选Inherit Module From Target,并清空Module一栏.</p>
+<p>note:Swift创建的XIB默认是选中Inherit Module From Target的.OC创建的XIB文件系统默认没有勾选.</p>
+<p>eg:</p>
+<p><img src="http://7xqoji.com1.z0.glb.clouddn.com/Swift%E5%88%9B%E5%BB%BAXIB%E6%96%87%E4%BB%B6@2x.png" alt=""></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/04/09/map%E5%92%8CflapMap%E7%9A%84%E4%B8%80%E7%82%B9%E5%8C%BA%E5%88%AB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而奋斗">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/04/09/map%E5%92%8CflapMap%E7%9A%84%E4%B8%80%E7%82%B9%E5%8C%BA%E5%88%AB/" class="post-title-link" itemprop="url">map和flapMap的一点区别</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-04-09 11:24:37" itemprop="dateCreated datePublished" datetime="2018-04-09T11:24:37+08:00">2018-04-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+                </span>
+            </span>
+
+          
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="map和flapMap的一点区别"><a href="#map和flapMap的一点区别" class="headerlink" title="map和flapMap的一点区别"></a>map和flapMap的一点区别</h3><p>map的声明:<br><code>public func map&lt;T&gt;(_ transform: (Element) throws -&gt; T) rethrows -&gt; [T]</code><br>它返回的是一个数组.闭包的返回值是一个新数组的元素.<br>如果闭包返回的是一个optional类型元素则map返回的也将是一个[optional(T)]数组.</p>
+<p>flapMap的声明:<br>头文件里只看到这一个</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@available</span>(<span class="keyword">swift</span>, deprecated: <span class="number">4.1</span>, renamed: <span class="string">&quot;compactMap(_:)&quot;</span>, message: <span class="string">&quot;Please use compactMap(_:) for the case where closure returns an optional value&quot;</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">flatMap</span>(<span class="keyword">_</span> <span class="params">transform</span>: (<span class="type">Element</span>) <span class="keyword">throws</span> -&gt; <span class="type">String</span>?)</span> <span class="keyword">rethrows</span> -&gt; [<span class="type">String</span>]</span><br></pre></td></tr></table></figure>
+<p>提示器会有三个:<br><img src="http://7xqoji.com1.z0.glb.clouddn.com/flapMap%E5%A3%B0%E6%98%8E@2x.png" alt="flapMap声明"><br>虽然下面两种已经被废弃,但现在还能使用.<br>它返回的是一个数组.闭包的返回值可以是一个序列也可以是一个新数组的元素.</p>
+<p>区别:  </p>
+<ol>
+<li><p>flatMap可以用来展平一个数组:</p>
+ <figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> links: [[<span class="built_in">String</span>]] = [</span><br><span class="line">    [<span class="string">&quot;http://a1&quot;</span>, <span class="string">&quot;http://a2&quot;</span>, <span class="string">&quot;http://a3&quot;</span>],</span><br><span class="line">    [<span class="string">&quot;http://b1&quot;</span>, <span class="string">&quot;http://b2&quot;</span>, <span class="string">&quot;http://b3&quot;</span>],</span><br><span class="line">    [<span class="string">&quot;http://c1&quot;</span>, <span class="string">&quot;http://c2&quot;</span>, <span class="string">&quot;http://c3&quot;</span>],</span><br><span class="line">]</span><br><span class="line"><span class="built_in">print</span>(links)</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> flapLink = links.flatMap &#123; <span class="function"><span class="params">(exlinks: [<span class="built_in">String</span>])</span> -&gt;</span> [<span class="built_in">String</span>] <span class="keyword">in</span></span><br><span class="line">    <span class="keyword">return</span> exlinks</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span>(flapLink)  <span class="regexp">//[&quot;http://</span>a1<span class="string">&quot;, &quot;</span>http:<span class="regexp">//a2&quot;, &quot;http://</span>a3<span class="string">&quot;, &quot;</span>http:<span class="regexp">//b1&quot;, &quot;http://</span>b2<span class="string">&quot;, &quot;</span>http:<span class="regexp">//b3&quot;, &quot;http://</span>c1<span class="string">&quot;, &quot;</span>http:<span class="regexp">//c2&quot;, &quot;http://</span>c3<span class="string">&quot;]</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>flatMap可以将转化失败的nil元素剔除,而map则不能:</p>
+ <figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> wq = [<span class="string">&quot;123&quot;</span>, <span class="string">&quot;fsd&quot;</span>, <span class="string">&quot;dfsd&quot;</span>, <span class="string">&quot;34&quot;</span>]</span><br><span class="line"><span class="keyword">let</span> wqm = wq.map &#123; (element) -&gt; <span class="built_in">Int</span>? <span class="keyword">in</span></span><br><span class="line">    return <span class="built_in">Int</span>(element)</span><br><span class="line">&#125;</span><br><span class="line">print(wqm)  <span class="comment">//[Optional(123), nil, nil, Optional(34)]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> wqfm = wq.flatMap &#123; (element) -&gt; <span class="built_in">Int</span>? <span class="keyword">in</span></span><br><span class="line">    return <span class="built_in">Int</span>(element)</span><br><span class="line">&#125;</span><br><span class="line">print(wqfm) <span class="comment">//[123, 34]</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>由于最下面两种用法已经被废弃,Apple推荐使用compactMap,因此flatMap的用法主要是第一种了.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/04/04/Allocation%20Type%E4%BB%8B%E7%BB%8D/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而奋斗">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/04/04/Allocation%20Type%E4%BB%8B%E7%BB%8D/" class="post-title-link" itemprop="url">Allocation Type介绍</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-04-04 14:06:54" itemprop="dateCreated datePublished" datetime="2018-04-04T14:06:54+08:00">2018-04-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Instruments%E4%BD%BF%E7%94%A8/" itemprop="url" rel="index"><span itemprop="name">Instruments使用</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2018/04/04/Allocation%20Type%E4%BB%8B%E7%BB%8D/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/04/04/Allocation Type介绍/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="Allocation-Type介绍"><a href="#Allocation-Type介绍" class="headerlink" title="Allocation Type介绍"></a>Allocation Type介绍</h3><h4 id="官方文档"><a href="#官方文档" class="headerlink" title="官方文档"></a>官方文档</h4><p>The following allocation type display settings filter the allocations in the detail pane based on their type.</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Setting</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>All Heap &amp; Anonymous VM</td>
+<td>Shows all malloc heap allocations and interesting VM regions such as graphics- and Core Data-related. Hides mapped files, dylibs, and some large reserved VM regions.</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>All Heap Allocations</td>
+<td>Shows all malloc heap allocations but no VM regions.</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>All VM Regions</td>
+<td>Shows all VM regions, including mapped files, dylibs, and the VM regions that include the malloc heap.</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>参考:<a target="_blank" rel="noopener" href="https://developer.apple.com/library/content/documentation/DeveloperTools/Conceptual/InstrumentsUserGuide/Instrument-Allocations.html">Allocations Instrument</a></p>
+<h4 id="论坛上的解释"><a href="#论坛上的解释" class="headerlink" title="论坛上的解释"></a>论坛上的解释</h4><h4 id="1"><a href="#1" class="headerlink" title="1"></a>1</h4><p>All heap allocations consist of the memory allocations your application makes. This is the allocation type you should focus on in Instruments.</p>
+<p>All VM regions consist of the virtual memory the operating system reserves for your application. You cannot control the size of the virtual memory the operating system reserves.</p>
+<p>All heap and anonymous vm is the sum of the All Heap Allocations and All VM Regions columns.</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/04/04/Allocation%20Type%E4%BB%8B%E7%BB%8D/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/04/04/%E6%A0%BC%E5%BC%8F%E5%8C%96%E8%BE%93%E5%87%BA%E5%AF%BC%E8%87%B4%E7%9A%84%E7%96%91%E4%BC%BCbug/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而奋斗">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/04/04/%E6%A0%BC%E5%BC%8F%E5%8C%96%E8%BE%93%E5%87%BA%E5%AF%BC%E8%87%B4%E7%9A%84%E7%96%91%E4%BC%BCbug/" class="post-title-link" itemprop="url">格式化输出导致的疑似bug</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-04-04 14:05:24" itemprop="dateCreated datePublished" datetime="2018-04-04T14:05:24+08:00">2018-04-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bug/" itemprop="url" rel="index"><span itemprop="name">Bug</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2018/04/04/%E6%A0%BC%E5%BC%8F%E5%8C%96%E8%BE%93%E5%87%BA%E5%AF%BC%E8%87%B4%E7%9A%84%E7%96%91%E4%BC%BCbug/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/04/04/格式化输出导致的疑似bug/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+           <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSString</span> *str = <span class="string">@&quot;123456a&quot;</span>;</span><br><span class="line"><span class="built_in">NSData</span> *dataStr = [str dataUsingEncoding:<span class="built_in">NSUTF8StringEncoding</span>];</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@&quot;%s %s&quot;</span>, [str UTF8String], dataStr.bytes);</span><br></pre></td></tr></table></figure>
+<p>iOS9.0模拟器.<br>输出:123456a 123456a–˝ã˘<br>dataStr.bytes的二进制内容:31 32 33 34 35 36 61 D0 1D 13 FD 8B F9 07 00 10<br>出现上述情况的原因:<br>需要了解%s是如何打印c字符串的.<br>%s打印的时候遇到\0就停止，[str UTF8String]转换的时候，自动在字符数组的最后面加上了\0(A null-terminated UTF8 representation of the string.)，但是data.bytes后面’不一定’是\0，所以打印data.bytes的时候会有额外的内容.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/03/22/CocoaPods%E5%91%BD%E4%BB%A4%E4%BB%8B%E7%BB%8D/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -828,403 +1230,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/02/25/OC%20MRC%E4%B9%8B%E6%97%85/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而奋斗">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/02/25/OC%20MRC%E4%B9%8B%E6%97%85/" class="post-title-link" itemprop="url">OC MRC之旅</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-02-25 22:38:24" itemprop="dateCreated datePublished" datetime="2018-02-25T22:38:24+08:00">2018-02-25</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2018/02/25/OC%20MRC%E4%B9%8B%E6%97%85/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/02/25/OC MRC之旅/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>none</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/02/25/OC%20MRC%E4%B9%8B%E6%97%85/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/02/14/2018-2-14-SDWebImage%E5%86%85%E5%AD%98%E6%9A%B4%E6%B6%A8%E5%88%86%E6%9E%90%E4%B8%8E%E8%A7%A3%E5%86%B3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而奋斗">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/02/14/2018-2-14-SDWebImage%E5%86%85%E5%AD%98%E6%9A%B4%E6%B6%A8%E5%88%86%E6%9E%90%E4%B8%8E%E8%A7%A3%E5%86%B3/" class="post-title-link" itemprop="url">SDWebImage内存暴涨分析与解决</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-02-14 15:01:11" itemprop="dateCreated datePublished" datetime="2018-02-14T15:01:11+08:00">2018-02-14</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%BD%BF%E7%94%A8/" itemprop="url" rel="index"><span itemprop="name">第三方库使用</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2018/02/14/2018-2-14-SDWebImage%E5%86%85%E5%AD%98%E6%9A%B4%E6%B6%A8%E5%88%86%E6%9E%90%E4%B8%8E%E8%A7%A3%E5%86%B3/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/02/14/2018-2-14-SDWebImage内存暴涨分析与解决/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>使用SDWebImage加载图片,当列表有很多页,图片很多时,可能会导致内存暴涨:<br><img src="http://7xqoji.com1.z0.glb.clouddn.com/SDWebImage_%E5%86%85%E5%AD%98%E6%9A%B4%E6%B6%A8.jpg" alt="内存暴涨"></p>
-<p>产生内存暴涨的代码:</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//从磁盘获取图片,并缓存到内存.</span></span><br><span class="line">- (<span class="keyword">nullable</span> <span class="built_in">UIImage</span> *)imageFromDiskCacheForKey:(<span class="keyword">nullable</span> <span class="built_in">NSString</span> *)key &#123;</span><br><span class="line">    <span class="built_in">UIImage</span> *diskImage = [<span class="keyword">self</span> diskImageForKey:key];</span><br><span class="line">    <span class="keyword">if</span> (diskImage &amp;&amp; <span class="keyword">self</span>.config.shouldCacheImagesInMemory) &#123;</span><br><span class="line">        <span class="built_in">NSUInteger</span> cost = SDCacheCostForImage(diskImage);</span><br><span class="line">        [<span class="keyword">self</span>.memCache setObject:diskImage forKey:key cost:cost];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> diskImage;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//解压图片</span></span><br><span class="line">- (<span class="keyword">nullable</span> <span class="built_in">UIImage</span> *)diskImageForKey:(<span class="keyword">nullable</span> <span class="built_in">NSString</span> *)key &#123;</span><br><span class="line">    <span class="built_in">NSData</span> *data = [<span class="keyword">self</span> diskImageDataBySearchingAllPathsForKey:key];</span><br><span class="line">    <span class="keyword">if</span> (data) &#123;</span><br><span class="line">        <span class="built_in">UIImage</span> *image = [[SDWebImageCodersManager sharedInstance] decodedImageWithData:data];</span><br><span class="line">        image = [<span class="keyword">self</span> scaledImageForKey:key image:image];</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">self</span>.config.shouldDecompressImages) &#123;</span><br><span class="line">            image = [[SDWebImageCodersManager sharedInstance] decompressedImageWithImage:image data:&amp;data options:@&#123;SDWebImageCoderScaleDownLargeImagesKey: @(<span class="literal">NO</span>)&#125;];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> image;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>关闭缓存图片到内存的功能:<br><code>[[SDImageCache sharedImageCache].config setShouldCacheImagesInMemory:NO];</code></p>
-<p>效果如下:<br><img src="http://7xqoji.com1.z0.glb.clouddn.com/SDWebImage_%E5%86%85%E5%AD%98%E6%AD%A3%E5%B8%B8.jpg" alt="内存正常"><br>此时虽然内存不再异常,但滑动过程中会明显看到图片填充时的闪动,用户体验想当不好.</p>
-<p>比较好的办法:</p>
-<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">- (void)initSDWebImage</span><br><span class="line">&#123;</span><br><span class="line">    <span class="selector-attr">[[SDImageCache sharedImageCache]</span><span class="selector-class">.config</span> setShouldDecompressImages:NO];</span><br><span class="line">    <span class="selector-attr">[[SDWebImageDownloader sharedDownloader]</span> setShouldDecompressImages:NO];</span><br><span class="line">    <span class="selector-attr">[[SDImageCache sharedImageCache]</span> setMaxMemoryCost:<span class="number">20</span> * <span class="number">1024</span> * <span class="number">1024</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>设置一个内存缓存最大值,需要注意的是系统并不会精确的使用该值进行限定.这样设置之后,内存基本在70-90M之间浮动.不会再像之前飙到3-400M还停不下来.<br>如果设置为10 <em> 1024 </em> 1024,那么内存基本在30-50M之间.并且用户体验还行.</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/01/26/%E4%BD%BF%E7%94%A8reduce%E6%A8%A1%E6%8B%9F%E5%AE%9E%E7%8E%B0map%E5%92%8Cfilter/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而奋斗">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/01/26/%E4%BD%BF%E7%94%A8reduce%E6%A8%A1%E6%8B%9F%E5%AE%9E%E7%8E%B0map%E5%92%8Cfilter/" class="post-title-link" itemprop="url">使用reduce模拟实现map和filter</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-01-26 17:06:24" itemprop="dateCreated datePublished" datetime="2018-01-26T17:06:24+08:00">2018-01-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2018/01/26/%E4%BD%BF%E7%94%A8reduce%E6%A8%A1%E6%8B%9F%E5%AE%9E%E7%8E%B0map%E5%92%8Cfilter/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/01/26/使用reduce模拟实现map和filter/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="使用reduce模拟实现map和filter"><a href="#使用reduce模拟实现map和filter" class="headerlink" title="使用reduce模拟实现map和filter"></a>使用reduce模拟实现map和filter</h3><p>首先看一下系统的map和filter功能:</p>
-<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> fbArr = [<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">8</span>, <span class="number">13</span>, <span class="number">21</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> mmp = fbArr.<span class="keyword">map</span> &#123; <span class="function"><span class="params">(item)</span> -&gt;</span> Int <span class="keyword">in</span></span><br><span class="line">    item + item</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span>(mmp)</span><br><span class="line">    </span><br><span class="line"><span class="keyword">let</span> cmp = fbArr.filter &#123; <span class="function"><span class="params">(item)</span> -&gt;</span> Bool <span class="keyword">in</span></span><br><span class="line">    item &gt; <span class="number">5</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span>(cmp)</span><br></pre></td></tr></table></figure>
-<p>打印如下:</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">2</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">6</span>, <span class="number">10</span>, <span class="number">16</span>, <span class="number">26</span>, <span class="number">42</span>]</span><br><span class="line">[<span class="number">8</span>, <span class="number">13</span>, <span class="number">21</span>]</span><br></pre></td></tr></table></figure>
-<p>使用reduce模拟实现map和filter:</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">Array</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">func</span> <span class="title">map2</span>&lt;<span class="type">T</span>&gt;(<span class="keyword">_</span> <span class="params">transform</span>: (<span class="type">Element</span>) -&gt; <span class="type">T</span>)</span> -&gt; [<span class="type">T</span>] &#123;</span><br><span class="line">        <span class="comment">//初始值为空数组, 数组+数组</span></span><br><span class="line">        <span class="keyword">return</span> reduce([], &#123; (result, item) -&gt; [<span class="type">T</span>] <span class="keyword">in</span></span><br><span class="line">            <span class="keyword">return</span> result <span class="operator">+</span> [transform(item)]</span><br><span class="line">        &#125;)</span><br><span class="line">        <span class="comment">//简化一下</span></span><br><span class="line">        <span class="keyword">return</span> reduce([], &#123;</span><br><span class="line">            <span class="variable">$0</span> <span class="operator">+</span> [transform(<span class="variable">$1</span>)]</span><br><span class="line">        &#125;)</span><br><span class="line">        <span class="comment">//再简化一下</span></span><br><span class="line">        <span class="keyword">return</span> reduce([]) &#123; <span class="variable">$0</span> <span class="operator">+</span> [transform(<span class="variable">$1</span>)] &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">filter2</span>(<span class="keyword">_</span> <span class="params">filter</span>: (<span class="type">Element</span>) -&gt; <span class="type">Bool</span>)</span> -&gt; [<span class="type">Element</span>] &#123;</span><br><span class="line">        <span class="keyword">return</span> reduce([], &#123; (result, item) -&gt; [<span class="type">Element</span>] <span class="keyword">in</span></span><br><span class="line">            <span class="keyword">return</span> filter(item) <span class="operator">?</span> result <span class="operator">+</span> [item] : result</span><br><span class="line">        &#125;)</span><br><span class="line">        <span class="comment">//简化一下</span></span><br><span class="line">        <span class="keyword">return</span> reduce([]) &#123; filter(<span class="variable">$1</span>) <span class="operator">?</span> <span class="variable">$0</span> <span class="operator">+</span> [<span class="variable">$1</span>] : <span class="variable">$0</span> &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>说实话,Swift对闭包的简写有时候感觉有点过了,初次看到这样的写法<code>reduce([]) &#123; filter($1) ? $0 + [$1] : $0 &#125;</code>,有时还得缓缓才知道是啥意思.</p>
-<p>使用:</p>
-<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> ammp = fbArr.map2 &#123; <span class="function"><span class="params">(item)</span> -&gt;</span> Int <span class="keyword">in</span></span><br><span class="line">    item + item</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span>(ammp)</span><br><span class="line">    </span><br><span class="line"><span class="keyword">let</span> bm = fbArr.filter2 &#123; <span class="function"><span class="params">(item)</span> -&gt;</span> Bool <span class="keyword">in</span></span><br><span class="line">    item &gt; <span class="number">10</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span>(bm)</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/01/26/%E4%BD%BF%E7%94%A8reduce%E6%A8%A1%E6%8B%9F%E5%AE%9E%E7%8E%B0map%E5%92%8Cfilter/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/01/19/Category/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而奋斗">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/01/19/Category/" class="post-title-link" itemprop="url">OC Category浅析</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-01-19 11:09:24" itemprop="dateCreated datePublished" datetime="2018-01-19T11:09:24+08:00">2018-01-19</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2018/01/19/Category/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/01/19/Category/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>category用结构体category_t表示（在objc-runtime-new.h中可以找到此定义）:</p>
-<figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="type">category_t</span> &#123;</span><br><span class="line">    const char *name;</span><br><span class="line">    classref_t <span class="keyword">cls</span>;</span><br><span class="line">    <span class="keyword">struct</span> <span class="type">method_list_t</span> *instanceMethods;</span><br><span class="line">    <span class="keyword">struct</span> <span class="type">method_list_t</span> *classMethods;</span><br><span class="line">    <span class="keyword">struct</span> <span class="type">protocol_list_t</span> *protocols;</span><br><span class="line">    <span class="keyword">struct</span> <span class="type">property_list_t</span> *instanceProperties;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>而类的结构体:</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">objc_class</span> &#123;</span></span><br><span class="line">    Class _Nonnull isa  OBJC_ISA_AVAILABILITY;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> !__OBJC2__</span></span><br><span class="line">    Class _Nullable super_class                              OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> * _Nonnull name                               OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="keyword">long</span> version                                             OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="keyword">long</span> info                                                OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="keyword">long</span> instance_size                                       OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">objc_ivar_list</span> * _<span class="title">Nullable</span> <span class="title">ivars</span>                  <span class="title">OBJC2_UNAVAILABLE</span>;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">objc_method_list</span> * _<span class="title">Nullable</span> * _<span class="title">Nullable</span> <span class="title">methodLists</span>                    <span class="title">OBJC2_UNAVAILABLE</span>;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">objc_cache</span> * _<span class="title">Nonnull</span> <span class="title">cache</span>                       <span class="title">OBJC2_UNAVAILABLE</span>;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">objc_protocol_list</span> * _<span class="title">Nullable</span> <span class="title">protocols</span>          <span class="title">OBJC2_UNAVAILABLE</span>;</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">&#125; OBJC2_UNAVAILABLE;</span><br><span class="line"><span class="comment">/* Use `Class` instead of `struct objc_class *` */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">objc_class</span> *<span class="title">Class</span>;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>从category的定义也可以看出category的可为（可以添加实例方法，类方法，甚至可以实现协议，添加属性）和不可为（无法添加实例变量）。</p>
-<p>MyClass.h</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@interface</span> <span class="attribute">MyClass </span>: NSObject</span><br><span class="line"></span><br><span class="line">- (void)printName;</span><br><span class="line"></span><br><span class="line"><span class="variable">@end</span></span><br><span class="line"></span><br><span class="line"><span class="variable">@interface</span> MyClass(MyAddition)</span><br><span class="line"></span><br><span class="line"><span class="variable">@property</span>(nonatomic, copy) NSString *name;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">-</span> (void)<span class="selector-tag">printName</span>;</span><br><span class="line"></span><br><span class="line">@<span class="selector-tag">end</span></span><br></pre></td></tr></table></figure>
-<p>MyClass.m</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">MyClass</span></span></span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)printName</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;%@&quot;</span>, <span class="string">@&quot;MyClass&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">MyClass</span>(<span class="title">MyAddition</span>)</span></span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)printName</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;%@&quot;</span>, <span class="string">@&quot;MyAddition&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>转换为.cpp文件:<code>clang -rewrite-objc MyClass.m</code></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/01/19/Category/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1295,20 +1300,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">121</span>
+          <span class="site-state-item-count">125</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">31</span>
+        <span class="site-state-item-count">30</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">79</span>
+        <span class="site-state-item-count">78</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

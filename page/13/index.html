@@ -187,6 +187,389 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2017/08/21/swift%E5%B0%81%E8%A3%85%E6%89%93%E5%8D%B0%E5%87%BD%E6%95%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而奋斗">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/08/21/swift%E5%B0%81%E8%A3%85%E6%89%93%E5%8D%B0%E5%87%BD%E6%95%B0/" class="post-title-link" itemprop="url">swift封装打印函数</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-08-21 16:20:24" itemprop="dateCreated datePublished" datetime="2017-08-21T16:20:24+08:00">2017-08-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2017/08/21/swift%E5%B0%81%E8%A3%85%E6%89%93%E5%8D%B0%E5%87%BD%E6%95%B0/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/08/21/swift封装打印函数/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="swift封装打印函数"><a href="#swift封装打印函数" class="headerlink" title="swift封装打印函数"></a>swift封装打印函数</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> dateFormatter <span class="operator">=</span> <span class="type">DateFormatter</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">//日志打印</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">DLog</span>&lt;<span class="type">T</span>&gt;(<span class="keyword">_</span> <span class="params">message</span>:<span class="type">T</span>, <span class="params">file</span>:<span class="type">String</span> <span class="operator">=</span> #file, <span class="params">function</span>:<span class="type">String</span> <span class="operator">=</span> #function, <span class="params">line</span>:<span class="type">Int</span> <span class="operator">=</span> #line)</span> &#123;</span><br><span class="line">    <span class="keyword">#if</span> <span class="type">DEBUG</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">//获取文件名</span></span><br><span class="line">    <span class="keyword">let</span> fileName <span class="operator">=</span> (file <span class="keyword">as</span> <span class="type">NSString</span>).lastPathComponent</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 为日期格式器设置格式字符串</span></span><br><span class="line">    dateFormatter.dateFormat <span class="operator">=</span> <span class="string">&quot;yyyy-MM-dd HH:mm:ss.SSS&quot;</span></span><br><span class="line">    <span class="comment">// 使用日期格式器格式化当前日期、时间</span></span><br><span class="line">    <span class="keyword">let</span> datestr <span class="operator">=</span> dateFormatter.string(from: <span class="type">Date</span>())</span><br><span class="line"></span><br><span class="line">    <span class="comment">//日志内容</span></span><br><span class="line">    <span class="keyword">let</span> consoleStr <span class="operator">=</span> <span class="string">&quot;<span class="subst">\(datestr)</span> [<span class="subst">\(fileName)</span>:<span class="subst">\(line)</span>][<span class="subst">\(function)</span>]<span class="subst">\(message)</span>&quot;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">//打印日志内容</span></span><br><span class="line">    <span class="built_in">print</span>(consoleStr)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">#endif</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="打印对象地址"><a href="#打印对象地址" class="headerlink" title="打印对象地址"></a>打印对象地址</h2><p><code>Unmanaged.passUnretained(self).toOpaque()</code></p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">DLog</span><span class="params">(self)</span></span></span><br><span class="line"><span class="function"><span class="title">DLog</span><span class="params">(<span class="string">&quot;self p:\(Unmanaged.passUnretained(self).toOpaque())&quot;</span>)</span></span></span><br></pre></td></tr></table></figure>
+<p>打印如下:  </p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">2019</span>-<span class="number">02</span>-<span class="number">27</span> <span class="number">11</span>:<span class="number">58</span>:<span class="number">57</span>.<span class="number">378</span><span class="meta"> [ViewController.swift:30][viewDidAppear]&lt;demo.ViewController: 0x1059c2170&gt;</span></span><br><span class="line"><span class="meta">2019-02-27 11:58:57.383 [ViewController.swift:31][viewDidAppear]self p:0x00000001059c2170</span></span><br></pre></td></tr></table></figure>
+<p>不过还是推荐<a target="_blank" rel="noopener" href="http://www.hangge.com/blog/cache/detail_1418.html">Swift - 日志框架XCGLogger的使用详解</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2017/08/20/layoutSubviews%E7%9A%84%E8%B0%83%E7%94%A8%E6%97%B6%E6%9C%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而奋斗">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/08/20/layoutSubviews%E7%9A%84%E8%B0%83%E7%94%A8%E6%97%B6%E6%9C%BA/" class="post-title-link" itemprop="url">layoutSubviews的调用时机</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-08-20 23:20:24" itemprop="dateCreated datePublished" datetime="2017-08-20T23:20:24+08:00">2017-08-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/UIKit/" itemprop="url" rel="index"><span itemprop="name">UIKit</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2017/08/20/layoutSubviews%E7%9A%84%E8%B0%83%E7%94%A8%E6%97%B6%E6%9C%BA/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/08/20/layoutSubviews的调用时机/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="layoutSubviews的调用时机"><a href="#layoutSubviews的调用时机" class="headerlink" title="layoutSubviews的调用时机"></a>layoutSubviews的调用时机</h2><p>方法说明:</p>
+<p>该方法在iOS 5.1及更低版本上不执行任何操作。 否则，该方法将使用你设置的约束来确定子视图的大小和位置。</p>
+<p>该方法由<code>layoutIfNeeded</code>自动调用,所以我们不能手动去调用它.在需要重新布局子视图时,可以调用<code>[self layoutIfNeeded]</code>或<code>[self setNeedLayout];</code></p>
+<h2 id="手动触发layoutSubviews"><a href="#手动触发layoutSubviews" class="headerlink" title="手动触发layoutSubviews"></a>手动触发layoutSubviews</h2><p>调用<code>[self layoutIfNeeded]</code>或<code>[self setNeedLayout];</code>  </p>
+<blockquote>
+<p><code>layoutIfNeeded</code>与<code>setNeedLayout</code>的区别: </p>
+</blockquote>
+<p>调用 <code>layoutIfNeeded</code> 会马上执行 <code>layoutSubviews</code> 方法，立即更新视图的布局。但是调用<code>setNeedLayout</code>并不会马上执行<code>layoutSubviews</code>,而是等到runloop结束时调用.</p>
+<h2 id="自动触发layoutSubviews"><a href="#自动触发layoutSubviews" class="headerlink" title="自动触发layoutSubviews"></a>自动触发layoutSubviews</h2><p>如果一个viewA还没有被添加到父视图上面去,那么无论你对它进行什么操作(设置frame,添加子视图等等),它的<code>layoutSubviews</code>方法始终是不会被调用的.  </p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2017/08/20/layoutSubviews%E7%9A%84%E8%B0%83%E7%94%A8%E6%97%B6%E6%9C%BA/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2017/08/16/layoutIfNeeded%E4%B8%8ElayoutSubviews%E7%9A%84%E5%85%B3%E7%B3%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而奋斗">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/08/16/layoutIfNeeded%E4%B8%8ElayoutSubviews%E7%9A%84%E5%85%B3%E7%B3%BB/" class="post-title-link" itemprop="url">layoutIfNeeded与layoutSubviews的关系</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-08-16 15:12:24" itemprop="dateCreated datePublished" datetime="2017-08-16T15:12:24+08:00">2017-08-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/UIKit/" itemprop="url" rel="index"><span itemprop="name">UIKit</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2017/08/16/layoutIfNeeded%E4%B8%8ElayoutSubviews%E7%9A%84%E5%85%B3%E7%B3%BB/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/08/16/layoutIfNeeded与layoutSubviews的关系/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>动画<code>-layoutIfNeeded</code>父控制器的self.view,子控制器的子视图如果重写了<code>-layoutSubviews</code>也将动画布局.<br>需求:导航栏根据子VC的tableview的位移动画.</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (contentOffsetY &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="comment">//上滑</span></span><br><span class="line">    </span><br><span class="line">    [<span class="keyword">self</span>.headerContainerView mas_updateConstraints:^(MASConstraintMaker *make) &#123;</span><br><span class="line">        make.top.equalTo(<span class="keyword">self</span>.view.mas_topMargin).with.offset(startY - endY);</span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">    [<span class="keyword">self</span>.view setNeedsUpdateConstraints];</span><br><span class="line">    [<span class="keyword">self</span>.view updateConstraintsIfNeeded];</span><br><span class="line">    </span><br><span class="line">    [<span class="built_in">UIView</span> animateWithDuration:<span class="number">0.3</span> animations:^&#123;</span><br><span class="line">        <span class="keyword">self</span>.contentScrollView.contentInset = <span class="built_in">UIEdgeInsetsMake</span>(-endY, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">        </span><br><span class="line">        [<span class="keyword">self</span>.view layoutIfNeeded]; <span class="comment">//问题点</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">self</span>.headerContainerView.headerView.matchOtherDesBgView.alpha = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">self</span>.headerContainerView.headerView.team1NameLabel.alpha = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">self</span>.headerContainerView.headerView.team2NameLabel.alpha = <span class="number">0</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">self</span>.headerContainerView.headerView.teamLogoBgView.transform = <span class="built_in">CGAffineTransformMakeScale</span>(<span class="number">0.5</span>, <span class="number">0.5</span>);</span><br><span class="line">        <span class="built_in">CGAffineTransform</span> currentT = <span class="keyword">self</span>.headerContainerView.headerView.teamLogoBgView.transform;</span><br><span class="line">        <span class="built_in">CGAffineTransform</span> translation = <span class="built_in">CGAffineTransformTranslate</span>(currentT, <span class="number">0</span>, teamLogoBgViewOffsetY);</span><br><span class="line">        <span class="keyword">self</span>.headerContainerView.headerView.teamLogoBgView.transform = translation;</span><br><span class="line">    &#125;];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>由于需要动画的改变父控制器里的view位移,又因为使用了xib,所以动画时需要在动画block里写<code>[self.view layoutIfNeeded];</code>但这句代码导致了子控制器的视图的<code>-layoutSubviews</code>方法被调用.于是子控制器的视图在布局时也会动画的进行(而这种效果不是你需要的从而变成了bug.)<br>这里的bug就是:子控制器里的tableViewCell因为重写了<code>-layoutSubviews</code>,而cell上的子控件<code>KDGMatchDetailItemView</code>也重写了<code>-layoutSubviews</code>.所以<code>KDGMatchDetailItemView</code>在布局时出现动画的往右移动.<br>解决办法:当导航栏收缩后,就不要执行<code>[self.view layoutIfNeeded];</code>加个判断条件:</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (contentOffsetY &gt; <span class="number">0</span>  &amp;&amp; self<span class="selector-class">.contentScrollView</span><span class="selector-class">.contentInset</span><span class="selector-class">.top</span> != -endY) &#123;</span><br><span class="line">	<span class="comment">//动画代码</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>系统的<code>-layoutIfNeeded</code>的实现应该是调用了视图的<code>-layoutSubviews</code>方法.父视图<code>-layoutSubviews</code>方法的调用可能会引起子视图<code>-layoutSubviews</code>方法的调用.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2017/07/20/next-tutorial/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而奋斗">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/07/20/next-tutorial/" class="post-title-link" itemprop="url">Next Theme Tutorial</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-07-20 00:00:00" itemprop="dateCreated datePublished" datetime="2017-07-20T00:00:00+08:00">2017-07-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-07 17:36:27" itemprop="dateModified" datetime="2022-05-07T17:36:27+08:00">2022-05-07</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Hexo/" itemprop="url" rel="index"><span itemprop="name">Hexo</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2017/07/20/next-tutorial/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/07/20/next-tutorial/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>NexT is a high quality elegant Jekyll theme ported from Hexo Next. It is crafted from scratch, with love.</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2017/07/20/next-tutorial/">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2016/04/24/UITableViewCell%E9%87%8D%E7%94%A8%E5%AF%BC%E8%87%B4%E7%9A%84%E5%9B%BE%E7%89%87%E9%94%99%E4%B9%B1%E9%97%AE%E9%A2%98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -355,20 +738,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">121</span>
+          <span class="site-state-item-count">125</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">31</span>
+        <span class="site-state-item-count">30</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">79</span>
+        <span class="site-state-item-count">78</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
