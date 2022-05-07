@@ -187,6 +187,113 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/03/08/Swift%20%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B%E8%BD%AC%E6%8D%A2%E6%A1%86%E6%9E%B6%E6%AF%94%E8%BE%83/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而奋斗">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/03/08/Swift%20%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B%E8%BD%AC%E6%8D%A2%E6%A1%86%E6%9E%B6%E6%AF%94%E8%BE%83/" class="post-title-link" itemprop="url">Swift 数据模型转换框架比较</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-08 22:54:50" itemprop="dateCreated datePublished" datetime="2020-03-08T22:54:50+08:00">2020-03-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2020/03/08/Swift%20%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B%E8%BD%AC%E6%8D%A2%E6%A1%86%E6%9E%B6%E6%AF%94%E8%BE%83/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/03/08/Swift 数据模型转换框架比较/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Xcode11.3.1,Swift5环境.</p>
+<p>在App开发中经常需要将服务端返回的JSON数据转化为模型使用,选择一个好的数据模型转换框架有助于提高开发体验以及减少转换过程中的错误.</p>
+<p>我们希望框架支持纯Swift类,结构体,OC类,因此YYModel和MJExtension等一系列优秀的OC数据模型转换框架是不满足要求的,因为它们都需要模型继承自NSObject.</p>
+<p>目前使用较多的数据模型转换框架有:</p>
+<ol>
+<li>系统自带的基于Codable的JSONDecoder/JSONEncoder.</li>
+<li>HandyJSON</li>
+<li>ObjectMapper</li>
+</ol>
+<p>下面简单介绍一下各框架的使用,并从框架的使用便捷性和数据容错性上进行一个比较.</p>
+<h3 id="JSONDecoder-JSONEncoder"><a href="#JSONDecoder-JSONEncoder" class="headerlink" title="JSONDecoder/JSONEncoder"></a>JSONDecoder/JSONEncoder</h3><p>介绍JSONDecoder之前,先来看下Codable是什么.</p>
+<p>Codable是Swift 4.0开始引入的新特性.Codable定义:<code>public typealias Codable = Decodable &amp; Encodable</code>,可以看到Codable是一个类型别名,代表同时遵守Decodable和Encodable协议.</p>
+<p>Decodable协议定义了一个解码函数:</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/03/08/Swift%20%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B%E8%BD%AC%E6%8D%A2%E6%A1%86%E6%9E%B6%E6%AF%94%E8%BE%83/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/03/06/OC%E5%8F%8D%E5%B0%84+%E5%A4%9A%E6%80%81%E8%B0%83%E7%94%A8%E7%B1%BB%E6%96%B9%E6%B3%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1085,103 +1192,11 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2019/10/03/VPN%E6%90%AD%E5%BB%BA/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而奋斗">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/10/03/VPN%E6%90%AD%E5%BB%BA/" class="post-title-link" itemprop="url">VPN搭建</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-10-03 14:08:28" itemprop="dateCreated datePublished" datetime="2019-10-03T14:08:28+08:00">2019-10-03</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-11-18 00:05:04" itemprop="dateModified" datetime="2021-11-18T00:05:04+08:00">2021-11-18</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/" itemprop="url" rel="index"><span itemprop="name">科学上网</span></a>
-                </span>
-            </span>
-
-          
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="前置检测"><a href="#前置检测" class="headerlink" title="前置检测"></a>前置检测</h3><blockquote>
-<p>检测购买的vps IP及端口是否被墙</p>
-</blockquote>
-<p>检测IP是否被墙:<a target="_blank" rel="noopener" href="http://ping.chinaz.com">站长工具</a>或者使用ping命令.</p>
-<p>检测端口在国内是否开放:<a target="_blank" rel="noopener" href="http://coolaf.com/tool/port">在线检测域名或者ip的端口是否开放</a></p>
-<p>检测端口在国外是否开放:<a target="_blank" rel="noopener" href="https://www.yougetsignal.com/tools/open-ports/">you get signal</a></p>
-<h3 id="搭建ss"><a href="#搭建ss" class="headerlink" title="搭建ss"></a>搭建ss</h3><p>首先你需要一台服务器，以便在服务器上搭建ss。可以在vultr上购买一个vps，也可以在其他供应商购买。下面是基于vultr的vps搭建ss，用于Mac端翻墙.</p>
-<p>在正式配置vps之前,务必先确保vps的IP及端口22没有被墙.否则下面的操作白搭.因为首先你得在墙内能够访问你的vps.</p>
-<p>目前有两种方式搭建ss，一种是基于Python的Shadowsocks-Python（以下简称p-ss），一种是基于C的shadowsocks-libev（以下简称c-ss）。</p>
-<h3 id="基于C的shadowsocks-libev：（推荐）"><a href="#基于C的shadowsocks-libev：（推荐）" class="headerlink" title="基于C的shadowsocks-libev：（推荐）"></a>基于C的shadowsocks-libev：（推荐）</h3>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/10/03/VPN%E6%90%AD%E5%BB%BA/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1247,14 +1262,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">120</span>
+          <span class="site-state-item-count">121</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">31</span>
+        <span class="site-state-item-count">32</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">

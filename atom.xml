@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://xq-120.github.io/"/>
-  <updated>2022-05-07T08:48:43.063Z</updated>
+  <updated>2022-05-07T09:30:15.888Z</updated>
   <id>https://xq-120.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>hexo next主题给文章添加版权信息</title>
+    <link href="https://xq-120.github.io/2022/05/07/hexo-next%E4%B8%BB%E9%A2%98%E7%BB%99%E6%96%87%E7%AB%A0%E6%B7%BB%E5%8A%A0%E7%89%88%E6%9D%83%E4%BF%A1%E6%81%AF/"/>
+    <id>https://xq-120.github.io/2022/05/07/hexo-next%E4%B8%BB%E9%A2%98%E7%BB%99%E6%96%87%E7%AB%A0%E6%B7%BB%E5%8A%A0%E7%89%88%E6%9D%83%E4%BF%A1%E6%81%AF/</id>
+    <published>2022-05-07T09:17:12.000Z</published>
+    <updated>2022-05-07T09:30:15.888Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;next主题下给文章添加版权信息&quot;&gt;&lt;a href=&quot;#next主题下给文章添加版权信息&quot; class=&quot;headerlink&quot; title=&quot;next主题下给文章添加版权信息&quot;&gt;&lt;/a&gt;next主题下给文章添加版权信息&lt;/h2&gt;&lt;p&gt;1、修改&lt;code&gt;_config.yml&lt;/code&gt;文件&lt;/p&gt;
+&lt;figure class=&quot;highlight yaml&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attr&quot;&gt;creative_commons:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;attr&quot;&gt;license:&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;by-nc-sa&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;attr&quot;&gt;sidebar:&lt;/span&gt; &lt;span class=&quot;literal&quot;&gt;false&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;attr&quot;&gt;post:&lt;/span&gt; &lt;span class=&quot;literal&quot;&gt;true&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;attr&quot;&gt;language:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;post的值改为true表示文章开启添加版权信息。&lt;/p&gt;
+&lt;p&gt;至此，部署后就可以看到每篇文章下面都会有版权信息了。但是有一些文章我们不想添加版权信息，那么还需要接着设置：&lt;/p&gt;
+&lt;p&gt;2、打开文件 &lt;code&gt;themes/next/layout/_macro/post.swig&lt;/code&gt; ：&lt;/p&gt;
+&lt;p&gt;找到creative_commons那一行改为：&lt;/p&gt;
+&lt;figure class=&quot;highlight handlebars&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;xml&quot;&gt;&amp;#123;%- if theme.creative_commons.license and theme.creative_commons.post and page.copyright %&amp;#125;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;xml&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;template-variable&quot;&gt;&amp;#123;&amp;#123; &lt;span class=&quot;name&quot;&gt;&lt;span class=&quot;builtin-name&quot;&gt;partial&lt;/span&gt;&lt;/span&gt;(&lt;span class=&quot;name&quot;&gt;&amp;#x27;_partials/post/post-copyright.swig&amp;#x27;&lt;/span&gt;) &amp;#125;&amp;#125;&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;xml&quot;&gt;&amp;#123;%- endif %&amp;#125;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;就是添加了 page.copyright ，这样就可以单独控制某篇文章是否添加版权信息了。&lt;/p&gt;
+&lt;p&gt;在文章开头的头部添加 &lt;code&gt;copyright: true&lt;/code&gt; 表示当前文章要添加版权信息，false表示不需要。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Hexo" scheme="https://xq-120.github.io/categories/Hexo/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>iOS定时器杂记</title>
@@ -597,36 +624,6 @@
     
     
       <category term="OC类型自省" scheme="https://xq-120.github.io/tags/OC%E7%B1%BB%E5%9E%8B%E8%87%AA%E7%9C%81/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>自定义Xcode模板</title>
-    <link href="https://xq-120.github.io/2020/05/04/%E8%87%AA%E5%AE%9A%E4%B9%89Xcode%E6%A8%A1%E6%9D%BF/"/>
-    <id>https://xq-120.github.io/2020/05/04/%E8%87%AA%E5%AE%9A%E4%B9%89Xcode%E6%A8%A1%E6%9D%BF/</id>
-    <published>2020-05-04T13:12:40.000Z</published>
-    <updated>2021-08-01T11:30:13.074Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;很多时候我们需要一个较复杂场景的Demo工程来验证点东西或者研究某个技术，直接在公司项目工程中实验运行又太慢，并且还可能受到其他代码的影响。而Xcode自身提供的工程模板又太过简单，导致每次都要浪费很多时间编写重复的代码来搭建环境。为了提高效率，我们可以自定义工程模板和文件模板。&lt;/p&gt;
-&lt;p&gt;如下图，系统提供的默认模板其实都在&lt;code&gt;Xcode.app&lt;/code&gt;中，自定义工程模板和文件模板最好的办法就是参考系统的模板。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/%E5%B7%A5%E7%A8%8B%E6%A8%A1%E6%9D%BF%E5%B1%95%E7%A4%BA%E6%95%88%E6%9E%9C.png&quot; style=&quot;zoom:50%;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;系统的工程模板位置:&lt;/p&gt;
-&lt;figure class=&quot;highlight awk&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;regexp&quot;&gt;/Applications/&lt;/span&gt;Xcode.app&lt;span class=&quot;regexp&quot;&gt;/Contents/&lt;/span&gt;Developer&lt;span class=&quot;regexp&quot;&gt;/Platforms/i&lt;/span&gt;PhoneOS.platform&lt;span class=&quot;regexp&quot;&gt;/Developer/&lt;/span&gt;Library&lt;span class=&quot;regexp&quot;&gt;/Xcode/&lt;/span&gt;Templates&lt;span class=&quot;regexp&quot;&gt;/Project Templates/i&lt;/span&gt;OS&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;系统的文件模板位置:&lt;/p&gt;
-&lt;figure class=&quot;highlight gradle&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;regexp&quot;&gt;/Applications/&lt;/span&gt;Xcode.app&lt;span class=&quot;regexp&quot;&gt;/Contents/&lt;/span&gt;Developer&lt;span class=&quot;regexp&quot;&gt;/Platforms/i&lt;/span&gt;PhoneOS.platform&lt;span class=&quot;regexp&quot;&gt;/Developer/&lt;/span&gt;Library&lt;span class=&quot;regexp&quot;&gt;/Xcode/&lt;/span&gt;Templates/&lt;span class=&quot;keyword&quot;&gt;File&lt;/span&gt; Templates&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;以上是系统默认的模板存储路径，对于自定义的模板则需要存放在其他路径：&lt;/p&gt;
-&lt;p&gt;自定义工程模板的路径需要存放在:&lt;code&gt;~/Library/Developer/Xcode/Templates/Project Templates/Application/&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;自定义文件模板的路径需要存放在:&lt;code&gt;~/Library/Developer/Xcode/Templates/File Templates/&lt;/code&gt;.&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="Xcode" scheme="https://xq-120.github.io/categories/Xcode/"/>
-    
-    
-      <category term="Xcode模板" scheme="https://xq-120.github.io/tags/Xcode%E6%A8%A1%E6%9D%BF/"/>
     
   </entry>
   

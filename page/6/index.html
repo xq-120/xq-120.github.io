@@ -187,6 +187,109 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2019/04/07/OC%E4%B8%8ESwift%E6%B7%B7%E7%BC%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而奋斗">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/04/07/OC%E4%B8%8ESwift%E6%B7%B7%E7%BC%96/" class="post-title-link" itemprop="url">OC与Swift混编</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-04-07 17:16:55" itemprop="dateCreated datePublished" datetime="2019-04-07T17:16:55+08:00">2019-04-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2019/04/07/OC%E4%B8%8ESwift%E6%B7%B7%E7%BC%96/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/04/07/OC与Swift混编/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="1-混编设置"><a href="#1-混编设置" class="headerlink" title="1.混编设置"></a>1.混编设置</h2><p>新建一个桥接文件<code>工程名-Bridging-Header.h</code>.到此为止,混编设置差不多就完事了.<br>该文件在第一次新建Swift文件时,系统会提示是否建立桥接文件,选择是即可.也可自行创建,但自行创建还需要设置路径略微麻烦.</p>
+<h3 id="1-1-Swift调用OC"><a href="#1-1-Swift调用OC" class="headerlink" title="1.1 Swift调用OC"></a>1.1 Swift调用OC</h3><p>在桥接文件中导入需要调用的OC类的头文件即可.这样就可以在Swift的类里使用OC的类了.</p>
+<p>举例:</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  Use this file to import your target&#x27;s public headers that you would like to expose to Swift.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//在Swift里调用OC,需要在桥接文件里导入OC头文件</span></span><br><span class="line"><span class="comment">//调用自身module里的OC代码</span></span><br><span class="line">#<span class="keyword">import</span> <span class="string">&quot;AppDelegate.h&quot;</span></span><br><span class="line">#<span class="keyword">import</span> <span class="string">&quot;ZAEGradientView.h&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//Pod管理的OC库</span></span><br><span class="line">#<span class="keyword">import</span> &lt;MJRefresh/MJRefresh.h&gt;</span><br><span class="line">#<span class="keyword">import</span> &lt;YYModel/YYModel.h&gt;</span><br><span class="line">#<span class="keyword">import</span> &lt;ZACommon/UIViewController+FRCustomNavigationBarItem.h&gt;</span><br><span class="line">#<span class="keyword">import</span> &lt;ZACommon/InnerBandCore.h&gt;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意:对于pod管理的OC库,导入头文件时推荐使用<code>&lt;&gt;</code>而非<code>&quot;&quot;</code>.如<code>#import &lt;ZACommon/UIViewController+FRCustomNavigationBarItem.h&gt;</code>,不要写为<code>#import &quot;UIViewController+FRCustomNavigationBarItem.h&quot;</code>,否则可能导致编译通不过.</p>
+</blockquote>
+<h3 id="1-2-OC调用Swift"><a href="#1-2-OC调用Swift" class="headerlink" title="1.2 OC调用Swift"></a>1.2 OC调用Swift</h3><p>需要在OC的类里写上<code>import &quot;xxx-Swift.h&quot;</code>.(xxx为项目名称).也可以写在PCH文件中.<br>如:<code>#import &quot;EmotionCounsel-Swift.h&quot;</code></p>
+<p>官方文档:</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/04/07/OC%E4%B8%8ESwift%E6%B7%B7%E7%BC%96/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2019/03/03/%E4%BB%8EJSONSerialization%E5%B4%A9%E6%BA%83%E5%88%B0%E6%90%9E%E6%87%82Swift%E7%9A%84try-catch/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1128,131 +1231,11 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/09/21/%E5%AE%9A%E6%97%B6%E5%99%A8%E5%90%AF%E7%A4%BA%E5%BD%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而奋斗">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/09/21/%E5%AE%9A%E6%97%B6%E5%99%A8%E5%90%AF%E7%A4%BA%E5%BD%95/" class="post-title-link" itemprop="url">定时器启示录</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-09-21 23:28:01" itemprop="dateCreated datePublished" datetime="2018-09-21T23:28:01+08:00">2018-09-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-30 12:43:38" itemprop="dateModified" datetime="2022-04-30T12:43:38+08:00">2022-04-30</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Foundation/" itemprop="url" rel="index"><span itemprop="name">Foundation</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2018/09/21/%E5%AE%9A%E6%97%B6%E5%99%A8%E5%90%AF%E7%A4%BA%E5%BD%95/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/09/21/定时器启示录/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>早些时候看过一些分析定时器内存方面的文章，但在遇到这个bug前我是不屑的。不就是定时器强引用ViewController，而ViewController再用strong属性去引用定时器，必然会导致循环引用么。解决办法也很简单，只需使用weak属性去引用定时器即可。然而这一次的经历却证明我还是图样，我单知道使用weak属性不会导致循环引用，我没注意到此时的定时器在无形中延长了ViewController的生命周期。这就为这个bug埋下了隐患。</p>
-<p>记录一下bug的解决总是有必要的。</p>
-<p>下午的一次自测中，偶尔发现观众端听不到主播端的声音。我先是诧异，接着是很不安，因为墨菲定律告诉我们：如果你担心某种情况发生，那么它就更有可能发生。最开始以为是主播端的问题，便仔细检查了主播端的代码，又加入了另一台手机设置为观众，作为对照。运行之后发现对照组是好的，但刚才那台手机的问题仍然偶现。这就说明主播端的推流是没问题的。接下来的工作便是在问题手机上尽可能找到复现的操作，以便根据操作路径定位大致原因。在某次频繁进入离开直播房间时，APP直接卡死了，再无任何交互的响应。问题开始变得严重，时间也一分一秒的流逝在这一次次的调试中，一晃下班时间快到了，周围开始变的嘈杂，安卓兄弟开始催我下班还说要带我上王者但我是不信的。我整理了下东西，但又不想在节前留下些许问题，便又坐了回去。等到周围开始安静时，夕阳已经西下。我努力回想之前的操作，发现只在直播预约状态下，问题才会重现。于是在页面的dealloc函数中打好断点，点击返回，果然函数没有被调用。这说明页面依然被某个对象持有而没有释放。在检查了所有Block回调都使用的是weakSelf后，最后只剩下定时器了。</p>
-<p>问题的根源算是找到了。原来在直播预约状态下会启动一个定时器，但在点击返回时忘记invalid定时器了。这让定时器延长了ViewController的生命周期。加上invalid后，问题搞定，收工。回家的路上碰巧遇到了K君，便给K君讲述了这个问题，K君听后哈哈大笑说：加上invalid只能解决这一次的bug，却不能避免下一次又忘记，而且根据页面dealloc函数里逻辑的不同，bug的外在表现形式也必然不同，到时候又得花费不少的时间找bug啊。闻道于朝，不禁感叹K君的身经百战。</p>
-<p>回到家后，打开谷歌又搜到了早些时候看过的那些文章，感慨颇多。系统的<code>NSTimer</code>简单却又不那么简单：</p>
-<ol>
-<li><p>不注意使用的话有循环引用的隐患。因为NSTimer会强引用target，如果target再强引用NSTimer那么就会发生循环引用。比如：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)test_normal_timer1 &#123;</span><br><span class="line">    <span class="keyword">self</span>.normalStrongTimer = [<span class="built_in">NSTimer</span> scheduledTimerWithTimeInterval:<span class="number">1</span> target:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(doSome) userInfo:<span class="literal">nil</span> repeats:<span class="literal">YES</span>];</span><br><span class="line">    [[<span class="built_in">NSRunLoop</span> currentRunLoop] addTimer:<span class="keyword">self</span>.normalStrongTimer forMode:<span class="built_in">NSRunLoopCommonModes</span>];</span><br><span class="line">    [<span class="keyword">self</span>.normalStrongTimer fire];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>上面的代码就会发生循环引用。此时即使页面返回，但是因为循环引用，ViewController的dealloc将不会被执行，因此invalidate不能放在dealloc里，只能在其他时机比如viewDidDisappear里调用。所以一般使用weak来弱引用定时器，这样就可以在dealloc里调用invalidate。</p>
-</li>
-<li><p>需要在合适的地方invalid定时器，否则定时器会一直强引用target从而延长target的生命周期。</p>
-<p>在开发中很容易忘记invalid定时器，一旦忘记invalid定时器，定时器就会延长target的生命周期，比如页面返回了但实际还没有被销毁，从而产生一些诡异问题。这也是使用NSTimer必须注意的地方。</p>
-</li>
-<li><p>使用时必须保证有一个活跃的runloop，并且需要指定mode。在子线程中使用不是很方便。</p>
-</li>
-<li><p>精度可能不够。</p>
-</li>
-<li><p>网上的一个说法：创建和撤销必须在同一个线程上，在多线程环境下使用不便。(这一条存疑，经过验证在子线程创建一个定时器，在另一个子线程invalidate并没有发现什么问题)</p>
-</li>
-<li><p>iOS10开始支持block使用，同样在使用block时一定要注意循环引用。</p>
-</li>
-</ol>
-<p>为了从根本上避免上述问题，一个弱引用target的、能够在自身销毁时自动invalid的定时器想必是极好的，但又该如何实现呢？好在互联网在经过这么多年的发展，第三方开源库从未像现在这般丰富，唾手可得。不多时，便在GitHub上找到了<a target="_blank" rel="noopener" href="https://github。com/mindsnacks/MSWeakTimer">MSWeakTimer</a>。</p>
-<p><code>MSWeakTimer</code>提供了和系统<code>NSTimer</code>一致的接口，好的代码就该这样美美与共，和而不同：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) MSWeakTimer *weakTimer;</span><br><span class="line"></span><br><span class="line"><span class="keyword">self</span>.weakTimer = [MSWeakTimer scheduledTimerWithTimeInterval:<span class="number">3</span> target:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(doSome) userInfo:<span class="literal">nil</span> repeats:<span class="literal">YES</span> dispatchQueue:dispatch_get_main_queue()];</span><br><span class="line"><span class="comment">//立即触发回调方法</span></span><br><span class="line">[<span class="keyword">self</span>.weakTimer fire];</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)doSome &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;++++++%@&quot;</span>, <span class="keyword">self</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>至于<code>MSWeakTimer</code>的实现原理自然是和<code>NSTimer</code>不同的：通过封装GCD定时器实现<code>NSTimer</code>的功能，但内部却是弱引用target，不仅如此<code>MSWeakTimer</code>还支持在其他线程中执行回调函数。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/09/21/%E5%AE%9A%E6%97%B6%E5%99%A8%E5%90%AF%E7%A4%BA%E5%BD%95/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1318,14 +1301,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">120</span>
+          <span class="site-state-item-count">121</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">31</span>
+        <span class="site-state-item-count">32</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">

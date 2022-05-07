@@ -187,6 +187,98 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/05/04/%E8%87%AA%E5%AE%9A%E4%B9%89Xcode%E6%A8%A1%E6%9D%BF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而奋斗">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/04/%E8%87%AA%E5%AE%9A%E4%B9%89Xcode%E6%A8%A1%E6%9D%BF/" class="post-title-link" itemprop="url">自定义Xcode模板</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-04 21:12:40" itemprop="dateCreated datePublished" datetime="2020-05-04T21:12:40+08:00">2020-05-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Xcode/" itemprop="url" rel="index"><span itemprop="name">Xcode</span></a>
+                </span>
+            </span>
+
+          
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>很多时候我们需要一个较复杂场景的Demo工程来验证点东西或者研究某个技术，直接在公司项目工程中实验运行又太慢，并且还可能受到其他代码的影响。而Xcode自身提供的工程模板又太过简单，导致每次都要浪费很多时间编写重复的代码来搭建环境。为了提高效率，我们可以自定义工程模板和文件模板。</p>
+<p>如下图，系统提供的默认模板其实都在<code>Xcode.app</code>中，自定义工程模板和文件模板最好的办法就是参考系统的模板。</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/%E5%B7%A5%E7%A8%8B%E6%A8%A1%E6%9D%BF%E5%B1%95%E7%A4%BA%E6%95%88%E6%9E%9C.png" style="zoom:50%;"></p>
+<p>系统的工程模板位置:</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="regexp">/Applications/</span>Xcode.app<span class="regexp">/Contents/</span>Developer<span class="regexp">/Platforms/i</span>PhoneOS.platform<span class="regexp">/Developer/</span>Library<span class="regexp">/Xcode/</span>Templates<span class="regexp">/Project Templates/i</span>OS</span><br></pre></td></tr></table></figure>
+<p>系统的文件模板位置:</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="regexp">/Applications/</span>Xcode.app<span class="regexp">/Contents/</span>Developer<span class="regexp">/Platforms/i</span>PhoneOS.platform<span class="regexp">/Developer/</span>Library<span class="regexp">/Xcode/</span>Templates/<span class="keyword">File</span> Templates</span><br></pre></td></tr></table></figure>
+<p>以上是系统默认的模板存储路径，对于自定义的模板则需要存放在其他路径：</p>
+<p>自定义工程模板的路径需要存放在:<code>~/Library/Developer/Xcode/Templates/Project Templates/Application/</code>.</p>
+<p>自定义文件模板的路径需要存放在:<code>~/Library/Developer/Xcode/Templates/File Templates/</code>.</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/05/04/%E8%87%AA%E5%AE%9A%E4%B9%89Xcode%E6%A8%A1%E6%9D%BF/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/05/03/Swift%E6%95%B0%E7%BB%84%E6%88%AA%E5%8F%96/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1143,118 +1235,11 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/03/08/Swift%20%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B%E8%BD%AC%E6%8D%A2%E6%A1%86%E6%9E%B6%E6%AF%94%E8%BE%83/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而奋斗">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/03/08/Swift%20%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B%E8%BD%AC%E6%8D%A2%E6%A1%86%E6%9E%B6%E6%AF%94%E8%BE%83/" class="post-title-link" itemprop="url">Swift 数据模型转换框架比较</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-03-08 22:54:50" itemprop="dateCreated datePublished" datetime="2020-03-08T22:54:50+08:00">2020-03-08</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2020/03/08/Swift%20%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B%E8%BD%AC%E6%8D%A2%E6%A1%86%E6%9E%B6%E6%AF%94%E8%BE%83/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/03/08/Swift 数据模型转换框架比较/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Xcode11.3.1,Swift5环境.</p>
-<p>在App开发中经常需要将服务端返回的JSON数据转化为模型使用,选择一个好的数据模型转换框架有助于提高开发体验以及减少转换过程中的错误.</p>
-<p>我们希望框架支持纯Swift类,结构体,OC类,因此YYModel和MJExtension等一系列优秀的OC数据模型转换框架是不满足要求的,因为它们都需要模型继承自NSObject.</p>
-<p>目前使用较多的数据模型转换框架有:</p>
-<ol>
-<li>系统自带的基于Codable的JSONDecoder/JSONEncoder.</li>
-<li>HandyJSON</li>
-<li>ObjectMapper</li>
-</ol>
-<p>下面简单介绍一下各框架的使用,并从框架的使用便捷性和数据容错性上进行一个比较.</p>
-<h3 id="JSONDecoder-JSONEncoder"><a href="#JSONDecoder-JSONEncoder" class="headerlink" title="JSONDecoder/JSONEncoder"></a>JSONDecoder/JSONEncoder</h3><p>介绍JSONDecoder之前,先来看下Codable是什么.</p>
-<p>Codable是Swift 4.0开始引入的新特性.Codable定义:<code>public typealias Codable = Decodable &amp; Encodable</code>,可以看到Codable是一个类型别名,代表同时遵守Decodable和Encodable协议.</p>
-<p>Decodable协议定义了一个解码函数:</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/03/08/Swift%20%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B%E8%BD%AC%E6%8D%A2%E6%A1%86%E6%9E%B6%E6%AF%94%E8%BE%83/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1320,14 +1305,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">120</span>
+          <span class="site-state-item-count">121</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">31</span>
+        <span class="site-state-item-count">32</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">

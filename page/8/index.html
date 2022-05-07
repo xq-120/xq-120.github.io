@@ -187,6 +187,102 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/07/09/UITextField%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而奋斗">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/07/09/UITextField%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">UITextField笔记</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-07-09 15:18:50" itemprop="dateCreated datePublished" datetime="2018-07-09T15:18:50+08:00">2018-07-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/UIKit/" itemprop="url" rel="index"><span itemprop="name">UIKit</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2018/07/09/UITextField%E7%AC%94%E8%AE%B0/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/07/09/UITextField笔记/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="UITextField笔记"><a href="#UITextField笔记" class="headerlink" title="UITextField笔记"></a>UITextField笔记</h2><h3 id="监听文本输入变化"><a href="#监听文本输入变化" class="headerlink" title="监听文本输入变化"></a>监听文本输入变化</h3><p>方法1: addTarget — UIControlEventValueChanged</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[<span class="keyword">self</span>.passwordTextField addTarget:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(passwordTextFieldTextDidChanged:) forControlEvents:<span class="built_in">UIControlEventValueChanged</span>];</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>方法2: 注册通知 — UITextFieldTextDidChangeNotification</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[<span class="built_in">NSNotificationCenter</span> defaultCenter] addObserver:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(passwordTextFieldTextDidChanged:) name:<span class="built_in">UITextFieldTextDidChangeNotification</span> object:<span class="literal">nil</span>];</span><br></pre></td></tr></table></figure>
+<p>note:</p>
+<ol>
+<li>当点击清空按钮时,只有注册通知的方案,回调方法被调用了.</li>
+<li>直接对textField的text属性赋值,<code>textField.text = @&quot;dfsfsd&quot;;</code>是不会触发UIControlEventValueChanged事件,和UITextFieldTextDidChangeNotification通知回调的.可以使用<code>textField.text = @&quot;&quot;;[textField insertText:newString];</code></li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/07/09/%E5%9F%9F%E5%90%8D%E7%AE%80%E4%BB%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1073,113 +1169,11 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/03/22/CocoaPods%E5%91%BD%E4%BB%A4%E4%BB%8B%E7%BB%8D/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而奋斗">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/03/22/CocoaPods%E5%91%BD%E4%BB%A4%E4%BB%8B%E7%BB%8D/" class="post-title-link" itemprop="url">CocoaPods命令介绍</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-03-22 16:42:24" itemprop="dateCreated datePublished" datetime="2018-03-22T16:42:24+08:00">2018-03-22</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-10-01 13:45:04" itemprop="dateModified" datetime="2021-10-01T13:45:04+08:00">2021-10-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CocoaPods/" itemprop="url" rel="index"><span itemprop="name">CocoaPods</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2018/03/22/CocoaPods%E5%91%BD%E4%BB%A4%E4%BB%8B%E7%BB%8D/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/03/22/CocoaPods命令介绍/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="pod-install和pod-update"><a href="#pod-install和pod-update" class="headerlink" title="pod install和pod update"></a>pod install和pod update</h3><h4 id="pod-install"><a href="#pod-install" class="headerlink" title="pod install"></a>pod install</h4><p>每次运行pod install命令，并且有下载安装新的库时，CocoaPods会把这些安装的库的版本都写在Podfile.lock文件里面。这个文件记录你每个安装库的版本号，并且锁定了这些版本。</p>
-<p>后面再次运行的时候,它会解析Podfile.lock文件,对于存在在Podfile.lock文件中的则安装Podfile.lock文件中的版本的库而不会去检测该库是否有最新的版本可用,对于不在Podfile.lock文件中的,则根据Podfile文件指定的库版本下载安装.</p>
-<p>pod install不会去更新已存在的库的版本.</p>
-<p>举个栗子：</p>
-<p>IGListKit 有v3.1.0，和v3.1.1两个版本</p>
-<p>Podfile如下： <code>pod &#39;IGListKit&#39;, &#39;~&gt; 3.1.0&#39;</code></p>
-<p>场景1：第一次安装，无Podfile.lock。</p>
-<p>此时执行pod install，你会发现下载并安装的是3.1.1版本。因为Podfile中使用的是 <code>~&gt;</code> ，表明可以使用较新的一个小版本。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/03/22/CocoaPods%E5%91%BD%E4%BB%A4%E4%BB%8B%E7%BB%8D/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/7/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/9/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/7/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/9/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1245,14 +1239,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">120</span>
+          <span class="site-state-item-count">121</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">31</span>
+        <span class="site-state-item-count">32</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
