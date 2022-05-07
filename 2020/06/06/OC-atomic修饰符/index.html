@@ -17,13 +17,13 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"xq-120.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="源码版本：objc4-781，objc-accessors.mm文件中。 原子操作是指操作是不可分割的，要么发生，要么不发生。事物只会处于原始状态和成功状态两种中的一种，不会处于一种半完成状态。 OC 中的atomic修饰符源码实现： getter 方法： 123456789101112131415161718id objc_getProperty(id self, SEL _cmd, ptrdi">
 <meta property="og:type" content="article">
 <meta property="og:title" content="OC atomic修饰符">
-<meta property="og:url" content="http://yoursite.com/2020/06/06/OC-atomic%E4%BF%AE%E9%A5%B0%E7%AC%A6/index.html">
+<meta property="og:url" content="https://xq-120.github.io/2020/06/06/OC-atomic%E4%BF%AE%E9%A5%B0%E7%AC%A6/index.html">
 <meta property="og:site_name" content="要为真理而奋斗">
 <meta property="og:description" content="源码版本：objc4-781，objc-accessors.mm文件中。 原子操作是指操作是不可分割的，要么发生，要么不发生。事物只会处于原始状态和成功状态两种中的一种，不会处于一种半完成状态。 OC 中的atomic修饰符源码实现： getter 方法： 123456789101112131415161718id objc_getProperty(id self, SEL _cmd, ptrdi">
 <meta property="og:locale" content="zh_CN">
@@ -36,7 +36,7 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/image-20210930112832606.png">
 
-<link rel="canonical" href="http://yoursite.com/2020/06/06/OC-atomic%E4%BF%AE%E9%A5%B0%E7%AC%A6/">
+<link rel="canonical" href="https://xq-120.github.io/2020/06/06/OC-atomic%E4%BF%AE%E9%A5%B0%E7%AC%A6/">
 
 
 <script id="page-configurations">
@@ -192,7 +192,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/06/OC-atomic%E4%BF%AE%E9%A5%B0%E7%AC%A6/">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/06/06/OC-atomic%E4%BF%AE%E9%A5%B0%E7%AC%A6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -330,7 +330,7 @@
     
     
         <div class="reward-container">
-  <div>觉得文章有帮助可以赞赏一下哦！</div>
+  <div>觉得文章有帮助可以打赏一下哦！</div>
   <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
     打赏
   </button>
@@ -342,6 +342,23 @@
       </div>
 
   </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>jekyttt
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://xq-120.github.io/2020/06/06/OC-atomic%E4%BF%AE%E9%A5%B0%E7%AC%A6/" title="OC atomic修饰符">https://xq-120.github.io/2020/06/06/OC-atomic修饰符/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
 </div>
 
 
@@ -633,7 +650,7 @@ window.addEventListener('pjax:success', () => {
 </script>
 <script>
   var disqus_config = function() {
-    this.page.url = "http://yoursite.com/2020/06/06/OC-atomic%E4%BF%AE%E9%A5%B0%E7%AC%A6/";
+    this.page.url = "https://xq-120.github.io/2020/06/06/OC-atomic%E4%BF%AE%E9%A5%B0%E7%AC%A6/";
     this.page.identifier = "2020/06/06/OC-atomic修饰符/";
     this.page.title = "OC atomic修饰符";
     };

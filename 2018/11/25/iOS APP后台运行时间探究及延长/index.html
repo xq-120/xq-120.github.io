@@ -17,13 +17,13 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"xq-120.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="实验设备:iPhone7plus iOS12.1 问题:发现市面上很多APP进入后台后,过了16min甚至20min后,再次点击APP,都能够保持在原来的页面.而我们自己的APP,进入后台过个三分钟就被kill掉了,再次进入都是重新启动.网易新闻APP,主站APP,喜马拉雅APP都不会.为什么我们的APP在挂起后会这么快被系统从内存中清理?而别的APP却不会. 目前app,没有做任何特别处理,申请">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS APP后台运行时间探究及延长">
-<meta property="og:url" content="http://yoursite.com/2018/11/25/iOS%20APP%E5%90%8E%E5%8F%B0%E8%BF%90%E8%A1%8C%E6%97%B6%E9%97%B4%E6%8E%A2%E7%A9%B6%E5%8F%8A%E5%BB%B6%E9%95%BF/index.html">
+<meta property="og:url" content="https://xq-120.github.io/2018/11/25/iOS%20APP%E5%90%8E%E5%8F%B0%E8%BF%90%E8%A1%8C%E6%97%B6%E9%97%B4%E6%8E%A2%E7%A9%B6%E5%8F%8A%E5%BB%B6%E9%95%BF/index.html">
 <meta property="og:site_name" content="要为真理而奋斗">
 <meta property="og:description" content="实验设备:iPhone7plus iOS12.1 问题:发现市面上很多APP进入后台后,过了16min甚至20min后,再次点击APP,都能够保持在原来的页面.而我们自己的APP,进入后台过个三分钟就被kill掉了,再次进入都是重新启动.网易新闻APP,主站APP,喜马拉雅APP都不会.为什么我们的APP在挂起后会这么快被系统从内存中清理?而别的APP却不会. 目前app,没有做任何特别处理,申请">
 <meta property="og:locale" content="zh_CN">
@@ -35,7 +35,7 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://portal.qiniu.com/">
 
-<link rel="canonical" href="http://yoursite.com/2018/11/25/iOS%20APP%E5%90%8E%E5%8F%B0%E8%BF%90%E8%A1%8C%E6%97%B6%E9%97%B4%E6%8E%A2%E7%A9%B6%E5%8F%8A%E5%BB%B6%E9%95%BF/">
+<link rel="canonical" href="https://xq-120.github.io/2018/11/25/iOS%20APP%E5%90%8E%E5%8F%B0%E8%BF%90%E8%A1%8C%E6%97%B6%E9%97%B4%E6%8E%A2%E7%A9%B6%E5%8F%8A%E5%BB%B6%E9%95%BF/">
 
 
 <script id="page-configurations">
@@ -191,7 +191,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/25/iOS%20APP%E5%90%8E%E5%8F%B0%E8%BF%90%E8%A1%8C%E6%97%B6%E9%97%B4%E6%8E%A2%E7%A9%B6%E5%8F%8A%E5%BB%B6%E9%95%BF/">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/11/25/iOS%20APP%E5%90%8E%E5%8F%B0%E8%BF%90%E8%A1%8C%E6%97%B6%E9%97%B4%E6%8E%A2%E7%A9%B6%E5%8F%8A%E5%BB%B6%E9%95%BF/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -277,7 +277,7 @@
     
     
         <div class="reward-container">
-  <div>觉得文章有帮助可以赞赏一下哦！</div>
+  <div>觉得文章有帮助可以打赏一下哦！</div>
   <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
     打赏
   </button>
@@ -289,6 +289,23 @@
       </div>
 
   </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>jekyttt
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://xq-120.github.io/2018/11/25/iOS%20APP%E5%90%8E%E5%8F%B0%E8%BF%90%E8%A1%8C%E6%97%B6%E9%97%B4%E6%8E%A2%E7%A9%B6%E5%8F%8A%E5%BB%B6%E9%95%BF/" title="iOS APP后台运行时间探究及延长">https://xq-120.github.io/2018/11/25/iOS APP后台运行时间探究及延长/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
 </div>
 
 
@@ -580,7 +597,7 @@ window.addEventListener('pjax:success', () => {
 </script>
 <script>
   var disqus_config = function() {
-    this.page.url = "http://yoursite.com/2018/11/25/iOS%20APP%E5%90%8E%E5%8F%B0%E8%BF%90%E8%A1%8C%E6%97%B6%E9%97%B4%E6%8E%A2%E7%A9%B6%E5%8F%8A%E5%BB%B6%E9%95%BF/";
+    this.page.url = "https://xq-120.github.io/2018/11/25/iOS%20APP%E5%90%8E%E5%8F%B0%E8%BF%90%E8%A1%8C%E6%97%B6%E9%97%B4%E6%8E%A2%E7%A9%B6%E5%8F%8A%E5%BB%B6%E9%95%BF/";
     this.page.identifier = "2018/11/25/iOS APP后台运行时间探究及延长/";
     this.page.title = "iOS APP后台运行时间探究及延长";
     };
