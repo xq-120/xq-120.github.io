@@ -20,20 +20,22 @@
     var CONFIG = {"hostname":"xq-120.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="mac OS配置JAVA环境 下载安装最新版的JDK安装包:http:&#x2F;&#x2F;www.oracle.com&#x2F;technetwork&#x2F;java&#x2F;javase&#x2F;downloads&#x2F;jdk8-downloads-2133151.html,安装完成后查看下Java的版本后面配置要用到:java -version   1234admindeMacBook-Pro:未命名文件夹 admin$ java -vers">
+  <meta name="description" content="自从电脑坏了之后就一直没有拿去修，没空是一方面，更多的是担心修不好还被坑维修费。就这样磨磨蹭蹭过了差不多大半年，今年五一放假也没啥去处，于是想干脆去华强北修一修，万一修好了呢。本来是想5月1日去修的，结果起太晚了磨蹭到2点感觉有点晚了，就想着第二天去吧，结果第二天下了一天的雨，也没去成。 5月3日天气有点阴沉，但好歹没下雨了。于是从角落把电脑翻出来发现盖子都有点发霉了，简单的清理了一下便装进背包，">
 <meta property="og:type" content="article">
-<meta property="og:title" content="mac OS配置JAVA环境">
-<meta property="og:url" content="https://xq-120.github.io/2017/09/30/mac%20OS%E9%85%8D%E7%BD%AEJAVA%E7%8E%AF%E5%A2%83/index.html">
+<meta property="og:title" content="MacBook Pro外接显示器(六)之起死回生">
+<meta property="og:url" content="https://xq-120.github.io/2022/05/08/MacBook%20Pro%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8(%E5%85%AD)%E4%B9%8B%E8%B5%B7%E6%AD%BB%E5%9B%9E%E7%94%9F/index.html">
 <meta property="og:site_name" content="要为真理而奋斗">
-<meta property="og:description" content="mac OS配置JAVA环境 下载安装最新版的JDK安装包:http:&#x2F;&#x2F;www.oracle.com&#x2F;technetwork&#x2F;java&#x2F;javase&#x2F;downloads&#x2F;jdk8-downloads-2133151.html,安装完成后查看下Java的版本后面配置要用到:java -version   1234admindeMacBook-Pro:未命名文件夹 admin$ java -vers">
+<meta property="og:description" content="自从电脑坏了之后就一直没有拿去修，没空是一方面，更多的是担心修不好还被坑维修费。就这样磨磨蹭蹭过了差不多大半年，今年五一放假也没啥去处，于是想干脆去华强北修一修，万一修好了呢。本来是想5月1日去修的，结果起太晚了磨蹭到2点感觉有点晚了，就想着第二天去吧，结果第二天下了一天的雨，也没去成。 5月3日天气有点阴沉，但好歹没下雨了。于是从角落把电脑翻出来发现盖子都有点发霉了，简单的清理了一下便装进背包，">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2017-09-30T07:12:24.000Z">
-<meta property="article:modified_time" content="2021-08-01T11:30:13.067Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/IMG_3562.jpg">
+<meta property="article:published_time" content="2022-05-08T06:20:38.000Z">
+<meta property="article:modified_time" content="2022-05-08T08:40:14.924Z">
 <meta property="article:author" content="jekyttt">
 <meta property="article:tag" content="Objective-C, Swift, C, iOS开发, 移动开发">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/IMG_3562.jpg">
 
-<link rel="canonical" href="https://xq-120.github.io/2017/09/30/mac%20OS%E9%85%8D%E7%BD%AEJAVA%E7%8E%AF%E5%A2%83/">
+<link rel="canonical" href="https://xq-120.github.io/2022/05/08/MacBook%20Pro%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8(%E5%85%AD)%E4%B9%8B%E8%B5%B7%E6%AD%BB%E5%9B%9E%E7%94%9F/">
 
 
 <script id="page-configurations">
@@ -45,7 +47,7 @@
   };
 </script>
 
-  <title>mac OS配置JAVA环境 | 要为真理而奋斗</title>
+  <title>MacBook Pro外接显示器(六)之起死回生 | 要为真理而奋斗</title>
   
 
 
@@ -189,7 +191,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2017/09/30/mac%20OS%E9%85%8D%E7%BD%AEJAVA%E7%8E%AF%E5%A2%83/">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/05/08/MacBook%20Pro%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8(%E5%85%AD)%E4%B9%8B%E8%B5%B7%E6%AD%BB%E5%9B%9E%E7%94%9F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -202,7 +204,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          mac OS配置JAVA环境
+          MacBook Pro外接显示器(六)之起死回生
         </h1>
 
         <div class="post-meta">
@@ -211,16 +213,19 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2017-09-30 15:12:24" itemprop="dateCreated datePublished" datetime="2017-09-30T15:12:24+08:00">2017-09-30</time>
+              <time title="创建时间：2022-05-08 14:20:38 / 修改时间：16:40:14" itemprop="dateCreated datePublished" datetime="2022-05-08T14:20:38+08:00">2022-05-08</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
               </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Life/" itemprop="url" rel="index"><span itemprop="name">Life</span></a>
+                </span>
+            </span>
 
           
   
@@ -231,8 +236,8 @@
       </span>
       <span class="post-meta-item-text">Disqus：</span>
     
-    <a title="disqus" href="/2017/09/30/mac%20OS%E9%85%8D%E7%BD%AEJAVA%E7%8E%AF%E5%A2%83/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/09/30/mac OS配置JAVA环境/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2022/05/08/MacBook%20Pro%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8(%E5%85%AD)%E4%B9%8B%E8%B5%B7%E6%AD%BB%E5%9B%9E%E7%94%9F/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/05/08/MacBook Pro外接显示器(六)之起死回生/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -247,14 +252,50 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="mac-OS配置JAVA环境"><a href="#mac-OS配置JAVA环境" class="headerlink" title="mac OS配置JAVA环境"></a>mac OS配置JAVA环境</h2><ul>
-<li><p>下载安装最新版的JDK安装包:<a target="_blank" rel="noopener" href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html</a>,安装完成后查看下Java的版本后面配置要用到:<code>java -version</code></p>
-  <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">admindeMacBook</span>-Pro:未命名文件夹 admin$ java -version</span><br><span class="line"><span class="attribute">java</span> version <span class="string">&quot;1.8.0_144&quot;</span></span><br><span class="line"><span class="attribute">Java</span>(TM) SE Runtime Environment (build <span class="number">1</span>.<span class="number">8</span>.<span class="number">0</span>_<span class="number">144</span>-b<span class="number">01</span>)</span><br><span class="line"><span class="attribute">Java</span> HotSpot(TM) <span class="number">64</span>-Bit Server VM (build <span class="number">25</span>.<span class="number">144</span>-b<span class="number">01</span>, mixed mode)</span><br></pre></td></tr></table></figure></li>
-<li><p>配置环境变量：在命令行中打开<code>sudo vim ~/.bash_profile</code>，在文件后面加入下面内容：</p>
-  <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="builtin-name">export</span> <span class="attribute">JAVA_HOME</span>=<span class="string">&quot;/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home&quot;</span> </span><br><span class="line"><span class="builtin-name">export</span> <span class="attribute">PATH</span>=<span class="string">&quot;<span class="variable">$JAVA_HOME</span>/bin:<span class="variable">$PATH</span>&quot;</span> </span><br><span class="line"><span class="builtin-name">export</span> <span class="attribute">CLASSPATH</span>=<span class="string">&quot;.:<span class="variable">$JAVA_HOME</span>/lib/dt.jar:<span class="variable">$JAVA_HOME</span>/lib/tools.jar&quot;</span></span><br></pre></td></tr></table></figure>
-<p>  note:<code>/jdk1.8.0_144.jdk</code>里面的版本字符串需要替换为上面提到的版本字符串.<br>  完成后保存,并使用<code>source ~/.bash_profile</code>应用该变更。</p>
-</li>
-</ul>
+        <p>自从电脑坏了之后就一直没有拿去修，没空是一方面，更多的是担心修不好还被坑维修费。就这样磨磨蹭蹭过了差不多大半年，今年五一放假也没啥去处，于是想干脆去华强北修一修，万一修好了呢。本来是想5月1日去修的，结果起太晚了磨蹭到2点感觉有点晚了，就想着第二天去吧，结果第二天下了一天的雨，也没去成。</p>
+<p>5月3日天气有点阴沉，但好歹没下雨了。于是从角落把电脑翻出来发现盖子都有点发霉了，简单的清理了一下便装进背包，向华强北出发。华强北虽然经过过几次，但没去里边修过东西，出发前搜了下华强北修电脑的帖子，广告很多，被骗被坑的回答也很多，很多答主说要慎重，说有的店就是拖着你说修不好让你低价卖给他，有的还会偷换电脑零件，反正啥样的都有。看完之后还是有点忐忑的，倒不是怕偷换零件，毕竟我这个电脑用了6年半了也没啥好零件了，主要是怕漫天要价，拖着不修，扯皮闹心。</p>
+<p>不过还是决定去试一下，下午两点到了华强路A出口，一出来就看到几家手机电脑维修的店子，我也不知道哪家好，也没有多问多选，直接走进了第一家。进去之后没有说修电脑的事，当时手机拍照有黑斑，就先问了下手机的问题能不能修，维修的几个人都是年轻人，说能修大概160-180块钱，只需要清洗一下摄像头就可以弄好。</p>
+<p>这里说一下维修店的模式，基本上店面都是一个小门面，相当于一个小工作台，这里只会做一些简单的维修比如换个屏，贴个膜，初步检测下设备啥的，如果问题比较大或者需要其他设备，他们会拿到他们所谓的维修间里，两个地方是有一段距离的而且你是不可能跟着去的，顾客只能在店面等着。</p>
+<p>话说回来，让他拆下摄像头后我问要洗多久，他说大概要等1个小时。感觉还行便问这里能不能修电脑，他说能修电脑，于是我把电脑给他看了看，告诉他是主板烧坏了，他拿着万用表测了测，说的原因我也记不住，大概的意思是芯片供电模块短路。</p>
+<p>我：修好大概要多少钱</p>
+<p>他：550</p>
+<p>我：有点贵</p>
+<p>他：已经是最低价了，这样吧，加上那个洗摄像头的费用一共700怎么样</p>
+<p>我：那要修多久啊</p>
+<p>他：大概1个半小时</p>
+<p>我心里想要是能修好的话，也还能接收。于是便答应了，由于要等1个多小时也不能干等着，便四处逛了下，华强北确实名不虚传，整个一条街两边全是手机电脑维修的，从一头走到另一头估计得要二三十分钟。</p>
+<p>两个小时后，我回到店里，他们也已经修完了。手机摄像头装上，检查了下黑斑没了，感觉还是挺开心的。电脑他也开了机给我看了下，我用了几分钟打开浏览器看了下视频调了下音量亮度等感觉没啥毛病，于是关了机，付了钱就坐地铁回家了。心里想华强北不亏是华强北是真的强。</p>
+<p>然而事情并没有这么完美，由于第一次去非官方修电脑没啥经验，修好后自己都没怎么测试就装包回家了，这埋下了伏笔。事实上像主板烧坏开不了机的情况，修好后一定要各种开关机的情况都测试一下才行。等我吃完饭回到家，想打开我久违的电脑看看时，结果一按开机键没任何反应，试了好几次都没有任何反应。心里真是日了狗，看来明天还得去一趟。</p>
+<p>5月4日天气晴朗，我不出意料的又起的很晚已经12点了，想想就不吃早餐了，于是直接吃了午餐就背着包去了华强北，到了之后已经1点半了。一进店昨天的维修小哥估计也有点吃惊怎么第二天就来了，我跟他说应该没修好，还是开不了机。他拿过机器拆开后到处测了测说其实是能开机是连接显示器的某个接口接触不稳定导致，</p>
+<p>我：修好大概要多少钱</p>
+<p>他：340</p>
+<p>我：那要修多久啊</p>
+<p>他：两个小时</p>
+<p>我：确定能修好吗</p>
+<p>他：肯定能</p>
+<p>我说行，两个小时后，我回来问他修的咋样了，他告诉我说接触还是不稳定，说要想完全修好得换接口，并一再强调肯定可以修好。我心里一想完了是不是掉坑里了。</p>
+<p>我：那修好大概要多少钱</p>
+<p>他：换接口的话要再多加430块，一共770</p>
+<p>我：你这也太贵了，能不能便宜点啊</p>
+<p>他：最少700，这次肯定能给你修好，我们拿原装的给你换上。</p>
+<p>我：还是太贵了，我不能接受。</p>
+<p>他：这已经是最低价了，就挣你个手工钱了。</p>
+<p>我：500，行不行</p>
+<p>他：500真不行，500我都亏本了。拿货都拿不到</p>
+<p>我：实话跟你说吧，第一我也不指望我这电脑一定要修好我不可能无上限的去修这台电脑（事实上我早就买了新电脑了，修这台电脑完全是情怀），第二我最多只能给到600如果你觉得还是不行的话，那就只能把我电脑还给我我坐地铁回去了。</p>
+<p>又是一顿扯皮后，最终他答应了，我说就600啊，如果最后又说还有其他问题又要换啥的我可不干啊，他说这一次是换东西，肯定能修好。我说要修多久，他不敢说了差不多2个小时吧。我看了下手机现在4点半了，那我6点半再来。</p>
+<p>然后又把华强北周边走了一大圈，说实话华强北电子街人还是挺多的。疫情下大家都带着口罩，喇叭里一遍又一遍的播放着打疫苗领奖品。夕阳西下，熙熙攘攘，不过快乐是他们的。</p>
+<p>差不多6点45，我回到了店里，问他修的咋样了，他说快了在测试了，结果一直等到7点半，终于他说测试好了，一会给我拿过来。拿过来后确实可以开机了，然后电脑给到我，我现在放聪明了，各种开关机测试，正常开关机，强制开关机，测了十多分钟，期间他说哪有你这么测的，我说要是真修好了肯定没问题的，最后确认没啥问题后，我又仔细检查了下外观，发现后盖有几个螺丝没拧好，又让他们拧好，最后付了钱。</p>
+<p>背上背包，到了这个点都有些饿了，于是在周边吃了饭才回去了。这次修电脑总共修了我1150，等了7个小时，不过总算是修好了，也还能接受。</p>
+<p>说一下这次修电脑的感悟：</p>
+<ol>
+<li>关于苹果电脑维修。苹果电脑是一年整机保修，两年主要部件保修（主要部件包括主板 (MLB)、处理器 (CPU)、内存、硬盘 (HDD/SSD)、电源和显卡），电池是不算的。如果你的电脑是两年内出问题了最好去苹果直营店也就是天才吧预约维修，基本上非人为原因都不用出钱。两年~三年内建议还是到官方维修，虽然贵但是有保障（不过是真的贵看情况吧）。3年以上的到外面修还是便宜一点不过保障肯定不如原厂。</li>
+<li>华强北也没有网上说的那么妖魔鬼怪。小马过河的课文大家应该都学过，有时候还是得亲自试一下才知道，别人的意见可以作为参考留个心眼。个人感觉还行华强北还是有点技术的，当然里面的套路应该还是有的。</li>
+<li>修好后自己检测的时候要根据问题针对性的仔细测试。</li>
+<li>修电脑还是假期去，做好准备，毕竟不是一下就能修好的。</li>
+</ol>
+<p>最后附一张修好后的图：</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/IMG_3562.jpg" alt=""></p>
 
     </div>
 
@@ -276,6 +317,23 @@
   </div>
 </div>
 
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>jekyttt
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://xq-120.github.io/2022/05/08/MacBook%20Pro%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8(%E5%85%AD)%E4%B9%8B%E8%B5%B7%E6%AD%BB%E5%9B%9E%E7%94%9F/" title="MacBook Pro外接显示器(六)之起死回生">https://xq-120.github.io/2022/05/08/MacBook Pro外接显示器(六)之起死回生/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
 
       <footer class="post-footer">
 
@@ -285,13 +343,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2017/09/15/http%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4%E5%B7%A5%E5%85%B7/" rel="prev" title="http相关命令工具">
-      <i class="fa fa-chevron-left"></i> http相关命令工具
+    <a href="/2022/05/07/hexo-next%E4%B8%BB%E9%A2%98%E7%BB%99%E6%96%87%E7%AB%A0%E6%B7%BB%E5%8A%A0%E7%89%88%E6%9D%83%E4%BF%A1%E6%81%AF/" rel="prev" title="hexo next主题给文章添加版权信息">
+      <i class="fa fa-chevron-left"></i> hexo next主题给文章添加版权信息
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2017/09/30/%E5%9C%A8mac%20OS%E4%B8%8A%E5%8F%8D%E7%BC%96%E8%AF%91%E5%AE%89%E5%8D%93apk%E5%8C%85/" rel="next" title="在mac OS上反编译安卓apk包">
-      在mac OS上反编译安卓apk包 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -358,7 +413,6 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#mac-OS%E9%85%8D%E7%BD%AEJAVA%E7%8E%AF%E5%A2%83"><span class="nav-text">mac OS配置JAVA环境</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -562,9 +616,9 @@ window.addEventListener('pjax:success', () => {
 </script>
 <script>
   var disqus_config = function() {
-    this.page.url = "https://xq-120.github.io/2017/09/30/mac%20OS%E9%85%8D%E7%BD%AEJAVA%E7%8E%AF%E5%A2%83/";
-    this.page.identifier = "2017/09/30/mac OS配置JAVA环境/";
-    this.page.title = "mac OS配置JAVA环境";
+    this.page.url = "https://xq-120.github.io/2022/05/08/MacBook%20Pro%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8(%E5%85%AD)%E4%B9%8B%E8%B5%B7%E6%AD%BB%E5%9B%9E%E7%94%9F/";
+    this.page.identifier = "2022/05/08/MacBook Pro外接显示器(六)之起死回生/";
+    this.page.title = "MacBook Pro外接显示器(六)之起死回生";
     };
   NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
     if (window.DISQUS) {

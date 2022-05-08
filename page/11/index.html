@@ -187,6 +187,104 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2017/12/01/Swift%20Array%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而奋斗">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/12/01/Swift%20Array%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" class="post-title-link" itemprop="url">Swift Array基本操作</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-12-01 23:17:24" itemprop="dateCreated datePublished" datetime="2017-12-01T23:17:24+08:00">2017-12-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2017/12/01/Swift%20Array%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/12/01/Swift Array基本操作/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Swift-Array基本操作"><a href="#Swift-Array基本操作" class="headerlink" title="Swift Array基本操作"></a>Swift Array基本操作</h2><p>Array使用了copy-on-write技术.Array是结构体类型,因此是值类型.和OC里的NSArray引用类型是不同的.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//定义一个数组</span></span><br><span class="line"><span class="keyword">let</span> arr1: <span class="type">Array</span>&lt;<span class="type">String</span>&gt; <span class="operator">=</span> [<span class="string">&quot;213&quot;</span>, <span class="string">&quot;fdsf&quot;</span>, <span class="string">&quot;sdfdsg&quot;</span>]  <span class="comment">//let定义的是常量,所以arr1不能再进行append操作.</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//追加元素</span></span><br><span class="line"><span class="comment">//追加一个元素</span></span><br><span class="line"><span class="keyword">var</span> arr2: <span class="type">Array</span>&lt;<span class="type">String</span>&gt; <span class="operator">=</span> [<span class="string">&quot;llllfs&quot;</span>, <span class="string">&quot;dqafas&quot;</span>, <span class="string">&quot;21231&quot;</span>]</span><br><span class="line">arr2 <span class="operator">+=</span> [<span class="string">&quot;sfsdfsd&quot;</span>]</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;arr2:<span class="subst">\(arr2)</span>&quot;</span>)</span><br><span class="line"><span class="keyword">var</span> arr3: <span class="type">Array</span>&lt;<span class="type">String</span>&gt; <span class="operator">=</span> arr2</span><br><span class="line">arr3.append(<span class="string">&quot;hhehehe&quot;</span>)  <span class="comment">//append()会改变自身的值.但arr2的值并不会改变,和OC不一样.</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;arr2:<span class="subst">\(arr2)</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;arr3:<span class="subst">\(arr3)</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//追加一个数组的元素</span></span><br><span class="line">arr3.append(contentsOf: [<span class="string">&quot;sfsdf&quot;</span>, <span class="string">&quot;dfsfds&quot;</span>, <span class="string">&quot;dgfdg&quot;</span>])</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;arr3:<span class="subst">\(arr3)</span>&quot;</span>)</span><br><span class="line"><span class="keyword">var</span> arr4: <span class="type">Array</span>&lt;<span class="type">People</span>&gt; <span class="operator">=</span> [<span class="type">People</span>]()</span><br><span class="line"><span class="keyword">for</span> index: <span class="type">UInt</span> <span class="keyword">in</span> <span class="number">0</span><span class="operator">..&lt;</span><span class="number">4</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> p <span class="operator">=</span> <span class="type">People</span>.<span class="keyword">init</span>(name: <span class="string">&quot;渣渣辉<span class="subst">\(index)</span>&quot;</span>, sex: <span class="literal">true</span>, age: index <span class="operator">*</span> <span class="type">UInt</span>(arc4random()<span class="operator">%</span><span class="number">20</span>))</span><br><span class="line">    arr4.append(p)</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;arr4:<span class="subst">\(arr4)</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//移除元素</span></span><br><span class="line"><span class="keyword">var</span> arr5: <span class="type">Array</span> <span class="operator">=</span> arr4</span><br><span class="line"><span class="comment">//移除最后一个元素</span></span><br><span class="line">arr5.removeLast() <span class="comment">//改变自身.被操作的数组不能为空.</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;arr5:<span class="subst">\(arr5)</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//移除元素,原数组不受影响,得到一个类型为ArraySlice的新数组.</span></span><br><span class="line"><span class="keyword">var</span> arr6: <span class="type">Array</span> <span class="operator">=</span> <span class="type">Array</span>.<span class="keyword">init</span>(arr5.dropLast()) <span class="comment">//ArraySlice转Array</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;arr5:<span class="subst">\(arr5)</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;arr6:<span class="subst">\(arr6)</span>&quot;</span>)</span><br><span class="line"><span class="keyword">var</span> arr7: <span class="type">ArraySlice</span> <span class="operator">=</span> <span class="type">ArraySlice</span>.<span class="keyword">init</span>(arr4)  <span class="comment">//Array转ArraySlice</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//移除某个范围里的元素</span></span><br><span class="line"><span class="keyword">var</span> arr8: <span class="type">Array</span> <span class="operator">=</span> [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]</span><br><span class="line">arr8.removeSubrange(<span class="number">1</span><span class="operator">...</span>) <span class="comment">//移除从第1个位置处开始一直到末尾的元素</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;arr8:<span class="subst">\(arr8)</span>&quot;</span>)</span><br><span class="line"><span class="keyword">var</span> arr9: <span class="type">Array</span> <span class="operator">=</span> [<span class="number">1</span>]</span><br><span class="line">arr9.removeSubrange(<span class="number">1</span><span class="operator">...</span>) <span class="comment">//如果数组只有一个元素,但移除从第一个位置处的元素并不会越界崩溃.但是移除从第二个位置处的元素将会导致越界崩溃</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;arr9:<span class="subst">\(arr9)</span>&quot;</span>) <span class="comment">//arr9:[1]</span></span><br><span class="line"><span class="keyword">var</span> arr10: <span class="type">Array</span> <span class="operator">=</span> [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]</span><br><span class="line">arr10.removeSubrange(<span class="number">1</span><span class="operator">...</span><span class="number">3</span>) <span class="comment">//移除从第1个位置处开始随后的3个元素</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;arr10:<span class="subst">\(arr10)</span>&quot;</span>)</span><br><span class="line"><span class="keyword">var</span> arr11: <span class="type">Array</span> <span class="operator">=</span> [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]</span><br><span class="line">arr11.removeSubrange(<span class="number">1</span><span class="operator">..&lt;</span><span class="number">3</span>) <span class="comment">//移除从第1个位置处开始随后的2个元素</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;arr11:<span class="subst">\(arr11)</span>&quot;</span>)</span><br><span class="line"><span class="comment">//便捷操作</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">mutating</span> <span class="function"><span class="keyword">func</span> <span class="title">removeLast</span>(<span class="keyword">_</span> <span class="params">n</span>: <span class="type">Int</span>)</span> <span class="comment">//移除后几个</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">mutating</span> <span class="function"><span class="keyword">func</span> <span class="title">removeFirst</span>(<span class="keyword">_</span> <span class="params">n</span>: <span class="type">Int</span>)</span> <span class="comment">//移除前几个</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">mutating</span> <span class="function"><span class="keyword">func</span> <span class="title">remove</span>(<span class="params">at</span> <span class="params">index</span>: <span class="type">Int</span>)</span> -&gt; <span class="type">Array</span>.<span class="type">Element</span> <span class="comment">//移除指定某个位置的元素</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">mutating</span> <span class="function"><span class="keyword">func</span> <span class="title">removeAll</span>(<span class="params">keepingCapacity</span> <span class="params">keepCapacity</span>: <span class="type">Bool</span> <span class="operator">=</span> <span class="keyword">default</span>)</span> <span class="comment">//移除所有元素</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> tanwanlanyue <span class="operator">=</span> [<span class="string">&quot;渣渣辉&quot;</span>, <span class="string">&quot;纯扰春&quot;</span>, <span class="string">&quot;咕天落&quot;</span>, <span class="string">&quot;森红雷&quot;</span>]</span><br><span class="line"><span class="comment">//“迭代除了第一个元素以外的数组其余部分”</span></span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> tanwanlanyue.dropFirst() &#123;</span><br><span class="line">    <span class="built_in">print</span>(item)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//“迭代除了最后 1 个元素以外的数组”</span></span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> tanwanlanyue.dropLast() &#123;</span><br><span class="line">    <span class="built_in">print</span>(item)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//“遍历数组中的元素和对应的下标”</span></span><br><span class="line"><span class="keyword">for</span> (index, element) <span class="keyword">in</span> tanwanlanyue.enumerated() &#123;</span><br><span class="line">    <span class="built_in">print</span>(index, element)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//“寻找一个指定元素的位置”</span></span><br><span class="line"><span class="keyword">let</span> idx <span class="operator">=</span> tanwanlanyue.index(of: <span class="string">&quot;咕天落&quot;</span>)</span><br><span class="line"><span class="keyword">let</span> i: <span class="type">Int</span> <span class="operator">=</span> idx<span class="operator">!</span> <span class="operator">+</span> <span class="number">1</span></span><br><span class="line"><span class="built_in">print</span>(i)</span><br><span class="line"><span class="comment">//使用Where闭包</span></span><br><span class="line"><span class="keyword">let</span> index <span class="operator">=</span> tanwanlanyue.index &#123;</span><br><span class="line">    <span class="variable">$0</span> <span class="operator">==</span> <span class="string">&quot;纯扰春&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> j: <span class="type">Int</span> <span class="operator">=</span> index<span class="operator">!</span> <span class="operator">+</span> <span class="number">3</span></span><br><span class="line"><span class="built_in">print</span>(j)</span><br><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> sidx <span class="operator">=</span> tanwanlanyue.index(where: &#123; (item) -&gt; <span class="type">Bool</span> <span class="keyword">in</span></span><br><span class="line">    item.hasSuffix(<span class="string">&quot;落&quot;</span>)</span><br><span class="line">&#125;) &#123;</span><br><span class="line">    <span class="built_in">print</span>(sidx)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> didx <span class="operator">=</span> tanwanlanyue.index(where: &#123; (element) -&gt; <span class="type">Bool</span> <span class="keyword">in</span></span><br><span class="line">    <span class="keyword">return</span> element.hasPrefix(<span class="string">&quot;渣渣&quot;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">print</span>(didx)</span><br><span class="line"><span class="comment">//“对数组中的所有元素进行变形,得到一个新数组”</span></span><br><span class="line"><span class="keyword">let</span> tan2 <span class="operator">=</span> tanwanlanyue.map &#123; (item) -&gt; <span class="type">String</span> <span class="keyword">in</span></span><br><span class="line">    <span class="keyword">let</span> idx <span class="operator">=</span> tanwanlanyue.index(of: item)</span><br><span class="line">    <span class="keyword">return</span> item <span class="operator">+</span> <span class="string">&quot;<span class="subst">\(idx<span class="operator">!</span>)</span>&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span>(tan2)</span><br><span class="line"><span class="comment">//“筛选出符合某个标准的元素,得到一个新数组”</span></span><br><span class="line"><span class="keyword">let</span> tan3 <span class="operator">=</span> tan2.filter &#123; (item) -&gt; <span class="type">Bool</span> <span class="keyword">in</span></span><br><span class="line">    <span class="keyword">let</span> ch <span class="operator">=</span> item.last<span class="operator">!</span></span><br><span class="line">    <span class="keyword">return</span> ch <span class="operator">&gt;</span> <span class="string">&quot;1&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span>(tan3)</span><br><span class="line">    </span><br><span class="line"><span class="keyword">let</span> names <span class="operator">=</span> [<span class="string">&quot;Paula&quot;</span>, <span class="string">&quot;Elena&quot;</span>, <span class="string">&quot;Zoe&quot;</span>]</span><br><span class="line"><span class="keyword">var</span> lastNameEndingInA: <span class="type">String</span>?</span><br><span class="line"><span class="comment">//(for in) + where条件,仅遍历符合条件的元素</span></span><br><span class="line"><span class="keyword">for</span> name <span class="keyword">in</span> names.reversed() <span class="keyword">where</span> name.hasSuffix(<span class="string">&quot;a&quot;</span>) &#123;</span><br><span class="line">    lastNameEndingInA <span class="operator">=</span> name</span><br><span class="line">    <span class="keyword">break</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span>(lastNameEndingInA)</span><br><span class="line"><span class="keyword">for</span> name <span class="keyword">in</span> names.reversed() <span class="keyword">where</span> name.hasSuffix(<span class="string">&quot;a&quot;</span>) &#123;</span><br><span class="line">    <span class="built_in">print</span>(name)</span><br><span class="line">&#125;</span><br><span class="line">    </span><br><span class="line"><span class="keyword">let</span> last <span class="operator">=</span> names.last &#123; <span class="variable">$0</span>.hasSuffix(<span class="string">&quot;a&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span>(last)</span><br><span class="line"></span><br><span class="line"><span class="comment">//插入</span></span><br><span class="line">略.</span><br><span class="line"></span><br><span class="line"><span class="comment">//替换</span></span><br><span class="line">略.</span><br><span class="line"></span><br><span class="line"><span class="comment">//翻转</span></span><br><span class="line">略.</span><br><span class="line"></span><br><span class="line"><span class="comment">//遍历</span></span><br><span class="line"><span class="keyword">let</span> names <span class="operator">=</span> [<span class="string">&quot;Paula&quot;</span>, <span class="string">&quot;Elena&quot;</span>, <span class="string">&quot;Zoe&quot;</span>]</span><br><span class="line"><span class="keyword">var</span> lastNameEndingInA: <span class="type">String</span>?</span><br><span class="line"><span class="comment">//(for in) + where条件:仅遍历符合条件的元素</span></span><br><span class="line"><span class="keyword">for</span> name <span class="keyword">in</span> names.reversed() <span class="keyword">where</span> name.hasSuffix(<span class="string">&quot;a&quot;</span>) &#123;</span><br><span class="line">    lastNameEndingInA <span class="operator">=</span> name</span><br><span class="line">    <span class="keyword">break</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span>(lastNameEndingInA)</span><br><span class="line"><span class="keyword">for</span> name <span class="keyword">in</span> names.reversed() <span class="keyword">where</span> name.hasSuffix(<span class="string">&quot;a&quot;</span>) &#123;</span><br><span class="line">    <span class="built_in">print</span>(name)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Swfit提供了三种类型的数组:</p>
+<ul>
+<li><p>public struct ContiguousArray<Element> : RandomAccessCollection, MutableCollection</p>
+</li>
+<li><p>public struct ArraySlice<Element> : RandomAccessCollection, MutableCollection</p>
+</li>
+<li><p>public struct Array<Element> : RandomAccessCollection, MutableCollection</p>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2017/11/26/Swift%20String%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1042,92 +1140,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2017/09/30/mac%20OS%E9%85%8D%E7%BD%AEJAVA%E7%8E%AF%E5%A2%83/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而奋斗">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/09/30/mac%20OS%E9%85%8D%E7%BD%AEJAVA%E7%8E%AF%E5%A2%83/" class="post-title-link" itemprop="url">mac OS配置JAVA环境</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2017-09-30 15:12:24" itemprop="dateCreated datePublished" datetime="2017-09-30T15:12:24+08:00">2017-09-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
-              </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2017/09/30/mac%20OS%E9%85%8D%E7%BD%AEJAVA%E7%8E%AF%E5%A2%83/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/09/30/mac OS配置JAVA环境/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="mac-OS配置JAVA环境"><a href="#mac-OS配置JAVA环境" class="headerlink" title="mac OS配置JAVA环境"></a>mac OS配置JAVA环境</h2><ul>
-<li><p>下载安装最新版的JDK安装包:<a target="_blank" rel="noopener" href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html</a>,安装完成后查看下Java的版本后面配置要用到:<code>java -version</code></p>
-  <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">admindeMacBook</span>-Pro:未命名文件夹 admin$ java -version</span><br><span class="line"><span class="attribute">java</span> version <span class="string">&quot;1.8.0_144&quot;</span></span><br><span class="line"><span class="attribute">Java</span>(TM) SE Runtime Environment (build <span class="number">1</span>.<span class="number">8</span>.<span class="number">0</span>_<span class="number">144</span>-b<span class="number">01</span>)</span><br><span class="line"><span class="attribute">Java</span> HotSpot(TM) <span class="number">64</span>-Bit Server VM (build <span class="number">25</span>.<span class="number">144</span>-b<span class="number">01</span>, mixed mode)</span><br></pre></td></tr></table></figure></li>
-<li><p>配置环境变量：在命令行中打开<code>sudo vim ~/.bash_profile</code>，在文件后面加入下面内容：</p>
-  <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="builtin-name">export</span> <span class="attribute">JAVA_HOME</span>=<span class="string">&quot;/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home&quot;</span> </span><br><span class="line"><span class="builtin-name">export</span> <span class="attribute">PATH</span>=<span class="string">&quot;<span class="variable">$JAVA_HOME</span>/bin:<span class="variable">$PATH</span>&quot;</span> </span><br><span class="line"><span class="builtin-name">export</span> <span class="attribute">CLASSPATH</span>=<span class="string">&quot;.:<span class="variable">$JAVA_HOME</span>/lib/dt.jar:<span class="variable">$JAVA_HOME</span>/lib/tools.jar&quot;</span></span><br></pre></td></tr></table></figure>
-<p>  note:<code>/jdk1.8.0_144.jdk</code>里面的版本字符串需要替换为上面提到的版本字符串.<br>  完成后保存,并使用<code>source ~/.bash_profile</code>应用该变更。</p>
-</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1198,7 +1210,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">125</span>
+          <span class="site-state-item-count">126</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

@@ -187,6 +187,120 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/12/09/iOS%20App%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而奋斗">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/12/09/iOS%20App%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" class="post-title-link" itemprop="url">iOS APP生命周期</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-12-09 21:51:44" itemprop="dateCreated datePublished" datetime="2018-12-09T21:51:44+08:00">2018-12-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Foundation/" itemprop="url" rel="index"><span itemprop="name">Foundation</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2018/12/09/iOS%20App%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/12/09/iOS App生命周期/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>问题:APP进入后台后大概三分钟就被系统kill掉了,再次进入都是重新启动,对用户体验有一定影响.</p>
+<p>为了解决这个问题,首先来了解一下一个APP的生命周期.</p>
+<h4 id="一、iOS-APP生命周期"><a href="#一、iOS-APP生命周期" class="headerlink" title="一、iOS APP生命周期"></a>一、iOS APP生命周期</h4><p>一个iOS APP生命周期大概有五种状态.</p>
+<p>如下图:</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20210713102802.png" alt></p>
+<ul>
+<li><strong>Not running</strong>:app还没运行.</li>
+<li><strong>Inactive</strong>:app运行在前台但不能接收事件.</li>
+<li><strong>Active</strong>:app运行在前台并且能够接收事件.</li>
+<li><strong>Backgroud</strong>:程序在后台并且能够执行代码,大多数程序进入这个状态后会在这个状态上停留一会(一般就几秒钟,如果有申请后台运行大概会停留180s).时间到之后会进入挂起状态(Suspended).但有几种特定类型的APP可以长期处于Backgroud状态.</li>
+<li><strong>Suspended</strong>:程序在后台不能执行代码.系统会自动把程序变成这个状态而且不会发出通知.当挂起时,程序还是停留在内存中的,当系统内存低时,系统就把挂起的程序清除掉,为前台程序提供更多的内存,并且不会发出任何通知.</li>
+</ul>
+<p>从上面的图可以看出如果挂起的应用所占用的内存还没有被系统回收,则点击APP图标时,应用会进入后台,然后进入前台,此时看到的仍然是上一次的界面.但当挂起的应用所占用的内存已经被系统回收,则点击APP图标时,相当于重新启动.</p>
+<p>了解了APP的生命周期后,可以看到挂起的应用只有在内存紧张的情况下才会被系统清理,这种情况是我们无法控制的.因此出现上述bug极有可能是程序还在运行时就被系统kill掉了.系统主动kill掉一个APP的情况并不多见,主要有如下几种:</p>
+<ul>
+<li>APP出现闪退</li>
+<li>APP内存峰值过高</li>
+<li>APP长时间没有响应事件</li>
+<li>某些特殊API的错误使用</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/12/09/iOS%20App%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/12/07/%E6%B8%85%E7%90%86APP%E7%BC%93%E5%AD%98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1075,109 +1189,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/07/15/%E8%AE%A1%E7%AE%97%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8D%A0%E7%94%A8%E7%9A%84%E5%AD%97%E8%8A%82%E9%95%BF%E5%BA%A6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而奋斗">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/07/15/%E8%AE%A1%E7%AE%97%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8D%A0%E7%94%A8%E7%9A%84%E5%AD%97%E8%8A%82%E9%95%BF%E5%BA%A6/" class="post-title-link" itemprop="url">计算字符串占用的字节长度</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-07-15 22:09:22" itemprop="dateCreated datePublished" datetime="2018-07-15T22:09:22+08:00">2018-07-15</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%AD%97%E7%AC%A6%E4%B8%B2/" itemprop="url" rel="index"><span itemprop="name">字符串</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2018/07/15/%E8%AE%A1%E7%AE%97%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8D%A0%E7%94%A8%E7%9A%84%E5%AD%97%E8%8A%82%E9%95%BF%E5%BA%A6/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/07/15/计算字符串占用的字节长度/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="计算字符串占用的字节长度"><a href="#计算字符串占用的字节长度" class="headerlink" title="计算字符串占用的字节长度"></a>计算字符串占用的字节长度</h3><p><strong>前提</strong></p>
-<p>需要了解字符的编码规则.使用不同的编码规则会得到不同的结果.</p>
-<p><strong>API</strong></p>
-<p><code>- (NSUInteger)lengthOfBytesUsingEncoding:(NSStringEncoding)enc;        // Result in O(n) time; the result is exact. Returns 0 on error (cannot convert to specified encoding, or overflow)</code></p>
-<p><strong>示例</strong></p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSString</span> *chString = <span class="string">@&quot;中国abc&quot;</span>;</span><br><span class="line"><span class="built_in">NSUInteger</span> utf8Bytes = [chString lengthOfBytesUsingEncoding:<span class="built_in">NSUTF8StringEncoding</span>];</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@&quot;utf8Bytes:%ld&quot;</span>, utf8Bytes); <span class="comment">//9</span></span><br><span class="line"><span class="built_in">NSUInteger</span> unicodeBytes = [chString lengthOfBytesUsingEncoding:<span class="built_in">NSUnicodeStringEncoding</span>];</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@&quot;unicodeBytes:%ld&quot;</span>, unicodeBytes); <span class="comment">//10</span></span><br></pre></td></tr></table></figure>
-<p>天朝目前强制使用的是GB18030.</p>
-<p>在<code>CFStringEncodingExt.h</code>里面包含了其他编码枚举.如:</p>
-<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">kCFStringEncodingGB_2312_80</span> = <span class="number">0</span>x<span class="number">0630</span>,</span><br><span class="line"><span class="attribute">kCFStringEncodingGBK_95</span> = <span class="number">0</span>x<span class="number">0631</span>,		/* annex to GB <span class="number">13000</span>-<span class="number">93</span>; for Windows <span class="number">95</span> */</span><br><span class="line"><span class="attribute">kCFStringEncodingGB_18030_2000</span> = <span class="number">0</span>x<span class="number">0632</span>,</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/07/15/%E8%AE%A1%E7%AE%97%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8D%A0%E7%94%A8%E7%9A%84%E5%AD%97%E8%8A%82%E9%95%BF%E5%BA%A6/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1248,7 +1259,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">125</span>
+          <span class="site-state-item-count">126</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
