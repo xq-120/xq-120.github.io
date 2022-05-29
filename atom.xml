@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://xq-120.github.io/"/>
-  <updated>2022-05-08T09:11:17.798Z</updated>
+  <updated>2022-05-29T08:22:48.330Z</updated>
   <id>https://xq-120.github.io/</id>
   
   <author>
@@ -15,6 +15,42 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>iOS循环播放视频</title>
+    <link href="https://xq-120.github.io/2022/05/29/iOS%E5%BE%AA%E7%8E%AF%E6%92%AD%E6%94%BE%E8%A7%86%E9%A2%91/"/>
+    <id>https://xq-120.github.io/2022/05/29/iOS%E5%BE%AA%E7%8E%AF%E6%92%AD%E6%94%BE%E8%A7%86%E9%A2%91/</id>
+    <published>2022-05-29T07:34:04.000Z</published>
+    <updated>2022-05-29T08:22:48.330Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;有一个需求需要循环播放一个视频，UI希望的效果是无缝循环播放。当时我觉得应该问题不大，但事实却并非如此。&lt;/p&gt;
+&lt;p&gt;如果只是单纯的循环播放，确实简单。但是想要无缝丝滑连贯的循环播放却并不那么简单。&lt;/p&gt;
+&lt;p&gt;项目中用的ijkplayer，刚开始是监听播放完成通知，播放完后重新播放，结果发现每次播完后都要停顿一下才会继续播放。达不到无缝循环的要求。&lt;/p&gt;
+&lt;p&gt;一顿搜索之后，发现可以通过设置option的loop属性，设置为100就是循环播放100次，设置1就是播放一次，设置0就是无线循环播放。这一次以为稳了，然并卵，还是每次播完后都要停顿一下才会继续播放。&lt;/p&gt;
+&lt;p&gt;又是一顿搜索，发现了ijkplayer可以播放contact文件，所谓contact文件就是按照一定的格式将要播放的视频地址按顺序写入一个文件，把这个文件丢给ijkplayer，ijkplayer就会按照顺序一个个播放，当时就在想是不是这种方式可以无缝播放呢？于是将视频的地址写了1000遍，这样ijkplayer就会播放1000次，达到一个循环播放的假象。然而还是没有什么卵用，效果和上面一样。&lt;/p&gt;
+&lt;p&gt;总结一下：ijkplayer的播放机制就是播完后会暂停，这一暂停就导致不连贯了，因此可以很明显的看到会停顿一下才继续播放。使用ijkplayer基本上做不到无缝循环播放视频。当然也有可能是我才疏学浅没找到正确的方式。&lt;/p&gt;
+&lt;p&gt;ijkplayer既然不行，那就只能试一下系统的AVPlayer了，还是同样的思路，监听播放完成通知，播放完后重新播放，结果发现效果一样。最后找到一篇文章说是要使用AVPlayer的子类AVQueuePlayer，试了一下发现效果确实很不错，几乎看不出来有停顿的感觉。AVQueuePlayer应该会预加载要播放的资源，这样播放完后就可以立即加载渲染下一个视频的画面了。&lt;/p&gt;
+&lt;p&gt;总结：如果要无缝循环播放视频，AVQueuePlayer是一个不错的选择。&lt;/p&gt;
+&lt;p&gt;但是由于系统播放器可定制程度不高，如果你需要先处理视频画面再播放，那么AVQueuePlayer可能就不行了，比如透明视频的无缝循环播放。然而这个需求就是需要透明视频的无缝循环播放，这不是巧了吗，于是AVQueuePlayer也被pass了。&lt;/p&gt;
+&lt;p&gt;本来我们项目中对ijkplayer做了一些修改支持播放透明视频，结果ijkplayer循环播放不丝滑。只能另辟蹊径了，关于透明视频的无缝循环播放的实现下一篇再说。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="分类1" scheme="https://xq-120.github.io/categories/%E5%88%86%E7%B1%BB1/"/>
+    
+      <category term="分类2" scheme="https://xq-120.github.io/categories/%E5%88%86%E7%B1%BB1/%E5%88%86%E7%B1%BB2/"/>
+    
+    
+      <category term="标签1" scheme="https://xq-120.github.io/tags/%E6%A0%87%E7%AD%BE1/"/>
+    
+      <category term="标签2" scheme="https://xq-120.github.io/tags/%E6%A0%87%E7%AD%BE2/"/>
+    
+      <category term="标签3" scheme="https://xq-120.github.io/tags/%E6%A0%87%E7%AD%BE3/"/>
+    
+  </entry>
   
   <entry>
     <title>MacBook Pro外接显示器(六)之我的电脑修好了</title>
@@ -570,36 +606,6 @@
     
     
       <category term="内存管理" scheme="https://xq-120.github.io/tags/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>iOS 信号量原理篇</title>
-    <link href="https://xq-120.github.io/2020/06/06/iOS-%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%8E%9F%E7%90%86%E7%AF%87/"/>
-    <id>https://xq-120.github.io/2020/06/06/iOS-%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%8E%9F%E7%90%86%E7%AF%87/</id>
-    <published>2020-06-06T14:03:35.000Z</published>
-    <updated>2021-08-01T11:30:13.074Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;信号量原理篇&quot;&gt;&lt;a href=&quot;#信号量原理篇&quot; class=&quot;headerlink&quot; title=&quot;信号量原理篇&quot;&gt;&lt;/a&gt;信号量原理篇&lt;/h3&gt;&lt;p&gt;源码版本：libdispatch-1173.40.5&lt;/p&gt;
-&lt;p&gt;信号量的实现主要是创建，销毁，wait和signal，四个方法。&lt;/p&gt;
-&lt;p&gt;信号量结构体：&lt;/p&gt;
-&lt;figure class=&quot;highlight c&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;DISPATCH_CLASS_DECL(semaphore, OBJECT);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;dispatch_semaphore_s&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	DISPATCH_OBJECT_HEADER(semaphore);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;keyword&quot;&gt;long&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;volatile&lt;/span&gt; dsema_value;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;keyword&quot;&gt;long&lt;/span&gt; dsema_orig;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;keyword&quot;&gt;_dispatch_sema4_t&lt;/span&gt; dsema_sema;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;typedef&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;semaphore_t&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;_dispatch_sema4_t&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;h4 id=&quot;信号量的创建—dispatch-semaphore-create&quot;&gt;&lt;a href=&quot;#信号量的创建—dispatch-semaphore-create&quot; class=&quot;headerlink&quot; title=&quot;信号量的创建—dispatch_semaphore_create&quot;&gt;&lt;/a&gt;信号量的创建—dispatch_semaphore_create&lt;/h4&gt;&lt;figure class=&quot;highlight c&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;dispatch_semaphore_t&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;title&quot;&gt;dispatch_semaphore_create&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(&lt;span class=&quot;keyword&quot;&gt;long&lt;/span&gt; value)&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;keyword&quot;&gt;dispatch_semaphore_t&lt;/span&gt; dsema;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;comment&quot;&gt;// If the internal value is negative, then the absolute of the value is&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;comment&quot;&gt;// equal to the number of waiting threads. Therefore it is bogus to&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;comment&quot;&gt;// initialize the semaphore with a negative value.&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (value &amp;lt; &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		&lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; DISPATCH_BAD_INPUT;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	dsema = _dispatch_object_alloc(DISPATCH_VTABLE(semaphore),&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;			&lt;span class=&quot;keyword&quot;&gt;sizeof&lt;/span&gt;(struct dispatch_semaphore_s));&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	dsema-&amp;gt;do_next = DISPATCH_OBJECT_LISTLESS;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	dsema-&amp;gt;do_targetq = _dispatch_get_default_queue(&lt;span class=&quot;literal&quot;&gt;false&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	dsema-&amp;gt;dsema_value = value;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	_dispatch_sema4_init(&amp;amp;dsema-&amp;gt;dsema_sema, _DSEMA4_POLICY_FIFO);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	dsema-&amp;gt;dsema_orig = value;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; dsema;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;可以看到不能传入一个小于0的值。信号量有几个重要的属性：&lt;/p&gt;
-&lt;p&gt;dsema_value：记录当前计数值，后续的wait和signal函数会改变该值。&lt;/p&gt;
-&lt;p&gt;dsema_sema：信号量 (真正干事情的)&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="多线程" scheme="https://xq-120.github.io/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
-    
-    
-      <category term="信号量" scheme="https://xq-120.github.io/tags/%E4%BF%A1%E5%8F%B7%E9%87%8F/"/>
-    
-      <category term="锁" scheme="https://xq-120.github.io/tags/%E9%94%81/"/>
     
   </entry>
   
