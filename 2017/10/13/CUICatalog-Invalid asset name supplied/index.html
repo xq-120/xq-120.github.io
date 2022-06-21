@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.4.0">
+<meta name="generator" content="Hexo 6.2.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -263,7 +263,7 @@
 <figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(lldb) po <span class="variable">$arg1</span></span><br><span class="line">(lldb) po <span class="selector-attr">[$arg1 name]</span></span><br><span class="line">(lldb) po <span class="selector-attr">[$arg1 reason]</span></span><br></pre></td></tr></table></figure>
 <p>Make sure to select the objc_exception_throw frame in the call stack before executing these commands. See the “Advanced Debugging and the Address Sanitizer” in the WWDC15 session videos to see this performed on stage.</p>
 <p>On the iPhone Simulator, all function arguments are passed on the stack, so the syntax is considerably more horrible. The shortest expression I could construct that gets to it is <code>*(id *)($ebp + 8)</code>. To make things less painful, I suggest using a convenience variable:</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(gdb) <span class="builtin-name">set</span> <span class="variable">$exception</span> = *(id *)(<span class="variable">$ebp</span> + 8)</span><br><span class="line">(gdb) po <span class="variable">$exception</span></span><br><span class="line">(gdb) po [<span class="variable">$exception</span> name]</span><br><span class="line">(gdb) po [<span class="variable">$exception</span> reason]</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(gdb) <span class="built_in">set</span> <span class="variable">$exception</span> = *(<span class="built_in">id</span> *)(<span class="variable">$ebp</span> + 8)</span><br><span class="line">(gdb) po <span class="variable">$exception</span></span><br><span class="line">(gdb) po [<span class="variable">$exception</span> name]</span><br><span class="line">(gdb) po [<span class="variable">$exception</span> reason]</span><br></pre></td></tr></table></figure>
 <p>You can also set <code>$exception</code> automatically whenever the breakpoint is triggered by adding a command list to the <code>objc_exception_throw</code> breakpoint.</p>
 <p>(Note that in all cases I tested, the exception object was also present in the eax and edx registers at the time the breakpoint hit. I’m not sure that’ll always be the case, though.)</p>
 <p>Added from comment below:</p>
@@ -445,7 +445,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">jekyttt</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.4.0
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v6.2.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2

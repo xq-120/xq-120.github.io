@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.4.0">
+<meta name="generator" content="Hexo 6.2.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -273,7 +273,7 @@
 <figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">int</span> aa = ^<span class="built_in">int</span>(<span class="built_in">int</span> a, <span class="built_in">int</span> b)&#123;</span><br><span class="line">        <span class="built_in">int</span> c = a + b;</span><br><span class="line">        <span class="constructor">NSLog(@<span class="string">&quot;%d&quot;</span>,<span class="params">c</span>)</span>;</span><br><span class="line">        return c;</span><br><span class="line">    &#125;(<span class="number">2</span>,<span class="number">4</span>);</span><br><span class="line"><span class="constructor">NSLog(@<span class="string">&quot;aa=%d&quot;</span>,<span class="params">aa</span>)</span>;</span><br></pre></td></tr></table></figure>
 <p>很早之前刚接触block的时候,总是在想Block里的代码到底啥时候执行.原来就是block什么时候被调用,什么时候就被执行.</p>
 <p>Block也相当于一种变量类型。就像int一样，可以用来定义对应类型的变量。<br>因此</p>
-<figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[p printWithBlcok:<span class="comment">^ViewController</span> *(<span class="name"><span class="builtin-name">int</span></span> num) &#123;</span><br><span class="line">    NSLog(@<span class="string">&quot;num*cc:%i * %i = %i&quot;</span>,num,cc,num *cc)<span class="comment">;</span></span><br><span class="line">    return self;</span><br><span class="line">&#125;]<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[p printWithBlcok:^ViewController *(<span class="built_in">int</span> <span class="built_in">num</span>) &#123;</span><br><span class="line">    NSLog(@<span class="string">&quot;num*cc:%i * %i = %i&quot;</span>,<span class="built_in">num</span>,cc,<span class="built_in">num</span> *cc);</span><br><span class="line">    <span class="keyword">return</span> self;</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
 <p>里面的printWithBlcok:后的就是一个Block语法(也就是一个Block类型的变量的值)。在这里它作为函数的第一个参数。因此对对象p发送printWithBlcok:消息，将执行该方法的代码，该方法的第一行代码就是调用Block，因此又转而去执行Block中的代码，执行完后，再回到printWithBlcok:方法中，然后继续执行下去。</p>
 
     </div>
@@ -450,7 +450,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">jekyttt</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.4.0
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v6.2.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.4.0">
+<meta name="generator" content="Hexo 6.2.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -258,7 +258,7 @@
       
         <h2 id="openURL打开应用"><a href="#openURL打开应用" class="headerlink" title="openURL打开应用"></a>openURL打开应用</h2><h3 id="B应用打开A应用"><a href="#B应用打开A应用" class="headerlink" title="B应用打开A应用"></a>B应用打开A应用</h3><p>需要A应用设置URL Scheme,如testA,并且告知B应用.此时B应用就可以通过”testA://“打开A应用了.</p>
 <p>A应用实现方法</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">BOOL</span>)application:(<span class="built_in">UIApplication</span> *)app openURL:(<span class="built_in">NSURL</span> *)url options:(<span class="built_in">NSDictionary</span>&lt;<span class="built_in">UIApplicationOpenURLOptionsKey</span>,<span class="keyword">id</span>&gt; *)options</span><br><span class="line">&#123;</span><br><span class="line">    DLog(<span class="string">@&quot;%@&quot;</span>, app);</span><br><span class="line">    DLog(<span class="string">@&quot;%@&quot;</span>, url);</span><br><span class="line">    DLog(<span class="string">@&quot;%@&quot;</span>, options);</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">- <span class="params">(BOOL)</span>application:<span class="params">(UIApplication *)</span>app openURL:<span class="params">(NSURL *)</span>url options:<span class="params">(NSDictionary&lt;UIApplicationOpenURLOptionsKey,id&gt; *)</span>options</span><br><span class="line">&#123;</span><br><span class="line">    DLog<span class="params">(@<span class="string">&quot;%@&quot;</span>, app)</span>;</span><br><span class="line">    DLog<span class="params">(@<span class="string">&quot;%@&quot;</span>, url)</span>;</span><br><span class="line">    DLog<span class="params">(@<span class="string">&quot;%@&quot;</span>, options)</span>;</span><br><span class="line">    return YES;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="传递参数"><a href="#传递参数" class="headerlink" title="传递参数"></a>传递参数</h4><p>只能是key=value形式,多个参数使用&amp;连接.<br><code>testA://?key1=value1&amp;key2=value2&amp;key3=value3</code></p>
 <p><strong>注意</strong><br>value是一个json字符串时将打不开A应用.这是由于json字符串中的花括号和冒号都是保留字符.<br><code>testA://?p=&#123;&quot;type&quot;:2,&quot;detail&quot;:&#123;&quot;backAction&quot;:1&#125;&#125;</code></p>
 <p>可以把json字符串百分号编码后传递,如下:<br><code>testA://?p=%7B%22type%22%3A2%2C%22detail%22%3A%7B%22backAction%22%3A1%7D%7D</code></p>
@@ -434,7 +434,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">jekyttt</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.4.0
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v6.2.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2

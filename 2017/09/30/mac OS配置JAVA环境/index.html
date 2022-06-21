@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.4.0">
+<meta name="generator" content="Hexo 6.2.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -249,9 +249,9 @@
       
         <h2 id="mac-OS配置JAVA环境"><a href="#mac-OS配置JAVA环境" class="headerlink" title="mac OS配置JAVA环境"></a>mac OS配置JAVA环境</h2><ul>
 <li><p>下载安装最新版的JDK安装包:<a target="_blank" rel="noopener" href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html</a>,安装完成后查看下Java的版本后面配置要用到:<code>java -version</code></p>
-  <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">admindeMacBook</span>-Pro:未命名文件夹 admin$ java -version</span><br><span class="line"><span class="attribute">java</span> version <span class="string">&quot;1.8.0_144&quot;</span></span><br><span class="line"><span class="attribute">Java</span>(TM) SE Runtime Environment (build <span class="number">1</span>.<span class="number">8</span>.<span class="number">0</span>_<span class="number">144</span>-b<span class="number">01</span>)</span><br><span class="line"><span class="attribute">Java</span> HotSpot(TM) <span class="number">64</span>-Bit Server VM (build <span class="number">25</span>.<span class="number">144</span>-b<span class="number">01</span>, mixed mode)</span><br></pre></td></tr></table></figure></li>
+  <figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">admindeMacBook-Pro:未命名文件夹 admin$ <span class="keyword">java </span>-version</span><br><span class="line"><span class="keyword">java </span>version <span class="string">&quot;1.8.0_144&quot;</span></span><br><span class="line"><span class="keyword">Java(TM) </span>SE Runtime Environment (<span class="keyword">build </span><span class="number">1</span>.<span class="number">8</span>.<span class="number">0</span>_144-<span class="keyword">b01)</span></span><br><span class="line"><span class="keyword"></span><span class="keyword">Java </span>HotSpot(TM) <span class="number">64</span>-<span class="keyword">Bit </span>Server VM (<span class="keyword">build </span><span class="number">25</span>.<span class="number">144</span>-<span class="keyword">b01, </span>mixed mode)</span><br></pre></td></tr></table></figure></li>
 <li><p>配置环境变量：在命令行中打开<code>sudo vim ~/.bash_profile</code>，在文件后面加入下面内容：</p>
-  <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="builtin-name">export</span> <span class="attribute">JAVA_HOME</span>=<span class="string">&quot;/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home&quot;</span> </span><br><span class="line"><span class="builtin-name">export</span> <span class="attribute">PATH</span>=<span class="string">&quot;<span class="variable">$JAVA_HOME</span>/bin:<span class="variable">$PATH</span>&quot;</span> </span><br><span class="line"><span class="builtin-name">export</span> <span class="attribute">CLASSPATH</span>=<span class="string">&quot;.:<span class="variable">$JAVA_HOME</span>/lib/dt.jar:<span class="variable">$JAVA_HOME</span>/lib/tools.jar&quot;</span></span><br></pre></td></tr></table></figure>
+  <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> <span class="attribute">JAVA_HOME</span>=<span class="string">&quot;/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home&quot;</span> </span><br><span class="line"><span class="built_in">export</span> <span class="attribute">PATH</span>=<span class="string">&quot;<span class="variable">$JAVA_HOME</span>/bin:<span class="variable">$PATH</span>&quot;</span> </span><br><span class="line"><span class="built_in">export</span> <span class="attribute">CLASSPATH</span>=<span class="string">&quot;.:<span class="variable">$JAVA_HOME</span>/lib/dt.jar:<span class="variable">$JAVA_HOME</span>/lib/tools.jar&quot;</span></span><br></pre></td></tr></table></figure>
 <p>  note:<code>/jdk1.8.0_144.jdk</code>里面的版本字符串需要替换为上面提到的版本字符串.<br>  完成后保存,并使用<code>source ~/.bash_profile</code>应用该变更。</p>
 </li>
 </ul>
@@ -427,7 +427,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">jekyttt</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.4.0
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v6.2.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2

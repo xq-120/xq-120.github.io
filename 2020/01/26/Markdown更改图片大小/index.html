@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.4.0">
+<meta name="generator" content="Hexo 6.2.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -269,11 +269,11 @@
 <p><img src="http://upload-images.jianshu.io/upload_images/1503319-c696a9cd1495d68f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/200" alt="loading.png">  </p>
 <p>只需要将后面的宽度更改就可以了.这种改链接有效果的原因是因为服务器根据图片链接对原图进行了缩放并返回.这种方案需要服务器支持对图片链接的识别并进行对应的缩放.</p>
 <h4 id="使用HTML-img标签并设置width和height"><a href="#使用HTML-img标签并设置width和height" class="headerlink" title="使用HTML img标签并设置width和height"></a>使用HTML img标签并设置width和height</h4><p>Markdown语法:</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;img <span class="attribute">src</span>=<span class="string">&quot;http://p1-ks3.532106.com/33f925f1f92649678221088fdfb531a1.jpg&quot;</span> <span class="attribute">alt</span>=<span class="string">&quot;图片替换文本&quot;</span> <span class="attribute">width</span>=<span class="string">&quot;500&quot;</span> <span class="attribute">height</span>=<span class="string">&quot;313&quot;</span> <span class="attribute">align</span>=<span class="string">&quot;bottom&quot;</span> /&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;img src<span class="operator">=</span><span class="string">&quot;http://p1-ks3.532106.com/33f925f1f92649678221088fdfb531a1.jpg&quot;</span> alt<span class="operator">=</span><span class="string">&quot;图片替换文本&quot;</span> width<span class="operator">=</span><span class="string">&quot;500&quot;</span> height<span class="operator">=</span><span class="string">&quot;313&quot;</span> align<span class="operator">=</span><span class="string">&quot;bottom&quot;</span> /&gt;</span><br></pre></td></tr></table></figure>
 <p>只需要更改上面的属性width或height的值就可以了,<code>align=&quot;bottom&quot;</code>可以省略或根据需要设置其他值如<code>top , bottom , middle , left , right</code>.</p>
 <p>原始图像效果:<br><img src="http://p1-ks3.532106.com/33f925f1f92649678221088fdfb531a1.jpg" alt="mytest.jpg"></p>
 <p>更改后</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;img <span class="attribute">src</span>=<span class="string">&quot;http://p1-ks3.532106.com/33f925f1f92649678221088fdfb531a1.jpg&quot;</span> <span class="attribute">alt</span>=<span class="string">&quot;图片替换文本&quot;</span> <span class="attribute">width</span>=<span class="string">&quot;200&quot;</span> <span class="attribute">height</span>=<span class="string">&quot;300&quot;</span> <span class="attribute">align</span>=<span class="string">&quot;bottom&quot;</span> /&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;img src<span class="operator">=</span><span class="string">&quot;http://p1-ks3.532106.com/33f925f1f92649678221088fdfb531a1.jpg&quot;</span> alt<span class="operator">=</span><span class="string">&quot;图片替换文本&quot;</span> width<span class="operator">=</span><span class="string">&quot;200&quot;</span> height<span class="operator">=</span><span class="string">&quot;300&quot;</span> align<span class="operator">=</span><span class="string">&quot;bottom&quot;</span> /&gt;</span><br></pre></td></tr></table></figure>
 <p>效果:</p>
 <p><img src="http://p1-ks3.532106.com/33f925f1f92649678221088fdfb531a1.jpg" alt="图片替换文本" width="200" height="300" align="bottom" /></p>
 <h4 id="自己处理图片大小-重新生成图片链接"><a href="#自己处理图片大小-重新生成图片链接" class="headerlink" title="自己处理图片大小,重新生成图片链接"></a>自己处理图片大小,重新生成图片链接</h4><p>终极方案,无需考虑各大Markdown编辑器兼容性问题.</p>
@@ -450,7 +450,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">jekyttt</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.4.0
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v6.2.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2

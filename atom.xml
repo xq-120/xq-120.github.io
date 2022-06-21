@@ -3,7 +3,7 @@
   <title>要为真理而奋斗</title>
   <icon>https://xq-120.github.io/icon.png</icon>
   <subtitle>芝士就是力量</subtitle>
-  <link href="/atom.xml" rel="self"/>
+  <link href="https://xq-120.github.io/atom.xml" rel="self"/>
   
   <link href="https://xq-120.github.io/"/>
   <updated>2022-06-19T08:05:38.177Z</updated>
@@ -23,24 +23,24 @@
     <published>2022-06-19T07:02:45.000Z</published>
     <updated>2022-06-19T08:05:38.177Z</updated>
     
-    <summary type="html">
     
-      
-      
-        
-        
-          &lt;p&gt;在往图床上丢图片时，有时候总是因为图片太大而要等很久的时间，面对这种情况压缩图片后再上传是一个不错的选择。但是每次都要先打开图片压缩软件，再丢图片压缩，再找到压缩后的图片，再上传到图床，这一系列操作也是繁琐。今天就来解决一下这个问题。&lt;/p&gt;
-&lt;p&gt;很显然脚本能够帮助我们自
-        
-      
-    
-    </summary>
-    
-    
-      <category term="工具" scheme="https://xq-120.github.io/categories/%E5%B7%A5%E5%85%B7/"/>
+    <summary type="html">&lt;p&gt;在往图床上丢图片时，有时候总是因为图片太大而要等很久的时间，面对这种情况压缩图片后再上传是一个不错的选择。但是每次都要先打开图片压缩软件，再丢图片压缩，再找到压缩后的图片，再上传到图床，这一系列操作也是繁琐。今天就来解决一下这个问题。&lt;/p&gt;
+&lt;p&gt;很显然脚本能够帮助我们自动完成这些烦人的操作。我们希望这个脚本能够自动压缩当前文件夹的所有图片，压缩后将图片转移到另一个文件夹方便查找。&lt;/p&gt;
+&lt;p&gt;说干就干，lets go!&lt;/p&gt;
+&lt;p&gt;首先，我们需要安装一个图片压缩软件，这个图片压缩软件要能支持命令行操作，这里选择ImageOptim: &lt;a href=&quot;https://imageoptim.com&quot;&gt;https://imageoptim.com&lt;/a&gt; ，到官网下载后安装即可。&lt;/p&gt;
+&lt;p&gt;其次，我们需要安装ImageOptim-CLI，有了它就可以用命令行操作图片压缩软件ImageOptim了。推荐使用npm安装特别是M1芯片的Mac，打开终端输入：&lt;/p&gt;
+&lt;figure class=&quot;highlight avrasm&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;npm install -g imageoptim-&lt;span class=&quot;keyword&quot;&gt;cli&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;安装完成后查看一下版本确定是否安装成功：&lt;/p&gt;
+&lt;figure class=&quot;highlight apache&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;imageoptim&lt;/span&gt; --version&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;3&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;7&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;最后，就是写脚本了：目前我们只压缩png，jpg，jpeg，gif&lt;/p&gt;
+&lt;p&gt;随便打开一个文本编辑器比如记事本，拷贝下面的代码并保存为 &lt;code&gt;compress.sh&lt;/code&gt; ，保存路径随意这里为桌面。&lt;/p&gt;</summary>
     
     
-      <category term="图片压缩脚本" scheme="https://xq-120.github.io/tags/%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9%E8%84%9A%E6%9C%AC/"/>
+    
+    <category term="工具" scheme="https://xq-120.github.io/categories/%E5%B7%A5%E5%85%B7/"/>
+    
+    
+    <category term="图片压缩脚本" scheme="https://xq-120.github.io/tags/%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9%E8%84%9A%E6%9C%AC/"/>
     
   </entry>
   
@@ -51,23 +51,22 @@
     <published>2022-06-19T00:57:35.000Z</published>
     <updated>2022-06-19T01:49:27.365Z</updated>
     
-    <summary type="html">
     
-      
-      
-        
-        
-          &lt;h2 id=&quot;find&quot;&gt;&lt;a href=&quot;#find&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
+    <summary type="html">&lt;h2 id=&quot;find&quot;&gt;&lt;a href=&quot;#find&quot; class=&quot;headerlink&quot; title=&quot;find&quot;&gt;&lt;/a&gt;find&lt;/h2&gt;&lt;p&gt;在指定目录下查找文件。&lt;/p&gt;
+&lt;p&gt;使用该命令时，不设置任何参数，则find命令将在当前目录下查找子目录与文件（即默认递归查找）。并且将查找到的子目录和文件全部进行显示。&lt;/p&gt;
+&lt;h3 id=&quot;语法&quot;&gt;&lt;a href=&quot;#语法&quot; class=&quot;headerlink&quot; title=&quot;语法&quot;&gt;&lt;/a&gt;语法&lt;/h3&gt;&lt;figure class=&quot;highlight dos&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;find&lt;/span&gt; &lt;span class=&quot;built_in&quot;&gt;path&lt;/span&gt; expression&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;expression：表达式，选项，参数。&lt;/p&gt;
+&lt;p&gt;find 根据下列规则判断 path 和 expression，在命令列上第一个 - ( ) , ! 之前的部份为 path，之后的是 expression。如果 path 是空字串则使用目前路径，如果 expression 是空字串则使用 -print 为预设 expression。&lt;/p&gt;
+&lt;p&gt;注意：path最好不要省略。&lt;/p&gt;
+&lt;p&gt;expression 中可使用的选项有二三十个之多，用到的时候可以查一下。&lt;/p&gt;
+&lt;p&gt;常见的有：&lt;/p&gt;</summary>
     
     
-      <category term="命令行" scheme="https://xq-120.github.io/categories/%E5%91%BD%E4%BB%A4%E8%A1%8C/"/>
+    
+    <category term="命令行" scheme="https://xq-120.github.io/categories/%E5%91%BD%E4%BB%A4%E8%A1%8C/"/>
     
     
-      <category term="find" scheme="https://xq-120.github.io/tags/find/"/>
+    <category term="find" scheme="https://xq-120.github.io/tags/find/"/>
     
   </entry>
   
@@ -78,31 +77,30 @@
     <published>2022-05-29T07:34:04.000Z</published>
     <updated>2022-05-29T08:22:48.330Z</updated>
     
-    <summary type="html">
     
-      
-      
-        
-        
-          &lt;p&gt;有一个需求需要循环播放一个视频，UI希望的效果是无缝循环播放。当时我觉得应该问题不大，但事实却并非如此。&lt;/p&gt;
+    <summary type="html">&lt;p&gt;有一个需求需要循环播放一个视频，UI希望的效果是无缝循环播放。当时我觉得应该问题不大，但事实却并非如此。&lt;/p&gt;
 &lt;p&gt;如果只是单纯的循环播放，确实简单。但是想要无缝丝滑连贯的循环播放却并不那么简单。&lt;/p&gt;
-&lt;p&gt;项目中用的ijkplayer，刚开始是监听播放完成通知，播
-        
-      
-    
-    </summary>
-    
-    
-      <category term="分类1" scheme="https://xq-120.github.io/categories/%E5%88%86%E7%B1%BB1/"/>
-    
-      <category term="分类2" scheme="https://xq-120.github.io/categories/%E5%88%86%E7%B1%BB1/%E5%88%86%E7%B1%BB2/"/>
+&lt;p&gt;项目中用的ijkplayer，刚开始是监听播放完成通知，播放完后重新播放，结果发现每次播完后都要停顿一下才会继续播放。达不到无缝循环的要求。&lt;/p&gt;
+&lt;p&gt;一顿搜索之后，发现可以通过设置option的loop属性，设置为100就是循环播放100次，设置1就是播放一次，设置0就是无线循环播放。这一次以为稳了，然并卵，还是每次播完后都要停顿一下才会继续播放。&lt;/p&gt;
+&lt;p&gt;又是一顿搜索，发现了ijkplayer可以播放contact文件，所谓contact文件就是按照一定的格式将要播放的视频地址按顺序写入一个文件，把这个文件丢给ijkplayer，ijkplayer就会按照顺序一个个播放，当时就在想是不是这种方式可以无缝播放呢？于是将视频的地址写了1000遍，这样ijkplayer就会播放1000次，达到一个循环播放的假象。然而还是没有什么卵用，效果和上面一样。&lt;/p&gt;
+&lt;p&gt;总结一下：ijkplayer的播放机制就是播完后会暂停，这一暂停就导致不连贯了，因此可以很明显的看到会停顿一下才继续播放。使用ijkplayer基本上做不到无缝循环播放视频。当然也有可能是我才疏学浅没找到正确的方式。&lt;/p&gt;
+&lt;p&gt;ijkplayer既然不行，那就只能试一下系统的AVPlayer了，还是同样的思路，监听播放完成通知，播放完后重新播放，结果发现效果一样。最后找到一篇文章说是要使用AVPlayer的子类AVQueuePlayer，试了一下发现效果确实很不错，几乎看不出来有停顿的感觉。AVQueuePlayer应该会预加载要播放的资源，这样播放完后就可以立即加载渲染下一个视频的画面了。&lt;/p&gt;
+&lt;p&gt;总结：如果要无缝循环播放视频，AVQueuePlayer是一个不错的选择。&lt;/p&gt;
+&lt;p&gt;但是由于系统播放器可定制程度不高，如果你需要先处理视频画面再播放，那么AVQueuePlayer可能就不行了，比如透明视频的无缝循环播放。然而这个需求就是需要透明视频的无缝循环播放，这不是巧了吗，于是AVQueuePlayer也被pass了。&lt;/p&gt;
+&lt;p&gt;本来我们项目中对ijkplayer做了一些修改支持播放透明视频，结果ijkplayer循环播放不丝滑。只能另辟蹊径了，关于透明视频的无缝循环播放的实现下一篇再说。&lt;/p&gt;</summary>
     
     
-      <category term="标签1" scheme="https://xq-120.github.io/tags/%E6%A0%87%E7%AD%BE1/"/>
     
-      <category term="标签2" scheme="https://xq-120.github.io/tags/%E6%A0%87%E7%AD%BE2/"/>
+    <category term="分类1" scheme="https://xq-120.github.io/categories/%E5%88%86%E7%B1%BB1/"/>
     
-      <category term="标签3" scheme="https://xq-120.github.io/tags/%E6%A0%87%E7%AD%BE3/"/>
+    <category term="分类2" scheme="https://xq-120.github.io/categories/%E5%88%86%E7%B1%BB1/%E5%88%86%E7%B1%BB2/"/>
+    
+    
+    <category term="标签1" scheme="https://xq-120.github.io/tags/%E6%A0%87%E7%AD%BE1/"/>
+    
+    <category term="标签2" scheme="https://xq-120.github.io/tags/%E6%A0%87%E7%AD%BE2/"/>
+    
+    <category term="标签3" scheme="https://xq-120.github.io/tags/%E6%A0%87%E7%AD%BE3/"/>
     
   </entry>
   
@@ -113,20 +111,21 @@
     <published>2022-05-08T06:20:38.000Z</published>
     <updated>2022-05-08T09:11:17.798Z</updated>
     
-    <summary type="html">
     
-      
-      
-        
-        
-          &lt;p&gt;自从电脑坏了之后就一直没有拿去修，没空是一方面，更多的是担心修不好还被坑维修费。就这样磨磨蹭蹭过了差不多大半年，今年五一放假也没啥去处，于是想干脆去华强北修一修，万一修好了呢。本来是想5月1日去修的，结果起太晚了磨蹭到2点感觉有点晚了，就想着第二天去吧，结果第二天下了一天的
-        
-      
+    <summary type="html">&lt;p&gt;自从电脑坏了之后就一直没有拿去修，没空是一方面，更多的是担心修不好还被坑维修费。就这样磨磨蹭蹭过了差不多大半年，今年五一放假也没啥去处，于是想干脆去华强北修一修，万一修好了呢。本来是想5月1日去修的，结果起太晚了磨蹭到2点感觉有点晚了，就想着第二天去吧，结果第二天下了一天的雨，也没去成。&lt;/p&gt;
+&lt;p&gt;5月3日天气有点阴沉，但好歹没下雨了。于是从角落把电脑翻出来发现盖子都有点发霉了，简单的清理了一下便装进背包，向华强北出发。华强北虽然经过过几次，但没去里边修过东西，出发前搜了下华强北修电脑的帖子，广告很多，被骗被坑的回答也很多，很多答主说要慎重，说有的店就是拖着你说修不好让你低价卖给他，有的还会偷换电脑零件，反正啥样的都有。看完之后还是有点忐忑的，倒不是怕偷换零件，毕竟我这个电脑用了6年半了也没啥好零件了，主要是怕漫天要价，拖着不修，扯皮闹心。&lt;/p&gt;
+&lt;p&gt;不过还是决定去试一下，下午两点到了华强路A出口，一出来就看到几家手机电脑维修的店子，我也不知道哪家好，也没有多问多选，直接走进了第一家。进去之后没有说修电脑的事，当时手机拍照有黑斑，就先问了下手机的问题能不能修，维修的几个人都是年轻人，说能修大概160-180块钱，只需要清洗一下摄像头就可以弄好。&lt;/p&gt;
+&lt;p&gt;这里说一下维修店的模式，基本上店面都是一个小门面，相当于一个小工作台，这里只会做一些简单的维修比如换个屏，贴个膜，初步检测下设备啥的，如果问题比较大或者需要其他设备，他们会拿到他们所谓的维修间里，两个地方是有一段距离的而且你是不可能跟着去的，顾客只能在店面等着。&lt;/p&gt;
+&lt;p&gt;话说回来，让他拆下摄像头后我问要洗多久，他说大概要等1个小时。感觉还行便问这里能不能修电脑，他说能修电脑，于是我把电脑给他看了看，告诉他是主板烧坏了，他拿着万用表测了测，说的原因我也记不住，大概的意思是芯片供电模块短路。&lt;/p&gt;
+&lt;p&gt;我：修好大概要多少钱&lt;/p&gt;
+&lt;p&gt;他：550&lt;/p&gt;
+&lt;p&gt;我：有点贵&lt;/p&gt;
+&lt;p&gt;他：已经是最低价了，这样吧，加上那个洗摄像头的费用一共700怎么样&lt;/p&gt;
+&lt;p&gt;我：那要修多久啊&lt;/p&gt;</summary>
     
-    </summary>
     
     
-      <category term="Life" scheme="https://xq-120.github.io/categories/Life/"/>
+    <category term="Life" scheme="https://xq-120.github.io/categories/Life/"/>
     
     
   </entry>
@@ -138,20 +137,20 @@
     <published>2022-05-07T09:17:12.000Z</published>
     <updated>2022-05-07T09:30:15.888Z</updated>
     
-    <summary type="html">
     
-      
-      
-        
-        
-          &lt;h2 id=&quot;next主题下给文章添加版权信息&quot;&gt;&lt;a href=&quot;#next主题下给文章添加版权信息&quot; class=&quot;headerlink&quot;
-        
-      
+    <summary type="html">&lt;h2 id=&quot;next主题下给文章添加版权信息&quot;&gt;&lt;a href=&quot;#next主题下给文章添加版权信息&quot; class=&quot;headerlink&quot; title=&quot;next主题下给文章添加版权信息&quot;&gt;&lt;/a&gt;next主题下给文章添加版权信息&lt;/h2&gt;&lt;p&gt;1、修改&lt;code&gt;_config.yml&lt;/code&gt;文件&lt;/p&gt;
+&lt;figure class=&quot;highlight yaml&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attr&quot;&gt;creative_commons:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;attr&quot;&gt;license:&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;by-nc-sa&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;attr&quot;&gt;sidebar:&lt;/span&gt; &lt;span class=&quot;literal&quot;&gt;false&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;attr&quot;&gt;post:&lt;/span&gt; &lt;span class=&quot;literal&quot;&gt;true&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;attr&quot;&gt;language:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;post的值改为true表示文章开启添加版权信息。&lt;/p&gt;
+&lt;p&gt;至此，部署后就可以看到每篇文章下面都会有版权信息了。但是有一些文章我们不想添加版权信息，那么还需要接着设置：&lt;/p&gt;
+&lt;p&gt;2、打开文件 &lt;code&gt;themes/next/layout/_macro/post.swig&lt;/code&gt; ：&lt;/p&gt;
+&lt;p&gt;找到creative_commons那一行改为：&lt;/p&gt;
+&lt;figure class=&quot;highlight handlebars&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;language-xml&quot;&gt;&amp;#123;%- if theme.creative_commons.license and theme.creative_commons.post and page.copyright %&amp;#125;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;language-xml&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;template-variable&quot;&gt;&amp;#123;&amp;#123; &lt;span class=&quot;name&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;partial&lt;/span&gt;&lt;/span&gt;(&lt;span class=&quot;name&quot;&gt;&amp;#x27;_partials/post/post-copyright.swig&amp;#x27;&lt;/span&gt;) &amp;#125;&amp;#125;&lt;/span&gt;&lt;span class=&quot;language-xml&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;language-xml&quot;&gt;&amp;#123;%- endif %&amp;#125;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;就是添加了 page.copyright ，这样就可以单独控制某篇文章是否添加版权信息了。&lt;/p&gt;
+&lt;p&gt;在文章开头的头部添加 &lt;code&gt;copyright: true&lt;/code&gt; 表示当前文章要添加版权信息，false表示不需要。&lt;/p&gt;</summary>
     
-    </summary>
     
     
-      <category term="Hexo" scheme="https://xq-120.github.io/categories/Hexo/"/>
+    <category term="Hexo" scheme="https://xq-120.github.io/categories/Hexo/"/>
     
     
   </entry>
@@ -163,25 +162,40 @@
     <published>2022-05-01T05:13:38.000Z</published>
     <updated>2022-05-07T08:48:43.063Z</updated>
     
-    <summary type="html">
     
-      
-      
-        
-        
-          &lt;h2 id=&quot;NSTimer&quot;&gt;&lt;a href=&quot;#NSTimer&quot; class=&quot;headerlink&quot;
-        
-      
+    <summary type="html">&lt;h2 id=&quot;NSTimer&quot;&gt;&lt;a href=&quot;#NSTimer&quot; class=&quot;headerlink&quot; title=&quot;NSTimer&quot;&gt;&lt;/a&gt;NSTimer&lt;/h2&gt;&lt;p&gt;NSTimer是使用最多的一种定时器，虽然但是NSTimer还是有很多的注意事项：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;不注意使用的话有循环引用的隐患。因为NSTimer会强引用target，如果target再强引用NSTimer那么就会发生循环引用。比如：&lt;/p&gt;
+&lt;figure class=&quot;highlight objc&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;- (&lt;span class=&quot;type&quot;&gt;void&lt;/span&gt;)test_normal_timer1 &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt;.normalStrongTimer = [&lt;span class=&quot;built_in&quot;&gt;NSTimer&lt;/span&gt; scheduledTimerWithTimeInterval:&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt; target:&lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt; selector:&lt;span class=&quot;keyword&quot;&gt;@selector&lt;/span&gt;(doSome) userInfo:&lt;span class=&quot;literal&quot;&gt;nil&lt;/span&gt; repeats:&lt;span class=&quot;literal&quot;&gt;YES&lt;/span&gt;];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    [[&lt;span class=&quot;built_in&quot;&gt;NSRunLoop&lt;/span&gt; currentRunLoop] addTimer:&lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt;.normalStrongTimer forMode:&lt;span class=&quot;built_in&quot;&gt;NSRunLoopCommonModes&lt;/span&gt;];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    [&lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt;.normalStrongTimer fire];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;上面的代码就会发生循环引用。此时即使页面返回，但是因为循环引用，ViewController的dealloc将不会被执行，因此invalidate不能放在dealloc里，只能在其他时机比如viewDidDisappear里调用。所以一般使用weak来弱引用定时器，这样就可以在dealloc里调用invalidate。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;需要在合适的地方invalid定时器，否则定时器会一直强引用target从而延长target的生命周期。&lt;/p&gt;
+&lt;p&gt;在开发中很容易忘记invalid定时器，一旦忘记invalid定时器，定时器就会延长target的生命周期，比如页面返回了但实际还没有被销毁，从而产生一些诡异问题。这也是使用NSTimer必须注意的地方。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;使用时必须保证有一个活跃的runloop，并且需要指定mode。因此在子线程中使用不是很方便。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;精度可能不够。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;网上的一个说法：创建和撤销必须在同一个线程上，在多线程环境下使用不便。(这一条存疑，经过验证在子线程创建一个定时器，在另一个子线程invalidate并没有发现有什么问题)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;iOS10开始支持block使用，同样在使用block时一定要注意循环引用。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;为了从根本上避免上述问题，一个弱引用target的、能够在自身销毁时自动invalid的定时器想必是极好的。解决办法就是封装GCD定时器。&lt;/p&gt;
+&lt;h2 id=&quot;GCD定时器&quot;&gt;&lt;a href=&quot;#GCD定时器&quot; class=&quot;headerlink&quot; title=&quot;GCD定时器&quot;&gt;&lt;/a&gt;GCD定时器&lt;/h2&gt;&lt;p&gt;基本使用：&lt;/p&gt;
+&lt;p&gt;1.创建定时器源&lt;/p&gt;
+&lt;figure class=&quot;highlight autohotkey&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;self.timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;                                            0,&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;                                            0,&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                                            self.privateSerialQueue)&lt;span class=&quot;comment&quot;&gt;;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;2.设置定时器&lt;/p&gt;
+&lt;figure class=&quot;highlight angelscript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;int64&lt;/span&gt;_t &lt;span class=&quot;built_in&quot;&gt;int&lt;/span&gt;ervalInNanoseconds = (&lt;span class=&quot;built_in&quot;&gt;int64&lt;/span&gt;_t)(self.timeInterval * NSEC_PER_SEC);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;int64&lt;/span&gt;_t toleranceInNanoseconds = (&lt;span class=&quot;built_in&quot;&gt;int64&lt;/span&gt;_t)(self.tolerance * NSEC_PER_SEC);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;dispatch_source_set_timer(self.timer,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                          dispatch_time(DISPATCH_TIME_NOW, &lt;span class=&quot;built_in&quot;&gt;int&lt;/span&gt;ervalInNanoseconds),&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                          (&lt;span class=&quot;built_in&quot;&gt;uint64&lt;/span&gt;_t)&lt;span class=&quot;built_in&quot;&gt;int&lt;/span&gt;ervalInNanoseconds,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                          toleranceInNanoseconds&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                          );&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</summary>
     
-    </summary>
     
     
-      <category term="Foundation" scheme="https://xq-120.github.io/categories/Foundation/"/>
+    <category term="Foundation" scheme="https://xq-120.github.io/categories/Foundation/"/>
     
     
-      <category term="NSTimer" scheme="https://xq-120.github.io/tags/NSTimer/"/>
+    <category term="NSTimer" scheme="https://xq-120.github.io/tags/NSTimer/"/>
     
-      <category term="定时器" scheme="https://xq-120.github.io/tags/%E5%AE%9A%E6%97%B6%E5%99%A8/"/>
+    <category term="定时器" scheme="https://xq-120.github.io/tags/%E5%AE%9A%E6%97%B6%E5%99%A8/"/>
     
   </entry>
   
@@ -192,23 +206,22 @@
     <published>2021-12-18T02:50:30.000Z</published>
     <updated>2021-12-24T14:05:40.551Z</updated>
     
-    <summary type="html">
     
-      
-      
-        
-        
-          &lt;h4 id=&quot;Bug&quot;&gt;&lt;a href=&quot;#Bug&quot; class=&quot;headerlink&quot; title=&quot;Bug&quot;&gt;&lt;/a&gt;Bug&lt;/h4&gt;&lt;p&gt;出现机型：iPhone7Plus
-        
-      
-    
-    </summary>
+    <summary type="html">&lt;h4 id=&quot;Bug&quot;&gt;&lt;a href=&quot;#Bug&quot; class=&quot;headerlink&quot; title=&quot;Bug&quot;&gt;&lt;/a&gt;Bug&lt;/h4&gt;&lt;p&gt;出现机型：iPhone7Plus iOS15.1。&lt;/p&gt;
+&lt;p&gt;描述：在开发过程中发现弹出弹窗点击关闭之后界面就卡死了。多次尝试之后，最终发现只有在调试的时候出现，把线一拔不调试的时候一切又正常了。拿另一部iPhone6Plus iOS12.5.4的手机又都不会出现。顿时感觉遇到”薛定谔的bug”了。&lt;/p&gt;
+&lt;h4 id=&quot;分析&quot;&gt;&lt;a href=&quot;#分析&quot; class=&quot;headerlink&quot; title=&quot;分析&quot;&gt;&lt;/a&gt;分析&lt;/h4&gt;&lt;p&gt;项目中对UIAlertController做了一层简单的封装，是在自己的window上present出来的，这样在使用的时候就不用操心谁来present了。&lt;/p&gt;
+&lt;p&gt;方法接口：&lt;/p&gt;
+&lt;figure class=&quot;highlight plaintext&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;+ (void)showActionSheetWithTitle:(nullable NSString *)title message:(nullable NSString *)message cancelButtonTitle:(nullable NSString *)cancelButtonTitle destructiveButtonIndex:(NSInteger)destructiveButtonIndex buttonTitles:(nullable NSArray *)buttonTitles showedPatternHandler:(nullable NSDictionary *(^)(void))showedPatternHandler buttonClickedHandler:(nullable void(^)(NSUInteger buttonIndex))buttonClickedHandler;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;内部部分实现：&lt;/p&gt;
+&lt;figure class=&quot;highlight plaintext&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:preferredStyle];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;alertController.alertWindow = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;alertController.alertWindow.backgroundColor = [UIColor clearColor];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;alertController.alertWindow.hidden = NO;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;...&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;alertController.alertWindow.rootViewController = [UIViewController new];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;[alertController.alertWindow.rootViewController presentViewController:alertController animated:YES completion:nil];&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;刚开始时，对象持有关系：&lt;/p&gt;</summary>
     
     
-      <category term="Bug" scheme="https://xq-120.github.io/categories/Bug/"/>
+    
+    <category term="Bug" scheme="https://xq-120.github.io/categories/Bug/"/>
     
     
-      <category term="类别覆盖" scheme="https://xq-120.github.io/tags/%E7%B1%BB%E5%88%AB%E8%A6%86%E7%9B%96/"/>
+    <category term="类别覆盖" scheme="https://xq-120.github.io/tags/%E7%B1%BB%E5%88%AB%E8%A6%86%E7%9B%96/"/>
     
   </entry>
   
@@ -219,26 +232,23 @@
     <published>2021-12-01T02:42:52.000Z</published>
     <updated>2021-12-24T14:05:40.550Z</updated>
     
-    <summary type="html">
     
-      
-      
-        
-        
-          &lt;h3 id=&quot;Bug&quot;&gt;&lt;a href=&quot;#Bug&quot; class=&quot;headerlink&quot; title=&quot;Bug&quot;&gt;&lt;/a&gt;Bug&lt;/h3&gt;&lt;p&gt;描述：ZATextField 自己添加自己作为target后，发现action方法不被调用。&lt;/p&gt;
-&lt;h3 id=&quot;分析&quot;&gt;&lt;a
-        
-      
-    
-    </summary>
+    <summary type="html">&lt;h3 id=&quot;Bug&quot;&gt;&lt;a href=&quot;#Bug&quot; class=&quot;headerlink&quot; title=&quot;Bug&quot;&gt;&lt;/a&gt;Bug&lt;/h3&gt;&lt;p&gt;描述：ZATextField 自己添加自己作为target后，发现action方法不被调用。&lt;/p&gt;
+&lt;h3 id=&quot;分析&quot;&gt;&lt;a href=&quot;#分析&quot; class=&quot;headerlink&quot; title=&quot;分析&quot;&gt;&lt;/a&gt;分析&lt;/h3&gt;&lt;p&gt;ZATextField的实现如下：&lt;/p&gt;
+&lt;figure class=&quot;highlight objc&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;29&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;30&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;31&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;32&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;33&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;34&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;35&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;36&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;37&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;38&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;39&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;40&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;41&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;42&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;43&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;44&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;45&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;#import &lt;span class=&quot;string&quot;&gt;&amp;quot;ZATextField.h&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;@implementation&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;ZATextField&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;- (&lt;span class=&quot;keyword&quot;&gt;instancetype&lt;/span&gt;)initWithFrame:(&lt;span class=&quot;built_in&quot;&gt;CGRect&lt;/span&gt;)frame &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt; = [&lt;span class=&quot;variable language_&quot;&gt;super&lt;/span&gt; initWithFrame:frame];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (&lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt;) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        __&lt;span class=&quot;keyword&quot;&gt;weak&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;typeof&lt;/span&gt;(&lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt;) weakSelf = &lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        [[&lt;span class=&quot;built_in&quot;&gt;NSNotificationCenter&lt;/span&gt; defaultCenter] addObserverForName:&lt;span class=&quot;built_in&quot;&gt;UITextFieldTextDidBeginEditingNotification&lt;/span&gt; object:&lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt; queue:&lt;span class=&quot;literal&quot;&gt;nil&lt;/span&gt; usingBlock:^(&lt;span class=&quot;built_in&quot;&gt;NSNotification&lt;/span&gt; * _Nonnull note) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (weakSelf.rightView &amp;amp;&amp;amp; weakSelf.rightViewMode == &lt;span class=&quot;built_in&quot;&gt;UITextFieldViewModeWhileEditing&lt;/span&gt;) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                weakSelf.rightView.hidden = weakSelf.text.length &amp;gt; &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt; ? &lt;span class=&quot;literal&quot;&gt;NO&lt;/span&gt; : &lt;span class=&quot;literal&quot;&gt;YES&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (weakSelf.leftView &amp;amp;&amp;amp; weakSelf.leftViewMode == &lt;span class=&quot;built_in&quot;&gt;UITextFieldViewModeWhileEditing&lt;/span&gt;) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                weakSelf.leftView.hidden = weakSelf.text.length &amp;gt; &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt; ? &lt;span class=&quot;literal&quot;&gt;NO&lt;/span&gt; : &lt;span class=&quot;literal&quot;&gt;YES&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125;];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        [[&lt;span class=&quot;built_in&quot;&gt;NSNotificationCenter&lt;/span&gt; defaultCenter] addObserverForName:&lt;span class=&quot;built_in&quot;&gt;UITextFieldTextDidChangeNotification&lt;/span&gt; object:&lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt; queue:&lt;span class=&quot;literal&quot;&gt;nil&lt;/span&gt; usingBlock:^(&lt;span class=&quot;built_in&quot;&gt;NSNotification&lt;/span&gt; * _Nonnull note) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (weakSelf.rightView &amp;amp;&amp;amp; weakSelf.rightViewMode == &lt;span class=&quot;built_in&quot;&gt;UITextFieldViewModeWhileEditing&lt;/span&gt;) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                weakSelf.rightView.hidden = weakSelf.text.length &amp;gt; &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt; ? &lt;span class=&quot;literal&quot;&gt;NO&lt;/span&gt; : &lt;span class=&quot;literal&quot;&gt;YES&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (weakSelf.leftView &amp;amp;&amp;amp; weakSelf.leftViewMode == &lt;span class=&quot;built_in&quot;&gt;UITextFieldViewModeWhileEditing&lt;/span&gt;) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                weakSelf.leftView.hidden = weakSelf.text.length &amp;gt; &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt; ? &lt;span class=&quot;literal&quot;&gt;NO&lt;/span&gt; : &lt;span class=&quot;literal&quot;&gt;YES&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125;];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        [&lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt; addTarget:&lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt; action:&lt;span class=&quot;keyword&quot;&gt;@selector&lt;/span&gt;(xxxxchange:) forControlEvents:&lt;span class=&quot;built_in&quot;&gt;UIControlEventEditingChanged&lt;/span&gt;];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;- (&lt;span class=&quot;type&quot;&gt;void&lt;/span&gt;)xxxxchange:(&lt;span class=&quot;built_in&quot;&gt;UITextField&lt;/span&gt; *)sender &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;NSLog&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;@&amp;quot;text:%@&amp;quot;&lt;/span&gt;, &lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt;.text);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;// 光标大小设置&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;- (&lt;span class=&quot;built_in&quot;&gt;CGRect&lt;/span&gt;)caretRectForPosition:(&lt;span class=&quot;built_in&quot;&gt;UITextPosition&lt;/span&gt; *)position &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;CGRect&lt;/span&gt; originalRect = [&lt;span class=&quot;variable language_&quot;&gt;super&lt;/span&gt; caretRectForPosition:position];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;CGFloat&lt;/span&gt; caretHeight = &lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt;.font.lineHeight - &lt;span class=&quot;number&quot;&gt;4&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    originalRect.size.height = caretHeight;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    originalRect.origin.y = (&lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt;.frame.size.height - caretHeight) / &lt;span class=&quot;number&quot;&gt;2.0&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; originalRect;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;@end&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;自己添加了自己作为target:&lt;/p&gt;
+&lt;figure class=&quot;highlight objectivec&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;[&lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt; addTarget:&lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt; action:&lt;span class=&quot;keyword&quot;&gt;@selector&lt;/span&gt;(xxxxchange:) forControlEvents:&lt;span class=&quot;built_in&quot;&gt;UIControlEventEditingChanged&lt;/span&gt;];&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;理论上讲当有文字输入时，xxxxchange方法肯定会调用的，但是实际没有。&lt;/p&gt;
+&lt;h3 id=&quot;可能的原因&quot;&gt;&lt;a href=&quot;#可能的原因&quot; class=&quot;headerlink&quot; title=&quot;可能的原因&quot;&gt;&lt;/a&gt;可能的原因&lt;/h3&gt;&lt;p&gt;1.方法被其他地方的类别覆盖了。&lt;/p&gt;</summary>
     
     
-      <category term="Bug" scheme="https://xq-120.github.io/categories/Bug/"/>
+    
+    <category term="Bug" scheme="https://xq-120.github.io/categories/Bug/"/>
     
     
-      <category term="UITextField" scheme="https://xq-120.github.io/tags/UITextField/"/>
+    <category term="UITextField" scheme="https://xq-120.github.io/tags/UITextField/"/>
     
-      <category term="removeTarget" scheme="https://xq-120.github.io/tags/removeTarget/"/>
+    <category term="removeTarget" scheme="https://xq-120.github.io/tags/removeTarget/"/>
     
   </entry>
   
@@ -249,23 +259,29 @@
     <published>2021-09-28T08:46:22.000Z</published>
     <updated>2021-10-10T07:07:40.159Z</updated>
     
-    <summary type="html">
     
-      
-      
-        
-        
-          &lt;h3 id=&quot;objc-AssociationPolicy&quot;&gt;&lt;a href=&quot;#objc-AssociationPolicy&quot; class=&quot;headerlink&quot;
-        
-      
+    <summary type="html">&lt;h3 id=&quot;objc-AssociationPolicy&quot;&gt;&lt;a href=&quot;#objc-AssociationPolicy&quot; class=&quot;headerlink&quot; title=&quot;objc_AssociationPolicy&quot;&gt;&lt;/a&gt;objc_AssociationPolicy&lt;/h3&gt;&lt;figure class=&quot;highlight c&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;/**&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt; * Policies related to associative references.&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt; * These are options to objc_setAssociatedObject()&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt; */&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;typedef&lt;/span&gt; &lt;span class=&quot;title function_&quot;&gt;OBJC_ENUM&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(&lt;span class=&quot;type&quot;&gt;uintptr_t&lt;/span&gt;, objc_AssociationPolicy)&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    OBJC_ASSOCIATION_ASSIGN = &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;,           &lt;span class=&quot;comment&quot;&gt;/**&amp;lt; Specifies a weak reference to the associated object. */&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    OBJC_ASSOCIATION_RETAIN_NONATOMIC = &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;, &lt;span class=&quot;comment&quot;&gt;/**&amp;lt; Specifies a strong reference to the associated object. &lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;                                            *   The association is not made atomically. */&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    OBJC_ASSOCIATION_COPY_NONATOMIC = &lt;span class=&quot;number&quot;&gt;3&lt;/span&gt;,   &lt;span class=&quot;comment&quot;&gt;/**&amp;lt; Specifies that the associated object is copied. &lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;                                            *   The association is not made atomically. */&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    OBJC_ASSOCIATION_RETAIN = &lt;span class=&quot;number&quot;&gt;01401&lt;/span&gt;,       &lt;span class=&quot;comment&quot;&gt;/**&amp;lt; Specifies a strong reference to the associated object.&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;                                            *   The association is made atomically. */&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    OBJC_ASSOCIATION_COPY = &lt;span class=&quot;number&quot;&gt;01403&lt;/span&gt;          &lt;span class=&quot;comment&quot;&gt;/**&amp;lt; Specifies that the associated object is copied.&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;                                            *   The association is made atomically. */&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h4 id=&quot;AssociationPolicy中NONATOMIC-和-ATOMIC-的区别&quot;&gt;&lt;a href=&quot;#AssociationPolicy中NONATOMIC-和-ATOMIC-的区别&quot; class=&quot;headerlink&quot; title=&quot;AssociationPolicy中NONATOMIC 和 ATOMIC 的区别&quot;&gt;&lt;/a&gt;AssociationPolicy中NONATOMIC 和 ATOMIC 的区别&lt;/h4&gt;&lt;p&gt;对于setter方法，&lt;code&gt;NONATOMIC&lt;/code&gt; 和 &lt;code&gt;ATOMIC&lt;/code&gt; 没有什么区别&lt;/p&gt;
+&lt;figure class=&quot;highlight c&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;29&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;30&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;31&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;32&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;33&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;34&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;35&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;36&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;37&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;38&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;39&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;40&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;41&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;42&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;43&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;44&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;45&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;46&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;47&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;48&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;49&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;50&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;51&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;52&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;53&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;54&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;55&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;56&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;57&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;58&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;59&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;60&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;61&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;62&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;63&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;64&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;65&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;66&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;67&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;68&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;69&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;70&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;71&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;72&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;73&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;74&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;75&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;type&quot;&gt;void&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;_object_set_associative_reference(id object, &lt;span class=&quot;type&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;void&lt;/span&gt; *key, id value, &lt;span class=&quot;type&quot;&gt;uintptr_t&lt;/span&gt; policy)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;// This code used to work when nil was passed for object and key. Some code&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;// probably relies on that to not crash. Check and handle it explicitly.&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;// rdar://problem/44094390&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (!object &amp;amp;&amp;amp; !value) &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (object-&amp;gt;getIsa()-&amp;gt;forbidsAssociatedObjects())&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        _objc_fatal(&lt;span class=&quot;string&quot;&gt;&amp;quot;objc_setAssociatedObject called on instance (%p) of class %s which does not allow associated objects&amp;quot;&lt;/span&gt;, object, object_getClassName(object));&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    DisguisedPtr&amp;lt;objc_object&amp;gt; disguised&amp;#123;(objc_object *)object&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    ObjcAssociation association&amp;#123;policy, value&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;// retain the new value (if any) outside the lock.&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    association.acquireValue();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;type&quot;&gt;bool&lt;/span&gt; isFirstAssociation = &lt;span class=&quot;literal&quot;&gt;false&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        AssociationsManager manager;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        AssociationsHashMap &amp;amp;&lt;span class=&quot;title function_&quot;&gt;associations&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(manager.get())&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (value) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;keyword&quot;&gt;auto&lt;/span&gt; refs_result = associations.try_emplace(disguised, ObjectAssociationMap&amp;#123;&amp;#125;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (refs_result.second) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                &lt;span class=&quot;comment&quot;&gt;/* it&amp;#x27;s the first association we make */&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                isFirstAssociation = &lt;span class=&quot;literal&quot;&gt;true&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;comment&quot;&gt;/* establish or replace the association */&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;keyword&quot;&gt;auto&lt;/span&gt; &amp;amp;refs = refs_result.first-&amp;gt;second;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;keyword&quot;&gt;auto&lt;/span&gt; result = refs.try_emplace(key, &lt;span class=&quot;built_in&quot;&gt;std&lt;/span&gt;::move(association));&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (!result.second) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                association.swap(result.first-&amp;gt;second);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125; &lt;span class=&quot;keyword&quot;&gt;else&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;keyword&quot;&gt;auto&lt;/span&gt; refs_it = associations.find(disguised);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (refs_it != associations.end()) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                &lt;span class=&quot;keyword&quot;&gt;auto&lt;/span&gt; &amp;amp;refs = refs_it-&amp;gt;second;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                &lt;span class=&quot;keyword&quot;&gt;auto&lt;/span&gt; it = refs.find(key);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (it != refs.end()) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                    association.swap(it-&amp;gt;second);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                    refs.erase(it);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                    &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (refs.size() == &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                        associations.erase(refs_it);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;// Call setHasAssociatedObjects outside the lock, since this&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;// will call the object&amp;#x27;s _noteAssociatedObjects method if it&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;// has one, and this may trigger +initialize which might do&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;// arbitrary stuff, including setting more associated objects.&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (isFirstAssociation)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        object-&amp;gt;setHasAssociatedObjects();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;// release the old value (outside of the lock).&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    association.releaseHeldValue();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;inline&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;title function_&quot;&gt;acquireValue&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (_value) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;switch&lt;/span&gt; (_policy &amp;amp; &lt;span class=&quot;number&quot;&gt;0xFF&lt;/span&gt;) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;case&lt;/span&gt; OBJC_ASSOCIATION_SETTER_RETAIN:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            _value = objc_retain(_value);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;keyword&quot;&gt;break&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;case&lt;/span&gt; OBJC_ASSOCIATION_SETTER_COPY:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            _value = ((id(*)(id, SEL))objc_msgSend)(_value, @selector(copy));&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;keyword&quot;&gt;break&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;大致步骤：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;retain新值&lt;/li&gt;
+&lt;li&gt;AssociationsManagerLock加锁&lt;/li&gt;
+&lt;li&gt;用新值替换旧值&lt;/li&gt;
+&lt;li&gt;AssociationsManagerLock解锁&lt;/li&gt;
+&lt;li&gt;标记object有关联对象&lt;/li&gt;
+&lt;li&gt;释放旧值&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;code&gt;NONATOMIC&lt;/code&gt; 和 &lt;code&gt;ATOMIC&lt;/code&gt; 的区别只体现在 &lt;code&gt;objc_getAssociatedObject&lt;/code&gt; 的实现上：&lt;/p&gt;
+&lt;figure class=&quot;highlight c&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;29&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;30&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;31&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;32&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;33&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;34&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;35&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;36&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;37&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;38&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;39&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;40&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;id&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;title function_&quot;&gt;objc_getAssociatedObject&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(id object, &lt;span class=&quot;type&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;void&lt;/span&gt; *key)&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; _object_get_associative_reference(object, key);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;id&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;_object_get_associative_reference(id object, &lt;span class=&quot;type&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;void&lt;/span&gt; *key)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    ObjcAssociation association&amp;#123;&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        AssociationsManager manager; &lt;span class=&quot;comment&quot;&gt;//临时变量manager，里面有全局锁，相当于对代码块进行了加锁解锁，常见写法。&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        AssociationsHashMap &amp;amp;&lt;span class=&quot;title function_&quot;&gt;associations&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(manager.get())&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        AssociationsHashMap::iterator i = associations.find((objc_object *)object);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (i != associations.end()) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            ObjectAssociationMap &amp;amp;refs = i-&amp;gt;second;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            ObjectAssociationMap::iterator j = refs.find(key);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (j != refs.end()) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                association = j-&amp;gt;second;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                association.retainReturnedValue();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; association.autoreleaseReturnedValue();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;inline&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;title function_&quot;&gt;retainReturnedValue&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (_value &amp;amp;&amp;amp; (_policy &amp;amp; OBJC_ASSOCIATION_GETTER_RETAIN)) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        objc_retain(_value);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;inline&lt;/span&gt; id &lt;span class=&quot;title function_&quot;&gt;autoreleaseReturnedValue&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (slowpath(_value &amp;amp;&amp;amp; (_policy &amp;amp; OBJC_ASSOCIATION_GETTER_AUTORELEASE))) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; objc_autorelease(_value);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; _value;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;对于&lt;code&gt;ATOMIC&lt;/code&gt;调用getter方法时，获取到的是retain后注册到自动释放池里的对象：&lt;/p&gt;</summary>
     
-    </summary>
     
     
-      <category term="runtime" scheme="https://xq-120.github.io/categories/runtime/"/>
+    <category term="runtime" scheme="https://xq-120.github.io/categories/runtime/"/>
     
     
-      <category term="关联对象" scheme="https://xq-120.github.io/tags/%E5%85%B3%E8%81%94%E5%AF%B9%E8%B1%A1/"/>
+    <category term="关联对象" scheme="https://xq-120.github.io/tags/%E5%85%B3%E8%81%94%E5%AF%B9%E8%B1%A1/"/>
     
   </entry>
   
@@ -276,20 +292,17 @@
     <published>2021-08-01T11:30:13.075Z</published>
     <updated>2022-05-07T13:49:27.955Z</updated>
     
-    <summary type="html">
     
-      
-      
-        
-        
-          &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot;&gt;documentation&lt;/a&gt;
-        
-      
-    
-    </summary>
+    <summary type="html">&lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot;&gt;documentation&lt;/a&gt; for more info. If you get any problems when using Hexo, you can find the answer in &lt;a href=&quot;https://hexo.io/docs/troubleshooting.html&quot;&gt;troubleshooting&lt;/a&gt; or you can ask me on &lt;a href=&quot;https://github.com/hexojs/hexo/issues&quot;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&quot;Quick-Start&quot;&gt;&lt;a href=&quot;#Quick-Start&quot; class=&quot;headerlink&quot; title=&quot;Quick Start&quot;&gt;&lt;/a&gt;Quick Start&lt;/h2&gt;&lt;h3 id=&quot;Create-a-new-post&quot;&gt;&lt;a href=&quot;#Create-a-new-post&quot; class=&quot;headerlink&quot; title=&quot;Create a new post&quot;&gt;&lt;/a&gt;Create a new post&lt;/h3&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ hexo new &lt;span class=&quot;string&quot;&gt;&amp;quot;My New Post&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;More info: &lt;a href=&quot;https://hexo.io/docs/writing.html&quot;&gt;Writing&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&quot;Run-server&quot;&gt;&lt;a href=&quot;#Run-server&quot; class=&quot;headerlink&quot; title=&quot;Run server&quot;&gt;&lt;/a&gt;Run server&lt;/h3&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ hexo server&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;More info: &lt;a href=&quot;https://hexo.io/docs/server.html&quot;&gt;Server&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&quot;Generate-static-files&quot;&gt;&lt;a href=&quot;#Generate-static-files&quot; class=&quot;headerlink&quot; title=&quot;Generate static files&quot;&gt;&lt;/a&gt;Generate static files&lt;/h3&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ hexo generate&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</summary>
     
     
-      <category term="Hexo" scheme="https://xq-120.github.io/categories/Hexo/"/>
+    
+    <category term="Hexo" scheme="https://xq-120.github.io/categories/Hexo/"/>
     
     
   </entry>
@@ -301,20 +314,18 @@
     <published>2021-07-28T14:18:32.000Z</published>
     <updated>2022-05-08T08:50:09.644Z</updated>
     
-    <summary type="html">
     
       
       
         
         
-          &lt;p&gt;又是一个安静的晚上，我的MacBook
+    <summary type="html">&lt;p&gt;又是一个安静的晚上，我的MacBook</summary>
         
       
     
-    </summary>
     
     
-      <category term="Life" scheme="https://xq-120.github.io/categories/Life/"/>
+    <category term="Life" scheme="https://xq-120.github.io/categories/Life/"/>
     
     
   </entry>
@@ -326,25 +337,23 @@
     <published>2021-07-09T03:49:51.000Z</published>
     <updated>2021-08-01T11:30:13.075Z</updated>
     
-    <summary type="html">
     
       
       
         
         
-          &lt;p&gt;首先确保你登录的账号权限要能够修改证书。&lt;/p&gt;
+    <summary type="html">&lt;p&gt;首先确保你登录的账号权限要能够修改证书。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;导出p12文件&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;点“登陆—&amp;gt;我的证书”，选中刚安装的通用证书（不带development的是通用环境（开发，生产都可以用）），导出为p12，设置好密码，上传到个推网
+&lt;p&gt;点“登陆—&amp;gt;我的证书”，选中刚安装的通用证书（不带development的是通用环境（开发，生产都可以用）），导出为p12，设置好密码，上传到个推网</summary>
         
       
     
-    </summary>
     
     
-      <category term="iOS APP上架" scheme="https://xq-120.github.io/categories/iOS-APP%E4%B8%8A%E6%9E%B6/"/>
+    <category term="iOS APP上架" scheme="https://xq-120.github.io/categories/iOS-APP%E4%B8%8A%E6%9E%B6/"/>
     
     
-      <category term="推送证书更新" scheme="https://xq-120.github.io/tags/%E6%8E%A8%E9%80%81%E8%AF%81%E4%B9%A6%E6%9B%B4%E6%96%B0/"/>
+    <category term="推送证书更新" scheme="https://xq-120.github.io/tags/%E6%8E%A8%E9%80%81%E8%AF%81%E4%B9%A6%E6%9B%B4%E6%96%B0/"/>
     
   </entry>
   
@@ -355,24 +364,23 @@
     <published>2021-07-08T07:08:50.000Z</published>
     <updated>2021-09-25T10:18:38.353Z</updated>
     
-    <summary type="html">
     
-      
-      
-        
-        
-          &lt;p&gt;&lt;a href=&quot;https://github.com/ming1016/study/wiki&quot;&gt;ming1016-study&lt;/a&gt;  网友个人收集的比较全的iOS开发技术点&lt;/p&gt;
-&lt;p&gt;&lt;a
-        
-      
-    
-    </summary>
+    <summary type="html">&lt;p&gt;&lt;a href=&quot;https://github.com/ming1016/study/wiki&quot;&gt;ming1016-study&lt;/a&gt;  网友个人收集的比较全的iOS开发技术点&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/iOS-Mayday/heji&quot;&gt;Mayday-heji&lt;/a&gt;  iOS面试相关的，有加群卖广告嫌疑&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://xiaozhuanlan.com/&quot;&gt;小专栏&lt;/a&gt; 质量较高，不过大部分都要收费。&lt;/p&gt;
+&lt;h3 id=&quot;个人博客&quot;&gt;&lt;a href=&quot;#个人博客&quot; class=&quot;headerlink&quot; title=&quot;个人博客&quot;&gt;&lt;/a&gt;个人博客&lt;/h3&gt;&lt;p&gt;&lt;a href=&quot;http://oncenote.com/&quot;&gt;Jamin&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.desgard.com&quot;&gt;Gua&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://kingcos.me/&quot;&gt;kingcos&lt;/a&gt; &lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://tbfungeek.github.io&quot;&gt;Edgar&lt;/a&gt;  安卓iOS一系列文章&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://yulingtianxia.com/&quot;&gt;yulingtianxia’s blog&lt;/a&gt;  messageThrottle作者&lt;/p&gt;
+&lt;h3 id=&quot;公司博客&quot;&gt;&lt;a href=&quot;#公司博客&quot; class=&quot;headerlink&quot; title=&quot;公司博客&quot;&gt;&lt;/a&gt;公司博客&lt;/h3&gt;</summary>
     
     
-      <category term="博客收藏" scheme="https://xq-120.github.io/categories/%E5%8D%9A%E5%AE%A2%E6%94%B6%E8%97%8F/"/>
+    
+    <category term="博客收藏" scheme="https://xq-120.github.io/categories/%E5%8D%9A%E5%AE%A2%E6%94%B6%E8%97%8F/"/>
     
     
-      <category term="博客收藏" scheme="https://xq-120.github.io/tags/%E5%8D%9A%E5%AE%A2%E6%94%B6%E8%97%8F/"/>
+    <category term="博客收藏" scheme="https://xq-120.github.io/tags/%E5%8D%9A%E5%AE%A2%E6%94%B6%E8%97%8F/"/>
     
   </entry>
   
@@ -383,22 +391,21 @@
     <published>2021-04-20T14:26:46.000Z</published>
     <updated>2022-05-07T14:16:00.851Z</updated>
     
-    <summary type="html">
     
-      
-      
-        
-        
-          &lt;p&gt;为什么要让外接显示器达到4K@60Hz的刷新率？&lt;/p&gt;
+    <summary type="html">&lt;p&gt;为什么要让外接显示器达到4K@60Hz的刷新率？&lt;/p&gt;
 &lt;p&gt;因为4K@30Hz的刷新率鼠标移动时会有明显的延迟感。刷新率越高画面才能越丝滑。4K的显示屏至少需要60Hz的刷新率，当然如果支持144Hz的那更好。对于一般用户60Hz基本足够。&lt;/p&gt;
-&lt;p&gt;外接显示器达到
-        
-      
+&lt;p&gt;外接显示器达到4K@60Hz刷新率的条件&lt;/p&gt;
+&lt;p&gt;主机支持（主要是主机的显卡），显示器支持，线材支持。该条件符合木桶原理只要其中一个不满足就无法达到4K@60Hz的刷新率。为了到达这个目标需要我们对主机的端口，显示器参数，线材等有一个基本的了解。下面一个个介绍。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;主机支持&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;我的电脑是MacBook Pro 13寸 2014mid的。可以从苹果官网 &lt;a href=&quot;https://support.apple.com/kb/sp703?locale=zh_CN&quot;&gt;macbook pro 2014mid&lt;/a&gt; 查到这款电脑的参数说明，如下端口部分是我们重点关注的：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/1C147D43EA0F9787EC5FA06822136426.jpg&quot; style=&quot;zoom:50%;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;可以看到HDMI端口只能输出60Hz的1080p。而4K的只能到30Hz或24Hz。所以我们就不能使用该端口作为视频输出。相应的我们就不能买HDMI（主机）—HDMI（显示器）线或HDMI—DP线材。不管这根HDMI线支持的版本是多少都不能买。（ps:这里线材使用”主机端口—显示器端口“表示，下同）&lt;/p&gt;
+&lt;p&gt;而对于Thunderbolt2端口支持原生MiniDP输出，但没有写明能否支持到4K@60Hz。搞得我一度以为通过MiniDP—DP能达到4K@60Hz，然而换了几次线后发现还是不行，最后又搜索了好久的资料基本可以确定这款机器不管通过什么端口都不能达到4K@60Hz。所以如果技术规格里没写明的话基本上是支持不了的。&lt;/p&gt;
+&lt;p&gt;让我们看一下2015年中的15寸的mbp的技术规格：&lt;/p&gt;</summary>
     
-    </summary>
     
     
-      <category term="Life" scheme="https://xq-120.github.io/categories/Life/"/>
+    <category term="Life" scheme="https://xq-120.github.io/categories/Life/"/>
     
     
   </entry>
@@ -410,21 +417,25 @@
     <published>2021-04-17T08:45:15.000Z</published>
     <updated>2022-05-07T14:10:09.868Z</updated>
     
-    <summary type="html">
     
-      
-      
-        
-        
-          &lt;p&gt;最近在折腾外接显示器，一直达不到4k@60hz。然后稀里糊涂安装了SwitchResX。SwitchResX是干什么的这里就不多说了，本文主要讲一下怎么卸载。&lt;/p&gt;
-&lt;p&gt;在系统偏好设置中点击移除就完事了，但事实并没有这么简单。虽然卸载了但是打开显示器会发现显示器的名称中
-        
-      
+    <summary type="html">&lt;p&gt;最近在折腾外接显示器，一直达不到4k@60hz。然后稀里糊涂安装了SwitchResX。SwitchResX是干什么的这里就不多说了，本文主要讲一下怎么卸载。&lt;/p&gt;
+&lt;p&gt;在系统偏好设置中点击移除就完事了，但事实并没有这么简单。虽然卸载了但是打开显示器会发现显示器的名称中还是带有SwitchResX而不是默认的：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://upload-images.jianshu.io/upload_images/1503319-b237f40e28001761.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240&quot; alt=&quot;image.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;这说明SwitchResX虽然卸载了但是还残留了一些文件。那么如何恢复显示器的默认名称呢？这个问题实在是有点冷门，花了我好几个小时才搜到解决办法，主要是不知道该怎么搜问题的关键字。搜个卸载出来的都是让你安装清理软件APP的。&lt;/p&gt;
+&lt;p&gt;最终解决办法如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;确保已经退出SwitchResX，然后在系统偏好设置中点击移除删除APP包&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;/Library/Displays/Contents/Resources/Overrides&lt;/code&gt; 里的文件全部删掉&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;/Library/Colorsync/Profiles/Displays&lt;/code&gt; 删掉SwitchRes开头的&lt;/li&gt;
+&lt;li&gt;重启电脑&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;ps：连带的MonitorControl突然无法使用提示“未发现支持的显示器”的问题也解决了（一度以为是升级到Big Sur系统导致）。真正原因估计就是SwitchResX改了显示器的名称导致。&lt;/p&gt;
+&lt;p&gt;总结：&lt;br&gt;1.Mac中删除一个APP，系统只是删掉了这个应用，但是这个应用在使用的过程中产生的一些文件并不会被删除。&lt;br&gt;一个APP在使用过程中或多或少会产生一些文件比如缓存，但这些缓存一般对我们的使用不会产生影响顶多占用了一些磁盘空间，但有些APP会产生一些配置文件这就导致即使删除了这个APP，只要它的配置文件还在那么就会存在副作用。因此要想彻底卸载一个应用除了删掉这个应用还要把它使用过程中产生的文件也要删除掉才行。至于APP会在哪些目录产生哪些文件那就只能网上搜索了。&lt;br&gt;2.如果你想设置分辨率的话还不如用EasyRes，目前还没看到有啥问题。&lt;br&gt;3.英语好还是很有用的。在搜一些问题的时候直接上英文关键字比中文的好多了。用中文搜可能来来回回都是那几篇还是抄来抄去的。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;参考&lt;/strong&gt;&lt;br&gt;&lt;a href=&quot;https://discussions.apple.com/thread/7053660&quot;&gt;how reset my display profile it’s show “SwitchResX4 - Color LCD”&lt;/a&gt;&lt;br&gt;有一个人的回答：&lt;br&gt;&lt;/p&gt;&lt;figure class=&quot;highlight vbnet&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;It&lt;span class=&quot;comment&quot;&gt;&amp;#x27;s not a problem. SwitchResX is doing that on purpose, and for absolutely no good reason.&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;The app doesn&lt;span class=&quot;comment&quot;&gt;&amp;#x27;t do anything useful. Correctly and entirely delete SwitchResX according to the instructions &lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;on&lt;/span&gt; their site &lt;span class=&quot;built_in&quot;&gt;and&lt;/span&gt; your issue should be solved. Though after its removal, you&lt;span class=&quot;comment&quot;&gt;&amp;#x27;ll have to empty out the Displays &lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;profile folder again so the OS can pull another &lt;span class=&quot;built_in&quot;&gt;new&lt;/span&gt; copy &lt;span class=&quot;keyword&quot;&gt;of&lt;/span&gt; the &lt;span class=&quot;keyword&quot;&gt;default&lt;/span&gt; display profile that won&lt;span class=&quot;comment&quot;&gt;&amp;#x27;t be tagged &lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;with&lt;/span&gt; their application name.&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</summary>
     
-    </summary>
     
     
-      <category term="Life" scheme="https://xq-120.github.io/categories/Life/"/>
+    <category term="Life" scheme="https://xq-120.github.io/categories/Life/"/>
     
     
   </entry>
@@ -436,20 +447,21 @@
     <published>2021-04-07T15:13:04.000Z</published>
     <updated>2022-05-07T14:06:04.076Z</updated>
     
-    <summary type="html">
     
-      
-      
-        
-        
-          &lt;p&gt;最近给我的MacBook Pro外接了显示器和键盘，显示器是三星的 LU28R55
-        
-      
+    <summary type="html">&lt;p&gt;最近给我的MacBook Pro外接了显示器和键盘，显示器是三星的 LU28R55 ，键盘是惠普的。&lt;br&gt;但是发现外接显示器、键盘后有几个影响体验的问题：&lt;br&gt;1.外接的显示器是没有内置扬声器的需要额外接个音响才行，否则设置声音的输出为外接显示器也没用。&lt;br&gt;2.外接的显示器调节亮度和声音只能用显示器自带的按钮按，无法通过键盘控制。&lt;/p&gt;
+&lt;p&gt;于是Google了一下发现使用 MonitorControl + Karabiner 这两个软件可以达到外接键盘控制外接显示器的亮度和声音。&lt;br&gt;MonitorControl下载地址&lt;br&gt;&lt;a href=&quot;https://github.com/MonitorControl/MonitorControl/releases/tag/v2.1.0&quot;&gt;https://github.com/MonitorControl/MonitorControl/releases/tag/v2.1.0&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Karabiner下载地址&lt;br&gt;&lt;a href=&quot;https://github.com/pqrs-org/Karabiner-Elements/releases/tag/v13.4.0&quot;&gt;https://github.com/pqrs-org/Karabiner-Elements/releases/tag/v13.4.0&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;MonitorControl的作用是通过软件控制外接显示器的亮度和声音。&lt;/p&gt;
+&lt;p&gt;Karabiner的作用是按键映射。为什么需要这个APP呢？因为外接显示器后笔记本基本上是合盖使用的，自然就没法使用笔记本的键盘了，而我这里外接的键盘是惠普的键盘跟苹果的键盘是不一样的，所以需要映射一下。当然如果你的外接键盘是苹果的配件那使用MonitorControl就够了。&lt;/p&gt;
+&lt;p&gt;MonitorControl的安装很简单，这里主要说一下Karabiner，Karabiner安装后会多出两个APP：Karabiner-Elements 和 Karabiner-EventViewer。这里主要使用Karabiner-Elements，而Karabiner-EventViewer这里虽然使用不到但需要打开一下以允许一些权限。要不然仅使用Karabiner-Elements在Mac的一些系统上可能会出现即使设置了但却没效果的现象。&lt;br&gt;&lt;img src=&quot;https://upload-images.jianshu.io/upload_images/1503319-2105b2367d07d034.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240&quot; alt=&quot;image.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;Karabiner-Elements的设置也很简单，当然对于小白的我来说也是整了一会的主要是没注意到Karabiner-EventViewer还要打开一下这个坑。&lt;br&gt;Karabiner-Elements最好多设置几个profile，方便切换，用回笔记本自身的键盘时就切换为默认的。&lt;br&gt;profile：&lt;br&gt;&lt;img src=&quot;https://upload-images.jianshu.io/upload_images/1503319-1bd699b1c59b2857.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240&quot; alt=&quot;image.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;按键的映射：&lt;br&gt;&lt;img src=&quot;https://upload-images.jianshu.io/upload_images/1503319-7b901ef531d0eb63.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240&quot; alt=&quot;image.png&quot;&gt;&lt;br&gt;这样就可以通过非苹果外接键盘控制苹果电脑的扬声器了。&lt;/p&gt;
+&lt;p&gt;现在，你可以通过外接键盘控制声音和外接显示器的亮度了，是不是感觉体验度瞬间上升了好几楼了呢？&lt;/p&gt;
+&lt;p&gt;另外吐槽下三星的 LU28R55，这款显示器亮度设为0了后感觉还是挺亮的，真不知道当初设计的人是怎么想的就不能让它继续调低吗？在我看来完全是一个缺陷。&lt;/p&gt;</summary>
     
-    </summary>
     
     
-      <category term="Life" scheme="https://xq-120.github.io/categories/Life/"/>
+    <category term="Life" scheme="https://xq-120.github.io/categories/Life/"/>
     
     
   </entry>
@@ -461,20 +473,18 @@
     <published>2021-04-05T05:29:08.000Z</published>
     <updated>2022-05-07T13:57:57.407Z</updated>
     
-    <summary type="html">
     
       
       
         
         
-          &lt;p&gt;MacBook
+    <summary type="html">&lt;p&gt;MacBook</summary>
         
       
     
-    </summary>
     
     
-      <category term="Life" scheme="https://xq-120.github.io/categories/Life/"/>
+    <category term="Life" scheme="https://xq-120.github.io/categories/Life/"/>
     
     
   </entry>
@@ -486,25 +496,24 @@
     <published>2021-03-28T05:03:46.000Z</published>
     <updated>2021-08-01T11:30:13.075Z</updated>
     
-    <summary type="html">
     
-      
-      
-        
-        
-          &lt;p&gt;最近想学习一下mmap的使用，没想到一来就掉坑里了。&lt;/p&gt;
+    <summary type="html">&lt;p&gt;最近想学习一下mmap的使用，没想到一来就掉坑里了。&lt;/p&gt;
 &lt;p&gt;测试代码如下：&lt;/p&gt;
-&lt;figure class=&quot;highlight objc&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span
-        
-      
+&lt;figure class=&quot;highlight objc&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;29&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;30&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;31&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;32&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;33&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;34&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;- (&lt;span class=&quot;type&quot;&gt;void&lt;/span&gt;)test_mmap &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    __autoreleasing &lt;span class=&quot;built_in&quot;&gt;NSError&lt;/span&gt; *err = &lt;span class=&quot;literal&quot;&gt;nil&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;//    self.videoData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@&amp;quot;ddcada74ee08d06dda5cd13b4117ad30&amp;quot; ofType:@&amp;quot;mp4&amp;quot;] options:0 error:&amp;amp;er];&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;//    self.videoData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@&amp;quot;ddcada74ee08d06dda5cd13b4117ad30&amp;quot; ofType:@&amp;quot;mp4&amp;quot;] options:NSDataReadingUncached error:&amp;amp;er];&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt;.videoData = [&lt;span class=&quot;built_in&quot;&gt;NSData&lt;/span&gt; dataWithContentsOfFile:[[&lt;span class=&quot;built_in&quot;&gt;NSBundle&lt;/span&gt; mainBundle] pathForResource:&lt;span class=&quot;string&quot;&gt;@&amp;quot;ddcada74ee08d06dda5cd13b4117ad30&amp;quot;&lt;/span&gt; ofType:&lt;span class=&quot;string&quot;&gt;@&amp;quot;mp4&amp;quot;&lt;/span&gt;] options:&lt;span class=&quot;built_in&quot;&gt;NSDataReadingMappedIfSafe&lt;/span&gt; error:&amp;amp;err];  &lt;span class=&quot;comment&quot;&gt;//1&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (err != &lt;span class=&quot;literal&quot;&gt;nil&lt;/span&gt;) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;built_in&quot;&gt;NSLog&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;@&amp;quot;er:%@&amp;quot;&lt;/span&gt;, err);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125; &lt;span class=&quot;keyword&quot;&gt;else&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;built_in&quot;&gt;NSLog&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;@&amp;quot;videoData:%lu&amp;quot;&lt;/span&gt;, (&lt;span class=&quot;type&quot;&gt;unsigned&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;long&lt;/span&gt;)&lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt;.videoData.length);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;//    long bufferSize = 4096;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;type&quot;&gt;long&lt;/span&gt; bufferSize = &lt;span class=&quot;number&quot;&gt;1000000&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;//    long bufferSize = 1024 * 1024 - 30 * 1024;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;type&quot;&gt;unsigned&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;char&lt;/span&gt; buffer[bufferSize];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    [&lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt;.videoData getBytes:buffer range:&lt;span class=&quot;built_in&quot;&gt;NSMakeRange&lt;/span&gt;(&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;, bufferSize)]; &lt;span class=&quot;comment&quot;&gt;//2&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;NSData&lt;/span&gt; *someData = [[&lt;span class=&quot;built_in&quot;&gt;NSData&lt;/span&gt; alloc] initWithBytes:buffer length:bufferSize];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;NSLog&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;@&amp;quot;someData:%lu&amp;quot;&lt;/span&gt;, (&lt;span class=&quot;type&quot;&gt;unsigned&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;long&lt;/span&gt;)someData.length);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    [&lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt; saveDataToCaches:someData];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(&lt;span class=&quot;number&quot;&gt;5&lt;/span&gt; * &lt;span class=&quot;built_in&quot;&gt;NSEC_PER_SEC&lt;/span&gt;)), dispatch_get_main_queue(), ^&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt;.videoData = &lt;span class=&quot;literal&quot;&gt;nil&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;- (&lt;span class=&quot;type&quot;&gt;void&lt;/span&gt;)saveDataToCaches:(&lt;span class=&quot;built_in&quot;&gt;NSData&lt;/span&gt; *)data &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;NSString&lt;/span&gt; *cachespath = &lt;span class=&quot;built_in&quot;&gt;NSSearchPathForDirectoriesInDomains&lt;/span&gt;(&lt;span class=&quot;built_in&quot;&gt;NSCachesDirectory&lt;/span&gt;, &lt;span class=&quot;built_in&quot;&gt;NSUserDomainMask&lt;/span&gt;, &lt;span class=&quot;literal&quot;&gt;YES&lt;/span&gt;).lastObject;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;NSString&lt;/span&gt; *fileName = [&lt;span class=&quot;built_in&quot;&gt;NSString&lt;/span&gt; stringWithFormat:&lt;span class=&quot;string&quot;&gt;@&amp;quot;%@&amp;quot;&lt;/span&gt;, &lt;span class=&quot;built_in&quot;&gt;NSDate&lt;/span&gt;.date];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;NSString&lt;/span&gt; *filePath = [cachespath stringByAppendingPathComponent:fileName];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;NSError&lt;/span&gt; *err;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;type&quot;&gt;BOOL&lt;/span&gt; ret = [data writeToFile:filePath options:&lt;span class=&quot;built_in&quot;&gt;NSDataWritingAtomic&lt;/span&gt; error:&amp;amp;err];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (err) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;built_in&quot;&gt;NSLog&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;@&amp;quot;写入错误：%@&amp;quot;&lt;/span&gt;, err);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;NSLog&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;@&amp;quot;ret:%d&amp;quot;&lt;/span&gt;, ret);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;1处通过mmap的方式读取一个500多兆的视频数据，2处读取视频中某一段的数据。最开始的时候bufferSize设置的是4096，运行的时候一切正常。正常之后自然想改个其他的值试试，于是就设置bufferSize为视频大小，结果一运行就崩溃了很快啊，然后就是提示EXC_BAD_ACCESS。当时觉得很奇怪怎么会EXC_BAD_ACCESS呢？也没看到哪个地方有过度释放的对象啊。最后一点点修改bufferSize的大小，发现小于1000000代码就可以正常运行，而超过则会EXC_BAD_ACCESS。不过依然搞不懂为啥会这样。百思不得其解之后只能求助Google，不过也不知道怎么搜索关键字，一通搜索之后也没找到有用的东西，期间一度想放弃，不过还是坚持了下来。&lt;/p&gt;
+&lt;p&gt;直接上结论：上述崩溃的原因就是stack overflow了。&lt;/p&gt;
+&lt;p&gt;我们可以验证一下，打好断点后分别&lt;strong&gt;p &amp;amp;err&lt;/strong&gt;，&lt;strong&gt;p &amp;amp;cachespath&lt;/strong&gt;得到：&lt;/p&gt;
+&lt;figure class=&quot;highlight gcode&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;(lldb)&lt;/span&gt; p &amp;amp;err&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;(NSError **)&lt;/span&gt; $&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt; = &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;x&lt;span class=&quot;number&quot;&gt;000000016&lt;/span&gt;f&lt;span class=&quot;number&quot;&gt;5&lt;/span&gt;b&lt;span class=&quot;number&quot;&gt;97&lt;/span&gt;d&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;(lldb)&lt;/span&gt; p &amp;amp;cachespath&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;(NSString **)&lt;/span&gt; $&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt; = &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;x&lt;span class=&quot;number&quot;&gt;000000016&lt;/span&gt;f&lt;span class=&quot;number&quot;&gt;4&lt;/span&gt;c&lt;span class=&quot;number&quot;&gt;5470&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;$0 - $1 = 0xF4360 = 1000288 = 0.954M，基本上快占满整个栈空间了（这里有点马后炮了因为很多人可能都不知道主线程的栈空间有多大，甚至都没有栈溢出这个概念自然也不会往这个方面想了）。因此代码可能会崩溃在后面的任意一行代码，具体是哪一行视栈的剩余空间大小。比如有可能崩溃在&lt;/p&gt;
+&lt;figure class=&quot;highlight routeros&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;NSError &lt;span class=&quot;number&quot;&gt;*e&lt;/span&gt;rr;  Thread 1: EXC_BAD_ACCESS (&lt;span class=&quot;attribute&quot;&gt;code&lt;/span&gt;=2, &lt;span class=&quot;attribute&quot;&gt;address&lt;/span&gt;=0x16f4bfad0)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;也有可能会崩溃在：&lt;/p&gt;</summary>
     
-    </summary>
     
     
-      <category term="Bug" scheme="https://xq-120.github.io/categories/Bug/"/>
+    <category term="Bug" scheme="https://xq-120.github.io/categories/Bug/"/>
     
     
-      <category term="内存管理" scheme="https://xq-120.github.io/tags/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/"/>
+    <category term="内存管理" scheme="https://xq-120.github.io/tags/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/"/>
     
   </entry>
   
@@ -515,23 +524,23 @@
     <published>2020-09-16T02:25:52.000Z</published>
     <updated>2022-02-09T06:18:36.277Z</updated>
     
-    <summary type="html">
     
-      
-      
-        
-        
-          &lt;p&gt;源码版本：&lt;a
-        
-      
-    
-    </summary>
-    
-    
-      <category term="OC" scheme="https://xq-120.github.io/categories/OC/"/>
+    <summary type="html">&lt;p&gt;源码版本：&lt;a href=&quot;https://opensource.apple.com/tarballs/objc4/objc4-781.tar.gz&quot;&gt;objc4-781&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;我们都知道OC的内存管理是通过引用计数来管理的，对象刚创建时引用计数为1，retain后+1，release后-1，当引用计数减为0时就会被销毁。那么问题就来了，操作的这个引用计数值是保存在哪的？今天就来研究一下这个问题。&lt;/p&gt;
+&lt;p&gt;先说结论：早期OC对象的引用计数都是存储在引用计数表中的，但是后来Apple的工程师可能觉得每次都从表中查找修改效率有点低，于是做了一些优化，如果引用计数值较小时就保存在 &lt;code&gt;struct objc_object&lt;/code&gt; 的isa成员变量里，只有当isa里装不下时才存放到引用计数表里，这一点可以从isa的类型变迁看出。除此之外，苹果还引入了Tagged pointer对象，这种对象实际上已经没有在堆上分配内存了，它的值就保存在指针里，这样的对象由于并没有真正在堆上分配内存因此讨论它的引用计数也就没有什么意义了。&lt;/p&gt;
+&lt;p&gt;之前的文章 &lt;code&gt;runtime源码分析(一)--类型&lt;/code&gt; 里专门分析了 &lt;code&gt;struct objc_object&lt;/code&gt; ，&lt;code&gt;struct objc_class&lt;/code&gt;，&lt;code&gt;isa&lt;/code&gt; 类型的定义，这里不再赘述，仅做简单说明。&lt;/p&gt;
+&lt;h3 id=&quot;isa的定义&quot;&gt;&lt;a href=&quot;#isa的定义&quot; class=&quot;headerlink&quot; title=&quot;isa的定义&quot;&gt;&lt;/a&gt;isa的定义&lt;/h3&gt;&lt;p&gt;旧版本的定义：&lt;/p&gt;
+&lt;p&gt;isa是一个指针类型 &lt;code&gt;struct objc_class *&lt;/code&gt; 。&lt;/p&gt;
+&lt;figure class=&quot;highlight objc&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;/// An opaque type that represents an Objective-C class.&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;typedef&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;struct&lt;/span&gt; objc_class *Class; &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;/// Represents an instance of a class.&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;struct&lt;/span&gt; objc_object &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    Class _Nonnull isa  OBJC_ISA_AVAILABILITY;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;struct&lt;/span&gt; objc_class &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    Class _Nonnull isa  OBJC_ISA_AVAILABILITY; &lt;span class=&quot;comment&quot;&gt;//旧版本isa为一个指针指向objc_class结构体&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;#&lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; !__OBJC2__&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    Class _Nullable super_class                              OBJC2_UNAVAILABLE;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;char&lt;/span&gt; * _Nonnull name                               OBJC2_UNAVAILABLE;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;type&quot;&gt;long&lt;/span&gt; version                                             OBJC2_UNAVAILABLE;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;type&quot;&gt;long&lt;/span&gt; info                                                OBJC2_UNAVAILABLE;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;type&quot;&gt;long&lt;/span&gt; instance_size                                       OBJC2_UNAVAILABLE;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;struct&lt;/span&gt; objc_ivar_list * _Nullable ivars                  OBJC2_UNAVAILABLE;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;struct&lt;/span&gt; objc_method_list * _Nullable * _Nullable methodLists                    OBJC2_UNAVAILABLE;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;struct&lt;/span&gt; objc_cache * _Nonnull cache                       OBJC2_UNAVAILABLE;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;struct&lt;/span&gt; objc_protocol_list * _Nullable protocols          OBJC2_UNAVAILABLE;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;#&lt;span class=&quot;keyword&quot;&gt;endif&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125; OBJC2_UNAVAILABLE;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;/* Use `Class` instead of `struct objc_class *` */&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;新版本oc 2.0定义：&lt;/p&gt;
+&lt;p&gt;isa是一个联合类型 &lt;code&gt;union isa_t&lt;/code&gt; 。&lt;/p&gt;</summary>
     
     
-      <category term="内存管理" scheme="https://xq-120.github.io/tags/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/"/>
+    
+    <category term="OC" scheme="https://xq-120.github.io/categories/OC/"/>
+    
+    
+    <category term="内存管理" scheme="https://xq-120.github.io/tags/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/"/>
     
   </entry>
   
@@ -542,24 +551,23 @@
     <published>2020-07-03T01:57:17.000Z</published>
     <updated>2021-08-01T11:30:13.075Z</updated>
     
-    <summary type="html">
     
-      
-      
-        
-        
-          &lt;p&gt;这里不谈宏的使用。只是突然想知道定义一个宏之后，这个宏的作用域有多大。&lt;/p&gt;
-&lt;h3 id=&quot;宏定义作用域&quot;&gt;&lt;a href=&quot;#宏定义作用域&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
+    <summary type="html">&lt;p&gt;这里不谈宏的使用。只是突然想知道定义一个宏之后，这个宏的作用域有多大。&lt;/p&gt;
+&lt;h3 id=&quot;宏定义作用域&quot;&gt;&lt;a href=&quot;#宏定义作用域&quot; class=&quot;headerlink&quot; title=&quot;宏定义作用域&quot;&gt;&lt;/a&gt;宏定义作用域&lt;/h3&gt;&lt;p&gt;C语言标准中宏定义的作用域是：如果是在块作用域内，则从定义位置开始，到块作用域结束，否则到其当前文件结尾，其他文件如果没有通过#include包含这个文件，则使用该宏是无效的。&lt;/p&gt;
+&lt;p&gt;比如我在a.m里面定义了一个宏&lt;code&gt;#define kCondTrue 1&lt;/code&gt;，在b.m里面有如下代码：&lt;/p&gt;
+&lt;figure class=&quot;highlight objectivec&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;- (&lt;span class=&quot;type&quot;&gt;void&lt;/span&gt;)btnDidClicked:(&lt;span class=&quot;built_in&quot;&gt;UIButton&lt;/span&gt; *)sender &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;NSLog&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;@&amp;quot;btnDidClicked&amp;quot;&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;meta&quot;&gt;#&lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; kCondTrue			&lt;span class=&quot;comment&quot;&gt;//不会有编译错误&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;built_in&quot;&gt;NSLog&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;@&amp;quot;111&amp;quot;&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;meta&quot;&gt;#&lt;span class=&quot;keyword&quot;&gt;endif&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;由于kCondTrue宏对b.m是不可见的，所以这里不会打印111。&lt;/p&gt;
+&lt;p&gt;通常编译器会有一些预定义宏，预定义的宏大多会遵守命名规则：&lt;code&gt;__xxx_yyy__&lt;/code&gt;，以双下划线开始和结束。比如&lt;code&gt;__OBJC2__&lt;/code&gt;就是一个预定义的宏。&lt;/p&gt;
+&lt;p&gt;宏定义很强大，组合起来可以实现一个很复杂的功能。but 这样的宏可读性是很差的，你可以想象一下一个由十几个宏共同组合完成的宏有多么可怕，OC开源源码里面原子操作相关的宏是真滴恐怖。感觉如果一个宏过于复杂最好还是用方法代替。&lt;/p&gt;
+&lt;p&gt;完了。&lt;/p&gt;
+&lt;h3 id=&quot;参考&quot;&gt;&lt;a href=&quot;#参考&quot; class=&quot;headerlink&quot; title=&quot;参考&quot;&gt;&lt;/a&gt;参考&lt;/h3&gt;</summary>
     
     
-      <category term="OC" scheme="https://xq-120.github.io/categories/OC/"/>
+    
+    <category term="OC" scheme="https://xq-120.github.io/categories/OC/"/>
     
     
-      <category term="预处理命令" scheme="https://xq-120.github.io/tags/%E9%A2%84%E5%A4%84%E7%90%86%E5%91%BD%E4%BB%A4/"/>
+    <category term="预处理命令" scheme="https://xq-120.github.io/tags/%E9%A2%84%E5%A4%84%E7%90%86%E5%91%BD%E4%BB%A4/"/>
     
   </entry>
   

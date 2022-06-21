@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.4.0">
+<meta name="generator" content="Hexo 6.2.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -256,7 +256,7 @@
 <p>至此，部署后就可以看到每篇文章下面都会有版权信息了。但是有一些文章我们不想添加版权信息，那么还需要接着设置：</p>
 <p>2、打开文件 <code>themes/next/layout/_macro/post.swig</code> ：</p>
 <p>找到creative_commons那一行改为：</p>
-<figure class="highlight handlebars"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml">&#123;%- if theme.creative_commons.license and theme.creative_commons.post and page.copyright %&#125;</span></span><br><span class="line"><span class="xml">  </span><span class="template-variable">&#123;&#123; <span class="name"><span class="builtin-name">partial</span></span>(<span class="name">&#x27;_partials/post/post-copyright.swig&#x27;</span>) &#125;&#125;</span><span class="xml"></span></span><br><span class="line"><span class="xml">&#123;%- endif %&#125;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight handlebars"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="language-xml">&#123;%- if theme.creative_commons.license and theme.creative_commons.post and page.copyright %&#125;</span></span><br><span class="line"><span class="language-xml">  </span><span class="template-variable">&#123;&#123; <span class="name"><span class="built_in">partial</span></span>(<span class="name">&#x27;_partials/post/post-copyright.swig&#x27;</span>) &#125;&#125;</span><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">&#123;%- endif %&#125;</span></span><br></pre></td></tr></table></figure>
 <p>就是添加了 page.copyright ，这样就可以单独控制某篇文章是否添加版权信息了。</p>
 <p>在文章开头的头部添加 <code>copyright: true</code> 表示当前文章要添加版权信息，false表示不需要。</p>
 <p>可以修改模板文件，这样默认就有 <code>copyright: true</code></p>
@@ -450,7 +450,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">jekyttt</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.4.0
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v6.2.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2

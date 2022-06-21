@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.4.0">
+<meta name="generator" content="Hexo 6.2.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -261,7 +261,7 @@
       
         <h4 id="NSData与它的属性bytes"><a href="#NSData与它的属性bytes" class="headerlink" title="NSData与它的属性bytes"></a>NSData与它的属性bytes</h4><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSString</span>* enString= <span class="string">@&quot;abc&quot;</span>;</span><br><span class="line"><span class="built_in">NSData</span>* utf8EnData = [enString dataUsingEncoding:<span class="built_in">NSUTF8StringEncoding</span>];</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>bytes属性:</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> The -bytes method returns a pointer to a contiguous region of memory managed by the receiver.</span></span><br><span class="line"><span class="comment"> If the regions of memory represented by the receiver are already contiguous, it does so in O(1) time, otherwise it may take longer</span></span><br><span class="line"><span class="comment"> Using -enumerateByteRangesUsingBlock: will be efficient for both contiguous and discontiguous data.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">readonly</span>) <span class="keyword">const</span> <span class="keyword">void</span> *bytes <span class="built_in">NS_RETURNS_INNER_POINTER</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> The -bytes method returns a pointer to a contiguous region of memory managed by the receiver.</span></span><br><span class="line"><span class="comment"> If the regions of memory represented by the receiver are already contiguous, it does so in O(1) time, otherwise it may take longer</span></span><br><span class="line"><span class="comment"> Using -enumerateByteRangesUsingBlock: will be efficient for both contiguous and discontiguous data.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">readonly</span>) <span class="keyword">const</span> <span class="type">void</span> *bytes <span class="built_in">NS_RETURNS_INNER_POINTER</span>;</span><br></pre></td></tr></table></figure>
 <p>bytes属性指向的是NSData对象装载的内容.NSData装载的二进制内容在内存中的分布可能是连续的一片,也可能是不连续的.使用<code>- (void) enumerateByteRangesUsingBlock:(void (NS_NOESCAPE ^)(const void *bytes, NSRange byteRange, BOOL *stop))block</code>遍历所有的分布区域.</p>
 <p>NSData对象本身的地址与装载的二进制内容的地址,如下图:<br><img src="http://7xqoji.com1.z0.glb.clouddn.com/NSData%E4%B8%8Ebytes%E5%B1%9E%E6%80%A7%E7%9A%84%E5%85%B3%E7%B3%BB@2x.png" alt=""><br>可以看到NSData对象本身的地址与二进制内容所在的地址是不同的.二者内存位置相距还挺远的.</p>
 <p>查看NSData对象装载的二进制内容方法:<br><img src="http://7xqoji.com1.z0.glb.clouddn.com/%E6%9F%A5%E7%9C%8BNSData%E7%9A%84%E5%86%85%E5%AD%98%E6%95%B0%E6%8D%AE%E6%96%B9%E6%B3%95@2x.png" alt=""></p>
@@ -440,7 +440,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">jekyttt</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.4.0
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v6.2.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2

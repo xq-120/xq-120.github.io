@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.4.0">
+<meta name="generator" content="Hexo 6.2.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -248,7 +248,7 @@
       
         <h3 id="map和flapMap的一点区别"><a href="#map和flapMap的一点区别" class="headerlink" title="map和flapMap的一点区别"></a>map和flapMap的一点区别</h3><p>map的声明:<br><code>public func map&lt;T&gt;(_ transform: (Element) throws -&gt; T) rethrows -&gt; [T]</code><br>它返回的是一个数组.闭包的返回值是一个新数组的元素.<br>如果闭包返回的是一个optional类型元素则map返回的也将是一个[optional(T)]数组.</p>
 <p>flapMap的声明:<br>头文件里只看到这一个</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@available</span>(<span class="keyword">swift</span>, deprecated: <span class="number">4.1</span>, renamed: <span class="string">&quot;compactMap(_:)&quot;</span>, message: <span class="string">&quot;Please use compactMap(_:) for the case where closure returns an optional value&quot;</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">flatMap</span>(<span class="keyword">_</span> <span class="params">transform</span>: (<span class="type">Element</span>) <span class="keyword">throws</span> -&gt; <span class="type">String</span>?)</span> <span class="keyword">rethrows</span> -&gt; [<span class="type">String</span>]</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@available</span>(<span class="keyword">swift</span>, deprecated: <span class="number">4.1</span>, renamed: <span class="string">&quot;compactMap(_:)&quot;</span>, message: <span class="string">&quot;Please use compactMap(_:) for the case where closure returns an optional value&quot;</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">func</span> <span class="title function_">flatMap</span>(<span class="keyword">_</span> <span class="params">transform</span>: (<span class="type">Element</span>) <span class="keyword">throws</span> -&gt; <span class="type">String</span>?) <span class="keyword">rethrows</span> -&gt; [<span class="type">String</span>]</span><br></pre></td></tr></table></figure>
 <p>提示器会有三个:<br><img src="http://7xqoji.com1.z0.glb.clouddn.com/flapMap%E5%A3%B0%E6%98%8E@2x.png" alt="flapMap声明"><br>虽然下面两种已经被废弃,但现在还能使用.<br>它返回的是一个数组.闭包的返回值可以是一个序列也可以是一个新数组的元素.</p>
 <p>区别:  </p>
 <ol>
@@ -428,7 +428,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">jekyttt</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.4.0
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v6.2.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2

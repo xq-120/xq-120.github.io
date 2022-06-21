@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.4.0">
+<meta name="generator" content="Hexo 6.2.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -262,7 +262,7 @@
 <ol>
 <li>设置<code>tap.cancelsTouchesInView = NO;</code>让touch事件继续进行,从而让view可以继续处理.</li>
 <li><p>实现<code>UIGestureRecognizerDelegate</code>的代理方法</p>
- <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">BOOL</span>)gestureRecognizer:(<span class="built_in">UIGestureRecognizer</span> *)gestureRecognizer shouldReceiveTouch:(<span class="built_in">UITouch</span> *)touch &#123;</span><br><span class="line">    <span class="keyword">if</span> ([touch.view isKindOfClass:<span class="built_in">NSClassFromString</span>(<span class="string">@&quot;UITableViewCellContentView&quot;</span>)]) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NO</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+ <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">BOOL</span>)gestureRecognizer:(<span class="built_in">UIGestureRecognizer</span> *)gestureRecognizer shouldReceiveTouch:(<span class="built_in">UITouch</span> *)touch &#123;</span><br><span class="line">    <span class="keyword">if</span> ([touch.view isKindOfClass:<span class="built_in">NSClassFromString</span>(<span class="string">@&quot;UITableViewCellContentView&quot;</span>)]) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NO</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p> 当点击到cell.contentView上时,让tap手势不处理touches.</p>
 </li>
 </ol>
@@ -362,7 +362,7 @@
 <figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(lldb) po <span class="variable">$arg1</span></span><br><span class="line">(lldb) po <span class="selector-attr">[$arg1 name]</span></span><br><span class="line">(lldb) po <span class="selector-attr">[$arg1 reason]</span></span><br></pre></td></tr></table></figure>
 <p>Make sure to select the objc_exception_throw frame in the call stack before executing these commands. See the “Advanced Debugging and the Address Sanitizer” in the WWDC15 session videos to see this performed on stage.</p>
 <p>On the iPhone Simulator, all function arguments are passed on the stack, so the syntax is considerably more horrible. The shortest expression I could construct that gets to it is <code>*(id *)($ebp + 8)</code>. To make things less painful, I suggest using a convenience variable:</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(gdb) <span class="builtin-name">set</span> <span class="variable">$exception</span> = *(id *)(<span class="variable">$ebp</span> + 8)</span><br><span class="line">(gdb) po <span class="variable">$exception</span></span><br><span class="line">(gdb) po [<span class="variable">$exception</span> name]</span><br><span class="line">(gdb) po [<span class="variable">$exception</span> reason]</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(gdb) <span class="built_in">set</span> <span class="variable">$exception</span> = *(<span class="built_in">id</span> *)(<span class="variable">$ebp</span> + 8)</span><br><span class="line">(gdb) po <span class="variable">$exception</span></span><br><span class="line">(gdb) po [<span class="variable">$exception</span> name]</span><br><span class="line">(gdb) po [<span class="variable">$exception</span> reason]</span><br></pre></td></tr></table></figure>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2017/10/13/CUICatalog-Invalid%20asset%20name%20supplied/#more" rel="contents">
@@ -553,9 +553,9 @@
       
           <h2 id="mac-OS配置JAVA环境"><a href="#mac-OS配置JAVA环境" class="headerlink" title="mac OS配置JAVA环境"></a>mac OS配置JAVA环境</h2><ul>
 <li><p>下载安装最新版的JDK安装包:<a target="_blank" rel="noopener" href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html</a>,安装完成后查看下Java的版本后面配置要用到:<code>java -version</code></p>
-  <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">admindeMacBook</span>-Pro:未命名文件夹 admin$ java -version</span><br><span class="line"><span class="attribute">java</span> version <span class="string">&quot;1.8.0_144&quot;</span></span><br><span class="line"><span class="attribute">Java</span>(TM) SE Runtime Environment (build <span class="number">1</span>.<span class="number">8</span>.<span class="number">0</span>_<span class="number">144</span>-b<span class="number">01</span>)</span><br><span class="line"><span class="attribute">Java</span> HotSpot(TM) <span class="number">64</span>-Bit Server VM (build <span class="number">25</span>.<span class="number">144</span>-b<span class="number">01</span>, mixed mode)</span><br></pre></td></tr></table></figure></li>
+  <figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">admindeMacBook-Pro:未命名文件夹 admin$ <span class="keyword">java </span>-version</span><br><span class="line"><span class="keyword">java </span>version <span class="string">&quot;1.8.0_144&quot;</span></span><br><span class="line"><span class="keyword">Java(TM) </span>SE Runtime Environment (<span class="keyword">build </span><span class="number">1</span>.<span class="number">8</span>.<span class="number">0</span>_144-<span class="keyword">b01)</span></span><br><span class="line"><span class="keyword"></span><span class="keyword">Java </span>HotSpot(TM) <span class="number">64</span>-<span class="keyword">Bit </span>Server VM (<span class="keyword">build </span><span class="number">25</span>.<span class="number">144</span>-<span class="keyword">b01, </span>mixed mode)</span><br></pre></td></tr></table></figure></li>
 <li><p>配置环境变量：在命令行中打开<code>sudo vim ~/.bash_profile</code>，在文件后面加入下面内容：</p>
-  <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="builtin-name">export</span> <span class="attribute">JAVA_HOME</span>=<span class="string">&quot;/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home&quot;</span> </span><br><span class="line"><span class="builtin-name">export</span> <span class="attribute">PATH</span>=<span class="string">&quot;<span class="variable">$JAVA_HOME</span>/bin:<span class="variable">$PATH</span>&quot;</span> </span><br><span class="line"><span class="builtin-name">export</span> <span class="attribute">CLASSPATH</span>=<span class="string">&quot;.:<span class="variable">$JAVA_HOME</span>/lib/dt.jar:<span class="variable">$JAVA_HOME</span>/lib/tools.jar&quot;</span></span><br></pre></td></tr></table></figure>
+  <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> <span class="attribute">JAVA_HOME</span>=<span class="string">&quot;/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home&quot;</span> </span><br><span class="line"><span class="built_in">export</span> <span class="attribute">PATH</span>=<span class="string">&quot;<span class="variable">$JAVA_HOME</span>/bin:<span class="variable">$PATH</span>&quot;</span> </span><br><span class="line"><span class="built_in">export</span> <span class="attribute">CLASSPATH</span>=<span class="string">&quot;.:<span class="variable">$JAVA_HOME</span>/lib/dt.jar:<span class="variable">$JAVA_HOME</span>/lib/tools.jar&quot;</span></span><br></pre></td></tr></table></figure>
 <p>  note:<code>/jdk1.8.0_144.jdk</code>里面的版本字符串需要替换为上面提到的版本字符串.<br>  完成后保存,并使用<code>source ~/.bash_profile</code>应用该变更。</p>
 </li>
 </ul>
@@ -734,102 +734,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="Swift对象拷贝"><a href="#Swift对象拷贝" class="headerlink" title="Swift对象拷贝"></a>Swift对象拷贝</h2><h3 id="方法一-实现NSCopying协议"><a href="#方法一-实现NSCopying协议" class="headerlink" title="方法一:实现NSCopying协议"></a>方法一:实现NSCopying协议</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Resume</span>: <span class="title">NSObject</span>, <span class="title">NSCopying</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String</span></span><br><span class="line">    <span class="keyword">var</span> sex: <span class="type">String</span>?</span><br><span class="line">    <span class="keyword">var</span> age: <span class="type">String</span>?</span><br><span class="line">    <span class="keyword">var</span> timeArea: <span class="type">String</span>?</span><br><span class="line">    <span class="keyword">var</span> company: <span class="type">String</span>?</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//必须要有一个required的初始化方法</span></span><br><span class="line">    <span class="keyword">required</span> <span class="function"><span class="keyword">init</span>(<span class="params">name</span>: <span class="type">String</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.name <span class="operator">=</span> name</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">copy</span>(<span class="params">with</span> <span class="params">zone</span>: <span class="type">NSZone</span>? <span class="operator">=</span> <span class="literal">nil</span>)</span> -&gt; <span class="keyword">Any</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> obj <span class="operator">=</span> <span class="built_in">type</span>(of: <span class="keyword">self</span>).<span class="keyword">init</span>(name: name)</span><br><span class="line">        obj.sex <span class="operator">=</span> sex</span><br><span class="line">        obj.age <span class="operator">=</span> age</span><br><span class="line">        obj.timeArea <span class="operator">=</span> timeArea</span><br><span class="line">        obj.company <span class="operator">=</span> company</span><br><span class="line">        <span class="keyword">return</span> obj</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <h2 id="Swift对象拷贝"><a href="#Swift对象拷贝" class="headerlink" title="Swift对象拷贝"></a>Swift对象拷贝</h2><h3 id="方法一-实现NSCopying协议"><a href="#方法一-实现NSCopying协议" class="headerlink" title="方法一:实现NSCopying协议"></a>方法一:实现NSCopying协议</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Resume</span>: <span class="title class_">NSObject</span>, <span class="title class_">NSCopying</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String</span></span><br><span class="line">    <span class="keyword">var</span> sex: <span class="type">String</span>?</span><br><span class="line">    <span class="keyword">var</span> age: <span class="type">String</span>?</span><br><span class="line">    <span class="keyword">var</span> timeArea: <span class="type">String</span>?</span><br><span class="line">    <span class="keyword">var</span> company: <span class="type">String</span>?</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//必须要有一个required的初始化方法</span></span><br><span class="line">    <span class="keyword">required</span> <span class="keyword">init</span>(<span class="params">name</span>: <span class="type">String</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.name <span class="operator">=</span> name</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">copy</span>(<span class="params">with</span> <span class="params">zone</span>: <span class="type">NSZone</span>? <span class="operator">=</span> <span class="literal">nil</span>) -&gt; <span class="keyword">Any</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> obj <span class="operator">=</span> <span class="built_in">type</span>(of: <span class="keyword">self</span>).<span class="keyword">init</span>(name: name)</span><br><span class="line">        obj.sex <span class="operator">=</span> sex</span><br><span class="line">        obj.age <span class="operator">=</span> age</span><br><span class="line">        obj.timeArea <span class="operator">=</span> timeArea</span><br><span class="line">        obj.company <span class="operator">=</span> company</span><br><span class="line">        <span class="keyword">return</span> obj</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>使用:<br><code>let ben = Resume.init(name: &quot;本初&quot;)</code><br><code>var shu = ben.copy() as! Resume</code></p>
-<h3 id="方法二-实现自定义拷贝协议"><a href="#方法二-实现自定义拷贝协议" class="headerlink" title="方法二:实现自定义拷贝协议"></a>方法二:实现自定义拷贝协议</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">Copyable</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">copied</span>()</span> -&gt; <span class="keyword">Self</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Book</span>: <span class="title">Copyable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String</span></span><br><span class="line">    <span class="keyword">var</span> author: <span class="type">String</span>?</span><br><span class="line">    <span class="keyword">var</span> publish: <span class="type">String</span>?</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//必须要有一个required的初始化方法</span></span><br><span class="line">    <span class="keyword">required</span> <span class="function"><span class="keyword">init</span>(<span class="params">name</span>: <span class="type">String</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.name <span class="operator">=</span> name</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">copied</span>()</span> -&gt; <span class="keyword">Self</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> obj <span class="operator">=</span> <span class="built_in">type</span>(of: <span class="keyword">self</span>).<span class="keyword">init</span>(name: name)</span><br><span class="line">        obj.name <span class="operator">=</span> name</span><br><span class="line">        obj.author <span class="operator">=</span> author</span><br><span class="line">        obj.publish <span class="operator">=</span> publish</span><br><span class="line">        <span class="keyword">return</span> obj</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="方法二-实现自定义拷贝协议"><a href="#方法二-实现自定义拷贝协议" class="headerlink" title="方法二:实现自定义拷贝协议"></a>方法二:实现自定义拷贝协议</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protocol</span> <span class="title class_">Copyable</span> &#123;</span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">copied</span>() -&gt; <span class="keyword">Self</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Book</span>: <span class="title class_">Copyable</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String</span></span><br><span class="line">    <span class="keyword">var</span> author: <span class="type">String</span>?</span><br><span class="line">    <span class="keyword">var</span> publish: <span class="type">String</span>?</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//必须要有一个required的初始化方法</span></span><br><span class="line">    <span class="keyword">required</span> <span class="keyword">init</span>(<span class="params">name</span>: <span class="type">String</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.name <span class="operator">=</span> name</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">copied</span>() -&gt; <span class="keyword">Self</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> obj <span class="operator">=</span> <span class="built_in">type</span>(of: <span class="keyword">self</span>).<span class="keyword">init</span>(name: name)</span><br><span class="line">        obj.name <span class="operator">=</span> name</span><br><span class="line">        obj.author <span class="operator">=</span> author</span><br><span class="line">        obj.publish <span class="operator">=</span> publish</span><br><span class="line">        <span class="keyword">return</span> obj</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>使用:<br><code>let sanguo = Book.init(name: &quot;three of kingdom&quot;)</code><br><code>let book = sanguo.copied()</code>  </p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2017/09/15/Swift%E5%AE%9E%E7%8E%B0removeObject/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而奋斗">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/09/15/Swift%E5%AE%9E%E7%8E%B0removeObject/" class="post-title-link" itemprop="url">Swift实现removeObject</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2017-09-15 10:12:24" itemprop="dateCreated datePublished" datetime="2017-09-15T10:12:24+08:00">2017-09-15</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2017/09/15/Swift%E5%AE%9E%E7%8E%B0removeObject/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/09/15/Swift实现removeObject/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="Swift实现removeObject"><a href="#Swift实现removeObject" class="headerlink" title="Swift实现removeObject"></a>Swift实现removeObject</h2><p>如果类没有继承自NSObject,那么类必须要实现<code>Equatable</code>协议.否则不需要.</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Observer</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String</span>!</span><br><span class="line">    <span class="keyword">var</span> subject: <span class="type">Subject</span>!</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">observer</span>(<span class="params">name</span>: <span class="type">String</span>, <span class="params">subject</span>: <span class="type">Subject</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.name <span class="operator">=</span> name</span><br><span class="line">        <span class="keyword">self</span>.subject <span class="operator">=</span> subject</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">update</span>()</span> &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">Observer</span>: <span class="title">Equatable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="function"><span class="keyword">func</span> <span class="title">==</span>(<span class="params">lhs</span>: <span class="type">Observer</span>, <span class="params">rhs</span>: <span class="type">Observer</span>)</span> -&gt; <span class="type">Bool</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> lhs <span class="operator">===</span> rhs &#123; <span class="comment">//地址相等. ps:&quot;==&quot;值相等.</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>然后在通过扩展给Array增加一个<code>removeObject(object: Element)</code>方法:</p>
-<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extension</span> <span class="keyword">Array</span> <span class="keyword">where</span> Element: Equatable &#123;</span><br><span class="line">    mutating func removeObject(<span class="keyword">object</span>: Element) &#123;</span><br><span class="line">        <span class="keyword">if</span> let <span class="keyword">index</span> = <span class="keyword">index</span>(<span class="keyword">of</span>: <span class="keyword">object</span>) &#123;</span><br><span class="line">            remove(at: <span class="keyword">index</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>由于Array是结构体类型,而removeObject函数会改变结构体的值,所以该函数需要添加mutating关键字.“Notice the use of the mutating keyword in the declaration of SimpleStructure to mark a method that modifies the structure. The declaration of SimpleClass doesn’t need any of its methods marked as mutating because methods on a class can always modify the class.”</p>
 
       
     </div>
@@ -918,7 +826,7 @@
 
       
           <p>Swift里addTarget函数里的Selector参数和OC的不太一样.<br><code>open func addTarget(_ target: Any?, action: Selector, for controlEvents: UIControlEvents)</code><br>根据Selector的定义</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">struct</span> <span class="title">Selector</span> : <span class="title">ExpressibleByStringLiteral</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// Create a selector from a string.</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">init</span>(<span class="keyword">_</span> <span class="params">str</span>: <span class="type">String</span>)</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/// Create an instance initialized to `value`.</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">init</span>(<span class="params">unicodeScalarLiteral</span> <span class="params">value</span>: <span class="type">String</span>)</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/// Construct a selector from `value`.</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">init</span>(<span class="params">extendedGraphemeClusterLiteral</span> <span class="params">value</span>: <span class="type">String</span>)</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/// Create an instance initialized to `value`.</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">init</span>(<span class="params">stringLiteral</span> <span class="params">value</span>: <span class="type">String</span>)</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">struct</span> <span class="title class_">Selector</span> : <span class="title class_">ExpressibleByStringLiteral</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// Create a selector from a string.</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">init</span>(<span class="keyword">_</span> <span class="params">str</span>: <span class="type">String</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// Create an instance initialized to `value`.</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">init</span>(<span class="params">unicodeScalarLiteral</span> <span class="params">value</span>: <span class="type">String</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// Construct a selector from `value`.</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">init</span>(<span class="params">extendedGraphemeClusterLiteral</span> <span class="params">value</span>: <span class="type">String</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// Create an instance initialized to `value`.</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">init</span>(<span class="params">stringLiteral</span> <span class="params">value</span>: <span class="type">String</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>它是一个结构体,并遵守<code>ExpressibleByStringLiteral</code>协议,因此可以直接传递一个字面值字符串.<br>不过这个字符串需要遵循一定的规则:</p>
 <ol>
 <li>如果函数没有参数,则字符串的格式为”函数名”.</li>
@@ -929,14 +837,106 @@
 <ol>
 <li>没有参数<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">func numberSliderChanged<span class="function"><span class="params">()</span> -&gt;</span> Void &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 对应写法:<code>numberSlider.addTarget(self, action: &quot;numberSliderChanged&quot;, for: .valueChanged)</code></li>
-<li>省略参数标签<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">numberSliderChanged</span>(<span class="keyword">_</span> <span class="params">sender</span>: <span class="type">UISlider</span>)</span> -&gt; <span class="type">Void</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;---&quot;</span>, sender.value)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<li>省略参数标签<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">numberSliderChanged</span>(<span class="keyword">_</span> <span class="params">sender</span>: <span class="type">UISlider</span>) -&gt; <span class="type">Void</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;---&quot;</span>, sender.value)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 对应写法:<code>numberSlider.addTarget(self, action: &quot;numberSliderChanged:&quot;, for: .valueChanged)</code></li>
-<li>写明了参数标签slider.<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">numberSliderChanged</span>(<span class="params">slider</span> <span class="params">sender</span>: <span class="type">UISlider</span>)</span> -&gt; <span class="type">Void</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(sender.value)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<li>写明了参数标签slider.<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">numberSliderChanged</span>(<span class="params">slider</span> <span class="params">sender</span>: <span class="type">UISlider</span>) -&gt; <span class="type">Void</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(sender.value)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 对应写法:<code>numberSlider.addTarget(self, action: &quot;numberSliderChangedWithSlider:&quot;, for: .valueChanged)</code></li>
-<li>使用默认参数标签<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">numberSliderChanged</span>(<span class="params">sender</span>: <span class="type">UISlider</span>)</span> -&gt; <span class="type">Void</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;sds&quot;</span>, sender.value)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<li>使用默认参数标签<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">numberSliderChanged</span>(<span class="params">sender</span>: <span class="type">UISlider</span>) -&gt; <span class="type">Void</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;sds&quot;</span>, sender.value)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 对应写法:<code>numberSlider.addTarget(self, action: &quot;numberSliderChangedWithSender:&quot;, for: .valueChanged)</code></li>
 </ol>
 <p>然而这种写法已经废弃,目前swift3.1推荐的是使用<code>#selector</code>,因此上述4写法等价于:<br><code>numberSlider.addTarget(self, action: #selector(numberSliderChanged(sender:)), for: .valueChanged)</code>.<br>当然你也可以传递一个Selector类型的变量:<br><code>numberSlider.addTarget(self, action: Selector.init(stringLiteral: &quot;numberSliderChangedWithSender:&quot;), for: .valueChanged)</code>.不过这种写法依然不是推荐的写法.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2017/09/15/Swift%E5%AE%9E%E7%8E%B0removeObject/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而奋斗">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/09/15/Swift%E5%AE%9E%E7%8E%B0removeObject/" class="post-title-link" itemprop="url">Swift实现removeObject</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-09-15 10:12:24" itemprop="dateCreated datePublished" datetime="2017-09-15T10:12:24+08:00">2017-09-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2017/09/15/Swift%E5%AE%9E%E7%8E%B0removeObject/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/09/15/Swift实现removeObject/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Swift实现removeObject"><a href="#Swift实现removeObject" class="headerlink" title="Swift实现removeObject"></a>Swift实现removeObject</h2><p>如果类没有继承自NSObject,那么类必须要实现<code>Equatable</code>协议.否则不需要.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Observer</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String</span>!</span><br><span class="line">    <span class="keyword">var</span> subject: <span class="type">Subject</span>!</span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">observer</span>(<span class="params">name</span>: <span class="type">String</span>, <span class="params">subject</span>: <span class="type">Subject</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.name <span class="operator">=</span> name</span><br><span class="line">        <span class="keyword">self</span>.subject <span class="operator">=</span> subject</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">update</span>() &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">extension</span> <span class="title class_">Observer</span>: <span class="title class_">Equatable</span> &#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">func</span> <span class="title function_">==</span>(<span class="params">lhs</span>: <span class="type">Observer</span>, <span class="params">rhs</span>: <span class="type">Observer</span>) -&gt; <span class="type">Bool</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> lhs <span class="operator">===</span> rhs &#123; <span class="comment">//地址相等. ps:&quot;==&quot;值相等.</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>然后在通过扩展给Array增加一个<code>removeObject(object: Element)</code>方法:</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extension</span> <span class="keyword">Array</span> <span class="keyword">where</span> Element: Equatable &#123;</span><br><span class="line">    mutating func removeObject(<span class="keyword">object</span>: Element) &#123;</span><br><span class="line">        <span class="keyword">if</span> let <span class="keyword">index</span> = <span class="keyword">index</span>(<span class="keyword">of</span>: <span class="keyword">object</span>) &#123;</span><br><span class="line">            remove(at: <span class="keyword">index</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>由于Array是结构体类型,而removeObject函数会改变结构体的值,所以该函数需要添加mutating关键字.“Notice the use of the mutating keyword in the declaration of SimpleStructure to mark a method that modifies the structure. The declaration of SimpleClass doesn’t need any of its methods marked as mutating because methods on a class can always modify the class.”</p>
 
       
     </div>
@@ -1025,9 +1025,9 @@
 
       
           <h2 id="协议"><a href="#协议" class="headerlink" title="协议"></a>协议</h2><h3 id="可选实现"><a href="#可选实现" class="headerlink" title="可选实现"></a>可选实现</h3><p>Swift里标记某个方法为可选实现时,需要在协议前添加<code>@objc</code>,并且在可选方法前添加<code>@objc optional</code>.其实也是为了跟OC兼容.<br>eg:</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@objc</span> <span class="class"><span class="keyword">protocol</span> <span class="title">Iterator</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">first</span>()</span> -&gt; <span class="type">AnyObject</span>?</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">next</span>()</span> -&gt; <span class="type">AnyObject</span>?</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">@objc</span> <span class="keyword">optional</span> <span class="function"><span class="keyword">func</span> <span class="title">isDone</span>()</span> -&gt; <span class="type">Bool</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">currentItem</span>()</span> -&gt; <span class="type">AnyObject</span>?</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@objc protocol Iterator &#123;</span><br><span class="line">    func first<span class="function"><span class="params">()</span> -&gt;</span> AnyObject?</span><br><span class="line">    </span><br><span class="line">    func next<span class="function"><span class="params">()</span> -&gt;</span> AnyObject?</span><br><span class="line">    </span><br><span class="line">    @objc optional func isDone<span class="function"><span class="params">()</span> -&gt;</span> Bool</span><br><span class="line">    </span><br><span class="line">    func currentItem<span class="function"><span class="params">()</span> -&gt;</span> AnyObject?</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>判断某个实例是否实现了协议里的可选方法:</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> i.isDone?() != <span class="literal">nil</span> &#123;</span><br><span class="line">    <span class="builtin-name">print</span>(<span class="string">&quot;\(i) 实现了方法isDone&quot;</span>)</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="builtin-name">print</span>(<span class="string">&quot;\(i) 没实现方法isDone&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> i.isDone?() != <span class="literal">nil</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;\(i) 实现了方法isDone&quot;</span>)</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;\(i) 没实现方法isDone&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>因为isDone是可选实现方法,所以调用时需要加?,这样就转为optional chaining处理,如果方法的返回值不为nil,则说明对象实现了协议的可选实现方法.</p>
 
       
@@ -1260,7 +1260,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">jekyttt</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.4.0
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v6.2.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2

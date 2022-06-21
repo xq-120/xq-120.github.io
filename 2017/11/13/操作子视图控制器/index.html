@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.4.0">
+<meta name="generator" content="Hexo 6.2.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -259,7 +259,7 @@
         <h2 id="操作子视图控制器"><a href="#操作子视图控制器" class="headerlink" title="操作子视图控制器"></a>操作子视图控制器</h2><p>系统提供了一些方法用于添加和移除子视图控制器:<br>(UIContainerViewControllerProtectedMethods)类别里的:  </p>
 <figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- <span class="params">(void)</span>addChildViewController:<span class="params">(UIViewController *)</span>childController NS_AVAILABLE_IOS<span class="params">(<span class="number">5_0</span>)</span>;</span><br><span class="line">- <span class="params">(void)</span>removeFromParentViewController NS_AVAILABLE_IOS<span class="params">(<span class="number">5_0</span>)</span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>上述两个方法调用后还要配套调用(UIContainerViewControllerCallbacks)类别里的:</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)willMoveToParentViewController:(<span class="keyword">nullable</span> <span class="built_in">UIViewController</span> *)parent <span class="built_in">NS_AVAILABLE_IOS</span>(<span class="number">5</span>_0);</span><br><span class="line">- (<span class="keyword">void</span>)didMoveToParentViewController:(<span class="keyword">nullable</span> <span class="built_in">UIViewController</span> *)parent <span class="built_in">NS_AVAILABLE_IOS</span>(<span class="number">5</span>_0);</span><br></pre></td></tr></table></figure>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">void</span>)willMoveToParentViewController:(<span class="keyword">nullable</span> <span class="built_in">UIViewController</span> *)parent <span class="built_in">NS_AVAILABLE_IOS</span>(<span class="number">5</span>_0);</span><br><span class="line">- (<span class="type">void</span>)didMoveToParentViewController:(<span class="keyword">nullable</span> <span class="built_in">UIViewController</span> *)parent <span class="built_in">NS_AVAILABLE_IOS</span>(<span class="number">5</span>_0);</span><br></pre></td></tr></table></figure>
 <h3 id="addChildViewController-的说明"><a href="#addChildViewController-的说明" class="headerlink" title="addChildViewController:的说明:"></a>addChildViewController:的说明:</h3><ol>
 <li><p>If the child controller has a different parent controller, it will first be removed from its current parent<br>by calling removeFromParentViewController.</p>
 </li>
@@ -448,7 +448,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">jekyttt</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.4.0
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v6.2.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
