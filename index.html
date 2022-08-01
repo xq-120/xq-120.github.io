@@ -22,9 +22,9 @@
 
   <meta name="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="要为真理而奋斗">
+<meta property="og:title" content="要为真理而斗争">
 <meta property="og:url" content="https://xq-120.github.io/index.html">
-<meta property="og:site_name" content="要为真理而奋斗">
+<meta property="og:site_name" content="要为真理而斗争">
 <meta property="og:description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:author" content="jekyttt">
@@ -43,7 +43,7 @@
   };
 </script>
 
-  <title>要为真理而奋斗</title>
+  <title>要为真理而斗争</title>
   
 
 
@@ -74,7 +74,7 @@
   </style>
 </noscript>
 
-<link rel="alternate" href="/atom.xml" title="要为真理而奋斗" type="application/atom+xml">
+<link rel="alternate" href="/atom.xml" title="要为真理而斗争" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
@@ -96,7 +96,7 @@
     <div>
       <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">要为真理而奋斗</span>
+        <span class="site-title">要为真理而斗争</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -187,6 +187,691 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/07/31/%E8%A1%A5%E7%A0%81%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而斗争">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/07/31/%E8%A1%A5%E7%A0%81%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/" class="post-title-link" itemprop="url">补码完全指南</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-07-31 21:23:52" itemprop="dateCreated datePublished" datetime="2022-07-31T21:23:52+08:00">2022-07-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-08-01 23:45:27" itemprop="dateModified" datetime="2022-08-01T23:45:27+08:00">2022-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">计算机基础</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/07/31/%E8%A1%A5%E7%A0%81%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/07/31/补码完全指南/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>本文基于自己的理解，试图让猪都能理解补码的概念^_^。老规矩，先是几个概念。</p>
+<h2 id="机器数"><a href="#机器数" class="headerlink" title="机器数"></a>机器数</h2><p>机器数是将符号数字化的数，最高位是符号位，正数符号位为0，负数符号位为1，其余位表示数值。</p>
+<h2 id="真值"><a href="#真值" class="headerlink" title="真值"></a>真值</h2><p>机器数所对应的实际数值。　</p>
+<h2 id="编程语言类型"><a href="#编程语言类型" class="headerlink" title="编程语言类型"></a>编程语言类型</h2><h3 id="无符号数"><a href="#无符号数" class="headerlink" title="无符号数"></a>无符号数</h3><p>全部二进制位均代表数值，没有符号位。</p>
+<h3 id="有符号数"><a href="#有符号数" class="headerlink" title="有符号数"></a>有符号数</h3><p>最高位代表符号位(“0”表示“+”，“1”表示“-”)，其余位表示数值。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/07/31/%E8%A1%A5%E7%A0%81%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/07/27/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9Crange%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而斗争">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/07/27/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9Crange%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/" class="post-title-link" itemprop="url">字符串操作range注意事项</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-07-27 11:06:19" itemprop="dateCreated datePublished" datetime="2022-07-27T11:06:19+08:00">2022-07-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-07-31 12:59:08" itemprop="dateModified" datetime="2022-07-31T12:59:08+08:00">2022-07-31</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%97%E7%AC%A6%E4%B8%B2/" itemprop="url" rel="index"><span itemprop="name">字符串</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/07/27/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9Crange%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/07/27/字符串操作range注意事项/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>代码：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="built_in">NSString</span> *string = <span class="string">@&quot;&quot;</span>;</span><br><span class="line">    <span class="built_in">NSString</span> *ret = [string stringByReplacingCharactersInRange:<span class="built_in">NSMakeRange</span>(<span class="number">0</span>, <span class="number">0</span>) withString:<span class="string">@&quot;因吹斯汀&quot;</span>];</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;string:%@\nret:%@&quot;</span>, string, ret); <span class="comment">//因吹斯汀</span></span><br><span class="line">&#125;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">NSString</span> *string = <span class="string">@&quot;倒计时开关是&quot;</span>;</span><br><span class="line">    <span class="built_in">NSString</span> *ret = [string stringByReplacingCharactersInRange:<span class="built_in">NSMakeRange</span>(<span class="number">0</span>, <span class="number">0</span>) withString:<span class="string">@&quot;因吹斯汀&quot;</span>];</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;string:%@\nret:%@&quot;</span>, string, ret); <span class="comment">//因吹斯汀倒计时开关是</span></span><br><span class="line">&#125;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">NSString</span> *string = <span class="string">@&quot;倒计时开关是&quot;</span>;</span><br><span class="line">    <span class="built_in">NSString</span> *ret = [string stringByReplacingCharactersInRange:<span class="built_in">NSMakeRange</span>(<span class="number">0</span>, <span class="number">1</span>) withString:<span class="string">@&quot;因吹斯汀&quot;</span>];</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;string:%@\nret:%@&quot;</span>, string, ret); <span class="comment">//因吹斯汀计时开关是</span></span><br><span class="line">&#125;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">NSString</span> *string = <span class="string">@&quot;倒计时开关是&quot;</span>;</span><br><span class="line">    <span class="built_in">NSString</span> *ret = [string stringByReplacingCharactersInRange:<span class="built_in">NSMakeRange</span>(string.length, <span class="number">0</span>) withString:<span class="string">@&quot;因吹斯汀&quot;</span>]; <span class="comment">//倒计时开关是因吹斯汀</span></span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;string:%@\nret:%@&quot;</span>, string, ret);</span><br><span class="line">&#125;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">NSString</span> *string = <span class="string">@&quot;倒计时开关是&quot;</span>;</span><br><span class="line">    <span class="built_in">NSString</span> *ret = [string stringByReplacingCharactersInRange:<span class="built_in">NSMakeRange</span>(string.length - <span class="number">1</span>, <span class="number">1</span>) withString:<span class="string">@&quot;因吹斯汀&quot;</span>]; <span class="comment">//倒计时开关因吹斯汀</span></span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;string:%@\nret:%@&quot;</span>, string, ret);</span><br><span class="line">&#125;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">NSString</span> *string = <span class="string">@&quot;倒计时开关是&quot;</span>;</span><br><span class="line">    <span class="built_in">NSString</span> *ret = [string stringByReplacingCharactersInRange:<span class="built_in">NSMakeRange</span>(string.length, <span class="number">1</span>) withString:<span class="string">@&quot;因吹斯汀&quot;</span>]; <span class="comment">//崩溃</span></span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;string:%@\nret:%@&quot;</span>, string, ret);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>总结：</p>
+<p>传入的range必须满足：(range.location + range.length) &lt;= string.length，否则会发生越界崩溃。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/07/27/%E9%9A%90%E5%BC%8F%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E5%AF%BC%E8%87%B4%E7%9A%84%E8%AF%A1%E5%BC%82bug/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而斗争">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/07/27/%E9%9A%90%E5%BC%8F%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E5%AF%BC%E8%87%B4%E7%9A%84%E8%AF%A1%E5%BC%82bug/" class="post-title-link" itemprop="url">隐式类型转换导致的诡异bug</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-07-27 10:34:57" itemprop="dateCreated datePublished" datetime="2022-07-27T10:34:57+08:00">2022-07-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-07-31 12:59:08" itemprop="dateModified" datetime="2022-07-31T12:59:08+08:00">2022-07-31</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bug/" itemprop="url" rel="index"><span itemprop="name">Bug</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/07/27/%E9%9A%90%E5%BC%8F%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E5%AF%BC%E8%87%B4%E7%9A%84%E8%AF%A1%E5%BC%82bug/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/07/27/隐式类型转换导致的诡异bug/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>看以下代码：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSUInteger</span> a = <span class="number">100</span>;</span><br><span class="line"><span class="built_in">NSUInteger</span> b = <span class="number">104</span>;</span><br><span class="line"><span class="built_in">NSUInteger</span> c = <span class="number">30</span>;</span><br><span class="line"><span class="built_in">NSInteger</span> ret = a - b;</span><br><span class="line"><span class="keyword">if</span> (ret &gt; c) &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;1&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (ret &gt; (<span class="built_in">NSInteger</span>)c) &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;2&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@&quot;ret:%ld&quot;</span>, (<span class="type">long</span>)ret);</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@&quot;ret:%lu&quot;</span>, (<span class="type">unsigned</span> <span class="type">long</span>)ret);</span><br></pre></td></tr></table></figure>
+<p>po 与 p：对象最好使用po，基础数据类型使用p。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/07/25/%E5%A6%82%E4%BD%95%E5%AD%A6%E4%B9%A0%E4%B8%80%E4%B8%AA%E6%A1%86%E6%9E%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而斗争">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/07/25/%E5%A6%82%E4%BD%95%E5%AD%A6%E4%B9%A0%E4%B8%80%E4%B8%AA%E6%A1%86%E6%9E%B6/" class="post-title-link" itemprop="url">如何学习一个框架</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-07-25 23:19:18" itemprop="dateCreated datePublished" datetime="2022-07-25T23:19:18+08:00">2022-07-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-07-31 12:59:08" itemprop="dateModified" datetime="2022-07-31T12:59:08+08:00">2022-07-31</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0%E5%BF%83%E5%BE%97/" itemprop="url" rel="index"><span itemprop="name">学习心得</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/07/25/%E5%A6%82%E4%BD%95%E5%AD%A6%E4%B9%A0%E4%B8%80%E4%B8%AA%E6%A1%86%E6%9E%B6/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/07/25/如何学习一个框架/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>在读了一些框架源码后，个人觉得应该从以下几个方面学习一个框架：</p>
+<p>1.了解框架实现了什么功能</p>
+<p>2.简单的使用框架</p>
+<p>3.框架使用了哪些基础库</p>
+<p>4.框架使用了什么技术<br>架构设计，设计模式，语言的高级使用，多线程，锁，复用，内存优化，CPU优化等等。</p>
+<p>5.框架使用了什么数据结构<br>为了实现宣传的功能框架定义了哪些字段，涉及了哪些数据结构。</p>
+<p>6.框架使用了什么算法</p>
+<p>7.简述框架的工作流程<br>在对框架达到一定的了解后，尝试高屋建瓴的描述一下框架的工作流程。</p>
+<p>8.框架的优点及缺点<br>在对框架达到一定的了解后，明白框架的最佳使用场景及局限性。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/07/25/IO%E6%A8%A1%E5%9E%8B%E7%AE%80%E4%BB%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而斗争">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/07/25/IO%E6%A8%A1%E5%9E%8B%E7%AE%80%E4%BB%8B/" class="post-title-link" itemprop="url">IO模型简介</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-07-25 12:16:15" itemprop="dateCreated datePublished" datetime="2022-07-25T12:16:15+08:00">2022-07-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-07-31 12:59:41" itemprop="dateModified" datetime="2022-07-31T12:59:41+08:00">2022-07-31</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">计算机基础</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/07/25/IO%E6%A8%A1%E5%9E%8B%E7%AE%80%E4%BB%8B/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/07/25/IO模型简介/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>大致有下面五种IO模型：</p>
+<p>阻塞IO模型，非阻塞IO模型，IO复用模型，信号驱动IO模型，异步IO模型。</p>
+<h2 id="阻塞IO模型"><a href="#阻塞IO模型" class="headerlink" title="阻塞IO模型"></a>阻塞IO模型</h2><p>读数据，发现没有数据，线程就一直等待直到有数据读取。</p>
+<h2 id="非阻塞IO模型"><a href="#非阻塞IO模型" class="headerlink" title="非阻塞IO模型"></a>非阻塞IO模型</h2><p>读数据，发现没有数据，线程不等待直接返回读错误码。由于不知道什么时候会有数据所以这种非阻塞IO模型需要调用方不断检查是否有数据。</p>
+<p>fd默认是阻塞IO访问，可以使用fcntl函数设置为非阻塞IO:</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">status</span> = fcntl(socketFD, F_SETFL, O_NONBLOCK)<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<h2 id="IO复用模型"><a href="#IO复用模型" class="headerlink" title="IO复用模型"></a>IO复用模型</h2><p>对非阻塞IO模型的一种改进，因为非阻塞IO模型需要不断检查是否有数据可读。假如有100个fd要读，那么就需要100个线程各自在不断的检查是否有数据可读，这显然浪费了大量的CPU和内存。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/07/25/IO%E6%A8%A1%E5%9E%8B%E7%AE%80%E4%BB%8B/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/07/20/ifconfig/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而斗争">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/07/20/ifconfig/" class="post-title-link" itemprop="url">ifconfig</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-07-20 18:49:54" itemprop="dateCreated datePublished" datetime="2022-07-20T18:49:54+08:00">2022-07-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-07-31 12:59:08" itemprop="dateModified" datetime="2022-07-31T12:59:08+08:00">2022-07-31</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" itemprop="url" rel="index"><span itemprop="name">常用命令</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/07/20/ifconfig/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/07/20/ifconfig/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>ifconfig</p>
+<p>全称：interfaces config,主要用于设置或显示网络设备信息的。</p>
+<p>打印：</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">lo0</span>: flags=<span class="number">8049</span>&lt;UP,LOOPBACK,RUNNING,MULTICAST&gt; mtu <span class="number">16384</span></span><br><span class="line">	<span class="attribute">options</span>=<span class="number">1203</span>&lt;RXCSUM,TXCSUM,TXSTATUS,SW_TIMESTAMP&gt;</span><br><span class="line">	<span class="attribute">inet</span> <span class="number">127.0.0.1</span> netmask <span class="number">0</span>xff000000</span><br><span class="line">	<span class="attribute">inet6</span> ::<span class="number">1</span> prefixlen <span class="number">128</span></span><br><span class="line">	<span class="attribute">inet6</span> fe80::<span class="number">1</span>%lo0 prefixlen <span class="number">64</span> scopeid <span class="number">0</span>x1</span><br><span class="line">	<span class="attribute">nd6</span> options=<span class="number">201</span>&lt;PERFORMNUD,DAD&gt;</span><br><span class="line"><span class="attribute">gif0</span>: flags=<span class="number">8010</span>&lt;POINTOPOINT,MULTICAST&gt; mtu <span class="number">1280</span></span><br><span class="line"><span class="attribute">stf0</span>: flags=<span class="number">0</span>&lt;&gt; mtu <span class="number">1280</span></span><br><span class="line"><span class="attribute">en0</span>: flags=<span class="number">8863</span>&lt;UP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST&gt; mtu <span class="number">1500</span></span><br><span class="line">	<span class="attribute">options</span>=<span class="number">50</span>b&lt;RXCSUM,TXCSUM,VLAN_HWTAGGING,AV,CHANNEL_IO&gt;</span><br><span class="line">	<span class="attribute">ether</span> b0:e5:f9:f3:a8:de   //mac地址</span><br><span class="line">	<span class="attribute">inet6</span> fe80::<span class="number">1</span>c2c:<span class="number">2</span>b1d:<span class="number">6</span>af8:<span class="number">3558</span>%en0 prefixlen <span class="number">64</span> secured scopeid <span class="number">0</span>x6  //ipv6地址</span><br><span class="line">	<span class="attribute">inet</span> <span class="number">10.1.63.198</span> netmask <span class="number">0</span>xffffff00 broadcast <span class="number">10.1.63.255</span> //ipv4地址、子网掩码、广播地址</span><br><span class="line">	<span class="attribute">nd6</span> options=<span class="number">201</span>&lt;PERFORMNUD,DAD&gt;</span><br><span class="line">	<span class="attribute">media</span>: autoselect (<span class="number">1000</span>baseT &lt;full-duplex&gt;)</span><br><span class="line">	<span class="attribute">status</span>: active</span><br></pre></td></tr></table></figure>
+<p>ifconfig打印的是所有网络设备的信息，并且名称是专有名词比如en0，一般来说如果电脑只连了WIFI那么en0代表的就是WIFI网卡信息，如果还插了网线那么en0代表的就是以太网网卡信息，en1代表的才是WIFI网卡信息。可以配合<code>networksetup -listallhardwareports</code> 查看。</p>
+<p>networksetup -listallhardwareports</p>
+<p>打印：</p>
+<figure class="highlight nestedtext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Hardware Port</span><span class="punctuation">:</span> <span class="string">Ethernet</span></span><br><span class="line"><span class="attribute">Device</span><span class="punctuation">:</span> <span class="string">en0</span></span><br><span class="line"><span class="attribute">Ethernet Address</span><span class="punctuation">:</span> <span class="string">b0:e5:f9:f3:a8:de</span></span><br><span class="line"></span><br><span class="line"><span class="attribute">Hardware Port</span><span class="punctuation">:</span> <span class="string">USB 10/100/1000 LAN</span></span><br><span class="line"><span class="attribute">Device</span><span class="punctuation">:</span> <span class="string">en4</span></span><br><span class="line"><span class="attribute">Ethernet Address</span><span class="punctuation">:</span> <span class="string">00:e0:4c:89:fe:55</span></span><br><span class="line"></span><br><span class="line"><span class="attribute">Hardware Port</span><span class="punctuation">:</span> <span class="string">Ethernet Adapter (en5)</span></span><br><span class="line"><span class="attribute">Device</span><span class="punctuation">:</span> <span class="string">en5</span></span><br><span class="line"><span class="attribute">Ethernet Address</span><span class="punctuation">:</span> <span class="string">16:6a:42:01:62:87</span></span><br><span class="line"></span><br><span class="line"><span class="attribute">Hardware Port</span><span class="punctuation">:</span> <span class="string">Ethernet Adapter (en6)</span></span><br><span class="line"><span class="attribute">Device</span><span class="punctuation">:</span> <span class="string">en6</span></span><br><span class="line"><span class="attribute">Ethernet Address</span><span class="punctuation">:</span> <span class="string">16:6a:42:01:62:88</span></span><br><span class="line"></span><br><span class="line"><span class="attribute">Hardware Port</span><span class="punctuation">:</span> <span class="string">Wi-Fi</span></span><br><span class="line"><span class="attribute">Device</span><span class="punctuation">:</span> <span class="string">en1</span></span><br><span class="line"><span class="attribute">Ethernet Address</span><span class="punctuation">:</span> <span class="string">b0:e5:f9:f2:56:75</span></span><br><span class="line"></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>networksetup -listallnetworkservices</p>
+<p>打印：</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/07/20/ifconfig/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/07/01/%E5%AD%97%E8%8A%82%E5%BA%8F%E7%AE%80%E5%8D%95%E8%A7%A3%E6%9E%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而斗争">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/07/01/%E5%AD%97%E8%8A%82%E5%BA%8F%E7%AE%80%E5%8D%95%E8%A7%A3%E6%9E%90/" class="post-title-link" itemprop="url">字节序简单解析</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-07-01 11:38:42" itemprop="dateCreated datePublished" datetime="2022-07-01T11:38:42+08:00">2022-07-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-07-02 22:00:43" itemprop="dateModified" datetime="2022-07-02T22:00:43+08:00">2022-07-02</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">计算机基础</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/07/01/%E5%AD%97%E8%8A%82%E5%BA%8F%E7%AE%80%E5%8D%95%E8%A7%A3%E6%9E%90/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/07/01/字节序简单解析/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>大端序：最高位在最低地址<br>小端序：最高位在最高地址</p>
+<p>为什么会有两种字节序？<br>因为一串数字可以从左开始读，也可以从右开始读。<br>比如：1234<br>从左开始读，那么1就是最高位，结果就是一千两百三十四<br>从右开始读，那么4就是最高位，结果就是四千三百二十一<br>一般国家都是从左到右读，但也有的国家是从右到左读的。没有好坏，纯属习惯问题。</p>
+<p>大端序和小端序就是翻转的关系。</p>
+<p>CPU读取内存中的数据时，是从低地址向高地址方向进行读取的。所以一般计算机的内部处理都是小端字节序。但是，人类还是习惯读写大端字节序。所以，除了计算机的内部处理，其他的场合比如网络传输和文件储存，几乎都是用的大端字节序。</p>
+<p>举例：</p>
+<p>0x0a0b<br>0000 1010 0000 1011 （大端序）-&gt; 1101 0000 0101 0000（小端序）<br>0a0b                                                   0b0a</p>
+<p>0x01<br>0000 0000 0000 0000 0000 0000 0000 0001（大端序）<br>-&gt;<br>1000 0000 0000 0000 0000 0000 0000 0000（小端序）</p>
+<p>代码判断当前是否是小端序：</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">union</span><br><span class="line">&#123;</span><br><span class="line">    unsigned int  a<span class="comment">;</span></span><br><span class="line">    unsigned char b<span class="comment">;</span></span><br><span class="line">&#125;c<span class="comment">;</span></span><br><span class="line">c.a <span class="operator">=</span> <span class="number">1</span><span class="comment">;</span></span><br><span class="line">BOOL isLittleEndian <span class="operator">=</span> <span class="number">1</span> <span class="operator">=</span><span class="operator">=</span> c.b<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<p>如果是小端序那么1在最低地址，char占一个字节，c.b就等于1。<br>如果是大端序那么1在最高地址，char占一个字节，c.b就等于0。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/07/01/%E5%AD%97%E8%8A%82%E5%BA%8F%E7%AE%80%E5%8D%95%E8%A7%A3%E6%9E%90/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/06/19/%E8%87%AA%E5%8A%A8%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87--%E4%BD%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E8%84%9A%E6%9C%AC/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -196,7 +881,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而奋斗">
+      <meta itemprop="name" content="要为真理而斗争">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -210,17 +895,23 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-06-19 15:02:45 / 修改时间：16:05:38" itemprop="dateCreated datePublished" datetime="2022-06-19T15:02:45+08:00">2022-06-19</time>
+              <time title="创建时间：2022-06-19 15:02:45" itemprop="dateCreated datePublished" datetime="2022-06-19T15:02:45+08:00">2022-06-19</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-07-31 12:59:08" itemprop="dateModified" datetime="2022-07-31T12:59:08+08:00">2022-07-31</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">工具</span></a>
+                  <a href="/categories/%E8%84%9A%E6%9C%AC/" itemprop="url" rel="index"><span itemprop="name">脚本</span></a>
                 </span>
             </span>
 
@@ -294,7 +985,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而奋斗">
+      <meta itemprop="name" content="要为真理而斗争">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -308,17 +999,23 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-06-19 08:57:35 / 修改时间：09:49:27" itemprop="dateCreated datePublished" datetime="2022-06-19T08:57:35+08:00">2022-06-19</time>
+              <time title="创建时间：2022-06-19 08:57:35" itemprop="dateCreated datePublished" datetime="2022-06-19T08:57:35+08:00">2022-06-19</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-07-31 12:59:08" itemprop="dateModified" datetime="2022-07-31T12:59:08+08:00">2022-07-31</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%91%BD%E4%BB%A4%E8%A1%8C/" itemprop="url" rel="index"><span itemprop="name">命令行</span></a>
+                  <a href="/categories/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" itemprop="url" rel="index"><span itemprop="name">常用命令</span></a>
                 </span>
             </span>
 
@@ -390,7 +1087,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而奋斗">
+      <meta itemprop="name" content="要为真理而斗争">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -404,21 +1101,23 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-05-29 15:34:04 / 修改时间：16:22:48" itemprop="dateCreated datePublished" datetime="2022-05-29T15:34:04+08:00">2022-05-29</time>
+              <time title="创建时间：2022-05-29 15:34:04" itemprop="dateCreated datePublished" datetime="2022-05-29T15:34:04+08:00">2022-05-29</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-07-31 12:59:08" itemprop="dateModified" datetime="2022-07-31T12:59:08+08:00">2022-07-31</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%88%86%E7%B1%BB1/" itemprop="url" rel="index"><span itemprop="name">分类1</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%88%86%E7%B1%BB1/%E5%88%86%E7%B1%BB2/" itemprop="url" rel="index"><span itemprop="name">分类2</span></a>
+                  <a href="/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/" itemprop="url" rel="index"><span itemprop="name">音视频</span></a>
                 </span>
             </span>
 
@@ -447,744 +1146,16 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>有一个需求需要循环播放一个视频，UI希望的效果是无缝循环播放。当时我觉得应该问题不大，但事实却并非如此。</p>
-<p>如果只是单纯的循环播放，确实简单。但是想要无缝丝滑连贯的循环播放却并不那么简单。</p>
-<p>项目中用的ijkplayer，刚开始是监听播放完成通知，播放完后重新播放，结果发现每次播完后都要停顿一下才会继续播放。达不到无缝循环的要求。</p>
+          <p>有一个需求需要循环播放一个视频，UI希望的效果是无缝循环播放。当时觉得应该问题不大，但事实却并非如此。如果只是单纯的循环播放，确实简单。但是想要无缝丝滑连贯的循环播放却并不那么简单。</p>
+<h3 id="方案一：ijkplayer"><a href="#方案一：ijkplayer" class="headerlink" title="方案一：ijkplayer"></a>方案一：ijkplayer</h3><p>项目中用的ijkplayer，刚开始是监听播放完成通知，播放完后重新播放，结果发现每次播完后都要停顿一下才会继续播放。达不到无缝循环的要求。</p>
 <p>一顿搜索之后，发现可以通过设置option的loop属性，设置为100就是循环播放100次，设置1就是播放一次，设置0就是无线循环播放。这一次以为稳了，然并卵，还是每次播完后都要停顿一下才会继续播放。</p>
 <p>又是一顿搜索，发现了ijkplayer可以播放contact文件，所谓contact文件就是按照一定的格式将要播放的视频地址按顺序写入一个文件，把这个文件丢给ijkplayer，ijkplayer就会按照顺序一个个播放，当时就在想是不是这种方式可以无缝播放呢？于是将视频的地址写了1000遍，这样ijkplayer就会播放1000次，达到一个循环播放的假象。然而还是没有什么卵用，效果和上面一样。</p>
 <p>总结一下：ijkplayer的播放机制就是播完后会暂停，这一暂停就导致不连贯了，因此可以很明显的看到会停顿一下才继续播放。使用ijkplayer基本上做不到无缝循环播放视频。当然也有可能是我才疏学浅没找到正确的方式。</p>
-<p>ijkplayer既然不行，那就只能试一下系统的AVPlayer了，还是同样的思路，监听播放完成通知，播放完后重新播放，结果发现效果一样。最后找到一篇文章说是要使用AVPlayer的子类AVQueuePlayer，试了一下发现效果确实很不错，几乎看不出来有停顿的感觉。AVQueuePlayer应该会预加载要播放的资源，这样播放完后就可以立即加载渲染下一个视频的画面了。</p>
-<p>总结：如果要无缝循环播放视频，AVQueuePlayer是一个不错的选择。</p>
-<p>但是由于系统播放器可定制程度不高，如果你需要先处理视频画面再播放，那么AVQueuePlayer可能就不行了，比如透明视频的无缝循环播放。然而这个需求就是需要透明视频的无缝循环播放，这不是巧了吗，于是AVQueuePlayer也被pass了。</p>
-<p>本来我们项目中对ijkplayer做了一些修改支持播放透明视频，结果ijkplayer循环播放不丝滑。只能另辟蹊径了，关于透明视频的无缝循环播放的实现下一篇再说。</p>
+<h3 id="方案二：AVPlayer"><a href="#方案二：AVPlayer" class="headerlink" title="方案二：AVPlayer"></a>方案二：AVPlayer</h3><p>ijkplayer既然不行，那就只能试一下系统的AVPlayer了，还是同样的思路，监听播放完成通知，播放完后重新播放，结果发现效果一样。</p>
+<h3 id="方案三：AVQueuePlayer"><a href="#方案三：AVQueuePlayer" class="headerlink" title="方案三：AVQueuePlayer"></a>方案三：AVQueuePlayer</h3><p>最后找到一篇文章说是要使用AVPlayer的子类AVQueuePlayer，试了一下发现效果确实很不错，几乎看不出来有停顿的感觉。AVQueuePlayer应该会预加载要播放的资源，这样播放完后就可以立即加载渲染下一个视频的画面了。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2022/05/29/iOS%E5%BE%AA%E7%8E%AF%E6%92%AD%E6%94%BE%E8%A7%86%E9%A2%91/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/05/08/MacBook%20Pro%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8(%E5%85%AD)%E4%B9%8B%E6%88%91%E7%9A%84%E7%94%B5%E8%84%91%E4%BF%AE%E5%A5%BD%E4%BA%86/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而奋斗">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/08/MacBook%20Pro%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8(%E5%85%AD)%E4%B9%8B%E6%88%91%E7%9A%84%E7%94%B5%E8%84%91%E4%BF%AE%E5%A5%BD%E4%BA%86/" class="post-title-link" itemprop="url">MacBook Pro外接显示器(六)之我的电脑修好了</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-05-08 14:20:38 / 修改时间：17:11:17" itemprop="dateCreated datePublished" datetime="2022-05-08T14:20:38+08:00">2022-05-08</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Life/" itemprop="url" rel="index"><span itemprop="name">Life</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2022/05/08/MacBook%20Pro%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8(%E5%85%AD)%E4%B9%8B%E6%88%91%E7%9A%84%E7%94%B5%E8%84%91%E4%BF%AE%E5%A5%BD%E4%BA%86/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/05/08/MacBook Pro外接显示器(六)之我的电脑修好了/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>自从电脑坏了之后就一直没有拿去修，没空是一方面，更多的是担心修不好还被坑维修费。就这样磨磨蹭蹭过了差不多大半年，今年五一放假也没啥去处，于是想干脆去华强北修一修，万一修好了呢。本来是想5月1日去修的，结果起太晚了磨蹭到2点感觉有点晚了，就想着第二天去吧，结果第二天下了一天的雨，也没去成。</p>
-<p>5月3日天气有点阴沉，但好歹没下雨了。于是从角落把电脑翻出来发现盖子都有点发霉了，简单的清理了一下便装进背包，向华强北出发。华强北虽然经过过几次，但没去里边修过东西，出发前搜了下华强北修电脑的帖子，广告很多，被骗被坑的回答也很多，很多答主说要慎重，说有的店就是拖着你说修不好让你低价卖给他，有的还会偷换电脑零件，反正啥样的都有。看完之后还是有点忐忑的，倒不是怕偷换零件，毕竟我这个电脑用了6年半了也没啥好零件了，主要是怕漫天要价，拖着不修，扯皮闹心。</p>
-<p>不过还是决定去试一下，下午两点到了华强路A出口，一出来就看到几家手机电脑维修的店子，我也不知道哪家好，也没有多问多选，直接走进了第一家。进去之后没有说修电脑的事，当时手机拍照有黑斑，就先问了下手机的问题能不能修，维修的几个人都是年轻人，说能修大概160-180块钱，只需要清洗一下摄像头就可以弄好。</p>
-<p>这里说一下维修店的模式，基本上店面都是一个小门面，相当于一个小工作台，这里只会做一些简单的维修比如换个屏，贴个膜，初步检测下设备啥的，如果问题比较大或者需要其他设备，他们会拿到他们所谓的维修间里，两个地方是有一段距离的而且你是不可能跟着去的，顾客只能在店面等着。</p>
-<p>话说回来，让他拆下摄像头后我问要洗多久，他说大概要等1个小时。感觉还行便问这里能不能修电脑，他说能修电脑，于是我把电脑给他看了看，告诉他是主板烧坏了，他拿着万用表测了测，说的原因我也记不住，大概的意思是芯片供电模块短路。</p>
-<p>我：修好大概要多少钱</p>
-<p>他：550</p>
-<p>我：有点贵</p>
-<p>他：已经是最低价了，这样吧，加上那个洗摄像头的费用一共700怎么样</p>
-<p>我：那要修多久啊</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/05/08/MacBook%20Pro%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8(%E5%85%AD)%E4%B9%8B%E6%88%91%E7%9A%84%E7%94%B5%E8%84%91%E4%BF%AE%E5%A5%BD%E4%BA%86/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/05/07/hexo-next%E4%B8%BB%E9%A2%98%E7%BB%99%E6%96%87%E7%AB%A0%E6%B7%BB%E5%8A%A0%E7%89%88%E6%9D%83%E4%BF%A1%E6%81%AF/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而奋斗">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/07/hexo-next%E4%B8%BB%E9%A2%98%E7%BB%99%E6%96%87%E7%AB%A0%E6%B7%BB%E5%8A%A0%E7%89%88%E6%9D%83%E4%BF%A1%E6%81%AF/" class="post-title-link" itemprop="url">hexo next主题给文章添加版权信息</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-05-07 17:17:12 / 修改时间：17:30:15" itemprop="dateCreated datePublished" datetime="2022-05-07T17:17:12+08:00">2022-05-07</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Hexo/" itemprop="url" rel="index"><span itemprop="name">Hexo</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2022/05/07/hexo-next%E4%B8%BB%E9%A2%98%E7%BB%99%E6%96%87%E7%AB%A0%E6%B7%BB%E5%8A%A0%E7%89%88%E6%9D%83%E4%BF%A1%E6%81%AF/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/05/07/hexo-next主题给文章添加版权信息/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="next主题下给文章添加版权信息"><a href="#next主题下给文章添加版权信息" class="headerlink" title="next主题下给文章添加版权信息"></a>next主题下给文章添加版权信息</h2><p>1、修改<code>_config.yml</code>文件</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">creative_commons:</span></span><br><span class="line">  <span class="attr">license:</span> <span class="string">by-nc-sa</span></span><br><span class="line">  <span class="attr">sidebar:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">post:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">language:</span></span><br></pre></td></tr></table></figure>
-<p>post的值改为true表示文章开启添加版权信息。</p>
-<p>至此，部署后就可以看到每篇文章下面都会有版权信息了。但是有一些文章我们不想添加版权信息，那么还需要接着设置：</p>
-<p>2、打开文件 <code>themes/next/layout/_macro/post.swig</code> ：</p>
-<p>找到creative_commons那一行改为：</p>
-<figure class="highlight handlebars"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="language-xml">&#123;%- if theme.creative_commons.license and theme.creative_commons.post and page.copyright %&#125;</span></span><br><span class="line"><span class="language-xml">  </span><span class="template-variable">&#123;&#123; <span class="name"><span class="built_in">partial</span></span>(<span class="name">&#x27;_partials/post/post-copyright.swig&#x27;</span>) &#125;&#125;</span><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">&#123;%- endif %&#125;</span></span><br></pre></td></tr></table></figure>
-<p>就是添加了 page.copyright ，这样就可以单独控制某篇文章是否添加版权信息了。</p>
-<p>在文章开头的头部添加 <code>copyright: true</code> 表示当前文章要添加版权信息，false表示不需要。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/05/07/hexo-next%E4%B8%BB%E9%A2%98%E7%BB%99%E6%96%87%E7%AB%A0%E6%B7%BB%E5%8A%A0%E7%89%88%E6%9D%83%E4%BF%A1%E6%81%AF/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/05/01/iOS%E5%AE%9A%E6%97%B6%E5%99%A8%E6%9D%82%E8%AE%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而奋斗">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/01/iOS%E5%AE%9A%E6%97%B6%E5%99%A8%E6%9D%82%E8%AE%B0/" class="post-title-link" itemprop="url">iOS定时器杂记</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-05-01 13:13:38" itemprop="dateCreated datePublished" datetime="2022-05-01T13:13:38+08:00">2022-05-01</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-07 16:48:43" itemprop="dateModified" datetime="2022-05-07T16:48:43+08:00">2022-05-07</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Foundation/" itemprop="url" rel="index"><span itemprop="name">Foundation</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2022/05/01/iOS%E5%AE%9A%E6%97%B6%E5%99%A8%E6%9D%82%E8%AE%B0/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/05/01/iOS定时器杂记/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="NSTimer"><a href="#NSTimer" class="headerlink" title="NSTimer"></a>NSTimer</h2><p>NSTimer是使用最多的一种定时器，虽然但是NSTimer还是有很多的注意事项：</p>
-<ol>
-<li><p>不注意使用的话有循环引用的隐患。因为NSTimer会强引用target，如果target再强引用NSTimer那么就会发生循环引用。比如：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">void</span>)test_normal_timer1 &#123;</span><br><span class="line">    <span class="keyword">self</span>.normalStrongTimer = [<span class="built_in">NSTimer</span> scheduledTimerWithTimeInterval:<span class="number">1</span> target:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(doSome) userInfo:<span class="literal">nil</span> repeats:<span class="literal">YES</span>];</span><br><span class="line">    [[<span class="built_in">NSRunLoop</span> currentRunLoop] addTimer:<span class="keyword">self</span>.normalStrongTimer forMode:<span class="built_in">NSRunLoopCommonModes</span>];</span><br><span class="line">    [<span class="keyword">self</span>.normalStrongTimer fire];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>上面的代码就会发生循环引用。此时即使页面返回，但是因为循环引用，ViewController的dealloc将不会被执行，因此invalidate不能放在dealloc里，只能在其他时机比如viewDidDisappear里调用。所以一般使用weak来弱引用定时器，这样就可以在dealloc里调用invalidate。</p>
-</li>
-<li><p>需要在合适的地方invalid定时器，否则定时器会一直强引用target从而延长target的生命周期。</p>
-<p>在开发中很容易忘记invalid定时器，一旦忘记invalid定时器，定时器就会延长target的生命周期，比如页面返回了但实际还没有被销毁，从而产生一些诡异问题。这也是使用NSTimer必须注意的地方。</p>
-</li>
-<li><p>使用时必须保证有一个活跃的runloop，并且需要指定mode。因此在子线程中使用不是很方便。</p>
-</li>
-<li><p>精度可能不够。</p>
-</li>
-<li><p>网上的一个说法：创建和撤销必须在同一个线程上，在多线程环境下使用不便。(这一条存疑，经过验证在子线程创建一个定时器，在另一个子线程invalidate并没有发现有什么问题)</p>
-</li>
-<li><p>iOS10开始支持block使用，同样在使用block时一定要注意循环引用。</p>
-</li>
-</ol>
-<p>为了从根本上避免上述问题，一个弱引用target的、能够在自身销毁时自动invalid的定时器想必是极好的。解决办法就是封装GCD定时器。</p>
-<h2 id="GCD定时器"><a href="#GCD定时器" class="headerlink" title="GCD定时器"></a>GCD定时器</h2><p>基本使用：</p>
-<p>1.创建定时器源</p>
-<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">self.timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER,</span><br><span class="line"><span class="built_in">                                            0,</span></span><br><span class="line"><span class="built_in">                                            0,</span></span><br><span class="line">                                            self.privateSerialQueue)<span class="comment">;</span></span><br></pre></td></tr></table></figure>
-<p>2.设置定时器</p>
-<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">int64</span>_t <span class="built_in">int</span>ervalInNanoseconds = (<span class="built_in">int64</span>_t)(self.timeInterval * NSEC_PER_SEC);</span><br><span class="line"><span class="built_in">int64</span>_t toleranceInNanoseconds = (<span class="built_in">int64</span>_t)(self.tolerance * NSEC_PER_SEC);</span><br><span class="line"></span><br><span class="line">dispatch_source_set_timer(self.timer,</span><br><span class="line">                          dispatch_time(DISPATCH_TIME_NOW, <span class="built_in">int</span>ervalInNanoseconds),</span><br><span class="line">                          (<span class="built_in">uint64</span>_t)<span class="built_in">int</span>ervalInNanoseconds,</span><br><span class="line">                          toleranceInNanoseconds</span><br><span class="line">                          );</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/05/01/iOS%E5%AE%9A%E6%97%B6%E5%99%A8%E6%9D%82%E8%AE%B0/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2021/12/18/%E7%B1%BB%E5%88%AB%E8%A6%86%E7%9B%96%E5%8E%9F%E5%A7%8B%E5%AE%9E%E7%8E%B0%E5%BC%95%E5%8F%91%E7%9A%84%E8%96%9B%E5%AE%9A%E8%B0%94%E7%9A%84bug/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而奋斗">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/12/18/%E7%B1%BB%E5%88%AB%E8%A6%86%E7%9B%96%E5%8E%9F%E5%A7%8B%E5%AE%9E%E7%8E%B0%E5%BC%95%E5%8F%91%E7%9A%84%E8%96%9B%E5%AE%9A%E8%B0%94%E7%9A%84bug/" class="post-title-link" itemprop="url">类别覆盖原始实现引发的薛定谔的bug</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-12-18 10:50:30" itemprop="dateCreated datePublished" datetime="2021-12-18T10:50:30+08:00">2021-12-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-24 22:05:40" itemprop="dateModified" datetime="2021-12-24T22:05:40+08:00">2021-12-24</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Bug/" itemprop="url" rel="index"><span itemprop="name">Bug</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2021/12/18/%E7%B1%BB%E5%88%AB%E8%A6%86%E7%9B%96%E5%8E%9F%E5%A7%8B%E5%AE%9E%E7%8E%B0%E5%BC%95%E5%8F%91%E7%9A%84%E8%96%9B%E5%AE%9A%E8%B0%94%E7%9A%84bug/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/12/18/类别覆盖原始实现引发的薛定谔的bug/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="Bug"><a href="#Bug" class="headerlink" title="Bug"></a>Bug</h4><p>出现机型：iPhone7Plus iOS15.1。</p>
-<p>描述：在开发过程中发现弹出弹窗点击关闭之后界面就卡死了。多次尝试之后，最终发现只有在调试的时候出现，把线一拔不调试的时候一切又正常了。拿另一部iPhone6Plus iOS12.5.4的手机又都不会出现。顿时感觉遇到”薛定谔的bug”了。</p>
-<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><p>项目中对UIAlertController做了一层简单的封装，是在自己的window上present出来的，这样在使用的时候就不用操心谁来present了。</p>
-<p>方法接口：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">+ (void)showActionSheetWithTitle:(nullable NSString *)title message:(nullable NSString *)message cancelButtonTitle:(nullable NSString *)cancelButtonTitle destructiveButtonIndex:(NSInteger)destructiveButtonIndex buttonTitles:(nullable NSArray *)buttonTitles showedPatternHandler:(nullable NSDictionary *(^)(void))showedPatternHandler buttonClickedHandler:(nullable void(^)(NSUInteger buttonIndex))buttonClickedHandler;</span><br></pre></td></tr></table></figure>
-<p>内部部分实现：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:preferredStyle];</span><br><span class="line">alertController.alertWindow = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];</span><br><span class="line">alertController.alertWindow.backgroundColor = [UIColor clearColor];</span><br><span class="line">alertController.alertWindow.hidden = NO;</span><br><span class="line">...</span><br><span class="line">alertController.alertWindow.rootViewController = [UIViewController new];</span><br><span class="line">[alertController.alertWindow.rootViewController presentViewController:alertController animated:YES completion:nil];</span><br></pre></td></tr></table></figure>
-<p>刚开始时，对象持有关系：</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/12/18/%E7%B1%BB%E5%88%AB%E8%A6%86%E7%9B%96%E5%8E%9F%E5%A7%8B%E5%AE%9E%E7%8E%B0%E5%BC%95%E5%8F%91%E7%9A%84%E8%96%9B%E5%AE%9A%E8%B0%94%E7%9A%84bug/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2021/12/01/%E7%B1%BB%E5%88%AB%E5%AF%BC%E8%87%B4%E7%9A%84target-action%E6%96%B9%E6%B3%95%E4%B8%8D%E8%B0%83%E7%94%A8%E9%97%AE%E9%A2%98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而奋斗">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/12/01/%E7%B1%BB%E5%88%AB%E5%AF%BC%E8%87%B4%E7%9A%84target-action%E6%96%B9%E6%B3%95%E4%B8%8D%E8%B0%83%E7%94%A8%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">类别导致的target-action方法不调用问题</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-12-01 10:42:52" itemprop="dateCreated datePublished" datetime="2021-12-01T10:42:52+08:00">2021-12-01</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-24 22:05:40" itemprop="dateModified" datetime="2021-12-24T22:05:40+08:00">2021-12-24</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Bug/" itemprop="url" rel="index"><span itemprop="name">Bug</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2021/12/01/%E7%B1%BB%E5%88%AB%E5%AF%BC%E8%87%B4%E7%9A%84target-action%E6%96%B9%E6%B3%95%E4%B8%8D%E8%B0%83%E7%94%A8%E9%97%AE%E9%A2%98/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/12/01/类别导致的target-action方法不调用问题/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="Bug"><a href="#Bug" class="headerlink" title="Bug"></a>Bug</h3><p>描述：ZATextField 自己添加自己作为target后，发现action方法不被调用。</p>
-<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>ZATextField的实现如下：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#import <span class="string">&quot;ZATextField.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">ZATextField</span></span></span><br><span class="line"></span><br><span class="line">- (<span class="keyword">instancetype</span>)initWithFrame:(<span class="built_in">CGRect</span>)frame &#123;</span><br><span class="line">    <span class="keyword">self</span> = [<span class="variable language_">super</span> initWithFrame:frame];</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>) &#123;</span><br><span class="line">        </span><br><span class="line">        __<span class="keyword">weak</span> <span class="keyword">typeof</span>(<span class="keyword">self</span>) weakSelf = <span class="keyword">self</span>;</span><br><span class="line">        [[<span class="built_in">NSNotificationCenter</span> defaultCenter] addObserverForName:<span class="built_in">UITextFieldTextDidBeginEditingNotification</span> object:<span class="keyword">self</span> queue:<span class="literal">nil</span> usingBlock:^(<span class="built_in">NSNotification</span> * _Nonnull note) &#123;</span><br><span class="line">            <span class="keyword">if</span> (weakSelf.rightView &amp;&amp; weakSelf.rightViewMode == <span class="built_in">UITextFieldViewModeWhileEditing</span>) &#123;</span><br><span class="line">                weakSelf.rightView.hidden = weakSelf.text.length &gt; <span class="number">0</span> ? <span class="literal">NO</span> : <span class="literal">YES</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (weakSelf.leftView &amp;&amp; weakSelf.leftViewMode == <span class="built_in">UITextFieldViewModeWhileEditing</span>) &#123;</span><br><span class="line">                weakSelf.leftView.hidden = weakSelf.text.length &gt; <span class="number">0</span> ? <span class="literal">NO</span> : <span class="literal">YES</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;];</span><br><span class="line">        [[<span class="built_in">NSNotificationCenter</span> defaultCenter] addObserverForName:<span class="built_in">UITextFieldTextDidChangeNotification</span> object:<span class="keyword">self</span> queue:<span class="literal">nil</span> usingBlock:^(<span class="built_in">NSNotification</span> * _Nonnull note) &#123;</span><br><span class="line">            <span class="keyword">if</span> (weakSelf.rightView &amp;&amp; weakSelf.rightViewMode == <span class="built_in">UITextFieldViewModeWhileEditing</span>) &#123;</span><br><span class="line">                weakSelf.rightView.hidden = weakSelf.text.length &gt; <span class="number">0</span> ? <span class="literal">NO</span> : <span class="literal">YES</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (weakSelf.leftView &amp;&amp; weakSelf.leftViewMode == <span class="built_in">UITextFieldViewModeWhileEditing</span>) &#123;</span><br><span class="line">                weakSelf.leftView.hidden = weakSelf.text.length &gt; <span class="number">0</span> ? <span class="literal">NO</span> : <span class="literal">YES</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;];</span><br><span class="line">        </span><br><span class="line">        [<span class="keyword">self</span> addTarget:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(xxxxchange:) forControlEvents:<span class="built_in">UIControlEventEditingChanged</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)xxxxchange:(<span class="built_in">UITextField</span> *)sender &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;text:%@&quot;</span>, <span class="keyword">self</span>.text);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 光标大小设置</span></span><br><span class="line">- (<span class="built_in">CGRect</span>)caretRectForPosition:(<span class="built_in">UITextPosition</span> *)position &#123;</span><br><span class="line">    <span class="built_in">CGRect</span> originalRect = [<span class="variable language_">super</span> caretRectForPosition:position];</span><br><span class="line">    <span class="built_in">CGFloat</span> caretHeight = <span class="keyword">self</span>.font.lineHeight - <span class="number">4</span>;</span><br><span class="line">    originalRect.size.height = caretHeight;</span><br><span class="line">    originalRect.origin.y = (<span class="keyword">self</span>.frame.size.height - caretHeight) / <span class="number">2.0</span>;</span><br><span class="line">    <span class="keyword">return</span> originalRect;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
-<p>自己添加了自己作为target:</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="keyword">self</span> addTarget:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(xxxxchange:) forControlEvents:<span class="built_in">UIControlEventEditingChanged</span>];</span><br></pre></td></tr></table></figure>
-<p>理论上讲当有文字输入时，xxxxchange方法肯定会调用的，但是实际没有。</p>
-<h3 id="可能的原因"><a href="#可能的原因" class="headerlink" title="可能的原因"></a>可能的原因</h3><p>1.方法被其他地方的类别覆盖了。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/12/01/%E7%B1%BB%E5%88%AB%E5%AF%BC%E8%87%B4%E7%9A%84target-action%E6%96%B9%E6%B3%95%E4%B8%8D%E8%B0%83%E7%94%A8%E9%97%AE%E9%A2%98/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2021/09/28/OC-%E5%85%B3%E8%81%94%E5%AF%B9%E8%B1%A1%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而奋斗">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/09/28/OC-%E5%85%B3%E8%81%94%E5%AF%B9%E8%B1%A1%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" class="post-title-link" itemprop="url">OC 关联对象实现原理</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-09-28 16:46:22" itemprop="dateCreated datePublished" datetime="2021-09-28T16:46:22+08:00">2021-09-28</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-10-10 15:07:40" itemprop="dateModified" datetime="2021-10-10T15:07:40+08:00">2021-10-10</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/runtime/" itemprop="url" rel="index"><span itemprop="name">runtime</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2021/09/28/OC-%E5%85%B3%E8%81%94%E5%AF%B9%E8%B1%A1%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/09/28/OC-关联对象实现原理/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="objc-AssociationPolicy"><a href="#objc-AssociationPolicy" class="headerlink" title="objc_AssociationPolicy"></a>objc_AssociationPolicy</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Policies related to associative references.</span></span><br><span class="line"><span class="comment"> * These are options to objc_setAssociatedObject()</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="title function_">OBJC_ENUM</span><span class="params">(<span class="type">uintptr_t</span>, objc_AssociationPolicy)</span> &#123;</span><br><span class="line">    OBJC_ASSOCIATION_ASSIGN = <span class="number">0</span>,           <span class="comment">/**&lt; Specifies a weak reference to the associated object. */</span></span><br><span class="line">    OBJC_ASSOCIATION_RETAIN_NONATOMIC = <span class="number">1</span>, <span class="comment">/**&lt; Specifies a strong reference to the associated object. </span></span><br><span class="line"><span class="comment">                                            *   The association is not made atomically. */</span></span><br><span class="line">    OBJC_ASSOCIATION_COPY_NONATOMIC = <span class="number">3</span>,   <span class="comment">/**&lt; Specifies that the associated object is copied. </span></span><br><span class="line"><span class="comment">                                            *   The association is not made atomically. */</span></span><br><span class="line">    OBJC_ASSOCIATION_RETAIN = <span class="number">01401</span>,       <span class="comment">/**&lt; Specifies a strong reference to the associated object.</span></span><br><span class="line"><span class="comment">                                            *   The association is made atomically. */</span></span><br><span class="line">    OBJC_ASSOCIATION_COPY = <span class="number">01403</span>          <span class="comment">/**&lt; Specifies that the associated object is copied.</span></span><br><span class="line"><span class="comment">                                            *   The association is made atomically. */</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h4 id="AssociationPolicy中NONATOMIC-和-ATOMIC-的区别"><a href="#AssociationPolicy中NONATOMIC-和-ATOMIC-的区别" class="headerlink" title="AssociationPolicy中NONATOMIC 和 ATOMIC 的区别"></a>AssociationPolicy中NONATOMIC 和 ATOMIC 的区别</h4><p>对于setter方法，<code>NONATOMIC</code> 和 <code>ATOMIC</code> 没有什么区别</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span></span><br><span class="line">_object_set_associative_reference(id object, <span class="type">const</span> <span class="type">void</span> *key, id value, <span class="type">uintptr_t</span> policy)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// This code used to work when nil was passed for object and key. Some code</span></span><br><span class="line">    <span class="comment">// probably relies on that to not crash. Check and handle it explicitly.</span></span><br><span class="line">    <span class="comment">// rdar://problem/44094390</span></span><br><span class="line">    <span class="keyword">if</span> (!object &amp;&amp; !value) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (object-&gt;getIsa()-&gt;forbidsAssociatedObjects())</span><br><span class="line">        _objc_fatal(<span class="string">&quot;objc_setAssociatedObject called on instance (%p) of class %s which does not allow associated objects&quot;</span>, object, object_getClassName(object));</span><br><span class="line"></span><br><span class="line">    DisguisedPtr&lt;objc_object&gt; disguised&#123;(objc_object *)object&#125;;</span><br><span class="line">    ObjcAssociation association&#123;policy, value&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// retain the new value (if any) outside the lock.</span></span><br><span class="line">    association.acquireValue();</span><br><span class="line"></span><br><span class="line">    <span class="type">bool</span> isFirstAssociation = <span class="literal">false</span>;</span><br><span class="line">    &#123;</span><br><span class="line">        AssociationsManager manager;</span><br><span class="line">        AssociationsHashMap &amp;<span class="title function_">associations</span><span class="params">(manager.get())</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (value) &#123;</span><br><span class="line">            <span class="keyword">auto</span> refs_result = associations.try_emplace(disguised, ObjectAssociationMap&#123;&#125;);</span><br><span class="line">            <span class="keyword">if</span> (refs_result.second) &#123;</span><br><span class="line">                <span class="comment">/* it&#x27;s the first association we make */</span></span><br><span class="line">                isFirstAssociation = <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">/* establish or replace the association */</span></span><br><span class="line">            <span class="keyword">auto</span> &amp;refs = refs_result.first-&gt;second;</span><br><span class="line">            <span class="keyword">auto</span> result = refs.try_emplace(key, <span class="built_in">std</span>::move(association));</span><br><span class="line">            <span class="keyword">if</span> (!result.second) &#123;</span><br><span class="line">                association.swap(result.first-&gt;second);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">auto</span> refs_it = associations.find(disguised);</span><br><span class="line">            <span class="keyword">if</span> (refs_it != associations.end()) &#123;</span><br><span class="line">                <span class="keyword">auto</span> &amp;refs = refs_it-&gt;second;</span><br><span class="line">                <span class="keyword">auto</span> it = refs.find(key);</span><br><span class="line">                <span class="keyword">if</span> (it != refs.end()) &#123;</span><br><span class="line">                    association.swap(it-&gt;second);</span><br><span class="line">                    refs.erase(it);</span><br><span class="line">                    <span class="keyword">if</span> (refs.size() == <span class="number">0</span>) &#123;</span><br><span class="line">                        associations.erase(refs_it);</span><br><span class="line"></span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Call setHasAssociatedObjects outside the lock, since this</span></span><br><span class="line">    <span class="comment">// will call the object&#x27;s _noteAssociatedObjects method if it</span></span><br><span class="line">    <span class="comment">// has one, and this may trigger +initialize which might do</span></span><br><span class="line">    <span class="comment">// arbitrary stuff, including setting more associated objects.</span></span><br><span class="line">    <span class="keyword">if</span> (isFirstAssociation)</span><br><span class="line">        object-&gt;setHasAssociatedObjects();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// release the old value (outside of the lock).</span></span><br><span class="line">    association.releaseHeldValue();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">inline</span> <span class="type">void</span> <span class="title function_">acquireValue</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (_value) &#123;</span><br><span class="line">        <span class="keyword">switch</span> (_policy &amp; <span class="number">0xFF</span>) &#123;</span><br><span class="line">        <span class="keyword">case</span> OBJC_ASSOCIATION_SETTER_RETAIN:</span><br><span class="line">            _value = objc_retain(_value);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> OBJC_ASSOCIATION_SETTER_COPY:</span><br><span class="line">            _value = ((id(*)(id, SEL))objc_msgSend)(_value, @selector(copy));</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>大致步骤：</p>
-<ol>
-<li>retain新值</li>
-<li>AssociationsManagerLock加锁</li>
-<li>用新值替换旧值</li>
-<li>AssociationsManagerLock解锁</li>
-<li>标记object有关联对象</li>
-<li>释放旧值</li>
-</ol>
-<p><code>NONATOMIC</code> 和 <code>ATOMIC</code> 的区别只体现在 <code>objc_getAssociatedObject</code> 的实现上：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">id</span><br><span class="line"><span class="title function_">objc_getAssociatedObject</span><span class="params">(id object, <span class="type">const</span> <span class="type">void</span> *key)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> _object_get_associative_reference(object, key);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">id</span><br><span class="line">_object_get_associative_reference(id object, <span class="type">const</span> <span class="type">void</span> *key)</span><br><span class="line">&#123;</span><br><span class="line">    ObjcAssociation association&#123;&#125;;</span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line">        AssociationsManager manager; <span class="comment">//临时变量manager，里面有全局锁，相当于对代码块进行了加锁解锁，常见写法。</span></span><br><span class="line">        AssociationsHashMap &amp;<span class="title function_">associations</span><span class="params">(manager.get())</span>;</span><br><span class="line">        AssociationsHashMap::iterator i = associations.find((objc_object *)object);</span><br><span class="line">        <span class="keyword">if</span> (i != associations.end()) &#123;</span><br><span class="line">            ObjectAssociationMap &amp;refs = i-&gt;second;</span><br><span class="line">            ObjectAssociationMap::iterator j = refs.find(key);</span><br><span class="line">            <span class="keyword">if</span> (j != refs.end()) &#123;</span><br><span class="line">                association = j-&gt;second;</span><br><span class="line">                association.retainReturnedValue();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> association.autoreleaseReturnedValue();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">inline</span> <span class="type">void</span> <span class="title function_">retainReturnedValue</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (_value &amp;&amp; (_policy &amp; OBJC_ASSOCIATION_GETTER_RETAIN)) &#123;</span><br><span class="line">        objc_retain(_value);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">inline</span> id <span class="title function_">autoreleaseReturnedValue</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (slowpath(_value &amp;&amp; (_policy &amp; OBJC_ASSOCIATION_GETTER_AUTORELEASE))) &#123;</span><br><span class="line">        <span class="keyword">return</span> objc_autorelease(_value);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> _value;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>对于<code>ATOMIC</code>调用getter方法时，获取到的是retain后注册到自动释放池里的对象：</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/09/28/OC-%E5%85%B3%E8%81%94%E5%AF%B9%E8%B1%A1%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2021/08/01/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而奋斗">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/08/01/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-08-01 19:30:13" itemprop="dateCreated datePublished" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-07 21:49:27" itemprop="dateModified" datetime="2022-05-07T21:49:27+08:00">2022-05-07</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Hexo/" itemprop="url" rel="index"><span itemprop="name">Hexo</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2021/08/01/hello-world/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/08/01/hello-world/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/08/01/hello-world/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1208,7 +1179,7 @@
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1274,20 +1245,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">129</span>
+          <span class="site-state-item-count">136</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-count">33</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">83</span>
+        <span class="site-state-item-count">84</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

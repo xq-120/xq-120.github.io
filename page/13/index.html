@@ -22,9 +22,9 @@
 
   <meta name="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="要为真理而奋斗">
+<meta property="og:title" content="要为真理而斗争">
 <meta property="og:url" content="https://xq-120.github.io/page/13/index.html">
-<meta property="og:site_name" content="要为真理而奋斗">
+<meta property="og:site_name" content="要为真理而斗争">
 <meta property="og:description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:author" content="jekyttt">
@@ -43,7 +43,7 @@
   };
 </script>
 
-  <title>要为真理而奋斗</title>
+  <title>要为真理而斗争</title>
   
 
 
@@ -74,7 +74,7 @@
   </style>
 </noscript>
 
-<link rel="alternate" href="/atom.xml" title="要为真理而奋斗" type="application/atom+xml">
+<link rel="alternate" href="/atom.xml" title="要为真理而斗争" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
@@ -96,7 +96,7 @@
     <div>
       <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">要为真理而奋斗</span>
+        <span class="site-title">要为真理而斗争</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -187,6 +187,653 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2017/09/30/mac%20OS%E9%85%8D%E7%BD%AEJAVA%E7%8E%AF%E5%A2%83/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而斗争">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/09/30/mac%20OS%E9%85%8D%E7%BD%AEJAVA%E7%8E%AF%E5%A2%83/" class="post-title-link" itemprop="url">mac OS配置JAVA环境</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-09-30 15:12:24" itemprop="dateCreated datePublished" datetime="2017-09-30T15:12:24+08:00">2017-09-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2017/09/30/mac%20OS%E9%85%8D%E7%BD%AEJAVA%E7%8E%AF%E5%A2%83/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/09/30/mac OS配置JAVA环境/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="mac-OS配置JAVA环境"><a href="#mac-OS配置JAVA环境" class="headerlink" title="mac OS配置JAVA环境"></a>mac OS配置JAVA环境</h2><ul>
+<li><p>下载安装最新版的JDK安装包:<a target="_blank" rel="noopener" href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html</a>,安装完成后查看下Java的版本后面配置要用到:<code>java -version</code></p>
+  <figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">admindeMacBook-Pro:未命名文件夹 admin$ <span class="keyword">java </span>-version</span><br><span class="line"><span class="keyword">java </span>version <span class="string">&quot;1.8.0_144&quot;</span></span><br><span class="line"><span class="keyword">Java(TM) </span>SE Runtime Environment (<span class="keyword">build </span><span class="number">1</span>.<span class="number">8</span>.<span class="number">0</span>_144-<span class="keyword">b01)</span></span><br><span class="line"><span class="keyword"></span><span class="keyword">Java </span>HotSpot(TM) <span class="number">64</span>-<span class="keyword">Bit </span>Server VM (<span class="keyword">build </span><span class="number">25</span>.<span class="number">144</span>-<span class="keyword">b01, </span>mixed mode)</span><br></pre></td></tr></table></figure></li>
+<li><p>配置环境变量：在命令行中打开<code>sudo vim ~/.bash_profile</code>，在文件后面加入下面内容：</p>
+  <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> <span class="attribute">JAVA_HOME</span>=<span class="string">&quot;/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home&quot;</span> </span><br><span class="line"><span class="built_in">export</span> <span class="attribute">PATH</span>=<span class="string">&quot;<span class="variable">$JAVA_HOME</span>/bin:<span class="variable">$PATH</span>&quot;</span> </span><br><span class="line"><span class="built_in">export</span> <span class="attribute">CLASSPATH</span>=<span class="string">&quot;.:<span class="variable">$JAVA_HOME</span>/lib/dt.jar:<span class="variable">$JAVA_HOME</span>/lib/tools.jar&quot;</span></span><br></pre></td></tr></table></figure>
+<p>  note:<code>/jdk1.8.0_144.jdk</code>里面的版本字符串需要替换为上面提到的版本字符串.<br>  完成后保存,并使用<code>source ~/.bash_profile</code>应用该变更。</p>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2017/09/15/http%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4%E5%B7%A5%E5%85%B7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而斗争">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/09/15/http%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4%E5%B7%A5%E5%85%B7/" class="post-title-link" itemprop="url">http相关命令工具</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-09-15 11:54:24" itemprop="dateCreated datePublished" datetime="2017-09-15T11:54:24+08:00">2017-09-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-07-31 12:59:08" itemprop="dateModified" datetime="2022-07-31T12:59:08+08:00">2022-07-31</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/HTTP/" itemprop="url" rel="index"><span itemprop="name">HTTP</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2017/09/15/http%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4%E5%B7%A5%E5%85%B7/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/09/15/http相关命令工具/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>测试某个网址是否使用https:<br><code>nscurl --ats-diagnostics --verbose https://www.baidu.com</code></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2017/09/15/Swift%E5%AF%B9%E8%B1%A1%E6%8B%B7%E8%B4%9D/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而斗争">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/09/15/Swift%E5%AF%B9%E8%B1%A1%E6%8B%B7%E8%B4%9D/" class="post-title-link" itemprop="url">Swift对象拷贝</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-09-15 11:07:24" itemprop="dateCreated datePublished" datetime="2017-09-15T11:07:24+08:00">2017-09-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2017/09/15/Swift%E5%AF%B9%E8%B1%A1%E6%8B%B7%E8%B4%9D/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/09/15/Swift对象拷贝/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Swift对象拷贝"><a href="#Swift对象拷贝" class="headerlink" title="Swift对象拷贝"></a>Swift对象拷贝</h2><h3 id="方法一-实现NSCopying协议"><a href="#方法一-实现NSCopying协议" class="headerlink" title="方法一:实现NSCopying协议"></a>方法一:实现NSCopying协议</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Resume</span>: <span class="title class_">NSObject</span>, <span class="title class_">NSCopying</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String</span></span><br><span class="line">    <span class="keyword">var</span> sex: <span class="type">String</span>?</span><br><span class="line">    <span class="keyword">var</span> age: <span class="type">String</span>?</span><br><span class="line">    <span class="keyword">var</span> timeArea: <span class="type">String</span>?</span><br><span class="line">    <span class="keyword">var</span> company: <span class="type">String</span>?</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//必须要有一个required的初始化方法</span></span><br><span class="line">    <span class="keyword">required</span> <span class="keyword">init</span>(<span class="params">name</span>: <span class="type">String</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.name <span class="operator">=</span> name</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">copy</span>(<span class="params">with</span> <span class="params">zone</span>: <span class="type">NSZone</span>? <span class="operator">=</span> <span class="literal">nil</span>) -&gt; <span class="keyword">Any</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> obj <span class="operator">=</span> <span class="built_in">type</span>(of: <span class="keyword">self</span>).<span class="keyword">init</span>(name: name)</span><br><span class="line">        obj.sex <span class="operator">=</span> sex</span><br><span class="line">        obj.age <span class="operator">=</span> age</span><br><span class="line">        obj.timeArea <span class="operator">=</span> timeArea</span><br><span class="line">        obj.company <span class="operator">=</span> company</span><br><span class="line">        <span class="keyword">return</span> obj</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用:<br><code>let ben = Resume.init(name: &quot;本初&quot;)</code><br><code>var shu = ben.copy() as! Resume</code></p>
+<h3 id="方法二-实现自定义拷贝协议"><a href="#方法二-实现自定义拷贝协议" class="headerlink" title="方法二:实现自定义拷贝协议"></a>方法二:实现自定义拷贝协议</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protocol</span> <span class="title class_">Copyable</span> &#123;</span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">copied</span>() -&gt; <span class="keyword">Self</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Book</span>: <span class="title class_">Copyable</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String</span></span><br><span class="line">    <span class="keyword">var</span> author: <span class="type">String</span>?</span><br><span class="line">    <span class="keyword">var</span> publish: <span class="type">String</span>?</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//必须要有一个required的初始化方法</span></span><br><span class="line">    <span class="keyword">required</span> <span class="keyword">init</span>(<span class="params">name</span>: <span class="type">String</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.name <span class="operator">=</span> name</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">copied</span>() -&gt; <span class="keyword">Self</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> obj <span class="operator">=</span> <span class="built_in">type</span>(of: <span class="keyword">self</span>).<span class="keyword">init</span>(name: name)</span><br><span class="line">        obj.name <span class="operator">=</span> name</span><br><span class="line">        obj.author <span class="operator">=</span> author</span><br><span class="line">        obj.publish <span class="operator">=</span> publish</span><br><span class="line">        <span class="keyword">return</span> obj</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用:<br><code>let sanguo = Book.init(name: &quot;three of kingdom&quot;)</code><br><code>let book = sanguo.copied()</code>  </p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2017/09/15/Swift%E5%AE%9E%E7%8E%B0removeObject/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而斗争">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/09/15/Swift%E5%AE%9E%E7%8E%B0removeObject/" class="post-title-link" itemprop="url">Swift实现removeObject</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-09-15 10:12:24" itemprop="dateCreated datePublished" datetime="2017-09-15T10:12:24+08:00">2017-09-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2017/09/15/Swift%E5%AE%9E%E7%8E%B0removeObject/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/09/15/Swift实现removeObject/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Swift实现removeObject"><a href="#Swift实现removeObject" class="headerlink" title="Swift实现removeObject"></a>Swift实现removeObject</h2><p>如果类没有继承自NSObject,那么类必须要实现<code>Equatable</code>协议.否则不需要.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Observer</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String</span>!</span><br><span class="line">    <span class="keyword">var</span> subject: <span class="type">Subject</span>!</span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">observer</span>(<span class="params">name</span>: <span class="type">String</span>, <span class="params">subject</span>: <span class="type">Subject</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.name <span class="operator">=</span> name</span><br><span class="line">        <span class="keyword">self</span>.subject <span class="operator">=</span> subject</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">update</span>() &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">extension</span> <span class="title class_">Observer</span>: <span class="title class_">Equatable</span> &#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">func</span> <span class="title function_">==</span>(<span class="params">lhs</span>: <span class="type">Observer</span>, <span class="params">rhs</span>: <span class="type">Observer</span>) -&gt; <span class="type">Bool</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> lhs <span class="operator">===</span> rhs &#123; <span class="comment">//地址相等. ps:&quot;==&quot;值相等.</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>然后在通过扩展给Array增加一个<code>removeObject(object: Element)</code>方法:</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extension</span> <span class="keyword">Array</span> <span class="keyword">where</span> Element: Equatable &#123;</span><br><span class="line">    mutating func removeObject(<span class="keyword">object</span>: Element) &#123;</span><br><span class="line">        <span class="keyword">if</span> let <span class="keyword">index</span> = <span class="keyword">index</span>(<span class="keyword">of</span>: <span class="keyword">object</span>) &#123;</span><br><span class="line">            remove(at: <span class="keyword">index</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>由于Array是结构体类型,而removeObject函数会改变结构体的值,所以该函数需要添加mutating关键字.“Notice the use of the mutating keyword in the declaration of SimpleStructure to mark a method that modifies the structure. The declaration of SimpleClass doesn’t need any of its methods marked as mutating because methods on a class can always modify the class.”</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2017/09/15/Swift%20addTarget%E5%87%BD%E6%95%B0%E7%9A%84Selector%E5%8F%82%E6%95%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而斗争">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/09/15/Swift%20addTarget%E5%87%BD%E6%95%B0%E7%9A%84Selector%E5%8F%82%E6%95%B0/" class="post-title-link" itemprop="url">Swift addTarget函数的Selector参数</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-09-15 10:12:24" itemprop="dateCreated datePublished" datetime="2017-09-15T10:12:24+08:00">2017-09-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2017/09/15/Swift%20addTarget%E5%87%BD%E6%95%B0%E7%9A%84Selector%E5%8F%82%E6%95%B0/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/09/15/Swift addTarget函数的Selector参数/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Swift里addTarget函数里的Selector参数和OC的不太一样.<br><code>open func addTarget(_ target: Any?, action: Selector, for controlEvents: UIControlEvents)</code><br>根据Selector的定义</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">struct</span> <span class="title class_">Selector</span> : <span class="title class_">ExpressibleByStringLiteral</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// Create a selector from a string.</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">init</span>(<span class="keyword">_</span> <span class="params">str</span>: <span class="type">String</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// Create an instance initialized to `value`.</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">init</span>(<span class="params">unicodeScalarLiteral</span> <span class="params">value</span>: <span class="type">String</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// Construct a selector from `value`.</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">init</span>(<span class="params">extendedGraphemeClusterLiteral</span> <span class="params">value</span>: <span class="type">String</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// Create an instance initialized to `value`.</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">init</span>(<span class="params">stringLiteral</span> <span class="params">value</span>: <span class="type">String</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>它是一个结构体,并遵守<code>ExpressibleByStringLiteral</code>协议,因此可以直接传递一个字面值字符串.<br>不过这个字符串需要遵循一定的规则:</p>
+<ol>
+<li>如果函数没有参数,则字符串的格式为”函数名”.</li>
+<li>如果函数有参数但省略了参数标签,则字符串的格式为”函数名:”.</li>
+<li>如果函数有参数并且没有省略参数标签,则字符串的格式为”函数名With参数标签:”.ps:如果函数使用的是默认参数标签即使用参数名称作为参数标签的,那么字符串的格式为”函数名With参数名称:”</li>
+</ol>
+<p>举个例子:  </p>
+<ol>
+<li>没有参数<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">func numberSliderChanged<span class="function"><span class="params">()</span> -&gt;</span> Void &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+对应写法:<code>numberSlider.addTarget(self, action: &quot;numberSliderChanged&quot;, for: .valueChanged)</code></li>
+<li>省略参数标签<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">numberSliderChanged</span>(<span class="keyword">_</span> <span class="params">sender</span>: <span class="type">UISlider</span>) -&gt; <span class="type">Void</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;---&quot;</span>, sender.value)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+对应写法:<code>numberSlider.addTarget(self, action: &quot;numberSliderChanged:&quot;, for: .valueChanged)</code></li>
+<li>写明了参数标签slider.<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">numberSliderChanged</span>(<span class="params">slider</span> <span class="params">sender</span>: <span class="type">UISlider</span>) -&gt; <span class="type">Void</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(sender.value)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+对应写法:<code>numberSlider.addTarget(self, action: &quot;numberSliderChangedWithSlider:&quot;, for: .valueChanged)</code></li>
+<li>使用默认参数标签<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">numberSliderChanged</span>(<span class="params">sender</span>: <span class="type">UISlider</span>) -&gt; <span class="type">Void</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;sds&quot;</span>, sender.value)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+对应写法:<code>numberSlider.addTarget(self, action: &quot;numberSliderChangedWithSender:&quot;, for: .valueChanged)</code></li>
+</ol>
+<p>然而这种写法已经废弃,目前swift3.1推荐的是使用<code>#selector</code>,因此上述4写法等价于:<br><code>numberSlider.addTarget(self, action: #selector(numberSliderChanged(sender:)), for: .valueChanged)</code>.<br>当然你也可以传递一个Selector类型的变量:<br><code>numberSlider.addTarget(self, action: Selector.init(stringLiteral: &quot;numberSliderChangedWithSender:&quot;), for: .valueChanged)</code>.不过这种写法依然不是推荐的写法.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2017/09/12/Swift%E5%8D%8F%E8%AE%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而斗争">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/09/12/Swift%E5%8D%8F%E8%AE%AE/" class="post-title-link" itemprop="url">Swift协议</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-09-12 23:07:12" itemprop="dateCreated datePublished" datetime="2017-09-12T23:07:12+08:00">2017-09-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2017/09/12/Swift%E5%8D%8F%E8%AE%AE/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/09/12/Swift协议/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="协议"><a href="#协议" class="headerlink" title="协议"></a>协议</h2><h3 id="可选实现"><a href="#可选实现" class="headerlink" title="可选实现"></a>可选实现</h3><p>Swift里标记某个方法为可选实现时,需要在协议前添加<code>@objc</code>,并且在可选方法前添加<code>@objc optional</code>.其实也是为了跟OC兼容.<br>eg:</p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@objc protocol Iterator &#123;</span><br><span class="line">    func first<span class="function"><span class="params">()</span> -&gt;</span> AnyObject?</span><br><span class="line">    </span><br><span class="line">    func next<span class="function"><span class="params">()</span> -&gt;</span> AnyObject?</span><br><span class="line">    </span><br><span class="line">    @objc optional func isDone<span class="function"><span class="params">()</span> -&gt;</span> Bool</span><br><span class="line">    </span><br><span class="line">    func currentItem<span class="function"><span class="params">()</span> -&gt;</span> AnyObject?</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>判断某个实例是否实现了协议里的可选方法:</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> i.isDone?() != <span class="literal">nil</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;\(i) 实现了方法isDone&quot;</span>)</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;\(i) 没实现方法isDone&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>因为isDone是可选实现方法,所以调用时需要加?,这样就转为optional chaining处理,如果方法的返回值不为nil,则说明对象实现了协议的可选实现方法.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2017/09/10/CocoaPods%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而斗争">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/09/10/CocoaPods%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">CocoaPods常见问题</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-09-10 16:07:12" itemprop="dateCreated datePublished" datetime="2017-09-10T16:07:12+08:00">2017-09-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CocoaPods/" itemprop="url" rel="index"><span itemprop="name">CocoaPods</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2017/09/10/CocoaPods%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/09/10/CocoaPods常见问题/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Q:在用 Cocoapods 做第三方开源库管理的时候，有时候发现查找到的第三方库版本低于github上仓库的最新release版本.<br>A:执行<code>pod update</code>更新本地仓库，完成后，即可搜索到指定的第三方库.  </p>
+<p>Q:在使用了<code>pod setup</code>之后，发现好长时间都没有变化，无法从终端上获取<code>pod setup</code>的执行情况.<br>A:这时候可以command+N新建一个窗口，通过<code>sudo ls</code>用管理员权限查看目录,然后<code>cd .cocoapods</code>文件夹，输入<code>du -sh</code>命令查看文件夹大小变化，从而确定<code>pod setup</code>的运行情况.</p>
+<p>note:在Podfile文件中的<code>platform :ios, &#39;7.0&#39;</code>,如果你设置的iOS系统过低,可能有的第三方库会下载不下来.所以还是要看一下第三方库的最低版本支持说明.</p>
+<p>Q:RuntimeError - [Xcodeproj] Unknown object version.然后是一大堆错误日志.不管是重新从svn checkout一份新的还是怎样,pod install都不能成功.<br>A:一种解决办法:重新安装cocoapods.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2017/09/10/can't%20find%20gem%20cocoapods/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -196,7 +843,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而奋斗">
+      <meta itemprop="name" content="要为真理而斗争">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -291,7 +938,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而奋斗">
+      <meta itemprop="name" content="要为真理而斗争">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -381,7 +1028,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而奋斗">
+      <meta itemprop="name" content="要为真理而斗争">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -403,7 +1050,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+                <time title="修改时间：2022-07-31 12:59:08" itemprop="dateModified" datetime="2022-07-31T12:59:08+08:00">2022-07-31</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -411,11 +1058,23 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%BD%BF%E7%94%A8/" itemprop="url" rel="index"><span itemprop="name">第三方库使用</span></a>
+                  <a href="/categories/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" itemprop="url" rel="index"><span itemprop="name">源码分析</span></a>
                 </span>
             </span>
 
           
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2017/09/04/UITableView-FDTemplateLayoutCell%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/09/04/UITableView-FDTemplateLayoutCell源码分析/" itemprop="commentCount"></span>
+    </a>
+  </span>
   
   
 
@@ -466,582 +1125,11 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2017/08/28/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而奋斗">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/08/28/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/" class="post-title-link" itemprop="url">数值计算</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2017-08-28 17:12:24" itemprop="dateCreated datePublished" datetime="2017-08-28T17:12:24+08:00">2017-08-28</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/" itemprop="url" rel="index"><span itemprop="name">数值计算</span></a>
-                </span>
-            </span>
-
-          
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="四舍五入保留两位小数"><a href="#四舍五入保留两位小数" class="headerlink" title="四舍五入保留两位小数"></a>四舍五入保留两位小数</h2><p><code>NSString *strOdds = [NSString stringWithFormat:@&quot;%.2f&quot;, odds]; //保留两位小数</code><br>该方法会四舍五入保留两位小数,不足两位小数后面补0.如果想在四舍五入时去掉小数点后多余的0,可使用下面的方法:</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">NSString</span> *)roundingAfterPoint:(<span class="built_in">NSInteger</span>)position roudingMode:(<span class="built_in">NSRoundingMode</span>)roundingMode</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">NSDecimalNumberHandler</span> *roundingBehavior = [<span class="built_in">NSDecimalNumberHandler</span> decimalNumberHandlerWithRoundingMode:roundingMode scale:position raiseOnExactness:<span class="literal">NO</span> raiseOnOverflow:<span class="literal">NO</span> raiseOnUnderflow:<span class="literal">NO</span> raiseOnDivideByZero:<span class="literal">NO</span>];</span><br><span class="line">    </span><br><span class="line">    <span class="type">float</span> f_price = <span class="keyword">self</span>.floatValue;</span><br><span class="line">    <span class="built_in">NSDecimalNumber</span> *ouncesDecimal = [[<span class="built_in">NSDecimalNumber</span> alloc] initWithFloat:f_price];</span><br><span class="line">    <span class="built_in">NSDecimalNumber</span> *roundedOunces = [ouncesDecimal decimalNumberByRoundingAccordingToBehavior:roundingBehavior];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">NSString</span> *rs = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@&quot;%@&quot;</span>,roundedOunces];</span><br><span class="line">    <span class="keyword">return</span> rs;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>调用:<br><code>NSString *rs = [self roundingAfterPoint:2 roudingMode:NSRoundPlain];</code></p>
-<p>在进行浮点型数值计算时最好统一类型,比如全部统一为float计算,或全部为double型计算.否则可能会出现误差,导致计算不一致.</p>
-<h2 id="浮点型数值取整"><a href="#浮点型数值取整" class="headerlink" title="浮点型数值取整"></a>浮点型数值取整</h2><ul>
-<li>round：如果参数是小数，则求本身的四舍五入。</li>
-<li>ceil：如果参数是小数，则求最小的整数但不小于本身.</li>
-<li>floor：如果参数是小数，则求最大的整数但不大于本身. </li>
-</ul>
-<p>Example:如果值是3.4的话，则round 3.000000, ceil 4.000000, floor 3.00000</p>
-<p>另外,强制取整<code>(int)3.4 = 3</code>,直接丢弃小数位仅保留整数位,类似于floor函数.</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2017/08/21/swift%E5%B0%81%E8%A3%85%E6%89%93%E5%8D%B0%E5%87%BD%E6%95%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而奋斗">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/08/21/swift%E5%B0%81%E8%A3%85%E6%89%93%E5%8D%B0%E5%87%BD%E6%95%B0/" class="post-title-link" itemprop="url">swift封装打印函数</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2017-08-21 16:20:24" itemprop="dateCreated datePublished" datetime="2017-08-21T16:20:24+08:00">2017-08-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2017/08/21/swift%E5%B0%81%E8%A3%85%E6%89%93%E5%8D%B0%E5%87%BD%E6%95%B0/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/08/21/swift封装打印函数/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="swift封装打印函数"><a href="#swift封装打印函数" class="headerlink" title="swift封装打印函数"></a>swift封装打印函数</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> dateFormatter <span class="operator">=</span> <span class="type">DateFormatter</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">//日志打印</span></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">DLog</span>&lt;<span class="type">T</span>&gt;(<span class="keyword">_</span> <span class="params">message</span>:<span class="type">T</span>, <span class="params">file</span>:<span class="type">String</span> <span class="operator">=</span> <span class="keyword">#file</span>, <span class="params">function</span>:<span class="type">String</span> <span class="operator">=</span> <span class="keyword">#function</span>, <span class="params">line</span>:<span class="type">Int</span> <span class="operator">=</span> <span class="keyword">#line</span>) &#123;</span><br><span class="line">    <span class="keyword">#if</span> <span class="type">DEBUG</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">//获取文件名</span></span><br><span class="line">    <span class="keyword">let</span> fileName <span class="operator">=</span> (file <span class="keyword">as</span> <span class="type">NSString</span>).lastPathComponent</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 为日期格式器设置格式字符串</span></span><br><span class="line">    dateFormatter.dateFormat <span class="operator">=</span> <span class="string">&quot;yyyy-MM-dd HH:mm:ss.SSS&quot;</span></span><br><span class="line">    <span class="comment">// 使用日期格式器格式化当前日期、时间</span></span><br><span class="line">    <span class="keyword">let</span> datestr <span class="operator">=</span> dateFormatter.string(from: <span class="type">Date</span>())</span><br><span class="line"></span><br><span class="line">    <span class="comment">//日志内容</span></span><br><span class="line">    <span class="keyword">let</span> consoleStr <span class="operator">=</span> <span class="string">&quot;<span class="subst">\(datestr)</span> [<span class="subst">\(fileName)</span>:<span class="subst">\(line)</span>][<span class="subst">\(function)</span>]<span class="subst">\(message)</span>&quot;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">//打印日志内容</span></span><br><span class="line">    <span class="built_in">print</span>(consoleStr)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">#endif</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="打印对象地址"><a href="#打印对象地址" class="headerlink" title="打印对象地址"></a>打印对象地址</h2><p><code>Unmanaged.passUnretained(self).toOpaque()</code></p>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">DLog</span><span class="params">(self)</span></span></span><br><span class="line"><span class="function"><span class="title">DLog</span><span class="params">(<span class="string">&quot;self p:\(Unmanaged.passUnretained(self).toOpaque())&quot;</span>)</span></span></span><br></pre></td></tr></table></figure>
-<p>打印如下:  </p>
-<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">2019</span>-<span class="number">02</span>-<span class="number">27</span> <span class="number">11</span>:<span class="number">58</span>:<span class="number">57</span>.<span class="number">378</span><span class="meta"> [ViewController.swift:30][viewDidAppear]&lt;demo.ViewController: 0x1059c2170&gt;</span></span><br><span class="line"><span class="meta">2019-02-27 11:58:57.383 [ViewController.swift:31][viewDidAppear]self p:0x00000001059c2170</span></span><br></pre></td></tr></table></figure>
-<p>不过还是推荐<a target="_blank" rel="noopener" href="http://www.hangge.com/blog/cache/detail_1418.html">Swift - 日志框架XCGLogger的使用详解</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2017/08/20/layoutSubviews%E7%9A%84%E8%B0%83%E7%94%A8%E6%97%B6%E6%9C%BA/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而奋斗">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/08/20/layoutSubviews%E7%9A%84%E8%B0%83%E7%94%A8%E6%97%B6%E6%9C%BA/" class="post-title-link" itemprop="url">layoutSubviews的调用时机</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2017-08-20 23:20:24" itemprop="dateCreated datePublished" datetime="2017-08-20T23:20:24+08:00">2017-08-20</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/UIKit/" itemprop="url" rel="index"><span itemprop="name">UIKit</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2017/08/20/layoutSubviews%E7%9A%84%E8%B0%83%E7%94%A8%E6%97%B6%E6%9C%BA/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/08/20/layoutSubviews的调用时机/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="layoutSubviews的调用时机"><a href="#layoutSubviews的调用时机" class="headerlink" title="layoutSubviews的调用时机"></a>layoutSubviews的调用时机</h2><p>方法说明:</p>
-<p>该方法在iOS 5.1及更低版本上不执行任何操作。 否则，该方法将使用你设置的约束来确定子视图的大小和位置。</p>
-<p>该方法由<code>layoutIfNeeded</code>自动调用,所以我们不能手动去调用它.在需要重新布局子视图时,可以调用<code>[self layoutIfNeeded]</code>或<code>[self setNeedLayout];</code></p>
-<h2 id="手动触发layoutSubviews"><a href="#手动触发layoutSubviews" class="headerlink" title="手动触发layoutSubviews"></a>手动触发layoutSubviews</h2><p>调用<code>[self layoutIfNeeded]</code>或<code>[self setNeedLayout];</code>  </p>
-<blockquote>
-<p><code>layoutIfNeeded</code>与<code>setNeedLayout</code>的区别: </p>
-</blockquote>
-<p>调用 <code>layoutIfNeeded</code> 会马上执行 <code>layoutSubviews</code> 方法，立即更新视图的布局。但是调用<code>setNeedLayout</code>并不会马上执行<code>layoutSubviews</code>,而是等到runloop结束时调用.</p>
-<h2 id="自动触发layoutSubviews"><a href="#自动触发layoutSubviews" class="headerlink" title="自动触发layoutSubviews"></a>自动触发layoutSubviews</h2><p>如果一个viewA还没有被添加到父视图上面去,那么无论你对它进行什么操作(设置frame,添加子视图等等),它的<code>layoutSubviews</code>方法始终是不会被调用的.  </p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2017/08/20/layoutSubviews%E7%9A%84%E8%B0%83%E7%94%A8%E6%97%B6%E6%9C%BA/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2017/08/16/layoutIfNeeded%E4%B8%8ElayoutSubviews%E7%9A%84%E5%85%B3%E7%B3%BB/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而奋斗">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/08/16/layoutIfNeeded%E4%B8%8ElayoutSubviews%E7%9A%84%E5%85%B3%E7%B3%BB/" class="post-title-link" itemprop="url">layoutIfNeeded与layoutSubviews的关系</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2017-08-16 15:12:24" itemprop="dateCreated datePublished" datetime="2017-08-16T15:12:24+08:00">2017-08-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/UIKit/" itemprop="url" rel="index"><span itemprop="name">UIKit</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2017/08/16/layoutIfNeeded%E4%B8%8ElayoutSubviews%E7%9A%84%E5%85%B3%E7%B3%BB/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/08/16/layoutIfNeeded与layoutSubviews的关系/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>动画<code>-layoutIfNeeded</code>父控制器的self.view,子控制器的子视图如果重写了<code>-layoutSubviews</code>也将动画布局.<br>需求:导航栏根据子VC的tableview的位移动画.</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (contentOffsetY <span class="operator">&gt;</span> <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="comment">//上滑</span></span><br><span class="line">    </span><br><span class="line">    [<span class="keyword">self</span>.headerContainerView mas_updateConstraints:<span class="operator">^</span>(<span class="type">MASConstraintMaker</span> <span class="operator">*</span>make) &#123;</span><br><span class="line">        make.top.equalTo(<span class="keyword">self</span>.view.mas_topMargin).with.offset(startY <span class="operator">-</span> endY);</span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">    [<span class="keyword">self</span>.view setNeedsUpdateConstraints];</span><br><span class="line">    [<span class="keyword">self</span>.view updateConstraintsIfNeeded];</span><br><span class="line">    </span><br><span class="line">    [<span class="type">UIView</span> animateWithDuration:<span class="number">0.3</span> animations:<span class="operator">^</span>&#123;</span><br><span class="line">        <span class="keyword">self</span>.contentScrollView.contentInset <span class="operator">=</span> <span class="type">UIEdgeInsetsMake</span>(<span class="operator">-</span>endY, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">        </span><br><span class="line">        [<span class="keyword">self</span>.view layoutIfNeeded]; <span class="comment">//问题点</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">self</span>.headerContainerView.headerView.matchOtherDesBgView.alpha <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">self</span>.headerContainerView.headerView.team1NameLabel.alpha <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">self</span>.headerContainerView.headerView.team2NameLabel.alpha <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">self</span>.headerContainerView.headerView.teamLogoBgView.transform <span class="operator">=</span> <span class="type">CGAffineTransformMakeScale</span>(<span class="number">0.5</span>, <span class="number">0.5</span>);</span><br><span class="line">        <span class="type">CGAffineTransform</span> currentT <span class="operator">=</span> <span class="keyword">self</span>.headerContainerView.headerView.teamLogoBgView.transform;</span><br><span class="line">        <span class="type">CGAffineTransform</span> translation <span class="operator">=</span> <span class="type">CGAffineTransformTranslate</span>(currentT, <span class="number">0</span>, teamLogoBgViewOffsetY);</span><br><span class="line">        <span class="keyword">self</span>.headerContainerView.headerView.teamLogoBgView.transform <span class="operator">=</span> translation;</span><br><span class="line">    &#125;];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>由于需要动画的改变父控制器里的view位移,又因为使用了xib,所以动画时需要在动画block里写<code>[self.view layoutIfNeeded];</code>但这句代码导致了子控制器的视图的<code>-layoutSubviews</code>方法被调用.于是子控制器的视图在布局时也会动画的进行(而这种效果不是你需要的从而变成了bug.)<br>这里的bug就是:子控制器里的tableViewCell因为重写了<code>-layoutSubviews</code>,而cell上的子控件<code>KDGMatchDetailItemView</code>也重写了<code>-layoutSubviews</code>.所以<code>KDGMatchDetailItemView</code>在布局时出现动画的往右移动.<br>解决办法:当导航栏收缩后,就不要执行<code>[self.view layoutIfNeeded];</code>加个判断条件:</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (contentOffsetY &gt; <span class="number">0</span>  &amp;&amp; self<span class="selector-class">.contentScrollView</span><span class="selector-class">.contentInset</span><span class="selector-class">.top</span> != -endY) &#123;</span><br><span class="line">	<span class="comment">//动画代码</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>系统的<code>-layoutIfNeeded</code>的实现应该是调用了视图的<code>-layoutSubviews</code>方法.父视图<code>-layoutSubviews</code>方法的调用可能会引起子视图<code>-layoutSubviews</code>方法的调用.</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2017/07/20/next-tutorial/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而奋斗">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/07/20/next-tutorial/" class="post-title-link" itemprop="url">Next Theme Tutorial</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2017-07-20 00:00:00" itemprop="dateCreated datePublished" datetime="2017-07-20T00:00:00+08:00">2017-07-20</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-07 17:36:27" itemprop="dateModified" datetime="2022-05-07T17:36:27+08:00">2022-05-07</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Hexo/" itemprop="url" rel="index"><span itemprop="name">Hexo</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2017/07/20/next-tutorial/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/07/20/next-tutorial/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>NexT is a high quality elegant Jekyll theme ported from Hexo Next. It is crafted from scratch, with love.</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2017/07/20/next-tutorial/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2016/04/24/UITableViewCell%E9%87%8D%E7%94%A8%E5%AF%BC%E8%87%B4%E7%9A%84%E5%9B%BE%E7%89%87%E9%94%99%E4%B9%B1%E9%97%AE%E9%A2%98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而奋斗">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2016/04/24/UITableViewCell%E9%87%8D%E7%94%A8%E5%AF%BC%E8%87%B4%E7%9A%84%E5%9B%BE%E7%89%87%E9%94%99%E4%B9%B1%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">UITableViewCell重用导致的图片错乱问题</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2016-04-24 22:25:40" itemprop="dateCreated datePublished" datetime="2016-04-24T22:25:40+08:00">2016-04-24</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/UIKit/" itemprop="url" rel="index"><span itemprop="name">UIKit</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2016/04/24/UITableViewCell%E9%87%8D%E7%94%A8%E5%AF%BC%E8%87%B4%E7%9A%84%E5%9B%BE%E7%89%87%E9%94%99%E4%B9%B1%E9%97%AE%E9%A2%98/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/04/24/UITableViewCell重用导致的图片错乱问题/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>tttttttttt之前做过一个视频信息列表展示的模块，cell很简单就是左边图片，右边文字信息。当时用的SDWebImage加载图片并没有看到图片错乱的情况。但是，如果是自己写的图片下载器，不注意处理是会导致图片错乱的。</p>
-<p>今天写了个Demo，验证及解决这个问题。<br>实验环境：cell依然是左边图片，右边文字信息。图片两张，一张大图片A(风景)，一张小图片B(人物)，<strong>采用自己实现的原始图片下载器</strong>异步下载，block里回调设置cell的图片。要求偶数行的图片是风景，奇数行的图片是人物。<br>整个界面期望如下:<br><img src="http://upload-images.jianshu.io/upload_images/1503319-0c16709bb58a8af1.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="期望tableview界面.jpg"></p>
-<p>但实际可能出现bug，如下图:<br><img src="http://upload-images.jianshu.io/upload_images/1503319-396836dd909893b1.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="bug界面.jpg"></p>
-<h4 id="数据错乱原因分析"><a href="#数据错乱原因分析" class="headerlink" title="数据错乱原因分析"></a>数据错乱原因分析</h4><p>cell上的数据错乱显然是由于cell的重用导致的。由于图片是异步下载的，下载完成才给cell设置，但是在这个过程中用户可能会上下滑动，滑动的时候会导致cell的重用，比如第0行是设置大图片的，第11行是设置小图片的，用户在滑动的过程中，因为cell的重用第11行的cell可能使用的是第0行的cell，这时第0行的block回调设置的cell和第11行的block回调设置的cell是同一个，即cell的重用导致两个block回调时设置的其实是同一个cell上的imageView。这就是问题的关键。</p>
-<p>因为图片是异步下载的，你也不知道哪个block会先回调，如果小图片的block先回调那么这个cell的图片就先被设置为小图片，如果后来大图片的block回来了，那么你会看到图片被替换成大图片，这种情况还算比较好，但如果大图片下载失败或者小图片的block最后回调，那么你看到的将是小图片加大图片的文字信息，这时数据就错乱了。</p>
-<h4 id="如何解决"><a href="#如何解决" class="headerlink" title="如何解决"></a>如何解决</h4><p>如果不重用cell，当然是可以解决该问题的，但是内存肯定会浪费不少。</p>
-<p>解决的方案有两种：</p>
-<p>方案一：在下载完成的回调里进行区分，如果不一致则不设置imageView。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2016/04/24/UITableViewCell%E9%87%8D%E7%94%A8%E5%AF%BC%E8%87%B4%E7%9A%84%E5%9B%BE%E7%89%87%E9%94%99%E4%B9%B1%E9%97%AE%E9%A2%98/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/12/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span>
+    <a class="extend prev" rel="prev" href="/page/12/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/14/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1107,20 +1195,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">129</span>
+          <span class="site-state-item-count">136</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-count">33</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">83</span>
+        <span class="site-state-item-count">84</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

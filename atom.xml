@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>要为真理而奋斗</title>
+  <title>要为真理而斗争</title>
   <icon>https://xq-120.github.io/icon.png</icon>
   <subtitle>芝士就是力量</subtitle>
   <link href="https://xq-120.github.io/atom.xml" rel="self"/>
   
   <link href="https://xq-120.github.io/"/>
-  <updated>2022-06-19T08:05:38.177Z</updated>
+  <updated>2022-08-01T15:45:27.632Z</updated>
   <id>https://xq-120.github.io/</id>
   
   <author>
@@ -17,11 +17,192 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>补码完全指南</title>
+    <link href="https://xq-120.github.io/2022/07/31/%E8%A1%A5%E7%A0%81%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/"/>
+    <id>https://xq-120.github.io/2022/07/31/%E8%A1%A5%E7%A0%81%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/</id>
+    <published>2022-07-31T13:23:52.000Z</published>
+    <updated>2022-08-01T15:45:27.632Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;本文基于自己的理解，试图让猪都能理解补码的概念^_^。老规矩，先是几个概念。&lt;/p&gt;
+&lt;h2 id=&quot;机器数&quot;&gt;&lt;a href=&quot;#机器数&quot; class=&quot;headerlink&quot; title=&quot;机器数&quot;&gt;&lt;/a&gt;机器数&lt;/h2&gt;&lt;p&gt;机器数是将符号数字化的数，最高位是符号位，正数符号位为0，负数符号位为1，其余位表示数值。&lt;/p&gt;
+&lt;h2 id=&quot;真值&quot;&gt;&lt;a href=&quot;#真值&quot; class=&quot;headerlink&quot; title=&quot;真值&quot;&gt;&lt;/a&gt;真值&lt;/h2&gt;&lt;p&gt;机器数所对应的实际数值。　&lt;/p&gt;
+&lt;h2 id=&quot;编程语言类型&quot;&gt;&lt;a href=&quot;#编程语言类型&quot; class=&quot;headerlink&quot; title=&quot;编程语言类型&quot;&gt;&lt;/a&gt;编程语言类型&lt;/h2&gt;&lt;h3 id=&quot;无符号数&quot;&gt;&lt;a href=&quot;#无符号数&quot; class=&quot;headerlink&quot; title=&quot;无符号数&quot;&gt;&lt;/a&gt;无符号数&lt;/h3&gt;&lt;p&gt;全部二进制位均代表数值，没有符号位。&lt;/p&gt;
+&lt;h3 id=&quot;有符号数&quot;&gt;&lt;a href=&quot;#有符号数&quot; class=&quot;headerlink&quot; title=&quot;有符号数&quot;&gt;&lt;/a&gt;有符号数&lt;/h3&gt;&lt;p&gt;最高位代表符号位(“0”表示“+”，“1”表示“-”)，其余位表示数值。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="计算机基础" scheme="https://xq-120.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/"/>
+    
+    
+    <category term="补码" scheme="https://xq-120.github.io/tags/%E8%A1%A5%E7%A0%81/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>字符串操作range注意事项</title>
+    <link href="https://xq-120.github.io/2022/07/27/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9Crange%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/"/>
+    <id>https://xq-120.github.io/2022/07/27/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9Crange%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/</id>
+    <published>2022-07-27T03:06:19.000Z</published>
+    <updated>2022-07-31T04:59:08.880Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;代码：&lt;/p&gt;
+&lt;figure class=&quot;highlight objc&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span</summary>
+        
+      
+    
+    
+    
+    <category term="字符串" scheme="https://xq-120.github.io/categories/%E5%AD%97%E7%AC%A6%E4%B8%B2/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>隐式类型转换导致的诡异bug</title>
+    <link href="https://xq-120.github.io/2022/07/27/%E9%9A%90%E5%BC%8F%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E5%AF%BC%E8%87%B4%E7%9A%84%E8%AF%A1%E5%BC%82bug/"/>
+    <id>https://xq-120.github.io/2022/07/27/%E9%9A%90%E5%BC%8F%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E5%AF%BC%E8%87%B4%E7%9A%84%E8%AF%A1%E5%BC%82bug/</id>
+    <published>2022-07-27T02:34:57.000Z</published>
+    <updated>2022-07-31T04:59:08.880Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;看以下代码：&lt;/p&gt;
+&lt;figure class=&quot;highlight objc&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span</summary>
+        
+      
+    
+    
+    
+    <category term="Bug" scheme="https://xq-120.github.io/categories/Bug/"/>
+    
+    
+    <category term="隐式类型转换" scheme="https://xq-120.github.io/tags/%E9%9A%90%E5%BC%8F%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>如何学习一个框架</title>
+    <link href="https://xq-120.github.io/2022/07/25/%E5%A6%82%E4%BD%95%E5%AD%A6%E4%B9%A0%E4%B8%80%E4%B8%AA%E6%A1%86%E6%9E%B6/"/>
+    <id>https://xq-120.github.io/2022/07/25/%E5%A6%82%E4%BD%95%E5%AD%A6%E4%B9%A0%E4%B8%80%E4%B8%AA%E6%A1%86%E6%9E%B6/</id>
+    <published>2022-07-25T15:19:18.000Z</published>
+    <updated>2022-07-31T04:59:08.880Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;在读了一些框架源码后，个人觉得应该从以下几个方面学习一个框架：&lt;/p&gt;
+&lt;p&gt;1.了解框架实现了什么功能&lt;/p&gt;
+&lt;p&gt;2.简单的使用框架&lt;/p&gt;
+&lt;p&gt;3.框架使用了哪些基础库&lt;/p&gt;
+&lt;p&gt;4.框架使用了什么技术&lt;br&gt;架构设计，设计模式，语言的高级使用，多线程，锁，复</summary>
+        
+      
+    
+    
+    
+    <category term="学习心得" scheme="https://xq-120.github.io/categories/%E5%AD%A6%E4%B9%A0%E5%BF%83%E5%BE%97/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>IO模型简介</title>
+    <link href="https://xq-120.github.io/2022/07/25/IO%E6%A8%A1%E5%9E%8B%E7%AE%80%E4%BB%8B/"/>
+    <id>https://xq-120.github.io/2022/07/25/IO%E6%A8%A1%E5%9E%8B%E7%AE%80%E4%BB%8B/</id>
+    <published>2022-07-25T04:16:15.000Z</published>
+    <updated>2022-07-31T04:59:41.747Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;大致有下面五种IO模型：&lt;/p&gt;
+&lt;p&gt;阻塞IO模型，非阻塞IO模型，IO复用模型，信号驱动IO模型，异步IO模型。&lt;/p&gt;
+&lt;h2 id=&quot;阻塞IO模型&quot;&gt;&lt;a href=&quot;#阻塞IO模型&quot; class=&quot;headerlink&quot; title=&quot;阻塞IO模型&quot;&gt;&lt;/a&gt;阻塞IO模型&lt;/h2&gt;&lt;p&gt;读数据，发现没有数据，线程就一直等待直到有数据读取。&lt;/p&gt;
+&lt;h2 id=&quot;非阻塞IO模型&quot;&gt;&lt;a href=&quot;#非阻塞IO模型&quot; class=&quot;headerlink&quot; title=&quot;非阻塞IO模型&quot;&gt;&lt;/a&gt;非阻塞IO模型&lt;/h2&gt;&lt;p&gt;读数据，发现没有数据，线程不等待直接返回读错误码。由于不知道什么时候会有数据所以这种非阻塞IO模型需要调用方不断检查是否有数据。&lt;/p&gt;
+&lt;p&gt;fd默认是阻塞IO访问，可以使用fcntl函数设置为非阻塞IO:&lt;/p&gt;
+&lt;figure class=&quot;highlight ini&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attr&quot;&gt;status&lt;/span&gt; = fcntl(socketFD, F_SETFL, O_NONBLOCK)&lt;span class=&quot;comment&quot;&gt;;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;IO复用模型&quot;&gt;&lt;a href=&quot;#IO复用模型&quot; class=&quot;headerlink&quot; title=&quot;IO复用模型&quot;&gt;&lt;/a&gt;IO复用模型&lt;/h2&gt;&lt;p&gt;对非阻塞IO模型的一种改进，因为非阻塞IO模型需要不断检查是否有数据可读。假如有100个fd要读，那么就需要100个线程各自在不断的检查是否有数据可读，这显然浪费了大量的CPU和内存。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="计算机基础" scheme="https://xq-120.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/"/>
+    
+    
+    <category term="I/O模型" scheme="https://xq-120.github.io/tags/I-O%E6%A8%A1%E5%9E%8B/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ifconfig</title>
+    <link href="https://xq-120.github.io/2022/07/20/ifconfig/"/>
+    <id>https://xq-120.github.io/2022/07/20/ifconfig/</id>
+    <published>2022-07-20T10:49:54.000Z</published>
+    <updated>2022-07-31T04:59:08.879Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;ifconfig&lt;/p&gt;
+&lt;p&gt;全称：interfaces config,主要用于设置或显示网络设备信息的。&lt;/p&gt;
+&lt;p&gt;打印：&lt;/p&gt;
+&lt;figure class=&quot;highlight apache&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;lo0&lt;/span&gt;: flags=&lt;span class=&quot;number&quot;&gt;8049&lt;/span&gt;&amp;lt;UP,LOOPBACK,RUNNING,MULTICAST&amp;gt; mtu &lt;span class=&quot;number&quot;&gt;16384&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;attribute&quot;&gt;options&lt;/span&gt;=&lt;span class=&quot;number&quot;&gt;1203&lt;/span&gt;&amp;lt;RXCSUM,TXCSUM,TXSTATUS,SW_TIMESTAMP&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;attribute&quot;&gt;inet&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;127.0.0.1&lt;/span&gt; netmask &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;xff000000&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;attribute&quot;&gt;inet6&lt;/span&gt; ::&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt; prefixlen &lt;span class=&quot;number&quot;&gt;128&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;attribute&quot;&gt;inet6&lt;/span&gt; fe80::&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;%lo0 prefixlen &lt;span class=&quot;number&quot;&gt;64&lt;/span&gt; scopeid &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;x1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;attribute&quot;&gt;nd6&lt;/span&gt; options=&lt;span class=&quot;number&quot;&gt;201&lt;/span&gt;&amp;lt;PERFORMNUD,DAD&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;gif0&lt;/span&gt;: flags=&lt;span class=&quot;number&quot;&gt;8010&lt;/span&gt;&amp;lt;POINTOPOINT,MULTICAST&amp;gt; mtu &lt;span class=&quot;number&quot;&gt;1280&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;stf0&lt;/span&gt;: flags=&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;&amp;lt;&amp;gt; mtu &lt;span class=&quot;number&quot;&gt;1280&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;en0&lt;/span&gt;: flags=&lt;span class=&quot;number&quot;&gt;8863&lt;/span&gt;&amp;lt;UP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST&amp;gt; mtu &lt;span class=&quot;number&quot;&gt;1500&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;attribute&quot;&gt;options&lt;/span&gt;=&lt;span class=&quot;number&quot;&gt;50&lt;/span&gt;b&amp;lt;RXCSUM,TXCSUM,VLAN_HWTAGGING,AV,CHANNEL_IO&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;attribute&quot;&gt;ether&lt;/span&gt; b0:e5:f9:f3:a8:de   //mac地址&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;attribute&quot;&gt;inet6&lt;/span&gt; fe80::&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;c2c:&lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;b1d:&lt;span class=&quot;number&quot;&gt;6&lt;/span&gt;af8:&lt;span class=&quot;number&quot;&gt;3558&lt;/span&gt;%en0 prefixlen &lt;span class=&quot;number&quot;&gt;64&lt;/span&gt; secured scopeid &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;x6  //ipv6地址&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;attribute&quot;&gt;inet&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;10.1.63.198&lt;/span&gt; netmask &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;xffffff00 broadcast &lt;span class=&quot;number&quot;&gt;10.1.63.255&lt;/span&gt; //ipv4地址、子网掩码、广播地址&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;attribute&quot;&gt;nd6&lt;/span&gt; options=&lt;span class=&quot;number&quot;&gt;201&lt;/span&gt;&amp;lt;PERFORMNUD,DAD&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;attribute&quot;&gt;media&lt;/span&gt;: autoselect (&lt;span class=&quot;number&quot;&gt;1000&lt;/span&gt;baseT &amp;lt;full-duplex&amp;gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;attribute&quot;&gt;status&lt;/span&gt;: active&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;ifconfig打印的是所有网络设备的信息，并且名称是专有名词比如en0，一般来说如果电脑只连了WIFI那么en0代表的就是WIFI网卡信息，如果还插了网线那么en0代表的就是以太网网卡信息，en1代表的才是WIFI网卡信息。可以配合&lt;code&gt;networksetup -listallhardwareports&lt;/code&gt; 查看。&lt;/p&gt;
+&lt;p&gt;networksetup -listallhardwareports&lt;/p&gt;
+&lt;p&gt;打印：&lt;/p&gt;
+&lt;figure class=&quot;highlight nestedtext&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;Hardware Port&lt;/span&gt;&lt;span class=&quot;punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;Ethernet&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;Device&lt;/span&gt;&lt;span class=&quot;punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;en0&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;Ethernet Address&lt;/span&gt;&lt;span class=&quot;punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;b0:e5:f9:f3:a8:de&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;Hardware Port&lt;/span&gt;&lt;span class=&quot;punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;USB 10/100/1000 LAN&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;Device&lt;/span&gt;&lt;span class=&quot;punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;en4&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;Ethernet Address&lt;/span&gt;&lt;span class=&quot;punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;00:e0:4c:89:fe:55&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;Hardware Port&lt;/span&gt;&lt;span class=&quot;punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;Ethernet Adapter (en5)&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;Device&lt;/span&gt;&lt;span class=&quot;punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;en5&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;Ethernet Address&lt;/span&gt;&lt;span class=&quot;punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;16:6a:42:01:62:87&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;Hardware Port&lt;/span&gt;&lt;span class=&quot;punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;Ethernet Adapter (en6)&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;Device&lt;/span&gt;&lt;span class=&quot;punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;en6&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;Ethernet Address&lt;/span&gt;&lt;span class=&quot;punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;16:6a:42:01:62:88&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;Hardware Port&lt;/span&gt;&lt;span class=&quot;punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;Wi-Fi&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;Device&lt;/span&gt;&lt;span class=&quot;punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;en1&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;Ethernet Address&lt;/span&gt;&lt;span class=&quot;punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;b0:e5:f9:f2:56:75&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;...&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;networksetup -listallnetworkservices&lt;/p&gt;
+&lt;p&gt;打印：&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="常用命令" scheme="https://xq-120.github.io/categories/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"/>
+    
+    
+    <category term="ifconfig" scheme="https://xq-120.github.io/tags/ifconfig/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>字节序简单解析</title>
+    <link href="https://xq-120.github.io/2022/07/01/%E5%AD%97%E8%8A%82%E5%BA%8F%E7%AE%80%E5%8D%95%E8%A7%A3%E6%9E%90/"/>
+    <id>https://xq-120.github.io/2022/07/01/%E5%AD%97%E8%8A%82%E5%BA%8F%E7%AE%80%E5%8D%95%E8%A7%A3%E6%9E%90/</id>
+    <published>2022-07-01T03:38:42.000Z</published>
+    <updated>2022-07-02T14:00:43.974Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;大端序：最高位在最低地址&lt;br&gt;小端序：最高位在最高地址&lt;/p&gt;
+&lt;p&gt;为什么会有两种字节序？&lt;br&gt;因为一串数字可以从左开始读，也可以从右开始读。&lt;br&gt;比如：1234&lt;br&gt;从左开始读，那么1就是最高位，结果就是一千两百三十四&lt;br&gt;从右开始读，那么4就是最高位，结果就是四千三百二十一&lt;br&gt;一般国家都是从左到右读，但也有的国家是从右到左读的。没有好坏，纯属习惯问题。&lt;/p&gt;
+&lt;p&gt;大端序和小端序就是翻转的关系。&lt;/p&gt;
+&lt;p&gt;CPU读取内存中的数据时，是从低地址向高地址方向进行读取的。所以一般计算机的内部处理都是小端字节序。但是，人类还是习惯读写大端字节序。所以，除了计算机的内部处理，其他的场合比如网络传输和文件储存，几乎都是用的大端字节序。&lt;/p&gt;
+&lt;p&gt;举例：&lt;/p&gt;
+&lt;p&gt;0x0a0b&lt;br&gt;0000 1010 0000 1011 （大端序）-&amp;gt; 1101 0000 0101 0000（小端序）&lt;br&gt;0a0b                                                   0b0a&lt;/p&gt;
+&lt;p&gt;0x01&lt;br&gt;0000 0000 0000 0000 0000 0000 0000 0001（大端序）&lt;br&gt;-&amp;gt;&lt;br&gt;1000 0000 0000 0000 0000 0000 0000 0000（小端序）&lt;/p&gt;
+&lt;p&gt;代码判断当前是否是小端序：&lt;/p&gt;
+&lt;figure class=&quot;highlight abnf&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;union&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    unsigned int  a&lt;span class=&quot;comment&quot;&gt;;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    unsigned char b&lt;span class=&quot;comment&quot;&gt;;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;c&lt;span class=&quot;comment&quot;&gt;;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;c.a &lt;span class=&quot;operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;comment&quot;&gt;;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;BOOL isLittleEndian &lt;span class=&quot;operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;operator&quot;&gt;=&lt;/span&gt; c.b&lt;span class=&quot;comment&quot;&gt;;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;如果是小端序那么1在最低地址，char占一个字节，c.b就等于1。&lt;br&gt;如果是大端序那么1在最高地址，char占一个字节，c.b就等于0。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="计算机基础" scheme="https://xq-120.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/"/>
+    
+    
+    <category term="字节序" scheme="https://xq-120.github.io/tags/%E5%AD%97%E8%8A%82%E5%BA%8F/"/>
+    
+  </entry>
+  
+  <entry>
     <title>自动压缩图片--你的第一个脚本</title>
     <link href="https://xq-120.github.io/2022/06/19/%E8%87%AA%E5%8A%A8%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87--%E4%BD%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E8%84%9A%E6%9C%AC/"/>
     <id>https://xq-120.github.io/2022/06/19/%E8%87%AA%E5%8A%A8%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87--%E4%BD%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E8%84%9A%E6%9C%AC/</id>
     <published>2022-06-19T07:02:45.000Z</published>
-    <updated>2022-06-19T08:05:38.177Z</updated>
+    <updated>2022-07-31T04:59:08.878Z</updated>
     
     
     <summary type="html">&lt;p&gt;在往图床上丢图片时，有时候总是因为图片太大而要等很久的时间，面对这种情况压缩图片后再上传是一个不错的选择。但是每次都要先打开图片压缩软件，再丢图片压缩，再找到压缩后的图片，再上传到图床，这一系列操作也是繁琐。今天就来解决一下这个问题。&lt;/p&gt;
@@ -37,10 +218,10 @@
     
     
     
-    <category term="工具" scheme="https://xq-120.github.io/categories/%E5%B7%A5%E5%85%B7/"/>
+    <category term="脚本" scheme="https://xq-120.github.io/categories/%E8%84%9A%E6%9C%AC/"/>
     
     
-    <category term="图片压缩脚本" scheme="https://xq-120.github.io/tags/%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9%E8%84%9A%E6%9C%AC/"/>
+    <category term="图片压缩" scheme="https://xq-120.github.io/tags/%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9/"/>
     
   </entry>
   
@@ -49,7 +230,7 @@
     <link href="https://xq-120.github.io/2022/06/19/find%E5%91%BD%E4%BB%A4/"/>
     <id>https://xq-120.github.io/2022/06/19/find%E5%91%BD%E4%BB%A4/</id>
     <published>2022-06-19T00:57:35.000Z</published>
-    <updated>2022-06-19T01:49:27.365Z</updated>
+    <updated>2022-07-31T04:59:08.878Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;find&quot;&gt;&lt;a href=&quot;#find&quot; class=&quot;headerlink&quot; title=&quot;find&quot;&gt;&lt;/a&gt;find&lt;/h2&gt;&lt;p&gt;在指定目录下查找文件。&lt;/p&gt;
@@ -63,7 +244,7 @@
     
     
     
-    <category term="命令行" scheme="https://xq-120.github.io/categories/%E5%91%BD%E4%BB%A4%E8%A1%8C/"/>
+    <category term="常用命令" scheme="https://xq-120.github.io/categories/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"/>
     
     
     <category term="find" scheme="https://xq-120.github.io/tags/find/"/>
@@ -75,32 +256,21 @@
     <link href="https://xq-120.github.io/2022/05/29/iOS%E5%BE%AA%E7%8E%AF%E6%92%AD%E6%94%BE%E8%A7%86%E9%A2%91/"/>
     <id>https://xq-120.github.io/2022/05/29/iOS%E5%BE%AA%E7%8E%AF%E6%92%AD%E6%94%BE%E8%A7%86%E9%A2%91/</id>
     <published>2022-05-29T07:34:04.000Z</published>
-    <updated>2022-05-29T08:22:48.330Z</updated>
+    <updated>2022-07-31T04:59:08.877Z</updated>
     
     
-    <summary type="html">&lt;p&gt;有一个需求需要循环播放一个视频，UI希望的效果是无缝循环播放。当时我觉得应该问题不大，但事实却并非如此。&lt;/p&gt;
-&lt;p&gt;如果只是单纯的循环播放，确实简单。但是想要无缝丝滑连贯的循环播放却并不那么简单。&lt;/p&gt;
-&lt;p&gt;项目中用的ijkplayer，刚开始是监听播放完成通知，播放完后重新播放，结果发现每次播完后都要停顿一下才会继续播放。达不到无缝循环的要求。&lt;/p&gt;
+    <summary type="html">&lt;p&gt;有一个需求需要循环播放一个视频，UI希望的效果是无缝循环播放。当时觉得应该问题不大，但事实却并非如此。如果只是单纯的循环播放，确实简单。但是想要无缝丝滑连贯的循环播放却并不那么简单。&lt;/p&gt;
+&lt;h3 id=&quot;方案一：ijkplayer&quot;&gt;&lt;a href=&quot;#方案一：ijkplayer&quot; class=&quot;headerlink&quot; title=&quot;方案一：ijkplayer&quot;&gt;&lt;/a&gt;方案一：ijkplayer&lt;/h3&gt;&lt;p&gt;项目中用的ijkplayer，刚开始是监听播放完成通知，播放完后重新播放，结果发现每次播完后都要停顿一下才会继续播放。达不到无缝循环的要求。&lt;/p&gt;
 &lt;p&gt;一顿搜索之后，发现可以通过设置option的loop属性，设置为100就是循环播放100次，设置1就是播放一次，设置0就是无线循环播放。这一次以为稳了，然并卵，还是每次播完后都要停顿一下才会继续播放。&lt;/p&gt;
 &lt;p&gt;又是一顿搜索，发现了ijkplayer可以播放contact文件，所谓contact文件就是按照一定的格式将要播放的视频地址按顺序写入一个文件，把这个文件丢给ijkplayer，ijkplayer就会按照顺序一个个播放，当时就在想是不是这种方式可以无缝播放呢？于是将视频的地址写了1000遍，这样ijkplayer就会播放1000次，达到一个循环播放的假象。然而还是没有什么卵用，效果和上面一样。&lt;/p&gt;
 &lt;p&gt;总结一下：ijkplayer的播放机制就是播完后会暂停，这一暂停就导致不连贯了，因此可以很明显的看到会停顿一下才继续播放。使用ijkplayer基本上做不到无缝循环播放视频。当然也有可能是我才疏学浅没找到正确的方式。&lt;/p&gt;
-&lt;p&gt;ijkplayer既然不行，那就只能试一下系统的AVPlayer了，还是同样的思路，监听播放完成通知，播放完后重新播放，结果发现效果一样。最后找到一篇文章说是要使用AVPlayer的子类AVQueuePlayer，试了一下发现效果确实很不错，几乎看不出来有停顿的感觉。AVQueuePlayer应该会预加载要播放的资源，这样播放完后就可以立即加载渲染下一个视频的画面了。&lt;/p&gt;
-&lt;p&gt;总结：如果要无缝循环播放视频，AVQueuePlayer是一个不错的选择。&lt;/p&gt;
-&lt;p&gt;但是由于系统播放器可定制程度不高，如果你需要先处理视频画面再播放，那么AVQueuePlayer可能就不行了，比如透明视频的无缝循环播放。然而这个需求就是需要透明视频的无缝循环播放，这不是巧了吗，于是AVQueuePlayer也被pass了。&lt;/p&gt;
-&lt;p&gt;本来我们项目中对ijkplayer做了一些修改支持播放透明视频，结果ijkplayer循环播放不丝滑。只能另辟蹊径了，关于透明视频的无缝循环播放的实现下一篇再说。&lt;/p&gt;</summary>
+&lt;h3 id=&quot;方案二：AVPlayer&quot;&gt;&lt;a href=&quot;#方案二：AVPlayer&quot; class=&quot;headerlink&quot; title=&quot;方案二：AVPlayer&quot;&gt;&lt;/a&gt;方案二：AVPlayer&lt;/h3&gt;&lt;p&gt;ijkplayer既然不行，那就只能试一下系统的AVPlayer了，还是同样的思路，监听播放完成通知，播放完后重新播放，结果发现效果一样。&lt;/p&gt;
+&lt;h3 id=&quot;方案三：AVQueuePlayer&quot;&gt;&lt;a href=&quot;#方案三：AVQueuePlayer&quot; class=&quot;headerlink&quot; title=&quot;方案三：AVQueuePlayer&quot;&gt;&lt;/a&gt;方案三：AVQueuePlayer&lt;/h3&gt;&lt;p&gt;最后找到一篇文章说是要使用AVPlayer的子类AVQueuePlayer，试了一下发现效果确实很不错，几乎看不出来有停顿的感觉。AVQueuePlayer应该会预加载要播放的资源，这样播放完后就可以立即加载渲染下一个视频的画面了。&lt;/p&gt;</summary>
     
     
     
-    <category term="分类1" scheme="https://xq-120.github.io/categories/%E5%88%86%E7%B1%BB1/"/>
+    <category term="音视频" scheme="https://xq-120.github.io/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/"/>
     
-    <category term="分类2" scheme="https://xq-120.github.io/categories/%E5%88%86%E7%B1%BB1/%E5%88%86%E7%B1%BB2/"/>
-    
-    
-    <category term="标签1" scheme="https://xq-120.github.io/tags/%E6%A0%87%E7%AD%BE1/"/>
-    
-    <category term="标签2" scheme="https://xq-120.github.io/tags/%E6%A0%87%E7%AD%BE2/"/>
-    
-    <category term="标签3" scheme="https://xq-120.github.io/tags/%E6%A0%87%E7%AD%BE3/"/>
     
   </entry>
   
@@ -160,7 +330,7 @@
     <link href="https://xq-120.github.io/2022/05/01/iOS%E5%AE%9A%E6%97%B6%E5%99%A8%E6%9D%82%E8%AE%B0/"/>
     <id>https://xq-120.github.io/2022/05/01/iOS%E5%AE%9A%E6%97%B6%E5%99%A8%E6%9D%82%E8%AE%B0/</id>
     <published>2022-05-01T05:13:38.000Z</published>
-    <updated>2022-05-07T08:48:43.063Z</updated>
+    <updated>2022-07-20T12:42:42.521Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;NSTimer&quot;&gt;&lt;a href=&quot;#NSTimer&quot; class=&quot;headerlink&quot; title=&quot;NSTimer&quot;&gt;&lt;/a&gt;NSTimer&lt;/h2&gt;&lt;p&gt;NSTimer是使用最多的一种定时器，虽然但是NSTimer还是有很多的注意事项：&lt;/p&gt;
@@ -335,7 +505,7 @@
     <link href="https://xq-120.github.io/2021/07/09/iOS%E6%8E%A8%E9%80%81%E8%AF%81%E4%B9%A6%E6%9B%B4%E6%96%B0/"/>
     <id>https://xq-120.github.io/2021/07/09/iOS%E6%8E%A8%E9%80%81%E8%AF%81%E4%B9%A6%E6%9B%B4%E6%96%B0/</id>
     <published>2021-07-09T03:49:51.000Z</published>
-    <updated>2021-08-01T11:30:13.075Z</updated>
+    <updated>2022-07-31T04:59:08.877Z</updated>
     
     
       
@@ -344,13 +514,13 @@
         
     <summary type="html">&lt;p&gt;首先确保你登录的账号权限要能够修改证书。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;导出p12文件&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;点“登陆—&amp;gt;我的证书”，选中刚安装的通用证书（不带development的是通用环境（开发，生产都可以用）），导出为p12，设置好密码，上传到个推网</summary>
+&lt;p&gt;打开钥匙串访问，点“登陆—&amp;gt;我的证书”，选中刚安装的通用证书（不带development的是通用环境（开发，生产都可以用）），导出为p12，设置好密</summary>
         
       
     
     
     
-    <category term="iOS APP上架" scheme="https://xq-120.github.io/categories/iOS-APP%E4%B8%8A%E6%9E%B6/"/>
+    <category term="APP上架" scheme="https://xq-120.github.io/categories/APP%E4%B8%8A%E6%9E%B6/"/>
     
     
     <category term="推送证书更新" scheme="https://xq-120.github.io/tags/%E6%8E%A8%E9%80%81%E8%AF%81%E4%B9%A6%E6%9B%B4%E6%96%B0/"/>
@@ -362,7 +532,7 @@
     <link href="https://xq-120.github.io/2021/07/08/%E5%8D%9A%E5%AE%A2%E6%94%B6%E8%97%8F/"/>
     <id>https://xq-120.github.io/2021/07/08/%E5%8D%9A%E5%AE%A2%E6%94%B6%E8%97%8F/</id>
     <published>2021-07-08T07:08:50.000Z</published>
-    <updated>2021-09-25T10:18:38.353Z</updated>
+    <updated>2022-07-31T04:59:08.877Z</updated>
     
     
     <summary type="html">&lt;p&gt;&lt;a href=&quot;https://github.com/ming1016/study/wiki&quot;&gt;ming1016-study&lt;/a&gt;  网友个人收集的比较全的iOS开发技术点&lt;/p&gt;
@@ -381,193 +551,6 @@
     
     
     <category term="博客收藏" scheme="https://xq-120.github.io/tags/%E5%8D%9A%E5%AE%A2%E6%94%B6%E8%97%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>MacBook Pro外接显示器(四)之4K屏60Hz的艰难旅程</title>
-    <link href="https://xq-120.github.io/2021/04/20/MacBook%20Pro%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8(%E5%9B%9B)%E4%B9%8B4K%E5%B1%8F60Hz%E7%9A%84%E8%89%B0%E9%9A%BE%E6%97%85%E7%A8%8B/"/>
-    <id>https://xq-120.github.io/2021/04/20/MacBook%20Pro%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8(%E5%9B%9B)%E4%B9%8B4K%E5%B1%8F60Hz%E7%9A%84%E8%89%B0%E9%9A%BE%E6%97%85%E7%A8%8B/</id>
-    <published>2021-04-20T14:26:46.000Z</published>
-    <updated>2022-05-07T14:16:00.851Z</updated>
-    
-    
-    <summary type="html">&lt;p&gt;为什么要让外接显示器达到4K@60Hz的刷新率？&lt;/p&gt;
-&lt;p&gt;因为4K@30Hz的刷新率鼠标移动时会有明显的延迟感。刷新率越高画面才能越丝滑。4K的显示屏至少需要60Hz的刷新率，当然如果支持144Hz的那更好。对于一般用户60Hz基本足够。&lt;/p&gt;
-&lt;p&gt;外接显示器达到4K@60Hz刷新率的条件&lt;/p&gt;
-&lt;p&gt;主机支持（主要是主机的显卡），显示器支持，线材支持。该条件符合木桶原理只要其中一个不满足就无法达到4K@60Hz的刷新率。为了到达这个目标需要我们对主机的端口，显示器参数，线材等有一个基本的了解。下面一个个介绍。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;主机支持&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;我的电脑是MacBook Pro 13寸 2014mid的。可以从苹果官网 &lt;a href=&quot;https://support.apple.com/kb/sp703?locale=zh_CN&quot;&gt;macbook pro 2014mid&lt;/a&gt; 查到这款电脑的参数说明，如下端口部分是我们重点关注的：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/1C147D43EA0F9787EC5FA06822136426.jpg&quot; style=&quot;zoom:50%;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;可以看到HDMI端口只能输出60Hz的1080p。而4K的只能到30Hz或24Hz。所以我们就不能使用该端口作为视频输出。相应的我们就不能买HDMI（主机）—HDMI（显示器）线或HDMI—DP线材。不管这根HDMI线支持的版本是多少都不能买。（ps:这里线材使用”主机端口—显示器端口“表示，下同）&lt;/p&gt;
-&lt;p&gt;而对于Thunderbolt2端口支持原生MiniDP输出，但没有写明能否支持到4K@60Hz。搞得我一度以为通过MiniDP—DP能达到4K@60Hz，然而换了几次线后发现还是不行，最后又搜索了好久的资料基本可以确定这款机器不管通过什么端口都不能达到4K@60Hz。所以如果技术规格里没写明的话基本上是支持不了的。&lt;/p&gt;
-&lt;p&gt;让我们看一下2015年中的15寸的mbp的技术规格：&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="Life" scheme="https://xq-120.github.io/categories/Life/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>MacBook Pro外接显示器(三)之Mac上的SwitchResX完全卸载</title>
-    <link href="https://xq-120.github.io/2021/04/17/MacBook%20Pro%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8(%E4%B8%89)%E4%B9%8BMac%E4%B8%8A%E7%9A%84SwitchResX%E5%AE%8C%E5%85%A8%E5%8D%B8%E8%BD%BD/"/>
-    <id>https://xq-120.github.io/2021/04/17/MacBook%20Pro%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8(%E4%B8%89)%E4%B9%8BMac%E4%B8%8A%E7%9A%84SwitchResX%E5%AE%8C%E5%85%A8%E5%8D%B8%E8%BD%BD/</id>
-    <published>2021-04-17T08:45:15.000Z</published>
-    <updated>2022-05-07T14:10:09.868Z</updated>
-    
-    
-    <summary type="html">&lt;p&gt;最近在折腾外接显示器，一直达不到4k@60hz。然后稀里糊涂安装了SwitchResX。SwitchResX是干什么的这里就不多说了，本文主要讲一下怎么卸载。&lt;/p&gt;
-&lt;p&gt;在系统偏好设置中点击移除就完事了，但事实并没有这么简单。虽然卸载了但是打开显示器会发现显示器的名称中还是带有SwitchResX而不是默认的：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://upload-images.jianshu.io/upload_images/1503319-b237f40e28001761.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240&quot; alt=&quot;image.png&quot;&gt;&lt;/p&gt;
-&lt;p&gt;这说明SwitchResX虽然卸载了但是还残留了一些文件。那么如何恢复显示器的默认名称呢？这个问题实在是有点冷门，花了我好几个小时才搜到解决办法，主要是不知道该怎么搜问题的关键字。搜个卸载出来的都是让你安装清理软件APP的。&lt;/p&gt;
-&lt;p&gt;最终解决办法如下：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;确保已经退出SwitchResX，然后在系统偏好设置中点击移除删除APP包&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;/Library/Displays/Contents/Resources/Overrides&lt;/code&gt; 里的文件全部删掉&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;/Library/Colorsync/Profiles/Displays&lt;/code&gt; 删掉SwitchRes开头的&lt;/li&gt;
-&lt;li&gt;重启电脑&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;ps：连带的MonitorControl突然无法使用提示“未发现支持的显示器”的问题也解决了（一度以为是升级到Big Sur系统导致）。真正原因估计就是SwitchResX改了显示器的名称导致。&lt;/p&gt;
-&lt;p&gt;总结：&lt;br&gt;1.Mac中删除一个APP，系统只是删掉了这个应用，但是这个应用在使用的过程中产生的一些文件并不会被删除。&lt;br&gt;一个APP在使用过程中或多或少会产生一些文件比如缓存，但这些缓存一般对我们的使用不会产生影响顶多占用了一些磁盘空间，但有些APP会产生一些配置文件这就导致即使删除了这个APP，只要它的配置文件还在那么就会存在副作用。因此要想彻底卸载一个应用除了删掉这个应用还要把它使用过程中产生的文件也要删除掉才行。至于APP会在哪些目录产生哪些文件那就只能网上搜索了。&lt;br&gt;2.如果你想设置分辨率的话还不如用EasyRes，目前还没看到有啥问题。&lt;br&gt;3.英语好还是很有用的。在搜一些问题的时候直接上英文关键字比中文的好多了。用中文搜可能来来回回都是那几篇还是抄来抄去的。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;参考&lt;/strong&gt;&lt;br&gt;&lt;a href=&quot;https://discussions.apple.com/thread/7053660&quot;&gt;how reset my display profile it’s show “SwitchResX4 - Color LCD”&lt;/a&gt;&lt;br&gt;有一个人的回答：&lt;br&gt;&lt;/p&gt;&lt;figure class=&quot;highlight vbnet&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;It&lt;span class=&quot;comment&quot;&gt;&amp;#x27;s not a problem. SwitchResX is doing that on purpose, and for absolutely no good reason.&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;The app doesn&lt;span class=&quot;comment&quot;&gt;&amp;#x27;t do anything useful. Correctly and entirely delete SwitchResX according to the instructions &lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;on&lt;/span&gt; their site &lt;span class=&quot;built_in&quot;&gt;and&lt;/span&gt; your issue should be solved. Though after its removal, you&lt;span class=&quot;comment&quot;&gt;&amp;#x27;ll have to empty out the Displays &lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;profile folder again so the OS can pull another &lt;span class=&quot;built_in&quot;&gt;new&lt;/span&gt; copy &lt;span class=&quot;keyword&quot;&gt;of&lt;/span&gt; the &lt;span class=&quot;keyword&quot;&gt;default&lt;/span&gt; display profile that won&lt;span class=&quot;comment&quot;&gt;&amp;#x27;t be tagged &lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;with&lt;/span&gt; their application name.&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</summary>
-    
-    
-    
-    <category term="Life" scheme="https://xq-120.github.io/categories/Life/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>MacBook Pro外接显示器(二)之MacBook Pro外接键盘控制外接显示器亮度和声音</title>
-    <link href="https://xq-120.github.io/2021/04/07/MacBook%20Pro%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8(%E4%BA%8C)%E4%B9%8BMacBook%20Pro%E5%A4%96%E6%8E%A5%E9%94%AE%E7%9B%98%E6%8E%A7%E5%88%B6%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8%E4%BA%AE%E5%BA%A6%E5%92%8C%E5%A3%B0%E9%9F%B3/"/>
-    <id>https://xq-120.github.io/2021/04/07/MacBook%20Pro%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8(%E4%BA%8C)%E4%B9%8BMacBook%20Pro%E5%A4%96%E6%8E%A5%E9%94%AE%E7%9B%98%E6%8E%A7%E5%88%B6%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8%E4%BA%AE%E5%BA%A6%E5%92%8C%E5%A3%B0%E9%9F%B3/</id>
-    <published>2021-04-07T15:13:04.000Z</published>
-    <updated>2022-05-07T14:06:04.076Z</updated>
-    
-    
-    <summary type="html">&lt;p&gt;最近给我的MacBook Pro外接了显示器和键盘，显示器是三星的 LU28R55 ，键盘是惠普的。&lt;br&gt;但是发现外接显示器、键盘后有几个影响体验的问题：&lt;br&gt;1.外接的显示器是没有内置扬声器的需要额外接个音响才行，否则设置声音的输出为外接显示器也没用。&lt;br&gt;2.外接的显示器调节亮度和声音只能用显示器自带的按钮按，无法通过键盘控制。&lt;/p&gt;
-&lt;p&gt;于是Google了一下发现使用 MonitorControl + Karabiner 这两个软件可以达到外接键盘控制外接显示器的亮度和声音。&lt;br&gt;MonitorControl下载地址&lt;br&gt;&lt;a href=&quot;https://github.com/MonitorControl/MonitorControl/releases/tag/v2.1.0&quot;&gt;https://github.com/MonitorControl/MonitorControl/releases/tag/v2.1.0&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;Karabiner下载地址&lt;br&gt;&lt;a href=&quot;https://github.com/pqrs-org/Karabiner-Elements/releases/tag/v13.4.0&quot;&gt;https://github.com/pqrs-org/Karabiner-Elements/releases/tag/v13.4.0&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;MonitorControl的作用是通过软件控制外接显示器的亮度和声音。&lt;/p&gt;
-&lt;p&gt;Karabiner的作用是按键映射。为什么需要这个APP呢？因为外接显示器后笔记本基本上是合盖使用的，自然就没法使用笔记本的键盘了，而我这里外接的键盘是惠普的键盘跟苹果的键盘是不一样的，所以需要映射一下。当然如果你的外接键盘是苹果的配件那使用MonitorControl就够了。&lt;/p&gt;
-&lt;p&gt;MonitorControl的安装很简单，这里主要说一下Karabiner，Karabiner安装后会多出两个APP：Karabiner-Elements 和 Karabiner-EventViewer。这里主要使用Karabiner-Elements，而Karabiner-EventViewer这里虽然使用不到但需要打开一下以允许一些权限。要不然仅使用Karabiner-Elements在Mac的一些系统上可能会出现即使设置了但却没效果的现象。&lt;br&gt;&lt;img src=&quot;https://upload-images.jianshu.io/upload_images/1503319-2105b2367d07d034.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240&quot; alt=&quot;image.png&quot;&gt;&lt;/p&gt;
-&lt;p&gt;Karabiner-Elements的设置也很简单，当然对于小白的我来说也是整了一会的主要是没注意到Karabiner-EventViewer还要打开一下这个坑。&lt;br&gt;Karabiner-Elements最好多设置几个profile，方便切换，用回笔记本自身的键盘时就切换为默认的。&lt;br&gt;profile：&lt;br&gt;&lt;img src=&quot;https://upload-images.jianshu.io/upload_images/1503319-1bd699b1c59b2857.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240&quot; alt=&quot;image.png&quot;&gt;&lt;/p&gt;
-&lt;p&gt;按键的映射：&lt;br&gt;&lt;img src=&quot;https://upload-images.jianshu.io/upload_images/1503319-7b901ef531d0eb63.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240&quot; alt=&quot;image.png&quot;&gt;&lt;br&gt;这样就可以通过非苹果外接键盘控制苹果电脑的扬声器了。&lt;/p&gt;
-&lt;p&gt;现在，你可以通过外接键盘控制声音和外接显示器的亮度了，是不是感觉体验度瞬间上升了好几楼了呢？&lt;/p&gt;
-&lt;p&gt;另外吐槽下三星的 LU28R55，这款显示器亮度设为0了后感觉还是挺亮的，真不知道当初设计的人是怎么想的就不能让它继续调低吗？在我看来完全是一个缺陷。&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="Life" scheme="https://xq-120.github.io/categories/Life/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>MacBook Pro外接显示器(一)之网购显示器</title>
-    <link href="https://xq-120.github.io/2021/04/05/MacBook%20Pro%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8(%E4%B8%80)%E4%B9%8B%E7%BD%91%E8%B4%AD%E6%98%BE%E7%A4%BA%E5%99%A8/"/>
-    <id>https://xq-120.github.io/2021/04/05/MacBook%20Pro%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8(%E4%B8%80)%E4%B9%8B%E7%BD%91%E8%B4%AD%E6%98%BE%E7%A4%BA%E5%99%A8/</id>
-    <published>2021-04-05T05:29:08.000Z</published>
-    <updated>2022-05-07T13:57:57.407Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;MacBook</summary>
-        
-      
-    
-    
-    
-    <category term="Life" scheme="https://xq-120.github.io/categories/Life/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>iOS stack overflow导致的EXC_BAD_ACCESS崩溃</title>
-    <link href="https://xq-120.github.io/2021/03/28/iOS-stack-overflow%E5%AF%BC%E8%87%B4%E7%9A%84EXC_BAD_ACCESS%E5%B4%A9%E6%BA%83/"/>
-    <id>https://xq-120.github.io/2021/03/28/iOS-stack-overflow%E5%AF%BC%E8%87%B4%E7%9A%84EXC_BAD_ACCESS%E5%B4%A9%E6%BA%83/</id>
-    <published>2021-03-28T05:03:46.000Z</published>
-    <updated>2021-08-01T11:30:13.075Z</updated>
-    
-    
-    <summary type="html">&lt;p&gt;最近想学习一下mmap的使用，没想到一来就掉坑里了。&lt;/p&gt;
-&lt;p&gt;测试代码如下：&lt;/p&gt;
-&lt;figure class=&quot;highlight objc&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;29&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;30&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;31&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;32&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;33&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;34&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;- (&lt;span class=&quot;type&quot;&gt;void&lt;/span&gt;)test_mmap &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    __autoreleasing &lt;span class=&quot;built_in&quot;&gt;NSError&lt;/span&gt; *err = &lt;span class=&quot;literal&quot;&gt;nil&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;//    self.videoData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@&amp;quot;ddcada74ee08d06dda5cd13b4117ad30&amp;quot; ofType:@&amp;quot;mp4&amp;quot;] options:0 error:&amp;amp;er];&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;//    self.videoData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@&amp;quot;ddcada74ee08d06dda5cd13b4117ad30&amp;quot; ofType:@&amp;quot;mp4&amp;quot;] options:NSDataReadingUncached error:&amp;amp;er];&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt;.videoData = [&lt;span class=&quot;built_in&quot;&gt;NSData&lt;/span&gt; dataWithContentsOfFile:[[&lt;span class=&quot;built_in&quot;&gt;NSBundle&lt;/span&gt; mainBundle] pathForResource:&lt;span class=&quot;string&quot;&gt;@&amp;quot;ddcada74ee08d06dda5cd13b4117ad30&amp;quot;&lt;/span&gt; ofType:&lt;span class=&quot;string&quot;&gt;@&amp;quot;mp4&amp;quot;&lt;/span&gt;] options:&lt;span class=&quot;built_in&quot;&gt;NSDataReadingMappedIfSafe&lt;/span&gt; error:&amp;amp;err];  &lt;span class=&quot;comment&quot;&gt;//1&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (err != &lt;span class=&quot;literal&quot;&gt;nil&lt;/span&gt;) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;built_in&quot;&gt;NSLog&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;@&amp;quot;er:%@&amp;quot;&lt;/span&gt;, err);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125; &lt;span class=&quot;keyword&quot;&gt;else&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;built_in&quot;&gt;NSLog&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;@&amp;quot;videoData:%lu&amp;quot;&lt;/span&gt;, (&lt;span class=&quot;type&quot;&gt;unsigned&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;long&lt;/span&gt;)&lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt;.videoData.length);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;//    long bufferSize = 4096;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;type&quot;&gt;long&lt;/span&gt; bufferSize = &lt;span class=&quot;number&quot;&gt;1000000&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;//    long bufferSize = 1024 * 1024 - 30 * 1024;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;type&quot;&gt;unsigned&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;char&lt;/span&gt; buffer[bufferSize];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    [&lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt;.videoData getBytes:buffer range:&lt;span class=&quot;built_in&quot;&gt;NSMakeRange&lt;/span&gt;(&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;, bufferSize)]; &lt;span class=&quot;comment&quot;&gt;//2&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;NSData&lt;/span&gt; *someData = [[&lt;span class=&quot;built_in&quot;&gt;NSData&lt;/span&gt; alloc] initWithBytes:buffer length:bufferSize];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;NSLog&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;@&amp;quot;someData:%lu&amp;quot;&lt;/span&gt;, (&lt;span class=&quot;type&quot;&gt;unsigned&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;long&lt;/span&gt;)someData.length);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    [&lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt; saveDataToCaches:someData];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(&lt;span class=&quot;number&quot;&gt;5&lt;/span&gt; * &lt;span class=&quot;built_in&quot;&gt;NSEC_PER_SEC&lt;/span&gt;)), dispatch_get_main_queue(), ^&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt;.videoData = &lt;span class=&quot;literal&quot;&gt;nil&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;- (&lt;span class=&quot;type&quot;&gt;void&lt;/span&gt;)saveDataToCaches:(&lt;span class=&quot;built_in&quot;&gt;NSData&lt;/span&gt; *)data &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;NSString&lt;/span&gt; *cachespath = &lt;span class=&quot;built_in&quot;&gt;NSSearchPathForDirectoriesInDomains&lt;/span&gt;(&lt;span class=&quot;built_in&quot;&gt;NSCachesDirectory&lt;/span&gt;, &lt;span class=&quot;built_in&quot;&gt;NSUserDomainMask&lt;/span&gt;, &lt;span class=&quot;literal&quot;&gt;YES&lt;/span&gt;).lastObject;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;NSString&lt;/span&gt; *fileName = [&lt;span class=&quot;built_in&quot;&gt;NSString&lt;/span&gt; stringWithFormat:&lt;span class=&quot;string&quot;&gt;@&amp;quot;%@&amp;quot;&lt;/span&gt;, &lt;span class=&quot;built_in&quot;&gt;NSDate&lt;/span&gt;.date];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;NSString&lt;/span&gt; *filePath = [cachespath stringByAppendingPathComponent:fileName];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;NSError&lt;/span&gt; *err;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;type&quot;&gt;BOOL&lt;/span&gt; ret = [data writeToFile:filePath options:&lt;span class=&quot;built_in&quot;&gt;NSDataWritingAtomic&lt;/span&gt; error:&amp;amp;err];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (err) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;built_in&quot;&gt;NSLog&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;@&amp;quot;写入错误：%@&amp;quot;&lt;/span&gt;, err);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;NSLog&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;@&amp;quot;ret:%d&amp;quot;&lt;/span&gt;, ret);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;1处通过mmap的方式读取一个500多兆的视频数据，2处读取视频中某一段的数据。最开始的时候bufferSize设置的是4096，运行的时候一切正常。正常之后自然想改个其他的值试试，于是就设置bufferSize为视频大小，结果一运行就崩溃了很快啊，然后就是提示EXC_BAD_ACCESS。当时觉得很奇怪怎么会EXC_BAD_ACCESS呢？也没看到哪个地方有过度释放的对象啊。最后一点点修改bufferSize的大小，发现小于1000000代码就可以正常运行，而超过则会EXC_BAD_ACCESS。不过依然搞不懂为啥会这样。百思不得其解之后只能求助Google，不过也不知道怎么搜索关键字，一通搜索之后也没找到有用的东西，期间一度想放弃，不过还是坚持了下来。&lt;/p&gt;
-&lt;p&gt;直接上结论：上述崩溃的原因就是stack overflow了。&lt;/p&gt;
-&lt;p&gt;我们可以验证一下，打好断点后分别&lt;strong&gt;p &amp;amp;err&lt;/strong&gt;，&lt;strong&gt;p &amp;amp;cachespath&lt;/strong&gt;得到：&lt;/p&gt;
-&lt;figure class=&quot;highlight gcode&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;(lldb)&lt;/span&gt; p &amp;amp;err&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;(NSError **)&lt;/span&gt; $&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt; = &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;x&lt;span class=&quot;number&quot;&gt;000000016&lt;/span&gt;f&lt;span class=&quot;number&quot;&gt;5&lt;/span&gt;b&lt;span class=&quot;number&quot;&gt;97&lt;/span&gt;d&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;(lldb)&lt;/span&gt; p &amp;amp;cachespath&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;(NSString **)&lt;/span&gt; $&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt; = &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;x&lt;span class=&quot;number&quot;&gt;000000016&lt;/span&gt;f&lt;span class=&quot;number&quot;&gt;4&lt;/span&gt;c&lt;span class=&quot;number&quot;&gt;5470&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;$0 - $1 = 0xF4360 = 1000288 = 0.954M，基本上快占满整个栈空间了（这里有点马后炮了因为很多人可能都不知道主线程的栈空间有多大，甚至都没有栈溢出这个概念自然也不会往这个方面想了）。因此代码可能会崩溃在后面的任意一行代码，具体是哪一行视栈的剩余空间大小。比如有可能崩溃在&lt;/p&gt;
-&lt;figure class=&quot;highlight routeros&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;NSError &lt;span class=&quot;number&quot;&gt;*e&lt;/span&gt;rr;  Thread 1: EXC_BAD_ACCESS (&lt;span class=&quot;attribute&quot;&gt;code&lt;/span&gt;=2, &lt;span class=&quot;attribute&quot;&gt;address&lt;/span&gt;=0x16f4bfad0)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;也有可能会崩溃在：&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="Bug" scheme="https://xq-120.github.io/categories/Bug/"/>
-    
-    
-    <category term="内存管理" scheme="https://xq-120.github.io/tags/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>OC内存管理之对象的引用计数</title>
-    <link href="https://xq-120.github.io/2020/09/16/OC%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B9%8B%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0/"/>
-    <id>https://xq-120.github.io/2020/09/16/OC%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B9%8B%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0/</id>
-    <published>2020-09-16T02:25:52.000Z</published>
-    <updated>2022-02-09T06:18:36.277Z</updated>
-    
-    
-    <summary type="html">&lt;p&gt;源码版本：&lt;a href=&quot;https://opensource.apple.com/tarballs/objc4/objc4-781.tar.gz&quot;&gt;objc4-781&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;我们都知道OC的内存管理是通过引用计数来管理的，对象刚创建时引用计数为1，retain后+1，release后-1，当引用计数减为0时就会被销毁。那么问题就来了，操作的这个引用计数值是保存在哪的？今天就来研究一下这个问题。&lt;/p&gt;
-&lt;p&gt;先说结论：早期OC对象的引用计数都是存储在引用计数表中的，但是后来Apple的工程师可能觉得每次都从表中查找修改效率有点低，于是做了一些优化，如果引用计数值较小时就保存在 &lt;code&gt;struct objc_object&lt;/code&gt; 的isa成员变量里，只有当isa里装不下时才存放到引用计数表里，这一点可以从isa的类型变迁看出。除此之外，苹果还引入了Tagged pointer对象，这种对象实际上已经没有在堆上分配内存了，它的值就保存在指针里，这样的对象由于并没有真正在堆上分配内存因此讨论它的引用计数也就没有什么意义了。&lt;/p&gt;
-&lt;p&gt;之前的文章 &lt;code&gt;runtime源码分析(一)--类型&lt;/code&gt; 里专门分析了 &lt;code&gt;struct objc_object&lt;/code&gt; ，&lt;code&gt;struct objc_class&lt;/code&gt;，&lt;code&gt;isa&lt;/code&gt; 类型的定义，这里不再赘述，仅做简单说明。&lt;/p&gt;
-&lt;h3 id=&quot;isa的定义&quot;&gt;&lt;a href=&quot;#isa的定义&quot; class=&quot;headerlink&quot; title=&quot;isa的定义&quot;&gt;&lt;/a&gt;isa的定义&lt;/h3&gt;&lt;p&gt;旧版本的定义：&lt;/p&gt;
-&lt;p&gt;isa是一个指针类型 &lt;code&gt;struct objc_class *&lt;/code&gt; 。&lt;/p&gt;
-&lt;figure class=&quot;highlight objc&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;/// An opaque type that represents an Objective-C class.&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;typedef&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;struct&lt;/span&gt; objc_class *Class; &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;/// Represents an instance of a class.&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;struct&lt;/span&gt; objc_object &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    Class _Nonnull isa  OBJC_ISA_AVAILABILITY;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;struct&lt;/span&gt; objc_class &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    Class _Nonnull isa  OBJC_ISA_AVAILABILITY; &lt;span class=&quot;comment&quot;&gt;//旧版本isa为一个指针指向objc_class结构体&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;#&lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; !__OBJC2__&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    Class _Nullable super_class                              OBJC2_UNAVAILABLE;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;char&lt;/span&gt; * _Nonnull name                               OBJC2_UNAVAILABLE;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;type&quot;&gt;long&lt;/span&gt; version                                             OBJC2_UNAVAILABLE;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;type&quot;&gt;long&lt;/span&gt; info                                                OBJC2_UNAVAILABLE;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;type&quot;&gt;long&lt;/span&gt; instance_size                                       OBJC2_UNAVAILABLE;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;struct&lt;/span&gt; objc_ivar_list * _Nullable ivars                  OBJC2_UNAVAILABLE;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;struct&lt;/span&gt; objc_method_list * _Nullable * _Nullable methodLists                    OBJC2_UNAVAILABLE;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;struct&lt;/span&gt; objc_cache * _Nonnull cache                       OBJC2_UNAVAILABLE;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;struct&lt;/span&gt; objc_protocol_list * _Nullable protocols          OBJC2_UNAVAILABLE;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;#&lt;span class=&quot;keyword&quot;&gt;endif&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125; OBJC2_UNAVAILABLE;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;/* Use `Class` instead of `struct objc_class *` */&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;新版本oc 2.0定义：&lt;/p&gt;
-&lt;p&gt;isa是一个联合类型 &lt;code&gt;union isa_t&lt;/code&gt; 。&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="OC" scheme="https://xq-120.github.io/categories/OC/"/>
-    
-    
-    <category term="内存管理" scheme="https://xq-120.github.io/tags/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>预处理命令之宏定义</title>
-    <link href="https://xq-120.github.io/2020/07/03/%E9%A2%84%E5%A4%84%E7%90%86%E5%91%BD%E4%BB%A4%E4%B9%8B%E5%AE%8F%E5%AE%9A%E4%B9%89/"/>
-    <id>https://xq-120.github.io/2020/07/03/%E9%A2%84%E5%A4%84%E7%90%86%E5%91%BD%E4%BB%A4%E4%B9%8B%E5%AE%8F%E5%AE%9A%E4%B9%89/</id>
-    <published>2020-07-03T01:57:17.000Z</published>
-    <updated>2021-08-01T11:30:13.075Z</updated>
-    
-    
-    <summary type="html">&lt;p&gt;这里不谈宏的使用。只是突然想知道定义一个宏之后，这个宏的作用域有多大。&lt;/p&gt;
-&lt;h3 id=&quot;宏定义作用域&quot;&gt;&lt;a href=&quot;#宏定义作用域&quot; class=&quot;headerlink&quot; title=&quot;宏定义作用域&quot;&gt;&lt;/a&gt;宏定义作用域&lt;/h3&gt;&lt;p&gt;C语言标准中宏定义的作用域是：如果是在块作用域内，则从定义位置开始，到块作用域结束，否则到其当前文件结尾，其他文件如果没有通过#include包含这个文件，则使用该宏是无效的。&lt;/p&gt;
-&lt;p&gt;比如我在a.m里面定义了一个宏&lt;code&gt;#define kCondTrue 1&lt;/code&gt;，在b.m里面有如下代码：&lt;/p&gt;
-&lt;figure class=&quot;highlight objectivec&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;- (&lt;span class=&quot;type&quot;&gt;void&lt;/span&gt;)btnDidClicked:(&lt;span class=&quot;built_in&quot;&gt;UIButton&lt;/span&gt; *)sender &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;NSLog&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;@&amp;quot;btnDidClicked&amp;quot;&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;meta&quot;&gt;#&lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; kCondTrue			&lt;span class=&quot;comment&quot;&gt;//不会有编译错误&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;built_in&quot;&gt;NSLog&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;@&amp;quot;111&amp;quot;&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;meta&quot;&gt;#&lt;span class=&quot;keyword&quot;&gt;endif&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;由于kCondTrue宏对b.m是不可见的，所以这里不会打印111。&lt;/p&gt;
-&lt;p&gt;通常编译器会有一些预定义宏，预定义的宏大多会遵守命名规则：&lt;code&gt;__xxx_yyy__&lt;/code&gt;，以双下划线开始和结束。比如&lt;code&gt;__OBJC2__&lt;/code&gt;就是一个预定义的宏。&lt;/p&gt;
-&lt;p&gt;宏定义很强大，组合起来可以实现一个很复杂的功能。but 这样的宏可读性是很差的，你可以想象一下一个由十几个宏共同组合完成的宏有多么可怕，OC开源源码里面原子操作相关的宏是真滴恐怖。感觉如果一个宏过于复杂最好还是用方法代替。&lt;/p&gt;
-&lt;p&gt;完了。&lt;/p&gt;
-&lt;h3 id=&quot;参考&quot;&gt;&lt;a href=&quot;#参考&quot; class=&quot;headerlink&quot; title=&quot;参考&quot;&gt;&lt;/a&gt;参考&lt;/h3&gt;</summary>
-    
-    
-    
-    <category term="OC" scheme="https://xq-120.github.io/categories/OC/"/>
-    
-    
-    <category term="预处理命令" scheme="https://xq-120.github.io/tags/%E9%A2%84%E5%A4%84%E7%90%86%E5%91%BD%E4%BB%A4/"/>
     
   </entry>
   
