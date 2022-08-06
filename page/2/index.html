@@ -187,6 +187,313 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/06/19/%E8%87%AA%E5%8A%A8%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87--%E4%BD%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E8%84%9A%E6%9C%AC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而斗争">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/06/19/%E8%87%AA%E5%8A%A8%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87--%E4%BD%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E8%84%9A%E6%9C%AC/" class="post-title-link" itemprop="url">自动压缩图片--你的第一个脚本</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-06-19 15:02:45" itemprop="dateCreated datePublished" datetime="2022-06-19T15:02:45+08:00">2022-06-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-07-31 12:59:08" itemprop="dateModified" datetime="2022-07-31T12:59:08+08:00">2022-07-31</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%84%9A%E6%9C%AC/" itemprop="url" rel="index"><span itemprop="name">脚本</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/06/19/%E8%87%AA%E5%8A%A8%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87--%E4%BD%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E8%84%9A%E6%9C%AC/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/06/19/自动压缩图片--你的第一个脚本/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>在往图床上丢图片时，有时候总是因为图片太大而要等很久的时间，面对这种情况压缩图片后再上传是一个不错的选择。但是每次都要先打开图片压缩软件，再丢图片压缩，再找到压缩后的图片，再上传到图床，这一系列操作也是繁琐。今天就来解决一下这个问题。</p>
+<p>很显然脚本能够帮助我们自动完成这些烦人的操作。我们希望这个脚本能够自动压缩当前文件夹的所有图片，压缩后将图片转移到另一个文件夹方便查找。</p>
+<p>说干就干，lets go!</p>
+<p>首先，我们需要安装一个图片压缩软件，这个图片压缩软件要能支持命令行操作，这里选择ImageOptim: <a target="_blank" rel="noopener" href="https://imageoptim.com">https://imageoptim.com</a> ，到官网下载后安装即可。</p>
+<p>其次，我们需要安装ImageOptim-CLI，有了它就可以用命令行操作图片压缩软件ImageOptim了。推荐使用npm安装特别是M1芯片的Mac，打开终端输入：</p>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g imageoptim-<span class="keyword">cli</span></span><br></pre></td></tr></table></figure>
+<p>安装完成后查看一下版本确定是否安装成功：</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">imageoptim</span> --version</span><br><span class="line"><span class="attribute">3</span>.<span class="number">0</span>.<span class="number">7</span></span><br></pre></td></tr></table></figure>
+<p>最后，就是写脚本了：目前我们只压缩png，jpg，jpeg，gif</p>
+<p>随便打开一个文本编辑器比如记事本，拷贝下面的代码并保存为 <code>compress.sh</code> ，保存路径随意这里为桌面。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/06/19/%E8%87%AA%E5%8A%A8%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87--%E4%BD%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E8%84%9A%E6%9C%AC/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/06/19/find%E5%91%BD%E4%BB%A4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而斗争">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/06/19/find%E5%91%BD%E4%BB%A4/" class="post-title-link" itemprop="url">find命令</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-06-19 08:57:35" itemprop="dateCreated datePublished" datetime="2022-06-19T08:57:35+08:00">2022-06-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-07-31 12:59:08" itemprop="dateModified" datetime="2022-07-31T12:59:08+08:00">2022-07-31</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" itemprop="url" rel="index"><span itemprop="name">常用命令</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/06/19/find%E5%91%BD%E4%BB%A4/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/06/19/find命令/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="find"><a href="#find" class="headerlink" title="find"></a>find</h2><p>在指定目录下查找文件。</p>
+<p>使用该命令时，不设置任何参数，则find命令将在当前目录下查找子目录与文件（即默认递归查找）。并且将查找到的子目录和文件全部进行显示。</p>
+<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">find</span> <span class="built_in">path</span> expression</span><br></pre></td></tr></table></figure>
+<p>expression：表达式，选项，参数。</p>
+<p>find 根据下列规则判断 path 和 expression，在命令列上第一个 - ( ) , ! 之前的部份为 path，之后的是 expression。如果 path 是空字串则使用目前路径，如果 expression 是空字串则使用 -print 为预设 expression。</p>
+<p>注意：path最好不要省略。</p>
+<p>expression 中可使用的选项有二三十个之多，用到的时候可以查一下。</p>
+<p>常见的有：</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/06/19/find%E5%91%BD%E4%BB%A4/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/05/29/iOS%E5%BE%AA%E7%8E%AF%E6%92%AD%E6%94%BE%E8%A7%86%E9%A2%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而斗争">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/29/iOS%E5%BE%AA%E7%8E%AF%E6%92%AD%E6%94%BE%E8%A7%86%E9%A2%91/" class="post-title-link" itemprop="url">iOS循环播放视频</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-05-29 15:34:04" itemprop="dateCreated datePublished" datetime="2022-05-29T15:34:04+08:00">2022-05-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-07-31 12:59:08" itemprop="dateModified" datetime="2022-07-31T12:59:08+08:00">2022-07-31</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/" itemprop="url" rel="index"><span itemprop="name">音视频</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/05/29/iOS%E5%BE%AA%E7%8E%AF%E6%92%AD%E6%94%BE%E8%A7%86%E9%A2%91/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/05/29/iOS循环播放视频/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>有一个需求需要循环播放一个视频，UI希望的效果是无缝循环播放。当时觉得应该问题不大，但事实却并非如此。如果只是单纯的循环播放，确实简单。但是想要无缝丝滑连贯的循环播放却并不那么简单。</p>
+<h3 id="方案一：ijkplayer"><a href="#方案一：ijkplayer" class="headerlink" title="方案一：ijkplayer"></a>方案一：ijkplayer</h3><p>项目中用的ijkplayer，刚开始是监听播放完成通知，播放完后重新播放，结果发现每次播完后都要停顿一下才会继续播放。达不到无缝循环的要求。</p>
+<p>一顿搜索之后，发现可以通过设置option的loop属性，设置为100就是循环播放100次，设置1就是播放一次，设置0就是无线循环播放。这一次以为稳了，然并卵，还是每次播完后都要停顿一下才会继续播放。</p>
+<p>又是一顿搜索，发现了ijkplayer可以播放contact文件，所谓contact文件就是按照一定的格式将要播放的视频地址按顺序写入一个文件，把这个文件丢给ijkplayer，ijkplayer就会按照顺序一个个播放，当时就在想是不是这种方式可以无缝播放呢？于是将视频的地址写了1000遍，这样ijkplayer就会播放1000次，达到一个循环播放的假象。然而还是没有什么卵用，效果和上面一样。</p>
+<p>总结一下：ijkplayer的播放机制就是播完后会暂停，这一暂停就导致不连贯了，因此可以很明显的看到会停顿一下才继续播放。使用ijkplayer基本上做不到无缝循环播放视频。当然也有可能是我才疏学浅没找到正确的方式。</p>
+<h3 id="方案二：AVPlayer"><a href="#方案二：AVPlayer" class="headerlink" title="方案二：AVPlayer"></a>方案二：AVPlayer</h3><p>ijkplayer既然不行，那就只能试一下系统的AVPlayer了，还是同样的思路，监听播放完成通知，播放完后重新播放，结果发现效果一样。</p>
+<h3 id="方案三：AVQueuePlayer"><a href="#方案三：AVQueuePlayer" class="headerlink" title="方案三：AVQueuePlayer"></a>方案三：AVQueuePlayer</h3><p>最后找到一篇文章说是要使用AVPlayer的子类AVQueuePlayer，试了一下发现效果确实很不错，几乎看不出来有停顿的感觉。AVQueuePlayer应该会预加载要播放的资源，这样播放完后就可以立即加载渲染下一个视频的画面了。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/29/iOS%E5%BE%AA%E7%8E%AF%E6%92%AD%E6%94%BE%E8%A7%86%E9%A2%91/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/05/08/MacBook%20Pro%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8(%E5%85%AD)%E4%B9%8B%E6%88%91%E7%9A%84%E7%94%B5%E8%84%91%E4%BF%AE%E5%A5%BD%E4%BA%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -908,306 +1215,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2021/07/28/MacBook%20Pro%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8(%E4%BA%94)%E4%B9%8B%E6%88%91%E7%9A%84%E7%94%B5%E8%84%91%E7%83%A7%E5%9D%8F%E4%BA%86/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而斗争">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/07/28/MacBook%20Pro%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8(%E4%BA%94)%E4%B9%8B%E6%88%91%E7%9A%84%E7%94%B5%E8%84%91%E7%83%A7%E5%9D%8F%E4%BA%86/" class="post-title-link" itemprop="url">MacBook Pro外接显示器(五)之我的电脑烧坏了</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-07-28 22:18:32" itemprop="dateCreated datePublished" datetime="2021-07-28T22:18:32+08:00">2021-07-28</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-08 16:50:09" itemprop="dateModified" datetime="2022-05-08T16:50:09+08:00">2022-05-08</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Life/" itemprop="url" rel="index"><span itemprop="name">Life</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2021/07/28/MacBook%20Pro%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8(%E4%BA%94)%E4%B9%8B%E6%88%91%E7%9A%84%E7%94%B5%E8%84%91%E7%83%A7%E5%9D%8F%E4%BA%86/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/07/28/MacBook Pro外接显示器(五)之我的电脑烧坏了/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>又是一个安静的晚上，我的MacBook Pro和往常一样外接着一个4k的显示屏看着电视，突然屏幕黑屏，摸了一下电脑、扩展坞都挺热的，然后赶紧拔掉外接显示器，按了几下开机键发现开不了机了。</p>
-<p>等电脑凉下来后，尝试了网上说的各种组合键后，还是开不了机。顿感大事不妙，大概率是主板烧坏了。预约了周末去天才吧，到了之后给工作人员说明了下情况，工作人员说要去检查下才知道，大概20分钟后工作人员告诉我确实是主板烧坏了，我问还能不能修，他回复说因为是14年的旧款了已经没有配件修了。我又问如果到外面修大概要多少钱，他说他也不清楚，说如果太贵的话不建议我修，建议我买新的电脑。</p>
-<p>想到电脑也用了差不多6年半了，也可以换一台新的了，但真要换还是有点肉疼的，看了一下价格基本上要1w左右。考虑了几分钟，决定还是先回去吧，换电脑的事往后稍稍。</p>
-<p>哎，从4月份买了4k显示屏到现在一共用了差不多3个月，结果跟随我6年半的电脑没了。我想了下烧坏的原因大概有这么几点：</p>
-<ol>
-<li>电脑确实有点旧了。就是不外接显示器，浏览器看视频多打开几个，电脑都有些烫手。外接显示器后属实勉强带动，散热跟不上。</li>
-<li>电脑连接到外接显示器链路太长。电脑—转接头—扩展坞—显示器。因为买扩展坞的时候没注意接口的问题，导致中间还接了根转接头，链路太长各设备的稳定性，散热，兼容性问题隐患就会很大。</li>
-<li>扩展坞不是苹果原装的，用的国产的绿联。怎么说呢有钱的话扩展坞之类的最好用原装的，国产的除了便宜其他真不好说，把电脑烧坏了是真伤不起。后来搜了一下，用绿联外接显示器烧坏主机的不是什么稀奇事，慎重。</li>
-</ol>
-<p>总结：</p>
-<ol>
-<li>电脑如果用了4,5年了最好不要再外接啥设备了，特别是电脑稍微多开几个应用就发热厉害的话最好别外接了。</li>
-<li>外接设备时链路最好最短，最好是电脑—线—显示器就完了。</li>
-<li>如果真要扩展坞啥的首选原装，次选国外大品牌比如moshi啥的。</li>
-</ol>
-<p>后记：8月份换了新电脑，因为穷买的是低配版，接口一点都不丰富，就两个雷电口，于是买了个苹果原装的转接头，之前外接是扩展坞，电脑都烫手，现在除了转接头有点发热，电脑已经不发热了。现在外接显示器终于是4k@60hz了，纵享丝滑。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2021/07/09/iOS%E6%8E%A8%E9%80%81%E8%AF%81%E4%B9%A6%E6%9B%B4%E6%96%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而斗争">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/07/09/iOS%E6%8E%A8%E9%80%81%E8%AF%81%E4%B9%A6%E6%9B%B4%E6%96%B0/" class="post-title-link" itemprop="url">iOS推送证书更新</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-07-09 11:49:51" itemprop="dateCreated datePublished" datetime="2021-07-09T11:49:51+08:00">2021-07-09</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-31 12:59:08" itemprop="dateModified" datetime="2022-07-31T12:59:08+08:00">2022-07-31</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/APP%E4%B8%8A%E6%9E%B6/" itemprop="url" rel="index"><span itemprop="name">APP上架</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2021/07/09/iOS%E6%8E%A8%E9%80%81%E8%AF%81%E4%B9%A6%E6%9B%B4%E6%96%B0/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/07/09/iOS推送证书更新/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>首先确保你登录的账号权限要能够修改证书。</p>
-<p><strong>导出p12文件</strong></p>
-<p>打开钥匙串访问，点“登陆—&gt;我的证书”，选中刚安装的通用证书（不带development的是通用环境（开发，生产都可以用）），导出为p12，设置好密码，上传到个推网站上。也可以同时上传专门用于开发的p12。</p>
-<p><strong>更新profiles文件</strong></p>
-<p>更新推送证书后别忘了更新profile文件。选中侧边栏Profiles，选中对应profile，进入后点击edite，然后勾选select all，点击保存。</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/iotjin/article/details/118302860">iOS - 推送证书更新（Apple Development和极光）</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/be9415a0a6fb?from=timeline">iOS 推送证书加入到钥匙串后,无法导出P12文件</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2021/07/08/%E5%8D%9A%E5%AE%A2%E6%94%B6%E8%97%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而斗争">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/07/08/%E5%8D%9A%E5%AE%A2%E6%94%B6%E8%97%8F/" class="post-title-link" itemprop="url">博客收藏</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-07-08 15:08:50" itemprop="dateCreated datePublished" datetime="2021-07-08T15:08:50+08:00">2021-07-08</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-31 12:59:08" itemprop="dateModified" datetime="2022-07-31T12:59:08+08:00">2022-07-31</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%8D%9A%E5%AE%A2%E6%94%B6%E8%97%8F/" itemprop="url" rel="index"><span itemprop="name">博客收藏</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2021/07/08/%E5%8D%9A%E5%AE%A2%E6%94%B6%E8%97%8F/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/07/08/博客收藏/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><a target="_blank" rel="noopener" href="https://github.com/ming1016/study/wiki">ming1016-study</a>  网友个人收集的比较全的iOS开发技术点</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/iOS-Mayday/heji">Mayday-heji</a>  iOS面试相关的，有加群卖广告嫌疑</p>
-<p><a target="_blank" rel="noopener" href="https://xiaozhuanlan.com/">小专栏</a> 质量较高，不过大部分都要收费。</p>
-<h3 id="个人博客"><a href="#个人博客" class="headerlink" title="个人博客"></a>个人博客</h3><p><a target="_blank" rel="noopener" href="http://oncenote.com/">Jamin</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.desgard.com">Gua</a></p>
-<p><a target="_blank" rel="noopener" href="https://kingcos.me/">kingcos</a> </p>
-<p><a target="_blank" rel="noopener" href="https://tbfungeek.github.io">Edgar</a>  安卓iOS一系列文章</p>
-<p><a target="_blank" rel="noopener" href="http://yulingtianxia.com/">yulingtianxia’s blog</a>  messageThrottle作者</p>
-<h3 id="公司博客"><a href="#公司博客" class="headerlink" title="公司博客"></a>公司博客</h3>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/07/08/%E5%8D%9A%E5%AE%A2%E6%94%B6%E8%97%8F/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1278,20 +1285,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">136</span>
+          <span class="site-state-item-count">139</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">33</span>
+        <span class="site-state-item-count">34</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">84</span>
+        <span class="site-state-item-count">86</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
