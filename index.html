@@ -187,6 +187,389 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/08/18/Xcode%E7%9C%9F%E6%9C%BA%E8%B0%83%E8%AF%95%E6%8F%90%E7%A4%BAUnable-to-install-appName/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而斗争">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/08/18/Xcode%E7%9C%9F%E6%9C%BA%E8%B0%83%E8%AF%95%E6%8F%90%E7%A4%BAUnable-to-install-appName/" class="post-title-link" itemprop="url">Xcode真机调试提示Unable to install [appName]</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-08-18 15:54:48" itemprop="dateCreated datePublished" datetime="2022-08-18T15:54:48+08:00">2022-08-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-08-21 10:03:28" itemprop="dateModified" datetime="2022-08-21T10:03:28+08:00">2022-08-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Xcode/" itemprop="url" rel="index"><span itemprop="name">Xcode</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/08/18/Xcode%E7%9C%9F%E6%9C%BA%E8%B0%83%E8%AF%95%E6%8F%90%E7%A4%BAUnable-to-install-appName/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/08/18/Xcode真机调试提示Unable-to-install-appName/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>git拉代码到本地后，编译没有问题，但是Xcode一运行在安装app的时候就失败,弹窗提示</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line">Details</span><br><span class="line"></span><br><span class="line">Unable <span class="keyword">to</span> install &quot;XXX&quot;</span><br><span class="line"><span class="keyword">Domain</span>: com.apple.dt.MobileDeviceErrorDomain</span><br><span class="line">Code: <span class="number">-402653081</span></span><br><span class="line">Recovery Suggestion: Please <span class="keyword">check</span> your project settings <span class="keyword">and</span> ensure that a <span class="keyword">valid</span> product has been built.</span><br><span class="line"><span class="keyword">User</span> <span class="keyword">Info</span>: &#123;</span><br><span class="line">    DVTErrorCreationDateKey = &quot;2022-08-18 07:53:05 +0000&quot;;</span><br><span class="line">    IDERunOperationFailingWorker = IDEInstalliPhoneLauncher;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">--</span></span><br><span class="line">There was an <span class="type">internal</span> API error.</span><br><span class="line"><span class="keyword">Domain</span>: com.apple.dt.MobileDeviceErrorDomain</span><br><span class="line">Code: <span class="number">-402653081</span></span><br><span class="line"><span class="keyword">User</span> <span class="keyword">Info</span>: &#123;</span><br><span class="line">    DVTRadarComponentKey = <span class="number">261622</span>;</span><br><span class="line">    MobileDeviceErrorCode = &quot;(0xE8000067)&quot;;</span><br><span class="line">    &quot;com.apple.dtdevicekit.stacktrace&quot; = (</span><br><span class="line">	<span class="number">0</span>   DTDeviceKitBase                     <span class="number">0x000000028daad614</span> DTDKCreateNSErrorFromAMDErrorCode + <span class="number">272</span></span><br><span class="line">	<span class="number">1</span>   DTDeviceKitBase                     <span class="number">0x000000028dae6dd8</span> __90-[DTDKMobileDeviceToken installApplicationBundleAtPath:withOptions:andError:withCallback:]_block_invoke + <span class="number">160</span></span><br><span class="line">	<span class="number">2</span>   DVTFoundation                       <span class="number">0x0000000102eb5bd0</span> DVTInvokeWithStrongOwnership + <span class="number">76</span></span><br><span class="line">	<span class="number">3</span>   DTDeviceKitBase                     <span class="number">0x000000028dae6b30</span> -[DTDKMobileDeviceToken installApplicationBundleAtPath:withOptions:andError:withCallback:] + <span class="number">1336</span></span><br><span class="line">	<span class="number">4</span>   IDEiOSSupportCore                   <span class="number">0x0000000133351590</span> __118-[DVTiOSDevice(DVTiPhoneApplicationInstallation) processAppInstallSet:appUninstallSet:installOptions:completionBlock:]_block_invoke<span class="number">.301</span> + <span class="number">2916</span></span><br><span class="line">	<span class="number">5</span>   DVTFoundation                       <span class="number">0x0000000102fdcf50</span> __DVT_CALLING_CLIENT_BLOCK__ + <span class="number">16</span></span><br><span class="line">	<span class="number">6</span>   DVTFoundation                       <span class="number">0x0000000102fde068</span> __DVTDispatchAsync_block_invoke + <span class="number">364</span></span><br><span class="line">	<span class="number">7</span>   libdispatch.dylib                   <span class="number">0x00000001a2504e60</span> _dispatch_call_block_and_release + <span class="number">32</span></span><br><span class="line">	<span class="number">8</span>   libdispatch.dylib                   <span class="number">0x00000001a2506bac</span> _dispatch_client_callout + <span class="number">20</span></span><br><span class="line">	<span class="number">9</span>   libdispatch.dylib                   <span class="number">0x00000001a250e330</span> _dispatch_lane_serial_drain + <span class="number">672</span></span><br><span class="line">	<span class="number">10</span>  libdispatch.dylib                   <span class="number">0x00000001a250eea4</span> _dispatch_lane_invoke + <span class="number">392</span></span><br><span class="line">	<span class="number">11</span>  libdispatch.dylib                   <span class="number">0x00000001a2519708</span> _dispatch_workloop_worker_thread + <span class="number">656</span></span><br><span class="line">	<span class="number">12</span>  libsystem_pthread.dylib             <span class="number">0x00000001a26c15b0</span> _pthread_wqthread + <span class="number">288</span></span><br><span class="line">	<span class="number">13</span>  libsystem_pthread.dylib             <span class="number">0x00000001a26c02c4</span> start_wqthread + <span class="number">8</span></span><br><span class="line">);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">--</span></span><br><span class="line"></span><br><span class="line">Analytics Event: com.apple.dt.IDERunOperationWorkerFinished : &#123;</span><br><span class="line">    &quot;device_model&quot; = &quot;iPhone9,2&quot;;</span><br><span class="line">    &quot;device_osBuild&quot; = &quot;15.6 (19G71)&quot;;</span><br><span class="line">    &quot;device_platform&quot; = &quot;com.apple.platform.iphoneos&quot;;</span><br><span class="line">    &quot;launchSession_schemeCommand&quot; = Run;</span><br><span class="line">    &quot;launchSession_state&quot; = <span class="number">1</span>;</span><br><span class="line">    &quot;launchSession_targetArch&quot; = arm64;</span><br><span class="line">    &quot;operation_duration_ms&quot; = <span class="number">6186</span>;</span><br><span class="line">    &quot;operation_errorCode&quot; = &quot;-402653081&quot;;</span><br><span class="line">    &quot;operation_errorDomain&quot; = &quot;com.apple.dt.MobileDeviceErrorDomain&quot;;</span><br><span class="line">    &quot;operation_errorWorker&quot; = IDEInstalliPhoneLauncher;</span><br><span class="line">    &quot;operation_name&quot; = IDEiPhoneRunOperationWorkerGroup;</span><br><span class="line">    &quot;param_consoleMode&quot; = <span class="number">0</span>;</span><br><span class="line">    &quot;param_debugger_attachToExtensions&quot; = <span class="number">0</span>;</span><br><span class="line">    &quot;param_debugger_attachToXPC&quot; = <span class="number">1</span>;</span><br><span class="line">    &quot;param_debugger_type&quot; = <span class="number">5</span>;</span><br><span class="line">    &quot;param_destination_isProxy&quot; = <span class="number">0</span>;</span><br><span class="line">    &quot;param_destination_platform&quot; = &quot;com.apple.platform.iphoneos&quot;;</span><br><span class="line">    &quot;param_diag_MainThreadChecker_stopOnIssue&quot; = <span class="number">0</span>;</span><br><span class="line">    &quot;param_diag_MallocStackLogging_enableDuringAttach&quot; = <span class="number">0</span>;</span><br><span class="line">    &quot;param_diag_MallocStackLogging_enableForXPC&quot; = <span class="number">1</span>;</span><br><span class="line">    &quot;param_diag_allowLocationSimulation&quot; = <span class="number">1</span>;</span><br><span class="line">    &quot;param_diag_gpu_frameCapture_enable&quot; = <span class="number">0</span>;</span><br><span class="line">    &quot;param_diag_gpu_shaderValidation_enable&quot; = <span class="number">0</span>;</span><br><span class="line">    &quot;param_diag_gpu_validation_enable&quot; = <span class="number">0</span>;</span><br><span class="line">    &quot;param_diag_memoryGraphOnResourceException&quot; = <span class="number">0</span>;</span><br><span class="line">    &quot;param_diag_queueDebugging_enable&quot; = <span class="number">1</span>;</span><br><span class="line">    &quot;param_diag_runtimeProfile_generate&quot; = <span class="number">0</span>;</span><br><span class="line">    &quot;param_diag_sanitizer_asan_enable&quot; = <span class="number">0</span>;</span><br><span class="line">    &quot;param_diag_sanitizer_tsan_enable&quot; = <span class="number">0</span>;</span><br><span class="line">    &quot;param_diag_sanitizer_tsan_stopOnIssue&quot; = <span class="number">0</span>;</span><br><span class="line">    &quot;param_diag_sanitizer_ubsan_stopOnIssue&quot; = <span class="number">0</span>;</span><br><span class="line">    &quot;param_diag_showNonLocalizedStrings&quot; = <span class="number">0</span>;</span><br><span class="line">    &quot;param_diag_viewDebugging_enabled&quot; = <span class="number">1</span>;</span><br><span class="line">    &quot;param_diag_viewDebugging_insertDylibOnLaunch&quot; = <span class="number">1</span>;</span><br><span class="line">    &quot;param_install_style&quot; = <span class="number">0</span>;</span><br><span class="line">    &quot;param_launcher_UID&quot; = <span class="number">2</span>;</span><br><span class="line">    &quot;param_launcher_allowDeviceSensorReplayData&quot; = <span class="number">0</span>;</span><br><span class="line">    &quot;param_launcher_kind&quot; = <span class="number">0</span>;</span><br><span class="line">    &quot;param_launcher_style&quot; = <span class="number">0</span>;</span><br><span class="line">    &quot;param_launcher_substyle&quot; = <span class="number">0</span>;</span><br><span class="line">    &quot;param_runnable_appExtensionHostRunMode&quot; = <span class="number">0</span>;</span><br><span class="line">    &quot;param_runnable_productType&quot; = &quot;com.apple.product-type.application&quot;;</span><br><span class="line">    &quot;param_runnable_swiftVersion&quot; = &quot;5.6.1&quot;;</span><br><span class="line">    &quot;param_runnable_type&quot; = <span class="number">2</span>;</span><br><span class="line">    &quot;param_testing_launchedForTesting&quot; = <span class="number">0</span>;</span><br><span class="line">    &quot;param_testing_suppressSimulatorApp&quot; = <span class="number">0</span>;</span><br><span class="line">    &quot;param_testing_usingCLI&quot; = <span class="number">0</span>;</span><br><span class="line">    &quot;sdk_canonicalName&quot; = &quot;iphoneos15.5&quot;;</span><br><span class="line">    &quot;sdk_osVersion&quot; = &quot;15.5&quot;;</span><br><span class="line">    &quot;sdk_variant&quot; = iphoneos;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">--</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">System</span> Information</span><br><span class="line"></span><br><span class="line">macOS <span class="keyword">Version</span> <span class="number">12.0</span><span class="number">.1</span> (Build <span class="number">21</span>A559)</span><br><span class="line">Xcode <span class="number">13.4</span><span class="number">.1</span> (<span class="number">20504</span>) (Build <span class="number">13</span>F100)</span><br><span class="line"><span class="type">Timestamp</span>: <span class="number">2022</span><span class="number">-08</span><span class="number">-18</span>T15:<span class="number">53</span>:<span class="number">05</span>+<span class="number">08</span>:<span class="number">00</span></span><br></pre></td></tr></table></figure>
+<p>先clean工程，再删DerivedData文件，重启手机，重启电脑，但是都没有用。clean、删除好几遍都没有用，其实到这里就可以肯定是和缓存没关系了，再怎么clean都没用，因为可能是其他地方的原因导致的。完全clean两次如果没用就应该找其他原因了，如果早意识到这一点还可以节省点时间。</p>
+<p>查了1个半小时，就发现一篇文章提到删除target里的通知扩展，删除后确实可以运行安装，但是这不是解决办法啊。估摸着大概就是通知扩展那一块有问题，于是比对好的工程的设置，最终发现是NotificationService.swift文件没有加到NotificationService target里去导致的。添加后解决。网上好多类似的问题，但和我这个完全一样的几乎没有，好浪费时间无语。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/08/17/MessageKit%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而斗争">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/08/17/MessageKit%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" class="post-title-link" itemprop="url">MessageKit源码分析</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-08-17 11:34:00" itemprop="dateCreated datePublished" datetime="2022-08-17T11:34:00+08:00">2022-08-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-08-29 22:02:03" itemprop="dateModified" datetime="2022-08-29T22:02:03+08:00">2022-08-29</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" itemprop="url" rel="index"><span itemprop="name">源码分析</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/08/17/MessageKit%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/08/17/MessageKit源码分析/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>MessageKit是一个开源的IM 消息聊天UI框架。</p>
+<p>MessageKit采用UICollectionView而非UITableView作为主体架构（为什么要这么设计Why?），采用UICollectionViewCell实现聊天cell。一个section对应一条聊天消息，默认一个section里面只有一个cell（为什么要这么设计Why？）。</p>
+<p>作为一个框架，难就难在如何封装各种风格迥异的聊天cell？MessageKit自定义了一种CollectionView布局方式MessagesCollectionViewFlowLayout，它继承自UICollectionViewFlowLayout。对应需要自定义layoutAttributes—MessagesCollectionViewLayoutAttributes，继承自UICollectionViewLayoutAttributes。</p>
+<p>框架内部提供了几种默认的消息类型:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// An enum representing the kind of message and its underlying kind.</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> <span class="title class_">MessageKind</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// A standard text message.</span></span><br><span class="line">    <span class="comment">///</span></span><br><span class="line">    <span class="comment">/// - Note: The font used for this message will be the value of the</span></span><br><span class="line">    <span class="comment">/// `messageLabelFont` property in the `MessagesCollectionViewFlowLayout` object.</span></span><br><span class="line">    <span class="comment">///</span></span><br><span class="line">    <span class="comment">/// Using `MessageKind.attributedText(NSAttributedString)` doesn&#x27;t require you</span></span><br><span class="line">    <span class="comment">/// to set this property and results in higher performance.</span></span><br><span class="line">    <span class="keyword">case</span> text(<span class="type">String</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// A message with attributed text.</span></span><br><span class="line">    <span class="keyword">case</span> attributedText(<span class="type">NSAttributedString</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// A photo message.</span></span><br><span class="line">    <span class="keyword">case</span> photo(<span class="type">MediaItem</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// A video message.</span></span><br><span class="line">    <span class="keyword">case</span> video(<span class="type">MediaItem</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// A location message.</span></span><br><span class="line">    <span class="keyword">case</span> location(<span class="type">LocationItem</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// An emoji message.</span></span><br><span class="line">    <span class="keyword">case</span> emoji(<span class="type">String</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// An audio message.</span></span><br><span class="line">    <span class="keyword">case</span> audio(<span class="type">AudioItem</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// A contact message.</span></span><br><span class="line">    <span class="keyword">case</span> contact(<span class="type">ContactItem</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// A link preview message.</span></span><br><span class="line">    <span class="keyword">case</span> linkPreview(<span class="type">LinkItem</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// A custom message.</span></span><br><span class="line">    <span class="comment">/// - Note: Using this case requires that you implement the following methods and handle this case:</span></span><br><span class="line">    <span class="comment">///   - MessagesDataSource: customCell(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -&gt; UICollectionViewCell</span></span><br><span class="line">    <span class="comment">///   - MessagesLayoutDelegate: customCellSizeCalculator(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -&gt; CellSizeCalculator</span></span><br><span class="line">    <span class="keyword">case</span> custom(<span class="keyword">Any</span><span class="operator">?</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// MARK: - Not supported yet</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//    case system(String)</span></span><br><span class="line"><span class="comment">//    </span></span><br><span class="line"><span class="comment">//    case placeholder</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>每种消息类型提供了默认的cell样式，如果不想用默认的样式可以通过代理自己返回。每种cell对应一种CellSizeCalculator，用于提供cell的宽高。内部提供的比如：TextMessageCell—TextMessageSizeCalculator、MediaMessageCell—MediaMessageSizeCalculator、AudioMessageCell—AudioMessageSizeCalculator。</p>
+<p>MessageKit的设计思想真的吊，框架提供了默认样式，如果不想用默认的样式可以通过代理自己返回。</p>
+<h2 id="几种基类"><a href="#几种基类" class="headerlink" title="几种基类"></a>几种基类</h2><p>MessagesViewController—&gt;UIViewController</p>
+<p>实际使用时可以继承MessagesViewController或拷贝其源码到自己的控制器。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/08/17/MessageKit%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/08/10/%E7%88%B6%E5%AD%90%E3%80%81%E5%AD%90%E5%AD%90%E6%8E%A7%E5%88%B6%E5%99%A8%E9%97%B4%E7%9A%84%E9%80%9A%E4%BF%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而斗争">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/08/10/%E7%88%B6%E5%AD%90%E3%80%81%E5%AD%90%E5%AD%90%E6%8E%A7%E5%88%B6%E5%99%A8%E9%97%B4%E7%9A%84%E9%80%9A%E4%BF%A1/" class="post-title-link" itemprop="url">父子、子子控制器间的通信</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-08-10 15:15:01 / 修改时间：22:11:59" itemprop="dateCreated datePublished" datetime="2022-08-10T15:15:01+08:00">2022-08-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%B8%9A%E5%8A%A1%E5%BC%80%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">业务开发</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/08/10/%E7%88%B6%E5%AD%90%E3%80%81%E5%AD%90%E5%AD%90%E6%8E%A7%E5%88%B6%E5%99%A8%E9%97%B4%E7%9A%84%E9%80%9A%E4%BF%A1/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/08/10/父子、子子控制器间的通信/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>有一个容器控制器P，它下面有三个子控制器A、B、C。有时候我们需要在ABC之间共享一些状态信息。</p>
+<p>一种可行的做法：在P下面挂一个statusContext对象（信息少也可以直接平铺在P下），三个子控制器访问这个statusContext对象达到数据通信的目的。这种方案适合状态查询这种非即时处理的场景，如果是那种需要即时处理事件的场景，那么还是使用代理，通知，block比较好。</p>
+<p>另外一种方法：直接单例搞起，单例在ABC之间穿梭。不太推荐。有几个原因：1.单例因为使用过于方便导致很容易被滥用，滥用后，会很难追踪某个属性到底是在哪个地方修改的。2.单例创建后一般不会主动销毁，导致很难维护它上面的状态信息，下一次使用时可能会残存上一次的状态信息。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/08/09/malloc%E3%80%81calloc%E3%80%81realloc%E7%AE%80%E4%BB%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而斗争">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/08/09/malloc%E3%80%81calloc%E3%80%81realloc%E7%AE%80%E4%BB%8B/" class="post-title-link" itemprop="url">malloc、calloc、realloc简介</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-08-09 17:33:40" itemprop="dateCreated datePublished" datetime="2022-08-09T17:33:40+08:00">2022-08-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-08-10 22:11:59" itemprop="dateModified" datetime="2022-08-10T22:11:59+08:00">2022-08-10</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/08/09/malloc%E3%80%81calloc%E3%80%81realloc%E7%AE%80%E4%BB%8B/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/08/09/malloc、calloc、realloc简介/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="malloc"><a href="#malloc" class="headerlink" title="malloc"></a>malloc</h2><p>函数声明：</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">void	*<span class="built_in">malloc</span>(size_t __size) __result_use_check <span class="built_in">__alloc_size</span>(<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+<p>Initialization: <strong>malloc()</strong> allocates memory block of given size (in bytes) and returns a pointer to the beginning of the block. malloc() doesn’t initialize the allocated memory. If we try to acess the content of memory block then we’ll get garbage values.</p>
+<h2 id="calloc"><a href="#calloc" class="headerlink" title="calloc"></a>calloc</h2><p>函数声明：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span>	*<span class="title">calloc</span><span class="params">(<span class="type">size_t</span> __count, <span class="type">size_t</span> __size)</span> __result_use_check __<span class="title">alloc_size</span><span class="params">(<span class="number">1</span>,<span class="number">2</span>)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>参数说明：</p>
+<ol>
+<li>Number of blocks to be allocated.</li>
+<li>Size of each block.</li>
+</ol>
+<p><strong>calloc()</strong> allocates the memory and also initializes the allocates memory block to zero. If we try to access the content of these blocks then we’ll get 0.</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/08/09/malloc%E3%80%81calloc%E3%80%81realloc%E7%AE%80%E4%BB%8B/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/08/06/%E5%B9%B2%E7%9C%BC%E7%97%87%E8%BE%85%E5%8A%A9%E6%B2%BB%E7%96%97/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -336,7 +719,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-08-06 13:19:02" itemprop="dateModified" datetime="2022-08-06T13:19:02+08:00">2022-08-06</time>
+                <time title="修改时间：2022-08-06 17:51:00" itemprop="dateModified" datetime="2022-08-06T17:51:00+08:00">2022-08-06</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -373,7 +756,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="http://www.flydean.com/17-unix-domain-socket/">网络协议之:socket协议详解之Unix domain Socket</a></p>
+          <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>uds server与client是怎么进行数据通信的？</p>
+<p>uds socket文件的作用？</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="http://www.flydean.com/17-unix-domain-socket/">网络协议之:socket协议详解之Unix domain Socket</a></p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/fHzKYlW0WMhP2jxh2H_59A">Unix Domain Socket工作原理</a></p>
 
       
     </div>
@@ -752,416 +1138,11 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/07/25/%E5%A6%82%E4%BD%95%E5%AD%A6%E4%B9%A0%E4%B8%80%E4%B8%AA%E6%A1%86%E6%9E%B6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而斗争">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/07/25/%E5%A6%82%E4%BD%95%E5%AD%A6%E4%B9%A0%E4%B8%80%E4%B8%AA%E6%A1%86%E6%9E%B6/" class="post-title-link" itemprop="url">如何学习一个框架</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-07-25 23:19:18" itemprop="dateCreated datePublished" datetime="2022-07-25T23:19:18+08:00">2022-07-25</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-31 12:59:08" itemprop="dateModified" datetime="2022-07-31T12:59:08+08:00">2022-07-31</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%AD%A6%E4%B9%A0%E5%BF%83%E5%BE%97/" itemprop="url" rel="index"><span itemprop="name">学习心得</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2022/07/25/%E5%A6%82%E4%BD%95%E5%AD%A6%E4%B9%A0%E4%B8%80%E4%B8%AA%E6%A1%86%E6%9E%B6/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/07/25/如何学习一个框架/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>在读了一些框架源码后，个人觉得应该从以下几个方面学习一个框架：</p>
-<p>1.了解框架实现了什么功能</p>
-<p>2.简单的使用框架</p>
-<p>3.框架使用了哪些基础库</p>
-<p>4.框架使用了什么技术<br>架构设计，设计模式，语言的高级使用，多线程，锁，复用，内存优化，CPU优化等等。</p>
-<p>5.框架使用了什么数据结构<br>为了实现宣传的功能框架定义了哪些字段，涉及了哪些数据结构。</p>
-<p>6.框架使用了什么算法</p>
-<p>7.简述框架的工作流程<br>在对框架达到一定的了解后，尝试高屋建瓴的描述一下框架的工作流程。</p>
-<p>8.框架的优点及缺点<br>在对框架达到一定的了解后，明白框架的最佳使用场景及局限性。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/07/25/IO%E6%A8%A1%E5%9E%8B%E7%AE%80%E4%BB%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而斗争">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/07/25/IO%E6%A8%A1%E5%9E%8B%E7%AE%80%E4%BB%8B/" class="post-title-link" itemprop="url">IO模型简介</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-07-25 12:16:15" itemprop="dateCreated datePublished" datetime="2022-07-25T12:16:15+08:00">2022-07-25</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-31 12:59:41" itemprop="dateModified" datetime="2022-07-31T12:59:41+08:00">2022-07-31</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">计算机基础</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2022/07/25/IO%E6%A8%A1%E5%9E%8B%E7%AE%80%E4%BB%8B/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/07/25/IO模型简介/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>大致有下面五种IO模型：</p>
-<p>阻塞IO模型，非阻塞IO模型，IO复用模型，信号驱动IO模型，异步IO模型。</p>
-<h2 id="阻塞IO模型"><a href="#阻塞IO模型" class="headerlink" title="阻塞IO模型"></a>阻塞IO模型</h2><p>读数据，发现没有数据，线程就一直等待直到有数据读取。</p>
-<h2 id="非阻塞IO模型"><a href="#非阻塞IO模型" class="headerlink" title="非阻塞IO模型"></a>非阻塞IO模型</h2><p>读数据，发现没有数据，线程不等待直接返回读错误码。由于不知道什么时候会有数据所以这种非阻塞IO模型需要调用方不断检查是否有数据。</p>
-<p>fd默认是阻塞IO访问，可以使用fcntl函数设置为非阻塞IO:</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">status</span> = fcntl(socketFD, F_SETFL, O_NONBLOCK)<span class="comment">;</span></span><br></pre></td></tr></table></figure>
-<h2 id="IO复用模型"><a href="#IO复用模型" class="headerlink" title="IO复用模型"></a>IO复用模型</h2><p>对非阻塞IO模型的一种改进，因为非阻塞IO模型需要不断检查是否有数据可读。假如有100个fd要读，那么就需要100个线程各自在不断的检查是否有数据可读，这显然浪费了大量的CPU和内存。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/07/25/IO%E6%A8%A1%E5%9E%8B%E7%AE%80%E4%BB%8B/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/07/20/ifconfig/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而斗争">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/07/20/ifconfig/" class="post-title-link" itemprop="url">ifconfig</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-07-20 18:49:54" itemprop="dateCreated datePublished" datetime="2022-07-20T18:49:54+08:00">2022-07-20</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-31 12:59:08" itemprop="dateModified" datetime="2022-07-31T12:59:08+08:00">2022-07-31</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" itemprop="url" rel="index"><span itemprop="name">常用命令</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2022/07/20/ifconfig/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/07/20/ifconfig/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>ifconfig</p>
-<p>全称：interfaces config,主要用于设置或显示网络设备信息的。</p>
-<p>打印：</p>
-<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">lo0</span>: flags=<span class="number">8049</span>&lt;UP,LOOPBACK,RUNNING,MULTICAST&gt; mtu <span class="number">16384</span></span><br><span class="line">	<span class="attribute">options</span>=<span class="number">1203</span>&lt;RXCSUM,TXCSUM,TXSTATUS,SW_TIMESTAMP&gt;</span><br><span class="line">	<span class="attribute">inet</span> <span class="number">127.0.0.1</span> netmask <span class="number">0</span>xff000000</span><br><span class="line">	<span class="attribute">inet6</span> ::<span class="number">1</span> prefixlen <span class="number">128</span></span><br><span class="line">	<span class="attribute">inet6</span> fe80::<span class="number">1</span>%lo0 prefixlen <span class="number">64</span> scopeid <span class="number">0</span>x1</span><br><span class="line">	<span class="attribute">nd6</span> options=<span class="number">201</span>&lt;PERFORMNUD,DAD&gt;</span><br><span class="line"><span class="attribute">gif0</span>: flags=<span class="number">8010</span>&lt;POINTOPOINT,MULTICAST&gt; mtu <span class="number">1280</span></span><br><span class="line"><span class="attribute">stf0</span>: flags=<span class="number">0</span>&lt;&gt; mtu <span class="number">1280</span></span><br><span class="line"><span class="attribute">en0</span>: flags=<span class="number">8863</span>&lt;UP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST&gt; mtu <span class="number">1500</span></span><br><span class="line">	<span class="attribute">options</span>=<span class="number">50</span>b&lt;RXCSUM,TXCSUM,VLAN_HWTAGGING,AV,CHANNEL_IO&gt;</span><br><span class="line">	<span class="attribute">ether</span> b0:e5:f9:f3:a8:de   //mac地址</span><br><span class="line">	<span class="attribute">inet6</span> fe80::<span class="number">1</span>c2c:<span class="number">2</span>b1d:<span class="number">6</span>af8:<span class="number">3558</span>%en0 prefixlen <span class="number">64</span> secured scopeid <span class="number">0</span>x6  //ipv6地址</span><br><span class="line">	<span class="attribute">inet</span> <span class="number">10.1.63.198</span> netmask <span class="number">0</span>xffffff00 broadcast <span class="number">10.1.63.255</span> //ipv4地址、子网掩码、广播地址</span><br><span class="line">	<span class="attribute">nd6</span> options=<span class="number">201</span>&lt;PERFORMNUD,DAD&gt;</span><br><span class="line">	<span class="attribute">media</span>: autoselect (<span class="number">1000</span>baseT &lt;full-duplex&gt;)</span><br><span class="line">	<span class="attribute">status</span>: active</span><br></pre></td></tr></table></figure>
-<p>ifconfig打印的是所有网络设备的信息，并且名称是专有名词比如en0，一般来说如果电脑只连了WIFI那么en0代表的就是WIFI网卡信息，如果还插了网线那么en0代表的就是以太网网卡信息，en1代表的才是WIFI网卡信息。可以配合<code>networksetup -listallhardwareports</code> 查看。</p>
-<p>networksetup -listallhardwareports</p>
-<p>打印：</p>
-<figure class="highlight nestedtext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Hardware Port</span><span class="punctuation">:</span> <span class="string">Ethernet</span></span><br><span class="line"><span class="attribute">Device</span><span class="punctuation">:</span> <span class="string">en0</span></span><br><span class="line"><span class="attribute">Ethernet Address</span><span class="punctuation">:</span> <span class="string">b0:e5:f9:f3:a8:de</span></span><br><span class="line"></span><br><span class="line"><span class="attribute">Hardware Port</span><span class="punctuation">:</span> <span class="string">USB 10/100/1000 LAN</span></span><br><span class="line"><span class="attribute">Device</span><span class="punctuation">:</span> <span class="string">en4</span></span><br><span class="line"><span class="attribute">Ethernet Address</span><span class="punctuation">:</span> <span class="string">00:e0:4c:89:fe:55</span></span><br><span class="line"></span><br><span class="line"><span class="attribute">Hardware Port</span><span class="punctuation">:</span> <span class="string">Ethernet Adapter (en5)</span></span><br><span class="line"><span class="attribute">Device</span><span class="punctuation">:</span> <span class="string">en5</span></span><br><span class="line"><span class="attribute">Ethernet Address</span><span class="punctuation">:</span> <span class="string">16:6a:42:01:62:87</span></span><br><span class="line"></span><br><span class="line"><span class="attribute">Hardware Port</span><span class="punctuation">:</span> <span class="string">Ethernet Adapter (en6)</span></span><br><span class="line"><span class="attribute">Device</span><span class="punctuation">:</span> <span class="string">en6</span></span><br><span class="line"><span class="attribute">Ethernet Address</span><span class="punctuation">:</span> <span class="string">16:6a:42:01:62:88</span></span><br><span class="line"></span><br><span class="line"><span class="attribute">Hardware Port</span><span class="punctuation">:</span> <span class="string">Wi-Fi</span></span><br><span class="line"><span class="attribute">Device</span><span class="punctuation">:</span> <span class="string">en1</span></span><br><span class="line"><span class="attribute">Ethernet Address</span><span class="punctuation">:</span> <span class="string">b0:e5:f9:f2:56:75</span></span><br><span class="line"></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-<p>networksetup -listallnetworkservices</p>
-<p>打印：</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/07/20/ifconfig/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/07/01/%E5%AD%97%E8%8A%82%E5%BA%8F%E7%AE%80%E5%8D%95%E8%A7%A3%E6%9E%90/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而斗争">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/07/01/%E5%AD%97%E8%8A%82%E5%BA%8F%E7%AE%80%E5%8D%95%E8%A7%A3%E6%9E%90/" class="post-title-link" itemprop="url">字节序简单解析</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-07-01 11:38:42" itemprop="dateCreated datePublished" datetime="2022-07-01T11:38:42+08:00">2022-07-01</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-02 22:00:43" itemprop="dateModified" datetime="2022-07-02T22:00:43+08:00">2022-07-02</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">计算机基础</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2022/07/01/%E5%AD%97%E8%8A%82%E5%BA%8F%E7%AE%80%E5%8D%95%E8%A7%A3%E6%9E%90/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/07/01/字节序简单解析/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>大端序：最高位在最低地址<br>小端序：最高位在最高地址</p>
-<p>为什么会有两种字节序？<br>因为一串数字可以从左开始读，也可以从右开始读。<br>比如：1234<br>从左开始读，那么1就是最高位，结果就是一千两百三十四<br>从右开始读，那么4就是最高位，结果就是四千三百二十一<br>一般国家都是从左到右读，但也有的国家是从右到左读的。没有好坏，纯属习惯问题。</p>
-<p>大端序和小端序就是翻转的关系。</p>
-<p>CPU读取内存中的数据时，是从低地址向高地址方向进行读取的。所以一般计算机的内部处理都是小端字节序。但是，人类还是习惯读写大端字节序。所以，除了计算机的内部处理，其他的场合比如网络传输和文件储存，几乎都是用的大端字节序。</p>
-<p>举例：</p>
-<p>0x0a0b<br>0000 1010 0000 1011 （大端序）-&gt; 1101 0000 0101 0000（小端序）<br>0a0b                                                   0b0a</p>
-<p>0x01<br>0000 0000 0000 0000 0000 0000 0000 0001（大端序）<br>-&gt;<br>1000 0000 0000 0000 0000 0000 0000 0000（小端序）</p>
-<p>代码判断当前是否是小端序：</p>
-<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">union</span><br><span class="line">&#123;</span><br><span class="line">    unsigned int  a<span class="comment">;</span></span><br><span class="line">    unsigned char b<span class="comment">;</span></span><br><span class="line">&#125;c<span class="comment">;</span></span><br><span class="line">c.a <span class="operator">=</span> <span class="number">1</span><span class="comment">;</span></span><br><span class="line">BOOL isLittleEndian <span class="operator">=</span> <span class="number">1</span> <span class="operator">=</span><span class="operator">=</span> c.b<span class="comment">;</span></span><br></pre></td></tr></table></figure>
-<p>如果是小端序那么1在最低地址，char占一个字节，c.b就等于1。<br>如果是大端序那么1在最高地址，char占一个字节，c.b就等于0。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/07/01/%E5%AD%97%E8%8A%82%E5%BA%8F%E7%AE%80%E5%8D%95%E8%A7%A3%E6%9E%90/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1227,20 +1208,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">139</span>
+          <span class="site-state-item-count">143</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-count">36</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">86</span>
+        <span class="site-state-item-count">88</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
