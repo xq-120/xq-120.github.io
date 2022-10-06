@@ -28,7 +28,7 @@
 <meta property="og:description" content="通过一个简单的打印实验就可以发现:  +initialize方法和+load调用时机 +initialize在父类,子类,类别之间的关系 +load在父类,子类,类别之间的关系  如下表格:      +load +initialize     调用时机 被添加到 runtime 时(类被加载时) 第一次调用该类的类方法或实例方法前调用,可能永远不调用   调用顺序 父类-&gt;子类-&gt;分">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2018-02-26T03:31:24.000Z">
-<meta property="article:modified_time" content="2021-08-01T11:30:13.068Z">
+<meta property="article:modified_time" content="2022-10-04T06:12:18.760Z">
 <meta property="article:author" content="jekyttt">
 <meta property="article:tag" content="+load">
 <meta name="twitter:card" content="summary">
@@ -219,7 +219,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+                <time title="修改时间：2022-10-04 14:12:18" itemprop="dateModified" datetime="2022-10-04T14:12:18+08:00">2022-10-04</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -302,6 +302,12 @@
 </table>
 </div>
 <p>另:Swizzling should always be done in +load.</p>
+<h2 id="initialize"><a href="#initialize" class="headerlink" title="initialize"></a>initialize</h2><p>文档说明：</p>
+<figure class="highlight delphi"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">The runtime sends initialize <span class="keyword">to</span> each <span class="keyword">class</span> <span class="keyword">in</span> a <span class="keyword">program</span> just before the <span class="keyword">class</span>, <span class="keyword">or</span> any <span class="keyword">class</span> that inherits from it, <span class="keyword">is</span> sent its first <span class="keyword">message</span> from within the <span class="keyword">program</span>. Superclasses receive this <span class="keyword">message</span> before their subclasses.</span><br><span class="line"></span><br><span class="line">The runtime sends the initialize <span class="keyword">message</span> <span class="keyword">to</span> classes <span class="keyword">in</span> a thread-safe manner. That <span class="keyword">is</span>, initialize <span class="keyword">is</span> run by the first thread <span class="keyword">to</span> send a <span class="keyword">message</span> <span class="keyword">to</span> a <span class="keyword">class</span>, <span class="keyword">and</span> any other thread that tries <span class="keyword">to</span> send a <span class="keyword">message</span> <span class="keyword">to</span> that <span class="keyword">class</span> will block <span class="keyword">until</span> initialize completes.</span><br><span class="line"></span><br><span class="line">The superclass <span class="keyword">implementation</span> may be called multiple times <span class="keyword">if</span> subclasses <span class="keyword">do</span> <span class="keyword">not</span> implement initialize—the runtime will call the <span class="keyword">inherited</span> <span class="keyword">implementation</span>—<span class="keyword">or</span> <span class="keyword">if</span> subclasses explicitly call [super initialize]. <span class="keyword">If</span> you want <span class="keyword">to</span> protect yourself from being run multiple times, you can structure your <span class="keyword">implementation</span> along these lines:</span><br><span class="line">+ (void)initialize <span class="comment">&#123;</span></span><br><span class="line"><span class="comment">  if (self == [ClassName self]) &#123;</span></span><br><span class="line"><span class="comment">    // ... do the initialization ...</span></span><br><span class="line"><span class="comment">  &#125;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Because initialize <span class="keyword">is</span> called <span class="keyword">in</span> a blocking manner, it’s important <span class="keyword">to</span> limit method implementations <span class="keyword">to</span> the minimum amount <span class="keyword">of</span> work necessary possible. Specifically, any code that takes locks that might be required by other classes <span class="keyword">in</span> their initialize methods <span class="keyword">is</span> liable <span class="keyword">to</span> lead <span class="keyword">to</span> deadlocks. Therefore, you should <span class="keyword">not</span> rely <span class="keyword">on</span> initialize <span class="keyword">for</span> complex <span class="keyword">initialization</span>, <span class="keyword">and</span> should instead limit it <span class="keyword">to</span> straightforward, <span class="keyword">class</span> <span class="keyword">local</span> <span class="keyword">initialization</span>.</span><br><span class="line"></span><br><span class="line">Special Considerations</span><br><span class="line">initialize <span class="keyword">is</span> invoked only once per <span class="keyword">class</span>. <span class="keyword">If</span> you want <span class="keyword">to</span> perform independent <span class="keyword">initialization</span> <span class="keyword">for</span> the <span class="keyword">class</span> <span class="keyword">and</span> <span class="keyword">for</span> categories <span class="keyword">of</span> the <span class="keyword">class</span>, you should implement load methods.</span><br></pre></td></tr></table></figure>
+<p>有几个点值得说一下：</p>
+<p>1、initialize方法是线程安全的。当第一个线程触发initialize执行后，其他线程发送的消息都会被阻塞直到initialize执行完成。</p>
+<p>2、父类的实现可能会被执行多次。有时候并不想initialize里的代码执行多次，建议使用dispatch_once保护起来。</p>
+<p>3、initialize方法是以同步的方式执行的，所以里面的实现最好尽可能的简单。尤其是涉及到锁的逻辑就需要特别小心，处理不好可能会导致死锁。</p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考:"></a>参考:</h2><p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/872447c6dc3f">Objective-C 深入理解 +load 和 +initialize</a></p>
 
     </div>
@@ -409,7 +415,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-text">参考:</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#initialize"><span class="nav-text">initialize</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-text">参考:</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -423,7 +429,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">143</span>
+          <span class="site-state-item-count">145</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -436,7 +442,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">88</span>
+        <span class="site-state-item-count">90</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

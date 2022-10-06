@@ -6,7 +6,7 @@
   <link href="https://xq-120.github.io/atom.xml" rel="self"/>
   
   <link href="https://xq-120.github.io/"/>
-  <updated>2022-08-21T02:03:28.909Z</updated>
+  <updated>2022-10-03T03:58:54.057Z</updated>
   <id>https://xq-120.github.io/</id>
   
   <author>
@@ -15,6 +15,59 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>可变参数的函数</title>
+    <link href="https://xq-120.github.io/2022/10/03/%E5%8F%AF%E5%8F%98%E5%8F%82%E6%95%B0%E7%9A%84%E5%87%BD%E6%95%B0/"/>
+    <id>https://xq-120.github.io/2022/10/03/%E5%8F%AF%E5%8F%98%E5%8F%82%E6%95%B0%E7%9A%84%E5%87%BD%E6%95%B0/</id>
+    <published>2022-10-03T03:09:20.000Z</published>
+    <updated>2022-10-03T03:58:54.057Z</updated>
+    
+    
+    <summary type="html">&lt;h3 id=&quot;如何声明一个可变参数的函数&quot;&gt;&lt;a href=&quot;#如何声明一个可变参数的函数&quot; class=&quot;headerlink&quot; title=&quot;如何声明一个可变参数的函数&quot;&gt;&lt;/a&gt;如何声明一个可变参数的函数&lt;/h3&gt;&lt;p&gt;在无法给出所有传递给函数的参数的类型和数目时，可以使用省略号（…）指定函数参数表。有如下几种形式：&lt;/p&gt;
+&lt;figure class=&quot;highlight arduino&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;type&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;fun1&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(&lt;span class=&quot;type&quot;&gt;int&lt;/span&gt; a, &lt;span class=&quot;type&quot;&gt;double&lt;/span&gt; b, ...)&lt;/span&gt;&lt;/span&gt;; &lt;span class=&quot;comment&quot;&gt;//给出确定的几个参数，其他用省略号&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;type&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;fun2&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(&lt;span class=&quot;type&quot;&gt;int&lt;/span&gt; a ...)&lt;/span&gt;&lt;/span&gt;;            &lt;span class=&quot;comment&quot;&gt;//省略号前有或者没有逗号都是可以的&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;type&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;fun3&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(...)&lt;/span&gt;&lt;/span&gt;;                  &lt;span class=&quot;comment&quot;&gt;//也可以不确定任何参数，但和没有参数是不一样的&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;举个例子：计算n个整数的和。&lt;/p&gt;
+&lt;figure class=&quot;highlight objc&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;- (&lt;span class=&quot;type&quot;&gt;int&lt;/span&gt;)test_n_number_add:(&lt;span class=&quot;type&quot;&gt;int&lt;/span&gt;)n, ... &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;type&quot;&gt;int&lt;/span&gt; res = &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    va_list ap; &lt;span class=&quot;comment&quot;&gt;//声明&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    va_start(ap, n); &lt;span class=&quot;comment&quot;&gt;//绑定&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;while&lt;/span&gt; (n &amp;gt; &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        res += va_arg(ap, &lt;span class=&quot;type&quot;&gt;int&lt;/span&gt;); &lt;span class=&quot;comment&quot;&gt;//获取参数。va_arg返回的就是参数的值。&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        n -= &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    va_end(ap); &lt;span class=&quot;comment&quot;&gt;//释放&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;NSLog&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;@&amp;quot;res:%d&amp;quot;&lt;/span&gt;, res);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; res;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;va_list存在的两个隐患：&lt;/p&gt;
+&lt;p&gt;1.如何确定参数的类型。&lt;/p&gt;
+&lt;p&gt;没有其他办法，就是通过强制转换。va_arg就是把当前指针所指向的内容强制转换到指定类型。像printf函数还有个格式化参数来说明后面参数的类型。如果是自己写的，同样得事先约定好一套规则。&lt;/p&gt;
+&lt;p&gt;2.如何确定参数的个数。也就是参数结束标志。&lt;/p&gt;
+&lt;p&gt;也没有规定，同样得事先约定好一套规则。比如这里第一个固定参数说明了后续可变参数的个数。再比如求自然数的平方和，那么可以把负数和0作为它的结束标志。其他系统函数如scanf把接收到的回车符作为结束标志，大家熟知的printf对字符串的处理用’\0’作为结束标志。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="C" scheme="https://xq-120.github.io/categories/C/"/>
+    
+    
+    <category term="可变参数" scheme="https://xq-120.github.io/tags/%E5%8F%AF%E5%8F%98%E5%8F%82%E6%95%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>给第三方库动态添加方法实现</title>
+    <link href="https://xq-120.github.io/2022/09/20/%E7%BB%99%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%8A%A8%E6%80%81%E6%B7%BB%E5%8A%A0%E6%96%B9%E6%B3%95%E5%AE%9E%E7%8E%B0/"/>
+    <id>https://xq-120.github.io/2022/09/20/%E7%BB%99%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%8A%A8%E6%80%81%E6%B7%BB%E5%8A%A0%E6%96%B9%E6%B3%95%E5%AE%9E%E7%8E%B0/</id>
+    <published>2022-09-20T07:17:02.000Z</published>
+    <updated>2022-09-23T14:46:32.990Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;给NextGrowingTextView添加扩展，支持设置光标大小。&lt;/p&gt;
+&lt;p&gt;NextGrowingTextView是一个第三方库，内部有一个继承自UITextView的NextGrowingInternalTextView，这个textview外部是访问不了的。而设</summary>
+        
+      
+    
+    
+    
+    <category term="runtime" scheme="https://xq-120.github.io/categories/runtime/"/>
+    
+    
+    <category term="NextGrowingTextView" scheme="https://xq-120.github.io/tags/NextGrowingTextView/"/>
+    
+  </entry>
   
   <entry>
     <title>Xcode真机调试提示Unable to install [appName]</title>
@@ -48,13 +101,15 @@
     <updated>2022-08-29T14:02:03.978Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;MessageKit是一个开源的IM</summary>
-        
-      
+    <summary type="html">&lt;p&gt;MessageKit是一个开源的IM 消息聊天UI框架。&lt;/p&gt;
+&lt;p&gt;MessageKit采用UICollectionView而非UITableView作为主体架构（为什么要这么设计Why?），采用UICollectionViewCell实现聊天cell。一个section对应一条聊天消息，默认一个section里面只有一个cell（为什么要这么设计Why？）。&lt;/p&gt;
+&lt;p&gt;作为一个框架，难就难在如何封装各种风格迥异的聊天cell？MessageKit自定义了一种CollectionView布局方式MessagesCollectionViewFlowLayout，它继承自UICollectionViewFlowLayout。对应需要自定义layoutAttributes—MessagesCollectionViewLayoutAttributes，继承自UICollectionViewLayoutAttributes。&lt;/p&gt;
+&lt;p&gt;框架内部提供了几种默认的消息类型:&lt;/p&gt;
+&lt;figure class=&quot;highlight swift&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;29&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;30&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;31&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;32&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;33&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;34&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;35&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;36&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;37&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;38&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;39&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;40&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;41&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;42&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;43&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;44&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;45&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;46&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;47&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;48&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;49&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;/// An enum representing the kind of message and its underlying kind.&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;enum&lt;/span&gt; &lt;span class=&quot;title class_&quot;&gt;MessageKind&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;/// A standard text message.&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;///&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;/// - Note: The font used for this message will be the value of the&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;/// `messageLabelFont` property in the `MessagesCollectionViewFlowLayout` object.&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;///&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;/// Using `MessageKind.attributedText(NSAttributedString)` doesn&amp;#x27;t require you&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;/// to set this property and results in higher performance.&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;case&lt;/span&gt; text(&lt;span class=&quot;type&quot;&gt;String&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;/// A message with attributed text.&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;case&lt;/span&gt; attributedText(&lt;span class=&quot;type&quot;&gt;NSAttributedString&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;/// A photo message.&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;case&lt;/span&gt; photo(&lt;span class=&quot;type&quot;&gt;MediaItem&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;/// A video message.&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;case&lt;/span&gt; video(&lt;span class=&quot;type&quot;&gt;MediaItem&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;/// A location message.&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;case&lt;/span&gt; location(&lt;span class=&quot;type&quot;&gt;LocationItem&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;/// An emoji message.&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;case&lt;/span&gt; emoji(&lt;span class=&quot;type&quot;&gt;String&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;/// An audio message.&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;case&lt;/span&gt; audio(&lt;span class=&quot;type&quot;&gt;AudioItem&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;/// A contact message.&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;case&lt;/span&gt; contact(&lt;span class=&quot;type&quot;&gt;ContactItem&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;/// A link preview message.&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;case&lt;/span&gt; linkPreview(&lt;span class=&quot;type&quot;&gt;LinkItem&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;/// A custom message.&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;/// - Note: Using this case requires that you implement the following methods and handle this case:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;///   - MessagesDataSource: customCell(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -&amp;gt; UICollectionViewCell&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;///   - MessagesLayoutDelegate: customCellSizeCalculator(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -&amp;gt; CellSizeCalculator&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;case&lt;/span&gt; custom(&lt;span class=&quot;keyword&quot;&gt;Any&lt;/span&gt;&lt;span class=&quot;operator&quot;&gt;?&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;// MARK: - Not supported yet&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;//    case system(String)&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;//    &lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;//    case placeholder&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;每种消息类型提供了默认的cell样式，如果不想用默认的样式可以通过代理自己返回。每种cell对应一种CellSizeCalculator，用于提供cell的宽高。内部提供的比如：TextMessageCell—TextMessageSizeCalculator、MediaMessageCell—MediaMessageSizeCalculator、AudioMessageCell—AudioMessageSizeCalculator。&lt;/p&gt;
+&lt;p&gt;MessageKit的设计思想真的吊，框架提供了默认样式，如果不想用默认的样式可以通过代理自己返回。&lt;/p&gt;
+&lt;h2 id=&quot;几种基类&quot;&gt;&lt;a href=&quot;#几种基类&quot; class=&quot;headerlink&quot; title=&quot;几种基类&quot;&gt;&lt;/a&gt;几种基类&lt;/h2&gt;&lt;p&gt;MessagesViewController—&amp;gt;UIViewController&lt;/p&gt;
+&lt;p&gt;实际使用时可以继承MessagesViewController或拷贝其源码到自己的控制器。&lt;/p&gt;</summary>
     
     
     
@@ -99,14 +154,17 @@
     <updated>2022-08-10T14:11:59.622Z</updated>
     
     
-      
-      
-        
-        
     <summary type="html">&lt;h2 id=&quot;malloc&quot;&gt;&lt;a href=&quot;#malloc&quot; class=&quot;headerlink&quot; title=&quot;malloc&quot;&gt;&lt;/a&gt;malloc&lt;/h2&gt;&lt;p&gt;函数声明：&lt;/p&gt;
-&lt;figure class=&quot;highlight</summary>
-        
-      
+&lt;figure class=&quot;highlight scss&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;void	*&lt;span class=&quot;built_in&quot;&gt;malloc&lt;/span&gt;(size_t __size) __result_use_check &lt;span class=&quot;built_in&quot;&gt;__alloc_size&lt;/span&gt;(&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;Initialization: &lt;strong&gt;malloc()&lt;/strong&gt; allocates memory block of given size (in bytes) and returns a pointer to the beginning of the block. malloc() doesn’t initialize the allocated memory. If we try to acess the content of memory block then we’ll get garbage values.&lt;/p&gt;
+&lt;h2 id=&quot;calloc&quot;&gt;&lt;a href=&quot;#calloc&quot; class=&quot;headerlink&quot; title=&quot;calloc&quot;&gt;&lt;/a&gt;calloc&lt;/h2&gt;&lt;p&gt;函数声明：&lt;/p&gt;
+&lt;figure class=&quot;highlight cpp&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;type&quot;&gt;void&lt;/span&gt;	*&lt;span class=&quot;title&quot;&gt;calloc&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(&lt;span class=&quot;type&quot;&gt;size_t&lt;/span&gt; __count, &lt;span class=&quot;type&quot;&gt;size_t&lt;/span&gt; __size)&lt;/span&gt; __result_use_check __&lt;span class=&quot;title&quot;&gt;alloc_size&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;,&lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;)&lt;/span&gt;&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;参数说明：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Number of blocks to be allocated.&lt;/li&gt;
+&lt;li&gt;Size of each block.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;calloc()&lt;/strong&gt; allocates the memory and also initializes the allocates memory block to zero. If we try to access the content of these blocks then we’ll get 0.&lt;/p&gt;</summary>
     
     
     
@@ -125,14 +183,36 @@
     <updated>2022-08-06T05:18:20.012Z</updated>
     
     
-      
-      
-        
-        
     <summary type="html">&lt;p&gt;具体是什么时候开始有干眼症的症状已经记不清楚了，大概是2016年患干眼症，目前（2022年08月06日）干眼症症状：干燥、异物感、瘙痒、灼痛，闭眼睡觉（不管是白天还是晚上，只要是闭眼一段时间）特别明显，睁眼后不明显。&lt;/p&gt;
-&lt;p&gt;干眼症目前治疗水平：干眼症是一种慢性、并且</summary>
-        
-      
+&lt;p&gt;干眼症目前治疗水平：干眼症是一种慢性、并且通常是进行性病症。根据其原因和严重程度，干眼症有时并不能完全治愈。但在大多数情况下，干眼症的疾病管理可以很成功，通过施以适当的治疗手段，可以明显改善眼睛舒适度、缓解干眼症状、并且有时甚至可以获得更清晰的视力。&lt;/p&gt;
+&lt;h2 id=&quot;辅助治疗方案&quot;&gt;&lt;a href=&quot;#辅助治疗方案&quot; class=&quot;headerlink&quot; title=&quot;辅助治疗方案&quot;&gt;&lt;/a&gt;辅助治疗方案&lt;/h2&gt;&lt;p&gt;去医院看过几次，不过效果不大。由于是慢性长期的病，所以还是要有一套能够随手就用的辅助治疗方案。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;早睡早起。23:00准备入睡。23:30—7:30。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;按摩热敷。早晚各一次。每次12分钟。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;食疗。多喝水，忌辛辣，油腻，冰的。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;多户外活动。进行户外跑步。建议每周两次户外跑，每次锻炼半小时，大概可以跑3-4公里。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;改善日常生活习惯。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;多眨眼。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;在电脑使用过程中经常休息。一个比较好的方法是——至少每隔30分钟远眺（半米以外）至少直径为半米以上的物体3分钟，它可以帮助缓解干眼症和电脑眼疲劳。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;不躺着玩手机、不在关灯后玩手机。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;减少电子设备的使用。少玩游戏，少玩手机、电脑。初期建议每次玩游戏时间不超过2小时。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;保持积极心态。不要啥也不干，天天躺着。空闲时间多读书，听书也行。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;辅助治疗方案需要长期的坚持下去。希望能够对干眼症有所缓解。&lt;/p&gt;
+&lt;h2 id=&quot;参考&quot;&gt;&lt;a href=&quot;#参考&quot; class=&quot;headerlink&quot; title=&quot;参考&quot;&gt;&lt;/a&gt;参考&lt;/h2&gt;&lt;p&gt;医学上早就确认减少眨眼率的活动会增加干眼症的患病率。例如，在计算机上花费很长时间是干眼症的一个确定的风险因素。由于干眼症可能有多种原因，因此采用的治疗方法可能各有不同。通常并没有能够“快速治愈”干眼症的方法。&lt;/p&gt;
+&lt;h3 id=&quot;热敷疗法&quot;&gt;&lt;a href=&quot;#热敷疗法&quot; class=&quot;headerlink&quot; title=&quot;热敷疗法&quot;&gt;&lt;/a&gt;热敷疗法&lt;/h3&gt;&lt;p&gt;该方法可以作为睑板腺疗法的一种更加舒适的替代手段，它通过简单地对闭合的眼睑施热敷以软化睑板。不过为了达到更好的效果，一些研究人员指出必须使热敷在42摄氏度下保持超过10分钟，并且压敷必须在这段时间内至少施加两次。大多数人不能或不愿意正确地进行这种干眼治疗，只在较低温度下进行压敷，所以经常达不到预期效果。&lt;/p&gt;</summary>
     
     
     
@@ -201,14 +281,11 @@
     <updated>2022-08-01T15:45:27.632Z</updated>
     
     
-      
-      
-        
-        
     <summary type="html">&lt;p&gt;本文基于自己的理解，试图让猪都能理解补码的概念^_^。老规矩，先是几个概念。&lt;/p&gt;
-&lt;h2 id=&quot;机器数&quot;&gt;&lt;a href=&quot;#机器数&quot; class=&quot;headerlink&quot;</summary>
-        
-      
+&lt;h2 id=&quot;机器数&quot;&gt;&lt;a href=&quot;#机器数&quot; class=&quot;headerlink&quot; title=&quot;机器数&quot;&gt;&lt;/a&gt;机器数&lt;/h2&gt;&lt;p&gt;机器数是将符号数字化的数，最高位是符号位，正数符号位为0，负数符号位为1，其余位表示数值。&lt;/p&gt;
+&lt;h2 id=&quot;真值&quot;&gt;&lt;a href=&quot;#真值&quot; class=&quot;headerlink&quot; title=&quot;真值&quot;&gt;&lt;/a&gt;真值&lt;/h2&gt;&lt;p&gt;机器数所对应的实际数值。　&lt;/p&gt;
+&lt;h2 id=&quot;编程语言类型&quot;&gt;&lt;a href=&quot;#编程语言类型&quot; class=&quot;headerlink&quot; title=&quot;编程语言类型&quot;&gt;&lt;/a&gt;编程语言类型&lt;/h2&gt;&lt;h3 id=&quot;无符号数&quot;&gt;&lt;a href=&quot;#无符号数&quot; class=&quot;headerlink&quot; title=&quot;无符号数&quot;&gt;&lt;/a&gt;无符号数&lt;/h3&gt;&lt;p&gt;全部二进制位均代表数值，没有符号位。&lt;/p&gt;
+&lt;h3 id=&quot;有符号数&quot;&gt;&lt;a href=&quot;#有符号数&quot; class=&quot;headerlink&quot; title=&quot;有符号数&quot;&gt;&lt;/a&gt;有符号数&lt;/h3&gt;&lt;p&gt;最高位代表符号位(“0”表示“+”，“1”表示“-”)，其余位表示数值。&lt;/p&gt;</summary>
     
     
     
@@ -304,15 +381,13 @@
     <updated>2022-07-31T04:59:41.747Z</updated>
     
     
-      
-      
-        
-        
     <summary type="html">&lt;p&gt;大致有下面五种IO模型：&lt;/p&gt;
 &lt;p&gt;阻塞IO模型，非阻塞IO模型，IO复用模型，信号驱动IO模型，异步IO模型。&lt;/p&gt;
-&lt;h2 id=&quot;阻塞IO模型&quot;&gt;&lt;a href=&quot;#阻塞IO模型&quot; class=&quot;headerlink&quot;</summary>
-        
-      
+&lt;h2 id=&quot;阻塞IO模型&quot;&gt;&lt;a href=&quot;#阻塞IO模型&quot; class=&quot;headerlink&quot; title=&quot;阻塞IO模型&quot;&gt;&lt;/a&gt;阻塞IO模型&lt;/h2&gt;&lt;p&gt;读数据，发现没有数据，线程就一直等待直到有数据读取。&lt;/p&gt;
+&lt;h2 id=&quot;非阻塞IO模型&quot;&gt;&lt;a href=&quot;#非阻塞IO模型&quot; class=&quot;headerlink&quot; title=&quot;非阻塞IO模型&quot;&gt;&lt;/a&gt;非阻塞IO模型&lt;/h2&gt;&lt;p&gt;读数据，发现没有数据，线程不等待直接返回读错误码。由于不知道什么时候会有数据所以这种非阻塞IO模型需要调用方不断检查是否有数据。&lt;/p&gt;
+&lt;p&gt;fd默认是阻塞IO访问，可以使用fcntl函数设置为非阻塞IO:&lt;/p&gt;
+&lt;figure class=&quot;highlight ini&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attr&quot;&gt;status&lt;/span&gt; = fcntl(socketFD, F_SETFL, O_NONBLOCK)&lt;span class=&quot;comment&quot;&gt;;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;IO复用模型&quot;&gt;&lt;a href=&quot;#IO复用模型&quot; class=&quot;headerlink&quot; title=&quot;IO复用模型&quot;&gt;&lt;/a&gt;IO复用模型&lt;/h2&gt;&lt;p&gt;对非阻塞IO模型的一种改进，因为非阻塞IO模型需要不断检查是否有数据可读。假如有100个fd要读，那么就需要100个线程各自在不断的检查是否有数据可读，这显然浪费了大量的CPU和内存。&lt;/p&gt;</summary>
     
     
     
@@ -331,16 +406,16 @@
     <updated>2022-07-31T04:59:08.879Z</updated>
     
     
-      
-      
-        
-        
     <summary type="html">&lt;p&gt;ifconfig&lt;/p&gt;
 &lt;p&gt;全称：interfaces config,主要用于设置或显示网络设备信息的。&lt;/p&gt;
 &lt;p&gt;打印：&lt;/p&gt;
-&lt;figure class=&quot;highlight apache&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td</summary>
-        
-      
+&lt;figure class=&quot;highlight apache&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;lo0&lt;/span&gt;: flags=&lt;span class=&quot;number&quot;&gt;8049&lt;/span&gt;&amp;lt;UP,LOOPBACK,RUNNING,MULTICAST&amp;gt; mtu &lt;span class=&quot;number&quot;&gt;16384&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;attribute&quot;&gt;options&lt;/span&gt;=&lt;span class=&quot;number&quot;&gt;1203&lt;/span&gt;&amp;lt;RXCSUM,TXCSUM,TXSTATUS,SW_TIMESTAMP&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;attribute&quot;&gt;inet&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;127.0.0.1&lt;/span&gt; netmask &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;xff000000&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;attribute&quot;&gt;inet6&lt;/span&gt; ::&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt; prefixlen &lt;span class=&quot;number&quot;&gt;128&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;attribute&quot;&gt;inet6&lt;/span&gt; fe80::&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;%lo0 prefixlen &lt;span class=&quot;number&quot;&gt;64&lt;/span&gt; scopeid &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;x1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;attribute&quot;&gt;nd6&lt;/span&gt; options=&lt;span class=&quot;number&quot;&gt;201&lt;/span&gt;&amp;lt;PERFORMNUD,DAD&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;gif0&lt;/span&gt;: flags=&lt;span class=&quot;number&quot;&gt;8010&lt;/span&gt;&amp;lt;POINTOPOINT,MULTICAST&amp;gt; mtu &lt;span class=&quot;number&quot;&gt;1280&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;stf0&lt;/span&gt;: flags=&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;&amp;lt;&amp;gt; mtu &lt;span class=&quot;number&quot;&gt;1280&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;en0&lt;/span&gt;: flags=&lt;span class=&quot;number&quot;&gt;8863&lt;/span&gt;&amp;lt;UP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST&amp;gt; mtu &lt;span class=&quot;number&quot;&gt;1500&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;attribute&quot;&gt;options&lt;/span&gt;=&lt;span class=&quot;number&quot;&gt;50&lt;/span&gt;b&amp;lt;RXCSUM,TXCSUM,VLAN_HWTAGGING,AV,CHANNEL_IO&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;attribute&quot;&gt;ether&lt;/span&gt; b0:e5:f9:f3:a8:de   //mac地址&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;attribute&quot;&gt;inet6&lt;/span&gt; fe80::&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;c2c:&lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;b1d:&lt;span class=&quot;number&quot;&gt;6&lt;/span&gt;af8:&lt;span class=&quot;number&quot;&gt;3558&lt;/span&gt;%en0 prefixlen &lt;span class=&quot;number&quot;&gt;64&lt;/span&gt; secured scopeid &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;x6  //ipv6地址&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;attribute&quot;&gt;inet&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;10.1.63.198&lt;/span&gt; netmask &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;xffffff00 broadcast &lt;span class=&quot;number&quot;&gt;10.1.63.255&lt;/span&gt; //ipv4地址、子网掩码、广播地址&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;attribute&quot;&gt;nd6&lt;/span&gt; options=&lt;span class=&quot;number&quot;&gt;201&lt;/span&gt;&amp;lt;PERFORMNUD,DAD&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;attribute&quot;&gt;media&lt;/span&gt;: autoselect (&lt;span class=&quot;number&quot;&gt;1000&lt;/span&gt;baseT &amp;lt;full-duplex&amp;gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;attribute&quot;&gt;status&lt;/span&gt;: active&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;ifconfig打印的是所有网络设备的信息，并且名称是专有名词比如en0，一般来说如果电脑只连了WIFI那么en0代表的就是WIFI网卡信息，如果还插了网线那么en0代表的就是以太网网卡信息，en1代表的才是WIFI网卡信息。可以配合&lt;code&gt;networksetup -listallhardwareports&lt;/code&gt; 查看。&lt;/p&gt;
+&lt;p&gt;networksetup -listallhardwareports&lt;/p&gt;
+&lt;p&gt;打印：&lt;/p&gt;
+&lt;figure class=&quot;highlight nestedtext&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;Hardware Port&lt;/span&gt;&lt;span class=&quot;punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;Ethernet&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;Device&lt;/span&gt;&lt;span class=&quot;punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;en0&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;Ethernet Address&lt;/span&gt;&lt;span class=&quot;punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;b0:e5:f9:f3:a8:de&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;Hardware Port&lt;/span&gt;&lt;span class=&quot;punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;USB 10/100/1000 LAN&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;Device&lt;/span&gt;&lt;span class=&quot;punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;en4&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;Ethernet Address&lt;/span&gt;&lt;span class=&quot;punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;00:e0:4c:89:fe:55&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;Hardware Port&lt;/span&gt;&lt;span class=&quot;punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;Ethernet Adapter (en5)&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;Device&lt;/span&gt;&lt;span class=&quot;punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;en5&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;Ethernet Address&lt;/span&gt;&lt;span class=&quot;punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;16:6a:42:01:62:87&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;Hardware Port&lt;/span&gt;&lt;span class=&quot;punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;Ethernet Adapter (en6)&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;Device&lt;/span&gt;&lt;span class=&quot;punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;en6&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;Ethernet Address&lt;/span&gt;&lt;span class=&quot;punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;16:6a:42:01:62:88&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;Hardware Port&lt;/span&gt;&lt;span class=&quot;punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;Wi-Fi&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;Device&lt;/span&gt;&lt;span class=&quot;punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;en1&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;Ethernet Address&lt;/span&gt;&lt;span class=&quot;punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;b0:e5:f9:f2:56:75&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;...&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;networksetup -listallnetworkservices&lt;/p&gt;
+&lt;p&gt;打印：&lt;/p&gt;</summary>
     
     
     
@@ -359,14 +434,16 @@
     <updated>2022-07-02T14:00:43.974Z</updated>
     
     
-      
-      
-        
-        
     <summary type="html">&lt;p&gt;大端序：最高位在最低地址&lt;br&gt;小端序：最高位在最高地址&lt;/p&gt;
-&lt;p&gt;为什么会有两种字节序？&lt;br&gt;因为一串数字可以从左开始读，也可以从右开始读。&lt;br&gt;比如：1234&lt;br&gt;从左开始读，那么1就是最高位，结果就是一千两百三十四&lt;br&gt;从右开始读，那么4就是最高位，结果就</summary>
-        
-      
+&lt;p&gt;为什么会有两种字节序？&lt;br&gt;因为一串数字可以从左开始读，也可以从右开始读。&lt;br&gt;比如：1234&lt;br&gt;从左开始读，那么1就是最高位，结果就是一千两百三十四&lt;br&gt;从右开始读，那么4就是最高位，结果就是四千三百二十一&lt;br&gt;一般国家都是从左到右读，但也有的国家是从右到左读的。没有好坏，纯属习惯问题。&lt;/p&gt;
+&lt;p&gt;大端序和小端序就是翻转的关系。&lt;/p&gt;
+&lt;p&gt;CPU读取内存中的数据时，是从低地址向高地址方向进行读取的。所以一般计算机的内部处理都是小端字节序。但是，人类还是习惯读写大端字节序。所以，除了计算机的内部处理，其他的场合比如网络传输和文件储存，几乎都是用的大端字节序。&lt;/p&gt;
+&lt;p&gt;举例：&lt;/p&gt;
+&lt;p&gt;0x0a0b&lt;br&gt;0000 1010 0000 1011 （大端序）-&amp;gt; 1101 0000 0101 0000（小端序）&lt;br&gt;0a0b                                                   0b0a&lt;/p&gt;
+&lt;p&gt;0x01&lt;br&gt;0000 0000 0000 0000 0000 0000 0000 0001（大端序）&lt;br&gt;-&amp;gt;&lt;br&gt;1000 0000 0000 0000 0000 0000 0000 0000（小端序）&lt;/p&gt;
+&lt;p&gt;代码判断当前是否是小端序：&lt;/p&gt;
+&lt;figure class=&quot;highlight abnf&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;union&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    unsigned int  a&lt;span class=&quot;comment&quot;&gt;;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    unsigned char b&lt;span class=&quot;comment&quot;&gt;;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;c&lt;span class=&quot;comment&quot;&gt;;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;c.a &lt;span class=&quot;operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;comment&quot;&gt;;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;BOOL isLittleEndian &lt;span class=&quot;operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;operator&quot;&gt;=&lt;/span&gt; c.b&lt;span class=&quot;comment&quot;&gt;;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;如果是小端序那么1在最低地址，char占一个字节，c.b就等于1。&lt;br&gt;如果是大端序那么1在最高地址，char占一个字节，c.b就等于0。&lt;/p&gt;</summary>
     
     
     
@@ -385,14 +462,16 @@
     <updated>2022-07-31T04:59:08.878Z</updated>
     
     
-      
-      
-        
-        
     <summary type="html">&lt;p&gt;在往图床上丢图片时，有时候总是因为图片太大而要等很久的时间，面对这种情况压缩图片后再上传是一个不错的选择。但是每次都要先打开图片压缩软件，再丢图片压缩，再找到压缩后的图片，再上传到图床，这一系列操作也是繁琐。今天就来解决一下这个问题。&lt;/p&gt;
-&lt;p&gt;很显然脚本能够帮助我们自</summary>
-        
-      
+&lt;p&gt;很显然脚本能够帮助我们自动完成这些烦人的操作。我们希望这个脚本能够自动压缩当前文件夹的所有图片，压缩后将图片转移到另一个文件夹方便查找。&lt;/p&gt;
+&lt;p&gt;说干就干，lets go!&lt;/p&gt;
+&lt;p&gt;首先，我们需要安装一个图片压缩软件，这个图片压缩软件要能支持命令行操作，这里选择ImageOptim: &lt;a href=&quot;https://imageoptim.com&quot;&gt;https://imageoptim.com&lt;/a&gt; ，到官网下载后安装即可。&lt;/p&gt;
+&lt;p&gt;其次，我们需要安装ImageOptim-CLI，有了它就可以用命令行操作图片压缩软件ImageOptim了。推荐使用npm安装特别是M1芯片的Mac，打开终端输入：&lt;/p&gt;
+&lt;figure class=&quot;highlight avrasm&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;npm install -g imageoptim-&lt;span class=&quot;keyword&quot;&gt;cli&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;安装完成后查看一下版本确定是否安装成功：&lt;/p&gt;
+&lt;figure class=&quot;highlight apache&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;imageoptim&lt;/span&gt; --version&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;3&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;7&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;最后，就是写脚本了：目前我们只压缩png，jpg，jpeg，gif&lt;/p&gt;
+&lt;p&gt;随便打开一个文本编辑器比如记事本，拷贝下面的代码并保存为 &lt;code&gt;compress.sh&lt;/code&gt; ，保存路径随意这里为桌面。&lt;/p&gt;</summary>
     
     
     
@@ -411,13 +490,14 @@
     <updated>2022-07-31T04:59:08.878Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;find&quot;&gt;&lt;a href=&quot;#find&quot; class=&quot;headerlink&quot;</summary>
-        
-      
+    <summary type="html">&lt;h2 id=&quot;find&quot;&gt;&lt;a href=&quot;#find&quot; class=&quot;headerlink&quot; title=&quot;find&quot;&gt;&lt;/a&gt;find&lt;/h2&gt;&lt;p&gt;在指定目录下查找文件。&lt;/p&gt;
+&lt;p&gt;使用该命令时，不设置任何参数，则find命令将在当前目录下查找子目录与文件（即默认递归查找）。并且将查找到的子目录和文件全部进行显示。&lt;/p&gt;
+&lt;h3 id=&quot;语法&quot;&gt;&lt;a href=&quot;#语法&quot; class=&quot;headerlink&quot; title=&quot;语法&quot;&gt;&lt;/a&gt;语法&lt;/h3&gt;&lt;figure class=&quot;highlight dos&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;find&lt;/span&gt; &lt;span class=&quot;built_in&quot;&gt;path&lt;/span&gt; expression&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;expression：表达式，选项，参数。&lt;/p&gt;
+&lt;p&gt;find 根据下列规则判断 path 和 expression，在命令列上第一个 - ( ) , ! 之前的部份为 path，之后的是 expression。如果 path 是空字串则使用目前路径，如果 expression 是空字串则使用 -print 为预设 expression。&lt;/p&gt;
+&lt;p&gt;注意：path最好不要省略。&lt;/p&gt;
+&lt;p&gt;expression 中可使用的选项有二三十个之多，用到的时候可以查一下。&lt;/p&gt;
+&lt;p&gt;常见的有：&lt;/p&gt;</summary>
     
     
     
@@ -436,14 +516,13 @@
     <updated>2022-07-31T04:59:08.877Z</updated>
     
     
-      
-      
-        
-        
     <summary type="html">&lt;p&gt;有一个需求需要循环播放一个视频，UI希望的效果是无缝循环播放。当时觉得应该问题不大，但事实却并非如此。如果只是单纯的循环播放，确实简单。但是想要无缝丝滑连贯的循环播放却并不那么简单。&lt;/p&gt;
-&lt;h3 id=&quot;方案一：ijkplayer&quot;&gt;&lt;a</summary>
-        
-      
+&lt;h3 id=&quot;方案一：ijkplayer&quot;&gt;&lt;a href=&quot;#方案一：ijkplayer&quot; class=&quot;headerlink&quot; title=&quot;方案一：ijkplayer&quot;&gt;&lt;/a&gt;方案一：ijkplayer&lt;/h3&gt;&lt;p&gt;项目中用的ijkplayer，刚开始是监听播放完成通知，播放完后重新播放，结果发现每次播完后都要停顿一下才会继续播放。达不到无缝循环的要求。&lt;/p&gt;
+&lt;p&gt;一顿搜索之后，发现可以通过设置option的loop属性，设置为100就是循环播放100次，设置1就是播放一次，设置0就是无线循环播放。这一次以为稳了，然并卵，还是每次播完后都要停顿一下才会继续播放。&lt;/p&gt;
+&lt;p&gt;又是一顿搜索，发现了ijkplayer可以播放contact文件，所谓contact文件就是按照一定的格式将要播放的视频地址按顺序写入一个文件，把这个文件丢给ijkplayer，ijkplayer就会按照顺序一个个播放，当时就在想是不是这种方式可以无缝播放呢？于是将视频的地址写了1000遍，这样ijkplayer就会播放1000次，达到一个循环播放的假象。然而还是没有什么卵用，效果和上面一样。&lt;/p&gt;
+&lt;p&gt;总结一下：ijkplayer的播放机制就是播完后会暂停，这一暂停就导致不连贯了，因此可以很明显的看到会停顿一下才继续播放。使用ijkplayer基本上做不到无缝循环播放视频。当然也有可能是我才疏学浅没找到正确的方式。&lt;/p&gt;
+&lt;h3 id=&quot;方案二：AVPlayer&quot;&gt;&lt;a href=&quot;#方案二：AVPlayer&quot; class=&quot;headerlink&quot; title=&quot;方案二：AVPlayer&quot;&gt;&lt;/a&gt;方案二：AVPlayer&lt;/h3&gt;&lt;p&gt;ijkplayer既然不行，那就只能试一下系统的AVPlayer了，还是同样的思路，监听播放完成通知，播放完后重新播放，结果发现效果一样。&lt;/p&gt;
+&lt;h3 id=&quot;方案三：AVQueuePlayer&quot;&gt;&lt;a href=&quot;#方案三：AVQueuePlayer&quot; class=&quot;headerlink&quot; title=&quot;方案三：AVQueuePlayer&quot;&gt;&lt;/a&gt;方案三：AVQueuePlayer&lt;/h3&gt;&lt;p&gt;最后找到一篇文章说是要使用AVPlayer的子类AVQueuePlayer，试了一下发现效果确实很不错，几乎看不出来有停顿的感觉。AVQueuePlayer应该会预加载要播放的资源，这样播放完后就可以立即加载渲染下一个视频的画面了。&lt;/p&gt;</summary>
     
     
     
@@ -460,68 +539,21 @@
     <updated>2022-05-08T09:11:17.798Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;自从电脑坏了之后就一直没有拿去修，没空是一方面，更多的是担心修不好还被坑维修费。就这样磨磨蹭蹭过了差不多大半年，今年五一放假也没啥去处，于是想干脆去华强北修一修，万一修好了呢。本来是想5月1日去修的，结果起太晚了磨蹭到2点感觉有点晚了，就想着第二天去吧，结果第二天下了一天的</summary>
-        
-      
+    <summary type="html">&lt;p&gt;自从电脑坏了之后就一直没有拿去修，没空是一方面，更多的是担心修不好还被坑维修费。就这样磨磨蹭蹭过了差不多大半年，今年五一放假也没啥去处，于是想干脆去华强北修一修，万一修好了呢。本来是想5月1日去修的，结果起太晚了磨蹭到2点感觉有点晚了，就想着第二天去吧，结果第二天下了一天的雨，也没去成。&lt;/p&gt;
+&lt;p&gt;5月3日天气有点阴沉，但好歹没下雨了。于是从角落把电脑翻出来发现盖子都有点发霉了，简单的清理了一下便装进背包，向华强北出发。华强北虽然经过过几次，但没去里边修过东西，出发前搜了下华强北修电脑的帖子，广告很多，被骗被坑的回答也很多，很多答主说要慎重，说有的店就是拖着你说修不好让你低价卖给他，有的还会偷换电脑零件，反正啥样的都有。看完之后还是有点忐忑的，倒不是怕偷换零件，毕竟我这个电脑用了6年半了也没啥好零件了，主要是怕漫天要价，拖着不修，扯皮闹心。&lt;/p&gt;
+&lt;p&gt;不过还是决定去试一下，下午两点到了华强路A出口，一出来就看到几家手机电脑维修的店子，我也不知道哪家好，也没有多问多选，直接走进了第一家。进去之后没有说修电脑的事，当时手机拍照有黑斑，就先问了下手机的问题能不能修，维修的几个人都是年轻人，说能修大概160-180块钱，只需要清洗一下摄像头就可以弄好。&lt;/p&gt;
+&lt;p&gt;这里说一下维修店的模式，基本上店面都是一个小门面，相当于一个小工作台，这里只会做一些简单的维修比如换个屏，贴个膜，初步检测下设备啥的，如果问题比较大或者需要其他设备，他们会拿到他们所谓的维修间里，两个地方是有一段距离的而且你是不可能跟着去的，顾客只能在店面等着。&lt;/p&gt;
+&lt;p&gt;话说回来，让他拆下摄像头后我问要洗多久，他说大概要等1个小时。感觉还行便问这里能不能修电脑，他说能修电脑，于是我把电脑给他看了看，告诉他是主板烧坏了，他拿着万用表测了测，说的原因我也记不住，大概的意思是芯片供电模块短路。&lt;/p&gt;
+&lt;p&gt;我：修好大概要多少钱&lt;/p&gt;
+&lt;p&gt;他：550&lt;/p&gt;
+&lt;p&gt;我：有点贵&lt;/p&gt;
+&lt;p&gt;他：已经是最低价了，这样吧，加上那个洗摄像头的费用一共700怎么样&lt;/p&gt;
+&lt;p&gt;我：那要修多久啊&lt;/p&gt;</summary>
     
     
     
     <category term="Life" scheme="https://xq-120.github.io/categories/Life/"/>
     
-    
-  </entry>
-  
-  <entry>
-    <title>hexo next主题给文章添加版权信息</title>
-    <link href="https://xq-120.github.io/2022/05/07/hexo-next%E4%B8%BB%E9%A2%98%E7%BB%99%E6%96%87%E7%AB%A0%E6%B7%BB%E5%8A%A0%E7%89%88%E6%9D%83%E4%BF%A1%E6%81%AF/"/>
-    <id>https://xq-120.github.io/2022/05/07/hexo-next%E4%B8%BB%E9%A2%98%E7%BB%99%E6%96%87%E7%AB%A0%E6%B7%BB%E5%8A%A0%E7%89%88%E6%9D%83%E4%BF%A1%E6%81%AF/</id>
-    <published>2022-05-07T09:17:12.000Z</published>
-    <updated>2022-05-07T09:30:15.888Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;next主题下给文章添加版权信息&quot;&gt;&lt;a href=&quot;#next主题下给文章添加版权信息&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="Hexo" scheme="https://xq-120.github.io/categories/Hexo/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>iOS定时器杂记</title>
-    <link href="https://xq-120.github.io/2022/05/01/iOS%E5%AE%9A%E6%97%B6%E5%99%A8%E6%9D%82%E8%AE%B0/"/>
-    <id>https://xq-120.github.io/2022/05/01/iOS%E5%AE%9A%E6%97%B6%E5%99%A8%E6%9D%82%E8%AE%B0/</id>
-    <published>2022-05-01T05:13:38.000Z</published>
-    <updated>2022-07-20T12:42:42.521Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;NSTimer&quot;&gt;&lt;a href=&quot;#NSTimer&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="Foundation" scheme="https://xq-120.github.io/categories/Foundation/"/>
-    
-    
-    <category term="NSTimer" scheme="https://xq-120.github.io/tags/NSTimer/"/>
-    
-    <category term="定时器" scheme="https://xq-120.github.io/tags/%E5%AE%9A%E6%97%B6%E5%99%A8/"/>
     
   </entry>
   

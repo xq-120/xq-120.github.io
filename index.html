@@ -187,6 +187,198 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/10/03/%E5%8F%AF%E5%8F%98%E5%8F%82%E6%95%B0%E7%9A%84%E5%87%BD%E6%95%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而斗争">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/10/03/%E5%8F%AF%E5%8F%98%E5%8F%82%E6%95%B0%E7%9A%84%E5%87%BD%E6%95%B0/" class="post-title-link" itemprop="url">可变参数的函数</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-10-03 11:09:20 / 修改时间：11:58:54" itemprop="dateCreated datePublished" datetime="2022-10-03T11:09:20+08:00">2022-10-03</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/10/03/%E5%8F%AF%E5%8F%98%E5%8F%82%E6%95%B0%E7%9A%84%E5%87%BD%E6%95%B0/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/10/03/可变参数的函数/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="如何声明一个可变参数的函数"><a href="#如何声明一个可变参数的函数" class="headerlink" title="如何声明一个可变参数的函数"></a>如何声明一个可变参数的函数</h3><p>在无法给出所有传递给函数的参数的类型和数目时，可以使用省略号（…）指定函数参数表。有如下几种形式：</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">fun1</span><span class="params">(<span class="type">int</span> a, <span class="type">double</span> b, ...)</span></span>; <span class="comment">//给出确定的几个参数，其他用省略号</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">fun2</span><span class="params">(<span class="type">int</span> a ...)</span></span>;            <span class="comment">//省略号前有或者没有逗号都是可以的</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">fun3</span><span class="params">(...)</span></span>;                  <span class="comment">//也可以不确定任何参数，但和没有参数是不一样的</span></span><br></pre></td></tr></table></figure>
+<p>举个例子：计算n个整数的和。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">int</span>)test_n_number_add:(<span class="type">int</span>)n, ... &#123;</span><br><span class="line">    <span class="type">int</span> res = <span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">    va_list ap; <span class="comment">//声明</span></span><br><span class="line">    va_start(ap, n); <span class="comment">//绑定</span></span><br><span class="line">    <span class="keyword">while</span> (n &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        res += va_arg(ap, <span class="type">int</span>); <span class="comment">//获取参数。va_arg返回的就是参数的值。</span></span><br><span class="line">        n -= <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    va_end(ap); <span class="comment">//释放</span></span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;res:%d&quot;</span>, res);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>va_list存在的两个隐患：</p>
+<p>1.如何确定参数的类型。</p>
+<p>没有其他办法，就是通过强制转换。va_arg就是把当前指针所指向的内容强制转换到指定类型。像printf函数还有个格式化参数来说明后面参数的类型。如果是自己写的，同样得事先约定好一套规则。</p>
+<p>2.如何确定参数的个数。也就是参数结束标志。</p>
+<p>也没有规定，同样得事先约定好一套规则。比如这里第一个固定参数说明了后续可变参数的个数。再比如求自然数的平方和，那么可以把负数和0作为它的结束标志。其他系统函数如scanf把接收到的回车符作为结束标志，大家熟知的printf对字符串的处理用’\0’作为结束标志。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/10/03/%E5%8F%AF%E5%8F%98%E5%8F%82%E6%95%B0%E7%9A%84%E5%87%BD%E6%95%B0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/09/20/%E7%BB%99%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%8A%A8%E6%80%81%E6%B7%BB%E5%8A%A0%E6%96%B9%E6%B3%95%E5%AE%9E%E7%8E%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而斗争">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/09/20/%E7%BB%99%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%8A%A8%E6%80%81%E6%B7%BB%E5%8A%A0%E6%96%B9%E6%B3%95%E5%AE%9E%E7%8E%B0/" class="post-title-link" itemprop="url">给第三方库动态添加方法实现</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-09-20 15:17:02" itemprop="dateCreated datePublished" datetime="2022-09-20T15:17:02+08:00">2022-09-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-09-23 22:46:32" itemprop="dateModified" datetime="2022-09-23T22:46:32+08:00">2022-09-23</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/runtime/" itemprop="url" rel="index"><span itemprop="name">runtime</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/09/20/%E7%BB%99%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%8A%A8%E6%80%81%E6%B7%BB%E5%8A%A0%E6%96%B9%E6%B3%95%E5%AE%9E%E7%8E%B0/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/09/20/给第三方库动态添加方法实现/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>给NextGrowingTextView添加扩展，支持设置光标大小。</p>
+<p>NextGrowingTextView是一个第三方库，内部有一个继承自UITextView的NextGrowingInternalTextView，这个textview外部是访问不了的。而设置textview的光标大小需要继承UITextView并重写UITextInput.caretRect(for:)方法。怎么办呢？</p>
+<p>大概有三种办法：</p>
+<p>1、私有化NextGrowingTextView。直接改NextGrowingInternalTextView类。这种最简单，但是以后就需要自己维护这个库了。</p>
+<p>2、方法交换UITextView的caretRect(for:)实现。这种也比较简单，但是由于交换的是UITextView的实现，影响的范围比较大。</p>
+<p>3、动态给NextGrowingInternalTextView添加caretRect(for:)实现。这个影响的范围只有NextGrowingInternalTextView，并且也不需要私有化NextGrowingTextView。个人觉得是最佳的解决办法了。这个方案的难点是添加自己的实现后怎么调用父类的实现。解决办法就是先获取父类的IMP，再添加自己的实现。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extension</span> <span class="title class_">NextGrowingTextView</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">struct</span> <span class="title class_">AssociatedKeys</span> &#123;</span><br><span class="line">        <span class="keyword">static</span> <span class="keyword">var</span> caretSize <span class="operator">=</span> <span class="string">&quot;caretSize&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> caretSize: <span class="type">CGSize</span>? &#123;</span><br><span class="line">        <span class="keyword">get</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> objc_getAssociatedObject(<span class="keyword">self</span>, <span class="operator">&amp;</span><span class="type">AssociatedKeys</span>.caretSize) <span class="keyword">as?</span> <span class="type">CGSize</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">set</span> &#123;</span><br><span class="line">            objc_setAssociatedObject(<span class="keyword">self</span>, <span class="operator">&amp;</span><span class="type">AssociatedKeys</span>.caretSize, newValue, objc_AssociationPolicy.<span class="type">OBJC_ASSOCIATION_RETAIN_NONATOMIC</span>)</span><br><span class="line">            hookCaretRectMethodOnce()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">func</span> <span class="title function_">hookCaretRectMethodOnce</span>() &#123;</span><br><span class="line">        <span class="type">DispatchQueue</span>.once &#123;</span><br><span class="line">            <span class="keyword">let</span> cls: <span class="type">AnyClass</span> <span class="operator">=</span> <span class="built_in">type</span>(of: <span class="keyword">self</span>.textView)</span><br><span class="line">            <span class="keyword">let</span> sel: <span class="type">Selector</span> <span class="operator">=</span> <span class="keyword">#selector</span>(<span class="type">UITextInput</span>.caretRect(for:))</span><br><span class="line">            <span class="keyword">guard</span> <span class="keyword">let</span> originalMethod <span class="operator">=</span> class_getInstanceMethod(cls, sel) <span class="keyword">else</span> &#123;<span class="keyword">return</span>&#125;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">let</span> originalIMP <span class="operator">=</span> method_getImplementation(originalMethod)</span><br><span class="line">            <span class="keyword">typealias</span> <span class="type">Function</span> <span class="operator">=</span> <span class="keyword">@convention(c)</span> (<span class="type">AnyObject</span>, <span class="type">Selector</span>, <span class="keyword">Any</span><span class="operator">?</span>) -&gt; <span class="type">CGRect</span></span><br><span class="line">            <span class="keyword">let</span> function <span class="operator">=</span> <span class="built_in">unsafeBitCast</span>(originalIMP, to: <span class="type">Function</span>.<span class="keyword">self</span>)</span><br><span class="line">            <span class="keyword">let</span> implementBlock: <span class="keyword">@convention(block)</span> (<span class="type">UITextView</span>, <span class="type">UITextPosition</span>) -&gt; <span class="type">CGRect</span> <span class="operator">=</span> &#123; (textView, position) -&gt; <span class="type">CGRect</span> <span class="keyword">in</span></span><br><span class="line">                <span class="keyword">var</span> rect <span class="operator">=</span> function(textView, sel, position)</span><br><span class="line">                <span class="keyword">guard</span> <span class="keyword">let</span> parentView <span class="operator">=</span> textView.superview <span class="keyword">as?</span> <span class="type">NextGrowingTextView</span> <span class="keyword">else</span> &#123;<span class="keyword">return</span> rect&#125;</span><br><span class="line">                <span class="keyword">guard</span> <span class="keyword">let</span> caretSize <span class="operator">=</span> parentView.caretSize <span class="keyword">else</span> &#123;<span class="keyword">return</span> rect&#125;</span><br><span class="line">                rect.origin.y <span class="operator">-=</span> (caretSize.height <span class="operator">-</span> rect.size.height)</span><br><span class="line">                rect.size <span class="operator">=</span> caretSize</span><br><span class="line">                <span class="keyword">return</span> rect</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">let</span> types <span class="operator">=</span> <span class="string">&quot;&#123;CGRect=&#123;CGPoint=dd&#125;&#123;CGSize=dd&#125;&#125;@:@&quot;</span></span><br><span class="line">            class_addMethod(cls, sel, imp_implementationWithBlock(<span class="built_in">unsafeBitCast</span>(implementBlock, to: <span class="type">AnyObject</span>.<span class="keyword">self</span>)), types)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://swift.gg/2016/05/18/swift-qa-2016-05-18/">每周 Swift 社区问答：@convention</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/08/18/Xcode%E7%9C%9F%E6%9C%BA%E8%B0%83%E8%AF%95%E6%8F%90%E7%A4%BAUnable-to-install-appName/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -957,187 +1149,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/07/27/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9Crange%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而斗争">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/07/27/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9Crange%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/" class="post-title-link" itemprop="url">字符串操作range注意事项</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-07-27 11:06:19" itemprop="dateCreated datePublished" datetime="2022-07-27T11:06:19+08:00">2022-07-27</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-31 12:59:08" itemprop="dateModified" datetime="2022-07-31T12:59:08+08:00">2022-07-31</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%AD%97%E7%AC%A6%E4%B8%B2/" itemprop="url" rel="index"><span itemprop="name">字符串</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2022/07/27/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9Crange%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/07/27/字符串操作range注意事项/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>代码：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="built_in">NSString</span> *string = <span class="string">@&quot;&quot;</span>;</span><br><span class="line">    <span class="built_in">NSString</span> *ret = [string stringByReplacingCharactersInRange:<span class="built_in">NSMakeRange</span>(<span class="number">0</span>, <span class="number">0</span>) withString:<span class="string">@&quot;因吹斯汀&quot;</span>];</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;string:%@\nret:%@&quot;</span>, string, ret); <span class="comment">//因吹斯汀</span></span><br><span class="line">&#125;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">NSString</span> *string = <span class="string">@&quot;倒计时开关是&quot;</span>;</span><br><span class="line">    <span class="built_in">NSString</span> *ret = [string stringByReplacingCharactersInRange:<span class="built_in">NSMakeRange</span>(<span class="number">0</span>, <span class="number">0</span>) withString:<span class="string">@&quot;因吹斯汀&quot;</span>];</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;string:%@\nret:%@&quot;</span>, string, ret); <span class="comment">//因吹斯汀倒计时开关是</span></span><br><span class="line">&#125;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">NSString</span> *string = <span class="string">@&quot;倒计时开关是&quot;</span>;</span><br><span class="line">    <span class="built_in">NSString</span> *ret = [string stringByReplacingCharactersInRange:<span class="built_in">NSMakeRange</span>(<span class="number">0</span>, <span class="number">1</span>) withString:<span class="string">@&quot;因吹斯汀&quot;</span>];</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;string:%@\nret:%@&quot;</span>, string, ret); <span class="comment">//因吹斯汀计时开关是</span></span><br><span class="line">&#125;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">NSString</span> *string = <span class="string">@&quot;倒计时开关是&quot;</span>;</span><br><span class="line">    <span class="built_in">NSString</span> *ret = [string stringByReplacingCharactersInRange:<span class="built_in">NSMakeRange</span>(string.length, <span class="number">0</span>) withString:<span class="string">@&quot;因吹斯汀&quot;</span>]; <span class="comment">//倒计时开关是因吹斯汀</span></span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;string:%@\nret:%@&quot;</span>, string, ret);</span><br><span class="line">&#125;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">NSString</span> *string = <span class="string">@&quot;倒计时开关是&quot;</span>;</span><br><span class="line">    <span class="built_in">NSString</span> *ret = [string stringByReplacingCharactersInRange:<span class="built_in">NSMakeRange</span>(string.length - <span class="number">1</span>, <span class="number">1</span>) withString:<span class="string">@&quot;因吹斯汀&quot;</span>]; <span class="comment">//倒计时开关因吹斯汀</span></span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;string:%@\nret:%@&quot;</span>, string, ret);</span><br><span class="line">&#125;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">NSString</span> *string = <span class="string">@&quot;倒计时开关是&quot;</span>;</span><br><span class="line">    <span class="built_in">NSString</span> *ret = [string stringByReplacingCharactersInRange:<span class="built_in">NSMakeRange</span>(string.length, <span class="number">1</span>) withString:<span class="string">@&quot;因吹斯汀&quot;</span>]; <span class="comment">//崩溃</span></span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;string:%@\nret:%@&quot;</span>, string, ret);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>总结：</p>
-<p>传入的range必须满足：(range.location + range.length) &lt;= string.length，否则会发生越界崩溃。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/07/27/%E9%9A%90%E5%BC%8F%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E5%AF%BC%E8%87%B4%E7%9A%84%E8%AF%A1%E5%BC%82bug/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而斗争">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/07/27/%E9%9A%90%E5%BC%8F%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E5%AF%BC%E8%87%B4%E7%9A%84%E8%AF%A1%E5%BC%82bug/" class="post-title-link" itemprop="url">隐式类型转换导致的诡异bug</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-07-27 10:34:57" itemprop="dateCreated datePublished" datetime="2022-07-27T10:34:57+08:00">2022-07-27</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-31 12:59:08" itemprop="dateModified" datetime="2022-07-31T12:59:08+08:00">2022-07-31</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Bug/" itemprop="url" rel="index"><span itemprop="name">Bug</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2022/07/27/%E9%9A%90%E5%BC%8F%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E5%AF%BC%E8%87%B4%E7%9A%84%E8%AF%A1%E5%BC%82bug/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/07/27/隐式类型转换导致的诡异bug/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>看以下代码：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSUInteger</span> a = <span class="number">100</span>;</span><br><span class="line"><span class="built_in">NSUInteger</span> b = <span class="number">104</span>;</span><br><span class="line"><span class="built_in">NSUInteger</span> c = <span class="number">30</span>;</span><br><span class="line"><span class="built_in">NSInteger</span> ret = a - b;</span><br><span class="line"><span class="keyword">if</span> (ret &gt; c) &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;1&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (ret &gt; (<span class="built_in">NSInteger</span>)c) &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;2&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@&quot;ret:%ld&quot;</span>, (<span class="type">long</span>)ret);</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@&quot;ret:%lu&quot;</span>, (<span class="type">unsigned</span> <span class="type">long</span>)ret);</span><br></pre></td></tr></table></figure>
-<p>po 与 p：对象最好使用po，基础数据类型使用p。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1208,7 +1219,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">143</span>
+          <span class="site-state-item-count">145</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1221,7 +1232,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">88</span>
+        <span class="site-state-item-count">90</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

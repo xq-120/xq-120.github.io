@@ -187,6 +187,217 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/07/09/%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而斗争">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/07/09/%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">图片压缩笔记</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-07-09 17:16:46" itemprop="dateCreated datePublished" datetime="2018-07-09T17:16:46+08:00">2018-07-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%9B%BE%E7%89%87%E5%A4%84%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">图片处理</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2018/07/09/%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9%E7%AC%94%E8%AE%B0/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/07/09/图片压缩笔记/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="图片压缩笔记"><a href="#图片压缩笔记" class="headerlink" title="图片压缩笔记"></a>图片压缩笔记</h2><h3 id="压缩方法"><a href="#压缩方法" class="headerlink" title="压缩方法"></a>压缩方法</h3><p>工程里图片压缩方法过程:传入一张图片,压缩后,再转回图片.加上上传到服务器的整个过程如下:<br>UIImage-大力压缩-&gt;NSData(A)-&gt;UIImage-UIImageJPEGRepresentation(img, 1)-&gt;NSData(B)-&gt;服务器.</p>
+<p>测试发现dataB要比dataA大很多很多.导致实际上传给服务器的数据远远不止600kb.eg某次上传的头像:4.56Mb(原图,压缩前)-&gt;579.16kb(压缩后)-&gt;2.93Mb(实际上传).实际上传的数据是2.93Mb</p>
+<p>因此再转回UIImage是多余且错的.而应该压缩后直接上传服务器,即UIImage-大力压缩-&gt;NSData(A)-&gt;服务器.</p>
+<p>正确的压缩方法为:</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//指定压缩阈值,压缩图片</span></span><br><span class="line">+ (<span class="built_in">NSData</span> *)za_compressImage:(<span class="built_in">UIImage</span> *)image toMaxFileSize:(<span class="built_in">NSInteger</span>)maxFileSize &#123;</span><br><span class="line">    <span class="built_in">CGFloat</span> compression = <span class="number">0.9</span>f;</span><br><span class="line">    <span class="built_in">CGFloat</span> minCompression = <span class="number">0.1</span>f;</span><br><span class="line">    <span class="built_in">NSData</span> *imageData = <span class="built_in">UIImageJPEGRepresentation</span>(image, compression);</span><br><span class="line">    <span class="keyword">while</span> ([imageData length] &gt; maxFileSize &amp;&amp; compression &gt; minCompression) &#123;</span><br><span class="line">        compression -= <span class="number">0.05</span>;</span><br><span class="line">        imageData = <span class="built_in">UIImageJPEGRepresentation</span>(image, compression);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> imageData;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/07/09/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而斗争">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/07/09/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8/" class="post-title-link" itemprop="url">git常用命令使用</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-07-09 15:48:01" itemprop="dateCreated datePublished" datetime="2018-07-09T15:48:01+08:00">2018-07-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Git/" itemprop="url" rel="index"><span itemprop="name">Git</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2018/07/09/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/07/09/git常用命令使用/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <ul>
+<li><p>查看tag<code>git tag —list</code></p>
+</li>
+<li><p>获取指定的tag处代码<code>git checkout tag</code><br>例如：git checkout v0.1.0</p>
+</li>
+<li><p>查看所有分支<code>git branch -a</code><br>如果是远程分支则前面会有”remotes/”</p>
+</li>
+<li><p>查看本地分支<code>git branch</code></p>
+</li>
+<li><p>创建本地分支<code>git branch 分支名</code></p>
+</li>
+<li><p>提交本地分支到服务器<code>git push origin &lt;local_branch_name&gt;:&lt;remote_branch_name&gt;</code></p>
+</li>
+<li><p>删除本地分支<code>git branch -d &lt;BranchName&gt;</code><br>注意:处于当前分支是不能进行删除分支自身操作的.</p>
+</li>
+<li><p>删除远程分支<code>git push origin :分支名</code></p>
+</li>
+<li><p>根据tag创建分支<code>git branch &lt;new-branch-name&gt; &lt;tag-name&gt;</code>会根据tag创建新的分支.<br>例如:git branch newbranch v1.0 . 会以tag v1.0创建新的分支newbranch.</p>
+</li>
+<li><p>git ignore文件</p>
+<p>如果某些文件已经被纳入了版本管理中，就算是在.gitignore中已经声明了忽略路径也是不起作用的，这时候我们就应该先把本地缓存删除，然后再进行git的push，这样就不会出现忽略的文件了。git清除本地缓存命令如下：</p>
+  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git rm <span class="operator">-</span>r <span class="comment">--cached .</span></span><br><span class="line">git <span class="keyword">add</span> .</span><br><span class="line">git <span class="keyword">commit</span> <span class="operator">-</span>m <span class="string">&#x27;update .gitignore&#x27;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>切换分支</p>
+<ol>
+<li><p>git首次切换到已经存在的分支.<br>先查看分支<code>git branch -a</code>再<code>git checkout origin/dev</code>这个时候已经出现了dev分支，但是我们不在这个分支上.可以执行一下:<br><code>git branch -l</code>看看我们当前处于哪个分支上.这个时候我们再执行一下：<code>git checkout dev</code>就可以了.</p>
+</li>
+<li><p>如果已经切换过了则只需要<code>git checkout 分支名</code></p>
+</li>
+</ol>
+</li>
+</ul>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/0013760174128707b935b0be6fc4fc6ace66c4f15618f8d000">多人协作</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/07/09/TTTAttributedLabel%E4%BD%BF%E7%94%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -951,189 +1162,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/04/12/Swift%E9%9D%99%E6%80%81%E5%BA%93%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而斗争">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/04/12/Swift%E9%9D%99%E6%80%81%E5%BA%93%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/" class="post-title-link" itemprop="url">Swift静态库注意事项</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-04-12 15:56:35" itemprop="dateCreated datePublished" datetime="2018-04-12T15:56:35+08:00">2018-04-12</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%9D%99%E6%80%81%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">静态库</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2018/04/12/Swift%E9%9D%99%E6%80%81%E5%BA%93%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/04/12/Swift静态库注意事项/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="Swift静态库注意事项"><a href="#Swift静态库注意事项" class="headerlink" title="Swift静态库注意事项"></a>Swift静态库注意事项</h3><p>工程是Swift,OC混编.开发完成后,需要将工程制作为一个静态库.制作完成测试使用时,发现一运行就崩溃.提示:<br>Unknown class KDLHomeLotteryKindCollectionCell in Interface Builder file.应该是宿主工程在加载静态库对应的bundle里的XIB文件时出问题了.</p>
-<p>原因分析及解决办法:<br>确定以及肯定的是系统在查找XIB对应的类时没有找到导致的.</p>
-<p>在制作静态库和Bundle时,类和XIB文件被分离到各自的target.而XIB文件是被拖入到bundle中的,因此需要更改XIB之前的默认Module设置,尤其是创建时选择Swift语言.否则系统在查找XIB的类时是在Bundle这个Module中找,当然是找不到的,从而在加载时崩溃.</p>
-<p>解决办法:<br>需要更改XIB对应类的所属Module为静态库的Module.或者不勾选Inherit Module From Target,并清空Module一栏.</p>
-<p>note:Swift创建的XIB默认是选中Inherit Module From Target的.OC创建的XIB文件系统默认没有勾选.</p>
-<p>eg:</p>
-<p><img src="http://7xqoji.com1.z0.glb.clouddn.com/Swift%E5%88%9B%E5%BB%BAXIB%E6%96%87%E4%BB%B6@2x.png" alt=""></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/04/09/map%E5%92%8CflapMap%E7%9A%84%E4%B8%80%E7%82%B9%E5%8C%BA%E5%88%AB/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而斗争">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/04/09/map%E5%92%8CflapMap%E7%9A%84%E4%B8%80%E7%82%B9%E5%8C%BA%E5%88%AB/" class="post-title-link" itemprop="url">map和flapMap的一点区别</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-04-09 11:24:37" itemprop="dateCreated datePublished" datetime="2018-04-09T11:24:37+08:00">2018-04-09</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
-                </span>
-            </span>
-
-          
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="map和flapMap的一点区别"><a href="#map和flapMap的一点区别" class="headerlink" title="map和flapMap的一点区别"></a>map和flapMap的一点区别</h3><p>map的声明:<br><code>public func map&lt;T&gt;(_ transform: (Element) throws -&gt; T) rethrows -&gt; [T]</code><br>它返回的是一个数组.闭包的返回值是一个新数组的元素.<br>如果闭包返回的是一个optional类型元素则map返回的也将是一个[optional(T)]数组.</p>
-<p>flapMap的声明:<br>头文件里只看到这一个</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@available</span>(<span class="keyword">swift</span>, deprecated: <span class="number">4.1</span>, renamed: <span class="string">&quot;compactMap(_:)&quot;</span>, message: <span class="string">&quot;Please use compactMap(_:) for the case where closure returns an optional value&quot;</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">func</span> <span class="title function_">flatMap</span>(<span class="keyword">_</span> <span class="params">transform</span>: (<span class="type">Element</span>) <span class="keyword">throws</span> -&gt; <span class="type">String</span>?) <span class="keyword">rethrows</span> -&gt; [<span class="type">String</span>]</span><br></pre></td></tr></table></figure>
-<p>提示器会有三个:<br><img src="http://7xqoji.com1.z0.glb.clouddn.com/flapMap%E5%A3%B0%E6%98%8E@2x.png" alt="flapMap声明"><br>虽然下面两种已经被废弃,但现在还能使用.<br>它返回的是一个数组.闭包的返回值可以是一个序列也可以是一个新数组的元素.</p>
-<p>区别:  </p>
-<ol>
-<li><p>flatMap可以用来展平一个数组:</p>
- <figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> links: [[<span class="built_in">String</span>]] = [</span><br><span class="line">    [<span class="string">&quot;http://a1&quot;</span>, <span class="string">&quot;http://a2&quot;</span>, <span class="string">&quot;http://a3&quot;</span>],</span><br><span class="line">    [<span class="string">&quot;http://b1&quot;</span>, <span class="string">&quot;http://b2&quot;</span>, <span class="string">&quot;http://b3&quot;</span>],</span><br><span class="line">    [<span class="string">&quot;http://c1&quot;</span>, <span class="string">&quot;http://c2&quot;</span>, <span class="string">&quot;http://c3&quot;</span>],</span><br><span class="line">]</span><br><span class="line"><span class="built_in">print</span>(links)</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> flapLink = links.flatMap &#123; <span class="function"><span class="params">(exlinks: [<span class="built_in">String</span>])</span> -&gt;</span> [<span class="built_in">String</span>] <span class="keyword">in</span></span><br><span class="line">    <span class="keyword">return</span> exlinks</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span>(flapLink)  <span class="regexp">//[&quot;http://</span>a1<span class="string">&quot;, &quot;</span>http:<span class="regexp">//a2&quot;, &quot;http://</span>a3<span class="string">&quot;, &quot;</span>http:<span class="regexp">//b1&quot;, &quot;http://</span>b2<span class="string">&quot;, &quot;</span>http:<span class="regexp">//b3&quot;, &quot;http://</span>c1<span class="string">&quot;, &quot;</span>http:<span class="regexp">//c2&quot;, &quot;http://</span>c3<span class="string">&quot;]</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>flatMap可以将转化失败的nil元素剔除,而map则不能:</p>
- <figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> wq = [<span class="string">&quot;123&quot;</span>, <span class="string">&quot;fsd&quot;</span>, <span class="string">&quot;dfsd&quot;</span>, <span class="string">&quot;34&quot;</span>]</span><br><span class="line"><span class="keyword">let</span> wqm = wq.map &#123; (element) -&gt; <span class="built_in">Int</span>? <span class="keyword">in</span></span><br><span class="line">    return <span class="built_in">Int</span>(element)</span><br><span class="line">&#125;</span><br><span class="line">print(wqm)  <span class="comment">//[Optional(123), nil, nil, Optional(34)]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> wqfm = wq.flatMap &#123; (element) -&gt; <span class="built_in">Int</span>? <span class="keyword">in</span></span><br><span class="line">    return <span class="built_in">Int</span>(element)</span><br><span class="line">&#125;</span><br><span class="line">print(wqfm) <span class="comment">//[123, 34]</span></span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>由于最下面两种用法已经被废弃,Apple推荐使用compactMap,因此flatMap的用法主要是第一种了.</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1204,7 +1232,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">143</span>
+          <span class="site-state-item-count">145</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1217,7 +1245,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">88</span>
+        <span class="site-state-item-count">90</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
