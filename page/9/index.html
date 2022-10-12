@@ -187,6 +187,223 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/12/09/iOS%20UIApplicationState%E7%8A%B6%E6%80%81%E5%8F%98%E5%8C%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而斗争">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/12/09/iOS%20UIApplicationState%E7%8A%B6%E6%80%81%E5%8F%98%E5%8C%96/" class="post-title-link" itemprop="url">iOS UIApplicationState状态变化</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-12-09 23:48:59" itemprop="dateCreated datePublished" datetime="2018-12-09T23:48:59+08:00">2018-12-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/UIKit/" itemprop="url" rel="index"><span itemprop="name">UIKit</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2018/12/09/iOS%20UIApplicationState%E7%8A%B6%E6%80%81%E5%8F%98%E5%8C%96/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/12/09/iOS UIApplicationState状态变化/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>实验设备:iPhone5s,10.3.3系统.</p>
+<p>应用状态:</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="built_in">NS_ENUM</span>(<span class="built_in">NSInteger</span>, <span class="built_in">UIApplicationState</span>) &#123;</span><br><span class="line">    <span class="built_in">UIApplicationStateActive</span>, <span class="comment">//0</span></span><br><span class="line">    <span class="built_in">UIApplicationStateInactive</span>, <span class="comment">//1</span></span><br><span class="line">    <span class="built_in">UIApplicationStateBackground</span> <span class="comment">//2</span></span><br><span class="line">&#125; <span class="built_in">NS_ENUM_AVAILABLE_IOS</span>(<span class="number">4</span>_0);</span><br></pre></td></tr></table></figure>
+<p>APP未启动,点击图片执行顺序:</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">默认	<span class="number">23</span>:<span class="number">07</span>:<span class="number">51.443320</span> +<span class="number">0800</span>	pictureInMemory	-[AppDelegate application:didFinishLaunchingWithOptions:]  应用状态:<span class="number">1</span></span><br><span class="line"></span><br><span class="line">默认	<span class="number">23</span>:<span class="number">07</span>:<span class="number">51.515796</span> +<span class="number">0800</span>	pictureInMemory	-[AppDelegate applicationDidBecomeActive:]  应用状态:<span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p>在应用处于UIApplicationStateActive时,分别进行如下操作:</p>
+<h4 id="1-按下home键"><a href="#1-按下home键" class="headerlink" title="1.按下home键"></a>1.按下home键</h4><figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">默认	<span class="number">23</span>:<span class="number">09</span>:<span class="number">50.067690</span> +<span class="number">0800</span>	pictureInMemory	-[AppDelegate applicationWillResignActive:]  应用状态:<span class="number">0</span></span><br><span class="line">默认	<span class="number">23</span>:<span class="number">09:50.602224</span> +<span class="number">0800</span>	pictureInMemory	-[AppDelegate applicationDidEnterBackground:]  应用状态:<span class="number">2</span></span><br></pre></td></tr></table></figure>
+<p>1.1处于后台时,再点击图标</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">默认	<span class="number">23</span>:<span class="number">11</span>:<span class="number">34.897752</span> +<span class="number">0800</span>	pictureInMemory	-[AppDelegate applicationWillEnterForeground:]  应用状态:<span class="number">2</span></span><br><span class="line">默认	<span class="number">23</span>:<span class="number">11:35.218295</span> +<span class="number">0800</span>	pictureInMemory	-[AppDelegate applicationDidBecomeActive:]  应用状态:<span class="number">0</span></span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/12/09/iOS%20UIApplicationState%E7%8A%B6%E6%80%81%E5%8F%98%E5%8C%96/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/12/09/iOS%20App%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而斗争">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/12/09/iOS%20App%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" class="post-title-link" itemprop="url">iOS APP生命周期</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-12-09 21:51:44" itemprop="dateCreated datePublished" datetime="2018-12-09T21:51:44+08:00">2018-12-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Foundation/" itemprop="url" rel="index"><span itemprop="name">Foundation</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2018/12/09/iOS%20App%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/12/09/iOS App生命周期/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>问题:APP进入后台后大概三分钟就被系统kill掉了,再次进入都是重新启动,对用户体验有一定影响.</p>
+<p>为了解决这个问题,首先来了解一下一个APP的生命周期.</p>
+<h4 id="一、iOS-APP生命周期"><a href="#一、iOS-APP生命周期" class="headerlink" title="一、iOS APP生命周期"></a>一、iOS APP生命周期</h4><p>一个iOS APP生命周期大概有五种状态.</p>
+<p>如下图:</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20210713102802.png" alt></p>
+<ul>
+<li><strong>Not running</strong>:app还没运行.</li>
+<li><strong>Inactive</strong>:app运行在前台但不能接收事件.</li>
+<li><strong>Active</strong>:app运行在前台并且能够接收事件.</li>
+<li><strong>Backgroud</strong>:程序在后台并且能够执行代码,大多数程序进入这个状态后会在这个状态上停留一会(一般就几秒钟,如果有申请后台运行大概会停留180s).时间到之后会进入挂起状态(Suspended).但有几种特定类型的APP可以长期处于Backgroud状态.</li>
+<li><strong>Suspended</strong>:程序在后台不能执行代码.系统会自动把程序变成这个状态而且不会发出通知.当挂起时,程序还是停留在内存中的,当系统内存低时,系统就把挂起的程序清除掉,为前台程序提供更多的内存,并且不会发出任何通知.</li>
+</ul>
+<p>从上面的图可以看出如果挂起的应用所占用的内存还没有被系统回收,则点击APP图标时,应用会进入后台,然后进入前台,此时看到的仍然是上一次的界面.但当挂起的应用所占用的内存已经被系统回收,则点击APP图标时,相当于重新启动.</p>
+<p>了解了APP的生命周期后,可以看到挂起的应用只有在内存紧张的情况下才会被系统清理,这种情况是我们无法控制的.因此出现上述bug极有可能是程序还在运行时就被系统kill掉了.系统主动kill掉一个APP的情况并不多见,主要有如下几种:</p>
+<ul>
+<li>APP出现闪退</li>
+<li>APP内存峰值过高</li>
+<li>APP长时间没有响应事件</li>
+<li>某些特殊API的错误使用</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/12/09/iOS%20App%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/12/07/%E6%B8%85%E7%90%86APP%E7%BC%93%E5%AD%98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -985,199 +1202,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/07/18/PINCache%E4%BD%BF%E7%94%A8%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而斗争">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/07/18/PINCache%E4%BD%BF%E7%94%A8%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/" class="post-title-link" itemprop="url">PINCache使用注意事项</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-07-18 10:23:32" itemprop="dateCreated datePublished" datetime="2018-07-18T10:23:32+08:00">2018-07-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%BD%BF%E7%94%A8/" itemprop="url" rel="index"><span itemprop="name">第三方库使用</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2018/07/18/PINCache%E4%BD%BF%E7%94%A8%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/07/18/PINCache使用注意事项/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="PINCache使用注意事项"><a href="#PINCache使用注意事项" class="headerlink" title="PINCache使用注意事项"></a>PINCache使用注意事项</h3><p>默认的[PINCache sharedCache] 文件保存在目录/Library/Caches/com.pinterest.PINDiskCache.PINCacheShared 在磁盘空间不足时/Caches目录下的所有文件都会被系统自动清除,不适合存储用户信息,登录状态等相关数据.</p>
-<p>诡异BUG<br><strong>现象</strong><br>用户在APP中登录成功后,每隔一段时间(大概2-3个小时),再次打开App后,App没有进入首页而是到了登录页.由于不是必现,所以难以分析其具体原因.</p>
-<p><strong>分析解决</strong><br>经过个把星期的纠缠,终于发现原因:在写的时候将登录成功后的token使用[PINCache sharedCache]保存了,而它的默认保存路径就是在/Caches目录下,对于那些磁盘空间一直徘徊在200-300M的手机,系统会周期性的清理各个App的/Caches目录下的所有文件,来释放部分磁盘空间.这时token就被清理了,而启动时是先从文件中取token进行判断,由于已被清除,自然也取不到,因此进入了登录页.解决办法:换一个路径保存就可以了.</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/07/15/%E8%AE%A1%E7%AE%97%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8D%A0%E7%94%A8%E7%9A%84%E5%AD%97%E8%8A%82%E9%95%BF%E5%BA%A6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而斗争">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/07/15/%E8%AE%A1%E7%AE%97%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8D%A0%E7%94%A8%E7%9A%84%E5%AD%97%E8%8A%82%E9%95%BF%E5%BA%A6/" class="post-title-link" itemprop="url">计算字符串占用的字节长度</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-07-15 22:09:22" itemprop="dateCreated datePublished" datetime="2018-07-15T22:09:22+08:00">2018-07-15</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%AD%97%E7%AC%A6%E4%B8%B2/" itemprop="url" rel="index"><span itemprop="name">字符串</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2018/07/15/%E8%AE%A1%E7%AE%97%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8D%A0%E7%94%A8%E7%9A%84%E5%AD%97%E8%8A%82%E9%95%BF%E5%BA%A6/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/07/15/计算字符串占用的字节长度/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="计算字符串占用的字节长度"><a href="#计算字符串占用的字节长度" class="headerlink" title="计算字符串占用的字节长度"></a>计算字符串占用的字节长度</h3><p><strong>前提</strong></p>
-<p>需要了解字符的编码规则.使用不同的编码规则会得到不同的结果.</p>
-<p><strong>API</strong></p>
-<p><code>- (NSUInteger)lengthOfBytesUsingEncoding:(NSStringEncoding)enc;        // Result in O(n) time; the result is exact. Returns 0 on error (cannot convert to specified encoding, or overflow)</code></p>
-<p><strong>示例</strong></p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSString</span> *chString = <span class="string">@&quot;中国abc&quot;</span>;</span><br><span class="line"><span class="built_in">NSUInteger</span> utf8Bytes = [chString lengthOfBytesUsingEncoding:<span class="built_in">NSUTF8StringEncoding</span>];</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@&quot;utf8Bytes:%ld&quot;</span>, utf8Bytes); <span class="comment">//9</span></span><br><span class="line"><span class="built_in">NSUInteger</span> unicodeBytes = [chString lengthOfBytesUsingEncoding:<span class="built_in">NSUnicodeStringEncoding</span>];</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@&quot;unicodeBytes:%ld&quot;</span>, unicodeBytes); <span class="comment">//10</span></span><br></pre></td></tr></table></figure>
-<p>天朝目前强制使用的是GB18030.</p>
-<p>在<code>CFStringEncodingExt.h</code>里面包含了其他编码枚举.如:</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">kCFStringEncodingGB_2312_80</span> = <span class="number">0</span>x0630,</span><br><span class="line"><span class="attr">kCFStringEncodingGBK_95</span> = <span class="number">0</span>x0631,		/* annex to GB <span class="number">13000</span>-<span class="number">93</span><span class="comment">; for Windows 95 */</span></span><br><span class="line"><span class="attr">kCFStringEncodingGB_18030_2000</span> = <span class="number">0</span>x0632,</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/07/15/%E8%AE%A1%E7%AE%97%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8D%A0%E7%94%A8%E7%9A%84%E5%AD%97%E8%8A%82%E9%95%BF%E5%BA%A6/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1248,7 +1272,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">145</span>
+          <span class="site-state-item-count">147</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1261,7 +1285,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">90</span>
+        <span class="site-state-item-count">91</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
