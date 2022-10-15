@@ -187,6 +187,113 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/02/28/%E5%93%8D%E5%BA%94%E8%80%85%E9%93%BEhitTest%E9%87%8A%E7%96%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而斗争">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/02/28/%E5%93%8D%E5%BA%94%E8%80%85%E9%93%BEhitTest%E9%87%8A%E7%96%91/" class="post-title-link" itemprop="url">响应者链hitTest释疑</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-02-28 15:02:17" itemprop="dateCreated datePublished" datetime="2018-02-28T15:02:17+08:00">2018-02-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/UIKit/" itemprop="url" rel="index"><span itemprop="name">UIKit</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2018/02/28/%E5%93%8D%E5%BA%94%E8%80%85%E9%93%BEhitTest%E9%87%8A%E7%96%91/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/02/28/响应者链hitTest释疑/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Q:UIButton想要扩大它的响应区域?<br>A:重载UIButton的hitTest或pointInside.<br>重载hitTest:</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">UIView</span> *)hitTest:(<span class="built_in">CGPoint</span>)point withEvent:(<span class="built_in">UIEvent</span> *)event &#123;</span><br><span class="line">	<span class="keyword">if</span> (<span class="keyword">self</span>.userInteractionEnabled == <span class="literal">NO</span> || <span class="keyword">self</span>.hidden == <span class="literal">YES</span> || <span class="keyword">self</span>.alpha &lt;= <span class="number">0.01</span>) <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line">    <span class="built_in">CGRect</span> touchRect = <span class="built_in">CGRectInset</span>(<span class="keyword">self</span>.bounds, <span class="number">-40</span>, <span class="number">-40</span>);</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">CGRectContainsPoint</span>(touchRect, point)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> [<span class="variable language_">super</span> hitTest:point withEvent:event];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>或重载pointInside:</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">BOOL</span>)pointInside:(<span class="built_in">CGPoint</span>)point withEvent:(<span class="keyword">nullable</span> <span class="built_in">UIEvent</span> *)event &#123;</span><br><span class="line">    <span class="type">BOOL</span> rs = <span class="built_in">CGRectContainsPoint</span>(<span class="built_in">CGRectInset</span>(<span class="keyword">self</span>.bounds, <span class="number">-40</span>, <span class="number">-40</span>), point);</span><br><span class="line">    <span class="keyword">return</span> rs;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里推荐重写pointInside方法.因为重写hitTest方法需要注意判断view的一些属性:<code>if (self.userInteractionEnabled == NO || self.hidden == YES || self.alpha &lt;= 0.01) return nil;</code>如果不判断会出Bug,比如设置按钮hidden为YES了,但是摸到按钮的区域,按钮的响应方法一样会被调用.而重写pointInside方法则不需要考虑这些.</p>
+<p>PS:如果设置了userInteractionEnabled=NO;即使重写hitTest返回按钮自己,按钮的响应方法也不会回调.应该是系统在回调之前又判断了一下该属性的值.</p>
+<p>userInteractionEnabled的说明如下:</p>
+<blockquote>
+<p>When set to NO, touch, press, keyboard, and focus events intended for the view are ignored and removed from the event queue. When set to YES, events are delivered to the view normally. The default value of this property is YES.</p>
+<p>During an animation, user interactions are temporarily disabled for all views involved in the animation, regardless of the value in this property. You can disable this behavior by specifying the UIViewAnimationOptionAllowUserInteraction option when configuring the animation.</p>
+</blockquote>
+<p>当btn作为第一响应者被返回时,如果userInteractionEnabled属性为NO,则与它相关的事件(触摸,按压)都将被忽略.因此btn的响应方法不会被调用.</p>
+<p>Q:点击子视图超出父视图的区域仍让子视图响应事件?<br>A:必须重载<strong>父视图(**</strong>父视图<strong><strong>父视图</strong></strong>父视图**三遍!!!)的pointInside方法.这是由于如果父视图的pointInside返回NO的话,其上的子视图就不会进行hitTest,因此重载子视图的相关方法将无效.</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/02/28/%E5%93%8D%E5%BA%94%E8%80%85%E9%93%BEhitTest%E9%87%8A%E7%96%91/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/02/27/RunLoop%E6%B7%B1%E5%85%A5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1110,113 +1217,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2017/12/03/OC%20block%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C--Block%E9%87%8C%E7%9A%84strongSelf/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而斗争">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/12/03/OC%20block%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C--Block%E9%87%8C%E7%9A%84strongSelf/" class="post-title-link" itemprop="url">OC block基本操作--Block里的strongSelf</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2017-12-03 13:15:20" itemprop="dateCreated datePublished" datetime="2017-12-03T13:15:20+08:00">2017-12-03</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2017/12/03/OC%20block%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C--Block%E9%87%8C%E7%9A%84strongSelf/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/12/03/OC block基本操作--Block里的strongSelf/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="Block里的strongSelf"><a href="#Block里的strongSelf" class="headerlink" title="Block里的strongSelf"></a>Block里的strongSelf</h3><p>有时我们在看源码时,会发现作者会在block里第一行strong一下weakSelf.以下便是对这种写法的一个探究.</p>
-<p>一般在使用block的时候,都会在block外,声明一个weakSelf,来确保block不去持有self.但是这也会引发一个问题,就是如果在block执行之前,self就已经销毁了,那么block里的[weakSelf method],method方法就不会被执行,如果有返回值的话,会返回nil.如果Block里有这样的代码:[arrM addObject:nil],是会崩溃的.所以,如何让block在执行时,self不销毁?</p>
-<p>解决办法就是:在block代码块里第一行将weakSelf赋值给一个strong类型指针变量,通常是<code>__strong typeof(weakSelf) strongSelf = weakSelf;</code>.有了strongSelf这样一个强引用指针,以后的代码执行时,便不会出现self==nil的情况,且当block执行完后,局部变量strongSelf清除,self对象被释放.一切看起来似乎很完美.但是如果在<br>__strong typeof(weakSelf) strongSelf = weakSelf;<br>执行之前,self就已经销毁,那么strongSelf将等于nil.上面的崩溃还是会发生.所以必须判断一下strongSelf是否为nil.</p>
-<p>综上完整的写法应该如下:</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">__<span class="keyword">weak</span> <span class="keyword">typeof</span>(<span class="keyword">self</span>) weakSelf = <span class="keyword">self</span>;</span><br><span class="line"><span class="type">void</span> (^success)(<span class="type">id</span> data, <span class="built_in">NSString</span> *statusInfo) = ^(<span class="built_in">NSArray</span> *data, <span class="built_in">NSString</span> *statusInfo) &#123;</span><br><span class="line">    __<span class="keyword">strong</span> <span class="keyword">typeof</span>(weakSelf) strongSelf = weakSelf;</span><br><span class="line">    <span class="keyword">if</span> (strongSelf == <span class="literal">nil</span>) <span class="keyword">return</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;block回调了,strongSelf:%@&quot;</span>, strongSelf); </span><br><span class="line">    <span class="built_in">NSString</span> *sd = [strongSelf printSomething]; <span class="comment">//  如果没有前面的判断,这里有可能会因为strongSelf==nil,而导致返回值为nil.从而后面的[mA addObject:sd];会崩溃.</span></span><br><span class="line">    </span><br><span class="line">    <span class="built_in">NSMutableArray</span> *mA = [[<span class="built_in">NSMutableArray</span> alloc] initWithArray:data];</span><br><span class="line">    [mA addObject:<span class="string">@&quot;dsfds&quot;</span>];</span><br><span class="line">    [mA addObject:sd];</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;%@&quot;</span>, mA);</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;%@&quot;</span>, statusInfo);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>思考1:在Block里写<code>__strong typeof(weakSelf) strongSelf = weakSelf;</code>会不会导致self-Block引用循环?</p>
-</blockquote>
-<p>答案是不会的,因为strongSelf是Block代码块里定义的一个局部变量,当Block执行完后,局部变量就会销毁,这样就不会有强引用的指针指向self对象.self与Block之间也就不会形成一个引用循环.</p>
-<blockquote>
-<p>思考2:是不是Block里只能使用weakSelf,不能使用self?</p>
-</blockquote>
-<p>这个并不是绝对的,使用weakSelf当然是不会有问题的.而如果self不持有Block,那么即使Block里使用self,也不会形成self-Block引用循环,这种情况下在Block里直接使用self也是没有问题的,只不过此时self对象的销毁将依赖于Block的销毁,换句话说就是self对象的生命周期可能会被延长.  </p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2017/12/03/OC%20block%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C--Block%E9%87%8C%E7%9A%84strongSelf/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1287,7 +1287,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">147</span>
+          <span class="site-state-item-count">148</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1300,7 +1300,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">91</span>
+        <span class="site-state-item-count">92</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

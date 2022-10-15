@@ -187,6 +187,96 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2017/09/08/%E5%A4%9A%E4%B8%AAtargets%E7%9A%84Podfile%E5%86%99%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而斗争">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/09/08/%E5%A4%9A%E4%B8%AAtargets%E7%9A%84Podfile%E5%86%99%E6%B3%95/" class="post-title-link" itemprop="url">多个targets的Podfile写法</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-09-08 11:11:11" itemprop="dateCreated datePublished" datetime="2017-09-08T11:11:11+08:00">2017-09-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CocoaPods/" itemprop="url" rel="index"><span itemprop="name">CocoaPods</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2017/09/08/%E5%A4%9A%E4%B8%AAtargets%E7%9A%84Podfile%E5%86%99%E6%B3%95/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/09/08/多个targets的Podfile写法/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="多个targets的Podfile写法"><a href="#多个targets的Podfile写法" class="headerlink" title="多个targets的Podfile写法"></a>多个targets的Podfile写法</h2><p>项目里面添加了多个target,每次pod install后,其他target就出现找不到<code>#import &lt;AFNetworking.h&gt;</code>这样的编译错误,花了三个多小时才找到了原因:是因为Podfile文件只给其中一个target配置了,所以导致了上述的问题.<br>正确写法: </p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">platform</span> :ios, &#x27;<span class="number">8</span>.<span class="number">0</span>&#x27;</span><br><span class="line"></span><br><span class="line"><span class="attribute">def</span> shared_pods</span><br><span class="line">    <span class="attribute">pod</span> &#x27;AFNetworking&#x27;, &#x27;<span class="number">3</span>.<span class="number">1</span>.<span class="number">0</span>&#x27;</span><br><span class="line">    <span class="attribute">pod</span> &#x27;MJExtension&#x27;, &#x27;<span class="number">3</span>.<span class="number">0</span>.<span class="number">13</span>&#x27;</span><br><span class="line">    <span class="attribute">pod</span> &#x27;SDWebImage&#x27;, &#x27;<span class="number">4</span>.<span class="number">0</span>.<span class="number">0</span>&#x27;</span><br><span class="line">    <span class="attribute">pod</span> &#x27;FMDB&#x27;, &#x27;<span class="number">2</span>.<span class="number">6</span>.<span class="number">2</span>&#x27;</span><br><span class="line">    <span class="attribute">pod</span> &#x27;MJRefresh&#x27;, &#x27;<span class="number">3</span>.<span class="number">1</span>.<span class="number">12</span>&#x27;</span><br><span class="line">    <span class="attribute">pod</span> &#x27;SDCycleScrollView&#x27;, &#x27;<span class="number">1</span>.<span class="number">66</span>&#x27;</span><br><span class="line">    <span class="attribute">pod</span> &#x27;Bugly&#x27;, &#x27;<span class="number">2</span>.<span class="number">4</span>.<span class="number">8</span>&#x27;</span><br><span class="line">    <span class="attribute">pod</span> &#x27;MBProgressHUD&#x27;, &#x27;<span class="number">1</span>.<span class="number">0</span>.<span class="number">0</span>&#x27;</span><br><span class="line">    <span class="attribute">pod</span> &#x27;Masonry&#x27;, &#x27;<span class="number">1</span>.<span class="number">0</span>.<span class="number">2</span>&#x27;</span><br><span class="line">    <span class="attribute">pod</span> &#x27;IQKeyboardManager&#x27;, &#x27;<span class="number">4</span>.<span class="number">0</span>.<span class="number">9</span>&#x27;</span><br><span class="line">    <span class="attribute">pod</span> &#x27;TZImagePickerController&#x27;, &#x27;<span class="number">1</span>.<span class="number">7</span>.<span class="number">9</span>&#x27;</span><br><span class="line">    <span class="attribute">pod</span> &#x27;RealReachability&#x27;, &#x27;<span class="number">1</span>.<span class="number">1</span>.<span class="number">9</span>&#x27;</span><br><span class="line">    <span class="attribute">pod</span> &#x27;MMDrawerController&#x27;, &#x27;<span class="number">0</span>.<span class="number">6</span>.<span class="number">0</span>&#x27;</span><br><span class="line">    <span class="attribute">pod</span> &#x27;UMengAnalytics-NO-IDFA&#x27;</span><br><span class="line"><span class="attribute">end</span></span><br><span class="line"></span><br><span class="line"><span class="attribute">target</span> &#x27;xxx1&#x27; do</span><br><span class="line">    <span class="attribute">shared_pods</span></span><br><span class="line"><span class="attribute">end</span></span><br><span class="line"></span><br><span class="line"><span class="attribute">target</span> &#x27;xxx2&#x27; do</span><br><span class="line">    <span class="attribute">shared_pods</span></span><br><span class="line"><span class="attribute">end</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>参考:<a target="_blank" rel="noopener" href="http://www.jianshu.com/p/aa24cb9644a0">CocoaPods使用注意事项</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2017/09/04/UITableView-FDTemplateLayoutCell%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -934,7 +1024,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">147</span>
+          <span class="site-state-item-count">148</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -947,7 +1037,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">91</span>
+        <span class="site-state-item-count">92</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

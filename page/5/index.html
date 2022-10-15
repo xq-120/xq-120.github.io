@@ -187,6 +187,97 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/06/15/OC%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B9%8Bweak%E4%BF%AE%E9%A5%B0%E7%AC%A6%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而斗争">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/15/OC%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B9%8Bweak%E4%BF%AE%E9%A5%B0%E7%AC%A6%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" class="post-title-link" itemprop="url">OC内存管理之weak修饰符实现原理</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-06-15 13:41:14" itemprop="dateCreated datePublished" datetime="2020-06-15T13:41:14+08:00">2020-06-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-07-10 11:13:18" itemprop="dateModified" datetime="2022-07-10T11:13:18+08:00">2022-07-10</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
+                </span>
+            </span>
+
+          
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>源码版本：<a target="_blank" rel="noopener" href="https://opensource.apple.com/tarballs/objc4/objc4-781.tar.gz">objc4-781</a></p>
+<h3 id="0-weak-修饰符的作用"><a href="#0-weak-修饰符的作用" class="headerlink" title="0.weak 修饰符的作用"></a>0.weak 修饰符的作用</h3><p>之前的文章提到过 <code>__weak</code> 修饰符作用：</p>
+<p>1.当我们将一个对象赋值给一个 <code>__weak</code> 修饰符的指针变量时，编译器会插入 <code>objc_initWeak</code> 函数将该弱引用指针变量添加到weak表里。</p>
+<p>2.当使用附有 <code>__weak</code> 修饰符的变量时，编译器会在使用前插入 <code>objc_loadWeakRetained</code> 函数将对象引用计数+1，保证对象在后面的使用过程中不被释放。并在使用后插入 <code>objc_release(tmp1);</code> 释放对象。</p>
+<p>3.当弱引用指针变量超出作用域被废弃时，编译器会插入 <code>objc_destroyWeak</code> 将该指针变量从weak表里移除。</p>
+<p>4.当对象销毁时，weak表中对象的所有弱引用指针变量会被赋值为nil，避免了野指针崩溃。比如对nil对象发送消息不会有任何反应，需要注意的是如果是对nil进行解引用还是会崩溃的。</p>
+<p>这些功能是assign所不具备的，assign唯一与weak相同的地方就是不会导致对象的引用计数+1。</p>
+<p>note：weak 只能用于修饰对象类型。并且只能用于iOS5及以上，在iOS4可以使用 <code>__unsafe_unretained</code> 代替.另外weak在MRC下也是有效果的，不过需要设置 <code>Weak References in Manual Retain Release</code> 为 YES。</p>
+<p>今天就来看一下weak的上述功能是如何实现的，在看源码之前，可以带着一些问题，比如：</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/06/15/OC%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B9%8Bweak%E4%BF%AE%E9%A5%B0%E7%AC%A6%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/06/06/iOS-%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%8E%9F%E7%90%86%E7%AF%87/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -510,7 +601,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-10-12 13:40:16" itemprop="dateModified" datetime="2022-10-12T13:40:16+08:00">2022-10-12</time>
+                <time title="修改时间：2022-10-12 19:52:35" itemprop="dateModified" datetime="2022-10-12T19:52:35+08:00">2022-10-12</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1063,110 +1154,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/05/01/%E5%9F%BA%E9%87%91%E5%B8%B8%E8%A7%81%E6%A6%82%E5%BF%B5/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而斗争">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/05/01/%E5%9F%BA%E9%87%91%E5%B8%B8%E8%A7%81%E6%A6%82%E5%BF%B5/" class="post-title-link" itemprop="url">基金常见概念</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-05-01 16:00:03" itemprop="dateCreated datePublished" datetime="2020-05-01T16:00:03+08:00">2020-05-01</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">经济学</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2020/05/01/%E5%9F%BA%E9%87%91%E5%B8%B8%E8%A7%81%E6%A6%82%E5%BF%B5/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/05/01/基金常见概念/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><strong>基金的一些概念</strong></p>
-<p>如下图：</p>
-<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/5C9E117C940FCD96FFFDB344982570E9.png" style="zoom:25%;"></p>
-<p><strong>日涨幅</strong></p>
-<p>（当日净值 - 昨日净值）/ 昨日净值 x 100%</p>
-<p>比如要计算4.30的日涨幅，那么当日净值需要取4.30的净值，昨日净值取的就是4.29的净值。</p>
-<p>eg:</p>
-<p>4月29日的单位净值为1.8470，4月30日的单位净值为1.8450，这样4月30日的日涨幅就是：</p>
-<p>（1.8450 - 1.8470）/ 1.8470 x 100% = -0.108284% ≈ -0.11%，负数说明亏了。</p>
-<p><strong>昨日收益</strong></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/05/01/%E5%9F%BA%E9%87%91%E5%B8%B8%E8%A7%81%E6%A6%82%E5%BF%B5/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1237,7 +1224,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">147</span>
+          <span class="site-state-item-count">148</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1250,7 +1237,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">91</span>
+        <span class="site-state-item-count">92</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
