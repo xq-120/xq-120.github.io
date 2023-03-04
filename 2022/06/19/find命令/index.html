@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"xq-120.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"xq-120.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="find在指定目录下查找文件。 使用该命令时，不设置任何参数，则find命令将在当前目录下查找子目录与文件（即默认递归查找）。并且将查找到的子目录和文件全部进行显示。 语法1find path expression expression：表达式，选项，参数。 find 根据下列规则判断 path 和 expression，在命令列上第一个 - ( ) , ! 之前的部份为 path，之后的是 ex">
@@ -232,20 +232,6 @@
             </span>
 
           
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2022/06/19/find%E5%91%BD%E4%BB%A4/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/06/19/find命令/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
 
         </div>
       </header>
@@ -359,13 +345,7 @@
 
           </div>
           
-    
-  <div class="comments">
-    <div id="disqus_thread">
-      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
-    </div>
-  </div>
-  
+    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -426,20 +406,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">148</span>
+          <span class="site-state-item-count">153</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">36</span>
+        <span class="site-state-item-count">37</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">92</span>
+        <span class="site-state-item-count">97</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -475,7 +455,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
@@ -604,35 +584,24 @@ window.addEventListener('pjax:success', () => {
 
   
 
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
 <script>
-  function loadCount() {
-    var d = document, s = d.createElement('script');
-    s.src = 'https://jekyttt.disqus.com/count.js';
-    s.id = 'dsq-count-scr';
-    (d.head || d.body).appendChild(s);
-  }
-  // defer loading until the whole page loading is completed
-  window.addEventListener('load', loadCount, false);
-</script>
-<script>
-  var disqus_config = function() {
-    this.page.url = "https://xq-120.github.io/2022/06/19/find%E5%91%BD%E4%BB%A4/";
-    this.page.identifier = "2022/06/19/find命令/";
-    this.page.title = "find命令";
-    };
-  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
-    if (window.DISQUS) {
-      DISQUS.reset({
-        reload: true,
-        config: disqus_config
-      });
-    } else {
-      var d = document, s = d.createElement('script');
-      s.src = 'https://jekyttt.disqus.com/embed.js';
-      s.setAttribute('data-timestamp', '' + +new Date());
-      (d.head || d.body).appendChild(s);
-    }
-  });
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'dc6a52837746ef605a70',
+      clientSecret: '7a049bac8b7eef61e32ebcbfcc33ea9d670d3274',
+      repo        : 'commentForBlog',
+      owner       : 'xq-120',
+      admin       : ['xq-120'],
+      id          : '27a1d332e6ac713804af8aa1b76b8513',
+        language: 'en, zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
 </script>
 
     </div>

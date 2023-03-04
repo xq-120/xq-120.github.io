@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"xq-120.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"xq-120.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="一、 7日年化收益率今天早上被一条支付宝的通知吵醒,点进去一看发现是有新的花呗账单需要偿还了,还完花呗,刷了一下余额宝,提示昨日收益0.16元,七日年化2.3280%.7日年化?怎么这么熟悉但是细细一想却又不知道到底是什么东西,这让我感到难受.看来有必要了解一下7日年化收益率究竟是什么东西? 不过一上来就讲7日年化收益率略显深奥,还是先来看一下收益率是什么? 大家都知道收益率 &#x3D; 收益 &#x2F; 本金.">
@@ -232,20 +232,6 @@
             </span>
 
           
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2019/10/13/%E4%BB%8E7%E6%97%A5%E5%B9%B4%E5%8C%96%E6%94%B6%E7%9B%8A%E7%8E%87%E5%88%B0%E4%B8%87%E4%BB%BD%E6%94%B6%E7%9B%8A/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/10/13/从7日年化收益率到万份收益/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
 
         </div>
       </header>
@@ -346,13 +332,7 @@
 
           </div>
           
-    
-  <div class="comments">
-    <div id="disqus_thread">
-      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
-    </div>
-  </div>
-  
+    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -413,20 +393,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">148</span>
+          <span class="site-state-item-count">153</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">36</span>
+        <span class="site-state-item-count">37</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">92</span>
+        <span class="site-state-item-count">97</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -462,7 +442,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
@@ -591,35 +571,24 @@ window.addEventListener('pjax:success', () => {
 
   
 
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
 <script>
-  function loadCount() {
-    var d = document, s = d.createElement('script');
-    s.src = 'https://jekyttt.disqus.com/count.js';
-    s.id = 'dsq-count-scr';
-    (d.head || d.body).appendChild(s);
-  }
-  // defer loading until the whole page loading is completed
-  window.addEventListener('load', loadCount, false);
-</script>
-<script>
-  var disqus_config = function() {
-    this.page.url = "https://xq-120.github.io/2019/10/13/%E4%BB%8E7%E6%97%A5%E5%B9%B4%E5%8C%96%E6%94%B6%E7%9B%8A%E7%8E%87%E5%88%B0%E4%B8%87%E4%BB%BD%E6%94%B6%E7%9B%8A/";
-    this.page.identifier = "2019/10/13/从7日年化收益率到万份收益/";
-    this.page.title = "从7日年化收益率到万份收益";
-    };
-  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
-    if (window.DISQUS) {
-      DISQUS.reset({
-        reload: true,
-        config: disqus_config
-      });
-    } else {
-      var d = document, s = d.createElement('script');
-      s.src = 'https://jekyttt.disqus.com/embed.js';
-      s.setAttribute('data-timestamp', '' + +new Date());
-      (d.head || d.body).appendChild(s);
-    }
-  });
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'dc6a52837746ef605a70',
+      clientSecret: '7a049bac8b7eef61e32ebcbfcc33ea9d670d3274',
+      repo        : 'commentForBlog',
+      owner       : 'xq-120',
+      admin       : ['xq-120'],
+      id          : '8fc975e1c6acd7f9b931b7fe9f1cc6d6',
+        language: 'en, zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
 </script>
 
     </div>

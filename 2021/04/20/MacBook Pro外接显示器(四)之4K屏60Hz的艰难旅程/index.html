@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"xq-120.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"xq-120.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="为什么要让外接显示器达到4K@60Hz的刷新率？ 因为4K@30Hz的刷新率鼠标移动时会有明显的延迟感。刷新率越高画面才能越丝滑。4K的显示屏至少需要60Hz的刷新率，当然如果支持144Hz的那更好。对于一般用户60Hz基本足够。 外接显示器达到4K@60Hz刷新率的条件 主机支持（主要是主机的显卡），显示器支持，线材支持。该条件符合木桶原理只要其中一个不满足就无法达到4K@60Hz的刷新率。为了">
@@ -238,20 +238,6 @@
             </span>
 
           
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2021/04/20/MacBook%20Pro%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8(%E5%9B%9B)%E4%B9%8B4K%E5%B1%8F60Hz%E7%9A%84%E8%89%B0%E9%9A%BE%E6%97%85%E7%A8%8B/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/04/20/MacBook Pro外接显示器(四)之4K屏60Hz的艰难旅程/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
 
         </div>
       </header>
@@ -366,13 +352,7 @@
 
           </div>
           
-    
-  <div class="comments">
-    <div id="disqus_thread">
-      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
-    </div>
-  </div>
-  
+    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -432,20 +412,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">148</span>
+          <span class="site-state-item-count">153</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">36</span>
+        <span class="site-state-item-count">37</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">92</span>
+        <span class="site-state-item-count">97</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -481,7 +461,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
@@ -610,35 +590,24 @@ window.addEventListener('pjax:success', () => {
 
   
 
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
 <script>
-  function loadCount() {
-    var d = document, s = d.createElement('script');
-    s.src = 'https://jekyttt.disqus.com/count.js';
-    s.id = 'dsq-count-scr';
-    (d.head || d.body).appendChild(s);
-  }
-  // defer loading until the whole page loading is completed
-  window.addEventListener('load', loadCount, false);
-</script>
-<script>
-  var disqus_config = function() {
-    this.page.url = "https://xq-120.github.io/2021/04/20/MacBook%20Pro%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8(%E5%9B%9B)%E4%B9%8B4K%E5%B1%8F60Hz%E7%9A%84%E8%89%B0%E9%9A%BE%E6%97%85%E7%A8%8B/";
-    this.page.identifier = "2021/04/20/MacBook Pro外接显示器(四)之4K屏60Hz的艰难旅程/";
-    this.page.title = "MacBook Pro外接显示器(四)之4K屏60Hz的艰难旅程";
-    };
-  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
-    if (window.DISQUS) {
-      DISQUS.reset({
-        reload: true,
-        config: disqus_config
-      });
-    } else {
-      var d = document, s = d.createElement('script');
-      s.src = 'https://jekyttt.disqus.com/embed.js';
-      s.setAttribute('data-timestamp', '' + +new Date());
-      (d.head || d.body).appendChild(s);
-    }
-  });
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'dc6a52837746ef605a70',
+      clientSecret: '7a049bac8b7eef61e32ebcbfcc33ea9d670d3274',
+      repo        : 'commentForBlog',
+      owner       : 'xq-120',
+      admin       : ['xq-120'],
+      id          : 'e2327d935106edc9c15037184593c1c3',
+        language: 'en, zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
 </script>
 
     </div>

@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"xq-120.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"xq-120.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="1.AnyObject 定义:public typealias AnyObject 说明:The protocol to which all classes implicitly conform. AnyObject can be used as the concrete type for an instance of any class, class type, or class-only pr">
@@ -27,13 +27,13 @@
 <meta property="og:site_name" content="要为真理而斗争">
 <meta property="og:description" content="1.AnyObject 定义:public typealias AnyObject 说明:The protocol to which all classes implicitly conform. AnyObject can be used as the concrete type for an instance of any class, class type, or class-only pr">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://a3.qpic.cn/psb?/V1266oZg2CElNW/BzT6fN6Vr7t3wco9dk3GcbnrUQhnHYvdiJd4Jrs35DA!/b/dLYAAAAAAAAA&amp;ek=1&amp;kp=1&amp;pt=0&amp;bo=MAJWAgAAAAADN3Q!&amp;tl=1&amp;vuin=1185530890&amp;tm=1568347200&amp;sce=60-2-2&amp;rf=viewer_4">
+<meta property="og:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20230302190146.png">
 <meta property="article:published_time" content="2019-09-13T04:39:40.000Z">
-<meta property="article:modified_time" content="2021-08-01T11:30:13.072Z">
+<meta property="article:modified_time" content="2023-03-03T16:30:00.053Z">
 <meta property="article:author" content="jekyttt">
 <meta property="article:tag" content="AnyClass、AnyObject、Any">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://a3.qpic.cn/psb?/V1266oZg2CElNW/BzT6fN6Vr7t3wco9dk3GcbnrUQhnHYvdiJd4Jrs35DA!/b/dLYAAAAAAAAA&amp;ek=1&amp;kp=1&amp;pt=0&amp;bo=MAJWAgAAAAADN3Q!&amp;tl=1&amp;vuin=1185530890&amp;tm=1568347200&amp;sce=60-2-2&amp;rf=viewer_4">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20230302190146.png">
 
 <link rel="canonical" href="https://xq-120.github.io/2019/09/13/Swift%E4%B8%AD%E7%9A%84AnyClass%E3%80%81AnyObject%E3%80%81Any/">
 
@@ -221,7 +221,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+                <time title="修改时间：2023-03-04 00:30:00" itemprop="dateModified" datetime="2023-03-04T00:30:00+08:00">2023-03-04</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -234,20 +234,6 @@
             </span>
 
           
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2019/09/13/Swift%E4%B8%AD%E7%9A%84AnyClass%E3%80%81AnyObject%E3%80%81Any/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/09/13/Swift中的AnyClass、AnyObject、Any/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
 
         </div>
       </header>
@@ -263,22 +249,25 @@
 <p>说明:<br>The protocol to which all classes implicitly conform.</p>
 <p>AnyObject can be used as the concrete type for an instance of any class, class type, or class-only protocol.</p>
 <p>The flexible behavior of the <code>AnyObject</code> protocol is similar to<br>Objective-C’s <code>id</code> type.</p>
-<p>AnyObject:用于表示任意类,元类,类协议的实例.</p>
+<p>AnyObject:用于表示任意类,元类的实例的具体类型.</p>
 <p>对于”123”或123这些基础数据类型在Swift中是结构体类型,所以这里需要将其强转为AnyObject类型,此时它们的类型将是<br>OC的NSTaggedPointerString和__NSCFNumber等对象类型.不强转的话编译会出错.</p>
 <p>eg:</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> anyA: <span class="type">AnyObject</span> <span class="operator">=</span> <span class="type">People</span>.<span class="keyword">init</span>()</span><br><span class="line"><span class="keyword">let</span> anyB: <span class="type">AnyObject</span> <span class="operator">=</span> <span class="type">People</span>.<span class="keyword">self</span></span><br><span class="line"><span class="keyword">let</span> arr1: [<span class="type">AnyObject</span>] <span class="operator">=</span> [<span class="string">&quot;123&quot;</span> <span class="keyword">as</span> <span class="type">AnyObject</span>, <span class="number">123</span> <span class="keyword">as</span> <span class="type">AnyObject</span>, [<span class="number">123</span>] <span class="keyword">as</span> <span class="type">AnyObject</span>]</span><br><span class="line"> </span><br><span class="line"><span class="keyword">let</span> arr2: [<span class="type">AnyObject</span>] <span class="operator">=</span> [<span class="type">NSString</span>(<span class="string">&quot;123&quot;</span>),</span><br><span class="line">                             <span class="type">NSNumber</span>(<span class="number">123</span>),</span><br><span class="line">                             <span class="literal">true</span> <span class="keyword">as</span> <span class="type">AnyObject</span>,</span><br><span class="line">                             <span class="type">People</span>.<span class="keyword">init</span>(),</span><br><span class="line">                             <span class="type">People</span>.<span class="keyword">self</span></span><br><span class="line">                             ]</span><br><span class="line"><span class="built_in">print</span>(arr2)</span><br><span class="line"></span><br><span class="line"><span class="operator">...</span></span><br><span class="line">[<span class="number">123</span>, <span class="number">123</span>, <span class="number">1</span>, <span class="operator">&lt;</span><span class="type">OSHybridDemo</span>.<span class="type">People</span>: <span class="number">0x600002348b90</span><span class="operator">&gt;</span>, <span class="type">OSHybridDemo</span>.<span class="type">People</span>]</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">FDEItemModel</span> &#123;&#125;</span><br><span class="line"><span class="keyword">let</span> anyA: <span class="type">AnyObject</span> <span class="operator">=</span> <span class="type">FDEItemModel</span>.<span class="keyword">init</span>() <span class="comment">//对象，类的实例</span></span><br><span class="line"><span class="keyword">let</span> anyB: <span class="type">AnyObject</span> <span class="operator">=</span> <span class="type">FDEItemModel</span>.<span class="keyword">self</span> <span class="comment">//类对象，元类的实例</span></span><br><span class="line"><span class="keyword">let</span> anyC: <span class="type">AnyObject</span> <span class="operator">=</span> <span class="type">FDEItemModel</span>.<span class="keyword">init</span>().<span class="keyword">self</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> defaulA <span class="operator">=</span> <span class="type">FDEItemModel</span>.<span class="keyword">init</span>()  <span class="comment">//FDEItemModel</span></span><br><span class="line"><span class="keyword">let</span> defaulB <span class="operator">=</span> <span class="type">FDEItemModel</span>.<span class="keyword">self</span> <span class="comment">//FDEItemModel.Type</span></span><br><span class="line"><span class="keyword">let</span> defaulC <span class="operator">=</span> <span class="type">FDEItemModel</span>.<span class="keyword">init</span>().<span class="keyword">self</span> <span class="comment">//FDEItemModel</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> arr1: [<span class="type">AnyObject</span>] <span class="operator">=</span> [<span class="string">&quot;123&quot;</span> <span class="keyword">as</span> <span class="type">AnyObject</span>, <span class="number">123</span> <span class="keyword">as</span> <span class="type">AnyObject</span>, [<span class="number">123</span>] <span class="keyword">as</span> <span class="type">AnyObject</span>]</span><br><span class="line"> </span><br><span class="line"><span class="keyword">let</span> arr2: [<span class="type">AnyObject</span>] <span class="operator">=</span> [<span class="type">NSString</span>(<span class="string">&quot;123&quot;</span>),</span><br><span class="line">                             <span class="type">NSNumber</span>(<span class="number">123</span>),</span><br><span class="line">                             <span class="literal">true</span> <span class="keyword">as</span> <span class="type">AnyObject</span>,</span><br><span class="line">                             <span class="type">People</span>.<span class="keyword">init</span>(),</span><br><span class="line">                             <span class="type">People</span>.<span class="keyword">self</span></span><br><span class="line">                             ]</span><br><span class="line"><span class="built_in">print</span>(arr2)</span><br><span class="line"></span><br><span class="line"><span class="operator">...</span></span><br><span class="line">[<span class="number">123</span>, <span class="number">123</span>, <span class="number">1</span>, <span class="operator">&lt;</span><span class="type">OSHybridDemo</span>.<span class="type">People</span>: <span class="number">0x600002348b90</span><span class="operator">&gt;</span>, <span class="type">OSHybridDemo</span>.<span class="type">People</span>]</span><br></pre></td></tr></table></figure>
+<p>在使用AnyObject 对象时要特别注意如果你需要调用它的属性则最好先downcast为实际的类型，如果不downcast那么系统可能获取的是其他类的同名属性，得到的值将是nil。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> node1 <span class="operator">=</span> <span class="type">BinaryTreeNode</span>.<span class="keyword">init</span>(<span class="number">1</span>)</span><br><span class="line"><span class="keyword">let</span> node2 <span class="operator">=</span> <span class="type">BinaryTreeNode</span>.<span class="keyword">init</span>(<span class="number">2</span>)</span><br><span class="line">node1.left <span class="operator">=</span> node2</span><br><span class="line"><span class="keyword">let</span> curr: <span class="type">AnyObject</span> <span class="operator">=</span> node1</span><br><span class="line"><span class="keyword">let</span> left: <span class="type">AnyObject</span>? <span class="operator">=</span> curr.left  <span class="comment">//不会报错</span></span><br><span class="line"><span class="keyword">let</span> left1: <span class="type">AnyObject</span>? <span class="operator">=</span> (curr <span class="keyword">as!</span> <span class="type">BinaryTreeNode</span>).left</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;left:<span class="subst">\(left)</span>, left1:<span class="subst">\(left1<span class="operator">!</span>)</span>&quot;</span>) <span class="comment">//left:nil, left1:AlgorithmUtils.BinaryTreeNode</span></span><br></pre></td></tr></table></figure>
 <p>2.AnyClass</p>
 <p>定义:<br>typealias AnyClass = AnyObject.Type</p>
 <p>说明:<br>The protocol to which all class types implicitly conform.</p>
 <p>You can use the AnyClass protocol as the concrete type for an instance of any class.</p>
-<p>AnyClass:用于表示任意元类的实例.</p>
- <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> anyB: <span class="type">AnyObject</span> <span class="operator">=</span> <span class="type">People</span>.<span class="keyword">self</span></span><br><span class="line"><span class="keyword">let</span> anyC: <span class="type">AnyClass</span> <span class="operator">=</span> <span class="type">People</span>.<span class="keyword">self</span></span><br><span class="line">    </span><br><span class="line"><span class="keyword">let</span> obj1 <span class="operator">=</span> (anyB <span class="keyword">as!</span> <span class="type">People</span>.<span class="keyword">Type</span>).<span class="keyword">init</span>()</span><br><span class="line"><span class="keyword">let</span> obj2 <span class="operator">=</span> (anyC <span class="keyword">as!</span> <span class="type">People</span>.<span class="keyword">Type</span>).<span class="keyword">init</span>()</span><br></pre></td></tr></table></figure>
+<p>AnyClass:用于表示任意元类的实例的具体类型.</p>
+ <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> anyB: <span class="type">AnyObject</span> <span class="operator">=</span> <span class="type">People</span>.<span class="keyword">self</span></span><br><span class="line"><span class="keyword">let</span> anyC: <span class="type">AnyClass</span> <span class="operator">=</span> <span class="type">People</span>.<span class="keyword">self</span></span><br><span class="line"><span class="keyword">let</span> anyD: <span class="type">AnyClass</span> <span class="operator">=</span> <span class="type">FDEItemModel</span>.<span class="keyword">init</span>() <span class="comment">//报错：Cannot convert value of type &#x27;FDEItemModel&#x27; to specified type &#x27;AnyClass&#x27; (aka &#x27;any AnyObject.Type&#x27;)</span></span><br><span class="line">    </span><br><span class="line"><span class="keyword">let</span> obj1 <span class="operator">=</span> (anyB <span class="keyword">as!</span> <span class="type">People</span>.<span class="keyword">Type</span>).<span class="keyword">init</span>()</span><br><span class="line"><span class="keyword">let</span> obj2 <span class="operator">=</span> (anyC <span class="keyword">as!</span> <span class="type">People</span>.<span class="keyword">Type</span>).<span class="keyword">init</span>()</span><br></pre></td></tr></table></figure>
 <p>3.Any</p>
 <p>Any:用于表示任意类型.</p>
 <p>之所以出现Any主要是由于AnyObject只能表示类的实例.而 Swift 中所有的基本类型，包括 Array 和 Dictionary 这些传统意义上会是 class 的东西，统统都是 struct 类型，并不能由 AnyObject 来表示，于是 Apple 提出了一个更为特殊的 Any，除了 class 以外，它还可以表示包括 struct 和 enum 在内的所有类型。</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">let arr: <span class="selector-attr">[Any]</span> = <span class="selector-attr">[<span class="string">&quot;123&quot;</span>, 123]</span></span><br><span class="line"><span class="function"><span class="title">print</span><span class="params">(arr)</span></span></span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"><span class="selector-attr">[<span class="string">&quot;123&quot;</span>, 123]</span></span><br></pre></td></tr></table></figure>
+<p><code>let a: AnyObject = Int.init(2.0)</code> 会编译错误，需要强转为AnyObject，此时a的实际类型将不再是Int而是<code>__NSCFNumber</code> ，这表明系统会将这些struct转为对应的OC类。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a: <span class="type">AnyObject</span> <span class="operator">=</span> <span class="type">Int</span>.<span class="keyword">init</span>(<span class="number">2.0</span>) <span class="keyword">as</span> <span class="type">AnyObject</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;a type:<span class="subst">\(<span class="built_in">type</span>(of: a))</span>&quot;</span>) <span class="comment">//a type:__NSCFNumber</span></span><br><span class="line"><span class="keyword">let</span> b <span class="operator">=</span> <span class="number">3</span></span><br><span class="line"><span class="keyword">let</span> c <span class="operator">=</span> a <span class="keyword">as!</span> <span class="type">Int</span> <span class="operator">+</span> b</span><br></pre></td></tr></table></figure>
 <p>三者之间的关系:</p>
-<p><img src="http://a3.qpic.cn/psb?/V1266oZg2CElNW/BzT6fN6Vr7t3wco9dk3GcbnrUQhnHYvdiJd4Jrs35DA!/b/dLYAAAAAAAAA&amp;ek=1&amp;kp=1&amp;pt=0&amp;bo=MAJWAgAAAAADN3Q!&amp;tl=1&amp;vuin=1185530890&amp;tm=1568347200&amp;sce=60-2-2&amp;rf=viewer_4" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20230302190146.png" style="zoom:50%;" /></p>
 
     </div>
 
@@ -332,13 +321,7 @@
 
           </div>
           
-    
-  <div class="comments">
-    <div id="disqus_thread">
-      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
-    </div>
-  </div>
-  
+    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -398,20 +381,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">148</span>
+          <span class="site-state-item-count">153</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">36</span>
+        <span class="site-state-item-count">37</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">92</span>
+        <span class="site-state-item-count">97</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -447,7 +430,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
@@ -576,35 +559,24 @@ window.addEventListener('pjax:success', () => {
 
   
 
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
 <script>
-  function loadCount() {
-    var d = document, s = d.createElement('script');
-    s.src = 'https://jekyttt.disqus.com/count.js';
-    s.id = 'dsq-count-scr';
-    (d.head || d.body).appendChild(s);
-  }
-  // defer loading until the whole page loading is completed
-  window.addEventListener('load', loadCount, false);
-</script>
-<script>
-  var disqus_config = function() {
-    this.page.url = "https://xq-120.github.io/2019/09/13/Swift%E4%B8%AD%E7%9A%84AnyClass%E3%80%81AnyObject%E3%80%81Any/";
-    this.page.identifier = "2019/09/13/Swift中的AnyClass、AnyObject、Any/";
-    this.page.title = "Swift中的AnyClass、AnyObject、Any";
-    };
-  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
-    if (window.DISQUS) {
-      DISQUS.reset({
-        reload: true,
-        config: disqus_config
-      });
-    } else {
-      var d = document, s = d.createElement('script');
-      s.src = 'https://jekyttt.disqus.com/embed.js';
-      s.setAttribute('data-timestamp', '' + +new Date());
-      (d.head || d.body).appendChild(s);
-    }
-  });
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'dc6a52837746ef605a70',
+      clientSecret: '7a049bac8b7eef61e32ebcbfcc33ea9d670d3274',
+      repo        : 'commentForBlog',
+      owner       : 'xq-120',
+      admin       : ['xq-120'],
+      id          : 'f7ab455f03204c25972ef19509c7c0f1',
+        language: 'en, zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
 </script>
 
     </div>

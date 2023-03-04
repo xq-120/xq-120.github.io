@@ -17,15 +17,15 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"xq-120.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"xq-120.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="环境：Xcode11 ARC在MRC时代 id obj1 &#x3D; obj; 这一行代码仅仅是赋值，不会引起obj对象引用计数的任何变化。而在ARC时代这一行代码会导致对象的引用计数+1。这背后究竟发生了什么？接下来让我们走近科学。 ARC：自动引用计数。不再需要手动调用 retain 、release、autorelease 方法，而是由编译器在合适的地方自动添加。添加release的时机其实好办，编">
+  <meta name="description" content="环境：Xcode11 ARC在MRC时代 id obj1 &#x3D; obj; 这一行代码仅仅是赋值，不会引起obj对象引用计数的任何变化。而在ARC时代这一行代码会导致对象的引用计数+1。这背后究竟发生了什么？接下来让我们研究一下。 ARC：自动引用计数。不再需要手动调用 retain 、release、autorelease 等方法，而是由编译器在合适的地方自动添加。那么编译器又是怎么知道是添加ret">
 <meta property="og:type" content="article">
 <meta property="og:title" content="从汇编角度看ARC中的所有权修饰符">
 <meta property="og:url" content="https://xq-120.github.io/2020/06/21/%E4%BB%8E%E6%B1%87%E7%BC%96%E8%A7%92%E5%BA%A6%E7%9C%8BARC%E4%B8%AD%E7%9A%84%E6%89%80%E6%9C%89%E6%9D%83%E4%BF%AE%E9%A5%B0%E7%AC%A6/index.html">
 <meta property="og:site_name" content="要为真理而斗争">
-<meta property="og:description" content="环境：Xcode11 ARC在MRC时代 id obj1 &#x3D; obj; 这一行代码仅仅是赋值，不会引起obj对象引用计数的任何变化。而在ARC时代这一行代码会导致对象的引用计数+1。这背后究竟发生了什么？接下来让我们走近科学。 ARC：自动引用计数。不再需要手动调用 retain 、release、autorelease 方法，而是由编译器在合适的地方自动添加。添加release的时机其实好办，编">
+<meta property="og:description" content="环境：Xcode11 ARC在MRC时代 id obj1 &#x3D; obj; 这一行代码仅仅是赋值，不会引起obj对象引用计数的任何变化。而在ARC时代这一行代码会导致对象的引用计数+1。这背后究竟发生了什么？接下来让我们研究一下。 ARC：自动引用计数。不再需要手动调用 retain 、release、autorelease 等方法，而是由编译器在合适的地方自动添加。那么编译器又是怎么知道是添加ret">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/20220210154059.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20200914173316.png">
@@ -36,7 +36,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20200914165036.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20200914165326.png">
 <meta property="article:published_time" content="2020-06-21T08:51:14.000Z">
-<meta property="article:modified_time" content="2022-02-10T08:41:54.138Z">
+<meta property="article:modified_time" content="2022-10-22T03:32:40.507Z">
 <meta property="article:author" content="jekyttt">
 <meta property="article:tag" content="内存管理">
 <meta name="twitter:card" content="summary">
@@ -228,7 +228,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-02-10 16:41:54" itemprop="dateModified" datetime="2022-02-10T16:41:54+08:00">2022-02-10</time>
+                <time title="修改时间：2022-10-22 11:32:40" itemprop="dateModified" datetime="2022-10-22T11:32:40+08:00">2022-10-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -241,8 +241,6 @@
             </span>
 
           
-  
-  
 
         </div>
       </header>
@@ -254,8 +252,8 @@
 
       
         <p>环境：Xcode11</p>
-<h3 id="ARC"><a href="#ARC" class="headerlink" title="ARC"></a>ARC</h3><p>在MRC时代 <code>id obj1 = obj;</code> 这一行代码仅仅是赋值，不会引起obj对象引用计数的任何变化。而在ARC时代这一行代码会导致对象的引用计数+1。这背后究竟发生了什么？接下来让我们走近科学。</p>
-<p>ARC：自动引用计数。不再需要手动调用 retain 、release、autorelease 方法，而是由编译器在合适的地方自动添加。添加release的时机其实好办，编译器能够分析出变量的作用域，当变量作用域结束时，就添加release。那retain呢？编译器又是怎么知道啥时候加retain啥时候不加呢？这就需要所有权修饰符了。通过不同类型的所有权修饰符，编译器就知道该不该添加retain了。</p>
+<h3 id="ARC"><a href="#ARC" class="headerlink" title="ARC"></a>ARC</h3><p>在MRC时代 <code>id obj1 = obj;</code> 这一行代码仅仅是赋值，不会引起obj对象引用计数的任何变化。而在ARC时代这一行代码会导致对象的引用计数+1。这背后究竟发生了什么？接下来让我们研究一下。</p>
+<p>ARC：自动引用计数。不再需要手动调用 retain 、release、autorelease 等方法，而是由编译器在合适的地方自动添加。那么编译器又是怎么知道是添加retain还是添加autorelease或者weak的呢？这就需要所有权修饰符了。通过不同类型的所有权修饰符，编译器就知道该添加什么语句了。</p>
 <p>ARC 有效时，<strong>id 类型和对象类型</strong>必须附加所有权修饰符，有如下几种：</p>
 <ul>
 <li>__strong 修饰符</li>
@@ -572,20 +570,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">148</span>
+          <span class="site-state-item-count">153</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">36</span>
+        <span class="site-state-item-count">37</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">92</span>
+        <span class="site-state-item-count">97</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -621,7 +619,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
@@ -750,16 +748,6 @@ window.addEventListener('pjax:success', () => {
 
   
 
-<script>
-  function loadCount() {
-    var d = document, s = d.createElement('script');
-    s.src = 'https://jekyttt.disqus.com/count.js';
-    s.id = 'dsq-count-scr';
-    (d.head || d.body).appendChild(s);
-  }
-  // defer loading until the whole page loading is completed
-  window.addEventListener('load', loadCount, false);
-</script>
 
     </div>
 </body>

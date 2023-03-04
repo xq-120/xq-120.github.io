@@ -17,23 +17,23 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"xq-120.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"xq-120.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="大端序：最高位在最低地址小端序：最高位在最高地址 为什么会有两种字节序？因为一串数字可以从左开始读，也可以从右开始读。比如：1234从左开始读，那么1就是最高位，结果就是一千两百三十四从右开始读，那么4就是最高位，结果就是四千三百二十一一般国家都是从左到右读，但也有的国家是从右到左读的。没有好坏，纯属习惯问题。 大端序和小端序就是翻转的关系。 CPU读取内存中的数据时，是从低地址向高地址方向进行读">
+  <meta name="description" content="@inline说明：函数内联，一种编译器优化技术。声明内联的函数，编译器会把该函数调用的地方用它的实现替换有点类似C语言的宏，这样就减少了函数的调用开销，属于一种微优化，如果函数实现简单，调用非常频繁可以使用内联进行优化。由于内联是把函数调用的地方用它的实现替换，因此内联可能会让程序的二进制包变大，取决于编译优化等级，编译器可能会自动对一些频繁调用的函数进行内联，如果这个函数实现比较复杂，那么此时">
 <meta property="og:type" content="article">
-<meta property="og:title" content="字节序简单解析">
-<meta property="og:url" content="https://xq-120.github.io/2022/07/01/%E5%AD%97%E8%8A%82%E5%BA%8F%E7%AE%80%E5%8D%95%E8%A7%A3%E6%9E%90/index.html">
+<meta property="og:title" content="Swift中的关键字">
+<meta property="og:url" content="https://xq-120.github.io/2023/02/26/Swift%E4%B8%AD%E7%9A%84%E5%85%B3%E9%94%AE%E5%AD%97/index.html">
 <meta property="og:site_name" content="要为真理而斗争">
-<meta property="og:description" content="大端序：最高位在最低地址小端序：最高位在最高地址 为什么会有两种字节序？因为一串数字可以从左开始读，也可以从右开始读。比如：1234从左开始读，那么1就是最高位，结果就是一千两百三十四从右开始读，那么4就是最高位，结果就是四千三百二十一一般国家都是从左到右读，但也有的国家是从右到左读的。没有好坏，纯属习惯问题。 大端序和小端序就是翻转的关系。 CPU读取内存中的数据时，是从低地址向高地址方向进行读">
+<meta property="og:description" content="@inline说明：函数内联，一种编译器优化技术。声明内联的函数，编译器会把该函数调用的地方用它的实现替换有点类似C语言的宏，这样就减少了函数的调用开销，属于一种微优化，如果函数实现简单，调用非常频繁可以使用内联进行优化。由于内联是把函数调用的地方用它的实现替换，因此内联可能会让程序的二进制包变大，取决于编译优化等级，编译器可能会自动对一些频繁调用的函数进行内联，如果这个函数实现比较复杂，那么此时">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-07-01T03:38:42.000Z">
-<meta property="article:modified_time" content="2022-07-02T14:00:43.974Z">
+<meta property="article:published_time" content="2023-02-26T11:49:33.000Z">
+<meta property="article:modified_time" content="2023-03-03T16:30:00.054Z">
 <meta property="article:author" content="jekyttt">
-<meta property="article:tag" content="字节序">
+<meta property="article:tag" content="Swift关键字">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://xq-120.github.io/2022/07/01/%E5%AD%97%E8%8A%82%E5%BA%8F%E7%AE%80%E5%8D%95%E8%A7%A3%E6%9E%90/">
+<link rel="canonical" href="https://xq-120.github.io/2023/02/26/Swift%E4%B8%AD%E7%9A%84%E5%85%B3%E9%94%AE%E5%AD%97/">
 
 
 <script id="page-configurations">
@@ -45,7 +45,7 @@
   };
 </script>
 
-  <title>字节序简单解析 | 要为真理而斗争</title>
+  <title>Swift中的关键字 | 要为真理而斗争</title>
   
 
 
@@ -189,7 +189,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/07/01/%E5%AD%97%E8%8A%82%E5%BA%8F%E7%AE%80%E5%8D%95%E8%A7%A3%E6%9E%90/">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2023/02/26/Swift%E4%B8%AD%E7%9A%84%E5%85%B3%E9%94%AE%E5%AD%97/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -202,7 +202,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          字节序简单解析
+          Swift中的关键字
         </h1>
 
         <div class="post-meta">
@@ -212,14 +212,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2022-07-01 11:38:42" itemprop="dateCreated datePublished" datetime="2022-07-01T11:38:42+08:00">2022-07-01</time>
+              <time title="创建时间：2023-02-26 19:49:33" itemprop="dateCreated datePublished" datetime="2023-02-26T19:49:33+08:00">2023-02-26</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-02 22:00:43" itemprop="dateModified" datetime="2022-07-02T22:00:43+08:00">2022-07-02</time>
+                <time title="修改时间：2023-03-04 00:30:00" itemprop="dateModified" datetime="2023-03-04T00:30:00+08:00">2023-03-04</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -227,25 +227,11 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">计算机基础</span></a>
+                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
                 </span>
             </span>
 
           
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2022/07/01/%E5%AD%97%E8%8A%82%E5%BA%8F%E7%AE%80%E5%8D%95%E8%A7%A3%E6%9E%90/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/07/01/字节序简单解析/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
 
         </div>
       </header>
@@ -256,16 +242,29 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>大端序：最高位在最低地址<br>小端序：最高位在最高地址</p>
-<p>为什么会有两种字节序？<br>因为一串数字可以从左开始读，也可以从右开始读。<br>比如：1234<br>从左开始读，那么1就是最高位，结果就是一千两百三十四<br>从右开始读，那么4就是最高位，结果就是四千三百二十一<br>一般国家都是从左到右读，但也有的国家是从右到左读的。没有好坏，纯属习惯问题。</p>
-<p>大端序和小端序就是翻转的关系。</p>
-<p>CPU读取内存中的数据时，是从低地址向高地址方向进行读取的。所以一般计算机的内部处理都是小端字节序。但是，人类还是习惯读写大端字节序。所以，除了计算机的内部处理，其他的场合比如网络传输和文件储存，几乎都是用的大端字节序。</p>
-<p>举例：</p>
-<p>0x0a0b<br>0000 1010 0000 1011 （大端序）-&gt; 1101 0000 0101 0000（小端序）<br>0a0b                                                   0b0a</p>
-<p>0x01<br>0000 0000 0000 0000 0000 0000 0000 0001（大端序）<br>-&gt;<br>1000 0000 0000 0000 0000 0000 0000 0000（小端序）</p>
-<p>代码判断当前是否是小端序：</p>
-<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">union</span><br><span class="line">&#123;</span><br><span class="line">    unsigned int  a<span class="comment">;</span></span><br><span class="line">    unsigned char b<span class="comment">;</span></span><br><span class="line">&#125;c<span class="comment">;</span></span><br><span class="line">c.a <span class="operator">=</span> <span class="number">1</span><span class="comment">;</span></span><br><span class="line">BOOL isLittleEndian <span class="operator">=</span> <span class="number">1</span> <span class="operator">=</span><span class="operator">=</span> c.b<span class="comment">;</span></span><br></pre></td></tr></table></figure>
-<p>如果是小端序那么1在最低地址，char占一个字节，c.b就等于1。<br>如果是大端序那么1在最高地址，char占一个字节，c.b就等于0。</p>
+        <h3 id="inline"><a href="#inline" class="headerlink" title="@inline"></a>@inline</h3><p>说明：函数内联，一种编译器优化技术。声明内联的函数，编译器会把该函数调用的地方用它的实现替换有点类似C语言的宏，这样就减少了函数的调用开销，属于一种微优化，如果函数实现简单，调用非常频繁可以使用内联进行优化。由于内联是把函数调用的地方用它的实现替换，因此内联可能会让程序的二进制包变大，取决于编译优化等级，编译器可能会自动对一些频繁调用的函数进行内联，如果这个函数实现比较复杂，那么此时的内联可能弊大于利，这个时候可以使用 @inline(never) 明确告知编译器关闭这一特性。@inline的另一个应用场景就是代码混淆增加逆向难度。</p>
+<p>用法：使用@inline(__always) 和 @inline(never) 修饰函数。函数的访问权限可以是public也可以是private。</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://swiftrocks.com/the-forbidden-inline-attribute-in-swift">The Forbidden @inline Attribute in Swift</a></p>
+<h3 id="inlinable"><a href="#inlinable" class="headerlink" title="@inlinable"></a>@inlinable</h3><p>说明：<code>@inlinable</code> 属性允许您为特定方法启用<strong>跨模块内联</strong>。这样做了之后，方法的实现将作为模块公共接口的一部分来公开，允许编译器进一步优化来自不同模块的调用。使用 <code>@inlinable</code> 最大的收益就是有些方法可能会有性能开销，尽管大多数的方法这种开销可以忽略不计，但像那种包含泛型和闭包的，开销很大。使用<code>@inlinable</code> 可以带来性能提升，不过包的大小会增加。</p>
+<p>用法：’@inlinable’ 只能用于 public 函数，不能修饰private函数。</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://swiftrocks.com/understanding-inlinable-in-swift.html">Understanding <code>@inlinable</code> in Swift</a></p>
+<h3 id="autoclosure"><a href="#autoclosure" class="headerlink" title="@autoclosure"></a>@autoclosure</h3><p>The <code>@autoclosure</code> attribute can be applied to a closure parameter for a function, and automatically creates a closure from an <strong>expression</strong> you pass in. When you call a function that uses this attribute, the code you write <em>isn’t</em> a closure, but it <em>becomes</em> a closure, which can be a bit confusing – even the official Swift reference guide warns that overusing autoclosures makes your code harder to understand.</p>
+<p>主要用于延迟表达式的执行。1.有一些情况传入的表达式很有可能不会被执行，使用@autoclosure可以起到一点点优化作用。2.代码更加简洁，少写一对花括号。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">add</span>(<span class="params">a</span>: <span class="type">Int</span>, <span class="params">b</span>: <span class="keyword">@autoclosure</span> () -&gt; <span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> a <span class="operator">&lt;</span> <span class="number">0</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> a</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> a <span class="operator">+</span> b()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> res1 <span class="operator">=</span> add(a: <span class="number">3</span>, b: <span class="number">3</span> <span class="operator">*</span> <span class="number">1872</span> <span class="operator">+</span> <span class="number">876</span>)</span><br><span class="line"><span class="keyword">let</span> res2 <span class="operator">=</span> add(a: <span class="operator">-</span><span class="number">2</span>, b: <span class="number">3</span> <span class="operator">*</span> <span class="number">1872</span> <span class="operator">+</span> <span class="number">876</span>) <span class="comment">//这种情况下参数b实际上是不会计算的。如果是普通函数的话那么在运行时会先计算出结果再传入b。DDLog也是这么干的，因为message有可能不会被打印。</span></span><br></pre></td></tr></table></figure>
+<p>参考：</p>
+<p><a target="_blank" rel="noopener" href="https://www.hackingwithswift.com/example-code/language/what-is-the-autoclosure-attribute">What is the autoclosure attribute?</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.swiftbysundell.com/articles/using-autoclosure-when-designing-swift-apis/">Using @autoclosure when designing Swift APIs</a>  推荐。具体的一些使用场景</p>
+<h3 id="frozen"><a href="#frozen" class="headerlink" title="@frozen"></a>@frozen</h3><p>用于枚举和结构体的声名。frozen冰冻，顾名思义就是这个枚举或结构体应该被严格限制改变，你不能去添加或删除、重排case或属性等等操作。和frozen类型交互时编译器会进行一些额外的优化。</p>
+<h3 id="final"><a href="#final" class="headerlink" title="final"></a>final</h3><p>表示不允许对其修饰的内容进行继承或者重写等。Swift中，<strong>final</strong>关键字可以在class、func和var前修饰。final的作用:</p>
+<ol>
+<li>权限控制。（主要作用）</li>
+<li>提升程序性能 。（微优化）</li>
+</ol>
+<p>参考：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/0f1e041705a4">Swift 特性关键字final的用法</a></p>
+<h3 id="objc"><a href="#objc" class="headerlink" title="@objc"></a>@objc</h3><p>把Swift代码（类，方法，属性等）暴露给OC，这样OC代码才能访问。混编时用到。</p>
+<h3 id="dynamic"><a href="#dynamic" class="headerlink" title="dynamic"></a>dynamic</h3><p>让方法调用时走OC的动态派发，由于运行时是OC的特性，所以需要配合@objc使用。在几种方法派发里面是性能最低的。</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://varun04tomar.medium.com/to-the-depth-of-objc-and-dynamic-in-swift-b5472800b85d">To the depth of @objc and dynamic in Swift</a></p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a target="_blank" rel="noopener" href="https://docs.swift.org/swift-book/documentation/the-swift-programming-language/attributes/">Attributes</a>  关键字官方文档。</p>
 
     </div>
 
@@ -296,7 +295,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://xq-120.github.io/2022/07/01/%E5%AD%97%E8%8A%82%E5%BA%8F%E7%AE%80%E5%8D%95%E8%A7%A3%E6%9E%90/" title="字节序简单解析">https://xq-120.github.io/2022/07/01/字节序简单解析/</a>
+    <a href="https://xq-120.github.io/2023/02/26/Swift%E4%B8%AD%E7%9A%84%E5%85%B3%E9%94%AE%E5%AD%97/" title="Swift中的关键字">https://xq-120.github.io/2023/02/26/Swift中的关键字/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -307,7 +306,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E5%AD%97%E8%8A%82%E5%BA%8F/" rel="tag"># 字节序</a>
+              <a href="/tags/Swift%E5%85%B3%E9%94%AE%E5%AD%97/" rel="tag"># Swift关键字</a>
           </div>
 
         
@@ -316,13 +315,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2022/06/19/%E8%87%AA%E5%8A%A8%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87--%E4%BD%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E8%84%9A%E6%9C%AC/" rel="prev" title="自动压缩图片--你的第一个脚本">
-      <i class="fa fa-chevron-left"></i> 自动压缩图片--你的第一个脚本
+    <a href="/2023/02/20/pod%E5%BA%93%E4%BE%9D%E8%B5%96%E7%AC%AC%E4%B8%89%E6%96%B9OC++%E5%BA%93%E7%BC%96%E8%AF%91%E6%8A%A5%E9%94%99%E9%97%AE%E9%A2%98/" rel="prev" title="pod库依赖第三方OC++库编译报错问题">
+      <i class="fa fa-chevron-left"></i> pod库依赖第三方OC++库编译报错问题
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2022/07/20/ifconfig/" rel="next" title="ifconfig">
-      ifconfig <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -336,13 +332,7 @@
 
           </div>
           
-    
-  <div class="comments">
-    <div id="disqus_thread">
-      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
-    </div>
-  </div>
-  
+    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -389,6 +379,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#inline"><span class="nav-text">@inline</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#inlinable"><span class="nav-text">@inlinable</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#autoclosure"><span class="nav-text">@autoclosure</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#frozen"><span class="nav-text">@frozen</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#final"><span class="nav-text">final</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#objc"><span class="nav-text">@objc</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dynamic"><span class="nav-text">dynamic</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-text">参考</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -402,20 +393,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">148</span>
+          <span class="site-state-item-count">153</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">36</span>
+        <span class="site-state-item-count">37</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">92</span>
+        <span class="site-state-item-count">97</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -451,7 +442,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
@@ -580,35 +571,24 @@ window.addEventListener('pjax:success', () => {
 
   
 
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
 <script>
-  function loadCount() {
-    var d = document, s = d.createElement('script');
-    s.src = 'https://jekyttt.disqus.com/count.js';
-    s.id = 'dsq-count-scr';
-    (d.head || d.body).appendChild(s);
-  }
-  // defer loading until the whole page loading is completed
-  window.addEventListener('load', loadCount, false);
-</script>
-<script>
-  var disqus_config = function() {
-    this.page.url = "https://xq-120.github.io/2022/07/01/%E5%AD%97%E8%8A%82%E5%BA%8F%E7%AE%80%E5%8D%95%E8%A7%A3%E6%9E%90/";
-    this.page.identifier = "2022/07/01/字节序简单解析/";
-    this.page.title = "字节序简单解析";
-    };
-  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
-    if (window.DISQUS) {
-      DISQUS.reset({
-        reload: true,
-        config: disqus_config
-      });
-    } else {
-      var d = document, s = d.createElement('script');
-      s.src = 'https://jekyttt.disqus.com/embed.js';
-      s.setAttribute('data-timestamp', '' + +new Date());
-      (d.head || d.body).appendChild(s);
-    }
-  });
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'dc6a52837746ef605a70',
+      clientSecret: '7a049bac8b7eef61e32ebcbfcc33ea9d670d3274',
+      repo        : 'commentForBlog',
+      owner       : 'xq-120',
+      admin       : ['xq-120'],
+      id          : '90e2404474c8212612b4f1fe4dac13ba',
+        language: 'en, zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
 </script>
 
     </div>
