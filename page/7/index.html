@@ -187,6 +187,185 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/04/15/%E5%88%B6%E4%BD%9CCocoaPods%E7%A7%81%E6%9C%89%E5%BA%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而斗争">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/04/15/%E5%88%B6%E4%BD%9CCocoaPods%E7%A7%81%E6%9C%89%E5%BA%93/" class="post-title-link" itemprop="url">制作CocoaPods私有库</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-15 16:26:53" itemprop="dateCreated datePublished" datetime="2020-04-15T16:26:53+08:00">2020-04-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CocoaPods/" itemprop="url" rel="index"><span itemprop="name">CocoaPods</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><strong>1. 创建私有pod spec仓库</strong></p>
+<p>因为制作的是私有库所以就不能把pod sepc文件存放到cocoapods的公开仓库中了，因此需要在GitHub上新建一个repository <code>XQSpecs</code>用于保存所有的私有pod spec。</p>
+<p>如果已经有自己的私有pod spec仓库，则这一步可跳过。</p>
+<p><strong>2. 创建私有pod库</strong></p>
+<p>主要包含pod源码和pod sepc文件、许可证等。</p>
+<p>创建pod库,可以使用命令：<code>pod lib create xxx</code>，创建好模板pod，然后基于模板修改。也可以全部自己手动创建。</p>
+<p>进入本地目的目录，使用命令：<code>pod lib create xxx</code>，然后基于模板修改。</p>
+<p><strong>3. 验证pod库</strong></p>
+<p>pod源码和pod sepc文件都准备好后，别着急发布，先验证pod库的可用性:</p>
+<p><code>pod lib lint xxx.podspec</code>或者使用：<code>pod lib lint AlgorithmUtils.podspec --allow-warnings</code>，忽略警告。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/04/15/%E5%88%B6%E4%BD%9CCocoaPods%E7%A7%81%E6%9C%89%E5%BA%93/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/04/07/iOS%E8%AE%BE%E7%BD%AE%E5%9C%86%E8%A7%92/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而斗争">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/04/07/iOS%E8%AE%BE%E7%BD%AE%E5%9C%86%E8%A7%92/" class="post-title-link" itemprop="url">iOS设置圆角</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-07 22:25:40" itemprop="dateCreated datePublished" datetime="2020-04-07T22:25:40+08:00">2020-04-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/UIKit/" itemprop="url" rel="index"><span itemprop="name">UIKit</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>iOS中设置圆角大致有下面几种办法，每一种都有各自的优缺点，结合场景选择合适的方案才是最佳处理。</p>
+<h4 id="1-cornerRadius"><a href="#1-cornerRadius" class="headerlink" title="1.cornerRadius"></a>1.cornerRadius</h4><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Setting <span class="keyword">the</span> radius <span class="keyword">to</span> a value <span class="keyword">greater than</span> <span class="number">0.0</span> causes <span class="keyword">the</span> layer <span class="keyword">to</span> begin drawing rounded corners <span class="keyword">on</span> <span class="keyword">its</span> background. By default, <span class="keyword">the</span> corner radius <span class="keyword">does</span> <span class="keyword">not</span> apply <span class="keyword">to</span> <span class="keyword">the</span> image <span class="keyword">in</span> <span class="keyword">the</span> layer’s <span class="built_in">contents</span> <span class="keyword">property</span>; <span class="keyword">it</span> applies only <span class="keyword">to</span> <span class="keyword">the</span> background color <span class="keyword">and</span> border <span class="keyword">of</span> <span class="keyword">the</span> layer. However, setting <span class="keyword">the</span> masksToBounds <span class="keyword">property</span> <span class="keyword">to</span> YES causes <span class="keyword">the</span> content <span class="keyword">to</span> be clipped <span class="keyword">to</span> <span class="keyword">the</span> rounded corners.</span><br><span class="line">The default value <span class="keyword">of</span> this <span class="keyword">property</span> <span class="keyword">is</span> <span class="number">0.0</span>.</span><br></pre></td></tr></table></figure>
+<p>由于cornerRadius只对背景色和边框有效而对layer的contents并不起作用，因此一般都会配合masksToBounds使用。</p>
+<p>苹果在iOS9后对cornerRadius+masksToBounds做了优化，当contentMode和backgroundColor为默认值时即：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">imgView.contentMode = <span class="built_in">UIViewContentModeScaleToFill</span>;</span><br><span class="line">imgView.backgroundColor = [<span class="built_in">UIColor</span> clearColor];</span><br></pre></td></tr></table></figure>
+<p>不会导致离屏渲染，否则还会离屏渲染，用View Debugging查看UIImageView会有黄色标识。</p>
+<p>下面测试下cornerRadius+masksToBounds对FPS的影响。</p>
+<p>在iPhone5s,10.3.3上运行一个一屏cell上有36个圆角的Demo，imgView的contentMode和backgroundColor都不使用默认值：</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/IMG_0031.PNG" style="zoom:33%;"></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/04/07/iOS%E8%AE%BE%E7%BD%AE%E5%9C%86%E8%A7%92/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/04/06/IRR%E5%86%85%E9%83%A8%E6%94%B6%E7%9B%8A%E7%8E%87/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -931,183 +1110,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/02/02/%E5%85%B3%E4%BA%8E%E5%8F%A3%E7%BD%A9%E7%9A%84%E5%87%A0%E7%82%B9%E6%84%8F%E8%A7%81%E5%92%8C%E5%BB%BA%E8%AE%AE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而斗争">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/02/02/%E5%85%B3%E4%BA%8E%E5%8F%A3%E7%BD%A9%E7%9A%84%E5%87%A0%E7%82%B9%E6%84%8F%E8%A7%81%E5%92%8C%E5%BB%BA%E8%AE%AE/" class="post-title-link" itemprop="url">关于口罩的几点意见和建议</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-02-02 22:47:32" itemprop="dateCreated datePublished" datetime="2020-02-02T22:47:32+08:00">2020-02-02</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Life/" itemprop="url" rel="index"><span itemprop="name">Life</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="口罩类型"><a href="#口罩类型" class="headerlink" title="口罩类型"></a>口罩类型</h3><p>纸口罩,活性炭口罩,棉布口罩,海绵口罩.这些口罩因材质不够紧密,无法起到防病毒的效果.</p>
-<p>能防病毒的有:一次性医用口罩,医用外科口罩,<strong>N95</strong>口罩和<strong>N95</strong>医用防护口罩。</p>
-<p>钟南山院士的建议是:并不一定非要戴 N95，因为这些病毒实际上不是单独的存在，它常常存在在飞沫中，一般的口罩、外科口罩等等这些还是能够阻 挡大部分带着飞沫的病毒进入呼吸道。如果是去一般露天公共场所、不与病人接触，可以选择佩戴医用外科口罩，不必过度防护，但如果会接触疑似呼吸道感染的病人，则要佩戴 N95 型口罩。</p>
-<h4 id="医用外科口罩"><a href="#医用外科口罩" class="headerlink" title="医用外科口罩"></a>医用外科口罩</h4><p>可阻挡血液、体液穿过口罩,能在一定程度上预防呼吸道感染.<br>购买这一类口罩要注意包装上会有“外科医用口罩”或者是标准为YY-0469-2011.</p>
-<blockquote>
-<p> 医用外科口罩真假鉴定</p>
-</blockquote>
-<p>如果没有标注“医用外科口罩”的就别买,<br>在“<a target="_blank" rel="noopener" href="http://www.nmpa.gov.cn/WS04/CL2042/">国家药品监督管理局</a>”搜索口罩的械注准字号,该字号下的产品规格、批准日期、有效日期等都能被查到.</p>
-<h4 id="N95型口罩"><a href="#N95型口罩" class="headerlink" title="N95型口罩"></a>N95型口罩</h4><p>N95并不是特定的牌子,N95型口罩是NIOSH（美国国家职业安全卫生研究所，National Institute for Occupational Safety and Health）认证的9种颗粒物防护口罩中的一种。“N”表示不耐油（not resistant to oil）。“95”表示暴露在规定数量的专用试验粒子下，口罩内的粒子浓度要比口罩外粒子浓度低95%以上。其中95%这一数值不是平均值，而是最小值。N95不是特定的产品名称，只要符合N95标准，并且通过NIOSH审查的产品就可以称为“N95型口罩”。防护等级为N95级表示在NIOSH标准规定的检测条件下，口罩滤料对非油性颗粒物（如粉尘、酸雾、漆雾、微生物等）的过滤效率达到95%。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/02/02/%E5%85%B3%E4%BA%8E%E5%8F%A3%E7%BD%A9%E7%9A%84%E5%87%A0%E7%82%B9%E6%84%8F%E8%A7%81%E5%92%8C%E5%BB%BA%E8%AE%AE/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/01/26/Markdown%E6%9B%B4%E6%94%B9%E5%9B%BE%E7%89%87%E5%A4%A7%E5%B0%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而斗争">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/01/26/Markdown%E6%9B%B4%E6%94%B9%E5%9B%BE%E7%89%87%E5%A4%A7%E5%B0%8F/" class="post-title-link" itemprop="url">Markdown更改图片大小</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-01-26 14:11:05" itemprop="dateCreated datePublished" datetime="2020-01-26T14:11:05+08:00">2020-01-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Markdown/" itemprop="url" rel="index"><span itemprop="name">Markdown</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="更改图片链接上的宽和高-需要服务器支持"><a href="#更改图片链接上的宽和高-需要服务器支持" class="headerlink" title="更改图片链接上的宽和高(需要服务器支持)"></a>更改图片链接上的宽和高(需要服务器支持)</h4><p>原始图像:</p>
-<p><code>![loading.png](http://upload-images.jianshu.io/upload_images/1503319-c696a9cd1495d68f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)</code></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/1503319-c696a9cd1495d68f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="loading.png"></p>
-<p>更改大小:</p>
-<p><code>![loading.png](http://upload-images.jianshu.io/upload_images/1503319-c696a9cd1495d68f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/200)</code></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/1503319-c696a9cd1495d68f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/200" alt="loading.png">  </p>
-<p>只需要将后面的宽度更改就可以了.这种改链接有效果的原因是因为服务器根据图片链接对原图进行了缩放并返回.这种方案需要服务器支持对图片链接的识别并进行对应的缩放.</p>
-<h4 id="使用HTML-img标签并设置width和height"><a href="#使用HTML-img标签并设置width和height" class="headerlink" title="使用HTML img标签并设置width和height"></a>使用HTML img标签并设置width和height</h4><p>Markdown语法:</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/01/26/Markdown%E6%9B%B4%E6%94%B9%E5%9B%BE%E7%89%87%E5%A4%A7%E5%B0%8F/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1178,7 +1180,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">153</span>
+          <span class="site-state-item-count">155</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1191,7 +1193,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">97</span>
+        <span class="site-state-item-count">98</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

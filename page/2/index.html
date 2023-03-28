@@ -187,6 +187,83 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/08/18/Xcode%E7%9C%9F%E6%9C%BA%E8%B0%83%E8%AF%95%E6%8F%90%E7%A4%BAUnable-to-install-appName/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而斗争">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/08/18/Xcode%E7%9C%9F%E6%9C%BA%E8%B0%83%E8%AF%95%E6%8F%90%E7%A4%BAUnable-to-install-appName/" class="post-title-link" itemprop="url">Xcode真机调试提示Unable to install [appName]</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-08-18 15:54:48" itemprop="dateCreated datePublished" datetime="2022-08-18T15:54:48+08:00">2022-08-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-08-21 10:03:28" itemprop="dateModified" datetime="2022-08-21T10:03:28+08:00">2022-08-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Xcode/" itemprop="url" rel="index"><span itemprop="name">Xcode</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>git拉代码到本地后，编译没有问题，但是Xcode一运行在安装app的时候就失败,弹窗提示</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line">Details</span><br><span class="line"></span><br><span class="line">Unable <span class="keyword">to</span> install &quot;XXX&quot;</span><br><span class="line"><span class="keyword">Domain</span>: com.apple.dt.MobileDeviceErrorDomain</span><br><span class="line">Code: <span class="number">-402653081</span></span><br><span class="line">Recovery Suggestion: Please <span class="keyword">check</span> your project settings <span class="keyword">and</span> ensure that a <span class="keyword">valid</span> product has been built.</span><br><span class="line"><span class="keyword">User</span> <span class="keyword">Info</span>: &#123;</span><br><span class="line">    DVTErrorCreationDateKey = &quot;2022-08-18 07:53:05 +0000&quot;;</span><br><span class="line">    IDERunOperationFailingWorker = IDEInstalliPhoneLauncher;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">--</span></span><br><span class="line">There was an <span class="type">internal</span> API error.</span><br><span class="line"><span class="keyword">Domain</span>: com.apple.dt.MobileDeviceErrorDomain</span><br><span class="line">Code: <span class="number">-402653081</span></span><br><span class="line"><span class="keyword">User</span> <span class="keyword">Info</span>: &#123;</span><br><span class="line">    DVTRadarComponentKey = <span class="number">261622</span>;</span><br><span class="line">    MobileDeviceErrorCode = &quot;(0xE8000067)&quot;;</span><br><span class="line">    &quot;com.apple.dtdevicekit.stacktrace&quot; = (</span><br><span class="line">	<span class="number">0</span>   DTDeviceKitBase                     <span class="number">0x000000028daad614</span> DTDKCreateNSErrorFromAMDErrorCode + <span class="number">272</span></span><br><span class="line">	<span class="number">1</span>   DTDeviceKitBase                     <span class="number">0x000000028dae6dd8</span> __90-[DTDKMobileDeviceToken installApplicationBundleAtPath:withOptions:andError:withCallback:]_block_invoke + <span class="number">160</span></span><br><span class="line">	<span class="number">2</span>   DVTFoundation                       <span class="number">0x0000000102eb5bd0</span> DVTInvokeWithStrongOwnership + <span class="number">76</span></span><br><span class="line">	<span class="number">3</span>   DTDeviceKitBase                     <span class="number">0x000000028dae6b30</span> -[DTDKMobileDeviceToken installApplicationBundleAtPath:withOptions:andError:withCallback:] + <span class="number">1336</span></span><br><span class="line">	<span class="number">4</span>   IDEiOSSupportCore                   <span class="number">0x0000000133351590</span> __118-[DVTiOSDevice(DVTiPhoneApplicationInstallation) processAppInstallSet:appUninstallSet:installOptions:completionBlock:]_block_invoke<span class="number">.301</span> + <span class="number">2916</span></span><br><span class="line">	<span class="number">5</span>   DVTFoundation                       <span class="number">0x0000000102fdcf50</span> __DVT_CALLING_CLIENT_BLOCK__ + <span class="number">16</span></span><br><span class="line">	<span class="number">6</span>   DVTFoundation                       <span class="number">0x0000000102fde068</span> __DVTDispatchAsync_block_invoke + <span class="number">364</span></span><br><span class="line">	<span class="number">7</span>   libdispatch.dylib                   <span class="number">0x00000001a2504e60</span> _dispatch_call_block_and_release + <span class="number">32</span></span><br><span class="line">	<span class="number">8</span>   libdispatch.dylib                   <span class="number">0x00000001a2506bac</span> _dispatch_client_callout + <span class="number">20</span></span><br><span class="line">	<span class="number">9</span>   libdispatch.dylib                   <span class="number">0x00000001a250e330</span> _dispatch_lane_serial_drain + <span class="number">672</span></span><br><span class="line">	<span class="number">10</span>  libdispatch.dylib                   <span class="number">0x00000001a250eea4</span> _dispatch_lane_invoke + <span class="number">392</span></span><br><span class="line">	<span class="number">11</span>  libdispatch.dylib                   <span class="number">0x00000001a2519708</span> _dispatch_workloop_worker_thread + <span class="number">656</span></span><br><span class="line">	<span class="number">12</span>  libsystem_pthread.dylib             <span class="number">0x00000001a26c15b0</span> _pthread_wqthread + <span class="number">288</span></span><br><span class="line">	<span class="number">13</span>  libsystem_pthread.dylib             <span class="number">0x00000001a26c02c4</span> start_wqthread + <span class="number">8</span></span><br><span class="line">);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">--</span></span><br><span class="line"></span><br><span class="line">Analytics Event: com.apple.dt.IDERunOperationWorkerFinished : &#123;</span><br><span class="line">    &quot;device_model&quot; = &quot;iPhone9,2&quot;;</span><br><span class="line">    &quot;device_osBuild&quot; = &quot;15.6 (19G71)&quot;;</span><br><span class="line">    &quot;device_platform&quot; = &quot;com.apple.platform.iphoneos&quot;;</span><br><span class="line">    &quot;launchSession_schemeCommand&quot; = Run;</span><br><span class="line">    &quot;launchSession_state&quot; = <span class="number">1</span>;</span><br><span class="line">    &quot;launchSession_targetArch&quot; = arm64;</span><br><span class="line">    &quot;operation_duration_ms&quot; = <span class="number">6186</span>;</span><br><span class="line">    &quot;operation_errorCode&quot; = &quot;-402653081&quot;;</span><br><span class="line">    &quot;operation_errorDomain&quot; = &quot;com.apple.dt.MobileDeviceErrorDomain&quot;;</span><br><span class="line">    &quot;operation_errorWorker&quot; = IDEInstalliPhoneLauncher;</span><br><span class="line">    &quot;operation_name&quot; = IDEiPhoneRunOperationWorkerGroup;</span><br><span class="line">    &quot;param_consoleMode&quot; = <span class="number">0</span>;</span><br><span class="line">    &quot;param_debugger_attachToExtensions&quot; = <span class="number">0</span>;</span><br><span class="line">    &quot;param_debugger_attachToXPC&quot; = <span class="number">1</span>;</span><br><span class="line">    &quot;param_debugger_type&quot; = <span class="number">5</span>;</span><br><span class="line">    &quot;param_destination_isProxy&quot; = <span class="number">0</span>;</span><br><span class="line">    &quot;param_destination_platform&quot; = &quot;com.apple.platform.iphoneos&quot;;</span><br><span class="line">    &quot;param_diag_MainThreadChecker_stopOnIssue&quot; = <span class="number">0</span>;</span><br><span class="line">    &quot;param_diag_MallocStackLogging_enableDuringAttach&quot; = <span class="number">0</span>;</span><br><span class="line">    &quot;param_diag_MallocStackLogging_enableForXPC&quot; = <span class="number">1</span>;</span><br><span class="line">    &quot;param_diag_allowLocationSimulation&quot; = <span class="number">1</span>;</span><br><span class="line">    &quot;param_diag_gpu_frameCapture_enable&quot; = <span class="number">0</span>;</span><br><span class="line">    &quot;param_diag_gpu_shaderValidation_enable&quot; = <span class="number">0</span>;</span><br><span class="line">    &quot;param_diag_gpu_validation_enable&quot; = <span class="number">0</span>;</span><br><span class="line">    &quot;param_diag_memoryGraphOnResourceException&quot; = <span class="number">0</span>;</span><br><span class="line">    &quot;param_diag_queueDebugging_enable&quot; = <span class="number">1</span>;</span><br><span class="line">    &quot;param_diag_runtimeProfile_generate&quot; = <span class="number">0</span>;</span><br><span class="line">    &quot;param_diag_sanitizer_asan_enable&quot; = <span class="number">0</span>;</span><br><span class="line">    &quot;param_diag_sanitizer_tsan_enable&quot; = <span class="number">0</span>;</span><br><span class="line">    &quot;param_diag_sanitizer_tsan_stopOnIssue&quot; = <span class="number">0</span>;</span><br><span class="line">    &quot;param_diag_sanitizer_ubsan_stopOnIssue&quot; = <span class="number">0</span>;</span><br><span class="line">    &quot;param_diag_showNonLocalizedStrings&quot; = <span class="number">0</span>;</span><br><span class="line">    &quot;param_diag_viewDebugging_enabled&quot; = <span class="number">1</span>;</span><br><span class="line">    &quot;param_diag_viewDebugging_insertDylibOnLaunch&quot; = <span class="number">1</span>;</span><br><span class="line">    &quot;param_install_style&quot; = <span class="number">0</span>;</span><br><span class="line">    &quot;param_launcher_UID&quot; = <span class="number">2</span>;</span><br><span class="line">    &quot;param_launcher_allowDeviceSensorReplayData&quot; = <span class="number">0</span>;</span><br><span class="line">    &quot;param_launcher_kind&quot; = <span class="number">0</span>;</span><br><span class="line">    &quot;param_launcher_style&quot; = <span class="number">0</span>;</span><br><span class="line">    &quot;param_launcher_substyle&quot; = <span class="number">0</span>;</span><br><span class="line">    &quot;param_runnable_appExtensionHostRunMode&quot; = <span class="number">0</span>;</span><br><span class="line">    &quot;param_runnable_productType&quot; = &quot;com.apple.product-type.application&quot;;</span><br><span class="line">    &quot;param_runnable_swiftVersion&quot; = &quot;5.6.1&quot;;</span><br><span class="line">    &quot;param_runnable_type&quot; = <span class="number">2</span>;</span><br><span class="line">    &quot;param_testing_launchedForTesting&quot; = <span class="number">0</span>;</span><br><span class="line">    &quot;param_testing_suppressSimulatorApp&quot; = <span class="number">0</span>;</span><br><span class="line">    &quot;param_testing_usingCLI&quot; = <span class="number">0</span>;</span><br><span class="line">    &quot;sdk_canonicalName&quot; = &quot;iphoneos15.5&quot;;</span><br><span class="line">    &quot;sdk_osVersion&quot; = &quot;15.5&quot;;</span><br><span class="line">    &quot;sdk_variant&quot; = iphoneos;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">--</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">System</span> Information</span><br><span class="line"></span><br><span class="line">macOS <span class="keyword">Version</span> <span class="number">12.0</span><span class="number">.1</span> (Build <span class="number">21</span>A559)</span><br><span class="line">Xcode <span class="number">13.4</span><span class="number">.1</span> (<span class="number">20504</span>) (Build <span class="number">13</span>F100)</span><br><span class="line"><span class="type">Timestamp</span>: <span class="number">2022</span><span class="number">-08</span><span class="number">-18</span>T15:<span class="number">53</span>:<span class="number">05</span>+<span class="number">08</span>:<span class="number">00</span></span><br></pre></td></tr></table></figure>
+<p>先clean工程，再删DerivedData文件，重启手机，重启电脑，但是都没有用。clean、删除好几遍都没有用，其实到这里就可以肯定是和缓存没关系了，再怎么clean都没用，因为可能是其他地方的原因导致的。完全clean两次如果没用就应该找其他原因了，如果早意识到这一点还可以节省点时间。</p>
+<p>查了1个半小时，就发现一篇文章提到删除target里的通知扩展，删除后确实可以运行安装，但是这不是解决办法啊。估摸着大概就是通知扩展那一块有问题，于是比对好的工程的设置，最终发现是NotificationService.swift文件没有加到NotificationService target里去导致的。添加后解决。网上好多类似的问题，但和我这个完全一样的几乎没有，好浪费时间无语。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/08/17/MessageKit%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -921,88 +998,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/07/25/%E5%A6%82%E4%BD%95%E5%AD%A6%E4%B9%A0%E4%B8%80%E4%B8%AA%E6%A1%86%E6%9E%B6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而斗争">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/07/25/%E5%A6%82%E4%BD%95%E5%AD%A6%E4%B9%A0%E4%B8%80%E4%B8%AA%E6%A1%86%E6%9E%B6/" class="post-title-link" itemprop="url">如何学习一个框架</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-07-25 23:19:18" itemprop="dateCreated datePublished" datetime="2022-07-25T23:19:18+08:00">2022-07-25</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-31 12:59:08" itemprop="dateModified" datetime="2022-07-31T12:59:08+08:00">2022-07-31</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%AD%A6%E4%B9%A0%E5%BF%83%E5%BE%97/" itemprop="url" rel="index"><span itemprop="name">学习心得</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>在读了一些框架源码后，个人觉得应该从以下几个方面学习一个框架：</p>
-<p>1.了解框架实现了什么功能</p>
-<p>2.简单的使用框架</p>
-<p>3.框架使用了哪些基础库</p>
-<p>4.框架使用了什么技术<br>架构设计，设计模式，语言的高级使用，多线程，锁，复用，内存优化，CPU优化等等。</p>
-<p>5.框架使用了什么数据结构<br>为了实现宣传的功能框架定义了哪些字段，涉及了哪些数据结构。</p>
-<p>6.框架使用了什么算法</p>
-<p>7.简述框架的工作流程<br>在对框架达到一定的了解后，尝试高屋建瓴的描述一下框架的工作流程。</p>
-<p>8.框架的优点及缺点<br>在对框架达到一定的了解后，明白框架的最佳使用场景及局限性。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1073,7 +1068,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">153</span>
+          <span class="site-state-item-count">155</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1086,7 +1081,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">97</span>
+        <span class="site-state-item-count">98</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
