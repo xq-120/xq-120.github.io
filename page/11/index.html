@@ -187,6 +187,82 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/07/18/PINCache%E4%BD%BF%E7%94%A8%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而斗争">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/07/18/PINCache%E4%BD%BF%E7%94%A8%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/" class="post-title-link" itemprop="url">PINCache使用注意事项</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-07-18 10:23:32" itemprop="dateCreated datePublished" datetime="2018-07-18T10:23:32+08:00">2018-07-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%BD%BF%E7%94%A8/" itemprop="url" rel="index"><span itemprop="name">第三方库使用</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="PINCache使用注意事项"><a href="#PINCache使用注意事项" class="headerlink" title="PINCache使用注意事项"></a>PINCache使用注意事项</h3><p>默认的[PINCache sharedCache] 文件保存在目录/Library/Caches/com.pinterest.PINDiskCache.PINCacheShared 在磁盘空间不足时/Caches目录下的所有文件都会被系统自动清除,不适合存储用户信息,登录状态等相关数据.</p>
+<p>诡异BUG<br><strong>现象</strong><br>用户在APP中登录成功后,每隔一段时间(大概2-3个小时),再次打开App后,App没有进入首页而是到了登录页.由于不是必现,所以难以分析其具体原因.</p>
+<p><strong>分析解决</strong><br>经过个把星期的纠缠,终于发现原因:在写的时候将登录成功后的token使用[PINCache sharedCache]保存了,而它的默认保存路径就是在/Caches目录下,对于那些磁盘空间一直徘徊在200-300M的手机,系统会周期性的清理各个App的/Caches目录下的所有文件,来释放部分磁盘空间.这时token就被清理了,而启动时是先从文件中取token进行判断,由于已被清除,自然也取不到,因此进入了登录页.解决办法:换一个路径保存就可以了.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/07/15/%E8%AE%A1%E7%AE%97%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8D%A0%E7%94%A8%E7%9A%84%E5%AD%97%E8%8A%82%E9%95%BF%E5%BA%A6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -938,99 +1014,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/06/10/navigationBar%E5%AF%B9self.view%E7%9A%84frame%E5%BD%B1%E5%93%8D/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而斗争">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/06/10/navigationBar%E5%AF%B9self.view%E7%9A%84frame%E5%BD%B1%E5%93%8D/" class="post-title-link" itemprop="url">navigationBar对self.view的frame影响</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-06-10 12:49:28" itemprop="dateCreated datePublished" datetime="2018-06-10T12:49:28+08:00">2018-06-10</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/UIKit/" itemprop="url" rel="index"><span itemprop="name">UIKit</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="navigationBar对self-view的frame影响"><a href="#navigationBar对self-view的frame影响" class="headerlink" title="navigationBar对self.view的frame影响"></a>navigationBar对self.view的frame影响</h3><p>在iOS7及以上系统,<code>self.navigationController.navigationBar.hidden = NO;</code>的情况下.</p>
-<p><strong>设置translucent为YES</strong>.即<code>self.navigationController.navigationBar.translucent = YES;</code></p>
-<blockquote>
-<p>不隐藏状态栏</p>
-</blockquote>
-<p>self.view的位置和大小如下:</p>
-<p><img src="http://7xqoji.com1.z0.glb.clouddn.com/self.view%E7%9A%84%E4%BD%8D%E7%BD%AE%E5%92%8C%E5%A4%A7%E5%B0%8F1@2x.png" alt></p>
-<blockquote>
-<p>隐藏状态栏</p>
-</blockquote>
-<p><img src="http://7xqoji.com1.z0.glb.clouddn.com/self.view%E7%9A%84%E4%BD%8D%E7%BD%AE%E5%92%8C%E5%A4%A7%E5%B0%8F2@2x.png" alt></p>
-<p>执行流:<br><img src="http://7xqoji.com1.z0.glb.clouddn.com/navigationBar%E5%AF%B9self.view%E7%9A%84frame%E5%BD%B1%E5%93%8D_3.png" alt></p>
-<p>translucent为YES时,可以在viewDidLoad中子视图可以使用self.view的frame信息.</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/06/10/navigationBar%E5%AF%B9self.view%E7%9A%84frame%E5%BD%B1%E5%93%8D/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1101,7 +1084,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">155</span>
+          <span class="site-state-item-count">156</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1114,7 +1097,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">98</span>
+        <span class="site-state-item-count">99</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
