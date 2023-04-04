@@ -187,6 +187,96 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2017/12/03/OC%20block%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C--Block%E7%9A%84%E5%A3%B0%E6%98%8E%E3%80%81%E8%B5%8B%E5%80%BC%E4%B8%8E%E8%B0%83%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而斗争">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/12/03/OC%20block%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C--Block%E7%9A%84%E5%A3%B0%E6%98%8E%E3%80%81%E8%B5%8B%E5%80%BC%E4%B8%8E%E8%B0%83%E7%94%A8/" class="post-title-link" itemprop="url">OC block基本操作--Block的声明、赋值与调用</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-12-03 15:05:52" itemprop="dateCreated datePublished" datetime="2017-12-03T15:05:52+08:00">2017-12-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="Block的声明、赋值与调用"><a href="#Block的声明、赋值与调用" class="headerlink" title="Block的声明、赋值与调用"></a>Block的声明、赋值与调用</h3><h4 id="Block变量的声明"><a href="#Block变量的声明" class="headerlink" title="Block变量的声明"></a>Block变量的声明</h4><p>和C语言的函数指针声明几乎一样,只是将”*”改为”^”.如下:</p>
+<p><code>返回值类型</code> <code>(^变量名称)</code> <code>(变量类型 变量1, 变量类型 变量2, ...)</code></p>
+<p>例:int (^blkVar)(int a, int b);</p>
+<h4 id="Block语法"><a href="#Block语法" class="headerlink" title="Block语法"></a>Block语法</h4><p>一个Block语法代表一个Block类型变量的值.它的写法和C语言函数的定义很像.仅有两点区别:</p>
+<ul>
+<li>没有函数名.</li>
+<li>在返回值前面加上”^”. </li>
+</ul>
+<p><code>^</code> <code>返回值</code> <code>(变量类型 变量1, 变量类型 变量2, ...)</code> <code>&#123;... return xx;&#125;</code>. </p>
+<p>例:^int (int a, int b){… return 3;}.</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2017/12/03/OC%20block%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C--Block%E7%9A%84%E5%A3%B0%E6%98%8E%E3%80%81%E8%B5%8B%E5%80%BC%E4%B8%8E%E8%B0%83%E7%94%A8/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2017/12/03/OC%20block%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C--Block%E9%87%8C%E7%9A%84strongSelf/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -954,92 +1044,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2017/10/18/didSelectRowAtIndexPath%E4%B8%8D%E8%A2%AB%E8%B0%83%E7%94%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而斗争">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/10/18/didSelectRowAtIndexPath%E4%B8%8D%E8%A2%AB%E8%B0%83%E7%94%A8/" class="post-title-link" itemprop="url">didSelectRowAtIndexPath不被调用</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2017-10-18 15:01:11" itemprop="dateCreated datePublished" datetime="2017-10-18T15:01:11+08:00">2017-10-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/UIKit/" itemprop="url" rel="index"><span itemprop="name">UIKit</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="didSelectRowAtIndexPath不被调用"><a href="#didSelectRowAtIndexPath不被调用" class="headerlink" title="didSelectRowAtIndexPath不被调用"></a>didSelectRowAtIndexPath不被调用</h2><p>vc.view上添加一个UITableView,并且vc.view上添加一个UITapGestureRecognizer手势,那么<code>- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath</code>代理方法将不再被调用.</p>
-<p>这是由于<code>UIGestureRecognizer</code>有一个属性:<br><code>@property(nonatomic) BOOL cancelsTouchesInView;</code><br>官方的注释:default is YES. causes touchesCancelled:withEvent: or pressesCancelled:withEvent: to be sent to the view for all touches or presses recognized as part of this gesture immediately before the action method is called.<br>该属性默认是YES,在action方法被调用之前系统会迅速调用View的touchesCancelled:withEvent: or pressesCancelled:withEvent:方法.touches事件将立即被cancel.所有的touches或presses对象将转而被用于手势识别.因此当一个View上添加了一个手势那么该View的touchesEnded方法将不会被调用(只会touchesBegan-&gt;touchesCancelled).</p>
-<p>可以推断出:如果一个button上又添加一个tap手势,则最后只会有tap响应,button的target则不会被调用.这是由于手势识别时会cancel掉后面的Touches.因此当用户触摸一个控件时,手势的处理优先于触摸事件的处理.</p>
-<p>因此,要想didSelectRowAtIndexPath方法被调用,有两种解决办法:  </p>
-<ol>
-<li>设置<code>tap.cancelsTouchesInView = NO;</code>让touch事件继续进行,从而让view可以继续处理.</li>
-<li><p>实现<code>UIGestureRecognizerDelegate</code>的代理方法</p>
- <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">BOOL</span>)gestureRecognizer:(<span class="built_in">UIGestureRecognizer</span> *)gestureRecognizer shouldReceiveTouch:(<span class="built_in">UITouch</span> *)touch &#123;</span><br><span class="line">    <span class="keyword">if</span> ([touch.view isKindOfClass:<span class="built_in">NSClassFromString</span>(<span class="string">@&quot;UITableViewCellContentView&quot;</span>)]) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NO</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p> 当点击到cell.contentView上时,让tap手势不处理touches.</p>
-</li>
-</ol>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考:"></a>参考:</h3><p><a target="_blank" rel="noopener" href="https://joakimliu.github.io/2017/01/15/iOS的事件处理/">iOS的事件处理</a></p>
-<p>Event Handling Guide for iOS </p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1110,7 +1114,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">158</span>
+          <span class="site-state-item-count">159</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1123,7 +1127,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">101</span>
+        <span class="site-state-item-count">102</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

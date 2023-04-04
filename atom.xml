@@ -6,7 +6,7 @@
   <link href="https://xq-120.github.io/atom.xml" rel="self"/>
   
   <link href="https://xq-120.github.io/"/>
-  <updated>2023-04-02T06:50:39.997Z</updated>
+  <updated>2023-04-04T03:34:46.075Z</updated>
   <id>https://xq-120.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>DDLog使用注意事项</title>
+    <link href="https://xq-120.github.io/2023/04/04/DDLog%E4%BD%BF%E7%94%A8%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/"/>
+    <id>https://xq-120.github.io/2023/04/04/DDLog%E4%BD%BF%E7%94%A8%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/</id>
+    <published>2023-04-04T03:32:51.000Z</published>
+    <updated>2023-04-04T03:34:46.075Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;DDOSLogger控制台打印，没有使用logMessage的时间戳而是os_log_xxx执行时的时间戳，因此会和logMessage的创建时间有个时间差。如果打印时选择的是DDLogFlagError，打印将是同步执行，这个时间差会非常小。而如果是DDLogFlagEr</summary>
+        
+      
+    
+    
+    
+    <category term="第三方库使用" scheme="https://xq-120.github.io/categories/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%BD%BF%E7%94%A8/"/>
+    
+    
+    <category term="DDLog" scheme="https://xq-120.github.io/tags/DDLog/"/>
+    
+  </entry>
   
   <entry>
     <title>Swift中的Error</title>
@@ -542,29 +567,6 @@
     
     
     <category term="苹果官方文档" scheme="https://xq-120.github.io/tags/%E8%8B%B9%E6%9E%9C%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>补码完全指南</title>
-    <link href="https://xq-120.github.io/2022/07/31/%E8%A1%A5%E7%A0%81%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/"/>
-    <id>https://xq-120.github.io/2022/07/31/%E8%A1%A5%E7%A0%81%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/</id>
-    <published>2022-07-31T13:23:52.000Z</published>
-    <updated>2022-08-01T15:45:27.632Z</updated>
-    
-    
-    <summary type="html">&lt;p&gt;本文基于自己的理解，试图让猪都能理解补码的概念^_^。老规矩，先是几个概念。&lt;/p&gt;
-&lt;h2 id=&quot;机器数&quot;&gt;&lt;a href=&quot;#机器数&quot; class=&quot;headerlink&quot; title=&quot;机器数&quot;&gt;&lt;/a&gt;机器数&lt;/h2&gt;&lt;p&gt;机器数是将符号数字化的数，最高位是符号位，正数符号位为0，负数符号位为1，其余位表示数值。&lt;/p&gt;
-&lt;h2 id=&quot;真值&quot;&gt;&lt;a href=&quot;#真值&quot; class=&quot;headerlink&quot; title=&quot;真值&quot;&gt;&lt;/a&gt;真值&lt;/h2&gt;&lt;p&gt;机器数所对应的实际数值。　&lt;/p&gt;
-&lt;h2 id=&quot;编程语言类型&quot;&gt;&lt;a href=&quot;#编程语言类型&quot; class=&quot;headerlink&quot; title=&quot;编程语言类型&quot;&gt;&lt;/a&gt;编程语言类型&lt;/h2&gt;&lt;h3 id=&quot;无符号数&quot;&gt;&lt;a href=&quot;#无符号数&quot; class=&quot;headerlink&quot; title=&quot;无符号数&quot;&gt;&lt;/a&gt;无符号数&lt;/h3&gt;&lt;p&gt;全部二进制位均代表数值，没有符号位。&lt;/p&gt;
-&lt;h3 id=&quot;有符号数&quot;&gt;&lt;a href=&quot;#有符号数&quot; class=&quot;headerlink&quot; title=&quot;有符号数&quot;&gt;&lt;/a&gt;有符号数&lt;/h3&gt;&lt;p&gt;最高位代表符号位(“0”表示“+”，“1”表示“-”)，其余位表示数值。&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="计算机基础" scheme="https://xq-120.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/"/>
-    
-    
-    <category term="补码" scheme="https://xq-120.github.io/tags/%E8%A1%A5%E7%A0%81/"/>
     
   </entry>
   

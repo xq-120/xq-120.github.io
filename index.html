@@ -187,6 +187,80 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2023/04/04/DDLog%E4%BD%BF%E7%94%A8%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而斗争">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/04/04/DDLog%E4%BD%BF%E7%94%A8%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/" class="post-title-link" itemprop="url">DDLog使用注意事项</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-04-04 11:32:51 / 修改时间：11:34:46" itemprop="dateCreated datePublished" datetime="2023-04-04T11:32:51+08:00">2023-04-04</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%BD%BF%E7%94%A8/" itemprop="url" rel="index"><span itemprop="name">第三方库使用</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>DDOSLogger控制台打印，没有使用logMessage的时间戳而是os_log_xxx执行时的时间戳，因此会和logMessage的创建时间有个时间差。如果打印时选择的是DDLogFlagError，打印将是同步执行，这个时间差会非常小。而如果是DDLogFlagError以下级别，那么这条打印将是异步执行的，这时的时间差会更大，和NSLog混用时可能会误导你。因此和NSLog混用或者场景同步打印要求比较高，建议使用DDLogFlagError同步打印日志。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">- (DDLoggerName)loggerName &#123;</span><br><span class="line">    <span class="keyword">return</span> DDLoggerNameOS;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)logMessage:(DDLogMessage *)logMessage &#123;</span><br><span class="line">    <span class="comment">// Skip captured log messages</span></span><br><span class="line">    <span class="keyword">if</span> ([logMessage-&gt;_fileName isEqualToString:<span class="string">@&quot;DDASLLogCapture&quot;</span>]) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (@available(iOS <span class="number">10.0</span>, macOS <span class="number">10.12</span>, tvOS <span class="number">10.0</span>, watchOS <span class="number">3.0</span>, *)) &#123;</span><br><span class="line">        <span class="built_in">NSString</span> * message = _logFormatter ? [_logFormatter formatLogMessage:logMessage] : logMessage-&gt;_message;</span><br><span class="line">        <span class="keyword">if</span> (message != <span class="literal">nil</span>) &#123;</span><br><span class="line">            <span class="keyword">const</span> <span class="type">char</span> *msg = [message UTF8String];</span><br><span class="line">            __auto_type logger = [<span class="keyword">self</span> logger];</span><br><span class="line">            <span class="keyword">switch</span> (logMessage-&gt;_flag) &#123;</span><br><span class="line">                <span class="keyword">case</span> DDLogFlagError  :</span><br><span class="line">                    os_log_error(logger, <span class="string">&quot;%&#123;public&#125;s&quot;</span>, msg);</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> DDLogFlagWarning:</span><br><span class="line">                <span class="keyword">case</span> DDLogFlagInfo   :</span><br><span class="line">                    os_log_info(logger, <span class="string">&quot;%&#123;public&#125;s&quot;</span>, msg);</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> DDLogFlagDebug  :</span><br><span class="line">                <span class="keyword">case</span> DDLogFlagVerbose:</span><br><span class="line">                <span class="keyword">default</span>              :</span><br><span class="line">                    os_log_debug(logger, <span class="string">&quot;%&#123;public&#125;s&quot;</span>, msg);</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>例子：打印时选择的是DDLogFlagDebug。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">void</span>)URLSession:(<span class="built_in">NSURLSession</span> *)session dataTask:(<span class="built_in">NSURLSessionDataTask</span> *)dataTask</span><br><span class="line">didReceiveResponse:(<span class="built_in">NSURLResponse</span> *)response</span><br><span class="line"> completionHandler:(<span class="type">void</span> (^)(<span class="built_in">NSURLSessionResponseDisposition</span> disposition))completionHandler</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;接收到响应1:%@, 线程：%@&quot;</span>, response.URL.lastPathComponent, [<span class="built_in">NSThread</span> currentThread]);</span><br><span class="line">    MATLogDebug(<span class="string">@&quot;MAT,接收到响应:%@, 线程：%@&quot;</span>, response, [<span class="built_in">NSThread</span> currentThread]);</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;接收到响应2:%@, 线程：%@&quot;</span>, response.URL.lastPathComponent, [<span class="built_in">NSThread</span> currentThread]);</span><br><span class="line">    </span><br><span class="line">    completionHandler(<span class="built_in">NSURLSessionResponseAllow</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)URLSession:(<span class="built_in">NSURLSession</span> *)session dataTask:(<span class="built_in">NSURLSessionDataTask</span> *)dataTask didReceiveData:(<span class="built_in">NSData</span> *)data</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">NSURL</span> *url = dataTask.originalRequest.URL;</span><br><span class="line">    <span class="built_in">NSMutableData</span> *dataContainer = [<span class="keyword">self</span> dataWithURL:url];</span><br><span class="line">    [dataContainer appendData:data];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;本次接收1:%ld,线程：%@, url:%@&quot;</span>, data.length, [<span class="built_in">NSThread</span> currentThread], url.lastPathComponent);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (url.absoluteString == landscapeUrl) &#123;</span><br><span class="line">        sleep(<span class="number">10</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;本次接收2:%ld,总共接收:%ld,线程：%@, url:%@&quot;</span>, data.length, dataContainer.length, [<span class="built_in">NSThread</span> currentThread], url.lastPathComponent);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>日志：</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">2023</span>-<span class="number">04</span>-<span class="number">04</span> <span class="number">11</span>:<span class="number">05</span>:<span class="number">59</span>.<span class="number">463803</span>+<span class="number">0800</span> AFNetworking_fx[<span class="number">3039</span>:<span class="number">152895</span>] &lt;__NSURLSessionLocal: <span class="number">0</span>x103b48e60&gt;</span><br><span class="line"><span class="attribute">2023</span>-<span class="number">04</span>-<span class="number">04</span> <span class="number">11</span>:<span class="number">06</span>:<span class="number">00</span>.<span class="number">468738</span>+<span class="number">0800</span> AFNetworking_fx[<span class="number">3039</span>:<span class="number">152895</span>] 开始请求：https://tinypng.com/images/example-orig.png</span><br><span class="line"><span class="attribute">2023</span>-<span class="number">04</span>-<span class="number">04</span> <span class="number">11</span>:<span class="number">06</span>:<span class="number">00</span>.<span class="number">598328</span>+<span class="number">0800</span> AFNetworking_fx[<span class="number">3039</span>:<span class="number">154867</span>] 接收到响应<span class="number">1</span>:example-orig.png, 线程：&lt;NSThread: <span class="number">0</span>x2824d0f40&gt;&#123;number = <span class="number">16</span>, name = (null)&#125;</span><br><span class="line"><span class="attribute">2023</span>-<span class="number">04</span>-<span class="number">04</span> <span class="number">11</span>:<span class="number">06</span>:<span class="number">00</span>.<span class="number">599692</span>+<span class="number">0800</span> AFNetworking_fx[<span class="number">3039</span>:<span class="number">154867</span>] -----<span class="number">1</span>:<span class="number">2023</span>-<span class="number">04</span>-<span class="number">04</span> <span class="number">11</span>:<span class="number">06</span>:<span class="number">00</span>:<span class="number">600</span>---------</span><br><span class="line"><span class="attribute">2023</span>-<span class="number">04</span>-<span class="number">04</span> <span class="number">11</span>:<span class="number">06</span>:<span class="number">00</span>.<span class="number">600230</span>+<span class="number">0800</span> AFNetworking_fx[<span class="number">3039</span>:<span class="number">154867</span>] -----<span class="number">2</span>:<span class="number">2023</span>-<span class="number">04</span>-<span class="number">04</span> <span class="number">11</span>:<span class="number">06</span>:<span class="number">00</span>:<span class="number">600</span>---<span class="number">2023</span>-<span class="number">04</span>-<span class="number">04</span> <span class="number">11</span>:<span class="number">06</span>:<span class="number">00</span>:<span class="number">600</span>------</span><br><span class="line"><span class="attribute">2023</span>-<span class="number">04</span>-<span class="number">04</span> <span class="number">11</span>:<span class="number">06</span>:<span class="number">00</span>.<span class="number">600749</span>+<span class="number">0800</span> AFNetworking_fx[<span class="number">3039</span>:<span class="number">154867</span>] 接收到响应<span class="number">2</span>:example-orig.png, 线程：&lt;NSThread: <span class="number">0</span>x2824d0f40&gt;&#123;number = <span class="number">16</span>, name = (null)&#125;</span><br><span class="line"><span class="attribute">2023</span>-<span class="number">04</span>-<span class="number">04</span> <span class="number">11</span>:<span class="number">06</span>:<span class="number">00</span>.<span class="number">601729</span>+<span class="number">0800</span> AFNetworking_fx[<span class="number">3039</span>:<span class="number">154867</span>] 本次接收<span class="number">1</span>:<span class="number">5455</span>,线程：&lt;NSThread: <span class="number">0</span>x2824d0f40&gt;&#123;number = <span class="number">16</span>, name = (null)&#125;, url:example-orig.png</span><br><span class="line"><span class="attribute">2023</span>-<span class="number">04</span>-<span class="number">04</span> <span class="number">11</span>:<span class="number">06</span>:<span class="number">00</span>.<span class="number">601922</span>+<span class="number">0800</span> AFNetworking_fx[<span class="number">3039</span>:<span class="number">154874</span>] <span class="number">2023</span>-<span class="number">04</span>-<span class="number">04</span> <span class="number">11</span>:<span class="number">06</span>:<span class="number">00</span>:<span class="number">600</span> -[SystemSessionViewController URLSession:dataTask:didReceiveResponse:completionHandler:] +<span class="number">171</span><span class="meta"> [level:Debug,module:0]</span></span><br><span class="line"><span class="attribute">MAT</span>,接收到响应:&lt;NSHTTPURLResponse: <span class="number">0</span>x2831fa500&gt; &#123; URL: https://tinypng.com/images/example-orig.png &#125; &#123; Status Code: <span class="number">200</span>, Headers &#123;</span><br></pre></td></tr></table></figure>
+<p>logMessage的创建时间是2023-04-04 11:06:00:600，但控制台显示的时间戳是2023-04-04 11:06:00.601922+0800。相差2ms。还以为是didReceiveData的调用跑到didReceiveResponse前面去了，原来是打印的问题。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2023/04/02/Swift%E4%B8%AD%E7%9A%84Error/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -940,96 +1014,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/10/10/OC%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%8F%98%E8%BF%81/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而斗争">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/10/10/OC%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%8F%98%E8%BF%81/" class="post-title-link" itemprop="url">OC内存管理变迁</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-10-10 17:02:22" itemprop="dateCreated datePublished" datetime="2022-10-10T17:02:22+08:00">2022-10-10</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-10-15 13:51:44" itemprop="dateModified" datetime="2022-10-15T13:51:44+08:00">2022-10-15</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>OC的内存管理大致可以分为MRC阶段和ARC阶段。</p>
-<p>MRC：手动引用计数，“手动”很好理解就是亲自动手写代码，“引用计数”就是数数，数一下这个对象的引用次数。当我们需要用这个对象的时候先调用一下retain，引用计数就加1，不用了就调用一下release，引用计数就减1，减到0系统就会帮我们释放这个对象的内存。</p>
-<p>为什么会有“引用计数”这么个东西？<br>试想一下如果没有引用计数会怎样，比如你创建了一个对象，这个对象传来传去在很多个地方使用，那么什么时候调用free销毁对象成了一个难题。如下：类A创建了一个对象obj，然后obj作为参数传给类B。</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">BOOL</span>)function</span><br><span class="line">&#123;</span><br><span class="line">	  <span class="type">id</span> obj = [xxx new];</span><br><span class="line">	  [B someMethod:obj];</span><br><span class="line">	  ...</span><br><span class="line">	  <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>obj传给类B后，B有可能保存也可能不保存obj。这时类A对obj的处理就非常尴尬了，如果贸然调用free，万一类B还在用就会导致野指针访问崩溃，不调用吧，万一类B又没在用就会内存泄露。但是通过引用计数，我们就不需要考虑什么时候调用free了，系统会根据引用计数是否为0来决定是否销毁对象，你只需要retain和release。</p>
-<p>举个生活中的例子：</p>
-<p>场景1：张三去厕所拉屎，里面一片漆黑，于是张三打开灯，找了个坑位关上门开始造。造完后，出来关上灯。完美！</p>
-<p>场景2：还是张三去厕所拉屎，里面一片漆黑，于是张三打开灯，找了个坑位关上门开始造。这时，李四也来拉屎，由于灯是亮的于是李四径直找了个坑位关上门开始造。过了一会张三拉完了，由于张三并不知道李四进来了，于是出门把灯关了。只听见在漆黑里的李四一声卧槽！</p>
-<p>从上面的例子可以看出什么时候关灯确实是个问题，怎么解决这个问题呢？方法有很多比如进去之后大喊一声俺来了让里面所有人都知道有人来了。但是最简单的办法还是大家都遵守一套规则：进门前请按加号键，出门后请按减号键。这就相当于引用计数了。</p>
-<p>场景3：张三去厕所拉屎，里面一片漆黑，外面告示写着进门前请按加号键，出门后请按减号键。这时张三按了一下墙壁上的加号键，灯亮了，于是找了个坑位关上门开始造。这时李四也来拉屎，他也按照告示按了下墙壁上的加号键，接着他找了个坑位开始安心拉屎。这时张三拉完屎，出门时按照告示按下了减号键，灯没有灭，这时张三明白了期间又来人了，虽然不知道在哪个坑位，但肯定是有人正在拉。当李四拉完后，也按了下墙壁上的减号键，这时确实没人在拉屎了，于是灯灭了，非常的完美。在这个系统里，你不需要知道中途进来了多少人，也不需要任何交流，只需要遵守外面的告示，就解决了灯何时灭的问题。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/10/10/OC%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%8F%98%E8%BF%81/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1100,7 +1084,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">158</span>
+          <span class="site-state-item-count">159</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1113,7 +1097,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">101</span>
+        <span class="site-state-item-count">102</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
