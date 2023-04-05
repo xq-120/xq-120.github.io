@@ -74,16 +74,16 @@
     <link href="https://xq-120.github.io/2023/04/02/Swift%E4%B8%AD%E7%9A%84%E6%9E%9A%E4%B8%BE/"/>
     <id>https://xq-120.github.io/2023/04/02/Swift%E4%B8%AD%E7%9A%84%E6%9E%9A%E4%B8%BE/</id>
     <published>2023-04-02T05:07:50.000Z</published>
-    <updated>2023-04-02T06:16:44.032Z</updated>
+    <updated>2023-04-05T04:34:25.651Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;p&gt;1.swift的枚举只能拥有原始值和关联值的其中一种，不能同时拥有，会报错。&lt;/p&gt;
+    <summary type="html">&lt;p&gt;1.swift的枚举只能拥有原始值和关联值的其中一种，不能同时拥有，会报错：Enum with raw type cannot have cases with arguments。&lt;/p&gt;
 &lt;p&gt;2.读取关联值时不能写参数的类型,否则编译报错。&lt;/p&gt;
-&lt;figure class=&quot;highlight swift&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td</summary>
+&lt;figure</summary>
         
       
     

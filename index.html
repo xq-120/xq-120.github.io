@@ -368,10 +368,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2023-04-02 13:07:50 / 修改时间：14:16:44" itemprop="dateCreated datePublished" datetime="2023-04-02T13:07:50+08:00">2023-04-02</time>
+              <time title="创建时间：2023-04-02 13:07:50" itemprop="dateCreated datePublished" datetime="2023-04-02T13:07:50+08:00">2023-04-02</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-04-05 12:34:25" itemprop="dateModified" datetime="2023-04-05T12:34:25+08:00">2023-04-05</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -393,7 +399,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>1.swift的枚举只能拥有原始值和关联值的其中一种，不能同时拥有，会报错。</p>
+          <p>1.swift的枚举只能拥有原始值和关联值的其中一种，不能同时拥有，会报错：Enum with raw type cannot have cases with arguments。</p>
 <p>2.读取关联值时不能写参数的类型,否则编译报错。</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">BinaryTree</span>&lt;<span class="title class_">Element</span>&gt; &#123;</span><br><span class="line">    <span class="keyword">case</span> leaf</span><br><span class="line">    <span class="keyword">indirect</span> <span class="keyword">case</span> node(v: <span class="type">Element</span>, l: <span class="type">BinaryTree</span>&lt;<span class="type">Element</span>&gt;, r: <span class="type">BinaryTree</span>&lt;<span class="type">Element</span>&gt;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">extension</span> <span class="title class_">BinaryTree</span> &#123;</span><br><span class="line">    <span class="keyword">init</span>(<span class="keyword">_</span> <span class="params">val</span>: <span class="type">Element</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span> <span class="operator">=</span> .node(v: val, l: .leaf, r: .leaf)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//读取关联值时不能写参数的类型,否则编译报错。</span></span><br><span class="line"><span class="comment">//case let .node(v: Element, l: BinaryTree&lt;Element&gt;, r: BinaryTree&lt;Element&gt;):</span></span><br><span class="line"><span class="keyword">extension</span> <span class="title class_">BinaryTree</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> values: [<span class="type">Element</span>] &#123;</span><br><span class="line">        <span class="keyword">switch</span> <span class="keyword">self</span> &#123;</span><br><span class="line">        <span class="keyword">case</span> .leaf:</span><br><span class="line">            <span class="keyword">return</span> []</span><br><span class="line">        <span class="keyword">case</span> <span class="keyword">let</span> .node(v, l, r): <span class="comment">//直接填写变量名称。</span></span><br><span class="line">            <span class="keyword">return</span> l.values <span class="operator">+</span> [v] <span class="operator">+</span> r.values</span><br><span class="line"><span class="comment">//        case .node(let v, var l, var r):</span></span><br><span class="line"><span class="comment">//            return l.values + [v] + r.values</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/59378942/enum-with-raw-type-cannot-have-cases-with-arguments">Enum with raw type cannot have cases with arguments</a></p>
