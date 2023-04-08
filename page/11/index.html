@@ -187,6 +187,181 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/12/05/iOS%E5%B4%A9%E6%BA%83%E6%97%A5%E5%BF%97%E5%A0%86%E6%A0%88%E8%A7%A3%E6%9E%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而斗争">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/12/05/iOS%E5%B4%A9%E6%BA%83%E6%97%A5%E5%BF%97%E5%A0%86%E6%A0%88%E8%A7%A3%E6%9E%90/" class="post-title-link" itemprop="url">iOS崩溃日志堆栈解析</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-12-05 22:38:58" itemprop="dateCreated datePublished" datetime="2018-12-05T22:38:58+08:00">2018-12-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Foundation/" itemprop="url" rel="index"><span itemprop="name">Foundation</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="iOS崩溃日志堆栈解析"><a href="#iOS崩溃日志堆栈解析" class="headerlink" title="iOS崩溃日志堆栈解析"></a>iOS崩溃日志堆栈解析</h3><p>本文只为自己查看方便.</p>
+<h4 id="dSYM-文件"><a href="#dSYM-文件" class="headerlink" title=".dSYM 文件"></a>.dSYM 文件</h4><p>我们调试的 symbols 会包含在这个文件中。</p>
+<p>每次编译项目的时候都会生成一个新的 dSYM 文件，我们应该保存每个正式发布版本的 dSYM 文件，以备我们更好的调试问题。一般是在我们 Archives 时保存对应的版本文件的，里面也有对应的 .dSYM 和 .app 文件。</p>
+<h4 id="符号解析"><a href="#符号解析" class="headerlink" title="符号解析"></a>符号解析</h4><p>注意:.dSYM 、.crash文件,二者的UUID必须一致解析才有意义.</p>
+<h5 id="获取-UUID"><a href="#获取-UUID" class="headerlink" title="获取 UUID"></a>获取 UUID</h5><p>.crash UUID</p>
+<p><code>grep --after-context=2 &quot;Binary Images:&quot; *crash</code></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/12/05/iOS%E5%B4%A9%E6%BA%83%E6%97%A5%E5%BF%97%E5%A0%86%E6%A0%88%E8%A7%A3%E6%9E%90/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/11/25/iOS%20APP%E5%90%8E%E5%8F%B0%E8%BF%90%E8%A1%8C%E6%97%B6%E9%97%B4%E6%8E%A2%E7%A9%B6%E5%8F%8A%E5%BB%B6%E9%95%BF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="要为真理而斗争">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/11/25/iOS%20APP%E5%90%8E%E5%8F%B0%E8%BF%90%E8%A1%8C%E6%97%B6%E9%97%B4%E6%8E%A2%E7%A9%B6%E5%8F%8A%E5%BB%B6%E9%95%BF/" class="post-title-link" itemprop="url">iOS APP后台运行时间探究及延长</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-11-25 22:53:35" itemprop="dateCreated datePublished" datetime="2018-11-25T22:53:35+08:00">2018-11-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Foundation/" itemprop="url" rel="index"><span itemprop="name">Foundation</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>实验设备:iPhone7plus iOS12.1</p>
+<p>问题:发现市面上很多APP进入后台后,过了16min甚至20min后,再次点击APP,都能够保持在原来的页面.而我们自己的APP,进入后台过个三分钟就被kill掉了,再次进入都是重新启动.<br>网易新闻APP,主站APP,喜马拉雅APP都不会.为什么我们的APP在挂起后会这么快被系统从内存中清理?而别的APP却不会.</p>
+<p>目前app,没有做任何特别处理,申请的权限也很常规,如下:</p>
+<p><img src="https://portal.qiniu.com/" alt="APP后台模式"></p>
+<p>解决:经过不断的分析,最终发现是代码中在向系统申请后台运行时间错误使用导致,在调用<code>beginBackgroundTaskWithExpirationHandler</code>后,没有配对调用<code>endBackgroundTask:</code>.</p>
+<p>吐槽:有时候工程一大,出现一些BUG真的很难分析原因.</p>
+<h3 id="向系统申请后台运行时间"><a href="#向系统申请后台运行时间" class="headerlink" title="向系统申请后台运行时间"></a>向系统申请后台运行时间</h3><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">void</span>)backgroundDoSomethings &#123;</span><br><span class="line">    <span class="built_in">UIApplication</span> *application = [<span class="built_in">UIApplication</span> performSelector:<span class="keyword">@selector</span>(sharedApplication)];</span><br><span class="line">    __block <span class="built_in">UIBackgroundTaskIdentifier</span> bgTask = [application beginBackgroundTaskWithExpirationHandler:^&#123;</span><br><span class="line">        <span class="comment">// Clean up any unfinished task business by marking where you</span></span><br><span class="line">        <span class="comment">// stopped or ending the task outright.</span></span><br><span class="line">        [application endBackgroundTask:bgTask];</span><br><span class="line">        bgTask = <span class="built_in">UIBackgroundTaskInvalid</span>;</span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Start the long-running task and return immediately.</span></span><br><span class="line">    [<span class="keyword">self</span> doSomethingWithCompletionBlock:^&#123;</span><br><span class="line">        [application endBackgroundTask:bgTask];</span><br><span class="line">        bgTask = <span class="built_in">UIBackgroundTaskInvalid</span>;</span><br><span class="line">    &#125;];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)doSomethingWithCompletionBlock:(<span class="type">void</span> (^)(<span class="type">void</span>))completion</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">dispatch_async</span>(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, <span class="number">0</span>), ^&#123;</span><br><span class="line">       </span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@&quot;开始睡&quot;</span>);</span><br><span class="line">        sleep(<span class="number">175</span>); <span class="comment">//200x 170√ 180x 175√</span></span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@&quot;睡醒&quot;</span>);</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (completion) &#123;</span><br><span class="line">            completion();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>实测运行的时间大致在175s左右,小于180s.即通过<code>beginBackgroundTaskWithExpirationHandler:</code>方法可以向系统申请大约180s的后台运行时间.</p>
+<p>相关方法:</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/11/25/iOS%20APP%E5%90%8E%E5%8F%B0%E8%BF%90%E8%A1%8C%E6%97%B6%E9%97%B4%E6%8E%A2%E7%A9%B6%E5%8F%8A%E5%BB%B6%E9%95%BF/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/09/28/%E6%95%B0%E7%BB%84%E5%8E%BB%E9%87%8D%E6%B7%BB%E5%8A%A0%E5%85%83%E7%B4%A0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -861,199 +1036,11 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/07/09/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而斗争">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/07/09/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8/" class="post-title-link" itemprop="url">git常用命令使用</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-07-09 15:48:01" itemprop="dateCreated datePublished" datetime="2018-07-09T15:48:01+08:00">2018-07-09</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Git/" itemprop="url" rel="index"><span itemprop="name">Git</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <ul>
-<li><p>查看tag<code>git tag —list</code></p>
-</li>
-<li><p>获取指定的tag处代码<code>git checkout tag</code><br>例如：git checkout v0.1.0</p>
-</li>
-<li><p>查看所有分支<code>git branch -a</code><br>如果是远程分支则前面会有”remotes/”</p>
-</li>
-<li><p>查看本地分支<code>git branch</code></p>
-</li>
-<li><p>创建本地分支<code>git branch 分支名</code></p>
-</li>
-<li><p>提交本地分支到服务器<code>git push origin &lt;local_branch_name&gt;:&lt;remote_branch_name&gt;</code></p>
-</li>
-<li><p>删除本地分支<code>git branch -d &lt;BranchName&gt;</code><br>注意:处于当前分支是不能进行删除分支自身操作的.</p>
-</li>
-<li><p>删除远程分支<code>git push origin :分支名</code></p>
-</li>
-<li><p>根据tag创建分支<code>git branch &lt;new-branch-name&gt; &lt;tag-name&gt;</code>会根据tag创建新的分支.<br>例如:git branch newbranch v1.0 . 会以tag v1.0创建新的分支newbranch.</p>
-</li>
-<li><p>git ignore文件</p>
-<p>如果某些文件已经被纳入了版本管理中，就算是在.gitignore中已经声明了忽略路径也是不起作用的，这时候我们就应该先把本地缓存删除，然后再进行git的push，这样就不会出现忽略的文件了。git清除本地缓存命令如下：</p>
-  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git rm <span class="operator">-</span>r <span class="comment">--cached .</span></span><br><span class="line">git <span class="keyword">add</span> .</span><br><span class="line">git <span class="keyword">commit</span> <span class="operator">-</span>m <span class="string">&#x27;update .gitignore&#x27;</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>切换分支</p>
-<ol>
-<li><p>git首次切换到已经存在的分支.<br>先查看分支<code>git branch -a</code>再<code>git checkout origin/dev</code>这个时候已经出现了dev分支，但是我们不在这个分支上.可以执行一下:<br><code>git branch -l</code>看看我们当前处于哪个分支上.这个时候我们再执行一下：<code>git checkout dev</code>就可以了.</p>
-</li>
-<li><p>如果已经切换过了则只需要<code>git checkout 分支名</code></p>
-</li>
-</ol>
-</li>
-</ul>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/0013760174128707b935b0be6fc4fc6ace66c4f15618f8d000">多人协作</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/07/09/TTTAttributedLabel%E4%BD%BF%E7%94%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="要为真理而斗争">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/07/09/TTTAttributedLabel%E4%BD%BF%E7%94%A8/" class="post-title-link" itemprop="url">TTTAttributedLabel使用</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-07-09 15:28:42" itemprop="dateCreated datePublished" datetime="2018-07-09T15:28:42+08:00">2018-07-09</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%BD%BF%E7%94%A8/" itemprop="url" rel="index"><span itemprop="name">第三方库使用</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="TTTAttributedLabel使用"><a href="#TTTAttributedLabel使用" class="headerlink" title="TTTAttributedLabel使用"></a>TTTAttributedLabel使用</h2><p>Q1:使用pod管理TTTAttributedLabel,在XIB中使用会导致XIB报错并且一片空白.</p>
-<p>A:没找到一种好的解决办法,只能不使用XIB.</p>
-<p>Q2:使用TTTAttributedLabel,在聊天cell(xib实现)中,点击链接代理方法不被调用,原因是TTTAttributedLabel的touchesCancelled一直被调用了,touchesEnded没被调用.</p>
-<p>A2:代码中有添加点击手势导致label的touch事件总是被cancel.</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UITapGestureRecognizer</span> *tapGes = [[<span class="built_in">UITapGestureRecognizer</span> alloc] initWithTarget:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(tappedView:)];</span><br><span class="line">tapGes.delegate = <span class="keyword">self</span>;</span><br><span class="line">tapGes.cancelsTouchesInView = <span class="literal">NO</span>; <span class="comment">//重要</span></span><br><span class="line">[<span class="keyword">self</span>.view addGestureRecognizer:tapGes];</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>手势与响应者链</p>
-<p>父视图上添加了点击手势,有时(不是每次)会导致父视图上的UIButton的action方法不会被调用.<br>原因在于如果父视图识别出了手势,那么会cancel掉UITouch.从而第一响应者会收到touchesCancelled消息.基本上那些原本不接受用户事件的控件比如UILabel即使设置userInteractionEnabled=YES,但它的touchesEnded将不会被调用.而UIControl子类控件他们的action方法有时不会被调用.</p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/10/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/12/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/10/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/12/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1119,20 +1106,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">160</span>
+          <span class="site-state-item-count">162</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">37</span>
+        <span class="site-state-item-count">38</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">103</span>
+        <span class="site-state-item-count">105</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
