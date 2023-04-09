@@ -660,7 +660,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+                <time title="修改时间：2023-04-09 14:15:14" itemprop="dateModified" datetime="2023-04-09T14:15:14+08:00">2023-04-09</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -683,16 +683,13 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="iOS-app文件系统"><a href="#iOS-app文件系统" class="headerlink" title="iOS app文件系统"></a>iOS app文件系统</h2><p>参考:</p>
-<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/e6d3f7c4baed">关于 iOS 删除缓存的那些事儿</a></p>
-<p><a target="_blank" rel="noopener" href="https://developer.apple.com/library/archive/documentation/FileManagement/Conceptual/FileSystemProgrammingGuide/FileSystemOverview/FileSystemOverview.html#//apple_ref/doc/uid/TP40010672-CH2-SW1">官方文档</a></p>
-<p>由于这方面的文档有很多了.这里只介绍一下/Library目录,该目录下有几个系统创建的子目录,用的比较多的是/Caches和/Preferences.</p>
-<p>The contents of the Library directory (<strong>with the exception of the Caches subdirectory</strong>) are backed up by iTunes and iCloud.</p>
-<h3 id="Caches目录"><a href="#Caches目录" class="headerlink" title="Caches目录"></a>Caches目录</h3><p>In iOS 5.0 and later, <strong>the system may delete the Caches directory on rare occasions when the system is very low on disk space.</strong> This will never occur while an app is running. However, be aware that restoring from backup is not necessarily the only condition under which the Caches directory can be erased.</p>
-<blockquote>
-<p>在手机磁盘不足时,系统会周期性的将不在运行状态APP的Caches目录下的所有文件删除.已经亲身经历过是真的,所以不要将重要数据保存在该目录下.否则出bug时你绝对会想不到是这个原因,而且这样的bug复现难度很大.网上有一些文章中说”系统不会清理 cache 目录中的文件”实属误人子弟,也不知道他们是从哪看到的结论.</p>
-</blockquote>
-<h3 id="Preferences目录"><a href="#Preferences目录" class="headerlink" title="Preferences目录"></a>Preferences目录</h3>
+          <h2 id="iOS-app文件系统"><a href="#iOS-app文件系统" class="headerlink" title="iOS app文件系统"></a>iOS app文件系统</h2><p>app沙盒：</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/540C1C9A-29B1-4CD6-ACB3-84610E052426.png" style="zoom:50%;"></p>
+<h3 id="AppName-app"><a href="#AppName-app" class="headerlink" title="AppName.app"></a>AppName.app</h3><p>app的bundle。该目录包含APP程序及开发过程中用到的本地资源。该目录是只读的，不可修改否则APP将无法启动。</p>
+<h3 id="Documents目录"><a href="#Documents目录" class="headerlink" title="Documents目录"></a>Documents目录</h3><p>说明：</p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Use this <span class="built_in">directory</span> <span class="built_in">to</span> store user-generated content. The contents <span class="keyword">of</span> this <span class="built_in">directory</span> can be made available <span class="built_in">to</span> <span class="keyword">the</span> user through <span class="built_in">file</span> sharing; therefore, this <span class="built_in">directory</span> should only contain <span class="built_in">files</span> that you may wish <span class="built_in">to</span> expose <span class="built_in">to</span> <span class="keyword">the</span> user.</span><br><span class="line"></span><br><span class="line">The contents <span class="keyword">of</span> this <span class="built_in">directory</span> are backed up <span class="keyword">by</span> iTunes <span class="keyword">and</span> iCloud.</span><br></pre></td></tr></table></figure>
+<p>Documents目录主要放置用户创建的相关内容，比如用户的动态，消息数据库等。Documents目录应该仅存放你想暴露给用户的文件。该目录下的文件都会被备份到iTunes和iCloud。</p>
+<h3 id="Library目录"><a href="#Library目录" class="headerlink" title="Library目录"></a>Library目录</h3>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2018/07/18/iOS%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/#more" rel="contents">

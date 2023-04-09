@@ -6,7 +6,7 @@
   <link href="https://xq-120.github.io/atom.xml" rel="self"/>
   
   <link href="https://xq-120.github.io/"/>
-  <updated>2023-04-06T04:22:42.006Z</updated>
+  <updated>2023-04-09T03:50:51.771Z</updated>
   <id>https://xq-120.github.io/</id>
   
   <author>
@@ -21,10 +21,10 @@
     <link href="https://xq-120.github.io/2023/04/06/C%E8%AF%AD%E8%A8%80%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E9%95%BF%E5%BA%A6/"/>
     <id>https://xq-120.github.io/2023/04/06/C%E8%AF%AD%E8%A8%80%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E9%95%BF%E5%BA%A6/</id>
     <published>2023-04-06T03:44:17.000Z</published>
-    <updated>2023-04-06T04:22:42.006Z</updated>
+    <updated>2023-04-09T03:50:51.771Z</updated>
     
     
-    <summary type="html">&lt;h2 id=&quot;题外话&quot;&gt;&lt;a href=&quot;#题外话&quot; class=&quot;headerlink&quot; title=&quot;题外话&quot;&gt;&lt;/a&gt;题外话&lt;/h2&gt;&lt;p&gt;C语言由Dennis M. Ritchie在1973年设计和实现。从那以后使用者逐渐增加。到1978年Ritchie和Bell实验室的另一位程序专家Kernighan合写了著名的《TheC Programming Language》，将C语言推向全世界，许多国家都出了译本，国内有一些C语言书就是这本书的翻译或者编译。由这本书定义的C语言后来被人们称作K&amp;amp;R C。&lt;/p&gt;
+    <summary type="html">&lt;h2 id=&quot;题外话&quot;&gt;&lt;a href=&quot;#题外话&quot; class=&quot;headerlink&quot; title=&quot;题外话&quot;&gt;&lt;/a&gt;题外话&lt;/h2&gt;&lt;p&gt;C语言由Dennis M. Ritchie在1973年设计和实现。从那以后使用者逐渐增加。到1978年Ritchie和Bell实验室的另一位程序专家Kernighan合写了著名的《The C Programming Language》，将C语言推向全世界，许多国家都出了译本，国内有一些C语言书就是这本书的翻译或者编译。由这本书定义的C语言后来被人们称作K&amp;amp;R C。&lt;/p&gt;
 &lt;p&gt;随着C语言使用得越来越广泛，出现了许多新问题，人们日益强烈地要求对C语言进行标准化。这个标准化的工作在美国国家标准局（ANSI）的框架中进行（1983-1988），最终结果是1988年10月颁布的ANSI标准X3.159-1989，也就是后来人们所说的ANSIC标准。由这个标准定义的C语言被称作ANSI C。&lt;/p&gt;
 &lt;p&gt;ANSI C标准很快被采纳为国际标准和各国的标准。国际标准为ISO/IEC 9899-1990，中国国家标准GB/T15272-94是国际ISO标准的中文翻译。&lt;/p&gt;
 &lt;p&gt;ANSI C标准化工作的一个主要目标是清除原来C语言中的不安全、不合理、不精确、不完善的东西。由此也产生了ANSIC与K&amp;amp;R C之间的差异。从总体上看，这些差异反应的是C语言走向完善、走向成熟。&lt;/p&gt;
