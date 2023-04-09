@@ -455,6 +455,93 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/07/18/%E4%B8%80%E7%A7%8D%E5%8F%AF%E8%A1%8C%E7%9A%84%E8%BE%B9%E4%B8%8B%E8%BE%B9%E6%92%AD%E6%96%B9%E6%A1%88for%20AVPlayer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/07/18/%E4%B8%80%E7%A7%8D%E5%8F%AF%E8%A1%8C%E7%9A%84%E8%BE%B9%E4%B8%8B%E8%BE%B9%E6%92%AD%E6%96%B9%E6%A1%88for%20AVPlayer/" class="post-title-link" itemprop="url">一种可行的边下边播方案for AVPlayer</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-07-18 23:32:40" itemprop="dateCreated datePublished" datetime="2020-07-18T23:32:40+08:00">2020-07-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-04-09 16:48:39" itemprop="dateModified" datetime="2023-04-09T16:48:39+08:00">2023-04-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/" itemprop="url" rel="index"><span itemprop="name">音视频</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>什么是边下边播？</p>
+<p>个人理解边下边播指的是从服务器获取到的数据一边供给播放器播放一边缓存到本地，即使用一遍的流量完成播放和缓存。下次播放时有缓存的地方则播放缓存数据，没有缓存的地方则从服务器获取再播放。</p>
+<h3 id="0-边下边播方案"><a href="#0-边下边播方案" class="headerlink" title="0.边下边播方案"></a>0.边下边播方案</h3><p>目前的边下边播实现方案大致有两种：一种是使用本地代理服务器，一种是使用系统的AVAssetResourceLoaderDelegate。</p>
+<h4 id="使用本地代理服务器"><a href="#使用本地代理服务器" class="headerlink" title="使用本地代理服务器"></a>使用本地代理服务器</h4><p>该方案是在播放器与视频源服务器之间加一层代理服务器，拦截视频播放器发送的请求，根据拦截的请求，向网络服务器请求数据，然后写到本地。本地代理服务器从文件中读取数据并发送给播放器进行播放。</p>
+<p><img src="http://www.samirchen.com/images/video-playback-bandwidth-cost/player-cache-proxy.png" alt></p>
+<p>对于 iOS 端代理服务器的实现，可以参考和使用 CocoaHTTPServer。对于 iOS 端的视频缓存管理，可以参考和使用 KTVHTTPCache。这种方案难度较高，但自主可控性更高。</p>
+<h4 id="使用系统原生API—AVAssetResourceLoaderDelegate"><a href="#使用系统原生API—AVAssetResourceLoaderDelegate" class="headerlink" title="使用系统原生API—AVAssetResourceLoaderDelegate"></a>使用系统原生API—AVAssetResourceLoaderDelegate</h4>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/07/18/%E4%B8%80%E7%A7%8D%E5%8F%AF%E8%A1%8C%E7%9A%84%E8%BE%B9%E4%B8%8B%E8%BE%B9%E6%92%AD%E6%96%B9%E6%A1%88for%20AVPlayer/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/07/03/%E9%A2%84%E5%A4%84%E7%90%86%E5%91%BD%E4%BB%A4%E4%B9%8B%E5%AE%8F%E5%AE%9A%E4%B9%89/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -996,96 +1083,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/05/22/OC%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B9%8B%E8%87%AA%E5%8A%A8%E9%87%8A%E6%94%BE%E6%B1%A0%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="芝士就是力量">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/05/22/OC%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B9%8B%E8%87%AA%E5%8A%A8%E9%87%8A%E6%94%BE%E6%B1%A0%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" class="post-title-link" itemprop="url">OC内存管理之自动释放池实现原理</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-05-22 22:34:25" itemprop="dateCreated datePublished" datetime="2020-05-22T22:34:25+08:00">2020-05-22</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-10-22 11:32:40" itemprop="dateModified" datetime="2022-10-22T11:32:40+08:00">2022-10-22</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>整了8个小时，基本上算整明白了。</p>
-<p>环境：</p>
-<p><a target="_blank" rel="noopener" href="https://opensource.apple.com/source/objc4/objc4-781/runtime/NSObject.mm.auto.html">NSObject.mm源码</a> 版本为objc4-781。</p>
-<p>对代码</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">const</span> <span class="type">char</span> * argv[])</span> &#123;</span><br><span class="line">    @autoreleasepool &#123;</span><br><span class="line">        NSLog(@<span class="string">&quot;Hello, World!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>进行</p>
-<figure class="highlight coq"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clang -<span class="built_in">rewrite</span>-objc main.m</span><br></pre></td></tr></table></figure>
-<p>得到</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">const</span> <span class="type">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="comment">/* @autoreleasepool */</span> </span><br><span class="line">    &#123; </span><br><span class="line">    __AtAutoreleasePool __autoreleasepool; </span><br><span class="line">        <span class="built_in">NSLog</span>((NSString *)&amp;__NSConstantStringImpl__var_folders_46_lys08y0137d41lbysrxxd0h80000gn_T_main_8ccfab_mi_0);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>看一下：</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/05/22/OC%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B9%8B%E8%87%AA%E5%8A%A8%E9%87%8A%E6%94%BE%E6%B1%A0%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1156,7 +1153,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">162</span>
+          <span class="site-state-item-count">163</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1169,7 +1166,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">105</span>
+        <span class="site-state-item-count">107</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
