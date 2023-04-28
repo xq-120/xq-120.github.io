@@ -22,18 +22,18 @@
 
   <meta name="description" content="题外话C语言由Dennis M. Ritchie在1973年设计和实现。从那以后使用者逐渐增加。到1978年Ritchie和Bell实验室的另一位程序专家Kernighan合写了著名的《The C Programming Language》，将C语言推向全世界，许多国家都出了译本，国内有一些C语言书就是这本书的翻译或者编译。由这本书定义的C语言后来被人们称作K&amp;R C。 随着C语言使用得越">
 <meta property="og:type" content="article">
-<meta property="og:title" content="C语言基本数据类型长度">
-<meta property="og:url" content="https://xq-120.github.io/2023/04/06/C%E8%AF%AD%E8%A8%80%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E9%95%BF%E5%BA%A6/index.html">
+<meta property="og:title" content="C语言整型类型长度与类型溢出">
+<meta property="og:url" content="https://xq-120.github.io/2023/04/06/C%E8%AF%AD%E8%A8%80%E6%95%B4%E5%9E%8B%E7%B1%BB%E5%9E%8B%E9%95%BF%E5%BA%A6%E4%B8%8E%E7%B1%BB%E5%9E%8B%E6%BA%A2%E5%87%BA/index.html">
 <meta property="og:site_name" content="芝士就是力量">
 <meta property="og:description" content="题外话C语言由Dennis M. Ritchie在1973年设计和实现。从那以后使用者逐渐增加。到1978年Ritchie和Bell实验室的另一位程序专家Kernighan合写了著名的《The C Programming Language》，将C语言推向全世界，许多国家都出了译本，国内有一些C语言书就是这本书的翻译或者编译。由这本书定义的C语言后来被人们称作K&amp;R C。 随着C语言使用得越">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-04-06T03:44:17.000Z">
-<meta property="article:modified_time" content="2023-04-09T03:50:51.771Z">
+<meta property="article:modified_time" content="2023-04-28T04:00:18.924Z">
 <meta property="article:author" content="jekyttt">
 <meta property="article:tag" content="sizeof">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://xq-120.github.io/2023/04/06/C%E8%AF%AD%E8%A8%80%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E9%95%BF%E5%BA%A6/">
+<link rel="canonical" href="https://xq-120.github.io/2023/04/06/C%E8%AF%AD%E8%A8%80%E6%95%B4%E5%9E%8B%E7%B1%BB%E5%9E%8B%E9%95%BF%E5%BA%A6%E4%B8%8E%E7%B1%BB%E5%9E%8B%E6%BA%A2%E5%87%BA/">
 
 
 <script id="page-configurations">
@@ -45,7 +45,7 @@
   };
 </script>
 
-  <title>C语言基本数据类型长度 | 芝士就是力量</title>
+  <title>C语言整型类型长度与类型溢出 | 芝士就是力量</title>
   
 
 
@@ -189,7 +189,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2023/04/06/C%E8%AF%AD%E8%A8%80%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E9%95%BF%E5%BA%A6/">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2023/04/06/C%E8%AF%AD%E8%A8%80%E6%95%B4%E5%9E%8B%E7%B1%BB%E5%9E%8B%E9%95%BF%E5%BA%A6%E4%B8%8E%E7%B1%BB%E5%9E%8B%E6%BA%A2%E5%87%BA/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -202,7 +202,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          C语言基本数据类型长度
+          C语言整型类型长度与类型溢出
         </h1>
 
         <div class="post-meta">
@@ -219,7 +219,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-04-09 11:50:51" itemprop="dateModified" datetime="2023-04-09T11:50:51+08:00">2023-04-09</time>
+                <time title="修改时间：2023-04-28 12:00:18" itemprop="dateModified" datetime="2023-04-28T12:00:18+08:00">2023-04-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -301,11 +301,21 @@
 </table>
 </div>
 <p>char至少8位，short至少16位，long至少32位。至于缺省的int究竟是16位还是32位由编译器决定，通常这个缺省值是这种机器最为自然的位数，也就是跟机器相关。</p>
+<p>注意：上述表格只是类型的最小范围，实际上由于整数是用补码表示的，所以有符号整数类型实际的范围是：<br><code>-(2^(bitWidth - 1))~(2^(bitWidth - 1)) - 1</code>.比如short的范围:-32768~32767</p>
 <p>一般情况下在64位机器上：</p>
 <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSLog</span>(<span class="string">@&quot;sizeof(char):%lu, sizeof(short):%lu, sizeof(int):%lu, sizeof(long):%lu, sizeof(float):%lu, sizeof(double):%lu&quot;</span>, <span class="keyword">sizeof</span>(<span class="type">char</span>), <span class="keyword">sizeof</span>(<span class="type">short</span>), <span class="keyword">sizeof</span>(<span class="type">int</span>), <span class="keyword">sizeof</span>(<span class="type">long</span>), <span class="keyword">sizeof</span>(<span class="type">float</span>), <span class="keyword">sizeof</span>(<span class="type">double</span>));</span><br></pre></td></tr></table></figure>
 <p>打印：</p>
 <figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">sizeof</span><span class="params">(char)</span></span>:<span class="number">1</span>, </span><br><span class="line"><span class="function"><span class="title">sizeof</span><span class="params">(short)</span></span>:<span class="number">2</span>, </span><br><span class="line"><span class="function"><span class="title">sizeof</span><span class="params">(int)</span></span>:<span class="number">4</span>, </span><br><span class="line"><span class="function"><span class="title">sizeof</span><span class="params">(long)</span></span>:<span class="number">8</span>, </span><br><span class="line"><span class="function"><span class="title">sizeof</span><span class="params">(float)</span></span>:<span class="number">4</span>, </span><br><span class="line"><span class="function"><span class="title">sizeof</span><span class="params">(double)</span></span>:<span class="number">8</span></span><br></pre></td></tr></table></figure>
 <p>是符合ANSI C规范的。</p>
+<h2 id="类型溢出"><a href="#类型溢出" class="headerlink" title="类型溢出"></a>类型溢出</h2><p>由于整型类型表示的数据范围有限，所以不管是有符号还是无符号整型类型都有可能发生溢出。发生溢出时的结果是未定义的，但一般是会回绕。</p>
+<p>char和unsigned char回绕：255+1=0，0-1=255.</p>
+<figure class="highlight brainfuck"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">|</span><span class="literal">---</span>&gt;        &lt;<span class="literal">---</span><span class="comment">|</span></span><br><span class="line"><span class="literal">-</span><span class="comment">128</span><span class="literal">-----</span><span class="comment">0</span><span class="literal">-------</span><span class="comment">127</span></span><br><span class="line"></span><br><span class="line"><span class="comment">|</span><span class="literal">---</span>&gt;         &lt;<span class="literal">---</span><span class="comment">|</span></span><br><span class="line"><span class="comment">0</span><span class="literal">------</span><span class="comment">127</span><span class="literal">------</span><span class="comment">255</span></span><br></pre></td></tr></table></figure>
+<p>如何避免类型溢出？</p>
+<p>要先进行类型转换把小类型转为大类型，再执行操作，才能避免溢出。当然如果数字非常大，那么整数类型就都不能用了，可以考虑使用字符串操作。</p>
+<p>类型溢出例子：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">test_signed_int_overflow</span><span class="params">(<span class="type">void</span>)</span> &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     a = -2147483648</span></span><br><span class="line"><span class="comment">     b = 2147483647</span></span><br><span class="line"><span class="comment">     c = -2147483648</span></span><br><span class="line"><span class="comment">     d = -2147483648</span></span><br><span class="line"><span class="comment">     e = 2147483648</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="type">int</span> a = INT_MIN; <span class="comment">//补码为1000 0000，-a补码依然是1000 0000，所以c,d,a相等</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;a = %d\n&quot;</span>, a);</span><br><span class="line">    <span class="type">int</span> b = INT_MAX;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;b = %d\n&quot;</span>, b);</span><br><span class="line">    <span class="type">int</span> c = -a;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;c = %d\n&quot;</span>, c);</span><br><span class="line">    <span class="type">long</span> d = -a;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;d = %ld\n&quot;</span>, d);</span><br><span class="line">    <span class="type">long</span> e = -(<span class="type">long</span>)a; <span class="comment">//要先进行类型转换再执行操作，才能避免溢出。当然如果数字非常大，那么整数类型就都不能用了，只能考虑使用字符串操作了。</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;e = %ld\n&quot;</span>, e);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (c == a) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;overflow\n&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (d == a) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;not work\n&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>加减乘除都有可能导致类型溢出。类型溢出问题很难发现，比如上面的取负操作，由于int的最小值是-2147483648而最大值只有2147483647，那么对-2147483648取负就会导致int溢出。解决办法就是先强转类型再取负：long e = -(long)a;<br>很多算法题也是考察大数问题，题目看起来会非常简单，比如打印1…n，两个整数相加等等。涉及到整型类型的简单题目一般就是考察大数问题了。</p>
+<p>大部分语言对溢出的处理都是回绕，这其实是很危险的，这会导致判断条件失效，进而出现许多诡异bug。Swift在出现类型溢出时程序会直接崩溃，避免了错误逻辑的执行，我觉得是不错的解决办法。</p>
 
     </div>
 
@@ -336,7 +346,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://xq-120.github.io/2023/04/06/C%E8%AF%AD%E8%A8%80%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E9%95%BF%E5%BA%A6/" title="C语言基本数据类型长度">https://xq-120.github.io/2023/04/06/C语言基本数据类型长度/</a>
+    <a href="https://xq-120.github.io/2023/04/06/C%E8%AF%AD%E8%A8%80%E6%95%B4%E5%9E%8B%E7%B1%BB%E5%9E%8B%E9%95%BF%E5%BA%A6%E4%B8%8E%E7%B1%BB%E5%9E%8B%E6%BA%A2%E5%87%BA/" title="C语言整型类型长度与类型溢出">https://xq-120.github.io/2023/04/06/C语言整型类型长度与类型溢出/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -420,7 +430,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98%E5%A4%96%E8%AF%9D"><span class="nav-text">题外话</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B4%E5%9E%8B"><span class="nav-text">整型</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98%E5%A4%96%E8%AF%9D"><span class="nav-text">题外话</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B4%E5%9E%8B"><span class="nav-text">整型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E5%9E%8B%E6%BA%A2%E5%87%BA"><span class="nav-text">类型溢出</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -623,7 +633,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
       repo        : 'commentForBlog',
       owner       : 'xq-120',
       admin       : ['xq-120'],
-      id          : '04367eeac66473eab4e40ce5274439b5',
+      id          : '0d5701d4c5ebad85a758bc5122eb2bee',
         language: 'en, zh-CN',
       distractionFreeMode: true
     });
