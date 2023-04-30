@@ -187,6 +187,95 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/07/01/%E5%AD%97%E8%8A%82%E5%BA%8F%E8%A7%A3%E6%9E%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/07/01/%E5%AD%97%E8%8A%82%E5%BA%8F%E8%A7%A3%E6%9E%90/" class="post-title-link" itemprop="url">字节序解析</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-07-01 11:38:42" itemprop="dateCreated datePublished" datetime="2022-07-01T11:38:42+08:00">2022-07-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-10-22 11:32:40" itemprop="dateModified" datetime="2022-10-22T11:32:40+08:00">2022-10-22</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">计算机基础</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="字节序"><a href="#字节序" class="headerlink" title="字节序"></a>字节序</h3><p>字节间的顺序。主要有两种：大端序和小端序。当然你也可以规定其他的顺序，但这两种顺序是规则最简单的了。</p>
+<p>内存：</p>
+<figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">内存：   -------------------------------&gt;</span><br><span class="line">内存地址：0      <span class="number"> 1 </span>     <span class="number"> 2 </span>      3</span><br></pre></td></tr></table></figure>
+<p>大端序：从左往右读，最左边为最高位。反映在内存即最低地址为最高位，最高地址为最低位。<br>小端序：从右往左读，最右边为最高位。反映在内存即最低地址为最低位，最高地址为最高位。<br>可以看到，大端序和小端序最高位到最低位的顺序刚好相反，是翻转的关系。</p>
+<p>为什么会有字节序？<br>因为一串数字可以从左开始读，也可以从右开始读。如果不规定读的顺序，那么就无法得知正确的信息。<br>比如：一张纸上写着1234<br>按大端序读，最左边的1就是最高位，结果就是一千两百三十四<br>按小端序读，最右边4就是最高位，最左边的1反而是最低位，结果就是四千三百二十一<br>可以看到对于同一串文本，读的顺序不同，得到的结果也会不同。大部分国家都是从左到右读，但也有的国家是从右到左读的。没有好坏，纯属习惯问题。因此数字“一千两百三十四”，对于从左到右读的国家，书写出来就是1234。而对于从右到左读的国家，书写出来就是4321。大小端只是记法不同，表达的数字还是同一个。</p>
+<p>CPU读取内存中的数据时，是从低地址向高地址方向进行读取的。所以一般计算机的内部处理都是小端字节序（目前为止我就还没遇到过采用大端存储的机器）。但是，人类还是习惯读写大端字节序。所以，除了计算机的内部处理，其他的场合比如网络传输和文件储存，几乎都是用的大端字节序。</p>
+<p>举例：</p>
+<p>0x1234<br>0001 0010 0011 0100 （采用大端序存储）-&gt; 0010 1100 0100 1000（采用小端序存储，根据大端翻转即可）<br>1234                                                            -&gt;  3412（第一个字节代表的就是0x34，小端从右往左读）</p>
+<p>0x01<br>0000 0000 0000 0000 0000 0000 0000 0001（大端序）<br>-&gt;<br>1000 0000 0000 0000 0000 0000 0000 0000（小端序）</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/07/01/%E5%AD%97%E8%8A%82%E5%BA%8F%E8%A7%A3%E6%9E%90/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/06/19/%E8%87%AA%E5%8A%A8%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87--%E4%BD%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E8%84%9A%E6%9C%AC/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -970,95 +1059,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/09/28/OC%E5%85%B3%E8%81%94%E5%AF%B9%E8%B1%A1%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2021/08/29/NSURLSession%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="芝士就是力量">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/08/29/NSURLSession%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D/" class="post-title-link" itemprop="url">NSURLSession简单介绍</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-08-29 12:09:31" itemprop="dateCreated datePublished" datetime="2021-08-29T12:09:31+08:00">2021-08-29</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-04-09 16:12:07" itemprop="dateModified" datetime="2023-04-09T16:12:07+08:00">2023-04-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Foundation/" itemprop="url" rel="index"><span itemprop="name">Foundation</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="NSURLSession的基础用法"><a href="#NSURLSession的基础用法" class="headerlink" title="NSURLSession的基础用法"></a>NSURLSession的基础用法</h2><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">  - (<span class="type">void</span>)viewDidLoad &#123;</span><br><span class="line">  [<span class="variable language_">super</span> viewDidLoad];</span><br><span class="line"></span><br><span class="line">  <span class="built_in">NSURLSessionConfiguration</span> *config = [<span class="built_in">NSURLSessionConfiguration</span> defaultSessionConfiguration];</span><br><span class="line">  <span class="built_in">NSOperationQueue</span> *queue = [[<span class="built_in">NSOperationQueue</span> alloc] init];</span><br><span class="line">  queue.maxConcurrentOperationCount = <span class="number">3</span>; <span class="comment">//设置代理回调队列的最大并发数。</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">self</span>.session = [<span class="built_in">NSURLSession</span> sessionWithConfiguration:config delegate:<span class="keyword">self</span> delegateQueue:queue];</span><br><span class="line">  <span class="built_in">NSLog</span>(<span class="string">@&quot;%@&quot;</span>, <span class="keyword">self</span>.session);</span><br><span class="line">    </span><br><span class="line">  <span class="built_in">NSURL</span> *url = [<span class="built_in">NSURL</span> URLWithString:landscapeUrl];</span><br><span class="line">  <span class="built_in">NSMutableURLRequest</span> *req = [<span class="built_in">NSMutableURLRequest</span> requestWithURL:url cachePolicy:<span class="built_in">NSURLRequestReloadIgnoringLocalCacheData</span> timeoutInterval:<span class="number">60</span> * <span class="number">5</span>];</span><br><span class="line">  <span class="built_in">NSURLSessionDataTask</span> *dataTask = [<span class="keyword">self</span>.session dataTaskWithRequest:req];</span><br><span class="line">  [dataTask resume];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">  - (<span class="type">void</span>)URLSession:(<span class="built_in">NSURLSession</span> *)session dataTask:(<span class="built_in">NSURLSessionDataTask</span> *)dataTask</span><br><span class="line">didReceiveResponse:(<span class="built_in">NSURLResponse</span> *)response</span><br><span class="line">completionHandler:(<span class="type">void</span> (^)(<span class="built_in">NSURLSessionResponseDisposition</span> disposition))completionHandler</span><br><span class="line">&#123;</span><br><span class="line">  <span class="built_in">NSLog</span>(<span class="string">@&quot;收到响应:%@     \ndataTask:%@&quot;</span>, response, dataTask);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">self</span>.mData = [<span class="built_in">NSMutableData</span> data];</span><br><span class="line"></span><br><span class="line">  <span class="built_in">NSURLSessionResponseDisposition</span> disposition = <span class="built_in">NSURLSessionResponseAllow</span>;</span><br><span class="line">  completionHandler(disposition);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)URLSession:(<span class="built_in">NSURLSession</span> *)session dataTask:(<span class="built_in">NSURLSessionDataTask</span> *)dataTask</span><br><span class="line">  didReceiveData:(<span class="built_in">NSData</span> *)data</span><br><span class="line">&#123;</span><br><span class="line">  <span class="built_in">NSLog</span>(<span class="string">@&quot;%@收到data:%ld&quot;</span>,[<span class="built_in">NSThread</span> currentThread] ,data.length);</span><br><span class="line"></span><br><span class="line">  [<span class="keyword">self</span>.mData appendData:data];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)URLSession:(<span class="built_in">NSURLSession</span> *)session task:(<span class="built_in">NSURLSessionTask</span> *)task</span><br><span class="line">didCompleteWithError:(<span class="keyword">nullable</span> <span class="built_in">NSError</span> *)error</span><br><span class="line">&#123;</span><br><span class="line">  <span class="built_in">NSLog</span>(<span class="string">@&quot;完成, error:%@&quot;</span>, error);</span><br><span class="line">  <span class="keyword">if</span> (!error) &#123;</span><br><span class="line">      <span class="comment">//在完成的时候,之前收到的data怎么取到?不借助其他的变量,在该方法里取不到?</span></span><br><span class="line">      <span class="built_in">NSDictionary</span> *dict = [<span class="built_in">NSJSONSerialization</span> JSONObjectWithData:<span class="keyword">self</span>.mData options:<span class="built_in">NSJSONReadingAllowFragments</span> error:<span class="literal">nil</span>];</span><br><span class="line">      <span class="built_in">NSLog</span>(<span class="string">@&quot;%@&quot;</span>, dict);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//不把本次session Invalidate,那么session持有的delegate不会被释放.</span></span><br><span class="line">  [session finishTasksAndInvalidate];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>对于方法 </p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">+ (<span class="built_in">NSURLSession</span> *)sessionWithConfiguration:(<span class="built_in">NSURLSessionConfiguration</span> *)configuration </span><br><span class="line">								  delegate:(<span class="keyword">nullable</span> <span class="type">id</span> &lt;<span class="built_in">NSURLSessionDelegate</span>&gt;)delegate </span><br><span class="line">							 delegateQueue:(<span class="keyword">nullable</span> <span class="built_in">NSOperationQueue</span> *)queue;</span><br></pre></td></tr></table></figure>
-<p>delegate和delegateQueue会被session强引用。只有当session被 invalidate后,delegate在<code>URLSession:didBecomeInvalidWithError</code>结束后才会被释放.对于delegateQueue,实际使用时delegateQueue最好不要设置为主队列（会增加主线程负担）.当delegateQueue不是主队列时,didReceiveData:方法将随机在某个线程执行.</p>
-<p>基本上一个APP,生成一个urlSession就够了.没必要一次请求,创建一个session,请求结束后又将session Invalidate.因此也就没必要去管delegate和delegateQueue的内存释放问题,这三个对象基本上是等到APP结束才会销毁的.最佳做法之一就是使用GCD确保只生成一个session,然后使用该session来管理所有的请求.</p>
-<p>对于代理方法: </p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">void</span>)URLSession:(<span class="built_in">NSURLSession</span> *)session dataTask:(<span class="built_in">NSURLSessionDataTask</span> *)dataTask</span><br><span class="line">didReceiveResponse:(<span class="built_in">NSURLResponse</span> *)response</span><br><span class="line"> completionHandler:(<span class="type">void</span> (^)(<span class="built_in">NSURLSessionResponseDisposition</span> disposition))completionHandler</span><br></pre></td></tr></table></figure>
-<p><strong>在该方法中,为什么收到响应后,还要调用completionHandler?</strong><br>因为在该方法中,通过disposition参数,调用completionHandler后,可以更细粒度的控制本次请求是继续还是取消还是转为下载任务.如果是取消,则后面请求的响应体不会接收.如果是转为下载任务,那么通过调用completionHandler,NSURLSession将调用Delegate的 <code>URLSession:dataTask:didBecomeDownloadTask:</code>方法并将新生成的Download task对象作为参数传入。在此调用之后，Delegate将不再接收来自Data task的回调消息，并开始接收Download task的回调消息。<br>注意:如果不调用</p>
-<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">NSURLSessionResponseDisposition disposition <span class="operator">=</span> NSURLSessionResponseAllow<span class="comment">;</span></span><br><span class="line">completionHandler(disposition)<span class="comment">;</span></span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/08/29/NSURLSession%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>

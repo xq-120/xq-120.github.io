@@ -187,6 +187,79 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/10/17/%E5%B7%A6%E7%A7%BB%E4%B8%8E%E5%8F%B3%E7%A7%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/10/17/%E5%B7%A6%E7%A7%BB%E4%B8%8E%E5%8F%B3%E7%A7%BB/" class="post-title-link" itemprop="url">左移与右移</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-10-17 11:53:59 / 修改时间：21:37:00" itemprop="dateCreated datePublished" datetime="2022-10-17T11:53:59+08:00">2022-10-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>左移与右移：</p>
+<figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;&gt;&gt;&quot;</span>右移</span><br><span class="line">操作规则：最低位丢弃。正数前面补零，负数前面补<span class="number">1</span>。</span><br><span class="line"><span class="string">&quot;&lt;&lt;&quot;</span>左移</span><br><span class="line">操作规则：最高位丢弃。无论正负数，后面补零。</span><br><span class="line">建议：左右移时参数最好限定为无符号数或正整数。有符号数需要注意的地方太多了。</span><br><span class="line"></span><br><span class="line">有符号数：</span><br><span class="line">根据内存分布，按上述规则移动。</span><br><span class="line">左移：由于有符号数最高位为符号位，左移时可能会发生符号位变化所以最好自己根据内存分布计算。</span><br><span class="line">右移：如果数为正，不溢出的情况下，每移一位相当于除以<span class="number">2</span>并向下取整，等价于除以<span class="number">2</span>。如果数为负，每移一位相当于除以<span class="number">2</span>并向上取整。如-<span class="number">1</span>，-<span class="number">1</span>/<span class="number">2</span> = -<span class="number">0.5</span>向上取整 = -<span class="number">1</span>。-<span class="number">3</span>，-<span class="number">3</span>/<span class="number">2</span> = -<span class="number">1.5</span>向上取整 = -<span class="number">2</span>。</span><br><span class="line"></span><br><span class="line">无符号数：</span><br><span class="line">左移：不溢出的情况下，左移一位相当于乘<span class="number">2</span>。</span><br><span class="line">右移：不溢出的情况下，右移一位相当于除<span class="number">2</span>并向下取整，等价于除以<span class="number">2</span>。</span><br><span class="line"></span><br><span class="line"><span class="built_in">n</span>           = <span class="number">1010</span> <span class="number">1000</span></span><br><span class="line"><span class="built_in">n</span> - <span class="number">1</span>       = <span class="number">1010</span> <span class="number">0111</span></span><br><span class="line"><span class="built_in">n</span> &amp; (<span class="built_in">n</span> - <span class="number">1</span>) = <span class="number">1010</span> <span class="number">0000</span>  //相当于将<span class="built_in">n</span>的最右边的<span class="number">1</span>消为<span class="number">0</span>。<span class="built_in">n</span>为正数或负数都可以。</span><br><span class="line">而右移需要参数为正数。</span><br><span class="line">在数二进制<span class="number">1</span>的个数方面，<span class="built_in">n</span> &amp; (<span class="built_in">n</span> - <span class="number">1</span>)是最佳解决办法。</span><br></pre></td></tr></table></figure>
+<p>代码：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> a = <span class="number">-3</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;a = %d\n&quot;</span>, a);</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> cnt = <span class="built_in">hammingWeight</span>(a); <span class="comment">//会被强转为int。</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;cnt = %d\n&quot;</span>, cnt);</span><br><span class="line"></span><br><span class="line"><span class="type">char</span> b = a &gt;&gt; <span class="number">1</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;b = %d，a / 2 = %d\n&quot;</span>, b, a / <span class="number">2</span>);</span><br><span class="line"></span><br><span class="line"><span class="type">unsigned</span> <span class="type">char</span> c = <span class="number">3</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;c = %d\n&quot;</span>, c);</span><br><span class="line"></span><br><span class="line"><span class="type">unsigned</span> <span class="type">char</span> d = c &gt;&gt; <span class="number">1</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;d = %d\n&quot;</span>, d);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">hammingWeight</span><span class="params">(<span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> cnt = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (n != <span class="number">0</span>) &#123;</span><br><span class="line">        cnt += <span class="number">1</span>;</span><br><span class="line">        n &amp;= n - <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> cnt;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>打印：</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">a</span> <span class="operator">=</span> -<span class="number">3</span></span><br><span class="line"><span class="attribute">cnt</span> <span class="operator">=</span> <span class="number">31</span></span><br><span class="line"><span class="attribute">b</span> <span class="operator">=</span> -<span class="number">2</span>，a / <span class="number">2</span> <span class="operator">=</span> -<span class="number">1</span></span><br><span class="line"><span class="attribute">c</span> <span class="operator">=</span> <span class="number">3</span></span><br><span class="line"><span class="attribute">d</span> <span class="operator">=</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/10/11/NSCopying%E5%8D%8F%E8%AE%AE%E7%9A%84%E5%AE%9E%E7%8E%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -944,83 +1017,6 @@
             </div>
           <!--/noindex-->
         
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/08/05/Unix-domain-Socket%E7%AE%80%E4%BB%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="芝士就是力量">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/08/05/Unix-domain-Socket%E7%AE%80%E4%BB%8B/" class="post-title-link" itemprop="url">Unix domain Socket简介</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-08-05 18:19:25" itemprop="dateCreated datePublished" datetime="2022-08-05T18:19:25+08:00">2022-08-05</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-08-06 17:51:00" itemprop="dateModified" datetime="2022-08-06T17:51:00+08:00">2022-08-06</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Socket/" itemprop="url" rel="index"><span itemprop="name">Socket</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>uds server与client是怎么进行数据通信的？</p>
-<p>uds socket文件的作用？</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="http://www.flydean.com/17-unix-domain-socket/">网络协议之:socket协议详解之Unix domain Socket</a></p>
-<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/fHzKYlW0WMhP2jxh2H_59A">Unix Domain Socket工作原理</a></p>
-
       
     </div>
 
