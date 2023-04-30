@@ -187,6 +187,94 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/07/15/runloop%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/07/15/runloop%E4%BD%BF%E7%94%A8/" class="post-title-link" itemprop="url">runloop使用</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-07-15 14:48:54" itemprop="dateCreated datePublished" datetime="2022-07-15T14:48:54+08:00">2022-07-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-12-08 22:16:35" itemprop="dateModified" datetime="2022-12-08T22:16:35+08:00">2022-12-08</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/runloop/" itemprop="url" rel="index"><span itemprop="name">runloop</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>runloop启动前必须先添加输入源或定时器源，否则runloop一启动就会退出。总之runloop需要有监听的事件，否则就会退出。</p>
+<h2 id="启动runloop"><a href="#启动runloop" class="headerlink" title="启动runloop"></a>启动runloop</h2><p>NSRunLoop提供了如下3种启动runloop的方法。当然NSRunLoop其实封装的是CFRunloop。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">void</span>)run <span class="built_in">NS_SWIFT_UNAVAILABLE_FROM_ASYNC</span>(<span class="string">&quot;run cannot be used from async contexts.&quot;</span>);</span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)runUntilDate:(<span class="built_in">NSDate</span> *)limitDate <span class="built_in">NS_SWIFT_UNAVAILABLE_FROM_ASYNC</span>(<span class="string">&quot;run(until:) cannot be used from async contexts.&quot;</span>);</span><br><span class="line"></span><br><span class="line">- (<span class="type">BOOL</span>)runMode:(<span class="built_in">NSRunLoopMode</span>)mode beforeDate:(<span class="built_in">NSDate</span> *)limitDate <span class="built_in">NS_SWIFT_UNAVAILABLE_FROM_ASYNC</span>(<span class="string">&quot;run(_:before:) cannot be used from async contexts.&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>相同点：如果没有输入源或定时器源附加到runloop上，runloop会马上退出，并且方法也会立即退出。</p>
+<p>run<br>它会让runloop置身在一个永久的循环当中.即使runloop因为处理完了某个输入源事件而退出,该方法又会让它重新运行.因此如果你想处理完某个事件后能够退出runloop,那么你就不能使用该方法了。runloop运行在default模式。</p>
+<p>runUntilDate：<br>和run方法差不多只是多了个截止时间，截止时间到了runloop就会退出。runloop同样运行在default模式。</p>
+<p>runMode:beforeDate:<br>可以指定runloop运行的模式以及一个截止时间。处理定时器源事件后不会退出runloop，但处理输入源事件后会退出runloop，因此需要外部重新驱动进入runloop。</p>
+<h2 id="退出runloop"><a href="#退出runloop" class="headerlink" title="退出runloop"></a>退出runloop</h2><p>根据官方文档，手动移除输入源或定时器源不能确保runloop会退出。最好的办法是使用runMode:beforeDate:方法启动runloop，设立标志位，给子线程发送消息perform selector。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/07/15/runloop%E4%BD%BF%E7%94%A8/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/07/01/%E5%AD%97%E8%8A%82%E5%BA%8F%E8%A7%A3%E6%9E%90/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -789,94 +877,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2022/05/01/iOS%E5%AE%9A%E6%97%B6%E5%99%A8%E6%9D%82%E8%AE%B0/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2021/12/18/%E7%B1%BB%E5%88%AB%E8%A6%86%E7%9B%96%E5%8E%9F%E5%A7%8B%E5%AE%9E%E7%8E%B0%E5%BC%95%E5%8F%91%E7%9A%84%E8%96%9B%E5%AE%9A%E8%B0%94%E7%9A%84bug/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="芝士就是力量">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/12/18/%E7%B1%BB%E5%88%AB%E8%A6%86%E7%9B%96%E5%8E%9F%E5%A7%8B%E5%AE%9E%E7%8E%B0%E5%BC%95%E5%8F%91%E7%9A%84%E8%96%9B%E5%AE%9A%E8%B0%94%E7%9A%84bug/" class="post-title-link" itemprop="url">类别覆盖原始实现引发的薛定谔的bug</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-12-18 10:50:30" itemprop="dateCreated datePublished" datetime="2021-12-18T10:50:30+08:00">2021-12-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-24 22:05:40" itemprop="dateModified" datetime="2021-12-24T22:05:40+08:00">2021-12-24</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Bug/" itemprop="url" rel="index"><span itemprop="name">Bug</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="Bug"><a href="#Bug" class="headerlink" title="Bug"></a>Bug</h4><p>出现机型：iPhone7Plus iOS15.1。</p>
-<p>描述：在开发过程中发现弹出弹窗点击关闭之后界面就卡死了。多次尝试之后，最终发现只有在调试的时候出现，把线一拔不调试的时候一切又正常了。拿另一部iPhone6Plus iOS12.5.4的手机又都不会出现。顿时感觉遇到”薛定谔的bug”了。</p>
-<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><p>项目中对UIAlertController做了一层简单的封装，是在自己的window上present出来的，这样在使用的时候就不用操心谁来present了。</p>
-<p>方法接口：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">+ (void)showActionSheetWithTitle:(nullable NSString *)title message:(nullable NSString *)message cancelButtonTitle:(nullable NSString *)cancelButtonTitle destructiveButtonIndex:(NSInteger)destructiveButtonIndex buttonTitles:(nullable NSArray *)buttonTitles showedPatternHandler:(nullable NSDictionary *(^)(void))showedPatternHandler buttonClickedHandler:(nullable void(^)(NSUInteger buttonIndex))buttonClickedHandler;</span><br></pre></td></tr></table></figure>
-<p>内部部分实现：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:preferredStyle];</span><br><span class="line">alertController.alertWindow = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];</span><br><span class="line">alertController.alertWindow.backgroundColor = [UIColor clearColor];</span><br><span class="line">alertController.alertWindow.hidden = NO;</span><br><span class="line">...</span><br><span class="line">alertController.alertWindow.rootViewController = [UIViewController new];</span><br><span class="line">[alertController.alertWindow.rootViewController presentViewController:alertController animated:YES completion:nil];</span><br></pre></td></tr></table></figure>
-<p>刚开始时，对象持有关系：</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/12/18/%E7%B1%BB%E5%88%AB%E8%A6%86%E7%9B%96%E5%8E%9F%E5%A7%8B%E5%AE%9E%E7%8E%B0%E5%BC%95%E5%8F%91%E7%9A%84%E8%96%9B%E5%AE%9A%E8%B0%94%E7%9A%84bug/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
