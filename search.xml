@@ -2187,7 +2187,6 @@
 <th>填充方式</th>
 <th>输入</th>
 <th>输出</th>
-<th>条件</th>
 </tr>
 </thead>
 <tbody>
@@ -2195,13 +2194,11 @@
 <td>RSA_PKCS1_PADDING</td>
 <td>必须 比 RSA 钥模长(modulus) 短至少11个字节, 也就是　RSA_size(rsa) – 11</td>
 <td>和modulus一样长</td>
-<td></td>
 </tr>
 <tr>
 <td>RSA_PKCS1_OAEP_PADDING</td>
 <td>RSA_size(rsa) – 41</td>
 <td>和modulus一样长</td>
-<td></td>
 </tr>
 <tr>
 <td>RSA_NO_PADDING</td>
@@ -2231,7 +2228,7 @@
 <p><a href="https://blog.csdn.net/notechsolution/article/details/106954496">一文详解非对称加密算法之RSA Padding</a>  讲解了padding是如何让RSA的加密结果随机性的。</p>
 ]]></content>
       <categories>
-        <category>计算机网络</category>
+        <category>密码学</category>
       </categories>
       <tags>
         <tag>RSA</tag>
