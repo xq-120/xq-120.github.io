@@ -2117,6 +2117,127 @@
       </tags>
   </entry>
   <entry>
+    <title>RSA算法原理介绍</title>
+    <url>/2020/08/24/RSA%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E4%BB%8B%E7%BB%8D/</url>
+    <content><![CDATA[<h2 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h2><p><strong>质数</strong></p>
+<p><strong>质数</strong>又称素数，指<strong>在大于1的自然数中</strong>，除了1和该数自身外，无法被其他自然数整除的数（也可定义为只有1与该数本身两个正因数的数）。大于1的自然数若不是素数，则称之为合数（也称为合成数）。最小的质数为2。</p>
+<p><strong>互质关系</strong></p>
+<p>如果两个正整数，除了1以外，没有其他公因子，我们就称这两个数是<a href="http://zh.wikipedia.org/zh-cn/互素">互质关系</a>（coprime）。比如，15和32没有公因子，所以它们是互质关系。这说明，不是质数也可以构成互质关系。</p>
+<p>关于互质关系，不难得到以下结论：</p>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">1</span>. 任意两个质数构成互质关系，比如<span class="number">13</span>和<span class="number">61</span>。important</span><br><span class="line"></span><br><span class="line"><span class="attribute">2</span>. 一个数是质数，另一个数只要不是前者的倍数，两者就构成互质关系，比如<span class="number">3</span>和<span class="number">10</span>。</span><br><span class="line"></span><br><span class="line"><span class="attribute">3</span>. 如果两个数之中，较大的那个数是质数，则两者构成互质关系，比如<span class="number">97</span>和<span class="number">57</span>。</span><br><span class="line"></span><br><span class="line"><span class="attribute">4</span>. <span class="number">1</span>和任意一个自然数是都是互质关系，比如<span class="number">1</span>和<span class="number">99</span>。</span><br><span class="line"></span><br><span class="line"><span class="attribute">5</span>. p是大于<span class="number">1</span>的整数，则p和p-<span class="number">1</span>构成互质关系，比如<span class="number">57</span>和<span class="number">56</span>。 important</span><br><span class="line"></span><br><span class="line"><span class="attribute">6</span>. p是大于<span class="number">1</span>的奇数，则p和p-<span class="number">2</span>构成互质关系，比如<span class="number">17</span>和<span class="number">15</span>。</span><br></pre></td></tr></table></figure>
+<h2 id="生成RSA密钥对，即公钥和私钥"><a href="#生成RSA密钥对，即公钥和私钥" class="headerlink" title="生成RSA密钥对，即公钥和私钥"></a>生成RSA密钥对，即公钥和私钥</h2><h3 id="1：随机找两个质数-p-和-q-p-与-q-越大，越安全。"><a href="#1：随机找两个质数-p-和-q-p-与-q-越大，越安全。" class="headerlink" title="1：随机找两个质数 p 和 q ,p 与 q 越大，越安全。"></a>1：随机找两个质数 p 和 q ,p 与 q 越大，越安全。</h3><p>比如 p = 3 ，q = 11。这里为了方便后面计算，选了2个很小的质数，实际应用需要选择两个非常大的质数。</p>
+<h3 id="2：计算p和q的乘积n。"><a href="#2：计算p和q的乘积n。" class="headerlink" title="2：计算p和q的乘积n。"></a>2：计算p和q的乘积n。</h3><p>计算他们的乘积 n = 3 * 11 = 33 ，转化为二进制 10 0001，该加密算法即为 6 位，实际算法是 1024 位 或 2048 位，位数越长，算法越难被破解。</p>
+<h3 id="3：计算-n-的欧拉函数-φ-n-。"><a href="#3：计算-n-的欧拉函数-φ-n-。" class="headerlink" title="3：计算 n 的欧拉函数 φ(n)。"></a>3：计算 n 的欧拉函数 φ(n)。</h3><p>φ(n) 表示在小于等于 n 的正整数之中，与 n 构成互质关系的数的个数。例如：在 1 到 8 之中，与 8 形成互质关系的是1、3、5、7，所以 φ(n) = 4。 如果 n = p <em> q，p 与 q 均为质数，则 φ(n) = φ(p </em> q)= φ(p - 1)φ(q - 1) = (p - 1)<em>(q - 1) 。 本例中 φ(3 </em> 11) = 2 * 10 = 20。</p>
+<h3 id="4：随机选择一个整数-e，条件是1-lt-e-lt-φ-n-，且-e-与-φ-n-互质。"><a href="#4：随机选择一个整数-e，条件是1-lt-e-lt-φ-n-，且-e-与-φ-n-互质。" class="headerlink" title="4：随机选择一个整数 e，条件是1&lt; e &lt; φ(n)，且 e 与 φ(n) 互质。"></a>4：随机选择一个整数 e，条件是1&lt; e &lt; φ(n)，且 e 与 φ(n) 互质。</h3><p>这里我们随机选择 e = 7 请注意不要选择19 (即φ(n) - 1)这样的边界值，容易被人破解。实际应用中，常常选择65537。</p>
+<h3 id="5：计算e对于φ-n-的模反元素d。"><a href="#5：计算e对于φ-n-的模反元素d。" class="headerlink" title="5：计算e对于φ(n)的模反元素d。"></a>5：计算e对于φ(n)的模反元素d。</h3><p>所谓<a href="http://zh.wikipedia.org/wiki/模反元素">“模反元素”</a>就是指有一个整数d，可以使得e * d除以φ(n)的余数为1。</p>
+<p>即：</p>
+<figure class="highlight excel"><table><tr><td class="code"><pre><span class="line">e * d ≡ <span class="number">1</span> (<span class="built_in">mod</span> φ(<span class="built_in">n</span>))</span><br></pre></td></tr></table></figure>
+<p>等价于：</p>
+<figure class="highlight abnf"><table><tr><td class="code"><pre><span class="line">e * d - <span class="number">1</span> <span class="operator">=</span> kφ(n)</span><br></pre></td></tr></table></figure>
+<p>于是，找到模反元素d，实质上就是对下面这个二元一次方程求解。</p>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">ex</span> + φ(n)y = <span class="number">1</span>  </span><br></pre></td></tr></table></figure>
+<p>已知 e=7, φ(n)=20，</p>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">7x</span> + <span class="number">20</span>y = <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>这个方程可以用<a href="http://zh.wikipedia.org/wiki/扩展欧几里得算法">“扩展欧几里得算法”</a>求解，此处省略具体过程。总之，算出一组整数解为 (x,y)=(3,-1)，即 d=3。不同的 e 生成不同的 d，因此可以生成多个密钥对。</p>
+<p>至此所有计算完成。</p>
+<h3 id="6：将n和e封装成公钥，n和d封装成私钥。"><a href="#6：将n和e封装成公钥，n和d封装成私钥。" class="headerlink" title="6：将n和e封装成公钥，n和d封装成私钥。"></a>6：将n和e封装成公钥，n和d封装成私钥。</h3><p>在爱丽丝的例子中，n = 33，e = 7，d = 3，所以公钥（n，e）就是 (33, 7），私钥（n，d）就是（33, 3）。</p>
+<p>实际应用中，公钥和私钥的数据都采用<a href="http://zh.wikipedia.org/zh-cn/ASN.1">ASN.1</a>格式表达（<a href="http://hi.baidu.com/mathack/item/d0ad4cc1514a3663f7c95da2">实例</a>）。</p>
+<p>总结一下：</p>
+<p>随机选择两个非常大的质数p,q—-&gt;计算p,q的乘积n——&gt;计算φ(n)—-&gt;选择一个与φ(n)互质的整数 e——&gt;计算e对于φ(n)的模反元素d。</p>
+<p>得到公钥：（n，e）,私钥：（n，d）。</p>
+<h2 id="加密明文"><a href="#加密明文" class="headerlink" title="加密明文"></a>加密明文</h2><p>公钥加密公式</p>
+<blockquote>
+<p>　　m^e ≡ c (mod n) </p>
+<p>也可以写为</p>
+<p>　　c = m^e mod n</p>
+</blockquote>
+<p>私钥解密公式</p>
+<blockquote>
+<p>　　c^d ≡ m (mod n)</p>
+<p>也可以写为</p>
+<p>　　m = c^d mod n</p>
+</blockquote>
+<p>参数说明：</p>
+<figure class="highlight avrasm"><table><tr><td class="code"><pre><span class="line"><span class="symbol">m:</span> 明文</span><br><span class="line"><span class="symbol">c:</span> 密文</span><br><span class="line"><span class="symbol">n:</span> 模数，两个很大的质数的乘积</span><br><span class="line"><span class="symbol">e:</span> 公钥指数</span><br><span class="line"><span class="symbol">d:</span> 私钥指数</span><br><span class="line">(n,e) 是公钥</span><br><span class="line">(n,d) 是私钥</span><br><span class="line">d是e对于φ(n)的模反元素</span><br></pre></td></tr></table></figure>
+<p>注1：从上面的公式可以看出一个数模n，那么这个数肯定不能大于等于n，否则结果会无意义。比如n=13,那么13模上13结果为0，解密结果还是0，得不到原来的整数了。</p>
+<p>注2：也可以使用私钥加密，公钥解密，这一过程通常称为签名。因为只有本人才有私钥，所以使用私钥加密得到的密文可以作为本人的签名。如果公钥能解开代表确实是由本人操作。</p>
+<p>举个例子：对[6, 14, 7, 32]进行加密。应用上面的加密公式得到：</p>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">6</span>^<span class="number">7</span> % <span class="number">33</span> = <span class="number">30</span></span><br><span class="line"></span><br><span class="line"><span class="attribute">14</span>^<span class="number">7</span> % <span class="number">33</span> = <span class="number">20</span></span><br><span class="line"></span><br><span class="line"><span class="attribute">7</span>^<span class="number">7</span> % <span class="number">33</span> = <span class="number">28</span></span><br><span class="line"></span><br><span class="line"><span class="attribute">32</span>^<span class="number">7</span> % <span class="number">33</span> = <span class="number">32</span></span><br></pre></td></tr></table></figure>
+<p>即[6, 14, 7, 32]加密后得到密文[30, 20, 28, 32]，如果没有私钥 d ,神仙也无法从密文[30, 20, 28, 32]中恢复出明文[6, 14, 7, 32]。</p>
+<h2 id="解密密文"><a href="#解密密文" class="headerlink" title="解密密文"></a>解密密文</h2><p>应用上面的解密公式</p>
+<figure class="highlight excel"><table><tr><td class="code"><pre><span class="line">m = c^d <span class="built_in">mod</span> <span class="built_in">n</span></span><br></pre></td></tr></table></figure>
+<p>得到：</p>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">30</span>^<span class="number">3</span> % <span class="number">33</span> = <span class="number">6</span></span><br><span class="line"></span><br><span class="line"><span class="attribute">20</span>^<span class="number">3</span> % <span class="number">33</span> = <span class="number">14</span></span><br><span class="line"></span><br><span class="line"><span class="attribute">28</span>^<span class="number">3</span> % <span class="number">33</span> = <span class="number">7</span></span><br><span class="line"></span><br><span class="line"><span class="attribute">32</span>^<span class="number">3</span> % <span class="number">33</span> = <span class="number">32</span></span><br></pre></td></tr></table></figure>
+<p>即[30, 20, 28, 32]解密后得到明文[6, 14, 7, 32]。</p>
+<h2 id="RSA应用"><a href="#RSA应用" class="headerlink" title="RSA应用"></a>RSA应用</h2><p>上面我们知道要想用RSA加密，需要满足两个条件：</p>
+<ol>
+<li>被加密的明文必须是整数</li>
+<li>该整数必须大于0且小于 n。这意味着一次加密的明文不能太多。所以RSA是块加密。如果要加密的明文很长则必须分块加密。</li>
+</ol>
+<p>因此我们的明文需要转化为整数才能使用RSA加密，如果明文就是数字那就不用转化，如果是英文或者中文该怎么办呢？简单：各种编码方式，比如utf-8，gb2312。所以我们需要先将明文使用某种编码方式编码为数字，然后使用RSA加密。</p>
+<p>怎么保证该整数一定小于 n呢？这个也很简单，只要明文长度小于n的长度即可。</p>
+<h2 id="Padding"><a href="#Padding" class="headerlink" title="Padding"></a>Padding</h2><p>padding就是通过一些填充方式保证明文c的位数，且不能使c大于n.</p>
+<p>padding可以让RSA对同一明文加密的结果每次都不一样，提高安全性，因为RSA加密是确定的，即给定一个密钥，特定明文总会映射到特定的密文。攻击者可以根据密文中统计信息获取明文的一些信息。</p>
+<p>相同的明文在不管加密多少次，它的密文都是一样的。这在密码学中是一个大忌，很容易被破解者猜到内容。对称加密算法也有这个问题，需要用添加随机初始化向量IV，以实现相同的加密请求，每一次出来的结果都要不同。所以加密系统都会采取一定的手段确保每次加密结果都不一样。</p>
+<p>Padding填充方式：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>填充方式</th>
+<th>输入</th>
+<th>输出</th>
+<th>条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RSA_PKCS1_PADDING</td>
+<td>必须 比 RSA 钥模长(modulus) 短至少11个字节, 也就是　RSA_size(rsa) – 11</td>
+<td>和modulus一样长</td>
+<td></td>
+</tr>
+<tr>
+<td>RSA_PKCS1_OAEP_PADDING</td>
+<td>RSA_size(rsa) – 41</td>
+<td>和modulus一样长</td>
+<td></td>
+</tr>
+<tr>
+<td>RSA_NO_PADDING</td>
+<td>可以和RSA钥模长一样长，如果输入的明文过长，必须切割，然后填充</td>
+<td>和modulus一样长</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>感兴趣的可以研究下padding是如何让rsa的加密结果变得随机的。简单来讲就是padding+明文组成新的明文再加密。</p>
+<figure class="highlight xl"><table><tr><td class="code"><pre><span class="line"><span class="number">00</span> <span class="number">02</span> <span class="function"><span class="title">xx</span> xx xx xx xx xx xx xx 00 ---&gt;</span>padding</span><br><span class="line"><span class="function"><span class="title">yy</span> yy yy yy yy yy yy yy yy yy yy ---&gt;</span>原始明文</span><br><span class="line">yy yy yy yy yy yy yy yy yy yy yy</span><br><span class="line">yy yy yy yy yy yy yy yy yy yy yy</span><br><span class="line">yy yy yy yy yy yy yy yy yy yy yy</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>假如n为1024位，则一个块就是128字节，由于最高位是00，所以明文的大小肯定小于n。加密后得到密文也是128字节（不足的最高位补0），解密后根据填充规则去掉开头的11个字节得到原始明文。</p>
+<figure class="highlight brainfuck"><table><tr><td class="code"><pre><span class="line"><span class="comment">128字节块明文</span> <span class="literal">---</span>&gt; <span class="comment">RSA加解密系统</span> <span class="literal">----</span>&gt; <span class="comment">128字节块密文</span></span><br></pre></td></tr></table></figure>
+<p>由于padding的存在，实际的有效明文长度是小于128字节的。因此RSA一次加密的明文长度是受模数位长度和padding共同影响的。</p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><h3 id="1-为什么说RSA是难以破解的？"><a href="#1-为什么说RSA是难以破解的？" class="headerlink" title="1.为什么说RSA是难以破解的？"></a>1.为什么说RSA是难以破解的？</h3><p>我们已经知道RSA是公钥（n，e），私钥（n，d）加密系统。</p>
+<p>通常公钥（n，e）是对外公开的，要想破解就必须知道私钥（n，d），其实就是要算出d。</p>
+<p>d怎么来的呢？根据<code>e * d ≡ 1 (mod φ(n))</code> 计算得来的，因此需要知道φ(n)的值。</p>
+<p>φ(n)怎么来的呢？φ(n) = (p - 1)*(q - 1)。p，q是n的两个质因数。也就是要对一个超大数n做质因数分解。以目前的计算机来说，还是很难的，所以说RSA是难以破解的。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.ruanyifeng.com/blog/2013/06/rsa_algorithm_part_one.html">RSA算法原理（一）</a></p>
+<p><a href="https://www.ruanyifeng.com/blog/2013/07/rsa_algorithm_part_two.html">RSA算法原理（二）</a>  </p>
+<p><a href="https://www.cnblogs.com/isyaya/p/11073149.html">RSA加密长度限制问题</a></p>
+<p><a href="https://blog.cnbluebox.com/blog/2014/03/19/rsajia-mi/">RSA加密</a>  </p>
+<p><a href="https://zhuanlan.zhihu.com/p/44185847">一文搞懂 RSA 算法</a>  举了一个小整数的例子</p>
+<p><a href="https://en.wikipedia.org/wiki/RSA_(cryptosystem">RSA (cryptosystem)</a>) wiki英语版，必须是英文版的要不然公式会错乱。</p>
+<p><a href="https://cloud.tencent.com/developer/article/1199963">RSA密钥长度、明文长度和密文长度</a></p>
+<p><a href="https://blog.csdn.net/makenothing/article/details/88429511">RSA非对称加解密算法填充方式（Padding）</a></p>
+<p><a href="https://blog.csdn.net/notechsolution/article/details/106954496">一文详解非对称加密算法之RSA Padding</a>  讲解了padding是如何让RSA的加密结果随机性的。</p>
+]]></content>
+      <categories>
+        <category>计算机网络</category>
+      </categories>
+      <tags>
+        <tag>RSA</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>内存对齐</title>
     <url>/2020/07/20/%E5%86%85%E5%AD%98%E5%AF%B9%E9%BD%90/</url>
     <content><![CDATA[<h3 id="为什么要进行内存对齐"><a href="#为什么要进行内存对齐" class="headerlink" title="为什么要进行内存对齐"></a>为什么要进行内存对齐</h3><p>主要有两个原因：1.内存对齐后可以减少内存的读取次数，提高内存的访问效率。2.提高程序的可移植性，因为有的平台对寻址的起始地址有要求。</p>

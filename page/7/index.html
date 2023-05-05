@@ -187,6 +187,95 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/06/06/OC-atomic%E4%BF%AE%E9%A5%B0%E7%AC%A6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/06/OC-atomic%E4%BF%AE%E9%A5%B0%E7%AC%A6/" class="post-title-link" itemprop="url">OC atomic修饰符</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-06-06 21:56:32" itemprop="dateCreated datePublished" datetime="2020-06-06T21:56:32+08:00">2020-06-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-10-01 14:34:36" itemprop="dateModified" datetime="2021-10-01T14:34:36+08:00">2021-10-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>源码版本：objc4-781，<code>objc-accessors.mm</code>文件中。</p>
+<p>原子操作是指操作是不可分割的，要么发生，要么不发生。事物只会处于原始状态和成功状态两种中的一种，不会处于一种半完成状态。</p>
+<h3 id="OC-中的atomic修饰符"><a href="#OC-中的atomic修饰符" class="headerlink" title="OC 中的atomic修饰符"></a>OC 中的atomic修饰符</h3><p>源码实现：</p>
+<p>getter 方法：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">id <span class="title">objc_getProperty</span><span class="params">(id self, SEL _cmd, <span class="type">ptrdiff_t</span> offset, BOOL atomic)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (offset == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">object_getClass</span>(self);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Retain release world</span></span><br><span class="line">    id *slot = (id*) ((<span class="type">char</span>*)self + offset);</span><br><span class="line">    <span class="keyword">if</span> (!atomic) <span class="keyword">return</span> *slot;</span><br><span class="line">        </span><br><span class="line">    <span class="comment">// Atomic retain release world</span></span><br><span class="line">    <span class="type">spinlock_t</span>&amp; slotlock = PropertyLocks[slot];</span><br><span class="line">    slotlock.<span class="built_in">lock</span>();</span><br><span class="line">    id value = <span class="built_in">objc_retain</span>(*slot); <span class="comment">//+1</span></span><br><span class="line">    slotlock.<span class="built_in">unlock</span>();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// for performance, we (safely) issue the autorelease OUTSIDE of the spinlock.</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">objc_autoreleaseReturnValue</span>(value); <span class="comment">//注册到自动释放池中，延迟-1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对于none atomic属性，getter方法只是简单的返回对象地址。</p>
+<p>对于atomic属性，getter方法会加锁，并返回一个注册到自动释放池里的对象地址。</p>
+<p>setter 方法：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">static</span> <span class="keyword">inline</span> <span class="type">void</span> <span class="title">reallySetProperty</span><span class="params">(id self, SEL _cmd, id newValue, <span class="type">ptrdiff_t</span> offset, <span class="type">bool</span> atomic, <span class="type">bool</span> copy, <span class="type">bool</span> mutableCopy)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (offset == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="built_in">object_setClass</span>(self, newValue);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    id oldValue;</span><br><span class="line">    id *slot = (id*) ((<span class="type">char</span>*)self + offset);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (copy) &#123;</span><br><span class="line">        newValue = [newValue copyWithZone:nil];</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mutableCopy) &#123;</span><br><span class="line">        newValue = [newValue mutableCopyWithZone:nil];</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (*slot == newValue) <span class="keyword">return</span>;</span><br><span class="line">        newValue = <span class="built_in">objc_retain</span>(newValue); <span class="comment">//retain新值</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!atomic) &#123;</span><br><span class="line">        oldValue = *slot; <span class="comment">//获取旧值</span></span><br><span class="line">        *slot = newValue; <span class="comment">//赋予新值</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="type">spinlock_t</span>&amp; slotlock = PropertyLocks[slot];</span><br><span class="line">        slotlock.<span class="built_in">lock</span>();  </span><br><span class="line">        oldValue = *slot; <span class="comment">//</span></span><br><span class="line">        *slot = newValue;        </span><br><span class="line">        slotlock.<span class="built_in">unlock</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">objc_release</span>(oldValue); <span class="comment">//release 旧值</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">objc_setProperty_atomic</span><span class="params">(id self, SEL _cmd, id newValue, <span class="type">ptrdiff_t</span> offset)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">reallySetProperty</span>(self, _cmd, newValue, offset, <span class="literal">true</span>, <span class="literal">false</span>, <span class="literal">false</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">objc_setProperty_nonatomic</span><span class="params">(id self, SEL _cmd, id newValue, <span class="type">ptrdiff_t</span> offset)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">reallySetProperty</span>(self, _cmd, newValue, offset, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">false</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">objc_setProperty_atomic_copy</span><span class="params">(id self, SEL _cmd, id newValue, <span class="type">ptrdiff_t</span> offset)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">reallySetProperty</span>(self, _cmd, newValue, offset, <span class="literal">true</span>, <span class="literal">true</span>, <span class="literal">false</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">objc_setProperty_nonatomic_copy</span><span class="params">(id self, SEL _cmd, id newValue, <span class="type">ptrdiff_t</span> offset)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">reallySetProperty</span>(self, _cmd, newValue, offset, <span class="literal">false</span>, <span class="literal">true</span>, <span class="literal">false</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/06/06/OC-atomic%E4%BF%AE%E9%A5%B0%E7%AC%A6/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/05/22/OC%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B9%8B%E8%87%AA%E5%8A%A8%E9%87%8A%E6%94%BE%E6%B1%A0%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -990,96 +1079,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/04/15/%E5%88%B6%E4%BD%9CCocoaPods%E7%A7%81%E6%9C%89%E5%BA%93/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="芝士就是力量">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/04/15/%E5%88%B6%E4%BD%9CCocoaPods%E7%A7%81%E6%9C%89%E5%BA%93/" class="post-title-link" itemprop="url">制作CocoaPods私有库</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-04-15 16:26:53" itemprop="dateCreated datePublished" datetime="2020-04-15T16:26:53+08:00">2020-04-15</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CocoaPods/" itemprop="url" rel="index"><span itemprop="name">CocoaPods</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><strong>1. 创建私有pod spec仓库</strong></p>
-<p>因为制作的是私有库所以就不能把pod sepc文件存放到cocoapods的公开仓库中了，因此需要在GitHub上新建一个repository <code>XQSpecs</code>用于保存所有的私有pod spec。</p>
-<p>如果已经有自己的私有pod spec仓库，则这一步可跳过。</p>
-<p><strong>2. 创建私有pod库</strong></p>
-<p>主要包含pod源码和pod sepc文件、许可证等。</p>
-<p>创建pod库,可以使用命令：<code>pod lib create xxx</code>，创建好模板pod，然后基于模板修改。也可以全部自己手动创建。</p>
-<p>进入本地目的目录，使用命令：<code>pod lib create xxx</code>，然后基于模板修改。</p>
-<p><strong>3. 验证pod库</strong></p>
-<p>pod源码和pod sepc文件都准备好后，别着急发布，先验证pod库的可用性:</p>
-<p><code>pod lib lint xxx.podspec</code>或者使用：<code>pod lib lint AlgorithmUtils.podspec --allow-warnings</code>，忽略警告。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/04/15/%E5%88%B6%E4%BD%9CCocoaPods%E7%A7%81%E6%9C%89%E5%BA%93/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1150,7 +1149,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">163</span>
+          <span class="site-state-item-count">164</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1163,7 +1162,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">107</span>
+        <span class="site-state-item-count">108</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
