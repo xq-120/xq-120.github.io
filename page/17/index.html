@@ -519,6 +519,95 @@
   
   
 
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2014/12/13/OC-property%E3%80%81synthesize%E3%80%81dynamic%E5%85%B3%E9%94%AE%E5%AD%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2014/12/13/OC-property%E3%80%81synthesize%E3%80%81dynamic%E5%85%B3%E9%94%AE%E5%AD%97/" class="post-title-link" itemprop="url">OC property、synthesize、dynamic关键字</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2014-12-13 22:55:34" itemprop="dateCreated datePublished" datetime="2014-12-13T22:55:34+08:00">2014-12-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-05-05 22:01:32" itemprop="dateModified" datetime="2023-05-05T22:01:32+08:00">2023-05-05</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>OC的变量：</p>
+<p>OC有4种基本数据类型：char，int，float，double。它们又有一些限定词：signed，unsigned，short，long，long long。</p>
+<p>实例变量+基本数据类型变量=成员变量。</p>
+<p>实例变量指的是由类定义的变量。</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/9acde5b5-688e-4709-8406-b42a5ad1b24e.jpg" alt></p>
+<h2 id="property"><a href="#property" class="headerlink" title="@property"></a>@property</h2><p>@property指令作用：声明了一个属性及属性的两个访问器方法。</p>
+<p>如果在@implementation块里@synthesize和@dynamic都没写，那么编译器会帮你自动添加@syntheszie property = _property;有一种情况除外:子类属性和父类属性同名.此时会报警告:</p>
+<p>“Auto property synthesis will not synthesize property ‘delegate’; it will be implemented by its superclass, use @dynamic to acknowledge intention”</p>
+<p>这个时候就需要自己实现属性了.两种常用解决办法:</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2014/12/13/OC-property%E3%80%81synthesize%E3%80%81dynamic%E5%85%B3%E9%94%AE%E5%AD%97/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
   </div>
 
   
@@ -589,7 +678,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">164</span>
+          <span class="site-state-item-count">165</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -602,7 +691,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">108</span>
+        <span class="site-state-item-count">109</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

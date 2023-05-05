@@ -7518,13 +7518,50 @@ attachMethodLists(Class cls, method_list_t **addedLists, int addedCount,
       </tags>
   </entry>
   <entry>
-    <title>categories</title>
-    <url>/categories/index.html</url>
-    <content><![CDATA[]]></content>
+    <title>OC property、synthesize、dynamic关键字</title>
+    <url>/2014/12/13/OC-property%E3%80%81synthesize%E3%80%81dynamic%E5%85%B3%E9%94%AE%E5%AD%97/</url>
+    <content><![CDATA[<p>OC的变量：</p>
+<p>OC有4种基本数据类型：char，int，float，double。它们又有一些限定词：signed，unsigned，short，long，long long。</p>
+<p>实例变量+基本数据类型变量=成员变量。</p>
+<p>实例变量指的是由类定义的变量。</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/9acde5b5-688e-4709-8406-b42a5ad1b24e.jpg" alt=""></p>
+<h2 id="property"><a href="#property" class="headerlink" title="@property"></a>@property</h2><p>@property指令作用：声明了一个属性及属性的两个访问器方法。</p>
+<p>如果在@implementation块里@synthesize和@dynamic都没写，那么编译器会帮你自动添加@syntheszie property = _property;有一种情况除外:子类属性和父类属性同名.此时会报警告:</p>
+<p>“Auto property synthesis will not synthesize property ‘delegate’; it will be implemented by its superclass, use @dynamic to acknowledge intention”</p>
+<p>这个时候就需要自己实现属性了.两种常用解决办法:</p>
+<figure class="highlight d"><table><tr><td class="code"><pre><span class="line"><span class="number">1.</span><span class="keyword">@dynamic</span> <span class="built_in">delegate</span>; <span class="comment">//表示使用父类的实现,此时子类内部将无法访问_delegate.</span></span><br><span class="line"></span><br><span class="line"><span class="number">2.</span><span class="keyword">@synthesize</span> <span class="built_in">delegate</span> = _delegate; <span class="comment">//子类内部可以访问_delegate.</span></span><br></pre></td></tr></table></figure>
+<h2 id="synthesize和-dynamic"><a href="#synthesize和-dynamic" class="headerlink" title="@synthesize和@dynamic"></a>@synthesize和@dynamic</h2><p>它们都是用于属性实现的.注意是实现不是声明,声明是@property.</p>
+<h3 id="synthesize"><a href="#synthesize" class="headerlink" title="@synthesize"></a>@synthesize</h3><p>1.让编译器为属性自动合成setter/getter方法。如果手动实现了setter/getter方法，则会覆盖自动合成的。</p>
+<p>2.为属性<strong>按需合成</strong>一个实例变量。</p>
+<p>按需合成的意思就是说如果你有声明一个下划线属性名<code>_property</code>的实例变量,那么编译器会自动把它关联给这个属性,否则的话会帮你自动声明这个实例变量并关联给这个属性.</p>
+<p>语法：@synthesize property = ivar; 或 @synthesize property;</p>
+<p>eg:</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="keyword">@synthesize</span> firstName = _firstName; <span class="comment">//属性firstName被指定了一个名为_firstName的实例变量.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@synthesize</span> lastName; <span class="comment">//属性lastName被指定了一个名为lastName的实例变量.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@synthesize</span> age = yearsOld; <span class="comment">//属性age被指定了一个名为yearsOld的实例变量.</span></span><br></pre></td></tr></table></figure>
+<h3 id="dynamic"><a href="#dynamic" class="headerlink" title="@dynamic"></a>@dynamic</h3><p>@dynamic关键字功能和@synthesize相反，它是告诉编译器不要自动为这个属性合成setter/getter方法,也不要为属性自动合成一个实例变量(因此在其他方法中是无法使用_property实例变量的).属性的访问器方法将由程序员自己来实现,实现的方式可以是直接提供setter/getter方法的实现,也就是自己在@implementation块里面实现setter/getter方法;也可以是在运行时通过其他机制比如动态的加载一段代码或者通过动态方法解析提供.它可以消除编译器因为找不到属性的访问器方法的实现而产生的警告.使用这个指令的时候你自己必须要清楚的知道这些方法在运行时确实是可用的,如果在运行时依然找到不到这些方法,显然会导致崩溃.</p>
+<p>为什么会有dynamic这个关键字？因为系统自动合成的setter/getter方法可能不满足我们的需求，甚至setter/getter方法是通过runtime实现的为了避免重复实现必须要有一种机制阻止系统自动合成setter/getter方法，或者这是一个计算型属性不需要合成相应实例变量。</p>
+<p>通常在CoreData里的NSManagedObject类里面使用.</p>
+<p>用法:</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">MyClass</span> : <span class="title">NSManagedObject</span></span>&#123;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>, <span class="keyword">retain</span>) <span class="built_in">NSString</span> *value;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">MyClass</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@dynamic</span> value; <span class="comment">//@dynamic 属性名;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>从上面可以看得出来这两个指令功能正好相反.</p>
+<p>注意:不能对一个属性同时使用@synthesize和@dynamic.</p>
+<figure class="highlight ruby"><table><tr><td class="code"><pre><span class="line"><span class="variable">@dynamic</span> age;</span><br><span class="line"></span><br><span class="line"><span class="variable">@synthesize</span> age = _age; <span class="regexp">//</span>报错<span class="symbol">:Property</span> <span class="string">&#x27;age&#x27;</span> is already implemented</span><br></pre></td></tr></table></figure>
+<p>上面已经说到@synthesize和@dynamic的作用就是实现某个属性.同时使用的话就重复实现了,当然会报错.</p>
+]]></content>
+      <categories>
+        <category>OC</category>
+      </categories>
+      <tags>
+        <tag>property</tag>
+      </tags>
   </entry>
   <entry>
     <title>tags</title>
     <url>/tags/index.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>categories</title>
+    <url>/categories/index.html</url>
     <content><![CDATA[]]></content>
   </entry>
 </search>
