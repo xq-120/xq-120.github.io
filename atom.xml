@@ -6,7 +6,7 @@
   <link href="https://xq-120.github.io/atom.xml" rel="self"/>
   
   <link href="https://xq-120.github.io/"/>
-  <updated>2023-04-28T04:00:18.924Z</updated>
+  <updated>2023-05-06T15:28:32.689Z</updated>
   <id>https://xq-120.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>OC class、superClass方法</title>
+    <link href="https://xq-120.github.io/2023/05/06/OC-class%E3%80%81superClass%E6%96%B9%E6%B3%95/"/>
+    <id>https://xq-120.github.io/2023/05/06/OC-class%E3%80%81superClass%E6%96%B9%E6%B3%95/</id>
+    <published>2023-05-06T12:02:18.000Z</published>
+    <updated>2023-05-06T15:28:32.689Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;测试代码：&lt;/p&gt;
+&lt;figure class=&quot;highlight objc&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;- (&lt;span class=&quot;type&quot;&gt;void&lt;/span&gt;)test_class_superClass &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    Person *per = [[Person alloc] init];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    Class cls = [per &lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt;]; &lt;span class=&quot;comment&quot;&gt;//Person&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    Class cls1 = [per superclass]; &lt;span class=&quot;comment&quot;&gt;//Animal&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    Class cls2 = Person.self; &lt;span class=&quot;comment&quot;&gt;//Person&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    Class cls3 = [Person &lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt;]; &lt;span class=&quot;comment&quot;&gt;//Person&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    Class cls4 = [Person superclass]; &lt;span class=&quot;comment&quot;&gt;//Animal&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    Class cls5 = object_getClass(per); &lt;span class=&quot;comment&quot;&gt;//Person&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    Class cls6 = class_getSuperclass([Person &lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt;]); &lt;span class=&quot;comment&quot;&gt;//Animal&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    Class cls7 = object_getClass([Person &lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt;]); &lt;span class=&quot;comment&quot;&gt;//Person的元类&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    Class cls8 = class_getSuperclass(cls7); &lt;span class=&quot;comment&quot;&gt;//Person元类的父类&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    Class cls9 = [cls7 superclass]; &lt;span class=&quot;comment&quot;&gt;//Person元类的父类 等于cls8&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;获取对象的类&quot;&gt;&lt;a href=&quot;#获取对象的类&quot; class=&quot;headerlink&quot; title=&quot;获取对象的类&quot;&gt;&lt;/a&gt;获取对象的类&lt;/h2&gt;&lt;p&gt;获取一个对象（实例对象或类对象）的类的核心方法就是object_getClass，实现：&lt;/p&gt;
+&lt;figure class=&quot;highlight c&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;Class &lt;span class=&quot;title function_&quot;&gt;object_getClass&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(id obj)&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (obj) &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; obj-&amp;gt;getIsa();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; Nil;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;其实就是获取objc_object结构体里的isa字段的值。因此如果传入的是类对象，那么返回的将是类对象的类即元类。&lt;/p&gt;
+&lt;p&gt;实例方法class的实现就是调用object_getClass：&lt;/p&gt;
+&lt;figure class=&quot;highlight reasonml&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;- (Class)&lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    return &lt;span class=&quot;keyword&quot;&gt;object&lt;/span&gt;&lt;span class=&quot;constructor&quot;&gt;_getClass(&lt;span class=&quot;params&quot;&gt;self&lt;/span&gt;)&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;但是类方法class，并不是返回类对象的类，而是直接返回的自己。&lt;/p&gt;
+&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;+ (Class)&lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; self;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;+ (&lt;span class=&quot;built_in&quot;&gt;id&lt;/span&gt;)self &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; (&lt;span class=&quot;built_in&quot;&gt;id&lt;/span&gt;)self;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</summary>
+    
+    
+    
+    <category term="OC" scheme="https://xq-120.github.io/categories/OC/"/>
+    
+    
+    <category term="class" scheme="https://xq-120.github.io/tags/class/"/>
+    
+  </entry>
   
   <entry>
     <title>C语言整型类型长度与类型溢出</title>
@@ -541,33 +568,6 @@
     
     <category term="Life" scheme="https://xq-120.github.io/categories/Life/"/>
     
-    
-  </entry>
-  
-  <entry>
-    <title>Unix domain Socket简介</title>
-    <link href="https://xq-120.github.io/2022/08/05/Unix-domain-Socket%E7%AE%80%E4%BB%8B/"/>
-    <id>https://xq-120.github.io/2022/08/05/Unix-domain-Socket%E7%AE%80%E4%BB%8B/</id>
-    <published>2022-08-05T10:19:25.000Z</published>
-    <updated>2022-08-06T09:51:00.719Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;问题&quot;&gt;&lt;a href=&quot;#问题&quot; class=&quot;headerlink&quot; title=&quot;问题&quot;&gt;&lt;/a&gt;问题&lt;/h2&gt;&lt;p&gt;uds server与client是怎么进行数据通信的？&lt;/p&gt;
-&lt;p&gt;uds socket文件的作用？&lt;/p&gt;
-&lt;h2</summary>
-        
-      
-    
-    
-    
-    <category term="Socket" scheme="https://xq-120.github.io/categories/Socket/"/>
-    
-    
-    <category term="UDS" scheme="https://xq-120.github.io/tags/UDS/"/>
     
   </entry>
   

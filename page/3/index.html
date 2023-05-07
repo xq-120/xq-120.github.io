@@ -187,6 +187,97 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/08/09/malloc%E3%80%81calloc%E3%80%81realloc%E7%AE%80%E4%BB%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/08/09/malloc%E3%80%81calloc%E3%80%81realloc%E7%AE%80%E4%BB%8B/" class="post-title-link" itemprop="url">malloc、calloc、realloc简介</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-08-09 17:33:40" itemprop="dateCreated datePublished" datetime="2022-08-09T17:33:40+08:00">2022-08-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-08-10 22:11:59" itemprop="dateModified" datetime="2022-08-10T22:11:59+08:00">2022-08-10</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="malloc"><a href="#malloc" class="headerlink" title="malloc"></a>malloc</h2><p>函数声明：</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">void	*<span class="built_in">malloc</span>(size_t __size) __result_use_check <span class="built_in">__alloc_size</span>(<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+<p>Initialization: <strong>malloc()</strong> allocates memory block of given size (in bytes) and returns a pointer to the beginning of the block. malloc() doesn’t initialize the allocated memory. If we try to acess the content of memory block then we’ll get garbage values.</p>
+<h2 id="calloc"><a href="#calloc" class="headerlink" title="calloc"></a>calloc</h2><p>函数声明：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span>	*<span class="title">calloc</span><span class="params">(<span class="type">size_t</span> __count, <span class="type">size_t</span> __size)</span> __result_use_check __<span class="title">alloc_size</span><span class="params">(<span class="number">1</span>,<span class="number">2</span>)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>参数说明：</p>
+<ol>
+<li>Number of blocks to be allocated.</li>
+<li>Size of each block.</li>
+</ol>
+<p><strong>calloc()</strong> allocates the memory and also initializes the allocates memory block to zero. If we try to access the content of these blocks then we’ll get 0.</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/08/09/malloc%E3%80%81calloc%E3%80%81realloc%E7%AE%80%E4%BB%8B/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/08/06/%E5%B9%B2%E7%9C%BC%E7%97%87%E8%BE%85%E5%8A%A9%E6%B2%BB%E7%96%97/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -933,96 +1024,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/07/20/ifconfig/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="芝士就是力量">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/07/20/ifconfig/" class="post-title-link" itemprop="url">ifconfig</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-07-20 18:49:54" itemprop="dateCreated datePublished" datetime="2022-07-20T18:49:54+08:00">2022-07-20</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-31 12:59:08" itemprop="dateModified" datetime="2022-07-31T12:59:08+08:00">2022-07-31</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" itemprop="url" rel="index"><span itemprop="name">常用命令</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>ifconfig</p>
-<p>全称：interfaces config,主要用于设置或显示网络设备信息的。</p>
-<p>打印：</p>
-<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">lo0</span>: flags=<span class="number">8049</span>&lt;UP,LOOPBACK,RUNNING,MULTICAST&gt; mtu <span class="number">16384</span></span><br><span class="line">	<span class="attribute">options</span>=<span class="number">1203</span>&lt;RXCSUM,TXCSUM,TXSTATUS,SW_TIMESTAMP&gt;</span><br><span class="line">	<span class="attribute">inet</span> <span class="number">127.0.0.1</span> netmask <span class="number">0</span>xff000000</span><br><span class="line">	<span class="attribute">inet6</span> ::<span class="number">1</span> prefixlen <span class="number">128</span></span><br><span class="line">	<span class="attribute">inet6</span> fe80::<span class="number">1</span>%lo0 prefixlen <span class="number">64</span> scopeid <span class="number">0</span>x1</span><br><span class="line">	<span class="attribute">nd6</span> options=<span class="number">201</span>&lt;PERFORMNUD,DAD&gt;</span><br><span class="line"><span class="attribute">gif0</span>: flags=<span class="number">8010</span>&lt;POINTOPOINT,MULTICAST&gt; mtu <span class="number">1280</span></span><br><span class="line"><span class="attribute">stf0</span>: flags=<span class="number">0</span>&lt;&gt; mtu <span class="number">1280</span></span><br><span class="line"><span class="attribute">en0</span>: flags=<span class="number">8863</span>&lt;UP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST&gt; mtu <span class="number">1500</span></span><br><span class="line">	<span class="attribute">options</span>=<span class="number">50</span>b&lt;RXCSUM,TXCSUM,VLAN_HWTAGGING,AV,CHANNEL_IO&gt;</span><br><span class="line">	<span class="attribute">ether</span> b0:e5:f9:f3:a8:de   //mac地址</span><br><span class="line">	<span class="attribute">inet6</span> fe80::<span class="number">1</span>c2c:<span class="number">2</span>b1d:<span class="number">6</span>af8:<span class="number">3558</span>%en0 prefixlen <span class="number">64</span> secured scopeid <span class="number">0</span>x6  //ipv6地址</span><br><span class="line">	<span class="attribute">inet</span> <span class="number">10.1.63.198</span> netmask <span class="number">0</span>xffffff00 broadcast <span class="number">10.1.63.255</span> //ipv4地址、子网掩码、广播地址</span><br><span class="line">	<span class="attribute">nd6</span> options=<span class="number">201</span>&lt;PERFORMNUD,DAD&gt;</span><br><span class="line">	<span class="attribute">media</span>: autoselect (<span class="number">1000</span>baseT &lt;full-duplex&gt;)</span><br><span class="line">	<span class="attribute">status</span>: active</span><br></pre></td></tr></table></figure>
-<p>ifconfig打印的是所有网络设备的信息，并且名称是专有名词比如en0，一般来说如果电脑只连了WIFI那么en0代表的就是WIFI网卡信息，如果还插了网线那么en0代表的就是以太网网卡信息，en1代表的才是WIFI网卡信息。可以配合<code>networksetup -listallhardwareports</code> 查看。</p>
-<p>networksetup -listallhardwareports</p>
-<p>打印：</p>
-<figure class="highlight nestedtext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Hardware Port</span><span class="punctuation">:</span> <span class="string">Ethernet</span></span><br><span class="line"><span class="attribute">Device</span><span class="punctuation">:</span> <span class="string">en0</span></span><br><span class="line"><span class="attribute">Ethernet Address</span><span class="punctuation">:</span> <span class="string">b0:e5:f9:f3:a8:de</span></span><br><span class="line"></span><br><span class="line"><span class="attribute">Hardware Port</span><span class="punctuation">:</span> <span class="string">USB 10/100/1000 LAN</span></span><br><span class="line"><span class="attribute">Device</span><span class="punctuation">:</span> <span class="string">en4</span></span><br><span class="line"><span class="attribute">Ethernet Address</span><span class="punctuation">:</span> <span class="string">00:e0:4c:89:fe:55</span></span><br><span class="line"></span><br><span class="line"><span class="attribute">Hardware Port</span><span class="punctuation">:</span> <span class="string">Ethernet Adapter (en5)</span></span><br><span class="line"><span class="attribute">Device</span><span class="punctuation">:</span> <span class="string">en5</span></span><br><span class="line"><span class="attribute">Ethernet Address</span><span class="punctuation">:</span> <span class="string">16:6a:42:01:62:87</span></span><br><span class="line"></span><br><span class="line"><span class="attribute">Hardware Port</span><span class="punctuation">:</span> <span class="string">Ethernet Adapter (en6)</span></span><br><span class="line"><span class="attribute">Device</span><span class="punctuation">:</span> <span class="string">en6</span></span><br><span class="line"><span class="attribute">Ethernet Address</span><span class="punctuation">:</span> <span class="string">16:6a:42:01:62:88</span></span><br><span class="line"></span><br><span class="line"><span class="attribute">Hardware Port</span><span class="punctuation">:</span> <span class="string">Wi-Fi</span></span><br><span class="line"><span class="attribute">Device</span><span class="punctuation">:</span> <span class="string">en1</span></span><br><span class="line"><span class="attribute">Ethernet Address</span><span class="punctuation">:</span> <span class="string">b0:e5:f9:f2:56:75</span></span><br><span class="line"></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-<p>networksetup -listallnetworkservices</p>
-<p>打印：</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/07/20/ifconfig/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1093,7 +1094,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">165</span>
+          <span class="site-state-item-count">166</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1106,7 +1107,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">109</span>
+        <span class="site-state-item-count">110</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

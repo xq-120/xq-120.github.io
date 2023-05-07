@@ -187,6 +187,97 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2019/09/12/Swift%E3%80%81OC%E5%8F%8D%E5%B0%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/09/12/Swift%E3%80%81OC%E5%8F%8D%E5%B0%84/" class="post-title-link" itemprop="url">Swift、OC反射</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-09-12 16:56:14" itemprop="dateCreated datePublished" datetime="2019-09-12T16:56:14+08:00">2019-09-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="Swift、OC反射"><a href="#Swift、OC反射" class="headerlink" title="Swift、OC反射"></a>Swift、OC反射</h3><p>反射即根据类名字符串,生成对应实例对象的过程.</p>
+<p>分为两步:</p>
+<ol>
+<li>根据字符串,得到对应的类对象.</li>
+<li>通过类对象调用初始化方法生成一个实例.</li>
+</ol>
+<h3 id="获取类对象"><a href="#获取类对象" class="headerlink" title="获取类对象"></a>获取类对象</h3><p>OC:</p>
+<figure class="highlight wren"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">+</span> (<span class="title class_">Class</span>)<span class="keyword">class</span> <span class="title class_">OBJC_SWIFT_UNAVAILABLE</span>(<span class="string">&quot;use &#x27;aClass.self&#x27; instead&quot;</span>);</span><br><span class="line"><span class="operator">-</span> (<span class="title class_">Class</span>)<span class="keyword">class</span> <span class="title class_">OBJC_SWIFT_UNAVAILABLE</span>(<span class="string">&quot;use &#x27;type(of: anObject)&#x27; instead&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>这俩方法都是返回一个类对象.    </p>
+<p>Swift:</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">aClass<span class="selector-class">.self</span></span><br><span class="line"><span class="function"><span class="title">type</span><span class="params">(of: anObject)</span></span></span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/09/12/Swift%E3%80%81OC%E5%8F%8D%E5%B0%84/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2019/09/01/OC%E6%87%92%E5%8A%A0%E8%BD%BD%E4%B8%8ESwift%E6%87%92%E5%8A%A0%E8%BD%BD/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -975,95 +1066,6 @@ objc_msgSend(id _Nullable self, SEL _Nonnull op, ...);</code><br>它的第二个
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/12/09/iOS%20UIApplicationState%E7%8A%B6%E6%80%81%E5%8F%98%E5%8C%96/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="芝士就是力量">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/12/09/iOS%20UIApplicationState%E7%8A%B6%E6%80%81%E5%8F%98%E5%8C%96/" class="post-title-link" itemprop="url">iOS UIApplicationState状态变化</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-12-09 23:48:59" itemprop="dateCreated datePublished" datetime="2018-12-09T23:48:59+08:00">2018-12-09</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/UIKit/" itemprop="url" rel="index"><span itemprop="name">UIKit</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>实验设备:iPhone5s,10.3.3系统.</p>
-<p>应用状态:</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="built_in">NS_ENUM</span>(<span class="built_in">NSInteger</span>, <span class="built_in">UIApplicationState</span>) &#123;</span><br><span class="line">    <span class="built_in">UIApplicationStateActive</span>, <span class="comment">//0</span></span><br><span class="line">    <span class="built_in">UIApplicationStateInactive</span>, <span class="comment">//1</span></span><br><span class="line">    <span class="built_in">UIApplicationStateBackground</span> <span class="comment">//2</span></span><br><span class="line">&#125; <span class="built_in">NS_ENUM_AVAILABLE_IOS</span>(<span class="number">4</span>_0);</span><br></pre></td></tr></table></figure>
-<p>APP未启动,点击图片执行顺序:</p>
-<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">默认	<span class="number">23</span>:<span class="number">07</span>:<span class="number">51.443320</span> +<span class="number">0800</span>	pictureInMemory	-[AppDelegate application:didFinishLaunchingWithOptions:]  应用状态:<span class="number">1</span></span><br><span class="line"></span><br><span class="line">默认	<span class="number">23</span>:<span class="number">07</span>:<span class="number">51.515796</span> +<span class="number">0800</span>	pictureInMemory	-[AppDelegate applicationDidBecomeActive:]  应用状态:<span class="number">0</span></span><br></pre></td></tr></table></figure>
-<p>在应用处于UIApplicationStateActive时,分别进行如下操作:</p>
-<h4 id="1-按下home键"><a href="#1-按下home键" class="headerlink" title="1.按下home键"></a>1.按下home键</h4><figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">默认	<span class="number">23</span>:<span class="number">09</span>:<span class="number">50.067690</span> +<span class="number">0800</span>	pictureInMemory	-[AppDelegate applicationWillResignActive:]  应用状态:<span class="number">0</span></span><br><span class="line">默认	<span class="number">23</span>:<span class="number">09:50.602224</span> +<span class="number">0800</span>	pictureInMemory	-[AppDelegate applicationDidEnterBackground:]  应用状态:<span class="number">2</span></span><br></pre></td></tr></table></figure>
-<p>1.1处于后台时,再点击图标</p>
-<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">默认	<span class="number">23</span>:<span class="number">11</span>:<span class="number">34.897752</span> +<span class="number">0800</span>	pictureInMemory	-[AppDelegate applicationWillEnterForeground:]  应用状态:<span class="number">2</span></span><br><span class="line">默认	<span class="number">23</span>:<span class="number">11:35.218295</span> +<span class="number">0800</span>	pictureInMemory	-[AppDelegate applicationDidBecomeActive:]  应用状态:<span class="number">0</span></span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/12/09/iOS%20UIApplicationState%E7%8A%B6%E6%80%81%E5%8F%98%E5%8C%96/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1134,7 +1136,7 @@ objc_msgSend(id _Nullable self, SEL _Nonnull op, ...);</code><br>它的第二个
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">165</span>
+          <span class="site-state-item-count">166</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1147,7 +1149,7 @@ objc_msgSend(id _Nullable self, SEL _Nonnull op, ...);</code><br>它的第二个
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">109</span>
+        <span class="site-state-item-count">110</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
