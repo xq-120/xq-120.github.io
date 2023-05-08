@@ -187,6 +187,100 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2021/04/17/MacBook%20Pro%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8(%E4%B8%89)%E4%B9%8BMac%E4%B8%8A%E7%9A%84SwitchResX%E5%AE%8C%E5%85%A8%E5%8D%B8%E8%BD%BD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/04/17/MacBook%20Pro%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8(%E4%B8%89)%E4%B9%8BMac%E4%B8%8A%E7%9A%84SwitchResX%E5%AE%8C%E5%85%A8%E5%8D%B8%E8%BD%BD/" class="post-title-link" itemprop="url">MacBook Pro外接显示器(三)之Mac上的SwitchResX完全卸载</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-04-17 16:45:15" itemprop="dateCreated datePublished" datetime="2021-04-17T16:45:15+08:00">2021-04-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-07 22:10:09" itemprop="dateModified" datetime="2022-05-07T22:10:09+08:00">2022-05-07</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Life/" itemprop="url" rel="index"><span itemprop="name">Life</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>最近在折腾外接显示器，一直达不到4k@60hz。然后稀里糊涂安装了SwitchResX。SwitchResX是干什么的这里就不多说了，本文主要讲一下怎么卸载。</p>
+<p>在系统偏好设置中点击移除就完事了，但事实并没有这么简单。虽然卸载了但是打开显示器会发现显示器的名称中还是带有SwitchResX而不是默认的：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1503319-b237f40e28001761.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>这说明SwitchResX虽然卸载了但是还残留了一些文件。那么如何恢复显示器的默认名称呢？这个问题实在是有点冷门，花了我好几个小时才搜到解决办法，主要是不知道该怎么搜问题的关键字。搜个卸载出来的都是让你安装清理软件APP的。</p>
+<p>最终解决办法如下：</p>
+<ol>
+<li>确保已经退出SwitchResX，然后在系统偏好设置中点击移除删除APP包</li>
+<li><code>/Library/Displays/Contents/Resources/Overrides</code> 里的文件全部删掉</li>
+<li><code>/Library/Colorsync/Profiles/Displays</code> 删掉SwitchRes开头的</li>
+<li>重启电脑</li>
+</ol>
+<p>ps：连带的MonitorControl突然无法使用提示“未发现支持的显示器”的问题也解决了（一度以为是升级到Big Sur系统导致）。真正原因估计就是SwitchResX改了显示器的名称导致。</p>
+<p>总结：<br>1.Mac中删除一个APP，系统只是删掉了这个应用，但是这个应用在使用的过程中产生的一些文件并不会被删除。<br>一个APP在使用过程中或多或少会产生一些文件比如缓存，但这些缓存一般对我们的使用不会产生影响顶多占用了一些磁盘空间，但有些APP会产生一些配置文件这就导致即使删除了这个APP，只要它的配置文件还在那么就会存在副作用。因此要想彻底卸载一个应用除了删掉这个应用还要把它使用过程中产生的文件也要删除掉才行。至于APP会在哪些目录产生哪些文件那就只能网上搜索了。<br>2.如果你想设置分辨率的话还不如用EasyRes，目前还没看到有啥问题。<br>3.英语好还是很有用的。在搜一些问题的时候直接上英文关键字比中文的好多了。用中文搜可能来来回回都是那几篇还是抄来抄去的。</p>
+<p><strong>参考</strong><br><a target="_blank" rel="noopener" href="https://discussions.apple.com/thread/7053660">how reset my display profile it’s show “SwitchResX4 - Color LCD”</a><br>有一个人的回答：<br></p><figure class="highlight vbnet"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">It<span class="comment">&#x27;s not a problem. SwitchResX is doing that on purpose, and for absolutely no good reason.</span></span><br><span class="line"></span><br><span class="line">The app doesn<span class="comment">&#x27;t do anything useful. Correctly and entirely delete SwitchResX according to the instructions </span></span><br><span class="line"><span class="keyword">on</span> their site <span class="built_in">and</span> your issue should be solved. Though after its removal, you<span class="comment">&#x27;ll have to empty out the Displays </span></span><br><span class="line">profile folder again so the OS can pull another <span class="built_in">new</span> copy <span class="keyword">of</span> the <span class="keyword">default</span> display profile that won<span class="comment">&#x27;t be tagged </span></span><br><span class="line"><span class="keyword">with</span> their application name.</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/04/17/MacBook%20Pro%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8(%E4%B8%89)%E4%B9%8BMac%E4%B8%8A%E7%9A%84SwitchResX%E5%AE%8C%E5%85%A8%E5%8D%B8%E8%BD%BD/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2021/04/07/MacBook%20Pro%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8(%E4%BA%8C)%E4%B9%8BMacBook%20Pro%E5%A4%96%E6%8E%A5%E9%94%AE%E7%9B%98%E6%8E%A7%E5%88%B6%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8%E4%BA%AE%E5%BA%A6%E5%92%8C%E5%A3%B0%E9%9F%B3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -975,94 +1069,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/06/06/iOS-%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%8E%9F%E7%90%86%E7%AF%87/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="芝士就是力量">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/06/06/iOS-%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%8E%9F%E7%90%86%E7%AF%87/" class="post-title-link" itemprop="url">iOS 信号量原理篇</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-06-06 22:03:35" itemprop="dateCreated datePublished" datetime="2020-06-06T22:03:35+08:00">2020-06-06</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-03-28 13:21:32" itemprop="dateModified" datetime="2023-03-28T13:21:32+08:00">2023-03-28</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">多线程</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="信号量原理篇"><a href="#信号量原理篇" class="headerlink" title="信号量原理篇"></a>信号量原理篇</h3><p>源码版本：libdispatch-1173.40.5</p>
-<p>信号量的实现主要是创建，销毁，wait和signal，四个方法。</p>
-<p>信号量结构体：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">DISPATCH_CLASS_DECL(semaphore, OBJECT);</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">dispatch_semaphore_s</span> &#123;</span></span><br><span class="line">	DISPATCH_OBJECT_HEADER(semaphore);</span><br><span class="line">	<span class="type">long</span> <span class="keyword">volatile</span> dsema_value;</span><br><span class="line">	<span class="type">long</span> dsema_orig;</span><br><span class="line">	<span class="type">_dispatch_sema4_t</span> dsema_sema;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="type">semaphore_t</span> <span class="type">_dispatch_sema4_t</span>;</span><br></pre></td></tr></table></figure>
-<h4 id="信号量的创建—dispatch-semaphore-create"><a href="#信号量的创建—dispatch-semaphore-create" class="headerlink" title="信号量的创建—dispatch_semaphore_create"></a>信号量的创建—dispatch_semaphore_create</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">dispatch_semaphore_t</span></span><br><span class="line"><span class="title function_">dispatch_semaphore_create</span><span class="params">(<span class="type">long</span> value)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">dispatch_semaphore_t</span> dsema;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// If the internal value is negative, then the absolute of the value is</span></span><br><span class="line">	<span class="comment">// equal to the number of waiting threads. Therefore it is bogus to</span></span><br><span class="line">	<span class="comment">// initialize the semaphore with a negative value.</span></span><br><span class="line">	<span class="keyword">if</span> (value &lt; <span class="number">0</span>) &#123;</span><br><span class="line">		<span class="keyword">return</span> DISPATCH_BAD_INPUT;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	dsema = _dispatch_object_alloc(DISPATCH_VTABLE(semaphore),</span><br><span class="line">			<span class="keyword">sizeof</span>(<span class="keyword">struct</span> dispatch_semaphore_s));</span><br><span class="line">	dsema-&gt;do_next = DISPATCH_OBJECT_LISTLESS;</span><br><span class="line">	dsema-&gt;do_targetq = _dispatch_get_default_queue(<span class="literal">false</span>);</span><br><span class="line">	dsema-&gt;dsema_value = value;</span><br><span class="line">	_dispatch_sema4_init(&amp;dsema-&gt;dsema_sema, _DSEMA4_POLICY_FIFO);</span><br><span class="line">	dsema-&gt;dsema_orig = value;</span><br><span class="line">	<span class="keyword">return</span> dsema;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>可以看到不能传入一个小于0的值。信号量有几个重要的属性：</p>
-<p>dsema_value：记录当前计数值，后续的wait和signal函数会改变该值。</p>
-<p>dsema_sema：信号量 (真正干事情的)</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/06/06/iOS-%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%8E%9F%E7%90%86%E7%AF%87/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1133,7 +1139,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">166</span>
+          <span class="site-state-item-count">167</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

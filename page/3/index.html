@@ -187,6 +187,76 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/08/10/%E7%88%B6%E5%AD%90%E3%80%81%E5%AD%90%E5%AD%90%E6%8E%A7%E5%88%B6%E5%99%A8%E9%97%B4%E7%9A%84%E9%80%9A%E4%BF%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/08/10/%E7%88%B6%E5%AD%90%E3%80%81%E5%AD%90%E5%AD%90%E6%8E%A7%E5%88%B6%E5%99%A8%E9%97%B4%E7%9A%84%E9%80%9A%E4%BF%A1/" class="post-title-link" itemprop="url">父子、子子控制器间的通信</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-08-10 15:15:01 / 修改时间：22:11:59" itemprop="dateCreated datePublished" datetime="2022-08-10T15:15:01+08:00">2022-08-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%B8%9A%E5%8A%A1%E5%BC%80%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">业务开发</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>有一个容器控制器P，它下面有三个子控制器A、B、C。有时候我们需要在ABC之间共享一些状态信息。</p>
+<p>一种可行的做法：在P下面挂一个statusContext对象（信息少也可以直接平铺在P下），三个子控制器访问这个statusContext对象达到数据通信的目的。这种方案适合状态查询这种非即时处理的场景，如果是那种需要即时处理事件的场景，那么还是使用代理，通知，block比较好。</p>
+<p>另外一种方法：直接单例搞起，单例在ABC之间穿梭。不太推荐。有几个原因：1.单例因为使用过于方便导致很容易被滥用，滥用后，会很难追踪某个属性到底是在哪个地方修改的。2.单例创建后一般不会主动销毁，导致很难维护它上面的状态信息，下一次使用时可能会残存上一次的状态信息。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/08/09/malloc%E3%80%81calloc%E3%80%81realloc%E7%AE%80%E4%BB%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -937,93 +1007,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/07/25/IO%E6%A8%A1%E5%9E%8B%E7%AE%80%E4%BB%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="芝士就是力量">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/07/25/IO%E6%A8%A1%E5%9E%8B%E7%AE%80%E4%BB%8B/" class="post-title-link" itemprop="url">IO模型简介</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-07-25 12:16:15" itemprop="dateCreated datePublished" datetime="2022-07-25T12:16:15+08:00">2022-07-25</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-31 12:59:41" itemprop="dateModified" datetime="2022-07-31T12:59:41+08:00">2022-07-31</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">计算机基础</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>大致有下面五种IO模型：</p>
-<p>阻塞IO模型，非阻塞IO模型，IO复用模型，信号驱动IO模型，异步IO模型。</p>
-<h2 id="阻塞IO模型"><a href="#阻塞IO模型" class="headerlink" title="阻塞IO模型"></a>阻塞IO模型</h2><p>读数据，发现没有数据，线程就一直等待直到有数据读取。</p>
-<h2 id="非阻塞IO模型"><a href="#非阻塞IO模型" class="headerlink" title="非阻塞IO模型"></a>非阻塞IO模型</h2><p>读数据，发现没有数据，线程不等待直接返回读错误码。由于不知道什么时候会有数据所以这种非阻塞IO模型需要调用方不断检查是否有数据。</p>
-<p>fd默认是阻塞IO访问，可以使用fcntl函数设置为非阻塞IO:</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">status</span> = fcntl(socketFD, F_SETFL, O_NONBLOCK)<span class="comment">;</span></span><br></pre></td></tr></table></figure>
-<h2 id="IO复用模型"><a href="#IO复用模型" class="headerlink" title="IO复用模型"></a>IO复用模型</h2><p>对非阻塞IO模型的一种改进，因为非阻塞IO模型需要不断检查是否有数据可读。假如有100个fd要读，那么就需要100个线程各自在不断的检查是否有数据可读，这显然浪费了大量的CPU和内存。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/07/25/IO%E6%A8%A1%E5%9E%8B%E7%AE%80%E4%BB%8B/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1094,7 +1077,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">166</span>
+          <span class="site-state-item-count">167</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

@@ -187,6 +187,93 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2021/12/01/%E7%B1%BB%E5%88%AB%E5%AF%BC%E8%87%B4%E7%9A%84target-action%E6%96%B9%E6%B3%95%E4%B8%8D%E8%B0%83%E7%94%A8%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/01/%E7%B1%BB%E5%88%AB%E5%AF%BC%E8%87%B4%E7%9A%84target-action%E6%96%B9%E6%B3%95%E4%B8%8D%E8%B0%83%E7%94%A8%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">类别导致的target-action方法不调用问题</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-01 10:42:52" itemprop="dateCreated datePublished" datetime="2021-12-01T10:42:52+08:00">2021-12-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-12-24 22:05:40" itemprop="dateModified" datetime="2021-12-24T22:05:40+08:00">2021-12-24</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bug/" itemprop="url" rel="index"><span itemprop="name">Bug</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="Bug"><a href="#Bug" class="headerlink" title="Bug"></a>Bug</h3><p>描述：ZATextField 自己添加自己作为target后，发现action方法不被调用。</p>
+<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>ZATextField的实现如下：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#import <span class="string">&quot;ZATextField.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">ZATextField</span></span></span><br><span class="line"></span><br><span class="line">- (<span class="keyword">instancetype</span>)initWithFrame:(<span class="built_in">CGRect</span>)frame &#123;</span><br><span class="line">    <span class="keyword">self</span> = [<span class="variable language_">super</span> initWithFrame:frame];</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>) &#123;</span><br><span class="line">        </span><br><span class="line">        __<span class="keyword">weak</span> <span class="keyword">typeof</span>(<span class="keyword">self</span>) weakSelf = <span class="keyword">self</span>;</span><br><span class="line">        [[<span class="built_in">NSNotificationCenter</span> defaultCenter] addObserverForName:<span class="built_in">UITextFieldTextDidBeginEditingNotification</span> object:<span class="keyword">self</span> queue:<span class="literal">nil</span> usingBlock:^(<span class="built_in">NSNotification</span> * _Nonnull note) &#123;</span><br><span class="line">            <span class="keyword">if</span> (weakSelf.rightView &amp;&amp; weakSelf.rightViewMode == <span class="built_in">UITextFieldViewModeWhileEditing</span>) &#123;</span><br><span class="line">                weakSelf.rightView.hidden = weakSelf.text.length &gt; <span class="number">0</span> ? <span class="literal">NO</span> : <span class="literal">YES</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (weakSelf.leftView &amp;&amp; weakSelf.leftViewMode == <span class="built_in">UITextFieldViewModeWhileEditing</span>) &#123;</span><br><span class="line">                weakSelf.leftView.hidden = weakSelf.text.length &gt; <span class="number">0</span> ? <span class="literal">NO</span> : <span class="literal">YES</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;];</span><br><span class="line">        [[<span class="built_in">NSNotificationCenter</span> defaultCenter] addObserverForName:<span class="built_in">UITextFieldTextDidChangeNotification</span> object:<span class="keyword">self</span> queue:<span class="literal">nil</span> usingBlock:^(<span class="built_in">NSNotification</span> * _Nonnull note) &#123;</span><br><span class="line">            <span class="keyword">if</span> (weakSelf.rightView &amp;&amp; weakSelf.rightViewMode == <span class="built_in">UITextFieldViewModeWhileEditing</span>) &#123;</span><br><span class="line">                weakSelf.rightView.hidden = weakSelf.text.length &gt; <span class="number">0</span> ? <span class="literal">NO</span> : <span class="literal">YES</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (weakSelf.leftView &amp;&amp; weakSelf.leftViewMode == <span class="built_in">UITextFieldViewModeWhileEditing</span>) &#123;</span><br><span class="line">                weakSelf.leftView.hidden = weakSelf.text.length &gt; <span class="number">0</span> ? <span class="literal">NO</span> : <span class="literal">YES</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;];</span><br><span class="line">        </span><br><span class="line">        [<span class="keyword">self</span> addTarget:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(xxxxchange:) forControlEvents:<span class="built_in">UIControlEventEditingChanged</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)xxxxchange:(<span class="built_in">UITextField</span> *)sender &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;text:%@&quot;</span>, <span class="keyword">self</span>.text);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 光标大小设置</span></span><br><span class="line">- (<span class="built_in">CGRect</span>)caretRectForPosition:(<span class="built_in">UITextPosition</span> *)position &#123;</span><br><span class="line">    <span class="built_in">CGRect</span> originalRect = [<span class="variable language_">super</span> caretRectForPosition:position];</span><br><span class="line">    <span class="built_in">CGFloat</span> caretHeight = <span class="keyword">self</span>.font.lineHeight - <span class="number">4</span>;</span><br><span class="line">    originalRect.size.height = caretHeight;</span><br><span class="line">    originalRect.origin.y = (<span class="keyword">self</span>.frame.size.height - caretHeight) / <span class="number">2.0</span>;</span><br><span class="line">    <span class="keyword">return</span> originalRect;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>自己添加了自己作为target:</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="keyword">self</span> addTarget:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(xxxxchange:) forControlEvents:<span class="built_in">UIControlEventEditingChanged</span>];</span><br></pre></td></tr></table></figure>
+<p>理论上讲当有文字输入时，xxxxchange方法肯定会调用的，但是实际没有。</p>
+<h3 id="可能的原因"><a href="#可能的原因" class="headerlink" title="可能的原因"></a>可能的原因</h3><p>1.方法被其他地方的类别覆盖了。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/12/01/%E7%B1%BB%E5%88%AB%E5%AF%BC%E8%87%B4%E7%9A%84target-action%E6%96%B9%E6%B3%95%E4%B8%8D%E8%B0%83%E7%94%A8%E9%97%AE%E9%A2%98/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2021/09/28/OC%E5%85%B3%E8%81%94%E5%AF%B9%E8%B1%A1%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -986,100 +1073,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2021/04/17/MacBook%20Pro%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8(%E4%B8%89)%E4%B9%8BMac%E4%B8%8A%E7%9A%84SwitchResX%E5%AE%8C%E5%85%A8%E5%8D%B8%E8%BD%BD/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="芝士就是力量">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/04/17/MacBook%20Pro%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8(%E4%B8%89)%E4%B9%8BMac%E4%B8%8A%E7%9A%84SwitchResX%E5%AE%8C%E5%85%A8%E5%8D%B8%E8%BD%BD/" class="post-title-link" itemprop="url">MacBook Pro外接显示器(三)之Mac上的SwitchResX完全卸载</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-04-17 16:45:15" itemprop="dateCreated datePublished" datetime="2021-04-17T16:45:15+08:00">2021-04-17</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-07 22:10:09" itemprop="dateModified" datetime="2022-05-07T22:10:09+08:00">2022-05-07</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Life/" itemprop="url" rel="index"><span itemprop="name">Life</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>最近在折腾外接显示器，一直达不到4k@60hz。然后稀里糊涂安装了SwitchResX。SwitchResX是干什么的这里就不多说了，本文主要讲一下怎么卸载。</p>
-<p>在系统偏好设置中点击移除就完事了，但事实并没有这么简单。虽然卸载了但是打开显示器会发现显示器的名称中还是带有SwitchResX而不是默认的：</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/1503319-b237f40e28001761.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
-<p>这说明SwitchResX虽然卸载了但是还残留了一些文件。那么如何恢复显示器的默认名称呢？这个问题实在是有点冷门，花了我好几个小时才搜到解决办法，主要是不知道该怎么搜问题的关键字。搜个卸载出来的都是让你安装清理软件APP的。</p>
-<p>最终解决办法如下：</p>
-<ol>
-<li>确保已经退出SwitchResX，然后在系统偏好设置中点击移除删除APP包</li>
-<li><code>/Library/Displays/Contents/Resources/Overrides</code> 里的文件全部删掉</li>
-<li><code>/Library/Colorsync/Profiles/Displays</code> 删掉SwitchRes开头的</li>
-<li>重启电脑</li>
-</ol>
-<p>ps：连带的MonitorControl突然无法使用提示“未发现支持的显示器”的问题也解决了（一度以为是升级到Big Sur系统导致）。真正原因估计就是SwitchResX改了显示器的名称导致。</p>
-<p>总结：<br>1.Mac中删除一个APP，系统只是删掉了这个应用，但是这个应用在使用的过程中产生的一些文件并不会被删除。<br>一个APP在使用过程中或多或少会产生一些文件比如缓存，但这些缓存一般对我们的使用不会产生影响顶多占用了一些磁盘空间，但有些APP会产生一些配置文件这就导致即使删除了这个APP，只要它的配置文件还在那么就会存在副作用。因此要想彻底卸载一个应用除了删掉这个应用还要把它使用过程中产生的文件也要删除掉才行。至于APP会在哪些目录产生哪些文件那就只能网上搜索了。<br>2.如果你想设置分辨率的话还不如用EasyRes，目前还没看到有啥问题。<br>3.英语好还是很有用的。在搜一些问题的时候直接上英文关键字比中文的好多了。用中文搜可能来来回回都是那几篇还是抄来抄去的。</p>
-<p><strong>参考</strong><br><a target="_blank" rel="noopener" href="https://discussions.apple.com/thread/7053660">how reset my display profile it’s show “SwitchResX4 - Color LCD”</a><br>有一个人的回答：<br></p><figure class="highlight vbnet"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">It<span class="comment">&#x27;s not a problem. SwitchResX is doing that on purpose, and for absolutely no good reason.</span></span><br><span class="line"></span><br><span class="line">The app doesn<span class="comment">&#x27;t do anything useful. Correctly and entirely delete SwitchResX according to the instructions </span></span><br><span class="line"><span class="keyword">on</span> their site <span class="built_in">and</span> your issue should be solved. Though after its removal, you<span class="comment">&#x27;ll have to empty out the Displays </span></span><br><span class="line">profile folder again so the OS can pull another <span class="built_in">new</span> copy <span class="keyword">of</span> the <span class="keyword">default</span> display profile that won<span class="comment">&#x27;t be tagged </span></span><br><span class="line"><span class="keyword">with</span> their application name.</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/04/17/MacBook%20Pro%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8(%E4%B8%89)%E4%B9%8BMac%E4%B8%8A%E7%9A%84SwitchResX%E5%AE%8C%E5%85%A8%E5%8D%B8%E8%BD%BD/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1150,7 +1143,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">166</span>
+          <span class="site-state-item-count">167</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

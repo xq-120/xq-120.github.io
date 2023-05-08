@@ -362,6 +362,104 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2023/05/07/OC%E7%B1%BB%E4%B8%8E%E5%85%83%E7%B1%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/05/07/OC%E7%B1%BB%E4%B8%8E%E5%85%83%E7%B1%BB/" class="post-title-link" itemprop="url">OC类与元类</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-05-07 13:57:02" itemprop="dateCreated datePublished" datetime="2023-05-07T13:57:02+08:00">2023-05-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-05-08 12:33:04" itemprop="dateModified" datetime="2023-05-08T12:33:04+08:00">2023-05-08</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="实例对象、类与元类"><a href="#实例对象、类与元类" class="headerlink" title="实例对象、类与元类"></a>实例对象、类与元类</h2><p>实例对象的类称为类（类对象），类（类对象）的类称为元类（元类对象）。他们都是对象。</p>
+<p>OC中对象、类和元类的关系如下图：</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/9ff681b9-50e6-4b55-bc2a-2f38cb21af1c.png" alt></p>
+<p>总结下：</p>
+<ol>
+<li><p>实例对象的类是类对象,类对象的类是元类对象.元类对象的类是根元类,根元类对象的类就是自己本身.这里形成了一个闭环.</p>
+</li>
+<li><p>类对象里面保存的是实例方法.</p>
+</li>
+<li><p>元类对象里面保存的是类方法.</p>
+</li>
+<li><p>根类对象的superClass是nil,根类对象的类是根元类对象,根元类对象的superClass是根类对象,这里也形成了一个闭环.</p>
+</li>
+</ol>
+<p>代码：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">void</span>)test_class_metaClass &#123;</span><br><span class="line">    <span class="comment">//根类对象</span></span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;根类对象[NSObject class]:%@,地址:%p&quot;</span>, [<span class="built_in">NSObject</span> <span class="keyword">class</span>], [<span class="built_in">NSObject</span> <span class="keyword">class</span>]);</span><br><span class="line">    <span class="comment">//根类对象的父类</span></span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;根类对象的父类[[NSObject class] superclass]:%@,地址%p&quot;</span>, [[<span class="built_in">NSObject</span> <span class="keyword">class</span>] superclass], [[<span class="built_in">NSObject</span> <span class="keyword">class</span>] superclass]);</span><br><span class="line">    <span class="keyword">const</span> <span class="type">char</span> *nsobjectMetaClassChar = [<span class="built_in">NSStringFromClass</span>([<span class="built_in">NSObject</span> <span class="keyword">class</span>]) UTF8String];</span><br><span class="line">    Class nsobjectMetaClass = objc_getMetaClass(nsobjectMetaClassChar);</span><br><span class="line">    Class nsobjectMetaClass1 = object_getClass(<span class="built_in">NSObject</span>.class);</span><br><span class="line">    <span class="comment">//根类对象的类即根元类对象</span></span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;根类对象的类即根元类对象(NSObject metaClass):%@,地址:%p&quot;</span>, nsobjectMetaClass, nsobjectMetaClass);</span><br><span class="line">    <span class="comment">//根元类对象的父类</span></span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;根元类对象的父类(NSObject metaClass superclass):%@,地址:%p&quot;</span>, [nsobjectMetaClass superclass], [nsobjectMetaClass superclass]);</span><br><span class="line">    <span class="comment">//根元类对象的类</span></span><br><span class="line">    Class root = objc_getMetaClass([<span class="built_in">NSStringFromClass</span>(nsobjectMetaClass) UTF8String]);</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;根元类对象的类:%@,地址:%p&quot;</span>, root, root);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>打印：</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">2023</span>-<span class="number">05</span>-<span class="number">07</span> <span class="number">14</span>:<span class="number">28</span>:<span class="number">18</span>.<span class="number">507417</span>+<span class="number">0800</span> runtime方法使用Demo[<span class="number">20896</span>:<span class="number">7290701</span>] 根类对象[NSObject class]:NSObject,地址:<span class="number">0</span>x1b9e44148</span><br><span class="line"><span class="attribute">2023</span>-<span class="number">05</span>-<span class="number">07</span> <span class="number">14</span>:<span class="number">28</span>:<span class="number">18</span>.<span class="number">507511</span>+<span class="number">0800</span> runtime方法使用Demo[<span class="number">20896</span>:<span class="number">7290701</span>] 根类对象的父类[[NSObject class] superclass]:(null),地址<span class="number">0</span>x0</span><br><span class="line"><span class="attribute">2023</span>-<span class="number">05</span>-<span class="number">07</span> <span class="number">14</span>:<span class="number">28</span>:<span class="number">18</span>.<span class="number">507599</span>+<span class="number">0800</span> runtime方法使用Demo[<span class="number">20896</span>:<span class="number">7290701</span>] 根类对象的类即根元类对象(NSObject metaClass):NSObject,地址:<span class="number">0</span>x1b9e440f8</span><br><span class="line"><span class="attribute">2023</span>-<span class="number">05</span>-<span class="number">07</span> <span class="number">14</span>:<span class="number">28</span>:<span class="number">18</span>.<span class="number">507663</span>+<span class="number">0800</span> runtime方法使用Demo[<span class="number">20896</span>:<span class="number">7290701</span>] 根元类对象的父类(NSObject metaClass superclass):NSObject,地址:<span class="number">0</span>x1b9e44148</span><br><span class="line"><span class="attribute">2023</span>-<span class="number">05</span>-<span class="number">07</span> <span class="number">14</span>:<span class="number">28</span>:<span class="number">18</span>.<span class="number">507762</span>+<span class="number">0800</span> runtime方法使用Demo[<span class="number">20896</span>:<span class="number">7290701</span>] 根元类对象的类:NSObject,地址:<span class="number">0</span>x1b9e440f8</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/05/07/OC%E7%B1%BB%E4%B8%8E%E5%85%83%E7%B1%BB/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2023/05/06/OC-class%E3%80%81superClass%E6%96%B9%E6%B3%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -385,10 +483,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2023-05-06 20:02:18 / 修改时间：23:28:32" itemprop="dateCreated datePublished" datetime="2023-05-06T20:02:18+08:00">2023-05-06</time>
+              <time title="创建时间：2023-05-06 20:02:18" itemprop="dateCreated datePublished" datetime="2023-05-06T20:02:18+08:00">2023-05-06</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-05-07 13:12:47" itemprop="dateModified" datetime="2023-05-07T13:12:47+08:00">2023-05-07</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -935,96 +1039,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2023/02/20/pod%E5%BA%93%E4%BE%9D%E8%B5%96%E7%AC%AC%E4%B8%89%E6%96%B9OC++%E5%BA%93%E7%BC%96%E8%AF%91%E6%8A%A5%E9%94%99%E9%97%AE%E9%A2%98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="芝士就是力量">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/02/20/pod%E5%BA%93%E4%BE%9D%E8%B5%96%E7%AC%AC%E4%B8%89%E6%96%B9OC++%E5%BA%93%E7%BC%96%E8%AF%91%E6%8A%A5%E9%94%99%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">pod库依赖第三方OC++库编译报错问题</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-02-20 15:36:09" itemprop="dateCreated datePublished" datetime="2023-02-20T15:36:09+08:00">2023-02-20</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-02-26 16:20:06" itemprop="dateModified" datetime="2023-02-26T16:20:06+08:00">2023-02-26</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CocoaPods/" itemprop="url" rel="index"><span itemprop="name">CocoaPods</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>在开发pod库时，遇到了一个编译报错的问题，记录一下。</p>
-<p>主pod是OC实现的，主pod里依赖了WCDB（一个OC++库），主pod里有一个子pod，子pod采用swift实现。当宿主工程集成子pod时，编译通不过，报错在：WCDB.h里。Since WCDB…</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">ifndef</span> WCDB_h</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> WCDB_h</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> __cplusplus</span></span><br><span class="line"><span class="meta">#<span class="keyword">error</span> Since WCDB is an Objective-C++ framework, for those files in your project that includes WCDB, you should rename their extension .m to .mm.</span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br></pre></td></tr></table></figure>
-<p>Google了半天也没搜到类似的，感觉应该是混编导致的错误。</p>
-<p>我的podspec文件：</p>
-<figure class="highlight cal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">spec.swift_versions = [<span class="string">&#x27;5.5&#x27;</span>, <span class="string">&#x27;5.6&#x27;</span>, <span class="string">&#x27;5.7&#x27;</span>]</span><br><span class="line">spec.requires_arc = <span class="literal">true</span></span><br><span class="line">spec.dependency <span class="string">&quot;CocoaLumberjack&quot;</span>, <span class="string">&quot;~&gt; 3.7.4&quot;</span></span><br><span class="line">spec.dependency <span class="string">&quot;WCDB&quot;</span>, <span class="string">&quot;~&gt; 1.1.0&quot;</span></span><br><span class="line"></span><br><span class="line">spec.default_subspecs = <span class="string">&#x27;Core&#x27;</span></span><br><span class="line"></span><br><span class="line">spec.subspec <span class="string">&#x27;Core&#x27;</span> <span class="keyword">do</span> |ss|</span><br><span class="line">  ss.source_files = <span class="string">&#x27;Sources/MATLog/**/*.&#123;h,m,mm&#125;&#x27;</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">spec.subspec <span class="string">&#x27;Swift&#x27;</span> <span class="keyword">do</span> |ss|</span><br><span class="line">  ss.dependency <span class="string">&#x27;MATLog/Core&#x27;</span></span><br><span class="line">  ss.source_files = <span class="string">&#x27;Sources/MATLogSwift/**/*.&#123;swift,h,mm&#125;&#x27;</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<p>子pod里压根就没使用到WCDB，很奇怪为啥会报那个错。搜也无从搜起，冥思苦想半天，也就 <code>MATLogModel+WCTTableCoding.h</code> 头文件里包含了WCDB.h，后来发现确实是这里引起的。</p>
-<p>因为OC pod库头文件默认是public，所以子库能访问到主库所有暴露的头文件，修改podspec文件如下：</p>
-<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">spec.swift_versions = [<span class="string">&#x27;5.5&#x27;</span>, <span class="string">&#x27;5.6&#x27;</span>, <span class="string">&#x27;5.7&#x27;</span>]</span><br><span class="line">spec.requires_arc = <span class="keyword">true</span></span><br><span class="line">spec.dependency <span class="string">&quot;CocoaLumberjack&quot;</span>, <span class="string">&quot;~&gt; 3.7.4&quot;</span></span><br><span class="line">spec.dependency <span class="string">&quot;WCDB&quot;</span>, <span class="string">&quot;~&gt; 1.1.0&quot;</span></span><br><span class="line"></span><br><span class="line">spec.default_subspecs = <span class="string">&#x27;Core&#x27;</span></span><br><span class="line"></span><br><span class="line">spec.subspec <span class="string">&#x27;Core&#x27;</span> <span class="keyword">do</span> |ss|</span><br><span class="line">  ss.source_files = <span class="string">&#x27;Sources/MATLog/**/*.&#123;h,m,mm&#125;&#x27;</span></span><br><span class="line">  ss.private_header_files = <span class="string">&#x27;Sources/MATLog/*WCTTableCoding.&#123;h&#125;&#x27;</span> #控制OC头文件访问权限的有<span class="keyword">private</span>、<span class="keyword">project</span>、<span class="keyword">public</span>三种。默认<span class="keyword">public</span></span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">spec.subspec <span class="string">&#x27;Swift&#x27;</span> <span class="keyword">do</span> |ss|</span><br><span class="line">  ss.dependency <span class="string">&#x27;MATLog/Core&#x27;</span></span><br><span class="line">  ss.source_files = <span class="string">&#x27;Sources/MATLogSwift/**/*.&#123;swift,h,mm&#125;&#x27;</span></span><br><span class="line">end</span><br></pre></td></tr></table></figure>
-<p>这时 <code>MATLogModel+WCTTableCoding.h</code> 头文件就变成private了，编译也能通过了。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/02/20/pod%E5%BA%93%E4%BE%9D%E8%B5%96%E7%AC%AC%E4%B8%89%E6%96%B9OC++%E5%BA%93%E7%BC%96%E8%AF%91%E6%8A%A5%E9%94%99%E9%97%AE%E9%A2%98/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1095,7 +1109,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">166</span>
+          <span class="site-state-item-count">167</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

@@ -187,6 +187,99 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/06/10/navigationBar%E5%AF%B9self.view%E7%9A%84frame%E5%BD%B1%E5%93%8D/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/06/10/navigationBar%E5%AF%B9self.view%E7%9A%84frame%E5%BD%B1%E5%93%8D/" class="post-title-link" itemprop="url">navigationBar对self.view的frame影响</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-06-10 12:49:28" itemprop="dateCreated datePublished" datetime="2018-06-10T12:49:28+08:00">2018-06-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/UIKit/" itemprop="url" rel="index"><span itemprop="name">UIKit</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="navigationBar对self-view的frame影响"><a href="#navigationBar对self-view的frame影响" class="headerlink" title="navigationBar对self.view的frame影响"></a>navigationBar对self.view的frame影响</h3><p>在iOS7及以上系统,<code>self.navigationController.navigationBar.hidden = NO;</code>的情况下.</p>
+<p><strong>设置translucent为YES</strong>.即<code>self.navigationController.navigationBar.translucent = YES;</code></p>
+<blockquote>
+<p>不隐藏状态栏</p>
+</blockquote>
+<p>self.view的位置和大小如下:</p>
+<p><img src="http://7xqoji.com1.z0.glb.clouddn.com/self.view%E7%9A%84%E4%BD%8D%E7%BD%AE%E5%92%8C%E5%A4%A7%E5%B0%8F1@2x.png" alt></p>
+<blockquote>
+<p>隐藏状态栏</p>
+</blockquote>
+<p><img src="http://7xqoji.com1.z0.glb.clouddn.com/self.view%E7%9A%84%E4%BD%8D%E7%BD%AE%E5%92%8C%E5%A4%A7%E5%B0%8F2@2x.png" alt></p>
+<p>执行流:<br><img src="http://7xqoji.com1.z0.glb.clouddn.com/navigationBar%E5%AF%B9self.view%E7%9A%84frame%E5%BD%B1%E5%93%8D_3.png" alt></p>
+<p>translucent为YES时,可以在viewDidLoad中子视图可以使用self.view的frame信息.</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/06/10/navigationBar%E5%AF%B9self.view%E7%9A%84frame%E5%BD%B1%E5%93%8D/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/04/15/%E5%88%B6%E4%BD%9CSDK%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -995,136 +1088,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/02/26/runtime%20+load%E4%B8%8E+initialize%E5%88%86%E6%9E%90/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="芝士就是力量">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/02/26/runtime%20+load%E4%B8%8E+initialize%E5%88%86%E6%9E%90/" class="post-title-link" itemprop="url">runtime +load与+initialize分析</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-02-26 11:31:24" itemprop="dateCreated datePublished" datetime="2018-02-26T11:31:24+08:00">2018-02-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-10-04 14:12:18" itemprop="dateModified" datetime="2022-10-04T14:12:18+08:00">2022-10-04</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/runtime/" itemprop="url" rel="index"><span itemprop="name">runtime</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>通过一个简单的打印实验就可以发现:</p>
-<ul>
-<li>+initialize方法和+load调用时机</li>
-<li>+initialize在父类,子类,类别之间的关系</li>
-<li>+load在父类,子类,类别之间的关系</li>
-</ul>
-<p>如下表格:</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th></th>
-<th>+load</th>
-<th>+initialize</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>调用时机</td>
-<td>被添加到 runtime 时(类被加载时)</td>
-<td>第一次调用该类的类方法或实例方法前调用,可能永远不调用</td>
-</tr>
-<tr>
-<td>调用顺序</td>
-<td>父类-&gt;子类-&gt;分类(多个分类间,则按加载顺序)</td>
-<td>父类-&gt;分类(多个分类时,是最后一个的被执行)or子类</td>
-</tr>
-<tr>
-<td>是否需要显式调用父类实现</td>
-<td>否</td>
-<td>否</td>
-</tr>
-<tr>
-<td>自身没实现是否调用父类的实现</td>
-<td>否</td>
-<td>是</td>
-</tr>
-<tr>
-<td>分类中实现产生的影响</td>
-<td>类和分类都执行</td>
-<td>覆盖类中的方法，只执行分类的实现</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>另:Swizzling should always be done in +load.</p>
-<h2 id="initialize"><a href="#initialize" class="headerlink" title="initialize"></a>initialize</h2><p>文档说明：</p>
-<figure class="highlight delphi"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">The runtime sends initialize <span class="keyword">to</span> each <span class="keyword">class</span> <span class="keyword">in</span> a <span class="keyword">program</span> just before the <span class="keyword">class</span>, <span class="keyword">or</span> any <span class="keyword">class</span> that inherits from it, <span class="keyword">is</span> sent its first <span class="keyword">message</span> from within the <span class="keyword">program</span>. Superclasses receive this <span class="keyword">message</span> before their subclasses.</span><br><span class="line"></span><br><span class="line">The runtime sends the initialize <span class="keyword">message</span> <span class="keyword">to</span> classes <span class="keyword">in</span> a thread-safe manner. That <span class="keyword">is</span>, initialize <span class="keyword">is</span> run by the first thread <span class="keyword">to</span> send a <span class="keyword">message</span> <span class="keyword">to</span> a <span class="keyword">class</span>, <span class="keyword">and</span> any other thread that tries <span class="keyword">to</span> send a <span class="keyword">message</span> <span class="keyword">to</span> that <span class="keyword">class</span> will block <span class="keyword">until</span> initialize completes.</span><br><span class="line"></span><br><span class="line">The superclass <span class="keyword">implementation</span> may be called multiple times <span class="keyword">if</span> subclasses <span class="keyword">do</span> <span class="keyword">not</span> implement initialize—the runtime will call the <span class="keyword">inherited</span> <span class="keyword">implementation</span>—<span class="keyword">or</span> <span class="keyword">if</span> subclasses explicitly call [super initialize]. <span class="keyword">If</span> you want <span class="keyword">to</span> protect yourself from being run multiple times, you can structure your <span class="keyword">implementation</span> along these lines:</span><br><span class="line">+ (void)initialize <span class="comment">&#123;</span></span><br><span class="line"><span class="comment">  if (self == [ClassName self]) &#123;</span></span><br><span class="line"><span class="comment">    // ... do the initialization ...</span></span><br><span class="line"><span class="comment">  &#125;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Because initialize <span class="keyword">is</span> called <span class="keyword">in</span> a blocking manner, it’s important <span class="keyword">to</span> limit method implementations <span class="keyword">to</span> the minimum amount <span class="keyword">of</span> work necessary possible. Specifically, any code that takes locks that might be required by other classes <span class="keyword">in</span> their initialize methods <span class="keyword">is</span> liable <span class="keyword">to</span> lead <span class="keyword">to</span> deadlocks. Therefore, you should <span class="keyword">not</span> rely <span class="keyword">on</span> initialize <span class="keyword">for</span> complex <span class="keyword">initialization</span>, <span class="keyword">and</span> should instead limit it <span class="keyword">to</span> straightforward, <span class="keyword">class</span> <span class="keyword">local</span> <span class="keyword">initialization</span>.</span><br><span class="line"></span><br><span class="line">Special Considerations</span><br><span class="line">initialize <span class="keyword">is</span> invoked only once per <span class="keyword">class</span>. <span class="keyword">If</span> you want <span class="keyword">to</span> perform independent <span class="keyword">initialization</span> <span class="keyword">for</span> the <span class="keyword">class</span> <span class="keyword">and</span> <span class="keyword">for</span> categories <span class="keyword">of</span> the <span class="keyword">class</span>, you should implement load methods.</span><br></pre></td></tr></table></figure>
-<p>有几个点值得说一下：</p>
-<p>1、initialize方法是线程安全的。当第一个线程触发initialize执行后，其他线程发送的消息都会被阻塞直到initialize执行完成。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/02/26/runtime%20+load%E4%B8%8E+initialize%E5%88%86%E6%9E%90/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1195,7 +1158,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">166</span>
+          <span class="site-state-item-count">167</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

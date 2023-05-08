@@ -6,7 +6,7 @@
   <link href="https://xq-120.github.io/atom.xml" rel="self"/>
   
   <link href="https://xq-120.github.io/"/>
-  <updated>2023-05-06T15:28:32.689Z</updated>
+  <updated>2023-05-08T04:33:04.803Z</updated>
   <id>https://xq-120.github.io/</id>
   
   <author>
@@ -17,11 +17,47 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>OC类与元类</title>
+    <link href="https://xq-120.github.io/2023/05/07/OC%E7%B1%BB%E4%B8%8E%E5%85%83%E7%B1%BB/"/>
+    <id>https://xq-120.github.io/2023/05/07/OC%E7%B1%BB%E4%B8%8E%E5%85%83%E7%B1%BB/</id>
+    <published>2023-05-07T05:57:02.000Z</published>
+    <updated>2023-05-08T04:33:04.803Z</updated>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;实例对象、类与元类&quot;&gt;&lt;a href=&quot;#实例对象、类与元类&quot; class=&quot;headerlink&quot; title=&quot;实例对象、类与元类&quot;&gt;&lt;/a&gt;实例对象、类与元类&lt;/h2&gt;&lt;p&gt;实例对象的类称为类（类对象），类（类对象）的类称为元类（元类对象）。他们都是对象。&lt;/p&gt;
+&lt;p&gt;OC中对象、类和元类的关系如下图：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/xq-120/cloudImage/master/9ff681b9-50e6-4b55-bc2a-2f38cb21af1c.png&quot; alt&gt;&lt;/p&gt;
+&lt;p&gt;总结下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;实例对象的类是类对象,类对象的类是元类对象.元类对象的类是根元类,根元类对象的类就是自己本身.这里形成了一个闭环.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;类对象里面保存的是实例方法.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;元类对象里面保存的是类方法.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;根类对象的superClass是nil,根类对象的类是根元类对象,根元类对象的superClass是根类对象,这里也形成了一个闭环.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;代码：&lt;/p&gt;
+&lt;figure class=&quot;highlight objc&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;- (&lt;span class=&quot;type&quot;&gt;void&lt;/span&gt;)test_class_metaClass &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;//根类对象&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;NSLog&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;@&amp;quot;根类对象[NSObject class]:%@,地址:%p&amp;quot;&lt;/span&gt;, [&lt;span class=&quot;built_in&quot;&gt;NSObject&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt;], [&lt;span class=&quot;built_in&quot;&gt;NSObject&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt;]);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;//根类对象的父类&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;NSLog&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;@&amp;quot;根类对象的父类[[NSObject class] superclass]:%@,地址%p&amp;quot;&lt;/span&gt;, [[&lt;span class=&quot;built_in&quot;&gt;NSObject&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt;] superclass], [[&lt;span class=&quot;built_in&quot;&gt;NSObject&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt;] superclass]);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;char&lt;/span&gt; *nsobjectMetaClassChar = [&lt;span class=&quot;built_in&quot;&gt;NSStringFromClass&lt;/span&gt;([&lt;span class=&quot;built_in&quot;&gt;NSObject&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt;]) UTF8String];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    Class nsobjectMetaClass = objc_getMetaClass(nsobjectMetaClassChar);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    Class nsobjectMetaClass1 = object_getClass(&lt;span class=&quot;built_in&quot;&gt;NSObject&lt;/span&gt;.class);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;//根类对象的类即根元类对象&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;NSLog&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;@&amp;quot;根类对象的类即根元类对象(NSObject metaClass):%@,地址:%p&amp;quot;&lt;/span&gt;, nsobjectMetaClass, nsobjectMetaClass);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;//根元类对象的父类&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;NSLog&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;@&amp;quot;根元类对象的父类(NSObject metaClass superclass):%@,地址:%p&amp;quot;&lt;/span&gt;, [nsobjectMetaClass superclass], [nsobjectMetaClass superclass]);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;//根元类对象的类&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    Class root = objc_getMetaClass([&lt;span class=&quot;built_in&quot;&gt;NSStringFromClass&lt;/span&gt;(nsobjectMetaClass) UTF8String]);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;NSLog&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;@&amp;quot;根元类对象的类:%@,地址:%p&amp;quot;&lt;/span&gt;, root, root);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;打印：&lt;/p&gt;
+&lt;figure class=&quot;highlight apache&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;2023&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;05&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;07&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;14&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;28&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;18&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;507417&lt;/span&gt;+&lt;span class=&quot;number&quot;&gt;0800&lt;/span&gt; runtime方法使用Demo[&lt;span class=&quot;number&quot;&gt;20896&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;7290701&lt;/span&gt;] 根类对象[NSObject class]:NSObject,地址:&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;x1b9e44148&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;2023&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;05&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;07&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;14&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;28&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;18&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;507511&lt;/span&gt;+&lt;span class=&quot;number&quot;&gt;0800&lt;/span&gt; runtime方法使用Demo[&lt;span class=&quot;number&quot;&gt;20896&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;7290701&lt;/span&gt;] 根类对象的父类[[NSObject class] superclass]:(null),地址&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;x0&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;2023&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;05&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;07&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;14&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;28&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;18&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;507599&lt;/span&gt;+&lt;span class=&quot;number&quot;&gt;0800&lt;/span&gt; runtime方法使用Demo[&lt;span class=&quot;number&quot;&gt;20896&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;7290701&lt;/span&gt;] 根类对象的类即根元类对象(NSObject metaClass):NSObject,地址:&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;x1b9e440f8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;2023&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;05&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;07&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;14&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;28&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;18&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;507663&lt;/span&gt;+&lt;span class=&quot;number&quot;&gt;0800&lt;/span&gt; runtime方法使用Demo[&lt;span class=&quot;number&quot;&gt;20896&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;7290701&lt;/span&gt;] 根元类对象的父类(NSObject metaClass superclass):NSObject,地址:&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;x1b9e44148&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;2023&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;05&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;07&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;14&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;28&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;18&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;507762&lt;/span&gt;+&lt;span class=&quot;number&quot;&gt;0800&lt;/span&gt; runtime方法使用Demo[&lt;span class=&quot;number&quot;&gt;20896&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;7290701&lt;/span&gt;] 根元类对象的类:NSObject,地址:&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;x1b9e440f8&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</summary>
+    
+    
+    
+    <category term="OC" scheme="https://xq-120.github.io/categories/OC/"/>
+    
+    
+    <category term="class" scheme="https://xq-120.github.io/tags/class/"/>
+    
+  </entry>
+  
+  <entry>
     <title>OC class、superClass方法</title>
     <link href="https://xq-120.github.io/2023/05/06/OC-class%E3%80%81superClass%E6%96%B9%E6%B3%95/"/>
     <id>https://xq-120.github.io/2023/05/06/OC-class%E3%80%81superClass%E6%96%B9%E6%B3%95/</id>
     <published>2023-05-06T12:02:18.000Z</published>
-    <updated>2023-05-06T15:28:32.689Z</updated>
+    <updated>2023-05-07T05:12:47.331Z</updated>
     
     
     <summary type="html">&lt;p&gt;测试代码：&lt;/p&gt;
@@ -522,52 +558,6 @@
     
     
     <category term="内存管理" scheme="https://xq-120.github.io/tags/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>干眼症辅助治疗</title>
-    <link href="https://xq-120.github.io/2022/08/06/%E5%B9%B2%E7%9C%BC%E7%97%87%E8%BE%85%E5%8A%A9%E6%B2%BB%E7%96%97/"/>
-    <id>https://xq-120.github.io/2022/08/06/%E5%B9%B2%E7%9C%BC%E7%97%87%E8%BE%85%E5%8A%A9%E6%B2%BB%E7%96%97/</id>
-    <published>2022-08-06T05:16:36.000Z</published>
-    <updated>2022-08-06T05:18:20.012Z</updated>
-    
-    
-    <summary type="html">&lt;p&gt;具体是什么时候开始有干眼症的症状已经记不清楚了，大概是2016年患干眼症，目前（2022年08月06日）干眼症症状：干燥、异物感、瘙痒、灼痛，闭眼睡觉（不管是白天还是晚上，只要是闭眼一段时间）特别明显，睁眼后不明显。&lt;/p&gt;
-&lt;p&gt;干眼症目前治疗水平：干眼症是一种慢性、并且通常是进行性病症。根据其原因和严重程度，干眼症有时并不能完全治愈。但在大多数情况下，干眼症的疾病管理可以很成功，通过施以适当的治疗手段，可以明显改善眼睛舒适度、缓解干眼症状、并且有时甚至可以获得更清晰的视力。&lt;/p&gt;
-&lt;h2 id=&quot;辅助治疗方案&quot;&gt;&lt;a href=&quot;#辅助治疗方案&quot; class=&quot;headerlink&quot; title=&quot;辅助治疗方案&quot;&gt;&lt;/a&gt;辅助治疗方案&lt;/h2&gt;&lt;p&gt;去医院看过几次，不过效果不大。由于是慢性长期的病，所以还是要有一套能够随手就用的辅助治疗方案。&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;早睡早起。23:00准备入睡。23:30—7:30。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;按摩热敷。早晚各一次。每次12分钟。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;食疗。多喝水，忌辛辣，油腻，冰的。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;多户外活动。进行户外跑步。建议每周两次户外跑，每次锻炼半小时，大概可以跑3-4公里。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;改善日常生活习惯。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;多眨眼。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;在电脑使用过程中经常休息。一个比较好的方法是——至少每隔30分钟远眺（半米以外）至少直径为半米以上的物体3分钟，它可以帮助缓解干眼症和电脑眼疲劳。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;不躺着玩手机、不在关灯后玩手机。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;减少电子设备的使用。少玩游戏，少玩手机、电脑。初期建议每次玩游戏时间不超过2小时。&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;保持积极心态。不要啥也不干，天天躺着。空闲时间多读书，听书也行。&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;辅助治疗方案需要长期的坚持下去。希望能够对干眼症有所缓解。&lt;/p&gt;
-&lt;h2 id=&quot;参考&quot;&gt;&lt;a href=&quot;#参考&quot; class=&quot;headerlink&quot; title=&quot;参考&quot;&gt;&lt;/a&gt;参考&lt;/h2&gt;&lt;p&gt;医学上早就确认减少眨眼率的活动会增加干眼症的患病率。例如，在计算机上花费很长时间是干眼症的一个确定的风险因素。由于干眼症可能有多种原因，因此采用的治疗方法可能各有不同。通常并没有能够“快速治愈”干眼症的方法。&lt;/p&gt;
-&lt;h3 id=&quot;热敷疗法&quot;&gt;&lt;a href=&quot;#热敷疗法&quot; class=&quot;headerlink&quot; title=&quot;热敷疗法&quot;&gt;&lt;/a&gt;热敷疗法&lt;/h3&gt;&lt;p&gt;该方法可以作为睑板腺疗法的一种更加舒适的替代手段，它通过简单地对闭合的眼睑施热敷以软化睑板。不过为了达到更好的效果，一些研究人员指出必须使热敷在42摄氏度下保持超过10分钟，并且压敷必须在这段时间内至少施加两次。大多数人不能或不愿意正确地进行这种干眼治疗，只在较低温度下进行压敷，所以经常达不到预期效果。&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="Life" scheme="https://xq-120.github.io/categories/Life/"/>
-    
     
   </entry>
   
