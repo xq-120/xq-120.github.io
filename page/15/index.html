@@ -187,6 +187,199 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2017/12/03/OC%20block%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C--Block%E9%87%8C%E7%9A%84strongSelf/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/12/03/OC%20block%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C--Block%E9%87%8C%E7%9A%84strongSelf/" class="post-title-link" itemprop="url">OC block基本操作--Block里的strongSelf</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-12-03 13:15:20" itemprop="dateCreated datePublished" datetime="2017-12-03T13:15:20+08:00">2017-12-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="Block里的strongSelf"><a href="#Block里的strongSelf" class="headerlink" title="Block里的strongSelf"></a>Block里的strongSelf</h3><p>有时我们在看源码时,会发现作者会在block里第一行strong一下weakSelf.以下便是对这种写法的一个探究.</p>
+<p>一般在使用block的时候,都会在block外,声明一个weakSelf,来确保block不去持有self.但是这也会引发一个问题,就是如果在block执行之前,self就已经销毁了,那么block里的[weakSelf method],method方法就不会被执行,如果有返回值的话,会返回nil.如果Block里有这样的代码:[arrM addObject:nil],是会崩溃的.所以,如何让block在执行时,self不销毁?</p>
+<p>解决办法就是:在block代码块里第一行将weakSelf赋值给一个strong类型指针变量,通常是<code>__strong typeof(weakSelf) strongSelf = weakSelf;</code>.有了strongSelf这样一个强引用指针,以后的代码执行时,便不会出现self==nil的情况,且当block执行完后,局部变量strongSelf清除,self对象被释放.一切看起来似乎很完美.但是如果在<br>__strong typeof(weakSelf) strongSelf = weakSelf;<br>执行之前,self就已经销毁,那么strongSelf将等于nil.上面的崩溃还是会发生.所以必须判断一下strongSelf是否为nil.</p>
+<p>综上完整的写法应该如下:</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">__<span class="keyword">weak</span> <span class="keyword">typeof</span>(<span class="keyword">self</span>) weakSelf = <span class="keyword">self</span>;</span><br><span class="line"><span class="type">void</span> (^success)(<span class="type">id</span> data, <span class="built_in">NSString</span> *statusInfo) = ^(<span class="built_in">NSArray</span> *data, <span class="built_in">NSString</span> *statusInfo) &#123;</span><br><span class="line">    __<span class="keyword">strong</span> <span class="keyword">typeof</span>(weakSelf) strongSelf = weakSelf;</span><br><span class="line">    <span class="keyword">if</span> (strongSelf == <span class="literal">nil</span>) <span class="keyword">return</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;block回调了,strongSelf:%@&quot;</span>, strongSelf); </span><br><span class="line">    <span class="built_in">NSString</span> *sd = [strongSelf printSomething]; <span class="comment">//  如果没有前面的判断,这里有可能会因为strongSelf==nil,而导致返回值为nil.从而后面的[mA addObject:sd];会崩溃.</span></span><br><span class="line">    </span><br><span class="line">    <span class="built_in">NSMutableArray</span> *mA = [[<span class="built_in">NSMutableArray</span> alloc] initWithArray:data];</span><br><span class="line">    [mA addObject:<span class="string">@&quot;dsfds&quot;</span>];</span><br><span class="line">    [mA addObject:sd];</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;%@&quot;</span>, mA);</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;%@&quot;</span>, statusInfo);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>思考1:在Block里写<code>__strong typeof(weakSelf) strongSelf = weakSelf;</code>会不会导致self-Block引用循环?</p>
+</blockquote>
+<p>答案是不会的,因为strongSelf是Block代码块里定义的一个局部变量,当Block执行完后,局部变量就会销毁,这样就不会有强引用的指针指向self对象.self与Block之间也就不会形成一个引用循环.</p>
+<blockquote>
+<p>思考2:是不是Block里只能使用weakSelf,不能使用self?</p>
+</blockquote>
+<p>这个并不是绝对的,使用weakSelf当然是不会有问题的.而如果self不持有Block,那么即使Block里使用self,也不会形成self-Block引用循环,这种情况下在Block里直接使用self也是没有问题的,只不过此时self对象的销毁将依赖于Block的销毁,换句话说就是self对象的生命周期可能会被延长.  </p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2017/12/03/OC%20block%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C--Block%E9%87%8C%E7%9A%84strongSelf/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2017/12/02/OC%20block%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C--%E8%A7%A3%E9%99%A4%E5%BC%95%E7%94%A8%E5%BE%AA%E7%8E%AF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/12/02/OC%20block%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C--%E8%A7%A3%E9%99%A4%E5%BC%95%E7%94%A8%E5%BE%AA%E7%8E%AF/" class="post-title-link" itemprop="url">OC block基本操作--解除引用循环</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-12-02 15:35:54" itemprop="dateCreated datePublished" datetime="2017-12-02T15:35:54+08:00">2017-12-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="block截获self情况"><a href="#block截获self情况" class="headerlink" title="block截获self情况."></a>block截获self情况.</h3><p>略.</p>
+<h3 id="block截获成员变量时-避免循环引用的几种基本操作"><a href="#block截获成员变量时-避免循环引用的几种基本操作" class="headerlink" title="block截获成员变量时,避免循环引用的几种基本操作."></a>block截获成员变量时,避免循环引用的几种基本操作.</h3><p>下面这段代码如果不做任何处理,在block属性里直接使用成员变量,100%导致循环引用.</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">场景:</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="type">void</span>(^MyBlk)(<span class="type">void</span>);</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">SecondViewController</span> ()</span></span><br><span class="line">&#123;</span><br><span class="line">    Animal *_myAnimal;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) MyBlk blk;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line">_myAnimal = [[Animal alloc] init];</span><br><span class="line"><span class="keyword">self</span>.blk = ^&#123;</span><br><span class="line">   <span class="built_in">NSLog</span>(<span class="string">@&quot;%@&quot;</span>, _myAnimal); <span class="comment">//因为实例变量的访问等价于self-&gt;_myAnimal,也等价于(*self)._myAnimal;所以这里会导致block强引用self.</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>那么如何解决呢?有如下几种操作:</p>
+<ol>
+<li><p>使用__weak typeof(成员变量) weak成员变量 = 成员变量;</p>
+ <figure class="highlight sqf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">_myAnimal</span> = [[Animal alloc] init];</span><br><span class="line">   <span class="variable">__weak</span> <span class="built_in">typeof</span>(<span class="variable">_myAnimal</span>) weakMyAnimal = <span class="variable">_myAnimal</span>;</span><br><span class="line">   self.blk = ^&#123;</span><br><span class="line">       NSLog(@<span class="string">&quot;%@&quot;</span>, weakMyAnimal);</span><br><span class="line">   &#125;;</span><br></pre></td></tr></table></figure></li>
+<li><p>使用局部变量,这样block就不再持有self.于是循环引用便不能形成了.</p>
+ <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">_myAnimal <span class="operator">=</span> [[<span class="type">Animal</span> alloc] <span class="keyword">init</span>];</span><br><span class="line">   <span class="type">Animal</span> <span class="operator">*</span>tMyAnimal <span class="operator">=</span> _myAnimal;</span><br><span class="line">   <span class="keyword">self</span>.blk <span class="operator">=</span> <span class="operator">^</span>&#123;</span><br><span class="line">       <span class="type">NSLog</span>(@<span class="string">&quot;%@&quot;</span>, tMyAnimal);</span><br><span class="line">   &#125;;</span><br></pre></td></tr></table></figure></li>
+<li><p>对方法2进行改进,增加__block修饰符.</p>
+ <figure class="highlight sqf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">_myAnimal</span> = [[Animal alloc] init];</span><br><span class="line">   <span class="variable">__block</span> Animal *tMyAnimal = <span class="variable">_myAnimal</span>;</span><br><span class="line">   self.blk = ^&#123;</span><br><span class="line">       NSLog(@<span class="string">&quot;%@&quot;</span>, tMyAnimal);</span><br><span class="line">       tMyAnimal = <span class="literal">nil</span>;</span><br><span class="line">   &#125;;</span><br></pre></td></tr></table></figure></li>
+<li><p>使用__weak typeof(self) weakSelf = self;</p>
+ <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">_myAnimal = [[Animal alloc] init];</span><br><span class="line">   __<span class="keyword">weak</span> <span class="keyword">typeof</span>(<span class="keyword">self</span>) weakSelf = <span class="keyword">self</span>;</span><br><span class="line">   <span class="keyword">self</span>.blk = ^&#123;</span><br><span class="line">       __<span class="keyword">strong</span> <span class="keyword">typeof</span>(weakSelf) strongSelf = weakSelf;</span><br><span class="line">       <span class="keyword">if</span> (!strongSelf) <span class="keyword">return</span> ; <span class="comment">//必须加上判断,否则一旦self在这之前被释放销毁了,那么后面的-&gt;操作将崩溃.</span></span><br><span class="line">       <span class="built_in">NSLog</span>(<span class="string">@&quot;%@&quot;</span>, strongSelf -&gt; _myAnimal); <span class="comment">//一旦block在执行中,对象被销毁了,很容易造成对NULL指针进行解引用导致崩溃.所以前面的判断是必须的.</span></span><br><span class="line">       <span class="built_in">NSLog</span>(<span class="string">@&quot;%@&quot;</span>, (*strongSelf)._myAnimal);</span><br><span class="line">   &#125;;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>那么这几种办法中哪种才是最佳实践呢?从写法上来看,第一种和第二种以及改进型的第三种要比第四种方便很多.那么第一种方法和第二种方法哪种更好呢?这里就需要知道什么是block以及为什么使用weak修饰符后就可以解除循环引用.</p>
+<blockquote>
+<p>什么是block</p>
+</blockquote>
+<p>带有自动变量(局部变量)值的匿名函数就是block.匿名函数就是不带有名称的函数.带有自动变量值在block中的表现就是”截获自动变量值”.</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2017/12/02/OC%20block%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C--%E8%A7%A3%E9%99%A4%E5%BC%95%E7%94%A8%E5%BE%AA%E7%8E%AF/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2017/12/01/Swift%20Array%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -847,183 +1040,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2017/10/13/CUICatalog-Invalid%20asset%20name%20supplied/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="芝士就是力量">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/10/13/CUICatalog-Invalid%20asset%20name%20supplied/" class="post-title-link" itemprop="url">CUICatalog-Invalid asset name supplied</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2017-10-13 10:12:24" itemprop="dateCreated datePublished" datetime="2017-10-13T10:12:24+08:00">2017-10-13</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-31 12:59:08" itemprop="dateModified" datetime="2022-07-31T12:59:08+08:00">2022-07-31</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Bug/" itemprop="url" rel="index"><span itemprop="name">Bug</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="CUICatalog-Invalid-asset-name-supplied"><a href="#CUICatalog-Invalid-asset-name-supplied" class="headerlink" title="CUICatalog-Invalid asset name supplied"></a>CUICatalog-Invalid asset name supplied</h2><p>iOS11中,<br><code>UIImage *highlightedImage = [UIImage imageNamed:highlightedImageName];</code>如果图片名是nil,或者不存在对应的图片,那么控制台会打印下面的提示信息.一般是因为传了nil或要找的资源不存在导致.</p>
-<p>2017-09-27 16:46:33.399319+0800 KingDynastyGaming[48313:2122542] [framework] CUICatalog: Invalid asset name supplied: ‘(null)’</p>
-<p>问题就是要找到哪行代码导致出现了提示信息.<br>调试办法:打符号断点:<code>+[UIImage imageNamed:]</code>.在出现这条信息的操作之前使能断点,这样根据函数调用栈就可以看到调用该方法的位置,使用命令<code>po $arg3</code>还可以查看图片的名字即第三个参数的值.</p>
-<h3 id="调试命令参数"><a href="#调试命令参数" class="headerlink" title="调试命令参数"></a>调试命令参数</h3><p>The exception object is passed in as the first argument to <code>objc_exception_throw</code>. LLDB provides <code>$arg1..$argn</code> variables to refer to arguments in the correct calling convention, making it simple to print the exception details:</p>
-<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(lldb) po <span class="variable">$arg1</span></span><br><span class="line">(lldb) po <span class="selector-attr">[$arg1 name]</span></span><br><span class="line">(lldb) po <span class="selector-attr">[$arg1 reason]</span></span><br></pre></td></tr></table></figure>
-<p>Make sure to select the objc_exception_throw frame in the call stack before executing these commands. See the “Advanced Debugging and the Address Sanitizer” in the WWDC15 session videos to see this performed on stage.</p>
-<p>On the iPhone Simulator, all function arguments are passed on the stack, so the syntax is considerably more horrible. The shortest expression I could construct that gets to it is <code>*(id *)($ebp + 8)</code>. To make things less painful, I suggest using a convenience variable:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(gdb) <span class="built_in">set</span> <span class="variable">$exception</span> = *(<span class="built_in">id</span> *)(<span class="variable">$ebp</span> + 8)</span><br><span class="line">(gdb) po <span class="variable">$exception</span></span><br><span class="line">(gdb) po [<span class="variable">$exception</span> name]</span><br><span class="line">(gdb) po [<span class="variable">$exception</span> reason]</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2017/10/13/CUICatalog-Invalid%20asset%20name%20supplied/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2017/09/30/%E5%9C%A8mac%20OS%E4%B8%8A%E5%8F%8D%E7%BC%96%E8%AF%91%E5%AE%89%E5%8D%93apk%E5%8C%85/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="芝士就是力量">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/09/30/%E5%9C%A8mac%20OS%E4%B8%8A%E5%8F%8D%E7%BC%96%E8%AF%91%E5%AE%89%E5%8D%93apk%E5%8C%85/" class="post-title-link" itemprop="url">在mac OS上反编译安卓apk包</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2017-09-30 18:12:24" itemprop="dateCreated datePublished" datetime="2017-09-30T18:12:24+08:00">2017-09-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-31 12:59:08" itemprop="dateModified" datetime="2022-07-31T12:59:08+08:00">2022-07-31</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%80%86%E5%90%91/" itemprop="url" rel="index"><span itemprop="name">逆向</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>一般上架的安卓apk都会做混淆和加固,如果两个都不做那么被别人反编译后就可以直接看到源码了.而混淆后,那些函数名就会变成一些如”a”,”b”,”c”之类无意义的名称,并且还会添加一些无意义的代码逻辑.从而大大提高了破解的难度,但是花点时间还是能够看懂一些逻辑的.因此为了让apk更加难以反编译,加固也很重要.加固后要想反编译则更加费时,费劲.本文仅仅是自己做个记录,所以不牵涉到对加固后的apk进行反编译.</p>
-<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><ul>
-<li><a target="_blank" rel="noopener" href="https://ibotpeaches.github.io/Apktool/install/">Apktool</a></li>
-<li><a target="_blank" rel="noopener" href="https://sourceforge.net/projects/dex2jar/files/">dex2jar</a></li>
-<li><a target="_blank" rel="noopener" href="http://jd.benow.ca/">jd-gui</a></li>
-</ul>
-<h3 id="Apktool"><a href="#Apktool" class="headerlink" title="Apktool"></a>Apktool</h3><p>资源反编译,获取apk里面的资源.如果你仅仅只是想获取里面的资源,可不必使用该工具,直接解压缩源apk就可以了.<br>note:使用Apktool处理后的和直接解压缩后的里面的文件内容还是不一样的,比如里面的AndroidManifest.xml文件,Apktool处理后的就能够读懂,否则是一些乱码.</p>
-<h4 id="Apktool安装"><a href="#Apktool安装" class="headerlink" title="Apktool安装"></a>Apktool安装</h4><p>按照官网说明,下载后会得到两个文件<code>apktool</code>和<code>apktool.jar</code>,需要注意的是必须赋予这两个文件可执行权限.使用命令<code>chmod +x 对应文件名</code>即可.最后将这两个文件拖入<code>/usr/local/bin</code>文件夹中.</p>
-<h4 id="Apktool使用"><a href="#Apktool使用" class="headerlink" title="Apktool使用"></a>Apktool使用</h4><p>命令:<code>apktool d 对应apk路径</code>.<br>执行完毕后,会得到一个同名的文件夹,里面就是一些资源了.找到里面的<code>classes.dex</code>文件,后面代码反编译会用到.</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2017/09/30/%E5%9C%A8mac%20OS%E4%B8%8A%E5%8F%8D%E7%BC%96%E8%AF%91%E5%AE%89%E5%8D%93apk%E5%8C%85/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1094,20 +1110,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">167</span>
+          <span class="site-state-item-count">169</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">37</span>
+        <span class="site-state-item-count">39</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">110</span>
+        <span class="site-state-item-count">112</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

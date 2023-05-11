@@ -187,6 +187,208 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/05/01/iOS%E5%AE%9A%E6%97%B6%E5%99%A8%E6%9D%82%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/01/iOS%E5%AE%9A%E6%97%B6%E5%99%A8%E6%9D%82%E8%AE%B0/" class="post-title-link" itemprop="url">iOS定时器杂记</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-05-01 13:13:38" itemprop="dateCreated datePublished" datetime="2022-05-01T13:13:38+08:00">2022-05-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-07-20 20:42:42" itemprop="dateModified" datetime="2022-07-20T20:42:42+08:00">2022-07-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Foundation/" itemprop="url" rel="index"><span itemprop="name">Foundation</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="NSTimer"><a href="#NSTimer" class="headerlink" title="NSTimer"></a>NSTimer</h2><p>NSTimer是使用最多的一种定时器，虽然但是NSTimer还是有很多的注意事项：</p>
+<ol>
+<li><p>不注意使用的话有循环引用的隐患。因为NSTimer会强引用target，如果target再强引用NSTimer那么就会发生循环引用。比如：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">void</span>)test_normal_timer1 &#123;</span><br><span class="line">    <span class="keyword">self</span>.normalStrongTimer = [<span class="built_in">NSTimer</span> scheduledTimerWithTimeInterval:<span class="number">1</span> target:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(doSome) userInfo:<span class="literal">nil</span> repeats:<span class="literal">YES</span>];</span><br><span class="line">    [[<span class="built_in">NSRunLoop</span> currentRunLoop] addTimer:<span class="keyword">self</span>.normalStrongTimer forMode:<span class="built_in">NSRunLoopCommonModes</span>];</span><br><span class="line">    [<span class="keyword">self</span>.normalStrongTimer fire];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的代码就会发生循环引用。此时即使页面返回，但是因为循环引用，ViewController的dealloc将不会被执行，因此invalidate不能放在dealloc里，只能在其他时机比如viewDidDisappear里调用。所以一般使用weak来弱引用定时器，这样就可以在dealloc里调用invalidate。</p>
+</li>
+<li><p>需要在合适的地方invalid定时器，否则定时器会一直强引用target从而延长target的生命周期。</p>
+<p>在开发中很容易忘记invalid定时器，一旦忘记invalid定时器，定时器就会延长target的生命周期，比如页面返回了但实际还没有被销毁，从而产生一些诡异问题。这也是使用NSTimer必须注意的地方。</p>
+</li>
+<li><p>使用时必须保证有一个活跃的runloop，并且需要指定mode。因此在子线程中使用不是很方便。</p>
+</li>
+<li><p>精度可能不够。</p>
+</li>
+<li><p>网上的一个说法：创建和撤销必须在同一个线程上，在多线程环境下使用不便。(这一条存疑，经过验证在子线程创建一个定时器，在另一个子线程invalidate并没有发现有什么问题)</p>
+</li>
+<li><p>iOS10开始支持block使用，同样在使用block时一定要注意循环引用。</p>
+</li>
+</ol>
+<p>为了从根本上避免上述问题，一个弱引用target的、能够在自身销毁时自动invalid的定时器想必是极好的。解决办法就是封装GCD定时器。</p>
+<h2 id="GCD定时器"><a href="#GCD定时器" class="headerlink" title="GCD定时器"></a>GCD定时器</h2><p>基本使用：</p>
+<p>1.创建定时器源</p>
+<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">self.timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER,</span><br><span class="line"><span class="built_in">                                            0,</span></span><br><span class="line"><span class="built_in">                                            0,</span></span><br><span class="line">                                            self.privateSerialQueue)<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<p>2.设置定时器</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">int64</span>_t <span class="built_in">int</span>ervalInNanoseconds = (<span class="built_in">int64</span>_t)(self.timeInterval * NSEC_PER_SEC);</span><br><span class="line"><span class="built_in">int64</span>_t toleranceInNanoseconds = (<span class="built_in">int64</span>_t)(self.tolerance * NSEC_PER_SEC);</span><br><span class="line"></span><br><span class="line">dispatch_source_set_timer(self.timer,</span><br><span class="line">                          dispatch_time(DISPATCH_TIME_NOW, <span class="built_in">int</span>ervalInNanoseconds),</span><br><span class="line">                          (<span class="built_in">uint64</span>_t)<span class="built_in">int</span>ervalInNanoseconds,</span><br><span class="line">                          toleranceInNanoseconds</span><br><span class="line">                          );</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/01/iOS%E5%AE%9A%E6%97%B6%E5%99%A8%E6%9D%82%E8%AE%B0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/03/28/HTTP%E5%90%84%E7%89%88%E6%9C%AC%E7%89%B9%E6%80%A7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/03/28/HTTP%E5%90%84%E7%89%88%E6%9C%AC%E7%89%B9%E6%80%A7/" class="post-title-link" itemprop="url">HTTP各版本特性</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-03-28 22:15:08" itemprop="dateCreated datePublished" datetime="2022-03-28T22:15:08+08:00">2022-03-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-05-09 19:08:57" itemprop="dateModified" datetime="2023-05-09T19:08:57+08:00">2023-05-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/HTTP/" itemprop="url" rel="index"><span itemprop="name">HTTP</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="HTTP各版本特性"><a href="#HTTP各版本特性" class="headerlink" title="HTTP各版本特性"></a>HTTP各版本特性</h3><h4 id="HTTP-0-9"><a href="#HTTP-0-9" class="headerlink" title="HTTP 0.9"></a>HTTP 0.9</h4><p>1991年发布</p>
+<p>基本上只是一个草稿，设计的初衷只是为了获取简单的HTML对象。只支持GET。没怎么使用就被HTTP 1.0代替了。</p>
+<h4 id="HTTP-1-0"><a href="#HTTP-1-0" class="headerlink" title="HTTP 1.0"></a>HTTP 1.0</h4><p>1996年5月发布规范 rfc1945</p>
+<p>第一个广泛使用的版本。</p>
+<p><strong>相比HTTP 0.9</strong>：</p>
+<ol>
+<li><p>增加了对多媒体对象的处理，任何格式的内容都可以发送。这使得互联网不仅可以传输文字，还能传输图像、视频、二进制文件。</p>
+</li>
+<li><p>增加了一些方法：POST，HEAD。丰富了浏览器与服务器的互动手段。</p>
+</li>
+<li><p>新增了HTTP首部。比较重要的有Content-Type ，Content-Length，Content-Encoding</p>
+</li>
+<li><p>HTTP请求和响应格式的改变。</p>
+</li>
+<li><p>其他新增功能。比如状态码的定义。</p>
+</li>
+</ol>
+<p>请求报文：</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/03/28/HTTP%E5%90%84%E7%89%88%E6%9C%AC%E7%89%B9%E6%80%A7/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2021/12/01/%E7%B1%BB%E5%88%AB%E5%AF%BC%E8%87%B4%E7%9A%84target-action%E6%96%B9%E6%B3%95%E4%B8%8D%E8%B0%83%E7%94%A8%E9%97%AE%E9%A2%98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -894,185 +1096,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2021/07/08/%E5%8D%9A%E5%AE%A2%E6%94%B6%E8%97%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="芝士就是力量">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/07/08/%E5%8D%9A%E5%AE%A2%E6%94%B6%E8%97%8F/" class="post-title-link" itemprop="url">博客收藏</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-07-08 15:08:50" itemprop="dateCreated datePublished" datetime="2021-07-08T15:08:50+08:00">2021-07-08</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-10-22 11:32:40" itemprop="dateModified" datetime="2022-10-22T11:32:40+08:00">2022-10-22</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99/" itemprop="url" rel="index"><span itemprop="name">参考资料</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><a target="_blank" rel="noopener" href="https://github.com/ming1016/study/wiki">ming1016-study</a>  网友个人收集的比较全的iOS开发技术点</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/iOS-Mayday/heji">Mayday-heji</a>  iOS面试相关的，有加群卖广告嫌疑</p>
-<p><a target="_blank" rel="noopener" href="https://xiaozhuanlan.com/">小专栏</a> 质量较高，不过大部分都要收费。</p>
-<h3 id="个人博客"><a href="#个人博客" class="headerlink" title="个人博客"></a>个人博客</h3><p><a target="_blank" rel="noopener" href="http://oncenote.com/">Jamin</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.desgard.com">Gua</a></p>
-<p><a target="_blank" rel="noopener" href="https://kingcos.me/">kingcos</a> </p>
-<p><a target="_blank" rel="noopener" href="https://tbfungeek.github.io">Edgar</a>  安卓iOS一系列文章</p>
-<p><a target="_blank" rel="noopener" href="http://yulingtianxia.com/">yulingtianxia’s blog</a>  messageThrottle作者</p>
-<p><a target="_blank" rel="noopener" href="https://ai-chan.top/">酷酷的哀殿</a>   llvm、汇编、编译、底层</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/07/08/%E5%8D%9A%E5%AE%A2%E6%94%B6%E8%97%8F/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2021/04/20/MacBook%20Pro%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8(%E5%9B%9B)%E4%B9%8B4K%E5%B1%8F60Hz%E7%9A%84%E8%89%B0%E9%9A%BE%E6%97%85%E7%A8%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="芝士就是力量">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/04/20/MacBook%20Pro%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8(%E5%9B%9B)%E4%B9%8B4K%E5%B1%8F60Hz%E7%9A%84%E8%89%B0%E9%9A%BE%E6%97%85%E7%A8%8B/" class="post-title-link" itemprop="url">MacBook Pro外接显示器(四)之4K屏60Hz的艰难旅程</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-04-20 22:26:46" itemprop="dateCreated datePublished" datetime="2021-04-20T22:26:46+08:00">2021-04-20</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-07 22:16:00" itemprop="dateModified" datetime="2022-05-07T22:16:00+08:00">2022-05-07</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Life/" itemprop="url" rel="index"><span itemprop="name">Life</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>为什么要让外接显示器达到4K@60Hz的刷新率？</p>
-<p>因为4K@30Hz的刷新率鼠标移动时会有明显的延迟感。刷新率越高画面才能越丝滑。4K的显示屏至少需要60Hz的刷新率，当然如果支持144Hz的那更好。对于一般用户60Hz基本足够。</p>
-<p>外接显示器达到4K@60Hz刷新率的条件</p>
-<p>主机支持（主要是主机的显卡），显示器支持，线材支持。该条件符合木桶原理只要其中一个不满足就无法达到4K@60Hz的刷新率。为了到达这个目标需要我们对主机的端口，显示器参数，线材等有一个基本的了解。下面一个个介绍。</p>
-<p><strong>主机支持</strong></p>
-<p>我的电脑是MacBook Pro 13寸 2014mid的。可以从苹果官网 <a target="_blank" rel="noopener" href="https://support.apple.com/kb/sp703?locale=zh_CN">macbook pro 2014mid</a> 查到这款电脑的参数说明，如下端口部分是我们重点关注的：</p>
-<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/1C147D43EA0F9787EC5FA06822136426.jpg" style="zoom:50%;"></p>
-<p>可以看到HDMI端口只能输出60Hz的1080p。而4K的只能到30Hz或24Hz。所以我们就不能使用该端口作为视频输出。相应的我们就不能买HDMI（主机）—HDMI（显示器）线或HDMI—DP线材。不管这根HDMI线支持的版本是多少都不能买。（ps:这里线材使用”主机端口—显示器端口“表示，下同）</p>
-<p>而对于Thunderbolt2端口支持原生MiniDP输出，但没有写明能否支持到4K@60Hz。搞得我一度以为通过MiniDP—DP能达到4K@60Hz，然而换了几次线后发现还是不行，最后又搜索了好久的资料基本可以确定这款机器不管通过什么端口都不能达到4K@60Hz。所以如果技术规格里没写明的话基本上是支持不了的。</p>
-<p>让我们看一下2015年中的15寸的mbp的技术规格：</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/04/20/MacBook%20Pro%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8(%E5%9B%9B)%E4%B9%8B4K%E5%B1%8F60Hz%E7%9A%84%E8%89%B0%E9%9A%BE%E6%97%85%E7%A8%8B/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1143,20 +1166,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">167</span>
+          <span class="site-state-item-count">169</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">37</span>
+        <span class="site-state-item-count">39</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">110</span>
+        <span class="site-state-item-count">112</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
