@@ -187,6 +187,89 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/05/07/hexo-next%E4%B8%BB%E9%A2%98%E7%BB%99%E6%96%87%E7%AB%A0%E6%B7%BB%E5%8A%A0%E7%89%88%E6%9D%83%E4%BF%A1%E6%81%AF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/07/hexo-next%E4%B8%BB%E9%A2%98%E7%BB%99%E6%96%87%E7%AB%A0%E6%B7%BB%E5%8A%A0%E7%89%88%E6%9D%83%E4%BF%A1%E6%81%AF/" class="post-title-link" itemprop="url">hexo next主题给文章添加版权信息</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-05-07 17:17:12 / 修改时间：17:30:15" itemprop="dateCreated datePublished" datetime="2022-05-07T17:17:12+08:00">2022-05-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Hexo/" itemprop="url" rel="index"><span itemprop="name">Hexo</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="next主题下给文章添加版权信息"><a href="#next主题下给文章添加版权信息" class="headerlink" title="next主题下给文章添加版权信息"></a>next主题下给文章添加版权信息</h2><p>1、修改<code>_config.yml</code>文件</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">creative_commons:</span></span><br><span class="line">  <span class="attr">license:</span> <span class="string">by-nc-sa</span></span><br><span class="line">  <span class="attr">sidebar:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">post:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">language:</span></span><br></pre></td></tr></table></figure>
+<p>post的值改为true表示文章开启添加版权信息。</p>
+<p>至此，部署后就可以看到每篇文章下面都会有版权信息了。但是有一些文章我们不想添加版权信息，那么还需要接着设置：</p>
+<p>2、打开文件 <code>themes/next/layout/_macro/post.swig</code> ：</p>
+<p>找到creative_commons那一行改为：</p>
+<figure class="highlight handlebars"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="language-xml">&#123;%- if theme.creative_commons.license and theme.creative_commons.post and page.copyright %&#125;</span></span><br><span class="line"><span class="language-xml">  </span><span class="template-variable">&#123;&#123; <span class="name"><span class="built_in">partial</span></span>(<span class="name">&#x27;_partials/post/post-copyright.swig&#x27;</span>) &#125;&#125;</span><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">&#123;%- endif %&#125;</span></span><br></pre></td></tr></table></figure>
+<p>就是添加了 page.copyright ，这样就可以单独控制某篇文章是否添加版权信息了。</p>
+<p>在文章开头的头部添加 <code>copyright: true</code> 表示当前文章要添加版权信息，false表示不需要。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/07/hexo-next%E4%B8%BB%E9%A2%98%E7%BB%99%E6%96%87%E7%AB%A0%E6%B7%BB%E5%8A%A0%E7%89%88%E6%9D%83%E4%BF%A1%E6%81%AF/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/05/01/iOS%E5%AE%9A%E6%97%B6%E5%99%A8%E6%9D%82%E8%AE%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1016,86 +1099,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2021/07/09/iOS%E6%8E%A8%E9%80%81%E8%AF%81%E4%B9%A6%E6%9B%B4%E6%96%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="芝士就是力量">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/07/09/iOS%E6%8E%A8%E9%80%81%E8%AF%81%E4%B9%A6%E6%9B%B4%E6%96%B0/" class="post-title-link" itemprop="url">iOS推送证书更新</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-07-09 11:49:51" itemprop="dateCreated datePublished" datetime="2021-07-09T11:49:51+08:00">2021-07-09</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-31 12:59:08" itemprop="dateModified" datetime="2022-07-31T12:59:08+08:00">2022-07-31</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/APP%E4%B8%8A%E6%9E%B6/" itemprop="url" rel="index"><span itemprop="name">APP上架</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>首先确保你登录的账号权限要能够修改证书。</p>
-<p><strong>导出p12文件</strong></p>
-<p>打开钥匙串访问，点“登陆—&gt;我的证书”，选中刚安装的通用证书（不带development的是通用环境（开发，生产都可以用）），导出为p12，设置好密码，上传到个推网站上。也可以同时上传专门用于开发的p12。</p>
-<p><strong>更新profiles文件</strong></p>
-<p>更新推送证书后别忘了更新profile文件。选中侧边栏Profiles，选中对应profile，进入后点击edite，然后勾选select all，点击保存。</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/iotjin/article/details/118302860">iOS - 推送证书更新（Apple Development和极光）</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/be9415a0a6fb?from=timeline">iOS 推送证书加入到钥匙串后,无法导出P12文件</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1166,7 +1169,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">169</span>
+          <span class="site-state-item-count">170</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1179,7 +1182,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">112</span>
+        <span class="site-state-item-count">113</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

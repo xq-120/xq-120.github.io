@@ -187,6 +187,96 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/05/03/Swift%E6%95%B0%E7%BB%84%E6%88%AA%E5%8F%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/03/Swift%E6%95%B0%E7%BB%84%E6%88%AA%E5%8F%96/" class="post-title-link" itemprop="url">Swift数组截取</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-03 15:20:11" itemprop="dateCreated datePublished" datetime="2020-05-03T15:20:11+08:00">2020-05-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>数组截取的一些方法：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr <span class="operator">=</span> [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]</span><br><span class="line"><span class="comment">//startIndex:0, endIndex:5</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;startIndex:<span class="subst">\(arr.startIndex)</span>, endIndex:<span class="subst">\(arr.endIndex)</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> slice1 <span class="operator">=</span> arr.dropFirst(<span class="number">2</span>)</span><br><span class="line"><span class="comment">//startIndex:2, endIndex:5</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;startIndex:<span class="subst">\(slice1.startIndex)</span>, endIndex:<span class="subst">\(slice1.endIndex)</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> slice2 <span class="operator">=</span> arr.dropFirst().dropLast()</span><br><span class="line"><span class="comment">//startIndex:1, endIndex:4</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;startIndex:<span class="subst">\(slice2.startIndex)</span>, endIndex:<span class="subst">\(slice2.endIndex)</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> rs <span class="operator">=</span> arr.dropFirst().prefix(upTo: <span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span>(rs) <span class="comment">//[2, 3]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> rs1 <span class="operator">=</span> arr.dropFirst().prefix(<span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span>(rs1) <span class="comment">//[2, 3, 4]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> fib <span class="operator">=</span> [<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">8</span>, <span class="number">13</span>, <span class="number">21</span>]</span><br><span class="line"><span class="keyword">let</span> slfib <span class="operator">=</span> fib[<span class="number">1</span><span class="operator">...</span><span class="number">5</span>]</span><br><span class="line"><span class="comment">//startIndex:1, endIndex:6</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;startIndex:<span class="subst">\(slfib.startIndex)</span>, endIndex:<span class="subst">\(slfib.endIndex)</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(slfib) <span class="comment">//[1, 2, 3, 5, 8]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> prefix(upTo end: Int)</span></span><br><span class="line"><span class="comment"> 表示从集合的索引startIndex开始截取到索引n之间的元素，不包含索引n元素。n取值范围：[startIndex, endIndex]，传startIndex则返回空数组，传endIndex则返回整个数组。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">let</span> prefixArr0 <span class="operator">=</span> arr.prefix(upTo: arr.startIndex)</span><br><span class="line"><span class="built_in">print</span>(prefixArr0) <span class="comment">//[]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> prefixArr <span class="operator">=</span> arr.prefix(upTo: <span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span>(prefixArr) <span class="comment">//[1, 2, 3]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> prefixArr1 <span class="operator">=</span> arr.prefix(upTo: arr.endIndex)</span><br><span class="line"><span class="built_in">print</span>(prefixArr1) <span class="comment">//[1, 2, 3, 4, 5]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> prefixArr2 <span class="operator">=</span> slfib.prefix(upTo: <span class="number">3</span>) <span class="comment">//根据上面说明这里只能取[1, 6],取0会崩溃</span></span><br><span class="line"><span class="built_in">print</span>(prefixArr2) <span class="comment">//[1, 2]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//prefix(_ maxLength: Int)，表示截取集合前n个元素，n取值范围：n&gt;=0，当n = 0时，返回空数组；当n&gt;数组个数时，则返回全部。</span></span><br><span class="line"><span class="keyword">let</span> preArr2 <span class="operator">=</span> arr.prefix(<span class="number">2</span>)</span><br><span class="line"><span class="built_in">print</span>(preArr2) <span class="comment">//[1, 2]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> prefix(through position: Int)</span></span><br><span class="line"><span class="comment"> 表示从集合的索引startIndex开始截取到索引n之间的元素，包含索引n元素。n取值范围：[startIndex, endIndex)。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">let</span> preArr3 <span class="operator">=</span> arr.prefix(through: <span class="number">4</span>)</span><br><span class="line"><span class="built_in">print</span>(preArr3) <span class="comment">//[1, 2, 3, 4, 5]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//suffix(from start: Int)：从集合的索引n元素开始截取到末尾，包含索引n元素，n取值范围：[startIndex, endIndex]，当n为endIndex时，结果为空数组。</span></span><br><span class="line"><span class="keyword">let</span> suffixArr0 <span class="operator">=</span> arr.suffix(from: arr.startIndex)</span><br><span class="line"><span class="built_in">print</span>(suffixArr0) <span class="comment">//[1, 2, 3, 4, 5]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> suffixArr00 <span class="operator">=</span> arr.suffix(from: arr.endIndex)</span><br><span class="line"><span class="built_in">print</span>(suffixArr00) <span class="comment">//[]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> suffixArr <span class="operator">=</span> arr.suffix(from: <span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span>(suffixArr) <span class="comment">//[4, 5]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> suffixArr2 <span class="operator">=</span> slfib.suffix(from: <span class="number">3</span>) <span class="comment">//这里参数也不能取0，因为startIndex==1。</span></span><br><span class="line"><span class="built_in">print</span>(suffixArr2) <span class="comment">//[3, 5, 8]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//suffix(_ maxLength: Int)：截取集合的最后n个元素，n取值范围：n&gt;=0，当n = 0时，返回空数组；当n&gt;数组元素个数时，则返回全部。</span></span><br><span class="line"><span class="keyword">let</span> suffixArr1 <span class="operator">=</span> arr.suffix(<span class="number">0</span>)</span><br><span class="line"><span class="built_in">print</span>(suffixArr1) <span class="comment">//[]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//使用range时，参数取值范围为[0, 数组个数]，且start&lt;=end。当start 或 end 等于count时，右边只能用&quot;&lt;&quot;或省略end了。不能等于，否则越界了。</span></span><br><span class="line"><span class="keyword">let</span> rangeArr <span class="operator">=</span> arr[<span class="number">3</span><span class="operator">...</span><span class="number">3</span>]</span><br><span class="line"><span class="built_in">print</span>(rangeArr) <span class="comment">//[4]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> rangeArr1 <span class="operator">=</span> arr[<span class="number">2</span><span class="operator">..&lt;</span><span class="number">4</span>]</span><br><span class="line"><span class="built_in">print</span>(rangeArr1) <span class="comment">//[3, 4]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> rangeArr2 <span class="operator">=</span> arr[<span class="number">2</span><span class="operator">...</span>]</span><br><span class="line"><span class="built_in">print</span>(rangeArr2) <span class="comment">//[3, 4, 5]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> rangeArr3 <span class="operator">=</span> arr[<span class="operator">..&lt;</span><span class="number">3</span>]</span><br><span class="line"><span class="built_in">print</span>(rangeArr3) <span class="comment">//[1, 2, 3]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> rangeArr4 <span class="operator">=</span> arr[<span class="number">5</span><span class="operator">..&lt;</span><span class="number">5</span>]</span><br><span class="line"><span class="built_in">print</span>(rangeArr4) <span class="comment">//[]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> rangeArr5 <span class="operator">=</span> arr[<span class="number">5</span><span class="operator">...</span>]</span><br><span class="line"><span class="built_in">print</span>(rangeArr5) <span class="comment">//[]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//从头部开始删除n个元素，当n&gt;数组元素个数时表示删除全部，结果返回空数组。</span></span><br><span class="line"><span class="keyword">let</span> dropFirstArr <span class="operator">=</span> arr.dropFirst(<span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span>(dropFirstArr) <span class="comment">//[4, 5]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//从尾部开始删除n个元素，当n&gt;数组元素个数时表示删除全部，结果返回空数组。</span></span><br><span class="line"><span class="keyword">let</span> dropLastArr <span class="operator">=</span> arr.dropLast(<span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span>(dropLastArr) <span class="comment">//[1, 2]</span></span><br></pre></td></tr></table></figure>
+<p>上述操作之后得到的都是数组切片类型，而不是数组类型。这里简单介绍一下<code>ArraySlice</code> 类型，因为上面有些方法是跟索引相关的，比如方法<code>prefix(upTo end: Int)</code>，而<code>ArraySlice</code> 类型的startIndex并不总是从0开始，所以得到的结果可能出乎你的预料。</p>
+<p><code>ArraySlice</code> 类型官方文档：</p>
+<p>The <code>ArraySlice</code> type makes it fast and efficient for you to perform operations on sections of a larger array. Instead of copying over the elements of a slice to new storage, an <code>ArraySlice</code>instance presents a view onto the storage of a larger array. And because <code>ArraySlice</code> presents the same interface as <code>Array</code>, you can generally perform the same operations on a slice as you could on the original array.</p>
+<p>Unlike <code>Array</code> and <code>ContiguousArray</code>, the starting index for an <code>ArraySlice</code> instance isn’t always zero. Slices maintain the same indices of the larger array for the same elements, so the starting index of a slice depends on how it was created, letting you perform index-based operations on either a full array or a slice.</p>
+<p><code>ArraySlice</code>是<code>Array</code>, <code>ContiguousArray</code>, or <code>ArraySlice</code> 实例的一个切片。但是它并不会将切片中的元素拷贝到一个新的存储空间，而是依然指向原始数组。</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/ArraySlice1.jpg" style="zoom:50%;"></p>
+<p>注意：endIndex始终指向集合最后一个元素的后一个位置。系统的很多方法涉及到索引时都会跟startIndex和endIndex相关。而不是0和数组个数。</p>
+<p><strong><code>ArraySlice</code>的startIndex并不总是从0开始</strong>，而是取决于它的创建方式。下面的例子中可以看到slice1的startIndex是2而不是0。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/05/03/Swift%E6%95%B0%E7%BB%84%E6%88%AA%E5%8F%96/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/05/01/%E4%B9%B0%E5%9F%BA%E5%AE%9E%E8%B7%B5%E6%80%BB%E7%BB%93/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1014,99 +1104,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/03/08/Swift%20%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B%E8%BD%AC%E6%8D%A2%E6%A1%86%E6%9E%B6%E6%AF%94%E8%BE%83/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="芝士就是力量">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/03/08/Swift%20%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B%E8%BD%AC%E6%8D%A2%E6%A1%86%E6%9E%B6%E6%AF%94%E8%BE%83/" class="post-title-link" itemprop="url">Swift 数据模型转换框架比较</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-03-08 22:54:50" itemprop="dateCreated datePublished" datetime="2020-03-08T22:54:50+08:00">2020-03-08</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Xcode11.3.1,Swift5环境.</p>
-<p>在App开发中经常需要将服务端返回的JSON数据转化为模型使用,选择一个好的数据模型转换框架有助于提高开发体验以及减少转换过程中的错误.</p>
-<p>我们希望框架支持纯Swift类,结构体,OC类,因此YYModel和MJExtension等一系列优秀的OC数据模型转换框架是不满足要求的,因为它们都需要模型继承自NSObject.</p>
-<p>目前使用较多的数据模型转换框架有:</p>
-<ol>
-<li>系统自带的基于Codable的JSONDecoder/JSONEncoder.</li>
-<li>HandyJSON</li>
-<li>ObjectMapper</li>
-</ol>
-<p>下面简单介绍一下各框架的使用,并从框架的使用便捷性和数据容错性上进行一个比较.</p>
-<h3 id="JSONDecoder-JSONEncoder"><a href="#JSONDecoder-JSONEncoder" class="headerlink" title="JSONDecoder/JSONEncoder"></a>JSONDecoder/JSONEncoder</h3><p>介绍JSONDecoder之前,先来看下Codable是什么.</p>
-<p>Codable是Swift 4.0开始引入的新特性.Codable定义:<code>public typealias Codable = Decodable &amp; Encodable</code>,可以看到Codable是一个类型别名,代表同时遵守Decodable和Encodable协议.</p>
-<p>Decodable协议定义了一个解码函数:</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/03/08/Swift%20%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B%E8%BD%AC%E6%8D%A2%E6%A1%86%E6%9E%B6%E6%AF%94%E8%BE%83/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1177,7 +1174,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">169</span>
+          <span class="site-state-item-count">170</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1190,7 +1187,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">112</span>
+        <span class="site-state-item-count">113</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

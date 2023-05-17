@@ -187,6 +187,92 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2017/10/18/didSelectRowAtIndexPath%E4%B8%8D%E8%A2%AB%E8%B0%83%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/10/18/didSelectRowAtIndexPath%E4%B8%8D%E8%A2%AB%E8%B0%83%E7%94%A8/" class="post-title-link" itemprop="url">didSelectRowAtIndexPath不被调用</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-10-18 15:01:11" itemprop="dateCreated datePublished" datetime="2017-10-18T15:01:11+08:00">2017-10-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/UIKit/" itemprop="url" rel="index"><span itemprop="name">UIKit</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="didSelectRowAtIndexPath不被调用"><a href="#didSelectRowAtIndexPath不被调用" class="headerlink" title="didSelectRowAtIndexPath不被调用"></a>didSelectRowAtIndexPath不被调用</h2><p>vc.view上添加一个UITableView,并且vc.view上添加一个UITapGestureRecognizer手势,那么<code>- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath</code>代理方法将不再被调用.</p>
+<p>这是由于<code>UIGestureRecognizer</code>有一个属性:<br><code>@property(nonatomic) BOOL cancelsTouchesInView;</code><br>官方的注释:default is YES. causes touchesCancelled:withEvent: or pressesCancelled:withEvent: to be sent to the view for all touches or presses recognized as part of this gesture immediately before the action method is called.<br>该属性默认是YES,在action方法被调用之前系统会迅速调用View的touchesCancelled:withEvent: or pressesCancelled:withEvent:方法.touches事件将立即被cancel.所有的touches或presses对象将转而被用于手势识别.因此当一个View上添加了一个手势那么该View的touchesEnded方法将不会被调用(只会touchesBegan-&gt;touchesCancelled).</p>
+<p>可以推断出:如果一个button上又添加一个tap手势,则最后只会有tap响应,button的target则不会被调用.这是由于手势识别时会cancel掉后面的Touches.因此当用户触摸一个控件时,手势的处理优先于触摸事件的处理.</p>
+<p>因此,要想didSelectRowAtIndexPath方法被调用,有两种解决办法:  </p>
+<ol>
+<li>设置<code>tap.cancelsTouchesInView = NO;</code>让touch事件继续进行,从而让view可以继续处理.</li>
+<li><p>实现<code>UIGestureRecognizerDelegate</code>的代理方法</p>
+ <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">BOOL</span>)gestureRecognizer:(<span class="built_in">UIGestureRecognizer</span> *)gestureRecognizer shouldReceiveTouch:(<span class="built_in">UITouch</span> *)touch &#123;</span><br><span class="line">    <span class="keyword">if</span> ([touch.view isKindOfClass:<span class="built_in">NSClassFromString</span>(<span class="string">@&quot;UITableViewCellContentView&quot;</span>)]) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NO</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p> 当点击到cell.contentView上时,让tap手势不处理touches.</p>
+</li>
+</ol>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考:"></a>参考:</h3><p><a target="_blank" rel="noopener" href="https://joakimliu.github.io/2017/01/15/iOS的事件处理/">iOS的事件处理</a></p>
+<p>Event Handling Guide for iOS </p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2017/10/13/CUICatalog-Invalid%20asset%20name%20supplied/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -909,87 +995,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2017/09/10/can't%20find%20gem%20cocoapods/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="芝士就是力量">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/09/10/can't%20find%20gem%20cocoapods/" class="post-title-link" itemprop="url">can't find gem cocoapods (>= 0.a)</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2017-09-10 15:37:26" itemprop="dateCreated datePublished" datetime="2017-09-10T15:37:26+08:00">2017-09-10</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CocoaPods/" itemprop="url" rel="index"><span itemprop="name">CocoaPods</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="更新ruby后-pod-install出错"><a href="#更新ruby后-pod-install出错" class="headerlink" title="更新ruby后,pod install出错."></a>更新ruby后,pod install出错.</h2><p>xuequandeiMac:KingDynastyGaming xuequan$ pod install<br>提示:</p>
-<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/Library/Ruby/Site/<span class="number">2.0</span><span class="number">.0</span>/rubygems.rb:<span class="number">270</span>:<span class="keyword">in</span> `find_spec_for_ex<span class="string">e&#x27;: can&#x27;</span>t find gem cocoapods (&gt;= <span class="number">0.</span>a) (Gem::GemNotFoundException) <span class="keyword">from</span> /Library/Ruby/Site/<span class="number">2.0</span><span class="number">.0</span>/rubygems.rb:<span class="number">298</span>:<span class="keyword">in</span> `activate_bin_path<span class="string">&#x27; from /usr/local/bin/pod:22:in `&lt;main&gt;&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>解决办法:卸载cocoapods后重新安装</p>
-<ol>
-<li>sudo gem uninstall cocoapods</li>
-<li>gem install cocoapods</li>
-<li>pod install</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1060,7 +1065,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">169</span>
+          <span class="site-state-item-count">170</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1073,7 +1078,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">112</span>
+        <span class="site-state-item-count">113</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

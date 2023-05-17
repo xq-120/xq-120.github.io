@@ -187,6 +187,93 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2023/02/26/Swift%E4%B8%AD%E7%9A%84%E5%85%B3%E9%94%AE%E5%AD%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/02/26/Swift%E4%B8%AD%E7%9A%84%E5%85%B3%E9%94%AE%E5%AD%97/" class="post-title-link" itemprop="url">Swift中的关键字</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-02-26 19:49:33" itemprop="dateCreated datePublished" datetime="2023-02-26T19:49:33+08:00">2023-02-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-03-04 00:30:00" itemprop="dateModified" datetime="2023-03-04T00:30:00+08:00">2023-03-04</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="inline"><a href="#inline" class="headerlink" title="@inline"></a>@inline</h3><p>说明：函数内联，一种编译器优化技术。声明内联的函数，编译器会把该函数调用的地方用它的实现替换有点类似C语言的宏，这样就减少了函数的调用开销，属于一种微优化，如果函数实现简单，调用非常频繁可以使用内联进行优化。由于内联是把函数调用的地方用它的实现替换，因此内联可能会让程序的二进制包变大，取决于编译优化等级，编译器可能会自动对一些频繁调用的函数进行内联，如果这个函数实现比较复杂，那么此时的内联可能弊大于利，这个时候可以使用 @inline(never) 明确告知编译器关闭这一特性。@inline的另一个应用场景就是代码混淆增加逆向难度。</p>
+<p>用法：使用@inline(__always) 和 @inline(never) 修饰函数。函数的访问权限可以是public也可以是private。</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://swiftrocks.com/the-forbidden-inline-attribute-in-swift">The Forbidden @inline Attribute in Swift</a></p>
+<h3 id="inlinable"><a href="#inlinable" class="headerlink" title="@inlinable"></a>@inlinable</h3><p>说明：<code>@inlinable</code> 属性允许您为特定方法启用<strong>跨模块内联</strong>。这样做了之后，方法的实现将作为模块公共接口的一部分来公开，允许编译器进一步优化来自不同模块的调用。使用 <code>@inlinable</code> 最大的收益就是有些方法可能会有性能开销，尽管大多数的方法这种开销可以忽略不计，但像那种包含泛型和闭包的，开销很大。使用<code>@inlinable</code> 可以带来性能提升，不过包的大小会增加。</p>
+<p>用法：’@inlinable’ 只能用于 public 函数，不能修饰private函数。</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://swiftrocks.com/understanding-inlinable-in-swift.html">Understanding <code>@inlinable</code> in Swift</a></p>
+<h3 id="autoclosure"><a href="#autoclosure" class="headerlink" title="@autoclosure"></a>@autoclosure</h3><p>The <code>@autoclosure</code> attribute can be applied to a closure parameter for a function, and automatically creates a closure from an <strong>expression</strong> you pass in. When you call a function that uses this attribute, the code you write <em>isn’t</em> a closure, but it <em>becomes</em> a closure, which can be a bit confusing – even the official Swift reference guide warns that overusing autoclosures makes your code harder to understand.</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/02/26/Swift%E4%B8%AD%E7%9A%84%E5%85%B3%E9%94%AE%E5%AD%97/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2023/02/20/pod%E5%BA%93%E4%BE%9D%E8%B5%96%E7%AC%AC%E4%B8%89%E6%96%B9OC++%E5%BA%93%E7%BC%96%E8%AF%91%E6%8A%A5%E9%94%99%E9%97%AE%E9%A2%98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -945,95 +1032,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/08/17/MessageKit%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="芝士就是力量">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/08/17/MessageKit%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" class="post-title-link" itemprop="url">MessageKit源码分析</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-08-17 11:34:00" itemprop="dateCreated datePublished" datetime="2022-08-17T11:34:00+08:00">2022-08-17</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-08-29 22:02:03" itemprop="dateModified" datetime="2022-08-29T22:02:03+08:00">2022-08-29</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" itemprop="url" rel="index"><span itemprop="name">源码分析</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>MessageKit是一个开源的IM 消息聊天UI框架。</p>
-<p>MessageKit采用UICollectionView而非UITableView作为主体架构（为什么要这么设计Why?），采用UICollectionViewCell实现聊天cell。一个section对应一条聊天消息，默认一个section里面只有一个cell（为什么要这么设计Why？）。</p>
-<p>作为一个框架，难就难在如何封装各种风格迥异的聊天cell？MessageKit自定义了一种CollectionView布局方式MessagesCollectionViewFlowLayout，它继承自UICollectionViewFlowLayout。对应需要自定义layoutAttributes—MessagesCollectionViewLayoutAttributes，继承自UICollectionViewLayoutAttributes。</p>
-<p>框架内部提供了几种默认的消息类型:</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// An enum representing the kind of message and its underlying kind.</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> <span class="title class_">MessageKind</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// A standard text message.</span></span><br><span class="line">    <span class="comment">///</span></span><br><span class="line">    <span class="comment">/// - Note: The font used for this message will be the value of the</span></span><br><span class="line">    <span class="comment">/// `messageLabelFont` property in the `MessagesCollectionViewFlowLayout` object.</span></span><br><span class="line">    <span class="comment">///</span></span><br><span class="line">    <span class="comment">/// Using `MessageKind.attributedText(NSAttributedString)` doesn&#x27;t require you</span></span><br><span class="line">    <span class="comment">/// to set this property and results in higher performance.</span></span><br><span class="line">    <span class="keyword">case</span> text(<span class="type">String</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// A message with attributed text.</span></span><br><span class="line">    <span class="keyword">case</span> attributedText(<span class="type">NSAttributedString</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// A photo message.</span></span><br><span class="line">    <span class="keyword">case</span> photo(<span class="type">MediaItem</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// A video message.</span></span><br><span class="line">    <span class="keyword">case</span> video(<span class="type">MediaItem</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// A location message.</span></span><br><span class="line">    <span class="keyword">case</span> location(<span class="type">LocationItem</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// An emoji message.</span></span><br><span class="line">    <span class="keyword">case</span> emoji(<span class="type">String</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// An audio message.</span></span><br><span class="line">    <span class="keyword">case</span> audio(<span class="type">AudioItem</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// A contact message.</span></span><br><span class="line">    <span class="keyword">case</span> contact(<span class="type">ContactItem</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// A link preview message.</span></span><br><span class="line">    <span class="keyword">case</span> linkPreview(<span class="type">LinkItem</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// A custom message.</span></span><br><span class="line">    <span class="comment">/// - Note: Using this case requires that you implement the following methods and handle this case:</span></span><br><span class="line">    <span class="comment">///   - MessagesDataSource: customCell(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -&gt; UICollectionViewCell</span></span><br><span class="line">    <span class="comment">///   - MessagesLayoutDelegate: customCellSizeCalculator(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -&gt; CellSizeCalculator</span></span><br><span class="line">    <span class="keyword">case</span> custom(<span class="keyword">Any</span><span class="operator">?</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// MARK: - Not supported yet</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//    case system(String)</span></span><br><span class="line"><span class="comment">//    </span></span><br><span class="line"><span class="comment">//    case placeholder</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>每种消息类型提供了默认的cell样式，如果不想用默认的样式可以通过代理自己返回。每种cell对应一种CellSizeCalculator，用于提供cell的宽高。内部提供的比如：TextMessageCell—TextMessageSizeCalculator、MediaMessageCell—MediaMessageSizeCalculator、AudioMessageCell—AudioMessageSizeCalculator。</p>
-<p>MessageKit的设计思想真的吊，框架提供了默认样式，如果不想用默认的样式可以通过代理自己返回。</p>
-<h2 id="几种基类"><a href="#几种基类" class="headerlink" title="几种基类"></a>几种基类</h2><p>MessagesViewController—&gt;UIViewController</p>
-<p>实际使用时可以继承MessagesViewController或拷贝其源码到自己的控制器。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/08/17/MessageKit%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1104,7 +1102,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">169</span>
+          <span class="site-state-item-count">170</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1117,7 +1115,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">112</span>
+        <span class="site-state-item-count">113</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

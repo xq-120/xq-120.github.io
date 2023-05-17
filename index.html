@@ -362,6 +362,95 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2023/05/14/iOS%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E6%B5%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/05/14/iOS%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E6%B5%81/" class="post-title-link" itemprop="url">iOS输入输出流</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-05-14 12:05:50" itemprop="dateCreated datePublished" datetime="2023-05-14T12:05:50+08:00">2023-05-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-05-17 21:31:34" itemprop="dateModified" datetime="2023-05-17T21:31:34+08:00">2023-05-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Foundation/" itemprop="url" rel="index"><span itemprop="name">Foundation</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>流式读写数据，所谓流式就是像小溪流一样细水长流避免峰值影响。它可以让你避免一次性将数据加载到内存，从而导致内存暴涨。比如播放一个本地视频文件，你不需要先将整个视频都加载到内存再播放，而是读取一段播放一段。</p>
+<p>系统提供了两个子类NSInputStream和NSOutputStream用于流式处理。NSInputStream用于流式读取数据，NSOutputStream用于流式写入数据。</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/stream_src_dest.gif" alt></p>
+<h2 id="NSInputStream"><a href="#NSInputStream" class="headerlink" title="NSInputStream"></a>NSInputStream</h2><p>输入流，按次序从仓库读取数据。这个仓库可以是一个文件，一个NSData对象或者是一个网络socket。注意：网络socket输入流和前面两种输入流的初始化步骤是不一样的。</p>
+<p>因为是读数据，所以仓库必须存在，比如如果仓库是一个文件，则该文件必须存在，否则会打开失败提升：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">读错误：<span class="built_in">Error</span> <span class="attribute">Domain</span>=NSPOSIXErrorDomain <span class="attribute">Code</span>=2 <span class="string">&quot;No such file or directory&quot;</span> UserInfo=&#123;<span class="attribute">_kCFStreamErrorCodeKey</span>=2, <span class="attribute">_kCFStreamErrorDomainKey</span>=1&#125;</span><br></pre></td></tr></table></figure>
+<p>read:maxLength:</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- (NSInteger)read:(<span class="type">uint8_t</span> *)buffer maxLength:(NSUInteger)len;</span><br><span class="line">    <span class="comment">// reads up to length bytes into the supplied buffer, which must be at least of size len. Returns the actual number of bytes read.</span></span><br></pre></td></tr></table></figure>
+<p>返回值说明：</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/05/14/iOS%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E6%B5%81/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2023/05/07/OC%E7%B1%BB%E4%B8%8E%E5%85%83%E7%B1%BB/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -952,93 +1041,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2023/02/26/Swift%E4%B8%AD%E7%9A%84%E5%85%B3%E9%94%AE%E5%AD%97/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="芝士就是力量">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/02/26/Swift%E4%B8%AD%E7%9A%84%E5%85%B3%E9%94%AE%E5%AD%97/" class="post-title-link" itemprop="url">Swift中的关键字</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-02-26 19:49:33" itemprop="dateCreated datePublished" datetime="2023-02-26T19:49:33+08:00">2023-02-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-03-04 00:30:00" itemprop="dateModified" datetime="2023-03-04T00:30:00+08:00">2023-03-04</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="inline"><a href="#inline" class="headerlink" title="@inline"></a>@inline</h3><p>说明：函数内联，一种编译器优化技术。声明内联的函数，编译器会把该函数调用的地方用它的实现替换有点类似C语言的宏，这样就减少了函数的调用开销，属于一种微优化，如果函数实现简单，调用非常频繁可以使用内联进行优化。由于内联是把函数调用的地方用它的实现替换，因此内联可能会让程序的二进制包变大，取决于编译优化等级，编译器可能会自动对一些频繁调用的函数进行内联，如果这个函数实现比较复杂，那么此时的内联可能弊大于利，这个时候可以使用 @inline(never) 明确告知编译器关闭这一特性。@inline的另一个应用场景就是代码混淆增加逆向难度。</p>
-<p>用法：使用@inline(__always) 和 @inline(never) 修饰函数。函数的访问权限可以是public也可以是private。</p>
-<p>参考：<a target="_blank" rel="noopener" href="https://swiftrocks.com/the-forbidden-inline-attribute-in-swift">The Forbidden @inline Attribute in Swift</a></p>
-<h3 id="inlinable"><a href="#inlinable" class="headerlink" title="@inlinable"></a>@inlinable</h3><p>说明：<code>@inlinable</code> 属性允许您为特定方法启用<strong>跨模块内联</strong>。这样做了之后，方法的实现将作为模块公共接口的一部分来公开，允许编译器进一步优化来自不同模块的调用。使用 <code>@inlinable</code> 最大的收益就是有些方法可能会有性能开销，尽管大多数的方法这种开销可以忽略不计，但像那种包含泛型和闭包的，开销很大。使用<code>@inlinable</code> 可以带来性能提升，不过包的大小会增加。</p>
-<p>用法：’@inlinable’ 只能用于 public 函数，不能修饰private函数。</p>
-<p>参考：<a target="_blank" rel="noopener" href="https://swiftrocks.com/understanding-inlinable-in-swift.html">Understanding <code>@inlinable</code> in Swift</a></p>
-<h3 id="autoclosure"><a href="#autoclosure" class="headerlink" title="@autoclosure"></a>@autoclosure</h3><p>The <code>@autoclosure</code> attribute can be applied to a closure parameter for a function, and automatically creates a closure from an <strong>expression</strong> you pass in. When you call a function that uses this attribute, the code you write <em>isn’t</em> a closure, but it <em>becomes</em> a closure, which can be a bit confusing – even the official Swift reference guide warns that overusing autoclosures makes your code harder to understand.</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/02/26/Swift%E4%B8%AD%E7%9A%84%E5%85%B3%E9%94%AE%E5%AD%97/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1109,7 +1111,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">169</span>
+          <span class="site-state-item-count">170</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1122,7 +1124,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">112</span>
+        <span class="site-state-item-count">113</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
