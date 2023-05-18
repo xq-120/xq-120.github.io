@@ -187,6 +187,97 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2017/10/21/%E9%87%87%E7%94%A8%20Modern%20Objective-C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/10/21/%E9%87%87%E7%94%A8%20Modern%20Objective-C/" class="post-title-link" itemprop="url">采用 Modern Objective-C</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-10-21 13:21:24" itemprop="dateCreated datePublished" datetime="2017-10-21T13:21:24+08:00">2017-10-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="采用-Modern-Objective-C"><a href="#采用-Modern-Objective-C" class="headerlink" title="采用 Modern Objective-C"></a>采用 Modern Objective-C</h2><p>参考:<a target="_blank" rel="noopener" href="https://developer.apple.com/library/content/releasenotes/ObjectiveC/ModernizationObjC/AdoptingModernObjective-C/AdoptingModernObjective-C.html">Adopting Modern Objective-C</a></p>
+<p>These modernizations <strong>improve type safety, memory management, performance, and other aspects of Objective-C</strong>, making it easier for you to write correct code. It’s important to adopt these changes in your existing and future code to help it become more consistent, readable, and resilient.</p>
+<h3 id="instancetype"><a href="#instancetype" class="headerlink" title="instancetype"></a>instancetype</h3><p>Use the instancetype keyword as the return type of methods that return an instance of the class they are called on (or a subclass of that class).<br>Using instancetype instead of id in appropriate places <strong>improves type safety</strong> in your Objective-C code.<br>使用instancetype后,如果给对象发送一条不能识别的消息那么编译器就会提示错误,这样就可以提前解决错误,因此提高了类型安全.参考官方文档上的例子说明.</p>
+<p>Note that you should replace id with instancetype for return values only, not elsewhere in your code. Unlike id, the instancetype keyword can be used only as the result type in a method declaration.</p>
+<h3 id="property语法"><a href="#property语法" class="headerlink" title="@property语法"></a><code>@property</code>语法</h3><p>使用properties代替实例变量有许多好处.</p>
+<ul>
+<li>自动合成getter和setter.</li>
+<li>更好的声明一系列方法的意图.</li>
+<li>Property关键字可以传递额外的信息.比如assign (vs copy), weak, atomic (vs nonatomic), and so on.</li>
+</ul>
+<p>Property methods follow a simple naming convention. The getter is the name of the property (for example, date), and the setter is the name of the property with the set prefix, written in camel case (for example, setDate). The naming convention for Boolean properties is to declare them with a named getter starting with the word “is”:<br><code>@property (readonly, getter=isBlue) BOOL blue;</code></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2017/10/21/%E9%87%87%E7%94%A8%20Modern%20Objective-C/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2017/10/18/didSelectRowAtIndexPath%E4%B8%8D%E8%A2%AB%E8%B0%83%E7%94%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -918,88 +1009,11 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2017/09/10/CocoaPods%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="芝士就是力量">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/09/10/CocoaPods%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">CocoaPods常见问题</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2017-09-10 16:07:12" itemprop="dateCreated datePublished" datetime="2017-09-10T16:07:12+08:00">2017-09-10</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CocoaPods/" itemprop="url" rel="index"><span itemprop="name">CocoaPods</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Q:在用 Cocoapods 做第三方开源库管理的时候，有时候发现查找到的第三方库版本低于github上仓库的最新release版本.<br>A:执行<code>pod update</code>更新本地仓库，完成后，即可搜索到指定的第三方库.  </p>
-<p>Q:在使用了<code>pod setup</code>之后，发现好长时间都没有变化，无法从终端上获取<code>pod setup</code>的执行情况.<br>A:这时候可以command+N新建一个窗口，通过<code>sudo ls</code>用管理员权限查看目录,然后<code>cd .cocoapods</code>文件夹，输入<code>du -sh</code>命令查看文件夹大小变化，从而确定<code>pod setup</code>的运行情况.</p>
-<p>note:在Podfile文件中的<code>platform :ios, &#39;7.0&#39;</code>,如果你设置的iOS系统过低,可能有的第三方库会下载不下来.所以还是要看一下第三方库的最低版本支持说明.</p>
-<p>Q:RuntimeError - [Xcodeproj] Unknown object version.然后是一大堆错误日志.不管是重新从svn checkout一份新的还是怎样,pod install都不能成功.<br>A:一种解决办法:重新安装cocoapods.</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/15/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><span class="page-number current">16</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/17/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/15/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><span class="page-number current">16</span><a class="page-number" href="/page/17/">17</a><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/17/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1065,20 +1079,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">170</span>
+          <span class="site-state-item-count">171</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-count">40</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">113</span>
+        <span class="site-state-item-count">116</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

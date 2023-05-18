@@ -187,6 +187,80 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/07/09/SCLAlertView%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/07/09/SCLAlertView%E4%BD%BF%E7%94%A8/" class="post-title-link" itemprop="url">SCLAlertView使用</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-07-09 15:26:27" itemprop="dateCreated datePublished" datetime="2018-07-09T15:26:27+08:00">2018-07-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%BD%BF%E7%94%A8/" itemprop="url" rel="index"><span itemprop="name">第三方库使用</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="SCLAlertView使用"><a href="#SCLAlertView使用" class="headerlink" title="SCLAlertView使用"></a>SCLAlertView使用</h2><p>SCLAlertView设置</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">void</span>)showPopView</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//提交成功</span></span><br><span class="line">    SCLAlertView *alertView = [[SCLAlertView alloc] initWithNewWindowWidth:<span class="number">310</span>];</span><br><span class="line">    <span class="comment">//去掉顶部圆圈</span></span><br><span class="line">    [alertView removeTopCircle];</span><br><span class="line">    <span class="comment">//按钮水平放置</span></span><br><span class="line">    [alertView setHorizontalButtons:<span class="literal">YES</span>];</span><br><span class="line">    <span class="comment">//设置出现动画</span></span><br><span class="line">    alertView.showAnimationType = SCLAlertViewShowAnimationSimplyAppear;</span><br><span class="line">    alertView.shouldDismissOnTapOutside = <span class="literal">NO</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//设置title的字体和颜色</span></span><br><span class="line">    alertView.labelTitle.font = [<span class="built_in">UIFont</span> pingFangSCWithSize:<span class="number">16</span>];</span><br><span class="line">    alertView.labelTitle.textColor = [<span class="built_in">UIColor</span> blackColor];</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//设置富文本的subTitle</span></span><br><span class="line">    alertView.attributedFormatBlock = ^<span class="built_in">NSAttributedString</span> *(<span class="built_in">NSString</span> *value) &#123;</span><br><span class="line">        <span class="keyword">return</span> [<span class="built_in">NSString</span> attributeString:value subString:<span class="string">@&quot;13812341234&quot;</span> subStrColor:kRedColorRegular font:[<span class="built_in">UIFont</span> pingFangSCWithSize:<span class="number">16</span>] otherStrColor:[<span class="built_in">UIColor</span> colorWithHexString:<span class="string">@&quot;#818181&quot;</span>]];</span><br><span class="line">    &#125;;</span><br><span class="line">    [alertView setBodyTextFontFamily:<span class="string">@&quot;PingFangSC-Regular&quot;</span> withSize:<span class="number">16</span>];</span><br><span class="line">    <span class="comment">//设置普通文本的subTitle</span></span><br><span class="line"><span class="comment">//    alertView.viewText.font = [UIFont pingFangSCWithSize:16];</span></span><br><span class="line"><span class="comment">//    alertView.viewText.textColor = [UIColor colorWithHexString:@&quot;#818181&quot;];</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//设置Buttons, top circle and borders的颜色简便方法</span></span><br><span class="line">    alertView.customViewColor = [<span class="built_in">UIColor</span> redColor];</span><br><span class="line">    <span class="comment">//统一设置按钮的配置强大方法</span></span><br><span class="line">    alertView.buttonFormatBlock = ^ <span class="built_in">NSDictionary</span> *&#123;</span><br><span class="line">        <span class="keyword">return</span> @&#123;<span class="string">@&quot;backgroundColor&quot;</span>: [<span class="built_in">UIColor</span> cyanColor]&#125;;</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    SCLButton *authPersonalBtn = [alertView addButton:<span class="string">@&quot;取消&quot;</span> actionBlock:^(<span class="type">void</span>) &#123;</span><br><span class="line">        DLog(<span class="string">@&quot;取消按钮被按下&quot;</span>);</span><br><span class="line">    &#125;];</span><br><span class="line">    authPersonalBtn.titleLabel.font = [<span class="built_in">UIFont</span> pingFangSCWithSize:<span class="number">16</span>];</span><br><span class="line">    authPersonalBtn.buttonFormatBlock = ^ <span class="built_in">NSDictionary</span> *&#123;</span><br><span class="line">        <span class="keyword">return</span> @&#123;<span class="string">@&quot;backgroundColor&quot;</span>: [<span class="built_in">UIColor</span> whiteColor], <span class="string">@&quot;textColor&quot;</span>: [<span class="built_in">UIColor</span> colorWithHexString:<span class="string">@&quot;#818181&quot;</span>], <span class="string">@&quot;borderWidth&quot;</span>: @<span class="number">0</span>&#125;;</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    SCLButton *authCompanyBtn = [alertView addButton:<span class="string">@&quot;去注册&quot;</span> actionBlock:^(<span class="type">void</span>) &#123;</span><br><span class="line">        DLog(<span class="string">@&quot;去注册按钮被按下&quot;</span>);</span><br><span class="line">    &#125;];</span><br><span class="line">    authCompanyBtn.titleLabel.font = [<span class="built_in">UIFont</span> pingFangSCWithSize:<span class="number">16</span>];</span><br><span class="line">    <span class="comment">//单独设置某个按钮的配置</span></span><br><span class="line">    authCompanyBtn.buttonFormatBlock = ^ <span class="built_in">NSDictionary</span> *&#123;</span><br><span class="line">        <span class="keyword">return</span> @&#123;<span class="string">@&quot;backgroundColor&quot;</span>: [<span class="built_in">UIColor</span> whiteColor], <span class="string">@&quot;textColor&quot;</span>: [<span class="built_in">UIColor</span> blackColor], <span class="string">@&quot;borderWidth&quot;</span>: @<span class="number">0</span>&#125;;</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    [alertView showSuccess:<span class="keyword">self</span> title:<span class="string">@&quot;手机号码未注册&quot;</span> subTitle:<span class="string">@&quot;手机号码 13812341234 未注册， 请注册后再登录。&quot;</span> closeButtonTitle:<span class="literal">nil</span> duration:<span class="number">0.0</span>f];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/07/09/UITextField%E7%AC%94%E8%AE%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -960,99 +1034,11 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/03/22/CocoaPods%E5%91%BD%E4%BB%A4%E4%BB%8B%E7%BB%8D/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="芝士就是力量">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/03/22/CocoaPods%E5%91%BD%E4%BB%A4%E4%BB%8B%E7%BB%8D/" class="post-title-link" itemprop="url">CocoaPods命令介绍</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-03-22 16:42:24" itemprop="dateCreated datePublished" datetime="2018-03-22T16:42:24+08:00">2018-03-22</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-10-01 13:45:04" itemprop="dateModified" datetime="2021-10-01T13:45:04+08:00">2021-10-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CocoaPods/" itemprop="url" rel="index"><span itemprop="name">CocoaPods</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="pod-install和pod-update"><a href="#pod-install和pod-update" class="headerlink" title="pod install和pod update"></a>pod install和pod update</h3><h4 id="pod-install"><a href="#pod-install" class="headerlink" title="pod install"></a>pod install</h4><p>每次运行pod install命令，并且有下载安装新的库时，CocoaPods会把这些安装的库的版本都写在Podfile.lock文件里面。这个文件记录你每个安装库的版本号，并且锁定了这些版本。</p>
-<p>后面再次运行的时候,它会解析Podfile.lock文件,对于存在在Podfile.lock文件中的则安装Podfile.lock文件中的版本的库而不会去检测该库是否有最新的版本可用,对于不在Podfile.lock文件中的,则根据Podfile文件指定的库版本下载安装.</p>
-<p>pod install不会去更新已存在的库的版本.</p>
-<p>举个栗子：</p>
-<p>IGListKit 有v3.1.0，和v3.1.1两个版本</p>
-<p>Podfile如下： <code>pod &#39;IGListKit&#39;, &#39;~&gt; 3.1.0&#39;</code></p>
-<p>场景1：第一次安装，无Podfile.lock。</p>
-<p>此时执行pod install，你会发现下载并安装的是3.1.1版本。因为Podfile中使用的是 <code>~&gt;</code> ，表明可以使用较新的一个小版本。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/03/22/CocoaPods%E5%91%BD%E4%BB%A4%E4%BB%8B%E7%BB%8D/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/12/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/14/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/12/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/14/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1118,20 +1104,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">170</span>
+          <span class="site-state-item-count">171</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-count">40</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">113</span>
+        <span class="site-state-item-count">116</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

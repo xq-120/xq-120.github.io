@@ -187,6 +187,83 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/07/27/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9Crange%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/07/27/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9Crange%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/" class="post-title-link" itemprop="url">字符串操作range注意事项</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-07-27 11:06:19" itemprop="dateCreated datePublished" datetime="2022-07-27T11:06:19+08:00">2022-07-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-07-31 12:59:08" itemprop="dateModified" datetime="2022-07-31T12:59:08+08:00">2022-07-31</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%97%E7%AC%A6%E4%B8%B2/" itemprop="url" rel="index"><span itemprop="name">字符串</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>代码：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="built_in">NSString</span> *string = <span class="string">@&quot;&quot;</span>;</span><br><span class="line">    <span class="built_in">NSString</span> *ret = [string stringByReplacingCharactersInRange:<span class="built_in">NSMakeRange</span>(<span class="number">0</span>, <span class="number">0</span>) withString:<span class="string">@&quot;因吹斯汀&quot;</span>];</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;string:%@\nret:%@&quot;</span>, string, ret); <span class="comment">//因吹斯汀</span></span><br><span class="line">&#125;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">NSString</span> *string = <span class="string">@&quot;倒计时开关是&quot;</span>;</span><br><span class="line">    <span class="built_in">NSString</span> *ret = [string stringByReplacingCharactersInRange:<span class="built_in">NSMakeRange</span>(<span class="number">0</span>, <span class="number">0</span>) withString:<span class="string">@&quot;因吹斯汀&quot;</span>];</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;string:%@\nret:%@&quot;</span>, string, ret); <span class="comment">//因吹斯汀倒计时开关是</span></span><br><span class="line">&#125;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">NSString</span> *string = <span class="string">@&quot;倒计时开关是&quot;</span>;</span><br><span class="line">    <span class="built_in">NSString</span> *ret = [string stringByReplacingCharactersInRange:<span class="built_in">NSMakeRange</span>(<span class="number">0</span>, <span class="number">1</span>) withString:<span class="string">@&quot;因吹斯汀&quot;</span>];</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;string:%@\nret:%@&quot;</span>, string, ret); <span class="comment">//因吹斯汀计时开关是</span></span><br><span class="line">&#125;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">NSString</span> *string = <span class="string">@&quot;倒计时开关是&quot;</span>;</span><br><span class="line">    <span class="built_in">NSString</span> *ret = [string stringByReplacingCharactersInRange:<span class="built_in">NSMakeRange</span>(string.length, <span class="number">0</span>) withString:<span class="string">@&quot;因吹斯汀&quot;</span>]; <span class="comment">//倒计时开关是因吹斯汀</span></span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;string:%@\nret:%@&quot;</span>, string, ret);</span><br><span class="line">&#125;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">NSString</span> *string = <span class="string">@&quot;倒计时开关是&quot;</span>;</span><br><span class="line">    <span class="built_in">NSString</span> *ret = [string stringByReplacingCharactersInRange:<span class="built_in">NSMakeRange</span>(string.length - <span class="number">1</span>, <span class="number">1</span>) withString:<span class="string">@&quot;因吹斯汀&quot;</span>]; <span class="comment">//倒计时开关因吹斯汀</span></span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;string:%@\nret:%@&quot;</span>, string, ret);</span><br><span class="line">&#125;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">NSString</span> *string = <span class="string">@&quot;倒计时开关是&quot;</span>;</span><br><span class="line">    <span class="built_in">NSString</span> *ret = [string stringByReplacingCharactersInRange:<span class="built_in">NSMakeRange</span>(string.length, <span class="number">1</span>) withString:<span class="string">@&quot;因吹斯汀&quot;</span>]; <span class="comment">//崩溃</span></span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;string:%@\nret:%@&quot;</span>, string, ret);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>总结：</p>
+<p>传入的range必须满足：(range.location + range.length) &lt;= string.length，否则会发生越界崩溃。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/07/27/%E9%9A%90%E5%BC%8F%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E5%AF%BC%E8%87%B4%E7%9A%84%E8%AF%A1%E5%BC%82bug/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -965,95 +1042,11 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/05/08/MacBook%20Pro%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8(%E5%85%AD)%E4%B9%8B%E6%88%91%E7%9A%84%E7%94%B5%E8%84%91%E4%BF%AE%E5%A5%BD%E4%BA%86/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="芝士就是力量">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/08/MacBook%20Pro%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8(%E5%85%AD)%E4%B9%8B%E6%88%91%E7%9A%84%E7%94%B5%E8%84%91%E4%BF%AE%E5%A5%BD%E4%BA%86/" class="post-title-link" itemprop="url">MacBook Pro外接显示器(六)之我的电脑修好了</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-05-08 14:20:38 / 修改时间：17:11:17" itemprop="dateCreated datePublished" datetime="2022-05-08T14:20:38+08:00">2022-05-08</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Life/" itemprop="url" rel="index"><span itemprop="name">Life</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>自从电脑坏了之后就一直没有拿去修，没空是一方面，更多的是担心修不好还被坑维修费。就这样磨磨蹭蹭过了差不多大半年，今年五一放假也没啥去处，于是想干脆去华强北修一修，万一修好了呢。本来是想5月1日去修的，结果起太晚了磨蹭到2点感觉有点晚了，就想着第二天去吧，结果第二天下了一天的雨，也没去成。</p>
-<p>5月3日天气有点阴沉，但好歹没下雨了。于是从角落把电脑翻出来发现盖子都有点发霉了，简单的清理了一下便装进背包，向华强北出发。华强北虽然经过过几次，但没去里边修过东西，出发前搜了下华强北修电脑的帖子，广告很多，被骗被坑的回答也很多，很多答主说要慎重，说有的店就是拖着你说修不好让你低价卖给他，有的还会偷换电脑零件，反正啥样的都有。看完之后还是有点忐忑的，倒不是怕偷换零件，毕竟我这个电脑用了6年半了也没啥好零件了，主要是怕漫天要价，拖着不修，扯皮闹心。</p>
-<p>不过还是决定去试一下，下午两点到了华强路A出口，一出来就看到几家手机电脑维修的店子，我也不知道哪家好，也没有多问多选，直接走进了第一家。进去之后没有说修电脑的事，当时手机拍照有黑斑，就先问了下手机的问题能不能修，维修的几个人都是年轻人，说能修大概160-180块钱，只需要清洗一下摄像头就可以弄好。</p>
-<p>这里说一下维修店的模式，基本上店面都是一个小门面，相当于一个小工作台，这里只会做一些简单的维修比如换个屏，贴个膜，初步检测下设备啥的，如果问题比较大或者需要其他设备，他们会拿到他们所谓的维修间里，两个地方是有一段距离的而且你是不可能跟着去的，顾客只能在店面等着。</p>
-<p>话说回来，让他拆下摄像头后我问要洗多久，他说大概要等1个小时。感觉还行便问这里能不能修电脑，他说能修电脑，于是我把电脑给他看了看，告诉他是主板烧坏了，他拿着万用表测了测，说的原因我也记不住，大概的意思是芯片供电模块短路。</p>
-<p>我：修好大概要多少钱</p>
-<p>他：550</p>
-<p>我：有点贵</p>
-<p>他：已经是最低价了，这样吧，加上那个洗摄像头的费用一共700怎么样</p>
-<p>我：那要修多久啊</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/05/08/MacBook%20Pro%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8(%E5%85%AD)%E4%B9%8B%E6%88%91%E7%9A%84%E7%94%B5%E8%84%91%E4%BF%AE%E5%A5%BD%E4%BA%86/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1119,20 +1112,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">170</span>
+          <span class="site-state-item-count">171</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-count">40</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">113</span>
+        <span class="site-state-item-count">116</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

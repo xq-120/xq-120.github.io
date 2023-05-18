@@ -187,6 +187,83 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2017/09/10/CocoaPods%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/09/10/CocoaPods%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">CocoaPods常见问题</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-09-10 16:07:12" itemprop="dateCreated datePublished" datetime="2017-09-10T16:07:12+08:00">2017-09-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CocoaPods/" itemprop="url" rel="index"><span itemprop="name">CocoaPods</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Q:在用 Cocoapods 做第三方开源库管理的时候，有时候发现查找到的第三方库版本低于github上仓库的最新release版本.<br>A:执行<code>pod update</code>更新本地仓库，完成后，即可搜索到指定的第三方库.  </p>
+<p>Q:在使用了<code>pod setup</code>之后，发现好长时间都没有变化，无法从终端上获取<code>pod setup</code>的执行情况.<br>A:这时候可以command+N新建一个窗口，通过<code>sudo ls</code>用管理员权限查看目录,然后<code>cd .cocoapods</code>文件夹，输入<code>du -sh</code>命令查看文件夹大小变化，从而确定<code>pod setup</code>的运行情况.</p>
+<p>note:在Podfile文件中的<code>platform :ios, &#39;7.0&#39;</code>,如果你设置的iOS系统过低,可能有的第三方库会下载不下来.所以还是要看一下第三方库的最低版本支持说明.</p>
+<p>Q:RuntimeError - [Xcodeproj] Unknown object version.然后是一大堆错误日志.不管是重新从svn checkout一份新的还是怎样,pod install都不能成功.<br>A:一种解决办法:重新安装cocoapods.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2017/09/10/can't%20find%20gem%20cocoapods/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -935,100 +1012,11 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2014/12/13/OC-property%E3%80%81synthesize%E3%80%81dynamic%E5%85%B3%E9%94%AE%E5%AD%97/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="芝士就是力量">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2014/12/13/OC-property%E3%80%81synthesize%E3%80%81dynamic%E5%85%B3%E9%94%AE%E5%AD%97/" class="post-title-link" itemprop="url">OC property、synthesize、dynamic关键字</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2014-12-13 22:55:34" itemprop="dateCreated datePublished" datetime="2014-12-13T22:55:34+08:00">2014-12-13</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-05-05 22:01:32" itemprop="dateModified" datetime="2023-05-05T22:01:32+08:00">2023-05-05</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>OC的变量：</p>
-<p>OC有4种基本数据类型：char，int，float，double。它们又有一些限定词：signed，unsigned，short，long，long long。</p>
-<p>实例变量+基本数据类型变量=成员变量。</p>
-<p>实例变量指的是由类定义的变量。</p>
-<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/9acde5b5-688e-4709-8406-b42a5ad1b24e.jpg" alt></p>
-<h2 id="property"><a href="#property" class="headerlink" title="@property"></a>@property</h2><p>@property指令作用：声明了一个属性及属性的两个访问器方法。</p>
-<p>如果在@implementation块里@synthesize和@dynamic都没写，那么编译器会帮你自动添加@syntheszie property = _property;有一种情况除外:子类属性和父类属性同名.此时会报警告:</p>
-<p>“Auto property synthesis will not synthesize property ‘delegate’; it will be implemented by its superclass, use @dynamic to acknowledge intention”</p>
-<p>这个时候就需要自己实现属性了.两种常用解决办法:</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2014/12/13/OC-property%E3%80%81synthesize%E3%80%81dynamic%E5%85%B3%E9%94%AE%E5%AD%97/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/16/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><span class="page-number current">17</span>
+    <a class="extend prev" rel="prev" href="/page/16/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><span class="page-number current">17</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/18/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1094,20 +1082,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">170</span>
+          <span class="site-state-item-count">171</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-count">40</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">113</span>
+        <span class="site-state-item-count">116</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

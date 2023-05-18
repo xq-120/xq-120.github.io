@@ -187,6 +187,95 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/07/20/%E5%86%85%E5%AD%98%E5%AF%B9%E9%BD%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/07/20/%E5%86%85%E5%AD%98%E5%AF%B9%E9%BD%90/" class="post-title-link" itemprop="url">内存对齐</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-07-20 09:56:55" itemprop="dateCreated datePublished" datetime="2020-07-20T09:56:55+08:00">2020-07-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-10-15 19:36:08" itemprop="dateModified" datetime="2022-10-15T19:36:08+08:00">2022-10-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">计算机基础</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="为什么要进行内存对齐"><a href="#为什么要进行内存对齐" class="headerlink" title="为什么要进行内存对齐"></a>为什么要进行内存对齐</h3><p>主要有两个原因：1.内存对齐后可以减少内存的读取次数，提高内存的访问效率。2.提高程序的可移植性，因为有的平台对寻址的起始地址有要求。</p>
+<p>现代计算机中内存空间都是按照 byte 划分的，从理论上讲似乎对任何类型的变量的访问可以从任何地址开始，但是实际的计算机系统对数据在内存中存放的位置是有限制的，它们会要求这些数据的内存首地址的值是某个数k（通常它为4或8）的倍数，这就是所谓的内存对齐。<br>注：某个数是4的倍数，不一定就是8的倍数，比如4、12、20、28、36。但反过来是8的倍数则必定是4的倍数。</p>
+<p>内存对齐主要是为了提高内存的访问效率，CPU访问内存时，并不是逐个字节访问，而是以字长（word size）为单位访问。比如32位的CPU，字长为4字节，那么CPU访问内存的单位也是4字节，即一次读取4个字节的内存。又比如intel 32位cpu，每个总线周期都是从偶数地址开始读取32位的内存数据，如果数据存放地址不是从偶数开始，则可能出现需要两个总线周期才能读取到想要的数据，因此需要在内存中存放数据时进行对齐。</p>
+<p>总之一句话，只有当数据的首地址为某个数k（通常它为4或8）的倍数时（偶数地址），CPU需要进行数据剔除的情况才会越少发生。当剔除操作无法避免时，剔除次数越少越好，如果数据的首地址是奇数，那么CPU需要剔除前后的数据。而如果是偶数则最好情况下只需要剔除前面或后面的数据。char类型的变量因为只占1个字节就随便了。</p>
+<p>假如没有内存对齐机制，数据可以在任意内存地址处开始存放：</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20200925224735.png" alt></p>
+<p>现在一个int变量存放在从地址1开始的连续四个字节地址中，该处理器去取数据时，要先从0地址开始读取第一个4字节块,剔除不想要的字节（0地址）,然后从地址4开始读取下一个4字节块,同样剔除不要的数据（5，6，7地址）,最后留下的两块数据合并放入寄存器.这需要做很多工作.</p>
+<p>如果int变量存放在从地址4开始的连续四个字节地址中，就可以一次读取完数据。</p>
+<p>所以int变量的内存首地址通常在4的倍数的地址处开始，比如上面的编号为4或8的地址处，而不可能是2或5这样的地址处。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/07/20/%E5%86%85%E5%AD%98%E5%AF%B9%E9%BD%90/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/07/03/%E9%A2%84%E5%A4%84%E7%90%86%E5%91%BD%E4%BB%A4%E4%B9%8B%E5%AE%8F%E5%AE%9A%E4%B9%89/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -998,101 +1087,11 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/05/04/%E8%87%AA%E5%AE%9A%E4%B9%89Xcode%E6%A8%A1%E6%9D%BF/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="芝士就是力量">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/05/04/%E8%87%AA%E5%AE%9A%E4%B9%89Xcode%E6%A8%A1%E6%9D%BF/" class="post-title-link" itemprop="url">自定义Xcode模板</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-05-04 21:12:40" itemprop="dateCreated datePublished" datetime="2020-05-04T21:12:40+08:00">2020-05-04</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Xcode/" itemprop="url" rel="index"><span itemprop="name">Xcode</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>很多时候我们需要一个较复杂场景的Demo工程来验证点东西或者研究某个技术，直接在公司项目工程中实验运行又太慢，并且还可能受到其他代码的影响。而Xcode自身提供的工程模板又太过简单，导致每次都要浪费很多时间编写重复的代码来搭建环境。为了提高效率，我们可以自定义工程模板和文件模板。</p>
-<p>如下图，系统提供的默认模板其实都在<code>Xcode.app</code>中，自定义工程模板和文件模板最好的办法就是参考系统的模板。</p>
-<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/%E5%B7%A5%E7%A8%8B%E6%A8%A1%E6%9D%BF%E5%B1%95%E7%A4%BA%E6%95%88%E6%9E%9C.png" style="zoom:50%;"></p>
-<p>系统的工程模板位置:</p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="regexp">/Applications/</span>Xcode.app<span class="regexp">/Contents/</span>Developer<span class="regexp">/Platforms/i</span>PhoneOS.platform<span class="regexp">/Developer/</span>Library<span class="regexp">/Xcode/</span>Templates<span class="regexp">/Project Templates/i</span>OS</span><br></pre></td></tr></table></figure>
-<p>系统的文件模板位置:</p>
-<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="regexp">/Applications/</span>Xcode.app<span class="regexp">/Contents/</span>Developer<span class="regexp">/Platforms/i</span>PhoneOS.platform<span class="regexp">/Developer/</span>Library<span class="regexp">/Xcode/</span>Templates/<span class="keyword">File</span> Templates</span><br></pre></td></tr></table></figure>
-<p>以上是系统默认的模板存储路径，对于自定义的模板则需要存放在其他路径：</p>
-<p>自定义工程模板的路径需要存放在:<code>~/Library/Developer/Xcode/Templates/Project Templates/Application/</code>.</p>
-<p>自定义文件模板的路径需要存放在:<code>~/Library/Developer/Xcode/Templates/File Templates/</code>.</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/05/04/%E8%87%AA%E5%AE%9A%E4%B9%89Xcode%E6%A8%A1%E6%9D%BF/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/6/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/8/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/6/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/8/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1158,20 +1157,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">170</span>
+          <span class="site-state-item-count">171</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-count">40</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">113</span>
+        <span class="site-state-item-count">116</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
