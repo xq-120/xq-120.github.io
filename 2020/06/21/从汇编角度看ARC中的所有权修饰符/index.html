@@ -36,7 +36,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20200914165036.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20200914165326.png">
 <meta property="article:published_time" content="2020-06-21T08:51:14.000Z">
-<meta property="article:modified_time" content="2022-10-22T03:32:40.507Z">
+<meta property="article:modified_time" content="2023-06-04T03:48:56.927Z">
 <meta property="article:author" content="jekyttt">
 <meta property="article:tag" content="内存管理">
 <meta name="twitter:card" content="summary">
@@ -228,7 +228,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-10-22 11:32:40" itemprop="dateModified" datetime="2022-10-22T11:32:40+08:00">2022-10-22</time>
+                <time title="修改时间：2023-06-04 11:48:56" itemprop="dateModified" datetime="2023-06-04T11:48:56+08:00">2023-06-04</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -388,7 +388,7 @@
 <p>编译器模拟代码：</p>
 <figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">id tmp = objc<span class="constructor">_msgSend(NSObject, <span class="string">&quot;new&quot;</span>)</span>;</span><br><span class="line">id obj1 = tmp;</span><br><span class="line">objc<span class="constructor">_release(<span class="params">tmp</span>)</span>;</span><br><span class="line"><span class="constructor">NSLog(@<span class="string">&quot;obj1：%@&quot;</span>, <span class="params">obj1</span>)</span>;</span><br></pre></td></tr></table></figure>
 <p>这一次会发生崩溃，因为obj1已经变成了一个野指针。</p>
-<p>__unsafe_unretained的功能和 assign 是一样的，只不过assign 既可以修饰对象类型也可以修饰基础类型。</p>
+<p><code>__unsafe_unretained</code>的功能和 assign 是一样的，只不过assign 既可以修饰对象类型也可以修饰基础类型。注意：没有<code>__assign</code>.</p>
 <p>ps：个人感觉虽然 ARC 的优点是在合适的地方自动帮我们添加 retain 和 release，但作为开发者的我们如果没有查看汇编代码并不好确定它究竟会在哪些地方添加以及添加的啥函数调用，所以一些奇怪的现象可能会让你困惑。如果是 MRC 的话，我们就很清楚一个对象的释放与持有，弊端就是麻烦并且容易忘记 release导致内存泄漏。两种方案各有利弊，但总的来说还是 ARC 要更好一些。</p>
 <h3 id="疑问"><a href="#疑问" class="headerlink" title="疑问"></a>疑问</h3><h4 id="Q0：ARC-适用范围？是否仅对-OC-文件起作用？"><a href="#Q0：ARC-适用范围？是否仅对-OC-文件起作用？" class="headerlink" title="Q0：ARC 适用范围？是否仅对 OC 文件起作用？"></a>Q0：ARC 适用范围？是否仅对 OC 文件起作用？</h4><p>这个没查到资料，也不敢确定，但个人感觉 ARC 开启后，编译器应该只对 OC 源文件做处理。毕竟 C++也有它自己的内存管理方式。因此切换语言后还是要注意内存管理的不同。</p>
 <h4 id="Q1：把一个-weak-指针变量当做参数传给一个方法，当方法开始调用时，即使对象被其他线程释放了，此刻对象也不会被销毁，原因是什么？是形参这个指针变量又强引用了对象，导致对象不会被销毁，还是因为编译器插入的objc-loadWeakRetained函数？还是说两者都有？"><a href="#Q1：把一个-weak-指针变量当做参数传给一个方法，当方法开始调用时，即使对象被其他线程释放了，此刻对象也不会被销毁，原因是什么？是形参这个指针变量又强引用了对象，导致对象不会被销毁，还是因为编译器插入的objc-loadWeakRetained函数？还是说两者都有？" class="headerlink" title="Q1：把一个 weak 指针变量当做参数传给一个方法，当方法开始调用时，即使对象被其他线程释放了，此刻对象也不会被销毁，原因是什么？是形参这个指针变量又强引用了对象，导致对象不会被销毁，还是因为编译器插入的objc_loadWeakRetained函数？还是说两者都有？"></a>Q1：把一个 weak 指针变量当做参数传给一个方法，当方法开始调用时，即使对象被其他线程释放了，此刻对象也不会被销毁，原因是什么？是形参这个指针变量又强引用了对象，导致对象不会被销毁，还是因为编译器插入的objc_loadWeakRetained函数？还是说两者都有？</h4><p>两者都有，因为函数调用时会有一些压栈操作，如果没有objc_loadWeakRetained，那么在压栈操作期间，对象可能就销毁了。另外形参赋值的时候编译器也会插入objc_storeStrong这时形参指向的对象会被 retain ，当函数执行完成时，形参被废弃会调用release 方法。函数返回后继续执行<code>objc_release(tmp);</code>，释放对象。</p>
