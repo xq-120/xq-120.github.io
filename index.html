@@ -475,7 +475,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-05-17 21:31:34" itemprop="dateModified" datetime="2023-05-17T21:31:34+08:00">2023-05-17</time>
+                <time title="修改时间：2023-06-10 13:19:06" itemprop="dateModified" datetime="2023-06-10T13:19:06+08:00">2023-06-10</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -505,7 +505,7 @@
 <p>因为是读数据，所以仓库必须存在，比如如果仓库是一个文件，则该文件必须存在，否则会打开失败提升：</p>
 <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">读错误：<span class="built_in">Error</span> <span class="attribute">Domain</span>=NSPOSIXErrorDomain <span class="attribute">Code</span>=2 <span class="string">&quot;No such file or directory&quot;</span> UserInfo=&#123;<span class="attribute">_kCFStreamErrorCodeKey</span>=2, <span class="attribute">_kCFStreamErrorDomainKey</span>=1&#125;</span><br></pre></td></tr></table></figure>
 <p>read:maxLength:</p>
-<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- (NSInteger)read:(<span class="type">uint8_t</span> *)buffer maxLength:(NSUInteger)len;</span><br><span class="line">    <span class="comment">// reads up to length bytes into the supplied buffer, which must be at least of size len. Returns the actual number of bytes read.</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">NSInteger</span>)read:(uint8_t *)buffer maxLength:(<span class="built_in">NSUInteger</span>)len;</span><br><span class="line">    <span class="comment">// reads up to length bytes into the supplied buffer, which must be at least of size len. Returns the actual number of bytes read.</span></span><br></pre></td></tr></table></figure>
 <p>返回值说明：</p>
           <!--noindex-->
             <div class="post-button">
