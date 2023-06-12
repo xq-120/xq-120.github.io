@@ -1801,7 +1801,7 @@
 <p><a href="https://www.cnblogs.com/noKing/p/9334243.html">HTTP/HTTPS协议</a>  面试问题</p>
 ]]></content>
       <categories>
-        <category>HTTP</category>
+        <category>http</category>
       </categories>
   </entry>
   <entry>
@@ -6474,7 +6474,7 @@ objc_msgSend(id _Nullable self, SEL _Nonnull op, ...);</code><br>它的第二个
 <h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><p><a href="https://www.jianshu.com/p/88c8ba682ac7">3分钟搞懂顶级域名|二级域名|子域名|父域名的区别</a></p>
 ]]></content>
       <categories>
-        <category>HTTP</category>
+        <category>http</category>
       </categories>
   </entry>
   <entry>
@@ -7569,7 +7569,7 @@ attachMethodLists(Class cls, method_list_t **addedLists, int addedCount,
     <content><![CDATA[<p>测试某个网址是否使用https:<br><code>nscurl --ats-diagnostics --verbose https://www.baidu.com</code></p>
 ]]></content>
       <categories>
-        <category>HTTP</category>
+        <category>http</category>
       </categories>
   </entry>
   <entry>
