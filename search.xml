@@ -3245,8 +3245,8 @@
         <category>多线程</category>
       </categories>
       <tags>
-        <tag>信号量</tag>
         <tag>锁</tag>
+        <tag>信号量</tag>
       </tags>
   </entry>
   <entry>
