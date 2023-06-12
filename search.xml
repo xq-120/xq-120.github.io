@@ -1803,9 +1803,6 @@
       <categories>
         <category>HTTP</category>
       </categories>
-      <tags>
-        <tag>HTTP</tag>
-      </tags>
   </entry>
   <entry>
     <title>类别导致的target-action方法不调用问题</title>
