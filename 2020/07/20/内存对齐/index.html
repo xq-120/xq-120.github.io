@@ -29,7 +29,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20200925224735.png">
 <meta property="article:published_time" content="2020-07-20T01:56:55.000Z">
-<meta property="article:modified_time" content="2022-10-15T11:36:08.751Z">
+<meta property="article:modified_time" content="2023-06-21T01:40:05.228Z">
 <meta property="article:author" content="jekyttt">
 <meta property="article:tag" content="内存对齐">
 <meta name="twitter:card" content="summary">
@@ -221,7 +221,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-10-15 19:36:08" itemprop="dateModified" datetime="2022-10-15T19:36:08+08:00">2022-10-15</time>
+                <time title="修改时间：2023-06-21 09:40:05" itemprop="dateModified" datetime="2023-06-21T09:40:05+08:00">2023-06-21</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -264,14 +264,14 @@
 <h3 id="sizeof"><a href="#sizeof" class="headerlink" title="sizeof"></a>sizeof</h3><p><strong>sizeof</strong> 是一个关键字，用于判断变量或数据类型的字节大小。它并不是一个函数而是一个<strong>编译时</strong>运算符。字节数的计算在程序编译时进行，而不是在程序执行的过程中才计算出来。</p>
 <p>sizeof 运算符可用于获取类、结构、共用体和其他用户自定义数据类型的大小。</p>
 <h3 id="内存对齐规则"><a href="#内存对齐规则" class="headerlink" title="内存对齐规则"></a>内存对齐规则</h3><p>对齐系数:</p>
-<p>每个特定平台上的编译器都有自己的默认“对齐系数”（也叫对齐模数）。gcc中默认#pragma pack(4)，可以通过预编译命令#pragma pack(n)，n = 1,2,4,8,16来改变这一系数。</p>
+<p>每个特定平台上的编译器都有自己的默认“对齐系数”（也叫对齐模数）。gcc中默认#pragma pack(4)，可以通过预编译命令#pragma pack(n)，n = 1,2,4,8,16来改变这一系数。Xcode默认的对齐系数是8（不确定是否跟CPU的位数有关，32位的就是4，64位的就是8）。</p>
 <p>对齐单位:</p>
 <p>给定值#pragma pack(n)和结构体中最长数据类型长度中较小的那个。即min(pack, 结构体中最长数据类型的长度)</p>
 <p>内存对齐规则：</p>
-<p> (1) 元素对齐。结构体第一个成员的偏移量（offset）为0，以后每个成员相对于结构体首地址的 offset 都是该成员大小与对齐单位中较小那个的整数倍，如有需要编译器会在成员之间加上填充字节。</p>
+<p> (1) 元素对齐。结构体第一个成员的偏移量（offset）为0。下一个数据成员为基本数据类型的，则offset=整数倍的min(d, sizeof(member))。数据成员为结构体的，则offset=整数倍的max(ss.member)。</p>
 <p> (2) 总体对齐。结构体的总大小为对齐单位的整数倍，如有需要编译器会在最末一个成员之后加上填充字节。</p>
 <p>上面的文字用公式表达就是：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>已知对齐系数为p。</span><br><span class="line"><span class="number">2.</span>计算对齐单位d<span class="operator">=</span><span class="built_in">min</span>(p, <span class="built_in">max</span>(s.member))。</span><br><span class="line"><span class="number">3.</span>元素对齐：第一个<span class="keyword">member</span>的<span class="keyword">offset</span>为<span class="number">0</span>，其他<span class="keyword">member</span>的<span class="keyword">offset</span><span class="operator">=</span>整数倍的<span class="built_in">min</span>(d, sizeof(<span class="keyword">member</span>))。</span><br><span class="line"><span class="number">4.</span>总体对齐：整数倍的d。</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>已知对齐系数为p。</span><br><span class="line"><span class="number">2.</span>计算对齐单位d<span class="operator">=</span><span class="built_in">min</span>(p, <span class="built_in">max</span>(s.member))。</span><br><span class="line"><span class="number">3.</span>元素对齐：第一个<span class="keyword">member</span>的<span class="keyword">offset</span>为<span class="number">0</span>，其他<span class="keyword">member</span>的<span class="keyword">offset</span><span class="operator">=</span>整数倍的<span class="built_in">min</span>(d, sizeof(<span class="keyword">member</span>))，<span class="keyword">member</span>为基础类型。</span><br><span class="line">																									<span class="operator">=</span>整数倍的<span class="built_in">max</span>(ss.member)，<span class="keyword">member</span>为结构体,ss代表该<span class="keyword">member</span>结构体。</span><br><span class="line"><span class="number">4.</span>总体对齐：整数倍的d。</span><br></pre></td></tr></table></figure>
 <p>可以使用offsetof(type, member)查看结构体某个成员存储的位置偏移结构体首地址多少个字节。</p>
 <p>基本数据类型需要对齐，结构体可以看成是一些基本数据类型的集合，因此结构体不仅需要整体对齐，其内部各变量的首地址也需要对齐。</p>
 <p>Q：对齐规则为什么是这样的？不知道。为什么要定义一个对齐单位？</p>
