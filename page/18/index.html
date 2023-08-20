@@ -187,6 +187,94 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2016/04/24/UITableViewCell%E9%87%8D%E7%94%A8%E5%AF%BC%E8%87%B4%E7%9A%84%E5%9B%BE%E7%89%87%E9%94%99%E4%B9%B1%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/04/24/UITableViewCell%E9%87%8D%E7%94%A8%E5%AF%BC%E8%87%B4%E7%9A%84%E5%9B%BE%E7%89%87%E9%94%99%E4%B9%B1%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">UITableViewCell重用导致的图片错乱问题</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-04-24 22:25:40" itemprop="dateCreated datePublished" datetime="2016-04-24T22:25:40+08:00">2016-04-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-03-31 17:05:30" itemprop="dateModified" datetime="2023-03-31T17:05:30+08:00">2023-03-31</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/UIKit/" itemprop="url" rel="index"><span itemprop="name">UIKit</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>之前做过一个视频信息列表展示的模块，cell很简单就是左边图片，右边文字信息。当时用的SDWebImage加载图片并没有看到图片错乱的情况。但是，如果是自己写的图片下载器，不注意处理是会导致图片错乱的。</p>
+<p>今天写了个Demo，验证及解决这个问题。<br>实验环境：cell依然是左边图片，右边文字信息。图片两张，一张大图片A(风景)，一张小图片B(人物)，<strong>采用自己实现的原始图片下载器</strong>异步下载，block里回调设置cell的图片。要求偶数行的图片是风景，奇数行的图片是人物。<br>整个界面期望如下:<br><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/1503319-0c16709bb58a8af1.webp" style="zoom:50%;"></p>
+<p>但实际可能出现bug，如下图:<br><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/1503319-396836dd909893b1.webp" style="zoom:50%;"></p>
+<h4 id="数据错乱原因分析"><a href="#数据错乱原因分析" class="headerlink" title="数据错乱原因分析"></a>数据错乱原因分析</h4><p>cell上的数据错乱显然是由于cell的重用导致的。由于图片是异步下载的，下载完成才给cell设置，但是在这个过程中用户可能会上下滑动，滑动的时候会导致cell的重用，比如第0行是设置大图片的，第11行是设置小图片的，用户在滑动的过程中，因为cell的重用第11行的cell可能使用的是第0行的cell，这时第0行的block回调设置的cell和第11行的block回调设置的cell是同一个，即cell的重用导致两个block回调时设置的其实是同一个cell上的imageView。这就是问题的关键。</p>
+<p>因为图片是异步下载的，你也不知道哪个block会先回调，如果小图片的block先回调那么这个cell的图片就先被设置为小图片，如果后来大图片的block回来了，那么你会看到图片被替换成大图片，这种情况还算比较好，但如果大图片下载失败或者小图片的block最后回调，那么你看到的将是小图片加大图片的文字信息，这时数据就错乱了。</p>
+<h4 id="如何解决"><a href="#如何解决" class="headerlink" title="如何解决"></a>如何解决</h4><p>如果不重用cell，当然是可以解决该问题的，但是内存肯定会浪费不少。</p>
+<p>解决的方案有两种：</p>
+<p>方案一：在下载完成的回调里进行区分，如果不一致则不设置imageView。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2016/04/24/UITableViewCell%E9%87%8D%E7%94%A8%E5%AF%BC%E8%87%B4%E7%9A%84%E5%9B%BE%E7%89%87%E9%94%99%E4%B9%B1%E9%97%AE%E9%A2%98/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2014/12/13/OC-property%E3%80%81synthesize%E3%80%81dynamic%E5%85%B3%E9%94%AE%E5%AD%97/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -218,7 +306,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-05-05 22:01:32" itemprop="dateModified" datetime="2023-05-05T22:01:32+08:00">2023-05-05</time>
+                <time title="修改时间：2023-07-17 11:05:05" itemprop="dateModified" datetime="2023-07-17T11:05:05+08:00">2023-07-17</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -243,13 +331,13 @@
       
           <p>OC的变量：</p>
 <p>OC有4种基本数据类型：char，int，float，double。它们又有一些限定词：signed，unsigned，short，long，long long。</p>
-<p>实例变量+基本数据类型变量=成员变量。</p>
-<p>实例变量指的是由类定义的变量。</p>
+<p>实例变量和成员变量是一个概念。</p>
 <p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/9acde5b5-688e-4709-8406-b42a5ad1b24e.jpg" alt></p>
 <h2 id="property"><a href="#property" class="headerlink" title="@property"></a>@property</h2><p>@property指令作用：声明了一个属性及属性的两个访问器方法。</p>
 <p>如果在@implementation块里@synthesize和@dynamic都没写，那么编译器会帮你自动添加@syntheszie property = _property;有一种情况除外:子类属性和父类属性同名.此时会报警告:</p>
 <p>“Auto property synthesis will not synthesize property ‘delegate’; it will be implemented by its superclass, use @dynamic to acknowledge intention”</p>
 <p>这个时候就需要自己实现属性了.两种常用解决办法:</p>
+<figure class="highlight d"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span><span class="keyword">@dynamic</span> <span class="built_in">delegate</span>; <span class="comment">//表示使用父类的实现,此时子类内部将无法访问_delegate.</span></span><br><span class="line"></span><br><span class="line"><span class="number">2.</span><span class="keyword">@synthesize</span> <span class="built_in">delegate</span> = _delegate; <span class="comment">//子类内部可以访问_delegate.</span></span><br></pre></td></tr></table></figure>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2014/12/13/OC-property%E3%80%81synthesize%E3%80%81dynamic%E5%85%B3%E9%94%AE%E5%AD%97/#more" rel="contents">
@@ -342,7 +430,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">171</span>
+          <span class="site-state-item-count">172</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -355,7 +443,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">112</span>
+        <span class="site-state-item-count">113</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
