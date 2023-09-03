@@ -187,7 +187,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/07/18/%E4%B8%80%E7%A7%8D%E5%8F%AF%E8%A1%8C%E7%9A%84%E8%BE%B9%E4%B8%8B%E8%BE%B9%E6%92%AD%E6%96%B9%E6%A1%88for%20AVPlayer/">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2023/09/01/%E6%89%93%E5%8C%85%E9%94%99%E8%AF%AFCommand%20PhaseScriptExecution%20failed/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -201,7 +201,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/07/18/%E4%B8%80%E7%A7%8D%E5%8F%AF%E8%A1%8C%E7%9A%84%E8%BE%B9%E4%B8%8B%E8%BE%B9%E6%92%AD%E6%96%B9%E6%A1%88for%20AVPlayer/" class="post-title-link" itemprop="url">一种可行的边下边播方案for AVPlayer</a>
+            <a href="/2023/09/01/%E6%89%93%E5%8C%85%E9%94%99%E8%AF%AFCommand%20PhaseScriptExecution%20failed/" class="post-title-link" itemprop="url">打包错误Command PhaseScriptExecution failed</a>
         </h1>
 
         <div class="post-meta">
@@ -211,14 +211,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-07-18 23:32:40" itemprop="dateCreated datePublished" datetime="2020-07-18T23:32:40+08:00">2020-07-18</time>
+              <time title="创建时间：2023-09-01 19:06:20" itemprop="dateCreated datePublished" datetime="2023-09-01T19:06:20+08:00">2023-09-01</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-04-30 12:17:36" itemprop="dateModified" datetime="2023-04-30T12:17:36+08:00">2023-04-30</time>
+                <time title="修改时间：2023-09-03 11:42:16" itemprop="dateModified" datetime="2023-09-03T11:42:16+08:00">2023-09-03</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -226,7 +226,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/" itemprop="url" rel="index"><span itemprop="name">音视频</span></a>
+                  <a href="/categories/Xcode/" itemprop="url" rel="index"><span itemprop="name">Xcode</span></a>
                 </span>
             </span>
 
@@ -241,109 +241,13 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>什么是边下边播？</p>
-<p>个人理解边下边播指的是从服务器获取到的数据一边供给播放器播放一边缓存到本地，即使用一遍的流量完成播放和缓存。下次播放时有缓存的地方则播放缓存数据，没有缓存的地方则从服务器获取再播放。</p>
-<h3 id="0-边下边播方案"><a href="#0-边下边播方案" class="headerlink" title="0.边下边播方案"></a>0.边下边播方案</h3><p>目前的边下边播实现方案大致有两种：一种是使用本地代理服务器，一种是使用系统的AVAssetResourceLoaderDelegate。</p>
-<h4 id="使用本地代理服务器"><a href="#使用本地代理服务器" class="headerlink" title="使用本地代理服务器"></a>使用本地代理服务器</h4><p>该方案是在播放器与视频源服务器之间加一层代理服务器，拦截视频播放器发送的请求，根据拦截的请求，向网络服务器请求数据，然后写到本地。本地代理服务器从文件中读取数据并发送给播放器进行播放。</p>
-<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/E26B3DA6-54DC-499A-B2E1-937E65C93A8F.png" style="zoom:50%;"></p>
-<p>对于 iOS 端代理服务器的实现，可以参考和使用 CocoaHTTPServer。对于 iOS 端的视频缓存管理，可以参考和使用 KTVHTTPCache。这种方案难度较高，但自主可控性更高。</p>
-<h4 id="使用系统原生API—AVAssetResourceLoaderDelegate"><a href="#使用系统原生API—AVAssetResourceLoaderDelegate" class="headerlink" title="使用系统原生API—AVAssetResourceLoaderDelegate"></a>使用系统原生API—AVAssetResourceLoaderDelegate</h4>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/07/18/%E4%B8%80%E7%A7%8D%E5%8F%AF%E8%A1%8C%E7%9A%84%E8%BE%B9%E4%B8%8B%E8%BE%B9%E6%92%AD%E6%96%B9%E6%A1%88for%20AVPlayer/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
+          <p>打测试包的时候，提示Command PhaseScriptExecution failed with a nonzero exit code错误。</p>
+<p>找到<code>/Pods/Target Support Files/Pods-Runner/Pods-你的项目-frameworks.sh</code>将</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span>=<span class="string">&quot;<span class="subst">$(readlink <span class="string">&quot;<span class="variable">$&#123;source&#125;</span>&quot;</span>)</span>&quot;</span></span><br></pre></td></tr></table></figure>
+<p>改为</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span>=<span class="string">&quot;<span class="subst">$(readlink -f <span class="string">&quot;<span class="variable">$&#123;source&#125;</span>&quot;</span>)</span>&quot;</span></span><br></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://tugberkcanozen.medium.com/resolving-command-phasescriptexecution-failed-with-a-nonzero-exit-code-error-in-xcode-936d292fc9f8">Resolving “Command PhaseScriptExecution failed with a nonzero exit code” Error in Xcode</a></p>
 
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2021/12/18/%E7%B1%BB%E5%88%AB%E8%A6%86%E7%9B%96%E5%8E%9F%E5%A7%8B%E5%AE%9E%E7%8E%B0%E5%BC%95%E5%8F%91%E7%9A%84%E8%96%9B%E5%AE%9A%E8%B0%94%E7%9A%84bug/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="芝士就是力量">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/12/18/%E7%B1%BB%E5%88%AB%E8%A6%86%E7%9B%96%E5%8E%9F%E5%A7%8B%E5%AE%9E%E7%8E%B0%E5%BC%95%E5%8F%91%E7%9A%84%E8%96%9B%E5%AE%9A%E8%B0%94%E7%9A%84bug/" class="post-title-link" itemprop="url">类别覆盖原始实现引发的薛定谔的bug</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-12-18 10:50:30" itemprop="dateCreated datePublished" datetime="2021-12-18T10:50:30+08:00">2021-12-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-04-30 12:17:22" itemprop="dateModified" datetime="2023-04-30T12:17:22+08:00">2023-04-30</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Bug/" itemprop="url" rel="index"><span itemprop="name">Bug</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="Bug"><a href="#Bug" class="headerlink" title="Bug"></a>Bug</h4><p>出现机型：iPhone7Plus iOS15.1。</p>
-<p>描述：在开发过程中发现弹出弹窗点击关闭之后界面就卡死了。多次尝试之后，最终发现只有在调试的时候出现，把线一拔不调试的时候一切又正常了。拿另一部iPhone6Plus iOS12.5.4的手机又都不会出现。顿时感觉遇到”薛定谔的bug”了。</p>
-<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><p>项目中对UIAlertController做了一层简单的封装，是在自己的window上present出来的，这样在使用的时候就不用操心谁来present了。</p>
-<p>方法接口：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">+ (void)showActionSheetWithTitle:(nullable NSString *)title message:(nullable NSString *)message cancelButtonTitle:(nullable NSString *)cancelButtonTitle destructiveButtonIndex:(NSInteger)destructiveButtonIndex buttonTitles:(nullable NSArray *)buttonTitles showedPatternHandler:(nullable NSDictionary *(^)(void))showedPatternHandler buttonClickedHandler:(nullable void(^)(NSUInteger buttonIndex))buttonClickedHandler;</span><br></pre></td></tr></table></figure>
-<p>内部部分实现：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:preferredStyle];</span><br><span class="line">alertController.alertWindow = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];</span><br><span class="line">alertController.alertWindow.backgroundColor = [UIColor clearColor];</span><br><span class="line">alertController.alertWindow.hidden = NO;</span><br><span class="line">...</span><br><span class="line">alertController.alertWindow.rootViewController = [UIViewController new];</span><br><span class="line">[alertController.alertWindow.rootViewController presentViewController:alertController animated:YES completion:nil];</span><br></pre></td></tr></table></figure>
-<p>刚开始时，对象持有关系：</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/12/18/%E7%B1%BB%E5%88%AB%E8%A6%86%E7%9B%96%E5%8E%9F%E5%A7%8B%E5%AE%9E%E7%8E%B0%E5%BC%95%E5%8F%91%E7%9A%84%E8%96%9B%E5%AE%9A%E8%B0%94%E7%9A%84bug/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
       
     </div>
 
@@ -385,10 +289,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2023-07-30 13:00:20 / 修改时间：16:10:25" itemprop="dateCreated datePublished" datetime="2023-07-30T13:00:20+08:00">2023-07-30</time>
+              <time title="创建时间：2023-07-30 13:00:20" itemprop="dateCreated datePublished" datetime="2023-07-30T13:00:20+08:00">2023-07-30</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-09-03 11:39:59" itemprop="dateModified" datetime="2023-09-03T11:39:59+08:00">2023-09-03</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -1051,6 +961,83 @@
   
   
 
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2023/04/02/Swift%E4%B8%AD%E7%9A%84%E6%9E%9A%E4%B8%BE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/04/02/Swift%E4%B8%AD%E7%9A%84%E6%9E%9A%E4%B8%BE/" class="post-title-link" itemprop="url">Swift中的枚举</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-04-02 13:07:50" itemprop="dateCreated datePublished" datetime="2023-04-02T13:07:50+08:00">2023-04-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-04-05 12:34:25" itemprop="dateModified" datetime="2023-04-05T12:34:25+08:00">2023-04-05</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>1.swift的枚举只能拥有原始值和关联值的其中一种，不能同时拥有，会报错：Enum with raw type cannot have cases with arguments。</p>
+<p>2.读取关联值时不能写参数的类型,否则编译报错。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">BinaryTree</span>&lt;<span class="title class_">Element</span>&gt; &#123;</span><br><span class="line">    <span class="keyword">case</span> leaf</span><br><span class="line">    <span class="keyword">indirect</span> <span class="keyword">case</span> node(v: <span class="type">Element</span>, l: <span class="type">BinaryTree</span>&lt;<span class="type">Element</span>&gt;, r: <span class="type">BinaryTree</span>&lt;<span class="type">Element</span>&gt;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">extension</span> <span class="title class_">BinaryTree</span> &#123;</span><br><span class="line">    <span class="keyword">init</span>(<span class="keyword">_</span> <span class="params">val</span>: <span class="type">Element</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span> <span class="operator">=</span> .node(v: val, l: .leaf, r: .leaf)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//读取关联值时不能写参数的类型,否则编译报错。</span></span><br><span class="line"><span class="comment">//case let .node(v: Element, l: BinaryTree&lt;Element&gt;, r: BinaryTree&lt;Element&gt;):</span></span><br><span class="line"><span class="keyword">extension</span> <span class="title class_">BinaryTree</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> values: [<span class="type">Element</span>] &#123;</span><br><span class="line">        <span class="keyword">switch</span> <span class="keyword">self</span> &#123;</span><br><span class="line">        <span class="keyword">case</span> .leaf:</span><br><span class="line">            <span class="keyword">return</span> []</span><br><span class="line">        <span class="keyword">case</span> <span class="keyword">let</span> .node(v, l, r): <span class="comment">//直接填写变量名称。</span></span><br><span class="line">            <span class="keyword">return</span> l.values <span class="operator">+</span> [v] <span class="operator">+</span> r.values</span><br><span class="line"><span class="comment">//        case .node(let v, var l, var r):</span></span><br><span class="line"><span class="comment">//            return l.values + [v] + r.values</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/59378942/enum-with-raw-type-cannot-have-cases-with-arguments">Enum with raw type cannot have cases with arguments</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
   </div>
 
   
@@ -1121,7 +1108,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">172</span>
+          <span class="site-state-item-count">173</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

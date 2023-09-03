@@ -6,7 +6,7 @@
   <link href="https://xq-120.github.io/atom.xml" rel="self"/>
   
   <link href="https://xq-120.github.io/"/>
-  <updated>2023-07-30T08:10:25.099Z</updated>
+  <updated>2023-09-03T03:42:16.366Z</updated>
   <id>https://xq-120.github.io/</id>
   
   <author>
@@ -17,11 +17,35 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>打包错误Command PhaseScriptExecution failed</title>
+    <link href="https://xq-120.github.io/2023/09/01/%E6%89%93%E5%8C%85%E9%94%99%E8%AF%AFCommand%20PhaseScriptExecution%20failed/"/>
+    <id>https://xq-120.github.io/2023/09/01/%E6%89%93%E5%8C%85%E9%94%99%E8%AF%AFCommand%20PhaseScriptExecution%20failed/</id>
+    <published>2023-09-01T11:06:20.000Z</published>
+    <updated>2023-09-03T03:42:16.366Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;打测试包的时候，提示Command PhaseScriptExecution failed with a nonzero exit code错误。&lt;/p&gt;
+&lt;p&gt;找到&lt;code&gt;/Pods/Target Support</summary>
+        
+      
+    
+    
+    
+    <category term="Xcode" scheme="https://xq-120.github.io/categories/Xcode/"/>
+    
+    
+  </entry>
+  
+  <entry>
     <title>常用目录命令</title>
     <link href="https://xq-120.github.io/2023/07/30/%E5%B8%B8%E7%94%A8%E7%9B%AE%E5%BD%95%E5%91%BD%E4%BB%A4/"/>
     <id>https://xq-120.github.io/2023/07/30/%E5%B8%B8%E7%94%A8%E7%9B%AE%E5%BD%95%E5%91%BD%E4%BB%A4/</id>
     <published>2023-07-30T05:00:20.000Z</published>
-    <updated>2023-07-30T08:10:25.099Z</updated>
+    <updated>2023-09-03T03:39:59.056Z</updated>
     
     
     <summary type="html">&lt;p&gt;macOS目录命令&lt;/p&gt;
@@ -532,30 +556,6 @@
     
     
     <category term="NextGrowingTextView" scheme="https://xq-120.github.io/tags/NextGrowingTextView/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Xcode真机调试提示Unable to install [appName]</title>
-    <link href="https://xq-120.github.io/2022/08/18/Xcode%E7%9C%9F%E6%9C%BA%E8%B0%83%E8%AF%95%E6%8F%90%E7%A4%BAUnable-to-install-appName/"/>
-    <id>https://xq-120.github.io/2022/08/18/Xcode%E7%9C%9F%E6%9C%BA%E8%B0%83%E8%AF%95%E6%8F%90%E7%A4%BAUnable-to-install-appName/</id>
-    <published>2022-08-18T07:54:48.000Z</published>
-    <updated>2022-08-21T02:03:28.909Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;git拉代码到本地后，编译没有问题，但是Xcode一运行在安装app的时候就失败,弹窗提示&lt;/p&gt;
-&lt;figure class=&quot;highlight pgsql&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span</summary>
-        
-      
-    
-    
-    
-    <category term="Xcode" scheme="https://xq-120.github.io/categories/Xcode/"/>
-    
     
   </entry>
   

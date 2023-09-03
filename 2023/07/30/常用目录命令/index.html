@@ -28,7 +28,7 @@
 <meta property="og:description" content="macOS目录命令 1.新建目录mkdir语法： 1mkdir [-p] dirName -p: 如果中间目录不存在则创建一个。不加 -p 参数如果中间目录不存在则会报错：No such file or directory。 示例: 123mkdir 文件名1mkdir 文件名1 文件名2mkdir -p 文件名&#x2F;文件名 通常使用md较多，md是mkdir -p的别名。 2.删除文件rm语法：">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-07-30T05:00:20.000Z">
-<meta property="article:modified_time" content="2023-07-30T08:10:25.099Z">
+<meta property="article:modified_time" content="2023-09-03T03:39:59.056Z">
 <meta property="article:author" content="jekyttt">
 <meta property="article:tag" content="目录命令">
 <meta name="twitter:card" content="summary">
@@ -211,10 +211,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2023-07-30 13:00:20 / 修改时间：16:10:25" itemprop="dateCreated datePublished" datetime="2023-07-30T13:00:20+08:00">2023-07-30</time>
+              <time title="创建时间：2023-07-30 13:00:20" itemprop="dateCreated datePublished" datetime="2023-07-30T13:00:20+08:00">2023-07-30</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-09-03 11:39:59" itemprop="dateModified" datetime="2023-09-03T11:39:59+08:00">2023-09-03</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -306,7 +312,7 @@
 </div>
 <h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>macOS采用的是Unix文件系统，所有文件都挂在根目录”/“下面，所以不要有Windows 下的盘符概念。在 Unix系统中是区别大小写字符的，A.txt 不等于 a.txt。根目录标志 / 不是可有可无，<code>cd /System</code> 表示转到根目录下的System中，而<code>cd System</code> 表示转到当前目录下的 System中。</p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/u011291072/article/details/122782942?spm=1001.2101.3001.6661.1&amp;utm_medium=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-122782942-blog-104642218.235%5Ev38%5Epc_relevant_sort_base3&amp;depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-122782942-blog-104642218.235%5Ev38%5Epc_relevant_sort_base3&amp;utm_relevant_index=1">Shell、Bash、Zsh这都是啥啊</a></p>
-<h2 id=""><a href="#" class="headerlink" title=" "></a> </h2>
+
     </div>
 
     
@@ -359,7 +365,10 @@
     <a href="/2023/05/18/OC%E5%AF%B9%E8%B1%A1%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80/" rel="prev" title="OC对象内存布局">
       <i class="fa fa-chevron-left"></i> OC对象内存布局
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2023/09/01/%E6%89%93%E5%8C%85%E9%94%99%E8%AF%AFCommand%20PhaseScriptExecution%20failed/" rel="next" title="打包错误Command PhaseScriptExecution failed">
+      打包错误Command PhaseScriptExecution failed <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -420,7 +429,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%96%B0%E5%BB%BA%E7%9B%AE%E5%BD%95mkdir"><span class="nav-text">1.新建目录mkdir</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%88%A0%E9%99%A4%E6%96%87%E4%BB%B6rm"><span class="nav-text">2.删除文件rm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%88%9B%E5%BB%BA%E6%96%87%E4%BB%B6touch"><span class="nav-text">3.创建文件touch</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E6%9B%B4%E6%94%B9%E6%9D%83%E9%99%90chmod"><span class="nav-text">4.更改权限chmod</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E7%A7%BB%E5%8A%A8%E6%96%87%E4%BB%B6mv"><span class="nav-text">5.移动文件mv</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96"><span class="nav-text">其他</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-text">参考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-text"> </span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%96%B0%E5%BB%BA%E7%9B%AE%E5%BD%95mkdir"><span class="nav-text">1.新建目录mkdir</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%88%A0%E9%99%A4%E6%96%87%E4%BB%B6rm"><span class="nav-text">2.删除文件rm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%88%9B%E5%BB%BA%E6%96%87%E4%BB%B6touch"><span class="nav-text">3.创建文件touch</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E6%9B%B4%E6%94%B9%E6%9D%83%E9%99%90chmod"><span class="nav-text">4.更改权限chmod</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E7%A7%BB%E5%8A%A8%E6%96%87%E4%BB%B6mv"><span class="nav-text">5.移动文件mv</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96"><span class="nav-text">其他</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-text">参考</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -434,7 +443,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">172</span>
+          <span class="site-state-item-count">173</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
