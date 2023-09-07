@@ -187,6 +187,100 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/04/09/map%E5%92%8CflapMap%E7%9A%84%E4%B8%80%E7%82%B9%E5%8C%BA%E5%88%AB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/04/09/map%E5%92%8CflapMap%E7%9A%84%E4%B8%80%E7%82%B9%E5%8C%BA%E5%88%AB/" class="post-title-link" itemprop="url">map和flapMap的一点区别</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-04-09 11:24:37" itemprop="dateCreated datePublished" datetime="2018-04-09T11:24:37+08:00">2018-04-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-04-18 18:13:16" itemprop="dateModified" datetime="2023-04-18T18:13:16+08:00">2023-04-18</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="Array中的map和flapMap的一点区别"><a href="#Array中的map和flapMap的一点区别" class="headerlink" title="Array中的map和flapMap的一点区别"></a>Array中的map和flapMap的一点区别</h3><p>注意：map和flapMap方法在很多类型里都有定义，一定要看清楚方法声明。</p>
+<p>map的声明:<br></p><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@inlinable</span> <span class="keyword">public</span> <span class="keyword">func</span> <span class="title function_">map</span>&lt;<span class="type">T</span>&gt;(<span class="keyword">_</span> <span class="params">transform</span>: (<span class="type">Element</span>) <span class="keyword">throws</span> -&gt; <span class="type">T</span>) <span class="keyword">rethrows</span> -&gt; [<span class="type">T</span>]</span><br></pre></td></tr></table></figure><p></p>
+<p>它返回的是一个数组.闭包的返回值是一个新数组的元素.<br>如果闭包返回的是一个optional类型元素，则map返回的也将是一个[optional(T)]数组.</p>
+<p>flapMap的声明:  有两种声明</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@available</span>(<span class="keyword">swift</span>, deprecated: <span class="number">4.1</span>, renamed: <span class="string">&quot;compactMap(_:)&quot;</span>, message: <span class="string">&quot;Please use compactMap(_:) for the case where closure returns an optional value&quot;</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">func</span> <span class="title function_">flatMap</span>&lt;<span class="type">ElementOfResult</span>&gt;(<span class="keyword">_</span> <span class="params">transform</span>: (<span class="type">Element</span>) <span class="keyword">throws</span> -&gt; <span class="type">ElementOfResult</span>?) <span class="keyword">rethrows</span> -&gt; [<span class="type">ElementOfResult</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment">/// Returns an array containing the concatenated results of calling the</span></span><br><span class="line"><span class="comment">/// given transformation with each element of this sequence.</span></span><br><span class="line"><span class="comment">///</span></span><br><span class="line"><span class="comment">/// Use this method to receive a single-level collection when your</span></span><br><span class="line"><span class="comment">/// transformation produces a sequence or collection for each element.</span></span><br><span class="line"><span class="comment">///</span></span><br><span class="line"><span class="comment">/// In this example, note the difference in the result of using `map` and</span></span><br><span class="line"><span class="comment">/// `flatMap` with a transformation that returns an array.</span></span><br><span class="line"><span class="comment">///</span></span><br><span class="line"><span class="comment">///     let numbers = [1, 2, 3, 4]</span></span><br><span class="line"><span class="comment">///</span></span><br><span class="line"><span class="comment">///     let mapped = numbers.map &#123; Array(repeating: $0, count: $0) &#125;</span></span><br><span class="line"><span class="comment">///     // [[1], [2, 2], [3, 3, 3], [4, 4, 4, 4]]</span></span><br><span class="line"><span class="comment">///</span></span><br><span class="line"><span class="comment">///     let flatMapped = numbers.flatMap &#123; Array(repeating: $0, count: $0) &#125;</span></span><br><span class="line"><span class="comment">///     // [1, 2, 2, 3, 3, 3, 4, 4, 4, 4]</span></span><br><span class="line"><span class="comment">///</span></span><br><span class="line"><span class="comment">/// In fact, `s.flatMap(transform)`  is equivalent to</span></span><br><span class="line"><span class="comment">/// `Array(s.map(transform).joined())`.</span></span><br><span class="line"><span class="comment">///</span></span><br><span class="line"><span class="comment">/// - Parameter transform: A closure that accepts an element of this</span></span><br><span class="line"><span class="comment">///   sequence as its argument and returns a sequence or collection.</span></span><br><span class="line"><span class="comment">/// - Returns: The resulting flattened array.</span></span><br><span class="line"><span class="comment">///</span></span><br><span class="line"><span class="comment">/// - Complexity: O(*m* + *n*), where *n* is the length of this sequence</span></span><br><span class="line"><span class="comment">///   and *m* is the length of the result.</span></span><br><span class="line"><span class="keyword">@inlinable</span> <span class="keyword">public</span> <span class="keyword">func</span> <span class="title function_">flatMap</span>&lt;<span class="type">SegmentOfResult</span>&gt;(<span class="keyword">_</span> <span class="params">transform</span>: (<span class="type">Element</span>) <span class="keyword">throws</span> -&gt; <span class="type">SegmentOfResult</span>) <span class="keyword">rethrows</span> -&gt; [<span class="type">SegmentOfResult</span>.<span class="type">Element</span>] <span class="keyword">where</span> <span class="type">SegmentOfResult</span> : <span class="type">Sequence</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@inlinable</span> <span class="keyword">public</span> <span class="keyword">func</span> <span class="title function_">compactMap</span>&lt;<span class="type">ElementOfResult</span>&gt;(<span class="keyword">_</span> <span class="params">transform</span>: (<span class="type">Element</span>) <span class="keyword">throws</span> -&gt; <span class="type">ElementOfResult</span>?) <span class="keyword">rethrows</span> -&gt; [<span class="type">ElementOfResult</span>]</span><br></pre></td></tr></table></figure>
+<p>二者区别:  </p>
+<ol>
+<li><p>flatMap可以用来展平一个数组：作展平使用时，相当于把序列里的元素变为一个序列，然后把这些序列合并为一个大序列。展的有多平得看transform的实现，不过最少是减一层。</p>
+ <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> links: [[<span class="type">String</span>]] <span class="operator">=</span> [</span><br><span class="line">    [<span class="string">&quot;http://a1&quot;</span>, <span class="string">&quot;http://a2&quot;</span>, <span class="string">&quot;http://a3&quot;</span>],</span><br><span class="line">    [<span class="string">&quot;http://b1&quot;</span>, <span class="string">&quot;http://b2&quot;</span>, <span class="string">&quot;http://b3&quot;</span>],</span><br><span class="line">    [<span class="string">&quot;http://c1&quot;</span>, <span class="string">&quot;http://c2&quot;</span>, <span class="string">&quot;http://c3&quot;</span>],</span><br><span class="line">]</span><br><span class="line"><span class="built_in">print</span>(links)</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> flapLink <span class="operator">=</span> links.flatMap &#123; (exlinks: [<span class="type">String</span>]) -&gt; [<span class="type">String</span>] <span class="keyword">in</span></span><br><span class="line">    <span class="keyword">return</span> exlinks <span class="comment">//因为links的元素就是数组所以这里直接返回就可以了。</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span>(flapLink)  <span class="comment">//[&quot;http://a1&quot;, &quot;http://a2&quot;, &quot;http://a3&quot;, &quot;http://b1&quot;, &quot;http://b2&quot;, &quot;http://b3&quot;, &quot;http://c1&quot;, &quot;http://c2&quot;, &quot;http://c3&quot;]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> d3: [[[<span class="type">Int</span>]]] <span class="operator">=</span> [</span><br><span class="line">    [[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>], [<span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]],</span><br><span class="line">    [[<span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>], [<span class="number">13</span>, <span class="number">14</span>, <span class="number">15</span>], [<span class="number">16</span>, <span class="number">17</span>, <span class="number">18</span>]],</span><br><span class="line">    [[<span class="number">19</span>, <span class="number">20</span>, <span class="number">21</span>], [<span class="number">22</span>, <span class="number">23</span>, <span class="number">24</span>], [<span class="number">25</span>, <span class="number">26</span>, <span class="number">27</span>]],</span><br><span class="line">]</span><br><span class="line"><span class="comment">//[[Int]]</span></span><br><span class="line"><span class="keyword">let</span> flapD1 <span class="operator">=</span> d3.flatMap &#123; ele <span class="keyword">in</span></span><br><span class="line">    <span class="keyword">return</span> ele</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//[Int]</span></span><br><span class="line"><span class="keyword">let</span> flapD2 <span class="operator">=</span> d3.flatMap &#123; ele <span class="keyword">in</span></span><br><span class="line">    <span class="keyword">return</span> ele.flatMap&#123;<span class="variable">$0</span>&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>flatMap可以将转化失败的nil元素剔除,而map则不能:</p>
+ <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> wq <span class="operator">=</span> [<span class="string">&quot;123&quot;</span>, <span class="string">&quot;fsd&quot;</span>, <span class="string">&quot;dfsd&quot;</span>, <span class="string">&quot;34&quot;</span>]</span><br><span class="line"><span class="comment">//类型是[Int?]</span></span><br><span class="line"><span class="keyword">let</span> wqm <span class="operator">=</span> wq.map &#123; (element) -&gt; <span class="type">Int</span>? <span class="keyword">in</span></span><br><span class="line">    <span class="keyword">return</span> <span class="type">Int</span>(element)</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span>(wqm)  <span class="comment">//[Optional(123), nil, nil, Optional(34)]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//类型是[Int]</span></span><br><span class="line"><span class="keyword">let</span> wqfm <span class="operator">=</span> wq.flatMap &#123; (element) -&gt; <span class="type">Int</span>? <span class="keyword">in</span></span><br><span class="line">    <span class="keyword">return</span> <span class="type">Int</span>(element)</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span>(wqfm) <span class="comment">//[123, 34]</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/04/09/map%E5%92%8CflapMap%E7%9A%84%E4%B8%80%E7%82%B9%E5%8C%BA%E5%88%AB/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/04/04/Allocation%20Type%E4%BB%8B%E7%BB%8D/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1033,95 +1127,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/01/26/%E4%BD%BF%E7%94%A8reduce%E6%A8%A1%E6%8B%9F%E5%AE%9E%E7%8E%B0map%E5%92%8Cfilter/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="芝士就是力量">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/01/26/%E4%BD%BF%E7%94%A8reduce%E6%A8%A1%E6%8B%9F%E5%AE%9E%E7%8E%B0map%E5%92%8Cfilter/" class="post-title-link" itemprop="url">使用reduce模拟实现map和filter</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-01-26 17:06:24" itemprop="dateCreated datePublished" datetime="2018-01-26T17:06:24+08:00">2018-01-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="使用reduce模拟实现map和filter"><a href="#使用reduce模拟实现map和filter" class="headerlink" title="使用reduce模拟实现map和filter"></a>使用reduce模拟实现map和filter</h3><p>首先看一下系统的map和filter功能:</p>
-<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> fbArr = [<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">8</span>, <span class="number">13</span>, <span class="number">21</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> mmp = fbArr.<span class="keyword">map</span> &#123; <span class="function"><span class="params">(item)</span> -&gt;</span> Int <span class="keyword">in</span></span><br><span class="line">    item + item</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span>(mmp)</span><br><span class="line">    </span><br><span class="line"><span class="keyword">let</span> cmp = fbArr.filter &#123; <span class="function"><span class="params">(item)</span> -&gt;</span> Bool <span class="keyword">in</span></span><br><span class="line">    item &gt; <span class="number">5</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span>(cmp)</span><br></pre></td></tr></table></figure>
-<p>打印如下:</p>
-<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">[2, 2, 4, 6, 10, 16, 26, 42]</span></span><br><span class="line"><span class="string">[8, 13, 21]</span></span><br></pre></td></tr></table></figure>
-<p>使用reduce模拟实现map和filter:</p>
-<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">extension Array &#123;</span><br><span class="line">	func map2&lt;T&gt;(_ transform: (Element) -&gt; T) -&gt; <span class="selector-attr">[T]</span> &#123;</span><br><span class="line">        <span class="comment">//初始值为空数组, 数组+数组</span></span><br><span class="line">        return <span class="built_in">reduce</span>([], &#123; (result, item) -&gt; <span class="selector-attr">[T]</span> in</span><br><span class="line">            return result + <span class="selector-attr">[transform(item)]</span></span><br><span class="line">        &#125;)</span><br><span class="line">        <span class="comment">//简化一下</span></span><br><span class="line">        return <span class="built_in">reduce</span>([], &#123;</span><br><span class="line">            $<span class="number">0</span> + [transform($<span class="number">1</span>)]</span><br><span class="line">        &#125;)</span><br><span class="line">        <span class="comment">//再简化一下</span></span><br><span class="line">        return <span class="built_in">reduce</span>([]) &#123; $<span class="number">0</span> + <span class="selector-attr">[transform($1)]</span> &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    func <span class="built_in">filter2</span>(_ filter: (Element) -&gt; Bool) -&gt; <span class="selector-attr">[Element]</span> &#123;</span><br><span class="line">        return <span class="built_in">reduce</span>([], &#123; (result, item) -&gt; <span class="selector-attr">[Element]</span> in</span><br><span class="line">            return <span class="attribute">filter</span>(item) ? result + <span class="selector-attr">[item]</span> : result</span><br><span class="line">        &#125;)</span><br><span class="line">        <span class="comment">//简化一下</span></span><br><span class="line">        return <span class="built_in">reduce</span>([]) &#123; <span class="attribute">filter</span>($<span class="number">1</span>) ? $<span class="number">0</span> + <span class="selector-attr">[$1]</span> : $<span class="number">0</span> &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>说实话,Swift对闭包的简写有时候感觉有点过了,初次看到这样的写法<code>reduce([]) &#123; filter($1) ? $0 + [$1] : $0 &#125;</code>,有时还得缓缓才知道是啥意思.</p>
-<p>使用:</p>
-<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> ammp = fbArr.map2 &#123; <span class="function"><span class="params">(item)</span> -&gt;</span> Int <span class="keyword">in</span></span><br><span class="line">    item + item</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span>(ammp)</span><br><span class="line">    </span><br><span class="line"><span class="keyword">let</span> bm = fbArr.filter2 &#123; <span class="function"><span class="params">(item)</span> -&gt;</span> Bool <span class="keyword">in</span></span><br><span class="line">    item &gt; <span class="number">10</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span>(bm)</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/01/26/%E4%BD%BF%E7%94%A8reduce%E6%A8%A1%E6%8B%9F%E5%AE%9E%E7%8E%B0map%E5%92%8Cfilter/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1192,20 +1197,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">173</span>
+          <span class="site-state-item-count">174</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-count">39</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">113</span>
+        <span class="site-state-item-count">114</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

@@ -6,7 +6,7 @@
   <link href="https://xq-120.github.io/atom.xml" rel="self"/>
   
   <link href="https://xq-120.github.io/"/>
-  <updated>2023-09-03T03:42:16.366Z</updated>
+  <updated>2023-09-07T15:16:00.310Z</updated>
   <id>https://xq-120.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>shell科普</title>
+    <link href="https://xq-120.github.io/2023/09/07/shell%E7%A7%91%E6%99%AE/"/>
+    <id>https://xq-120.github.io/2023/09/07/shell%E7%A7%91%E6%99%AE/</id>
+    <published>2023-09-07T15:12:10.000Z</published>
+    <updated>2023-09-07T15:16:00.310Z</updated>
+    
+    
+    <summary type="html">&lt;h3 id=&quot;什么是shell&quot;&gt;&lt;a href=&quot;#什么是shell&quot; class=&quot;headerlink&quot; title=&quot;什么是shell&quot;&gt;&lt;/a&gt;什么是shell&lt;/h3&gt;&lt;p&gt;看语境，有时候Shell指连接内核和用户的一个应用程序，有时候指一种脚本编程语言。不过这个看语境对于一个小白来说其实还挺难的，大部分情况下说shell其实说的是应用程序，但如果是说shell命令，脚本文件那shell就是指一种编程语言。&lt;/p&gt;
+&lt;p&gt;macOS 系统的默认终端（shell应用程序）是 Terminal，默认使用的shell是zsh（这里的zsh就是指脚本编程语言）。iTerm2 也是一款终端软件。iTerm2只是比Terminal拥有更多的自定义设置，使用oh-my-zsh美化后都差不多。终端这个shell应用程序可以设置具体使用哪一种shell作为默认shell。使用哪种shell作为默认shell的终端就称为xxx终端，比如zsh终端，bash终端。&lt;/p&gt;
+&lt;p&gt;Shell 可以指一个应用程序，它连接了用户和 Linux 内核，让用户能够更加高效、安全、低成本地使用 Linux 内核，这就是 Shell 的本质。Shell 本身并不是内核的一部分，它只是站在内核的基础上编写的一个应用程序，它和 QQ、迅雷、Firefox 等其它软件没有什么区别。然而 Shell 也有着它的特殊性，就是开机立马启动，并呈现在用户面前；用户通过 Shell 来使用 Linux，不启动 Shell 的话，用户就没办法使用 Linux。&lt;/p&gt;
+&lt;p&gt;Shell 也可以指一种脚本编程语言。Shell 编程跟 JavaScript、php 编程一样，只要有一个能编写代码的文本编辑器和一个能解释执行的脚本解释器（解释器一般就是shell终端软件也就是Terminal或者iTerm2等等）就可以了。&lt;/p&gt;
+&lt;p&gt;Shell 主要用来开发一些实用的、自动化的小工具，而不是用来开发具有复杂业务逻辑的中大型软件，例如检测计算机的硬件参数、搭建 Web 运行环境、日志分析等，Shell 都非常合适。&lt;/p&gt;
+&lt;h3 id=&quot;有哪些shell&quot;&gt;&lt;a href=&quot;#有哪些shell&quot; class=&quot;headerlink&quot; title=&quot;有哪些shell&quot;&gt;&lt;/a&gt;有哪些shell&lt;/h3&gt;&lt;p&gt;shell是一个总称，具体shell有：bash、csh、ksh、zsh等等。Mac默认使用的是zsh。&lt;/p&gt;
+&lt;p&gt;查看安装了哪些shell：&lt;/p&gt;
+&lt;figure class=&quot;highlight awk&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;cat &lt;span class=&quot;regexp&quot;&gt;/etc/&lt;/span&gt;shells&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</summary>
+    
+    
+    
+    <category term="shell" scheme="https://xq-120.github.io/categories/shell/"/>
+    
+    
+    <category term="shell" scheme="https://xq-120.github.io/tags/shell/"/>
+    
+  </entry>
   
   <entry>
     <title>打包错误Command PhaseScriptExecution failed</title>
@@ -530,32 +556,6 @@
     
     
     <category term="可变参数" scheme="https://xq-120.github.io/tags/%E5%8F%AF%E5%8F%98%E5%8F%82%E6%95%B0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>给第三方库动态添加方法实现</title>
-    <link href="https://xq-120.github.io/2022/09/20/%E7%BB%99%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%8A%A8%E6%80%81%E6%B7%BB%E5%8A%A0%E6%96%B9%E6%B3%95%E5%AE%9E%E7%8E%B0/"/>
-    <id>https://xq-120.github.io/2022/09/20/%E7%BB%99%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%8A%A8%E6%80%81%E6%B7%BB%E5%8A%A0%E6%96%B9%E6%B3%95%E5%AE%9E%E7%8E%B0/</id>
-    <published>2022-09-20T07:17:02.000Z</published>
-    <updated>2022-09-23T14:46:32.990Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;给NextGrowingTextView添加扩展，支持设置光标大小。&lt;/p&gt;
-&lt;p&gt;NextGrowingTextView是一个第三方库，内部有一个继承自UITextView的NextGrowingInternalTextView，这个textview外部是访问不了的。而设</summary>
-        
-      
-    
-    
-    
-    <category term="runtime" scheme="https://xq-120.github.io/categories/runtime/"/>
-    
-    
-    <category term="NextGrowingTextView" scheme="https://xq-120.github.io/tags/NextGrowingTextView/"/>
     
   </entry>
   

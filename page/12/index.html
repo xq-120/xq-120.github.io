@@ -187,6 +187,85 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/12/07/%E6%B8%85%E7%90%86APP%E7%BC%93%E5%AD%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/12/07/%E6%B8%85%E7%90%86APP%E7%BC%93%E5%AD%98/" class="post-title-link" itemprop="url">清理APP缓存</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-12-07 14:13:47" itemprop="dateCreated datePublished" datetime="2018-12-07T14:13:47+08:00">2018-12-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Foundation/" itemprop="url" rel="index"><span itemprop="name">Foundation</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="清理缓存"><a href="#清理缓存" class="headerlink" title="清理缓存"></a>清理缓存</h4><p>主要是删除/Caches目录下的内容.如果其他路径上的文件可以删除也可以包含进来.</p>
+<p>iOS 文件系统也得了解一下<br><a target="_blank" rel="noopener" href="https://developer.apple.com/library/archive/documentation/FileManagement/Conceptual/FileSystemProgrammingGuide/FileSystemOverview/FileSystemOverview.html#//apple_ref/doc/uid/TP40010672-CH2-SW12">iOS 文件系统</a></p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">+ (<span class="built_in">NSUInteger</span>)getCachesSize &#123;</span><br><span class="line">    <span class="built_in">NSUInteger</span> size = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">NSFileManager</span> *fileManager = [<span class="built_in">NSFileManager</span> defaultManager];</span><br><span class="line">    <span class="built_in">NSString</span> *cachePath = [<span class="built_in">NSSearchPathForDirectoriesInDomains</span>(<span class="built_in">NSCachesDirectory</span>, <span class="built_in">NSUserDomainMask</span>, <span class="literal">YES</span>) lastObject];</span><br><span class="line">    <span class="built_in">NSDirectoryEnumerator</span> *fileEnumerator = [fileManager enumeratorAtPath:cachePath]; <span class="comment">//枚举指定目录的所有文件包括文件夹.</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="built_in">NSString</span> *fileName <span class="keyword">in</span> fileEnumerator) &#123;</span><br><span class="line">        <span class="keyword">if</span> ([fileName isEqualToString:<span class="string">@&quot;Snapshots&quot;</span>]) &#123;  <span class="comment">//&quot;/Snapshots&quot;是系统生成的,删了也会再自动创建,所以就不计算了.</span></span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">NSString</span> *filePath = [cachePath stringByAppendingPathComponent:fileName];</span><br><span class="line">        <span class="built_in">NSDictionary</span> *attrs = [fileManager attributesOfItemAtPath:filePath error:<span class="literal">nil</span>];</span><br><span class="line"><span class="comment">//        NSLog(@&quot;fileType:%@, fileName:%@&quot;, [attrs objectForKey:NSFileType], fileName);</span></span><br><span class="line"><span class="comment">//        NSLog(@&quot;filePath:%@&quot;, filePath);</span></span><br><span class="line">        size += [attrs fileSize];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> size;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (<span class="type">void</span>)clearCachesWithCompletionHandler:(<span class="type">void</span>(^)(<span class="type">void</span>))completionHandler &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">dispatch_async</span>(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, <span class="number">0</span>), ^&#123;</span><br><span class="line">        <span class="built_in">NSFileManager</span> *fileManager = [<span class="built_in">NSFileManager</span> defaultManager];</span><br><span class="line">        <span class="built_in">NSString</span> * cachePath = [<span class="built_in">NSSearchPathForDirectoriesInDomains</span>(<span class="built_in">NSCachesDirectory</span>, <span class="built_in">NSUserDomainMask</span>, <span class="literal">YES</span>) lastObject];</span><br><span class="line">        <span class="built_in">NSDirectoryEnumerator</span> *fileEnumerator = [fileManager enumeratorAtPath:cachePath];</span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">NSString</span> *fileName <span class="keyword">in</span> fileEnumerator) &#123;</span><br><span class="line">            <span class="keyword">if</span> ([fileName isEqualToString:<span class="string">@&quot;Snapshots&quot;</span>]) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="built_in">NSString</span> *filePath = [cachePath stringByAppendingPathComponent:fileName];</span><br><span class="line">            <span class="type">BOOL</span> removeRs = [fileManager removeItemAtPath:filePath error:<span class="literal">nil</span>];</span><br><span class="line">            <span class="keyword">if</span> (!removeRs) &#123;</span><br><span class="line">                <span class="built_in">NSDictionary</span> *attrs = [fileManager attributesOfItemAtPath:filePath error:<span class="literal">nil</span>];</span><br><span class="line">                DLog(<span class="string">@&quot;移除文件失败:fileType:%@, fileName:%@&quot;</span>, [attrs objectForKey:<span class="built_in">NSFileType</span>], fileName);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="built_in">dispatch_async</span>(dispatch_get_main_queue(), ^&#123;</span><br><span class="line">            <span class="keyword">if</span> (completionHandler) &#123;</span><br><span class="line">                completionHandler();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>/Library/Caches/Snapshots/com.AppName/UIApplicationAutomaticSnapshotDefault-LandscapeLeft.png</code><br>“/Snapshots”该目录保存的是按下home键时系统对当前屏幕生成的一张快照.</p>
+<p>参考:<a target="_blank" rel="noopener" href="https://www.virtuesecurity.com/ios-background-screen-caching-2/">IOS BACKGROUND SCREEN CACHING</a></p>
+<p><code>- (BOOL)removeItemAtPath:(NSString *)path error:(NSError * _Nullable *)error;</code>会移除文件或目录</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/12/05/iOS%E5%B4%A9%E6%BA%83%E6%97%A5%E5%BF%97%E5%A0%86%E6%A0%88%E8%A7%A3%E6%9E%90/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -956,83 +1035,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/07/09/%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9%E7%AC%94%E8%AE%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="芝士就是力量">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/07/09/%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">图片压缩笔记</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-07-09 17:16:46" itemprop="dateCreated datePublished" datetime="2018-07-09T17:16:46+08:00">2018-07-09</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%9B%BE%E7%89%87%E5%A4%84%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">图片处理</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="图片压缩笔记"><a href="#图片压缩笔记" class="headerlink" title="图片压缩笔记"></a>图片压缩笔记</h2><h3 id="压缩方法"><a href="#压缩方法" class="headerlink" title="压缩方法"></a>压缩方法</h3><p>工程里图片压缩方法过程:传入一张图片,压缩后,再转回图片.加上上传到服务器的整个过程如下:<br>UIImage-大力压缩-&gt;NSData(A)-&gt;UIImage-UIImageJPEGRepresentation(img, 1)-&gt;NSData(B)-&gt;服务器.</p>
-<p>测试发现dataB要比dataA大很多很多.导致实际上传给服务器的数据远远不止600kb.eg某次上传的头像:4.56Mb(原图,压缩前)-&gt;579.16kb(压缩后)-&gt;2.93Mb(实际上传).实际上传的数据是2.93Mb</p>
-<p>因此再转回UIImage是多余且错的.而应该压缩后直接上传服务器,即UIImage-大力压缩-&gt;NSData(A)-&gt;服务器.</p>
-<p>正确的压缩方法为:</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//指定压缩阈值,压缩图片</span></span><br><span class="line">+ (<span class="built_in">NSData</span> *)za_compressImage:(<span class="built_in">UIImage</span> *)image toMaxFileSize:(<span class="built_in">NSInteger</span>)maxFileSize &#123;</span><br><span class="line">    <span class="built_in">CGFloat</span> compression = <span class="number">0.9</span>f;</span><br><span class="line">    <span class="built_in">CGFloat</span> minCompression = <span class="number">0.1</span>f;</span><br><span class="line">    <span class="built_in">NSData</span> *imageData = <span class="built_in">UIImageJPEGRepresentation</span>(image, compression);</span><br><span class="line">    <span class="keyword">while</span> ([imageData length] &gt; maxFileSize &amp;&amp; compression &gt; minCompression) &#123;</span><br><span class="line">        compression -= <span class="number">0.05</span>;</span><br><span class="line">        imageData = <span class="built_in">UIImageJPEGRepresentation</span>(image, compression);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> imageData;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1103,20 +1105,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">173</span>
+          <span class="site-state-item-count">174</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-count">39</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">113</span>
+        <span class="site-state-item-count">114</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
