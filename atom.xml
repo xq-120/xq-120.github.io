@@ -6,7 +6,7 @@
   <link href="https://xq-120.github.io/atom.xml" rel="self"/>
   
   <link href="https://xq-120.github.io/"/>
-  <updated>2023-09-07T15:16:00.310Z</updated>
+  <updated>2023-09-07T15:21:07.529Z</updated>
   <id>https://xq-120.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://xq-120.github.io/2023/09/07/shell%E7%A7%91%E6%99%AE/"/>
     <id>https://xq-120.github.io/2023/09/07/shell%E7%A7%91%E6%99%AE/</id>
     <published>2023-09-07T15:12:10.000Z</published>
-    <updated>2023-09-07T15:16:00.310Z</updated>
+    <updated>2023-09-07T15:21:07.529Z</updated>
     
     
     <summary type="html">&lt;h3 id=&quot;什么是shell&quot;&gt;&lt;a href=&quot;#什么是shell&quot; class=&quot;headerlink&quot; title=&quot;什么是shell&quot;&gt;&lt;/a&gt;什么是shell&lt;/h3&gt;&lt;p&gt;看语境，有时候Shell指连接内核和用户的一个应用程序，有时候指一种脚本编程语言。不过这个看语境对于一个小白来说其实还挺难的，大部分情况下说shell其实说的是应用程序，但如果是说shell命令，脚本文件那shell就是指一种编程语言。&lt;/p&gt;
