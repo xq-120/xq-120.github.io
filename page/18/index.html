@@ -187,6 +187,95 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2017/08/20/layoutSubviews%E7%9A%84%E8%B0%83%E7%94%A8%E6%97%B6%E6%9C%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/08/20/layoutSubviews%E7%9A%84%E8%B0%83%E7%94%A8%E6%97%B6%E6%9C%BA/" class="post-title-link" itemprop="url">layoutSubviews的调用时机</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-08-20 23:20:24" itemprop="dateCreated datePublished" datetime="2017-08-20T23:20:24+08:00">2017-08-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/UIKit/" itemprop="url" rel="index"><span itemprop="name">UIKit</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="layoutSubviews的调用时机"><a href="#layoutSubviews的调用时机" class="headerlink" title="layoutSubviews的调用时机"></a>layoutSubviews的调用时机</h2><p>方法说明:</p>
+<p>该方法在iOS 5.1及更低版本上不执行任何操作。 否则，该方法将使用你设置的约束来确定子视图的大小和位置。</p>
+<p>该方法由<code>layoutIfNeeded</code>自动调用,所以我们不能手动去调用它.在需要重新布局子视图时,可以调用<code>[self layoutIfNeeded]</code>或<code>[self setNeedLayout];</code></p>
+<h2 id="手动触发layoutSubviews"><a href="#手动触发layoutSubviews" class="headerlink" title="手动触发layoutSubviews"></a>手动触发layoutSubviews</h2><p>调用<code>[self layoutIfNeeded]</code>或<code>[self setNeedLayout];</code>  </p>
+<blockquote>
+<p><code>layoutIfNeeded</code>与<code>setNeedLayout</code>的区别: </p>
+</blockquote>
+<p>调用 <code>layoutIfNeeded</code> 会马上执行 <code>layoutSubviews</code> 方法，立即更新视图的布局。但是调用<code>setNeedLayout</code>并不会马上执行<code>layoutSubviews</code>,而是等到runloop结束时调用.</p>
+<h2 id="自动触发layoutSubviews"><a href="#自动触发layoutSubviews" class="headerlink" title="自动触发layoutSubviews"></a>自动触发layoutSubviews</h2><p>如果一个viewA还没有被添加到父视图上面去,那么无论你对它进行什么操作(设置frame,添加子视图等等),它的<code>layoutSubviews</code>方法始终是不会被调用的.  </p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2017/08/20/layoutSubviews%E7%9A%84%E8%B0%83%E7%94%A8%E6%97%B6%E6%9C%BA/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2017/08/16/layoutIfNeeded%E4%B8%8ElayoutSubviews%E7%9A%84%E5%85%B3%E7%B3%BB/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -465,7 +554,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-07-17 11:05:05" itemprop="dateModified" datetime="2023-07-17T11:05:05+08:00">2023-07-17</time>
+                <time title="修改时间：2023-12-20 21:29:05" itemprop="dateModified" datetime="2023-12-20T21:29:05+08:00">2023-12-20</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -589,7 +678,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">174</span>
+          <span class="site-state-item-count">175</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -638,7 +727,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

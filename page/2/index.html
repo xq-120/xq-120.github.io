@@ -187,6 +187,90 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2023/04/02/Swift%E4%B8%AD%E7%9A%84Error/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/04/02/Swift%E4%B8%AD%E7%9A%84Error/" class="post-title-link" itemprop="url">Swift中的Error</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-04-02 14:20:25 / 修改时间：14:50:39" itemprop="dateCreated datePublished" datetime="2023-04-02T14:20:25+08:00">2023-04-02</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>OC中的错误是一个类NSError：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Immutable, and NSError must be Sendable because it conforms to Error in Swift</span></span><br><span class="line"><span class="keyword">open</span> <span class="keyword">class</span> <span class="title class_">NSError</span> : <span class="title class_">NSObject</span>, <span class="title class_">NSCopying</span>, <span class="title class_">NSSecureCoding</span>, @<span class="title class_">unchecked</span> <span class="title class_">Sendable</span> &#123;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    <span class="comment">/* Domain cannot be nil; dict may be nil if no userInfo desired.</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">init</span>(<span class="params">domain</span>: <span class="type">String</span>, <span class="params">code</span>: <span class="type">Int</span>, <span class="params">userInfo</span> <span class="params">dict</span>: [<span class="params">String</span> : <span class="keyword">Any</span>]<span class="operator">?</span> <span class="operator">=</span> <span class="literal">nil</span>)</span><br><span class="line">    <span class="operator">....</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>而Swift中的错误则是一个协议Error：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">protocol</span> <span class="title class_">Error</span> : <span class="title class_">Sendable</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">protocol</span> <span class="title class_">Sendable</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">extension</span> <span class="title class_">Error</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// Retrieve the localized description for this error.</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">var</span> localizedDescription: <span class="type">String</span> &#123; <span class="keyword">get</span> &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">extension</span> <span class="title class_">NSError</span> : <span class="title class_">Error</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>实际上这个协议没有任何内容，因此任意类、结构体、枚举都可以轻松实现Error协议。</p>
+<p>定义Swift Error:</p>
+<p>使用枚举</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">NetworkError</span>: <span class="title class_">Error</span> &#123;</span><br><span class="line">    <span class="keyword">case</span> domainError</span><br><span class="line">    <span class="keyword">case</span> decodingError</span><br><span class="line">    <span class="keyword">case</span> noDataError</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> localizedDescription: <span class="type">String</span> &#123;</span><br><span class="line">        <span class="keyword">switch</span> <span class="keyword">self</span> &#123;</span><br><span class="line">        <span class="keyword">case</span> .domainError:</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;url错误&quot;</span></span><br><span class="line">        <span class="keyword">case</span> .decodingError:</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;解析出错&quot;</span></span><br><span class="line">        <span class="keyword">case</span> .noDataError:</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;无数据&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>由于错误一般是后台接口给出，所以个人觉得使用结构体表示错误，使用是最方便的：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">BusinessError</span>: <span class="title class_">Error</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> code <span class="operator">=</span> <span class="string">&quot;&quot;</span></span><br><span class="line">    <span class="keyword">var</span> message <span class="operator">=</span> <span class="string">&quot;&quot;</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">init</span>(<span class="params">code</span>: <span class="type">String</span>, <span class="params">message</span>: <span class="type">String</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.code <span class="operator">=</span> code</span><br><span class="line">        <span class="keyword">self</span>.message <span class="operator">=</span> message</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> localizedDescription: <span class="type">String</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> message</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/04/02/Swift%E4%B8%AD%E7%9A%84Error/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2023/04/02/Swift%E4%B8%AD%E7%9A%84%E6%9E%9A%E4%B8%BE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -952,89 +1036,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/10/03/%E5%8F%AF%E5%8F%98%E5%8F%82%E6%95%B0%E7%9A%84%E5%87%BD%E6%95%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="芝士就是力量">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/10/03/%E5%8F%AF%E5%8F%98%E5%8F%82%E6%95%B0%E7%9A%84%E5%87%BD%E6%95%B0/" class="post-title-link" itemprop="url">可变参数的函数</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-10-03 11:09:20 / 修改时间：11:58:54" itemprop="dateCreated datePublished" datetime="2022-10-03T11:09:20+08:00">2022-10-03</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="如何声明一个可变参数的函数"><a href="#如何声明一个可变参数的函数" class="headerlink" title="如何声明一个可变参数的函数"></a>如何声明一个可变参数的函数</h3><p>在无法给出所有传递给函数的参数的类型和数目时，可以使用省略号（…）指定函数参数表。有如下几种形式：</p>
-<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">fun1</span><span class="params">(<span class="type">int</span> a, <span class="type">double</span> b, ...)</span></span>; <span class="comment">//给出确定的几个参数，其他用省略号</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">fun2</span><span class="params">(<span class="type">int</span> a ...)</span></span>;            <span class="comment">//省略号前有或者没有逗号都是可以的</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">fun3</span><span class="params">(...)</span></span>;                  <span class="comment">//也可以不确定任何参数，但和没有参数是不一样的</span></span><br></pre></td></tr></table></figure>
-<p>举个例子：计算n个整数的和。</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">int</span>)test_n_number_add:(<span class="type">int</span>)n, ... &#123;</span><br><span class="line">    <span class="type">int</span> res = <span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">    va_list ap; <span class="comment">//声明</span></span><br><span class="line">    va_start(ap, n); <span class="comment">//绑定</span></span><br><span class="line">    <span class="keyword">while</span> (n &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        res += va_arg(ap, <span class="type">int</span>); <span class="comment">//获取参数。va_arg返回的就是参数的值。</span></span><br><span class="line">        n -= <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    va_end(ap); <span class="comment">//释放</span></span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;res:%d&quot;</span>, res);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>va_list存在的两个隐患：</p>
-<p>1.如何确定参数的类型。</p>
-<p>没有其他办法，就是通过强制转换。va_arg就是把当前指针所指向的内容强制转换到指定类型。像printf函数还有个格式化参数来说明后面参数的类型。如果是自己写的，同样得事先约定好一套规则。</p>
-<p>2.如何确定参数的个数。也就是参数结束标志。</p>
-<p>也没有规定，同样得事先约定好一套规则。比如这里第一个固定参数说明了后续可变参数的个数。再比如求自然数的平方和，那么可以把负数和0作为它的结束标志。其他系统函数如scanf把接收到的回车符作为结束标志，大家熟知的printf对字符串的处理用’\0’作为结束标志。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/10/03/%E5%8F%AF%E5%8F%98%E5%8F%82%E6%95%B0%E7%9A%84%E5%87%BD%E6%95%B0/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1105,7 +1106,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">174</span>
+          <span class="site-state-item-count">175</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1154,7 +1155,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

@@ -187,6 +187,96 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2021/03/28/iOS-stack-overflow%E5%AF%BC%E8%87%B4%E7%9A%84EXC_BAD_ACCESS%E5%B4%A9%E6%BA%83/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/03/28/iOS-stack-overflow%E5%AF%BC%E8%87%B4%E7%9A%84EXC_BAD_ACCESS%E5%B4%A9%E6%BA%83/" class="post-title-link" itemprop="url">iOS stack overflow导致的EXC_BAD_ACCESS崩溃</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-03-28 13:03:46" itemprop="dateCreated datePublished" datetime="2021-03-28T13:03:46+08:00">2021-03-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bug/" itemprop="url" rel="index"><span itemprop="name">Bug</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>最近想学习一下mmap的使用，没想到一来就掉坑里了。</p>
+<p>测试代码如下：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">void</span>)test_mmap &#123;</span><br><span class="line">    __autoreleasing <span class="built_in">NSError</span> *err = <span class="literal">nil</span>;</span><br><span class="line"><span class="comment">//    self.videoData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@&quot;ddcada74ee08d06dda5cd13b4117ad30&quot; ofType:@&quot;mp4&quot;] options:0 error:&amp;er];</span></span><br><span class="line"><span class="comment">//    self.videoData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@&quot;ddcada74ee08d06dda5cd13b4117ad30&quot; ofType:@&quot;mp4&quot;] options:NSDataReadingUncached error:&amp;er];</span></span><br><span class="line">    <span class="keyword">self</span>.videoData = [<span class="built_in">NSData</span> dataWithContentsOfFile:[[<span class="built_in">NSBundle</span> mainBundle] pathForResource:<span class="string">@&quot;ddcada74ee08d06dda5cd13b4117ad30&quot;</span> ofType:<span class="string">@&quot;mp4&quot;</span>] options:<span class="built_in">NSDataReadingMappedIfSafe</span> error:&amp;err];  <span class="comment">//1</span></span><br><span class="line">    <span class="keyword">if</span> (err != <span class="literal">nil</span>) &#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@&quot;er:%@&quot;</span>, err);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@&quot;videoData:%lu&quot;</span>, (<span class="type">unsigned</span> <span class="type">long</span>)<span class="keyword">self</span>.videoData.length);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">//    long bufferSize = 4096;</span></span><br><span class="line">    <span class="type">long</span> bufferSize = <span class="number">1000000</span>;</span><br><span class="line"><span class="comment">//    long bufferSize = 1024 * 1024 - 30 * 1024;</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">char</span> buffer[bufferSize];</span><br><span class="line">    [<span class="keyword">self</span>.videoData getBytes:buffer range:<span class="built_in">NSMakeRange</span>(<span class="number">0</span>, bufferSize)]; <span class="comment">//2</span></span><br><span class="line">    <span class="built_in">NSData</span> *someData = [[<span class="built_in">NSData</span> alloc] initWithBytes:buffer length:bufferSize];</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;someData:%lu&quot;</span>, (<span class="type">unsigned</span> <span class="type">long</span>)someData.length);</span><br><span class="line">    [<span class="keyword">self</span> saveDataToCaches:someData];</span><br><span class="line">    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(<span class="number">5</span> * <span class="built_in">NSEC_PER_SEC</span>)), dispatch_get_main_queue(), ^&#123;</span><br><span class="line">        <span class="keyword">self</span>.videoData = <span class="literal">nil</span>;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)saveDataToCaches:(<span class="built_in">NSData</span> *)data &#123;</span><br><span class="line">    <span class="built_in">NSString</span> *cachespath = <span class="built_in">NSSearchPathForDirectoriesInDomains</span>(<span class="built_in">NSCachesDirectory</span>, <span class="built_in">NSUserDomainMask</span>, <span class="literal">YES</span>).lastObject;</span><br><span class="line">    <span class="built_in">NSString</span> *fileName = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@&quot;%@&quot;</span>, <span class="built_in">NSDate</span>.date];</span><br><span class="line">    <span class="built_in">NSString</span> *filePath = [cachespath stringByAppendingPathComponent:fileName];</span><br><span class="line">    <span class="built_in">NSError</span> *err;</span><br><span class="line">    <span class="type">BOOL</span> ret = [data writeToFile:filePath options:<span class="built_in">NSDataWritingAtomic</span> error:&amp;err];</span><br><span class="line">    <span class="keyword">if</span> (err) &#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@&quot;写入错误：%@&quot;</span>, err);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;ret:%d&quot;</span>, ret);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>1处通过mmap的方式读取一个500多兆的视频数据，2处读取视频中某一段的数据。最开始的时候bufferSize设置的是4096，运行的时候一切正常。正常之后自然想改个其他的值试试，于是就设置bufferSize为视频大小，结果一运行就崩溃了很快啊，然后就是提示EXC_BAD_ACCESS。当时觉得很奇怪怎么会EXC_BAD_ACCESS呢？也没看到哪个地方有过度释放的对象啊。最后一点点修改bufferSize的大小，发现小于1000000代码就可以正常运行，而超过则会EXC_BAD_ACCESS。不过依然搞不懂为啥会这样。百思不得其解之后只能求助Google，不过也不知道怎么搜索关键字，一通搜索之后也没找到有用的东西，期间一度想放弃，不过还是坚持了下来。</p>
+<p>直接上结论：上述崩溃的原因就是stack overflow了。</p>
+<p>我们可以验证一下，打好断点后分别<strong>p &amp;err</strong>，<strong>p &amp;cachespath</strong>得到：</p>
+<figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">(lldb)</span> p &amp;err</span><br><span class="line"><span class="comment">(NSError **)</span> $<span class="number">0</span> = <span class="number">0</span>x<span class="number">000000016</span>f<span class="number">5</span>b<span class="number">97</span>d<span class="number">0</span></span><br><span class="line"><span class="comment">(lldb)</span> p &amp;cachespath</span><br><span class="line"><span class="comment">(NSString **)</span> $<span class="number">1</span> = <span class="number">0</span>x<span class="number">000000016</span>f<span class="number">4</span>c<span class="number">5470</span></span><br></pre></td></tr></table></figure>
+<p>$0 - $1 = 0xF4360 = 1000288 = 0.954M，基本上快占满整个栈空间了（这里有点马后炮了因为很多人可能都不知道主线程的栈空间有多大，甚至都没有栈溢出这个概念自然也不会往这个方面想了）。因此代码可能会崩溃在后面的任意一行代码，具体是哪一行视栈的剩余空间大小。比如有可能崩溃在</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSError <span class="number">*e</span>rr;  Thread 1: EXC_BAD_ACCESS (<span class="attribute">code</span>=2, <span class="attribute">address</span>=0x16f4bfad0)</span><br></pre></td></tr></table></figure>
+<p>也有可能会崩溃在：</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/03/28/iOS-stack-overflow%E5%AF%BC%E8%87%B4%E7%9A%84EXC_BAD_ACCESS%E5%B4%A9%E6%BA%83/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/09/16/OC%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B9%8B%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -991,95 +1081,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/06/06/OC-atomic%E4%BF%AE%E9%A5%B0%E7%AC%A6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="芝士就是力量">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/06/06/OC-atomic%E4%BF%AE%E9%A5%B0%E7%AC%A6/" class="post-title-link" itemprop="url">OC atomic修饰符</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-06-06 21:56:32" itemprop="dateCreated datePublished" datetime="2020-06-06T21:56:32+08:00">2020-06-06</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-12-03 11:21:27" itemprop="dateModified" datetime="2023-12-03T11:21:27+08:00">2023-12-03</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>源码版本：objc4-781，<code>objc-accessors.mm</code>文件中。</p>
-<p>原子操作是指操作是不可分割的，要么发生，要么不发生。事物只会处于原始状态和成功状态两种中的一种，不会处于一种半完成状态。</p>
-<h3 id="OC-中的atomic修饰符"><a href="#OC-中的atomic修饰符" class="headerlink" title="OC 中的atomic修饰符"></a>OC 中的atomic修饰符</h3><p>源码实现：</p>
-<p>getter 方法：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">id <span class="title">objc_getProperty</span><span class="params">(id self, SEL _cmd, <span class="type">ptrdiff_t</span> offset, BOOL atomic)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (offset == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">object_getClass</span>(self);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Retain release world</span></span><br><span class="line">    id *slot = (id*) ((<span class="type">char</span>*)self + offset);</span><br><span class="line">    <span class="keyword">if</span> (!atomic) <span class="keyword">return</span> *slot;</span><br><span class="line">        </span><br><span class="line">    <span class="comment">// Atomic retain release world</span></span><br><span class="line">    <span class="type">spinlock_t</span>&amp; slotlock = PropertyLocks[slot];</span><br><span class="line">    slotlock.<span class="built_in">lock</span>();</span><br><span class="line">    id value = <span class="built_in">objc_retain</span>(*slot); <span class="comment">//+1</span></span><br><span class="line">    slotlock.<span class="built_in">unlock</span>();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// for performance, we (safely) issue the autorelease OUTSIDE of the spinlock.</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">objc_autoreleaseReturnValue</span>(value); <span class="comment">//注册到自动释放池中，延迟-1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>对于none atomic属性，getter方法只是简单的返回对象地址。</p>
-<p>对于atomic属性，getter方法会加锁，并返回一个注册到自动释放池里的对象地址。</p>
-<p>setter 方法：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">static</span> <span class="keyword">inline</span> <span class="type">void</span> <span class="title">reallySetProperty</span><span class="params">(id self, SEL _cmd, id newValue, <span class="type">ptrdiff_t</span> offset, <span class="type">bool</span> atomic, <span class="type">bool</span> copy, <span class="type">bool</span> mutableCopy)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (offset == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="built_in">object_setClass</span>(self, newValue);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    id oldValue;</span><br><span class="line">    id *slot = (id*) ((<span class="type">char</span>*)self + offset);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (copy) &#123;</span><br><span class="line">        newValue = [newValue copyWithZone:nil];</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mutableCopy) &#123;</span><br><span class="line">        newValue = [newValue mutableCopyWithZone:nil];</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (*slot == newValue) <span class="keyword">return</span>;</span><br><span class="line">        newValue = <span class="built_in">objc_retain</span>(newValue); <span class="comment">//retain新值</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!atomic) &#123;</span><br><span class="line">        oldValue = *slot; <span class="comment">//获取旧值</span></span><br><span class="line">        *slot = newValue; <span class="comment">//赋予新值</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="type">spinlock_t</span>&amp; slotlock = PropertyLocks[slot];</span><br><span class="line">        slotlock.<span class="built_in">lock</span>();  </span><br><span class="line">        oldValue = *slot; <span class="comment">//</span></span><br><span class="line">        *slot = newValue;        </span><br><span class="line">        slotlock.<span class="built_in">unlock</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">objc_release</span>(oldValue); <span class="comment">//release 旧值</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">objc_setProperty_atomic</span><span class="params">(id self, SEL _cmd, id newValue, <span class="type">ptrdiff_t</span> offset)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">reallySetProperty</span>(self, _cmd, newValue, offset, <span class="literal">true</span>, <span class="literal">false</span>, <span class="literal">false</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">objc_setProperty_nonatomic</span><span class="params">(id self, SEL _cmd, id newValue, <span class="type">ptrdiff_t</span> offset)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">reallySetProperty</span>(self, _cmd, newValue, offset, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">false</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">objc_setProperty_atomic_copy</span><span class="params">(id self, SEL _cmd, id newValue, <span class="type">ptrdiff_t</span> offset)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">reallySetProperty</span>(self, _cmd, newValue, offset, <span class="literal">true</span>, <span class="literal">true</span>, <span class="literal">false</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">objc_setProperty_nonatomic_copy</span><span class="params">(id self, SEL _cmd, id newValue, <span class="type">ptrdiff_t</span> offset)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">reallySetProperty</span>(self, _cmd, newValue, offset, <span class="literal">false</span>, <span class="literal">true</span>, <span class="literal">false</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/06/06/OC-atomic%E4%BF%AE%E9%A5%B0%E7%AC%A6/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1150,7 +1151,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">174</span>
+          <span class="site-state-item-count">175</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1199,7 +1200,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

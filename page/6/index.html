@@ -187,6 +187,102 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2021/08/01/TAS%E3%80%81CAS%E7%AE%80%E4%BB%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/08/01/TAS%E3%80%81CAS%E7%AE%80%E4%BB%8B/" class="post-title-link" itemprop="url">TAS、CAS简介</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-08-01 19:30:23" itemprop="dateCreated datePublished" datetime="2021-08-01T19:30:23+08:00">2021-08-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-03-29 14:34:57" itemprop="dateModified" datetime="2023-03-29T14:34:57+08:00">2023-03-29</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">多线程</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>原子操作是指操作是不可分割的，要么发生，要么不发生。事物只会处于原始状态和成功状态两种中的一种，不会处于一种完成一半的状态。</p>
+<p>TAS和CAS指令是原子操作，但我感觉原子操作不仅是原子操作而且还是排他的，一个线程正在执行某个原子操作时，其他线程不能同时再执行该原子操作。</p>
+<h3 id="C语言里的volatile"><a href="#C语言里的volatile" class="headerlink" title="C语言里的volatile"></a>C语言里的volatile</h3><p>作用：</p>
+<ol>
+<li><p>保证可见性</p>
+<p>表示用到这个变量时必须每次都重新从内存里读取这个变量的值，而不是使用保存在寄存器里的备份。主要用于防止编译器的一些优化。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//示例一</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span> <span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span> i = <span class="number">10</span>;</span><br><span class="line">	<span class="type">int</span> a = i; <span class="comment">//优化</span></span><br><span class="line">	<span class="type">int</span> b = i;</span><br><span class="line"> </span><br><span class="line">	<span class="built_in">printf</span> (<span class="string">&quot;i = %d\n&quot;</span>, b);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//示例二</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span> <span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">volatile</span> <span class="type">int</span> i = <span class="number">10</span>;</span><br><span class="line">	<span class="type">int</span> a = i; <span class="comment">//未优化</span></span><br><span class="line">	<span class="type">int</span> b = i; <span class="comment">//这里会继续从内存里读取i的值而不是用上面读过的缓存。</span></span><br><span class="line"> </span><br><span class="line">	<span class="built_in">printf</span> (<span class="string">&quot;i = %d\n&quot;</span>, b);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+</li>
+<li><p>禁止指令重排（貌似只在Java里有这个功能）</p>
+<p>保证volatile所修饰的变量之前的代码不会在该变量之后执行，该变量之后的代码不会在该变量之前执行。</p>
+</li>
+</ol>
+<p>volatile不能保证原子性。仅使用 volatile 修饰 i，i++也不是线程安全的。</p>
+<p>不知道C语言里的volatile是否和Java里的意义一样？</p>
+<h3 id="TAS（Test-And-Set）"><a href="#TAS（Test-And-Set）" class="headerlink" title="TAS（Test And Set）"></a>TAS（Test And Set）</h3><p>TAS指令的语义是：向某个内存地址写入值1，并且返回这块内存地址存的原始值。TAS指令是原子的，这是由实现TAS指令的硬件保证的（这里的硬件可以是CPU，也可以是实现了TAS的其他硬件）。</p>
+<p>伪代码：</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/08/01/TAS%E3%80%81CAS%E7%AE%80%E4%BB%8B/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2021/08/01/iOS%20synchronized%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -562,7 +658,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-09-07 22:35:43" itemprop="dateModified" datetime="2023-09-07T22:35:43+08:00">2023-09-07</time>
+                <time title="修改时间：2024-01-20 12:58:30" itemprop="dateModified" datetime="2024-01-20T12:58:30+08:00">2024-01-20</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -966,96 +1062,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2021/03/28/iOS-stack-overflow%E5%AF%BC%E8%87%B4%E7%9A%84EXC_BAD_ACCESS%E5%B4%A9%E6%BA%83/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="芝士就是力量">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/03/28/iOS-stack-overflow%E5%AF%BC%E8%87%B4%E7%9A%84EXC_BAD_ACCESS%E5%B4%A9%E6%BA%83/" class="post-title-link" itemprop="url">iOS stack overflow导致的EXC_BAD_ACCESS崩溃</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-03-28 13:03:46" itemprop="dateCreated datePublished" datetime="2021-03-28T13:03:46+08:00">2021-03-28</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Bug/" itemprop="url" rel="index"><span itemprop="name">Bug</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>最近想学习一下mmap的使用，没想到一来就掉坑里了。</p>
-<p>测试代码如下：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">void</span>)test_mmap &#123;</span><br><span class="line">    __autoreleasing <span class="built_in">NSError</span> *err = <span class="literal">nil</span>;</span><br><span class="line"><span class="comment">//    self.videoData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@&quot;ddcada74ee08d06dda5cd13b4117ad30&quot; ofType:@&quot;mp4&quot;] options:0 error:&amp;er];</span></span><br><span class="line"><span class="comment">//    self.videoData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@&quot;ddcada74ee08d06dda5cd13b4117ad30&quot; ofType:@&quot;mp4&quot;] options:NSDataReadingUncached error:&amp;er];</span></span><br><span class="line">    <span class="keyword">self</span>.videoData = [<span class="built_in">NSData</span> dataWithContentsOfFile:[[<span class="built_in">NSBundle</span> mainBundle] pathForResource:<span class="string">@&quot;ddcada74ee08d06dda5cd13b4117ad30&quot;</span> ofType:<span class="string">@&quot;mp4&quot;</span>] options:<span class="built_in">NSDataReadingMappedIfSafe</span> error:&amp;err];  <span class="comment">//1</span></span><br><span class="line">    <span class="keyword">if</span> (err != <span class="literal">nil</span>) &#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@&quot;er:%@&quot;</span>, err);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@&quot;videoData:%lu&quot;</span>, (<span class="type">unsigned</span> <span class="type">long</span>)<span class="keyword">self</span>.videoData.length);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">//    long bufferSize = 4096;</span></span><br><span class="line">    <span class="type">long</span> bufferSize = <span class="number">1000000</span>;</span><br><span class="line"><span class="comment">//    long bufferSize = 1024 * 1024 - 30 * 1024;</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">char</span> buffer[bufferSize];</span><br><span class="line">    [<span class="keyword">self</span>.videoData getBytes:buffer range:<span class="built_in">NSMakeRange</span>(<span class="number">0</span>, bufferSize)]; <span class="comment">//2</span></span><br><span class="line">    <span class="built_in">NSData</span> *someData = [[<span class="built_in">NSData</span> alloc] initWithBytes:buffer length:bufferSize];</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;someData:%lu&quot;</span>, (<span class="type">unsigned</span> <span class="type">long</span>)someData.length);</span><br><span class="line">    [<span class="keyword">self</span> saveDataToCaches:someData];</span><br><span class="line">    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(<span class="number">5</span> * <span class="built_in">NSEC_PER_SEC</span>)), dispatch_get_main_queue(), ^&#123;</span><br><span class="line">        <span class="keyword">self</span>.videoData = <span class="literal">nil</span>;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)saveDataToCaches:(<span class="built_in">NSData</span> *)data &#123;</span><br><span class="line">    <span class="built_in">NSString</span> *cachespath = <span class="built_in">NSSearchPathForDirectoriesInDomains</span>(<span class="built_in">NSCachesDirectory</span>, <span class="built_in">NSUserDomainMask</span>, <span class="literal">YES</span>).lastObject;</span><br><span class="line">    <span class="built_in">NSString</span> *fileName = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@&quot;%@&quot;</span>, <span class="built_in">NSDate</span>.date];</span><br><span class="line">    <span class="built_in">NSString</span> *filePath = [cachespath stringByAppendingPathComponent:fileName];</span><br><span class="line">    <span class="built_in">NSError</span> *err;</span><br><span class="line">    <span class="type">BOOL</span> ret = [data writeToFile:filePath options:<span class="built_in">NSDataWritingAtomic</span> error:&amp;err];</span><br><span class="line">    <span class="keyword">if</span> (err) &#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@&quot;写入错误：%@&quot;</span>, err);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;ret:%d&quot;</span>, ret);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>1处通过mmap的方式读取一个500多兆的视频数据，2处读取视频中某一段的数据。最开始的时候bufferSize设置的是4096，运行的时候一切正常。正常之后自然想改个其他的值试试，于是就设置bufferSize为视频大小，结果一运行就崩溃了很快啊，然后就是提示EXC_BAD_ACCESS。当时觉得很奇怪怎么会EXC_BAD_ACCESS呢？也没看到哪个地方有过度释放的对象啊。最后一点点修改bufferSize的大小，发现小于1000000代码就可以正常运行，而超过则会EXC_BAD_ACCESS。不过依然搞不懂为啥会这样。百思不得其解之后只能求助Google，不过也不知道怎么搜索关键字，一通搜索之后也没找到有用的东西，期间一度想放弃，不过还是坚持了下来。</p>
-<p>直接上结论：上述崩溃的原因就是stack overflow了。</p>
-<p>我们可以验证一下，打好断点后分别<strong>p &amp;err</strong>，<strong>p &amp;cachespath</strong>得到：</p>
-<figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">(lldb)</span> p &amp;err</span><br><span class="line"><span class="comment">(NSError **)</span> $<span class="number">0</span> = <span class="number">0</span>x<span class="number">000000016</span>f<span class="number">5</span>b<span class="number">97</span>d<span class="number">0</span></span><br><span class="line"><span class="comment">(lldb)</span> p &amp;cachespath</span><br><span class="line"><span class="comment">(NSString **)</span> $<span class="number">1</span> = <span class="number">0</span>x<span class="number">000000016</span>f<span class="number">4</span>c<span class="number">5470</span></span><br></pre></td></tr></table></figure>
-<p>$0 - $1 = 0xF4360 = 1000288 = 0.954M，基本上快占满整个栈空间了（这里有点马后炮了因为很多人可能都不知道主线程的栈空间有多大，甚至都没有栈溢出这个概念自然也不会往这个方面想了）。因此代码可能会崩溃在后面的任意一行代码，具体是哪一行视栈的剩余空间大小。比如有可能崩溃在</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSError <span class="number">*e</span>rr;  Thread 1: EXC_BAD_ACCESS (<span class="attribute">code</span>=2, <span class="attribute">address</span>=0x16f4bfad0)</span><br></pre></td></tr></table></figure>
-<p>也有可能会崩溃在：</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/03/28/iOS-stack-overflow%E5%AF%BC%E8%87%B4%E7%9A%84EXC_BAD_ACCESS%E5%B4%A9%E6%BA%83/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1126,7 +1132,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">174</span>
+          <span class="site-state-item-count">175</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1175,7 +1181,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
