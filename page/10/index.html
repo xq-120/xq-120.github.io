@@ -187,6 +187,195 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/02/27/%E6%B8%85%E7%90%86%E4%BD%A0%E7%9A%84Xcode/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/02/27/%E6%B8%85%E7%90%86%E4%BD%A0%E7%9A%84Xcode/" class="post-title-link" itemprop="url">清理你的Xcode</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-02-27 22:55:55" itemprop="dateCreated datePublished" datetime="2020-02-27T22:55:55+08:00">2020-02-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Xcode/" itemprop="url" rel="index"><span itemprop="name">Xcode</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Xcode用久了后会产生很多缓存文件,这些文件会占用很大的磁盘空间.</p>
+<p>下面列举的是一些可以删除的文件目录.</p>
+<ol>
+<li><p><code>~/Library/Developer/Xcode/DerivedData</code>   </p>
+<p>一些中间编译信息文件和debug/release 编译生成的 targets.删除后会重新创建.这里清理后腾出了7.81G </p>
+</li>
+<li><p><code>~/Library/Developer/Xcode/iOS DeviceSupport</code>  </p>
+<p>我们每次连上新设备时的『Processing symbol files』就是在向该文件夹写入文件。删除后,再次连上手机时会重新创建.这里清理后腾出了8.68G</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/Xcode清理_DeviceSupport.png" alt="Xcode清理_DeviceSupport"></p>
+</li>
+<li><p><code>~/Library/Developer/CoreSimulator</code>  </p>
+<p>Apps 在模拟器中的存储文档的位置.这里清理后腾出了13.92G</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/Xcode清理_CoreSimulator.png" alt="Xcode清理_CoreSimulator"></p>
+</li>
+<li><p><code>/Library/Developer/CoreSimulator/Profiles/Runtimes</code></p>
+<p>模拟器文件路径.里面是下载的其他版本的模拟器文件.可以删除一些低版本的模拟器.这里清理后腾出了9.6G</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/其他版本模拟器文件路径.png" alt="其他版本模拟器文件路径"></p>
+</li>
+<li><p><code>~/Library/Developer/Xcode/Archives</code>   </p>
+<p>归档项目的存储位置.删除前确保有用的Archive已经备份,因为分析线上崩溃日志需要Archive文件里的一些东西.</p>
+</li>
+</ol>
+<p>其他一些缓存目录：</p>
+<p>系统缓存保存在：~/Library/Caches  （按需删除）</p>
+<p>系统日志保存在：~/Library/Logs</p>
+<p>此外，可以使用命令：“sudo du -sh * ”查看当前文件夹下各个文件和文件夹占用的空间大小，进而一步步找到占用磁盘空间较多的文件。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/02/06/iOS%E5%9B%BE%E7%89%87%E7%9A%84%E7%BC%A9%E6%94%BE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/02/06/iOS%E5%9B%BE%E7%89%87%E7%9A%84%E7%BC%A9%E6%94%BE/" class="post-title-link" itemprop="url">iOS图片的缩放</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-02-06 00:22:59" itemprop="dateCreated datePublished" datetime="2020-02-06T00:22:59+08:00">2020-02-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%9B%BE%E7%89%87%E5%A4%84%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">图片处理</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>在一些情况下需要对图片进行缩放操作.比如使用iPhone6 Plus拍照得到的将是一张2448x3264的图片,这么大分辨率的图片已经远远超过了手机显示屏的分辨率了,如果直接加载到内存会占用很大的空间,这显然是一种浪费.这个时候就需要等比例缩放图片以减小图片分辨率.一般情况下,即时聊天页面用户发送的图片都会经过分辨率压缩和体积压缩后才会上传到服务器.</p>
+<p>由于图片的大小和目标大小比例可能不一致,因此等比例缩放图片到目标尺寸有两种填充方式:</p>
+<p><strong>1.等比例填满目标大小,图片可能发生裁剪</strong></p>
+<p>两种情况:</p>
+<p>1.图片与目标大小宽高比一致.</p>
+<p>由于与目标大小宽高比一致,图片缩放后会恰好填满整个目标大小,图片不会发生裁剪.</p>
+<p>2.图片与目标大小宽高比不一致.</p>
+<p>由于与目标大小宽高比不一致,图片缩放后会超出目标大小,因此图片会发生裁剪.</p>
+<p>这里又分为两种情况:</p>
+<p>prate &lt; drate,图片会在y轴发生裁剪.</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/02/06/iOS%E5%9B%BE%E7%89%87%E7%9A%84%E7%BC%A9%E6%94%BE/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/02/02/%E5%85%B3%E4%BA%8E%E5%8F%A3%E7%BD%A9%E7%9A%84%E5%87%A0%E7%82%B9%E6%84%8F%E8%A7%81%E5%92%8C%E5%BB%BA%E8%AE%AE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -940,187 +1129,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2019/09/13/Swift%E4%B8%AD%E7%9A%84AnyClass%E3%80%81AnyObject%E3%80%81Any/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="芝士就是力量">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/09/13/Swift%E4%B8%AD%E7%9A%84AnyClass%E3%80%81AnyObject%E3%80%81Any/" class="post-title-link" itemprop="url">Swift中的AnyClass、AnyObject、Any</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-09-13 12:39:40" itemprop="dateCreated datePublished" datetime="2019-09-13T12:39:40+08:00">2019-09-13</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-03-04 00:30:00" itemprop="dateModified" datetime="2023-03-04T00:30:00+08:00">2023-03-04</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>1.AnyObject</p>
-<p>定义:<br>public typealias AnyObject</p>
-<p>说明:<br>The protocol to which all classes implicitly conform.</p>
-<p>AnyObject can be used as the concrete type for an instance of any class, class type, or class-only protocol.</p>
-<p>The flexible behavior of the <code>AnyObject</code> protocol is similar to<br>Objective-C’s <code>id</code> type.</p>
-<p>AnyObject:用于表示任意类,元类的实例的具体类型.</p>
-<p>对于”123”或123这些基础数据类型在Swift中是结构体类型,所以这里需要将其强转为AnyObject类型,此时它们的类型将是<br>OC的NSTaggedPointerString和__NSCFNumber等对象类型.不强转的话编译会出错.</p>
-<p>eg:</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">FDEItemModel</span> &#123;&#125;</span><br><span class="line"><span class="keyword">let</span> anyA: <span class="type">AnyObject</span> <span class="operator">=</span> <span class="type">FDEItemModel</span>.<span class="keyword">init</span>() <span class="comment">//对象，类的实例</span></span><br><span class="line"><span class="keyword">let</span> anyB: <span class="type">AnyObject</span> <span class="operator">=</span> <span class="type">FDEItemModel</span>.<span class="keyword">self</span> <span class="comment">//类对象，元类的实例</span></span><br><span class="line"><span class="keyword">let</span> anyC: <span class="type">AnyObject</span> <span class="operator">=</span> <span class="type">FDEItemModel</span>.<span class="keyword">init</span>().<span class="keyword">self</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> defaulA <span class="operator">=</span> <span class="type">FDEItemModel</span>.<span class="keyword">init</span>()  <span class="comment">//FDEItemModel</span></span><br><span class="line"><span class="keyword">let</span> defaulB <span class="operator">=</span> <span class="type">FDEItemModel</span>.<span class="keyword">self</span> <span class="comment">//FDEItemModel.Type</span></span><br><span class="line"><span class="keyword">let</span> defaulC <span class="operator">=</span> <span class="type">FDEItemModel</span>.<span class="keyword">init</span>().<span class="keyword">self</span> <span class="comment">//FDEItemModel</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> arr1: [<span class="type">AnyObject</span>] <span class="operator">=</span> [<span class="string">&quot;123&quot;</span> <span class="keyword">as</span> <span class="type">AnyObject</span>, <span class="number">123</span> <span class="keyword">as</span> <span class="type">AnyObject</span>, [<span class="number">123</span>] <span class="keyword">as</span> <span class="type">AnyObject</span>]</span><br><span class="line"> </span><br><span class="line"><span class="keyword">let</span> arr2: [<span class="type">AnyObject</span>] <span class="operator">=</span> [<span class="type">NSString</span>(<span class="string">&quot;123&quot;</span>),</span><br><span class="line">                             <span class="type">NSNumber</span>(<span class="number">123</span>),</span><br><span class="line">                             <span class="literal">true</span> <span class="keyword">as</span> <span class="type">AnyObject</span>,</span><br><span class="line">                             <span class="type">People</span>.<span class="keyword">init</span>(),</span><br><span class="line">                             <span class="type">People</span>.<span class="keyword">self</span></span><br><span class="line">                             ]</span><br><span class="line"><span class="built_in">print</span>(arr2)</span><br><span class="line"></span><br><span class="line"><span class="operator">...</span></span><br><span class="line">[<span class="number">123</span>, <span class="number">123</span>, <span class="number">1</span>, <span class="operator">&lt;</span><span class="type">OSHybridDemo</span>.<span class="type">People</span>: <span class="number">0x600002348b90</span><span class="operator">&gt;</span>, <span class="type">OSHybridDemo</span>.<span class="type">People</span>]</span><br></pre></td></tr></table></figure>
-<p>在使用AnyObject 对象时要特别注意如果你需要调用它的属性则最好先downcast为实际的类型，如果不downcast那么系统可能获取的是其他类的同名属性，得到的值将是nil。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/09/13/Swift%E4%B8%AD%E7%9A%84AnyClass%E3%80%81AnyObject%E3%80%81Any/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2019/09/12/Swift%E3%80%81OC%E5%8F%8D%E5%B0%84/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="芝士就是力量">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/09/12/Swift%E3%80%81OC%E5%8F%8D%E5%B0%84/" class="post-title-link" itemprop="url">Swift、OC反射</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-09-12 16:56:14" itemprop="dateCreated datePublished" datetime="2019-09-12T16:56:14+08:00">2019-09-12</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-01 19:30:13" itemprop="dateModified" datetime="2021-08-01T19:30:13+08:00">2021-08-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="Swift、OC反射"><a href="#Swift、OC反射" class="headerlink" title="Swift、OC反射"></a>Swift、OC反射</h3><p>反射即根据类名字符串,生成对应实例对象的过程.</p>
-<p>分为两步:</p>
-<ol>
-<li>根据字符串,得到对应的类对象.</li>
-<li>通过类对象调用初始化方法生成一个实例.</li>
-</ol>
-<h3 id="获取类对象"><a href="#获取类对象" class="headerlink" title="获取类对象"></a>获取类对象</h3><p>OC:</p>
-<figure class="highlight wren"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">+</span> (<span class="title class_">Class</span>)<span class="keyword">class</span> <span class="title class_">OBJC_SWIFT_UNAVAILABLE</span>(<span class="string">&quot;use &#x27;aClass.self&#x27; instead&quot;</span>);</span><br><span class="line"><span class="operator">-</span> (<span class="title class_">Class</span>)<span class="keyword">class</span> <span class="title class_">OBJC_SWIFT_UNAVAILABLE</span>(<span class="string">&quot;use &#x27;type(of: anObject)&#x27; instead&quot;</span>);</span><br></pre></td></tr></table></figure>
-<p>这俩方法都是返回一个类对象.    </p>
-<p>Swift:</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">aClass<span class="selector-class">.self</span></span><br><span class="line"><span class="function"><span class="title">type</span><span class="params">(of: anObject)</span></span></span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/09/12/Swift%E3%80%81OC%E5%8F%8D%E5%B0%84/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1191,20 +1199,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">175</span>
+          <span class="site-state-item-count">177</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">39</span>
+        <span class="site-state-item-count">38</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">114</span>
+        <span class="site-state-item-count">116</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

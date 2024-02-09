@@ -1,6 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>homebrew介绍</title>
+    <url>/2024/02/09/homebrew%E4%BB%8B%E7%BB%8D/</url>
+    <content><![CDATA[<h2 id="homebrew简介"><a href="#homebrew简介" class="headerlink" title="homebrew简介"></a>homebrew简介</h2><p>homebrew类似于QQ软件管家，方便我们安装卸载第三方软件。当然这里的软件指定的命令行软件，而不是我们通常使用的应用软件。</p>
+<h2 id="安装homebrew"><a href="#安装homebrew" class="headerlink" title="安装homebrew"></a>安装homebrew</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">/bin/bash -c <span class="string">&quot;<span class="subst">$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)</span>&quot;</span></span><br></pre></td></tr></table></figure>
+<p>通过homebrew安装的软件目录位置</p>
+<figure class="highlight applescript"><table><tr><td class="code"><pre><span class="line">/usr/<span class="keyword">local</span>/Cellar</span><br></pre></td></tr></table></figure>
+<p>而<code>/usr/local/bin</code>目录下的文件则是Cellar下对应软件的一个快捷访问。</p>
+<h2 id="homebrew使用"><a href="#homebrew使用" class="headerlink" title="homebrew使用"></a>homebrew使用</h2><p>1.安装软件</p>
+<figure class="highlight mipsasm"><table><tr><td class="code"><pre><span class="line"><span class="keyword">brew </span><span class="keyword">install </span>xxx</span><br></pre></td></tr></table></figure>
+<p>eg:</p>
+<figure class="highlight clean"><table><tr><td class="code"><pre><span class="line">➜  ~ brew install wget</span><br><span class="line">==&gt; Downloading https:<span class="comment">//formulae.brew.sh/api/formula.jws.json</span></span><br><span class="line">######################################################################### <span class="number">100.0</span>%</span><br><span class="line">==&gt; Downloading https:<span class="comment">//formulae.brew.sh/api/cask.jws.json</span></span><br><span class="line">######################################################################### <span class="number">100.0</span>%</span><br><span class="line">==&gt; Downloading https:<span class="comment">//ghcr.io/v2/homebrew/core/wget/manifests/1.21.4</span></span><br><span class="line">######################################################################### <span class="number">100.0</span>%</span><br><span class="line">==&gt; Fetching wget</span><br><span class="line">==&gt; Downloading https:<span class="comment">//ghcr.io/v2/homebrew/core/wget/blobs/sha256:3def758612b33</span></span><br><span class="line">######################################################################### <span class="number">100.0</span>%</span><br><span class="line">==&gt; Pouring wget-<span class="number">-1.21</span><span class="number">.4</span>.sonoma.bottle.tar.gz</span><br><span class="line">🍺  /usr/local/Cellar/wget/<span class="number">1.21</span><span class="number">.4</span>: <span class="number">91</span> files, <span class="number">4.4</span>MB</span><br><span class="line">==&gt; Running `brew cleanup wget`...</span><br><span class="line">Disable this behaviour by setting HOMEBREW_NO_INSTALL_CLEANUP.</span><br><span class="line">Hide these hints <span class="keyword">with</span> HOMEBREW_NO_ENV_HINTS (see `man brew`).</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line">➜  ~ wget -V</span><br><span class="line">GNU Wget <span class="number">1.21</span><span class="number">.4</span> 在 darwin23<span class="number">.0</span><span class="number">.0</span> 上编译。</span><br></pre></td></tr></table></figure>
+<p>2.卸载软件</p>
+<figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">brew uninstall xxx</span></span><br></pre></td></tr></table></figure>
+<p>3.查看使用homebrew安装的二进制软件</p>
+<figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">brew list</span></span><br></pre></td></tr></table></figure>
+<h2 id="坑"><a href="#坑" class="headerlink" title="坑"></a>坑</h2><h3 id="1-安装了两个homebrew"><a href="#1-安装了两个homebrew" class="headerlink" title="1.安装了两个homebrew"></a>1.安装了两个homebrew</h3><p>不知道什么原因电脑里安装了两个homebrew，然后每个homebrew下又都安装了一些软件。</p>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line"><span class="regexp">/usr/</span>local/Homebrew</span><br><span class="line"><span class="regexp">/opt/</span>homebrew</span><br></pre></td></tr></table></figure>
+<p>然后zsh里面，优先使用的是/opt/homebrew的homebrew。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Set PATH, MANPATH, etc., for Homebrew.</span></span><br><span class="line"><span class="built_in">eval</span> <span class="string">&quot;<span class="subst">$(/opt/homebrew/bin/brew shellenv)</span>&quot;</span></span><br><span class="line"><span class="built_in">eval</span> <span class="string">&quot;<span class="subst">$(/usr/local/bin/brew shellenv)</span>&quot;</span></span><br></pre></td></tr></table></figure>
+<p>导致在升级一些软件时提示已经升级了，但查看版本时还是旧的，原因就是升级的是另一个homebrew下的，而/opt/homebrew下的还是旧版本的。所以打算删除掉/opt目录下的。</p>
+<p><strong>卸载/opt/homebrew下的homebrew</strong></p>
+<p>1.先备份要删除的/opt/homebrew。后续确定没问题了再彻底删除。</p>
+<p>2.修改<code>.zprofile</code> 的内容为：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Set PATH, MANPATH, etc., for Homebrew.</span></span><br><span class="line"><span class="built_in">eval</span> <span class="string">&quot;<span class="subst">$(/usr/local/bin/brew shellenv)</span>&quot;</span></span><br></pre></td></tr></table></figure>
+<p>即删除掉之前/opt/homebrew的。</p>
+<p>3.查看where brew，应该只剩下一个了。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="operator">➜</span>  <span class="operator">~</span> <span class="keyword">where</span> brew</span><br><span class="line"><span class="regexp">/usr/</span>local<span class="regexp">/bin/</span>brew</span><br><span class="line"><span class="regexp">/usr/</span>local<span class="regexp">/bin/</span>brew</span><br></pre></td></tr></table></figure>
+<p>删除后有一些软件可能得重新安装了，比如之前安装的hexo命令提示没了。</p>
+<p>重新安装hexo：</p>
+<figure class="highlight avrasm"><table><tr><td class="code"><pre><span class="line">npm install -g hexo-<span class="keyword">cli</span></span><br></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://brew.sh/zh-cn/">homebrew官网</a></p>
+]]></content>
+      <categories>
+        <category>命令行</category>
+      </categories>
+      <tags>
+        <tag>homebrew</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>nodejs介绍</title>
+    <url>/2024/02/09/nodejs%E4%BB%8B%E7%BB%8D/</url>
+    <content><![CDATA[<h2 id="node简介"><a href="#node简介" class="headerlink" title="node简介"></a>node简介</h2><p>Node.js 是能够在服务器端运行JavaScript 的开放源代码、跨平台执行环境。Node.js 由 OpenJS Foundation 持有和维护，亦为Linux 基金会的项目。Node.js 是一个开源的跨平台 <a href="https://nodejs.org/en/about/">JavaScript 运行时环境</a>，侧重于服务器端和网络应用。</p>
+<p>Node.js 非常适合用于：</p>
+<ul>
+<li>使用 Node.js 开发的单页 Web 应用程序</li>
+<li>Web 服务器后端</li>
+<li>移动和桌面应用程序（包括游戏）</li>
+<li>机器学习系统或 IoT 设备的后端</li>
+</ul>
+<h2 id="安装node"><a href="#安装node" class="headerlink" title="安装node"></a>安装node</h2><p>node版本是一个比较棘手的问题，比如6.3.0版的node跑不了一些新项目，升级到10.x版的node后，又跑不了旧项目。所以安装的node最好能方便切换版本。推荐先安装nvm，再使用nvm安装管理node版本。<code>nvm</code> 是 <code>Node.js</code> 的版本管理工具，可以创建不同版本 <code>Node</code> 的隔离环境，从而避免不同版本包之间的干扰。</p>
+<p>安装 <code>nvm</code> 之前最好是将现有的全局 <code>Node</code> 进行卸载，否则会发生冲突。</p>
+<p>先查看一下node信息：</p>
+<figure class="highlight crmsh"><table><tr><td class="code"><pre><span class="line">➜  ~ which <span class="keyword">node</span></span><br><span class="line"><span class="title">/usr</span>/local/bin/<span class="keyword">node</span></span><br><span class="line"><span class="title">➜  ~ node</span> -v</span><br><span class="line">v21.<span class="number">6.1</span></span><br></pre></td></tr></table></figure>
+<p>之前是用homebrew安装的，可以通过brew list查看：</p>
+<figure class="highlight llvm"><table><tr><td class="code"><pre><span class="line">➜  ~ brew list</span><br><span class="line"><span class="operator">=</span><span class="operator">=</span>&gt; Formulae</span><br><span class="line">abseil		icu<span class="number">4</span><span class="keyword">c</span>		libuv		python<span class="title">@3</span>.<span class="number">11</span>	xz</span><br><span class="line">brotli		inetutils	mpdecimal	readline</span><br><span class="line"><span class="keyword">c</span>-ares		libidn<span class="number">2</span>		node		sqlite</span><br><span class="line">ca-certificates	libnghttp<span class="number">2</span>	openssl<span class="title">@3</span>	swift-protobuf</span><br><span class="line">gettext		libunistring	protobuf	telnet</span><br></pre></td></tr></table></figure>
+<p>卸载：brew uninstall node</p>
+<h3 id="安装nvm"><a href="#安装nvm" class="headerlink" title="安装nvm"></a>安装nvm</h3><p>方法一：通过官网GitHub的说明书</p>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">curl -o- https:<span class="regexp">//</span>raw.githubusercontent.com<span class="regexp">/nvm-sh/</span>nvm<span class="regexp">/v0.39.7/i</span>nstall.sh | bash</span><br></pre></td></tr></table></figure>
+<p>方法二：通过brew安装（本文使用homebrew安装）</p>
+<figure class="highlight mipsasm"><table><tr><td class="code"><pre><span class="line"><span class="keyword">brew </span><span class="keyword">install </span>nvm</span><br></pre></td></tr></table></figure>
+<p>安装完成后nvm -v肯定会提示找不到nvm命令。继续：</p>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="attribute">brew</span> <span class="literal">info</span> nvm</span><br></pre></td></tr></table></figure>
+<p>上述命令会提示你：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">You should create NVM<span class="string">&#x27;s working directory if it doesn&#x27;</span>t exist:</span><br><span class="line">  <span class="built_in">mkdir</span> ~/.nvm</span><br><span class="line"></span><br><span class="line">Add the following to your shell profile e.g. ~/.profile or ~/.zshrc:</span><br><span class="line">  <span class="built_in">export</span> NVM_DIR=<span class="string">&quot;<span class="variable">$HOME</span>/.nvm&quot;</span></span><br><span class="line">  [ -s <span class="string">&quot;/usr/local/opt/nvm/nvm.sh&quot;</span> ] &amp;&amp; \. <span class="string">&quot;/usr/local/opt/nvm/nvm.sh&quot;</span>  <span class="comment"># This loads nvm</span></span><br><span class="line">  [ -s <span class="string">&quot;/usr/local/opt/nvm/etc/bash_completion.d/nvm&quot;</span> ] &amp;&amp; \. <span class="string">&quot;/usr/local/opt/nvm/etc/bash_completion.d/nvm&quot;</span>  <span class="comment"># This loads nvm bash_completion</span></span><br><span class="line"></span><br><span class="line">You can <span class="built_in">set</span> <span class="variable">$NVM_DIR</span> to any location, but leaving it unchanged from</span><br><span class="line">/usr/local/Cellar/nvm/0.39.7 will destroy any nvm-installed Node installations</span><br><span class="line">upon upgrade/reinstall.</span><br></pre></td></tr></table></figure>
+<p>按照上述提示：先创建.nvm文件夹</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> ~/.nvm</span><br></pre></td></tr></table></figure>
+<p>再往~/.zshrc里添加：</p>
+<figure class="highlight livescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">export</span> NVM_DIR=<span class="string">&quot;$HOME/.nvm&quot;</span></span><br><span class="line">  [ -s <span class="string">&quot;/usr/local/opt/nvm/nvm.sh&quot;</span> ] &amp;&amp; <span class="string">\.</span> <span class="string">&quot;/usr/local/opt/nvm/nvm.sh&quot;</span>  <span class="comment"># This loads nvm</span></span><br><span class="line">  [ -s <span class="string">&quot;/usr/local/opt/nvm/etc/bash_completion.d/nvm&quot;</span> ] &amp;&amp; <span class="string">\.</span> <span class="string">&quot;/usr/local/opt/nvm/etc/bash_completion.d/nvm&quot;</span>  <span class="comment"># This loads nvm bash_completion</span></span><br></pre></td></tr></table></figure>
+<p>最后<code>source ~/.zshrc</code></p>
+<p>这时查看版本就没有问题了。</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">➜  ~ nvm -v</span><br><span class="line">0.39.7</span><br></pre></td></tr></table></figure>
+<p>继续，使用nvm安装node</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">nvm install --lts</span><br></pre></td></tr></table></figure>
+<p>现在安装 Node.js 都会默认安装 npm（node 包管理工具），所以我们不用单独安装 npm。执行完后node就安装好了。</p>
+<figure class="highlight crmsh"><table><tr><td class="code"><pre><span class="line"><span class="keyword">node</span> <span class="title">-v</span></span><br><span class="line">npm -v</span><br></pre></td></tr></table></figure>
+<h2 id="node版本切换"><a href="#node版本切换" class="headerlink" title="node版本切换"></a>node版本切换</h2><figure class="highlight stata"><table><tr><td class="code"><pre><span class="line">nvm <span class="keyword">use</span> node版本 <span class="comment">//使用指定版本</span></span><br><span class="line">nvm <span class="keyword">use</span> default <span class="comment">//使用默认版本</span></span><br><span class="line">nvm <span class="keyword">ls</span> <span class="comment">//查看已安装的node版本</span></span><br><span class="line">nvm <span class="keyword">ls</span>-remote</span><br></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://heynode.com/tutorial/install-nodejs-locally-nvm/">Install Node.js Locally with Node Version Manager (nvm)</a></p>
+]]></content>
+      <categories>
+        <category>命令行</category>
+      </categories>
+      <tags>
+        <tag>node</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>ssh方式git clone报错</title>
     <url>/2024/01/20/ssh%E6%96%B9%E5%BC%8Fgit%20clone%E6%8A%A5%E9%94%99/</url>
     <content><![CDATA[<p>ssh类型的仓库，git clone/pull报错：kex_exchange_identification: Connection closed by remote host</p>
@@ -62,7 +149,7 @@
 <p><a href="https://linux.cn/article-8842-1.html">Zsh 开发指南（一）：变量和语句</a></p>
 ]]></content>
       <categories>
-        <category>shell</category>
+        <category>命令行</category>
       </categories>
       <tags>
         <tag>shell</tag>
@@ -157,7 +244,7 @@
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://blog.csdn.net/u011291072/article/details/122782942?spm=1001.2101.3001.6661.1&amp;utm_medium=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-122782942-blog-104642218.235%5Ev38%5Epc_relevant_sort_base3&amp;depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-122782942-blog-104642218.235%5Ev38%5Epc_relevant_sort_base3&amp;utm_relevant_index=1">Shell、Bash、Zsh这都是啥啊</a></p>
 ]]></content>
       <categories>
-        <category>常用命令</category>
+        <category>命令行</category>
       </categories>
       <tags>
         <tag>目录命令</tag>
@@ -1280,7 +1367,7 @@
 <p><a href="https://www.runoob.com/linux/linux-comm-ifconfig.html">Linux ifconfig命令</a></p>
 ]]></content>
       <categories>
-        <category>常用命令</category>
+        <category>命令行</category>
       </categories>
       <tags>
         <tag>ifconfig</tag>
@@ -1455,7 +1542,7 @@
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://wangchujiang.com/linux-command/c/find.html">find</a>  Linux命令搜索的一个网站</p>
 ]]></content>
       <categories>
-        <category>常用命令</category>
+        <category>命令行</category>
       </categories>
       <tags>
         <tag>find</tag>
@@ -3426,8 +3513,8 @@
         <category>多线程</category>
       </categories>
       <tags>
-        <tag>锁</tag>
         <tag>信号量</tag>
+        <tag>锁</tag>
       </tags>
   </entry>
   <entry>

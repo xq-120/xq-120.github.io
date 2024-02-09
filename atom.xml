@@ -6,7 +6,7 @@
   <link href="https://xq-120.github.io/atom.xml" rel="self"/>
   
   <link href="https://xq-120.github.io/"/>
-  <updated>2024-01-22T11:50:30.028Z</updated>
+  <updated>2024-02-09T07:37:20.333Z</updated>
   <id>https://xq-120.github.io/</id>
   
   <author>
@@ -15,6 +15,62 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>homebrew介绍</title>
+    <link href="https://xq-120.github.io/2024/02/09/homebrew%E4%BB%8B%E7%BB%8D/"/>
+    <id>https://xq-120.github.io/2024/02/09/homebrew%E4%BB%8B%E7%BB%8D/</id>
+    <published>2024-02-09T07:39:58.000Z</published>
+    <updated>2024-02-09T07:37:20.333Z</updated>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;homebrew简介&quot;&gt;&lt;a href=&quot;#homebrew简介&quot; class=&quot;headerlink&quot; title=&quot;homebrew简介&quot;&gt;&lt;/a&gt;homebrew简介&lt;/h2&gt;&lt;p&gt;homebrew类似于QQ软件管家，方便我们安装卸载第三方软件。当然这里的软件指定的命令行软件，而不是我们通常使用的应用软件。&lt;/p&gt;
+&lt;h2 id=&quot;安装homebrew&quot;&gt;&lt;a href=&quot;#安装homebrew&quot; class=&quot;headerlink&quot; title=&quot;安装homebrew&quot;&gt;&lt;/a&gt;安装homebrew&lt;/h2&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;/bin/bash -c &lt;span class=&quot;string&quot;&gt;&amp;quot;&lt;span class=&quot;subst&quot;&gt;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)&lt;/span&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;通过homebrew安装的软件目录位置&lt;/p&gt;
+&lt;figure class=&quot;highlight applescript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;/usr/&lt;span class=&quot;keyword&quot;&gt;local&lt;/span&gt;/Cellar&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;而&lt;code&gt;/usr/local/bin&lt;/code&gt;目录下的文件则是Cellar下对应软件的一个快捷访问。&lt;/p&gt;
+&lt;h2 id=&quot;homebrew使用&quot;&gt;&lt;a href=&quot;#homebrew使用&quot; class=&quot;headerlink&quot; title=&quot;homebrew使用&quot;&gt;&lt;/a&gt;homebrew使用&lt;/h2&gt;&lt;p&gt;1.安装软件&lt;/p&gt;
+&lt;figure class=&quot;highlight mipsasm&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;brew &lt;/span&gt;&lt;span class=&quot;keyword&quot;&gt;install &lt;/span&gt;xxx&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</summary>
+    
+    
+    
+    <category term="命令行" scheme="https://xq-120.github.io/categories/%E5%91%BD%E4%BB%A4%E8%A1%8C/"/>
+    
+    
+    <category term="homebrew" scheme="https://xq-120.github.io/tags/homebrew/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>nodejs介绍</title>
+    <link href="https://xq-120.github.io/2024/02/09/nodejs%E4%BB%8B%E7%BB%8D/"/>
+    <id>https://xq-120.github.io/2024/02/09/nodejs%E4%BB%8B%E7%BB%8D/</id>
+    <published>2024-02-09T05:31:05.000Z</published>
+    <updated>2024-02-09T07:50:23.969Z</updated>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;node简介&quot;&gt;&lt;a href=&quot;#node简介&quot; class=&quot;headerlink&quot; title=&quot;node简介&quot;&gt;&lt;/a&gt;node简介&lt;/h2&gt;&lt;p&gt;Node.js 是能够在服务器端运行JavaScript 的开放源代码、跨平台执行环境。Node.js 由 OpenJS Foundation 持有和维护，亦为Linux 基金会的项目。Node.js 是一个开源的跨平台 &lt;a href=&quot;https://nodejs.org/en/about/&quot;&gt;JavaScript 运行时环境&lt;/a&gt;，侧重于服务器端和网络应用。&lt;/p&gt;
+&lt;p&gt;Node.js 非常适合用于：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;使用 Node.js 开发的单页 Web 应用程序&lt;/li&gt;
+&lt;li&gt;Web 服务器后端&lt;/li&gt;
+&lt;li&gt;移动和桌面应用程序（包括游戏）&lt;/li&gt;
+&lt;li&gt;机器学习系统或 IoT 设备的后端&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;安装node&quot;&gt;&lt;a href=&quot;#安装node&quot; class=&quot;headerlink&quot; title=&quot;安装node&quot;&gt;&lt;/a&gt;安装node&lt;/h2&gt;&lt;p&gt;node版本是一个比较棘手的问题，比如6.3.0版的node跑不了一些新项目，升级到10.x版的node后，又跑不了旧项目。所以安装的node最好能方便切换版本。推荐先安装nvm，再使用nvm安装管理node版本。&lt;code&gt;nvm&lt;/code&gt; 是 &lt;code&gt;Node.js&lt;/code&gt; 的版本管理工具，可以创建不同版本 &lt;code&gt;Node&lt;/code&gt; 的隔离环境，从而避免不同版本包之间的干扰。&lt;/p&gt;
+&lt;p&gt;安装 &lt;code&gt;nvm&lt;/code&gt; 之前最好是将现有的全局 &lt;code&gt;Node&lt;/code&gt; 进行卸载，否则会发生冲突。&lt;/p&gt;
+&lt;p&gt;先查看一下node信息：&lt;/p&gt;
+&lt;figure class=&quot;highlight crmsh&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;➜  ~ which &lt;span class=&quot;keyword&quot;&gt;node&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;title&quot;&gt;/usr&lt;/span&gt;/local/bin/&lt;span class=&quot;keyword&quot;&gt;node&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;title&quot;&gt;➜  ~ node&lt;/span&gt; -v&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;v21.&lt;span class=&quot;number&quot;&gt;6.1&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;之前是用homebrew安装的，可以通过brew list查看：&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="命令行" scheme="https://xq-120.github.io/categories/%E5%91%BD%E4%BB%A4%E8%A1%8C/"/>
+    
+    
+    <category term="node" scheme="https://xq-120.github.io/tags/node/"/>
+    
+  </entry>
   
   <entry>
     <title>ssh方式git clone报错</title>
@@ -47,7 +103,7 @@
     <link href="https://xq-120.github.io/2023/09/07/shell%E7%A7%91%E6%99%AE/"/>
     <id>https://xq-120.github.io/2023/09/07/shell%E7%A7%91%E6%99%AE/</id>
     <published>2023-09-07T15:12:10.000Z</published>
-    <updated>2023-09-07T15:21:07.529Z</updated>
+    <updated>2024-02-09T07:37:50.579Z</updated>
     
     
     <summary type="html">&lt;h3 id=&quot;什么是shell&quot;&gt;&lt;a href=&quot;#什么是shell&quot; class=&quot;headerlink&quot; title=&quot;什么是shell&quot;&gt;&lt;/a&gt;什么是shell&lt;/h3&gt;&lt;p&gt;看语境，有时候Shell指连接内核和用户的一个应用程序，有时候指一种脚本编程语言。不过这个看语境对于一个小白来说其实还挺难的，大部分情况下说shell其实说的是应用程序，但如果是说shell命令，脚本文件那shell就是指一种编程语言。&lt;/p&gt;
@@ -61,7 +117,7 @@
     
     
     
-    <category term="shell" scheme="https://xq-120.github.io/categories/shell/"/>
+    <category term="命令行" scheme="https://xq-120.github.io/categories/%E5%91%BD%E4%BB%A4%E8%A1%8C/"/>
     
     
     <category term="shell" scheme="https://xq-120.github.io/tags/shell/"/>
@@ -97,7 +153,7 @@
     <link href="https://xq-120.github.io/2023/07/30/%E5%B8%B8%E7%94%A8%E7%9B%AE%E5%BD%95%E5%91%BD%E4%BB%A4/"/>
     <id>https://xq-120.github.io/2023/07/30/%E5%B8%B8%E7%94%A8%E7%9B%AE%E5%BD%95%E5%91%BD%E4%BB%A4/</id>
     <published>2023-07-30T05:00:20.000Z</published>
-    <updated>2023-09-03T03:39:59.056Z</updated>
+    <updated>2024-02-09T07:41:52.290Z</updated>
     
     
     <summary type="html">&lt;p&gt;macOS目录命令&lt;/p&gt;
@@ -111,7 +167,7 @@
     
     
     
-    <category term="常用命令" scheme="https://xq-120.github.io/categories/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"/>
+    <category term="命令行" scheme="https://xq-120.github.io/categories/%E5%91%BD%E4%BB%A4%E8%A1%8C/"/>
     
     
     <category term="目录命令" scheme="https://xq-120.github.io/tags/%E7%9B%AE%E5%BD%95%E5%91%BD%E4%BB%A4/"/>
@@ -499,62 +555,6 @@
     
     
     <category term="移位" scheme="https://xq-120.github.io/tags/%E7%A7%BB%E4%BD%8D/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>NSCopying协议</title>
-    <link href="https://xq-120.github.io/2022/10/11/NSCopying%E5%8D%8F%E8%AE%AE%E7%9A%84%E5%AE%9E%E7%8E%B0/"/>
-    <id>https://xq-120.github.io/2022/10/11/NSCopying%E5%8D%8F%E8%AE%AE%E7%9A%84%E5%AE%9E%E7%8E%B0/</id>
-    <published>2022-10-11T08:08:50.000Z</published>
-    <updated>2023-04-05T09:38:36.696Z</updated>
-    
-    
-    <summary type="html">&lt;p&gt;NSCopying协议：&lt;/p&gt;
-&lt;figure class=&quot;highlight objc&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;@protocol&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;NSCopying&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;- (&lt;span class=&quot;type&quot;&gt;id&lt;/span&gt;)copyWithZone:(&lt;span class=&quot;keyword&quot;&gt;nullable&lt;/span&gt; &lt;span class=&quot;built_in&quot;&gt;NSZone&lt;/span&gt; *)zone; &lt;span class=&quot;comment&quot;&gt;//实例方法&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;@end&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;@protocol&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;NSMutableCopying&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;- (&lt;span class=&quot;type&quot;&gt;id&lt;/span&gt;)mutableCopyWithZone:(&lt;span class=&quot;keyword&quot;&gt;nullable&lt;/span&gt; &lt;span class=&quot;built_in&quot;&gt;NSZone&lt;/span&gt; *)zone; &lt;span class=&quot;comment&quot;&gt;//实例方法&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;@end&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;分为不可变和可变两种拷贝。zone参数是被忽略的，因此可以不管。&lt;/p&gt;
-&lt;p&gt;实现：&lt;/p&gt;
-&lt;p&gt;具体怎么实现直接参考知名开源框架的写法，跟着大佬来肯定没错。&lt;/p&gt;
-&lt;figure class=&quot;highlight objc&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;29&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;30&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;31&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;32&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;33&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;34&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;35&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;36&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;37&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;38&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;39&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;40&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;41&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;42&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;43&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;44&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;@property&lt;/span&gt; (&lt;span class=&quot;keyword&quot;&gt;nonatomic&lt;/span&gt;, &lt;span class=&quot;keyword&quot;&gt;strong&lt;/span&gt;, &lt;span class=&quot;keyword&quot;&gt;nullable&lt;/span&gt;) &lt;span class=&quot;built_in&quot;&gt;NSSet&lt;/span&gt; &amp;lt;&lt;span class=&quot;built_in&quot;&gt;NSData&lt;/span&gt; *&amp;gt; *pinnedCertificates;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;- (&lt;span class=&quot;keyword&quot;&gt;instancetype&lt;/span&gt;)copyWithZone:(&lt;span class=&quot;built_in&quot;&gt;NSZone&lt;/span&gt; *)zone &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    AFSecurityPolicy *securityPolicy = [[[&lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt;] allocWithZone:zone] init];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    securityPolicy.SSLPinningMode = &lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt;.SSLPinningMode; &lt;span class=&quot;comment&quot;&gt;//值类型，直接赋值就可以了。&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    securityPolicy.allowInvalidCertificates = &lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt;.allowInvalidCertificates;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    securityPolicy.validatesDomainName = &lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt;.validatesDomainName;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    securityPolicy.pinnedCertificates = [&lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt;.pinnedCertificates copyWithZone:zone]; &lt;span class=&quot;comment&quot;&gt;//对象类型调用copyWithZone，需要确保对象已经实现了copy协议。这里不需要可变所以调用copyWithZone&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; securityPolicy;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;@property&lt;/span&gt; (&lt;span class=&quot;keyword&quot;&gt;readwrite&lt;/span&gt;, &lt;span class=&quot;keyword&quot;&gt;nonatomic&lt;/span&gt;, &lt;span class=&quot;keyword&quot;&gt;strong&lt;/span&gt;) &lt;span class=&quot;built_in&quot;&gt;NSMutableDictionary&lt;/span&gt; *mutableHTTPRequestHeaders;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;- (&lt;span class=&quot;keyword&quot;&gt;instancetype&lt;/span&gt;)copyWithZone:(&lt;span class=&quot;built_in&quot;&gt;NSZone&lt;/span&gt; *)zone &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    AFHTTPRequestSerializer *serializer = [[[&lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt;] allocWithZone:zone] init];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;dispatch_sync&lt;/span&gt;(&lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt;.requestHeaderModificationQueue, ^&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      	&lt;span class=&quot;comment&quot;&gt;//这里需要可变所以调用mutableCopyWithZone&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        serializer.mutableHTTPRequestHeaders = [&lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt;.mutableHTTPRequestHeaders mutableCopyWithZone:zone];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    serializer.queryStringSerializationStyle = &lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt;.queryStringSerializationStyle;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    serializer.queryStringSerialization = &lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt;.queryStringSerialization;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; serializer;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;//---AFHTTPResponseSerializer&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;#&lt;span class=&quot;keyword&quot;&gt;pragma&lt;/span&gt; mark - NSCopying&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;- (&lt;span class=&quot;keyword&quot;&gt;instancetype&lt;/span&gt;)copyWithZone:(&lt;span class=&quot;built_in&quot;&gt;NSZone&lt;/span&gt; *)zone &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    AFHTTPResponseSerializer *serializer = [[[&lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt;] allocWithZone:zone] init]; &lt;span class=&quot;comment&quot;&gt;//不能写死为[AFHTTPResponseSerializer allocWithZone:zone]&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    serializer.acceptableStatusCodes = [&lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt;.acceptableStatusCodes copyWithZone:zone];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    serializer.acceptableContentTypes = [&lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt;.acceptableContentTypes copyWithZone:zone];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; serializer;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;//---AFCompoundResponseSerializer:AFHTTPResponseSerializer&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;@property&lt;/span&gt; (&lt;span class=&quot;keyword&quot;&gt;readwrite&lt;/span&gt;, &lt;span class=&quot;keyword&quot;&gt;nonatomic&lt;/span&gt;, &lt;span class=&quot;keyword&quot;&gt;copy&lt;/span&gt;) &lt;span class=&quot;built_in&quot;&gt;NSArray&lt;/span&gt; *responseSerializers;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;- (&lt;span class=&quot;keyword&quot;&gt;instancetype&lt;/span&gt;)copyWithZone:(&lt;span class=&quot;built_in&quot;&gt;NSZone&lt;/span&gt; *)zone &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    AFCompoundResponseSerializer *serializer = [&lt;span class=&quot;variable language_&quot;&gt;super&lt;/span&gt; copyWithZone:zone];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    serializer.responseSerializers = &lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt;.responseSerializers; &lt;span class=&quot;comment&quot;&gt;//responseSerializers属性是copy，所以可以直接赋值。setter方法里会调用copy.&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; serializer;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;如果父类实现了则必须调用super，否则会丢失信息：&lt;/p&gt;
-&lt;figure class=&quot;highlight objc&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;- (&lt;span class=&quot;keyword&quot;&gt;instancetype&lt;/span&gt;)copyWithZone:(&lt;span class=&quot;built_in&quot;&gt;NSZone&lt;/span&gt; *)zone &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    AFPropertyListResponseSerializer *serializer = [&lt;span class=&quot;variable language_&quot;&gt;super&lt;/span&gt; copyWithZone:zone]; &lt;span class=&quot;comment&quot;&gt;//调用super&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    serializer.format = &lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt;.format;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    serializer.readOptions = &lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt;.readOptions;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; serializer;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;注意：NSObject是没有实现copy协议的。&lt;/p&gt;
-&lt;p&gt;NSObject下有两个实例方法：&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="OC" scheme="https://xq-120.github.io/categories/OC/"/>
-    
-    
-    <category term="NSCopying" scheme="https://xq-120.github.io/tags/NSCopying/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>OC内存管理变迁</title>
-    <link href="https://xq-120.github.io/2022/10/10/OC%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%8F%98%E8%BF%81/"/>
-    <id>https://xq-120.github.io/2022/10/10/OC%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%8F%98%E8%BF%81/</id>
-    <published>2022-10-10T09:02:22.000Z</published>
-    <updated>2022-10-15T05:51:44.190Z</updated>
-    
-    
-    <summary type="html">&lt;p&gt;OC的内存管理大致可以分为MRC阶段和ARC阶段。&lt;/p&gt;
-&lt;p&gt;MRC：手动引用计数，“手动”很好理解就是亲自动手写代码，“引用计数”就是数数，数一下这个对象的引用次数。当我们需要用这个对象的时候先调用一下retain，引用计数就加1，不用了就调用一下release，引用计数就减1，减到0系统就会帮我们释放这个对象的内存。&lt;/p&gt;
-&lt;p&gt;为什么会有“引用计数”这么个东西？&lt;br&gt;试想一下如果没有引用计数会怎样，比如你创建了一个对象，这个对象传来传去在很多个地方使用，那么什么时候调用free销毁对象成了一个难题。如下：类A创建了一个对象obj，然后obj作为参数传给类B。&lt;/p&gt;
-&lt;figure class=&quot;highlight objc&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;- (&lt;span class=&quot;type&quot;&gt;BOOL&lt;/span&gt;)function&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	  &lt;span class=&quot;type&quot;&gt;id&lt;/span&gt; obj = [xxx new];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	  [B someMethod:obj];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	  ...&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	  &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;literal&quot;&gt;true&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;obj传给类B后，B有可能保存也可能不保存obj。这时类A对obj的处理就非常尴尬了，如果贸然调用free，万一类B还在用就会导致野指针访问崩溃，不调用吧，万一类B又没在用就会内存泄露。但是通过引用计数，我们就不需要考虑什么时候调用free了，系统会根据引用计数是否为0来决定是否销毁对象，你只需要retain和release。&lt;/p&gt;
-&lt;p&gt;举个生活中的例子：&lt;/p&gt;
-&lt;p&gt;场景1：张三去厕所拉屎，里面一片漆黑，于是张三打开灯，找了个坑位关上门开始造。造完后，出来关上灯。完美！&lt;/p&gt;
-&lt;p&gt;场景2：还是张三去厕所拉屎，里面一片漆黑，于是张三打开灯，找了个坑位关上门开始造。这时，李四也来拉屎，由于灯是亮的于是李四径直找了个坑位关上门开始造。过了一会张三拉完了，由于张三并不知道李四进来了，于是出门把灯关了。只听见在漆黑里的李四一声卧槽！&lt;/p&gt;
-&lt;p&gt;从上面的例子可以看出什么时候关灯确实是个问题，怎么解决这个问题呢？方法有很多比如进去之后大喊一声俺来了让里面所有人都知道有人来了。但是最简单的办法还是大家都遵守一套规则：进门前请按加号键，出门后请按减号键。这就相当于引用计数了。&lt;/p&gt;
-&lt;p&gt;场景3：张三去厕所拉屎，里面一片漆黑，外面告示写着进门前请按加号键，出门后请按减号键。这时张三按了一下墙壁上的加号键，灯亮了，于是找了个坑位关上门开始造。这时李四也来拉屎，他也按照告示按了下墙壁上的加号键，接着他找了个坑位开始安心拉屎。这时张三拉完屎，出门时按照告示按下了减号键，灯没有灭，这时张三明白了期间又来人了，虽然不知道在哪个坑位，但肯定是有人正在拉。当李四拉完后，也按了下墙壁上的减号键，这时确实没人在拉屎了，于是灯灭了，非常的完美。在这个系统里，你不需要知道中途进来了多少人，也不需要任何交流，只需要遵守外面的告示，就解决了灯何时灭的问题。&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="OC" scheme="https://xq-120.github.io/categories/OC/"/>
-    
-    
-    <category term="内存管理" scheme="https://xq-120.github.io/tags/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/"/>
     
   </entry>
   

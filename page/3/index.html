@@ -187,6 +187,186 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/10/11/NSCopying%E5%8D%8F%E8%AE%AE%E7%9A%84%E5%AE%9E%E7%8E%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/10/11/NSCopying%E5%8D%8F%E8%AE%AE%E7%9A%84%E5%AE%9E%E7%8E%B0/" class="post-title-link" itemprop="url">NSCopying协议</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-10-11 16:08:50" itemprop="dateCreated datePublished" datetime="2022-10-11T16:08:50+08:00">2022-10-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-04-05 17:38:36" itemprop="dateModified" datetime="2023-04-05T17:38:36+08:00">2023-04-05</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>NSCopying协议：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@protocol</span> <span class="title">NSCopying</span></span></span><br><span class="line"></span><br><span class="line">- (<span class="type">id</span>)copyWithZone:(<span class="keyword">nullable</span> <span class="built_in">NSZone</span> *)zone; <span class="comment">//实例方法</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@protocol</span> <span class="title">NSMutableCopying</span></span></span><br><span class="line"></span><br><span class="line">- (<span class="type">id</span>)mutableCopyWithZone:(<span class="keyword">nullable</span> <span class="built_in">NSZone</span> *)zone; <span class="comment">//实例方法</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>分为不可变和可变两种拷贝。zone参数是被忽略的，因此可以不管。</p>
+<p>实现：</p>
+<p>具体怎么实现直接参考知名开源框架的写法，跟着大佬来肯定没错。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">nullable</span>) <span class="built_in">NSSet</span> &lt;<span class="built_in">NSData</span> *&gt; *pinnedCertificates;</span><br><span class="line">- (<span class="keyword">instancetype</span>)copyWithZone:(<span class="built_in">NSZone</span> *)zone &#123;</span><br><span class="line">    AFSecurityPolicy *securityPolicy = [[[<span class="keyword">self</span> <span class="keyword">class</span>] allocWithZone:zone] init];</span><br><span class="line">    securityPolicy.SSLPinningMode = <span class="keyword">self</span>.SSLPinningMode; <span class="comment">//值类型，直接赋值就可以了。</span></span><br><span class="line">    securityPolicy.allowInvalidCertificates = <span class="keyword">self</span>.allowInvalidCertificates;</span><br><span class="line">    securityPolicy.validatesDomainName = <span class="keyword">self</span>.validatesDomainName;</span><br><span class="line">    securityPolicy.pinnedCertificates = [<span class="keyword">self</span>.pinnedCertificates copyWithZone:zone]; <span class="comment">//对象类型调用copyWithZone，需要确保对象已经实现了copy协议。这里不需要可变所以调用copyWithZone</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> securityPolicy;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">readwrite</span>, <span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) <span class="built_in">NSMutableDictionary</span> *mutableHTTPRequestHeaders;</span><br><span class="line">- (<span class="keyword">instancetype</span>)copyWithZone:(<span class="built_in">NSZone</span> *)zone &#123;</span><br><span class="line">    AFHTTPRequestSerializer *serializer = [[[<span class="keyword">self</span> <span class="keyword">class</span>] allocWithZone:zone] init];</span><br><span class="line">    <span class="built_in">dispatch_sync</span>(<span class="keyword">self</span>.requestHeaderModificationQueue, ^&#123;</span><br><span class="line">      	<span class="comment">//这里需要可变所以调用mutableCopyWithZone</span></span><br><span class="line">        serializer.mutableHTTPRequestHeaders = [<span class="keyword">self</span>.mutableHTTPRequestHeaders mutableCopyWithZone:zone];</span><br><span class="line">    &#125;);</span><br><span class="line">    serializer.queryStringSerializationStyle = <span class="keyword">self</span>.queryStringSerializationStyle;</span><br><span class="line">    serializer.queryStringSerialization = <span class="keyword">self</span>.queryStringSerialization;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> serializer;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//---AFHTTPResponseSerializer</span></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> mark - NSCopying</span></span><br><span class="line"></span><br><span class="line">- (<span class="keyword">instancetype</span>)copyWithZone:(<span class="built_in">NSZone</span> *)zone &#123;</span><br><span class="line">    AFHTTPResponseSerializer *serializer = [[[<span class="keyword">self</span> <span class="keyword">class</span>] allocWithZone:zone] init]; <span class="comment">//不能写死为[AFHTTPResponseSerializer allocWithZone:zone]</span></span><br><span class="line">    serializer.acceptableStatusCodes = [<span class="keyword">self</span>.acceptableStatusCodes copyWithZone:zone];</span><br><span class="line">    serializer.acceptableContentTypes = [<span class="keyword">self</span>.acceptableContentTypes copyWithZone:zone];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> serializer;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//---AFCompoundResponseSerializer:AFHTTPResponseSerializer</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">readwrite</span>, <span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSArray</span> *responseSerializers;</span><br><span class="line">- (<span class="keyword">instancetype</span>)copyWithZone:(<span class="built_in">NSZone</span> *)zone &#123;</span><br><span class="line">    AFCompoundResponseSerializer *serializer = [<span class="variable language_">super</span> copyWithZone:zone];</span><br><span class="line">    serializer.responseSerializers = <span class="keyword">self</span>.responseSerializers; <span class="comment">//responseSerializers属性是copy，所以可以直接赋值。setter方法里会调用copy.</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> serializer;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果父类实现了则必须调用super，否则会丢失信息：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">instancetype</span>)copyWithZone:(<span class="built_in">NSZone</span> *)zone &#123;</span><br><span class="line">    AFPropertyListResponseSerializer *serializer = [<span class="variable language_">super</span> copyWithZone:zone]; <span class="comment">//调用super</span></span><br><span class="line">    serializer.format = <span class="keyword">self</span>.format;</span><br><span class="line">    serializer.readOptions = <span class="keyword">self</span>.readOptions;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> serializer;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意：NSObject是没有实现copy协议的。</p>
+<p>NSObject下有两个实例方法：</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/10/11/NSCopying%E5%8D%8F%E8%AE%AE%E7%9A%84%E5%AE%9E%E7%8E%B0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/10/10/OC%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%8F%98%E8%BF%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/10/10/OC%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%8F%98%E8%BF%81/" class="post-title-link" itemprop="url">OC内存管理变迁</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-10-10 17:02:22" itemprop="dateCreated datePublished" datetime="2022-10-10T17:02:22+08:00">2022-10-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-10-15 13:51:44" itemprop="dateModified" datetime="2022-10-15T13:51:44+08:00">2022-10-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>OC的内存管理大致可以分为MRC阶段和ARC阶段。</p>
+<p>MRC：手动引用计数，“手动”很好理解就是亲自动手写代码，“引用计数”就是数数，数一下这个对象的引用次数。当我们需要用这个对象的时候先调用一下retain，引用计数就加1，不用了就调用一下release，引用计数就减1，减到0系统就会帮我们释放这个对象的内存。</p>
+<p>为什么会有“引用计数”这么个东西？<br>试想一下如果没有引用计数会怎样，比如你创建了一个对象，这个对象传来传去在很多个地方使用，那么什么时候调用free销毁对象成了一个难题。如下：类A创建了一个对象obj，然后obj作为参数传给类B。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">BOOL</span>)function</span><br><span class="line">&#123;</span><br><span class="line">	  <span class="type">id</span> obj = [xxx new];</span><br><span class="line">	  [B someMethod:obj];</span><br><span class="line">	  ...</span><br><span class="line">	  <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>obj传给类B后，B有可能保存也可能不保存obj。这时类A对obj的处理就非常尴尬了，如果贸然调用free，万一类B还在用就会导致野指针访问崩溃，不调用吧，万一类B又没在用就会内存泄露。但是通过引用计数，我们就不需要考虑什么时候调用free了，系统会根据引用计数是否为0来决定是否销毁对象，你只需要retain和release。</p>
+<p>举个生活中的例子：</p>
+<p>场景1：张三去厕所拉屎，里面一片漆黑，于是张三打开灯，找了个坑位关上门开始造。造完后，出来关上灯。完美！</p>
+<p>场景2：还是张三去厕所拉屎，里面一片漆黑，于是张三打开灯，找了个坑位关上门开始造。这时，李四也来拉屎，由于灯是亮的于是李四径直找了个坑位关上门开始造。过了一会张三拉完了，由于张三并不知道李四进来了，于是出门把灯关了。只听见在漆黑里的李四一声卧槽！</p>
+<p>从上面的例子可以看出什么时候关灯确实是个问题，怎么解决这个问题呢？方法有很多比如进去之后大喊一声俺来了让里面所有人都知道有人来了。但是最简单的办法还是大家都遵守一套规则：进门前请按加号键，出门后请按减号键。这就相当于引用计数了。</p>
+<p>场景3：张三去厕所拉屎，里面一片漆黑，外面告示写着进门前请按加号键，出门后请按减号键。这时张三按了一下墙壁上的加号键，灯亮了，于是找了个坑位关上门开始造。这时李四也来拉屎，他也按照告示按了下墙壁上的加号键，接着他找了个坑位开始安心拉屎。这时张三拉完屎，出门时按照告示按下了减号键，灯没有灭，这时张三明白了期间又来人了，虽然不知道在哪个坑位，但肯定是有人正在拉。当李四拉完后，也按了下墙壁上的减号键，这时确实没人在拉屎了，于是灯灭了，非常的完美。在这个系统里，你不需要知道中途进来了多少人，也不需要任何交流，只需要遵守外面的告示，就解决了灯何时灭的问题。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/10/10/OC%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%8F%98%E8%BF%81/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/10/03/%E5%8F%AF%E5%8F%98%E5%8F%82%E6%95%B0%E7%9A%84%E5%87%BD%E6%95%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -855,160 +1035,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/08/04/%E8%8B%B9%E6%9E%9C%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3%E6%9F%A5%E8%AF%A2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="芝士就是力量">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/08/04/%E8%8B%B9%E6%9E%9C%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3%E6%9F%A5%E8%AF%A2/" class="post-title-link" itemprop="url">苹果官方文档查询</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-08-04 10:57:37 / 修改时间：22:30:13" itemprop="dateCreated datePublished" datetime="2022-08-04T10:57:37+08:00">2022-08-04</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99/" itemprop="url" rel="index"><span itemprop="name">参考资料</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><a target="_blank" rel="noopener" href="https://developer.apple.com/library/archive/navigation/">Documentation Archive</a>   :搜xx编程指南，缺点就是苹果已经不再更新了。eg:CFNetwork Programming Guide、Stream Programming Guide。</p>
-<p><a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/technologies">documentation-Technologies</a>  :苹果目前维护更新的官方文档地址，可以用来搜API说明。缺点：都是一些API的介绍说明，原理性、系统性的东西很少。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/07/31/%E8%A1%A5%E7%A0%81%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jekyttt">
-      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="芝士就是力量">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/07/31/%E8%A1%A5%E7%A0%81%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/" class="post-title-link" itemprop="url">补码完全指南</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-07-31 21:23:52" itemprop="dateCreated datePublished" datetime="2022-07-31T21:23:52+08:00">2022-07-31</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-04-28 13:10:22" itemprop="dateModified" datetime="2023-04-28T13:10:22+08:00">2023-04-28</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">计算机基础</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>本文基于自己的理解，试图让猪都能理解补码的概念^_^。老规矩，先是几个概念。</p>
-<h2 id="机器数"><a href="#机器数" class="headerlink" title="机器数"></a>机器数</h2><p>机器数是将符号数字化的数，最高位是符号位，正数符号位为0，负数符号位为1，其余位表示数值。</p>
-<h2 id="真值"><a href="#真值" class="headerlink" title="真值"></a>真值</h2><p>机器数所对应的实际数值。　</p>
-<h2 id="编程语言类型"><a href="#编程语言类型" class="headerlink" title="编程语言类型"></a>编程语言类型</h2><h3 id="无符号数"><a href="#无符号数" class="headerlink" title="无符号数"></a>无符号数</h3><p>全部二进制位均代表数值，没有符号位。</p>
-<h3 id="有符号数"><a href="#有符号数" class="headerlink" title="有符号数"></a>有符号数</h3><p>最高位代表符号位(“0”表示“+”，“1”表示“-”)，其余位表示数值。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/07/31/%E8%A1%A5%E7%A0%81%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1079,20 +1105,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">175</span>
+          <span class="site-state-item-count">177</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">39</span>
+        <span class="site-state-item-count">38</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">114</span>
+        <span class="site-state-item-count">116</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
