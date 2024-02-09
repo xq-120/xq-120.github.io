@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.2.0">
+<meta name="generator" content="Hexo 6.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -243,7 +243,7 @@
 <p>Shell 主要用来开发一些实用的、自动化的小工具，而不是用来开发具有复杂业务逻辑的中大型软件，例如检测计算机的硬件参数、搭建 Web 运行环境、日志分析等，Shell 都非常合适。</p>
 <h3 id="有哪些shell"><a href="#有哪些shell" class="headerlink" title="有哪些shell"></a>有哪些shell</h3><p>shell是一个总称，具体shell有：bash、csh、ksh、zsh等等。Mac默认使用的是zsh。</p>
 <p>查看安装了哪些shell：</p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat <span class="regexp">/etc/</span>shells</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> /etc/shells</span><br></pre></td></tr></table></figure>
 <p>打印：</p>
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># List of acceptable shells for chpass(1).</span></span><br><span class="line"><span class="comment"># Ftpd will not allow users to connect who are not using</span></span><br><span class="line"><span class="comment"># one of these shells.</span></span><br><span class="line"></span><br><span class="line"><span class="regexp">/bin/</span>bash</span><br><span class="line"><span class="regexp">/bin/</span>csh</span><br><span class="line"><span class="regexp">/bin/</span>dash</span><br><span class="line"><span class="regexp">/bin/</span>ksh</span><br><span class="line"><span class="regexp">/bin/</span>sh</span><br><span class="line"><span class="regexp">/bin/</span>tcsh</span><br><span class="line"><span class="regexp">/bin/</span>zsh</span><br></pre></td></tr></table></figure>
 <p>这里的shell指shell编程语言。不同的shell拥有不同的语法和内置命令，但大差不差，有的可以兼容另一种。一个编写好的shell脚本需要使用shell终端来解释执行。因为有的可以兼容另一种，所以一个使用A shell编写的脚本文件可以不加修改的在使用B shell作为默认shell的终端里解释执行。</p>
@@ -254,7 +254,7 @@
 <p>方式1.给shell脚本添加可执行权限。 这个是常用的做法。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.<span class="built_in">cd</span> 到相应目录</span><br><span class="line">2.<span class="built_in">chmod</span> +x ./test.sh  <span class="comment">#使脚本具有执行权限</span></span><br><span class="line">3../test.sh  <span class="comment">#执行脚本</span></span><br></pre></td></tr></table></figure>
 <p>方式2.<strong>作为解释器参数</strong>。这种运行方式是直接运行解释器，其参数就是 shell 脚本的文件名。如：</p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="regexp">/bin/</span>zsh test.sh</span><br></pre></td></tr></table></figure>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/bin/zsh <span class="keyword">test</span>.<span class="keyword">sh</span></span><br></pre></td></tr></table></figure>
 <h3 id="如何切换shell"><a href="#如何切换shell" class="headerlink" title="如何切换shell"></a>如何切换shell</h3><p>chsh -s /bin/某shell，如：</p>
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chsh -s <span class="regexp">/bin/</span>zsh  <span class="comment">#切换到zsh</span></span><br><span class="line">chsh -s <span class="regexp">/bin/</span>bash  <span class="comment">#切换到bash</span></span><br></pre></td></tr></table></figure>
 <p>最后重启终端。</p>
@@ -450,7 +450,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">jekyttt</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v6.2.0
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v6.3.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2

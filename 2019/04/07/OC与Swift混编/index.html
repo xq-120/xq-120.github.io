@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.2.0">
+<meta name="generator" content="Hexo 6.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -282,12 +282,12 @@
 <p>想在OC中使用,则需要封装一个Swift的类如下:</p>
 <figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">class</span> <span class="selector-tag">ZAEGlobal</span>: <span class="selector-tag">NSObject</span> &#123;</span><br><span class="line">    <span class="variable">@objc</span> static let gNotFoundCode = notFoundCode</span><br><span class="line">    <span class="variable">@objc</span> static let gDateFormatter = dateFormatter</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>调用如下:</p>
-<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="constructor">NSLog(@<span class="string">&quot;gNotFoundCode = %ld&quot;</span>, (<span class="params">long</span>)</span><span class="module-access"><span class="module"><span class="identifier">ZAEGlobal</span>.</span></span>gNotFoundCode);  </span><br><span class="line"><span class="constructor">NSLog(@<span class="string">&quot;日期:%@&quot;</span>, [ZAEGlobal.<span class="params">gDateFormatter</span> <span class="params">stringFromDate</span>:NSDate.<span class="params">date</span>])</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">NSLog(@<span class="string">&quot;gNotFoundCode = %ld&quot;</span>, (<span class="name">long</span>)ZAEGlobal.gNotFoundCode)<span class="comment">;  </span></span><br><span class="line">NSLog(@<span class="string">&quot;日期:%@&quot;</span>, [ZAEGlobal.gDateFormatter stringFromDate<span class="symbol">:NSDate</span>.date])<span class="comment">;</span></span><br></pre></td></tr></table></figure>
 <p>而Swift导入OC头文件后可以直接调用OC中定义的全局变量.</p>
 <h4 id="宏"><a href="#宏" class="headerlink" title="宏"></a>宏</h4><p>Swift自身不支持宏定义.仅能在Swift中使用简单的宏.<br>解决办法:将原本OC中不需要接受参数的宏，定义成let常量，将需要接受参数的宏定义成函数即可.可以给我们的项目添加一个Const.swift文件，然后定义这些公共的常量和函数.由于我们的整个项目共享命名空间，我们就可以在项目内的任何地方直接使用Const.swift中定义的这些公共的常量和函数.</p>
 <p>举个例子:<br><code>#define kSeperatorLineViewHeight 0.5</code><br>这种简单的宏可以直接在Swift中使用.</p>
 <p>但下面这种<br><code>#define rgba(r,g,b,a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:a]</code><br>就不能在Swift中直接使用.需要定义为一个函数:</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">rgba</span>(<span class="params">r</span>: <span class="type">CGFloat</span>, <span class="params">g</span>: <span class="type">CGFloat</span>, <span class="params">b</span>: <span class="type">CGFloat</span>, <span class="params">a</span>: <span class="type">CGFloat</span>) -&gt; <span class="type">UIColor</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="type">UIColor</span>.<span class="keyword">init</span>(red: r<span class="operator">/</span><span class="number">255.0</span>, green: g<span class="operator">/</span><span class="number">255.0</span>, blue: b<span class="operator">/</span><span class="number">255.0</span>, alpha: a)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">rgba</span>(<span class="params">r</span>: <span class="type">CGFloat</span>, <span class="params">g</span>: <span class="type">CGFloat</span>, <span class="params">b</span>: <span class="type">CGFloat</span>, <span class="params">a</span>: <span class="type">CGFloat</span>) -&gt; <span class="type">UIColor</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="type">UIColor</span>.<span class="keyword">init</span>(red: r<span class="regexp">/255.0, green: g/</span><span class="number">255.0</span>, blue: b<span class="operator">/</span><span class="number">255.0</span>, alpha: a)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="枚举"><a href="#枚举" class="headerlink" title="枚举"></a>枚举</h4><p>Swift的枚举非常强大.但OC的枚举基本沿用C的枚举定义.这就意味着如果想在OC类中使用Swift的枚举,那么在编写Swift的枚举时只能使用低配版的枚举定义,这样系统才能转换成OC能支持的枚举,才能够在OC中使用.</p>
 <h5 id="OC使用Swift枚举"><a href="#OC使用Swift枚举" class="headerlink" title="OC使用Swift枚举"></a>OC使用Swift枚举</h5><p>OC只能使用低配版Swift枚举.</p>
 <p>举个例子:下面的Swift的枚举就可以在OC中使用</p>
@@ -473,7 +473,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">jekyttt</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v6.2.0
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v6.3.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2

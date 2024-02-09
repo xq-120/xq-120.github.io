@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.2.0">
+<meta name="generator" content="Hexo 6.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -248,7 +248,7 @@
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Class <span class="title function_">object_getClass</span><span class="params">(id obj)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (obj) <span class="keyword">return</span> obj-&gt;getIsa();</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">return</span> Nil;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>其实就是获取objc_object结构体里的isa字段的值。因此如果传入的是类对象，那么返回的将是类对象的类即元类。</p>
 <p>实例方法class的实现就是调用object_getClass：</p>
-<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- (Class)<span class="keyword">class</span> &#123;</span><br><span class="line">    return <span class="keyword">object</span><span class="constructor">_getClass(<span class="params">self</span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- (Class)<span class="class"><span class="keyword">class</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">return</span> <span class="title">object_getClass</span><span class="params">(self)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>但是类方法class，并不是返回类对象的类，而是直接返回的自己。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">+ (Class)<span class="keyword">class</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> self;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (<span class="built_in">id</span>)self &#123;</span><br><span class="line">    <span class="keyword">return</span> (<span class="built_in">id</span>)self;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>所以如果想要获取类的类则必须使用object_getClass。</p>
@@ -264,7 +264,7 @@
 <p>输出：</p>
 <figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2023-05-07</span> <span class="number">13</span>:<span class="number">03</span>:<span class="number">59.923896</span>+<span class="number">0800</span> runtime方法使用Demo[<span class="number">18358</span>:<span class="number">7221193</span>] [self class]:Person</span><br><span class="line"><span class="number">2023-05-07</span> <span class="number">13</span>:<span class="number">03</span>:<span class="number">59.924017</span>+<span class="number">0800</span> runtime方法使用Demo[<span class="number">18358</span>:<span class="number">7221193</span>] [super class]:Person</span><br><span class="line"><span class="number">2023-05-07</span> <span class="number">13</span>:<span class="number">03:59.924140</span>+<span class="number">0800</span> runtime方法使用Demo[<span class="number">18358</span>:<span class="number">7221193</span>] [self superclass]:Animal</span><br><span class="line"><span class="number">2023-05-07</span> <span class="number">13</span>:<span class="number">03:59.924237</span>+<span class="number">0800</span> runtime方法使用Demo[<span class="number">18358</span>:<span class="number">7221193</span>] [super superclass]:Animal</span><br></pre></td></tr></table></figure>
 <p>从-class方法的实现：</p>
-<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- (Class)<span class="keyword">class</span> &#123;</span><br><span class="line">    return <span class="keyword">object</span><span class="constructor">_getClass(<span class="params">self</span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- (Class)<span class="class"><span class="keyword">class</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">return</span> <span class="title">object_getClass</span><span class="params">(self)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>可以看出，object_getClass的参数就是对象本身，所以不管是[self class]还是[super class]，传入的参数都是Person对象而不是Animal对象。所以二者的结果是一样的。</p>
 <p>super本质上是一个编译指示器, 它并不是一个指针, 它仅仅是表示调用父类的方法,但是调用者仍然是当前对象,跟父类没有关系.也就是说上面的例子不管调用[self class]还是[super class],接受消息的对象都是当前Person这个对象.</p>
 <p>使用self调用方法时,会从当前类的方法列表中开始找,如果没有,就从父类中再找;而当使用super时,则从父类的方法列表中开始找.然后调用父类的这个方法，消息接收者对象还是当前这个对象。</p>
@@ -462,7 +462,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">jekyttt</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v6.2.0
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v6.3.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2

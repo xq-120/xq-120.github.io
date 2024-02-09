@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.2.0">
+<meta name="generator" content="Hexo 6.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -275,7 +275,7 @@
 <p>objc_sync_nil实现：</p>
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">BREAKPOINT_FUNCTION(</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">objc_sync_nil</span>(<span class="params"><span class="keyword">void</span></span>)</span></span><br><span class="line"><span class="function">)</span>;</span><br></pre></td></tr></table></figure>
 <p>宏BREAKPOINT_FUNCTION的定义：</p>
-<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#   define <span class="constructor">BREAKPOINT_FUNCTION(<span class="params">prototype</span>)</span>                             \</span><br><span class="line">    OBJC_EXTERN <span class="constructor">__attribute__((<span class="params">noinline</span>, <span class="params">used</span>, <span class="params">visibility</span>(<span class="string">&quot;hidden&quot;</span>)</span>)) \</span><br><span class="line">    prototype &#123; asm(<span class="string">&quot;&quot;</span>); &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#   define <span class="type">BREAKPOINT_FUNCTION</span>(proto<span class="keyword">type</span>)                             \</span><br><span class="line">    <span class="type">OBJC_EXTERN</span> __attribute__((noinline, used, visibility(<span class="string">&quot;hidden&quot;</span>))) \</span><br><span class="line">    proto<span class="keyword">type</span> &#123; asm(&quot;&quot;); &#125;</span><br></pre></td></tr></table></figure>
 <p>展开后等价于：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> __attribute__((noinline, used, visibility(<span class="string">&quot;hidden&quot;</span>))) </span><br><span class="line"><span class="type">void</span> <span class="title function_">objc_sync_nil</span><span class="params">(<span class="type">void</span>)</span> &#123; 		 		</span><br><span class="line">  <span class="keyword">asm</span>(<span class="string">&quot;&quot;</span>); </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>宏BREAKPOINT_FUNCTION的作用就是定义了一个函数，函数只有一行实现<code>asm(&quot;&quot;);</code>，从BREAKPOINT_FUNCTION语义上也可以明白定义的函数只是用来打断点的。没有什么实际用途。</p>
@@ -586,7 +586,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">jekyttt</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v6.2.0
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v6.3.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2

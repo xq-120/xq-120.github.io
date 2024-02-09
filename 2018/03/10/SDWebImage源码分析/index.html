@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.2.0">
+<meta name="generator" content="Hexo 6.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -285,7 +285,7 @@
 <p>翻译:<br>SD默认,图片是以它们入列时的顺序下载.该枚举值会将它们移到队列的前面.</p>
 <p><code>SDWebImageAvoidAutoSetImage = 1 &lt;&lt; 11</code>,SD默认图片下载完成后自动设置imageView,但该枚举值可以让SD不自动设置,而是让程序员手动设置.比如下载完成后还要处理一下才设置到imageView上去.</p>
 <h4 id="SD的缓存路径"><a href="#SD的缓存路径" class="headerlink" title="SD的缓存路径"></a>SD的缓存路径</h4><p>SD默认的缓存路径:</p>
-<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Library<span class="regexp">/Caches/</span><span class="keyword">default</span><span class="regexp">/com.hackemist.SDWebImageCache.default/</span>cf00214b25574df24d89120a11424121.jpg</span><br></pre></td></tr></table></figure>
+<figure class="highlight delphi"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Library</span>/Caches/<span class="keyword">default</span>/com.hackemist.SDWebImageCache.<span class="keyword">default</span>/cf00214b25574df24d89120a11424121.jpg</span><br></pre></td></tr></table></figure>
 <p>它是在<code>Library/Caches/</code>目录下创建了<code>default/com.hackemist.SDWebImageCache.default/</code>路径,以后缓存的图片将存储在该路径下.<strong>SD保存图片的命名规则:</strong>通过对URLString md5后,再拼接可能有的后缀名得来.如:cf00214b25574df24d89120a11424121.jpg</p>
 <p>系统<code>NSURLCache</code>缓存的路径:<br><code>Library/Caches/bundleIdXXX(APP bundle id)/</code>,然后在<code>bundleIdXXX</code>文件夹下存放缓存:<br><code>Cache.db,Cache.db-shm,Cache.db-wal,fsCachedData/A755FD02-64B3-430C-899D-6AD44E4D3229(图片的名称)</code>.</p>
 <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SDWebImageDownloader *downloader = [SDWebImageDownloader sharedDownloader];</span><br><span class="line">[downloader downloadImageWithURL:[<span class="built_in">NSURL</span> URLWithString:<span class="string">@&quot;http://b.zol-img.com.cn/sjbizhi/images/9/230x350/1469533909506.jpg&quot;</span>] options:SDWebImageDownloaderUseNSURLCache progress:<span class="literal">nil</span> completed:^(<span class="built_in">UIImage</span> *image, <span class="built_in">NSData</span> *data, <span class="built_in">NSError</span> *error, <span class="type">BOOL</span> finished) &#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@&quot;error:%@, finished:%d&quot;</span>, error, finished);</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@&quot;%@&quot;</span>, image);</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
@@ -518,7 +518,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">jekyttt</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v6.2.0
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v6.3.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2

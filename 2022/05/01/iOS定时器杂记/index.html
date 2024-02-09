@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.2.0">
+<meta name="generator" content="Hexo 6.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -270,9 +270,9 @@
 <p>3.设置事件回调</p>
 <figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">dispatch_source_set_event_handler</span>(self.timer, ^&#123;</span><br><span class="line">    <span class="selector-attr">[weakSelf timerFired]</span>;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 <p>4.启动定时器</p>
-<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dispatch<span class="constructor">_resume(<span class="params">self</span>.<span class="params">timer</span>)</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">dispatch_resume</span>(self.timer);</span><br></pre></td></tr></table></figure>
 <p>5.撤销定时器</p>
-<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dispatch<span class="constructor">_source_cancel(<span class="params">timer</span>)</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">dispatch_source_cancel</span>(timer);</span><br></pre></td></tr></table></figure>
 <h2 id="问答"><a href="#问答" class="headerlink" title="问答"></a>问答</h2><h3 id="1-在子线程中使用定时器"><a href="#1-在子线程中使用定时器" class="headerlink" title="1. 在子线程中使用定时器"></a>1. 在子线程中使用定时器</h3><p>最佳实践就是使用GCD定时器，因为GCD定时器不需要添加在runloop中，并且本身也支持指定事件回调的派发队列。</p>
 <p>如果你非得使用NSTimer+NSThread，那么必须注意runloop的操作。runloop有下面三种开启方式：</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">void</span>)run; </span><br><span class="line">- (<span class="type">void</span>)runUntilDate:(<span class="built_in">NSDate</span> *)limitDate;</span><br><span class="line">- (<span class="type">BOOL</span>)runMode:(<span class="built_in">NSRunLoopMode</span>)mode beforeDate:(<span class="built_in">NSDate</span> *)limitDate;</span><br></pre></td></tr></table></figure>
@@ -477,7 +477,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">jekyttt</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v6.2.0
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v6.3.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
