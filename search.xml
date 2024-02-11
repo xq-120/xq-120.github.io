@@ -6733,8 +6733,7 @@ objc_msgSend(id _Nullable self, SEL _Nonnull op, ...);</code><br>它的第二个
 <p>下面是合并后的图表：</p>
 <p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/%E6%88%AA%E5%B1%8F2024-02-11%2012.25.50.png" style="zoom:50%;" /></p>
 <p>执行完成后远程的内容原封不动保存在本地分支。</p>
-<p>2.终端git status无法显示汉字，而是一堆utf8编码</p>
-<p>解决办法：</p>
+<h3 id="2-终端git-status无法显示汉字，而是一堆utf8编码"><a href="#2-终端git-status无法显示汉字，而是一堆utf8编码" class="headerlink" title="2.终端git status无法显示汉字，而是一堆utf8编码"></a>2.终端git status无法显示汉字，而是一堆utf8编码</h3><p>解决办法：</p>
 <figure class="highlight arduino"><table><tr><td class="code"><pre><span class="line">git config --global core.quotepath <span class="literal">false</span></span><br></pre></td></tr></table></figure>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/0013760174128707b935b0be6fc4fc6ace66c4f15618f8d000">多人协作</a></p>
 <p><a href="https://blog.csdn.net/qq_39671159/article/details/81261049">git branch不显示本地分支的问题（二）</a></p>
