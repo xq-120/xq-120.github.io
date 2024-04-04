@@ -6,7 +6,7 @@
   <link href="https://xq-120.github.io/atom.xml" rel="self"/>
   
   <link href="https://xq-120.github.io/"/>
-  <updated>2024-02-09T07:37:20.333Z</updated>
+  <updated>2024-04-04T11:46:30.688Z</updated>
   <id>https://xq-120.github.io/</id>
   
   <author>
@@ -21,10 +21,10 @@
     <link href="https://xq-120.github.io/2024/02/09/homebrew%E4%BB%8B%E7%BB%8D/"/>
     <id>https://xq-120.github.io/2024/02/09/homebrew%E4%BB%8B%E7%BB%8D/</id>
     <published>2024-02-09T07:39:58.000Z</published>
-    <updated>2024-02-09T07:37:20.333Z</updated>
+    <updated>2024-04-04T11:46:30.688Z</updated>
     
     
-    <summary type="html">&lt;h2 id=&quot;homebrew简介&quot;&gt;&lt;a href=&quot;#homebrew简介&quot; class=&quot;headerlink&quot; title=&quot;homebrew简介&quot;&gt;&lt;/a&gt;homebrew简介&lt;/h2&gt;&lt;p&gt;homebrew类似于QQ软件管家，方便我们安装卸载第三方软件。当然这里的软件指定的命令行软件，而不是我们通常使用的应用软件。&lt;/p&gt;
+    <summary type="html">&lt;h2 id=&quot;homebrew简介&quot;&gt;&lt;a href=&quot;#homebrew简介&quot; class=&quot;headerlink&quot; title=&quot;homebrew简介&quot;&gt;&lt;/a&gt;homebrew简介&lt;/h2&gt;&lt;p&gt;homebrew类似于QQ软件管家，方便我们安装卸载第三方软件。当然这里的软件指的是命令行软件，而不是我们通常使用的应用软件。&lt;/p&gt;
 &lt;h2 id=&quot;安装homebrew&quot;&gt;&lt;a href=&quot;#安装homebrew&quot; class=&quot;headerlink&quot; title=&quot;安装homebrew&quot;&gt;&lt;/a&gt;安装homebrew&lt;/h2&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;/bin/bash -c &lt;span class=&quot;string&quot;&gt;&amp;quot;&lt;span class=&quot;subst&quot;&gt;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)&lt;/span&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
 &lt;p&gt;通过homebrew安装的软件目录位置&lt;/p&gt;
 &lt;figure class=&quot;highlight applescript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;/usr/&lt;span class=&quot;keyword&quot;&gt;local&lt;/span&gt;/Cellar&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
