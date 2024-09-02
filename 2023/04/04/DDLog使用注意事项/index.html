@@ -28,7 +28,7 @@
 <meta property="og:description" content="DDOSLogger控制台打印，没有使用logMessage的时间戳而是os_log_xxx执行时的时间戳，因此会和logMessage的创建时间有个时间差。如果打印时选择的是DDLogFlagError，打印将是同步执行，这个时间差会非常小。而如果是DDLogFlagError以下级别，那么这条打印将是异步执行的，这时的时间差会更大，和NSLog混用时可能会误导你。因此和NSLog混用或者场景同">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-04-04T03:32:51.000Z">
-<meta property="article:modified_time" content="2023-04-04T03:34:46.075Z">
+<meta property="article:modified_time" content="2023-04-04T03:34:46.000Z">
 <meta property="article:author" content="jekyttt">
 <meta property="article:tag" content="DDLog">
 <meta name="twitter:card" content="summary">

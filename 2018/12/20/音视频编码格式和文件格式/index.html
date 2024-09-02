@@ -27,11 +27,13 @@
 <meta property="og:site_name" content="芝士就是力量">
 <meta property="og:description" content="音视频文件格式和编码格式主要是搞清楚两个概念：编码格式和文件格式。 由于音视频的原始数据都很大，不方便存储与传输，所以就有各种各样的编码技术或算法对其进行编码以达到减少数据的目的，这些编码技术就叫编码格式，有些编码格式解码后能够完全恢复为原始数据，因此这些编码格式也被称为无损压缩，而有些编码格式解码后不能恢复为原来的数据因此也被称为有损压缩。 我们通常说的音视频格式准确地讲应该是音视频文件格式。音">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/%E6%88%AA%E5%B1%8F2024-05-22%2013.02.10.png">
 <meta property="article:published_time" content="2018-12-19T16:23:55.000Z">
-<meta property="article:modified_time" content="2022-06-05T05:20:02.634Z">
+<meta property="article:modified_time" content="2024-05-22T05:04:28.000Z">
 <meta property="article:author" content="jekyttt">
 <meta property="article:tag" content="Objective-C, Swift, C, iOS开发, 移动开发">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/%E6%88%AA%E5%B1%8F2024-05-22%2013.02.10.png">
 
 <link rel="canonical" href="https://xq-120.github.io/2018/12/20/%E9%9F%B3%E8%A7%86%E9%A2%91%E7%BC%96%E7%A0%81%E6%A0%BC%E5%BC%8F%E5%92%8C%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/">
 
@@ -219,7 +221,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-06-05 13:20:02" itemprop="dateModified" datetime="2022-06-05T13:20:02+08:00">2022-06-05</time>
+                <time title="修改时间：2024-05-22 13:04:28" itemprop="dateModified" datetime="2024-05-22T13:04:28+08:00">2024-05-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -250,6 +252,8 @@
 <p>一个音频文件的播放过程：</p>
 <p>音频文件——&gt;解封装——-&gt;解码———&gt;渲染播放</p>
 <p>视频播放则要复杂一些，主要是音频和视频的同步。</p>
+<p>如下图：</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/%E6%88%AA%E5%B1%8F2024-05-22%2013.02.10.png" style="zoom:50%;" /></p>
 <p>图片文件，音频文件，视频文件感觉都是一个套路。</p>
 <p>常见音频文件格式：</p>
 <ul>
@@ -306,7 +310,7 @@
 <p>无压缩。</p>
 <p><strong>文件扩展名</strong></p>
 <p>标准AIFF文件的扩展名是.aiff或.aif，压缩过的AIFF文件的扩展名应是.aifc。</p>
-<h3 id="WAV"><a href="#WAV" class="headerlink" title="WAV"></a>WAV</h3><p>WAV 是 Microsoft 和 IBM 为 PC 开发的一种声音文件格式，它符合 RIFF（Resource Interchange File Format）文件规范，用于保存 Windows 平台的音频信息资源，被 Windows 平台及其应用程序所广泛支持。WAVE 文件通常只是一个具有单个 “WAVE” 块的 RIFF 文件，该块由两个子块（”fmt” 子数据块和 ”data” 子数据块）</p>
+<h3 id="WAV"><a href="#WAV" class="headerlink" title="WAV"></a>WAV</h3><p>WAV 是 Microsoft 和 IBM 为 PC 开发的一种声音文件格式，它符合 RIFF（Resource Interchange File Format）文件规范，用于保存 Windows 平台的音频信息资源，被 Windows 平台及其应用程序所广泛支持。WAVE 文件通常只是一个具有单个 “WAVE” 块的 RIFF 文件，该块有两个子块（”fmt” 子数据块和 ”data” 子数据块）</p>
 <p>该格式的实质就是在 PCM 文件的前面加了一个文件头。</p>
 <p><strong>是否压缩</strong></p>
 <p>无压缩。</p>

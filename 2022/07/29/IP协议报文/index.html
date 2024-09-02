@@ -29,8 +29,10 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B.jpg">
 <meta property="og:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20170301092349308.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/MTU.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/IP%E5%88%86%E7%89%87%E7%A4%BA%E6%84%8F.png">
 <meta property="article:published_time" content="2022-07-29T11:09:51.000Z">
-<meta property="article:modified_time" content="2023-05-11T08:03:41.648Z">
+<meta property="article:modified_time" content="2024-05-17T08:30:41.000Z">
 <meta property="article:author" content="jekyttt">
 <meta property="article:tag" content="IP报文">
 <meta name="twitter:card" content="summary">
@@ -222,7 +224,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-05-11 16:03:41" itemprop="dateModified" datetime="2023-05-11T16:03:41+08:00">2023-05-11</time>
+                <time title="修改时间：2024-05-17 16:30:41" itemprop="dateModified" datetime="2024-05-17T16:30:41+08:00">2024-05-17</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -269,6 +271,19 @@
 <p>参考:</p>
 <p><a target="_blank" rel="noopener" href="https://fasionchan.com/network/ip/ttl/">TTL，IP包存活时间</a>  系列文章，作者写的还不错。</p>
 <h4 id="2-IP报文怎么计算数据部分长度"><a href="#2-IP报文怎么计算数据部分长度" class="headerlink" title="2. IP报文怎么计算数据部分长度"></a>2. IP报文怎么计算数据部分长度</h4><p>IP报文中有两个字段首部长度、总长度，因此IP报文的数据部分长度就等于总长度-首部长度。</p>
+<h4 id="3-IP报文为什么需要总长度字段"><a href="#3-IP报文为什么需要总长度字段" class="headerlink" title="3.IP报文为什么需要总长度字段"></a>3.IP报文为什么需要总长度字段</h4><p>网上博客的解释：<br>因为一些数据链路（以太网）有MTU最大传输单元限制，小于最小MTU需要填充一些数据以达到最小长度，大于最大MTU需要对数据报进行分片处理，所以需要总长度来确定 IP 数据部分的内容。</p>
+<p>主要原因还是因为以太帧可能会进行填充。</p>
+<p><a target="_blank" rel="noopener" href="https://qinnsang.github.io/2019/09/10/%E7%BD%91%E7%BB%9C%E5%B1%82%E4%B9%8BIP%E5%8D%8F%E8%AE%AE/">网络层之IP协议</a></p>
+<h4 id="4-为什么以太网MTU通常被设置为1500？"><a href="#4-为什么以太网MTU通常被设置为1500？" class="headerlink" title="4.为什么以太网MTU通常被设置为1500？"></a>4.为什么以太网MTU通常被设置为1500？</h4><p>RFC标准定义以太网的默认MTU值为1500。那么这1500的取值是怎么来的呢？</p>
+<p>早期的以太网使用共享链路的工作方式，为了保证CSMA/CD（载波多路复用/冲突检测）机制，所以规定了以太帧长度最小为64字节，最大为1518字节。最小64字节是为了保证最极端的冲突能被检测到，64字节是能被检测到的最小值；最大不超过1518字节是为了防止过长的帧传输时间过长而占用共享链路太长时间导致其他业务阻塞。所以规定以太网帧大小为64~1518字节，虽然技术不断发展，但协议一直没有更改。</p>
+<p>以太网最大的数据帧是1518字节，这样刨去帧头14字节和帧尾<a target="_blank" rel="noopener" href="https://info.support.huawei.com/info-finder/encyclopedia/zh/CRC.html">CRC</a>校验部分4字节，那么剩下承载上层IP报文的地方最大就只有1500字节，这个值就是以太网的默认MTU值。这个MTU就是网络层协议非常关心的地方，因为网络层协议比如IP协议会根据这个值来决定是否把上层传下来的数据进行分片，如果单个IP报文长度大于MTU，则会在发送出接口前被分片，被切割为小于或等于MTU长度的IP包。</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/MTU.png" alt=""></p>
+<h4 id="5-超过MTU的报文如何进行分片？"><a href="#5-超过MTU的报文如何进行分片？" class="headerlink" title="5.超过MTU的报文如何进行分片？"></a>5.超过MTU的报文如何进行分片？</h4><p>以太网缺省MTU=1500字节，这是以太网接口对IP层的约束，如果IP层有&lt;=1500字节需要发送，只需要一个IP包就可以完成发送任务；如果IP层有&gt;1500字节数据需要发送，需要分片才能完成发送。</p>
+<p>以主机发送一个数据载荷长度为2000字节的报文为例说明其分片的过程（假设出接口的MTU值为1500）。在网络层会对报文进行封装，其结构组成：IP头部20字节+数据载荷长度2000字节，报文封装后，整个报文长度为2020字节。在出接口进行转发的时候，发现IP报文的长度超过了MTU的值1500，因此要进行分片处理，详情见下图。</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/IP%E5%88%86%E7%89%87%E7%A4%BA%E6%84%8F.png" alt=""></p>
+<p>第一片报文，IP报文头固定20字节，数据载荷可以封装1480字节（MTU值1500字节-IP报文头20字节，数据载荷长度须是8的倍数）；</p>
+<p>第二片报文，复制第一片的IP头，IP报文头固定20字节，数据载荷为剩余的520字节（总数据载荷长度2000字节减去第一片中已封装的1480字节）。如果最后一片报文的长度不足46字节(MTU最小值为46字节)，会自动填充至46字节。（可以看到这里会自动填充到46字节，假如整个IP包只有30字节，如果不知道IP包的总长度那么就无法得知IP包的界限。由于分片和填充的原因，所以IP包里面需要有一个总长度的字段。）</p>
+<p>所有分片报文在发送至目的主机后，在目的主机进行分片重组，恢复为原报文。在进行重组时，通过IP标志位中的MF用来分辨这是不是最后一个分片，片偏移用来分辨这个分片相对原数据报的位置。通过这几个字段，可以准确的完成数据报的重组操作。</p>
 
     </div>
 
@@ -386,7 +401,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B"><span class="nav-text">网络模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IP%E6%8A%A5%E6%96%87"><span class="nav-text">IP报文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E7%AD%94"><span class="nav-text">问答</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-IP%E6%8A%A5%E6%96%87%E4%B8%AD%E7%9A%84TTL%E8%AE%BE%E7%BD%AE%E7%9A%84%E8%A7%84%E5%88%99%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%8C%E6%9C%80%E5%A4%A7%E5%80%BC255%E4%BC%9A%E4%B8%8D%E4%BC%9A%E4%B8%8D%E5%A4%9F%EF%BC%9F"><span class="nav-text">1. IP报文中的TTL设置的规则是什么，最大值255会不会不够？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-IP%E6%8A%A5%E6%96%87%E6%80%8E%E4%B9%88%E8%AE%A1%E7%AE%97%E6%95%B0%E6%8D%AE%E9%83%A8%E5%88%86%E9%95%BF%E5%BA%A6"><span class="nav-text">2. IP报文怎么计算数据部分长度</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B"><span class="nav-text">网络模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IP%E6%8A%A5%E6%96%87"><span class="nav-text">IP报文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E7%AD%94"><span class="nav-text">问答</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-IP%E6%8A%A5%E6%96%87%E4%B8%AD%E7%9A%84TTL%E8%AE%BE%E7%BD%AE%E7%9A%84%E8%A7%84%E5%88%99%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%8C%E6%9C%80%E5%A4%A7%E5%80%BC255%E4%BC%9A%E4%B8%8D%E4%BC%9A%E4%B8%8D%E5%A4%9F%EF%BC%9F"><span class="nav-text">1. IP报文中的TTL设置的规则是什么，最大值255会不会不够？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-IP%E6%8A%A5%E6%96%87%E6%80%8E%E4%B9%88%E8%AE%A1%E7%AE%97%E6%95%B0%E6%8D%AE%E9%83%A8%E5%88%86%E9%95%BF%E5%BA%A6"><span class="nav-text">2. IP报文怎么计算数据部分长度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-IP%E6%8A%A5%E6%96%87%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E6%80%BB%E9%95%BF%E5%BA%A6%E5%AD%97%E6%AE%B5"><span class="nav-text">3.IP报文为什么需要总长度字段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BB%A5%E5%A4%AA%E7%BD%91MTU%E9%80%9A%E5%B8%B8%E8%A2%AB%E8%AE%BE%E7%BD%AE%E4%B8%BA1500%EF%BC%9F"><span class="nav-text">4.为什么以太网MTU通常被设置为1500？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-%E8%B6%85%E8%BF%87MTU%E7%9A%84%E6%8A%A5%E6%96%87%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E5%88%86%E7%89%87%EF%BC%9F"><span class="nav-text">5.超过MTU的报文如何进行分片？</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

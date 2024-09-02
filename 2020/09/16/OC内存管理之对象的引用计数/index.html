@@ -28,7 +28,7 @@
 <meta property="og:description" content="源码版本：objc4-781 我们都知道OC的内存管理是通过引用计数来管理的，对象刚创建时引用计数为1，retain后+1，release后-1，当引用计数减为0时就会被销毁。那么问题就来了，操作的这个引用计数值是保存在哪的？今天就来研究一下这个问题。 先说结论：早期OC对象的引用计数都是存储在引用计数表中的，但是后来Apple的工程师可能觉得每次都从表中查找修改效率有点低，于是做了一些优化，如果">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-09-16T02:25:52.000Z">
-<meta property="article:modified_time" content="2022-02-09T06:18:36.277Z">
+<meta property="article:modified_time" content="2022-02-09T06:18:36.000Z">
 <meta property="article:author" content="jekyttt">
 <meta property="article:tag" content="内存管理">
 <meta name="twitter:card" content="summary">
