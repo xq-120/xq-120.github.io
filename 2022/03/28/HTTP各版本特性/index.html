@@ -33,7 +33,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20200821155127.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/2860230-0c2d3d66de3e9a87.png">
 <meta property="article:published_time" content="2022-03-28T14:15:08.000Z">
-<meta property="article:modified_time" content="2024-09-11T04:07:40.485Z">
+<meta property="article:modified_time" content="2024-09-11T14:18:52.829Z">
 <meta property="article:author" content="jekyttt">
 <meta property="article:tag" content="Objective-C, Swift, C, iOS开发, 移动开发">
 <meta name="twitter:card" content="summary">
@@ -225,7 +225,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-09-11 12:07:40" itemprop="dateModified" datetime="2024-09-11T12:07:40+08:00">2024-09-11</time>
+                <time title="修改时间：2024-09-11 22:18:52" itemprop="dateModified" datetime="2024-09-11T22:18:52+08:00">2024-09-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -275,7 +275,7 @@
 <p>为了解决这个问题，在还没出HTTP/1.1规范时，各个公司可能会有一些自己的优化手段。有些浏览器在请求时，用了一个非标准的<code>Connection</code>字段。</p>
 <figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Connection</span>: keep-alive</span><br><span class="line"><span class="keyword">Connection</span>: <span class="keyword">close</span></span><br></pre></td></tr></table></figure>
 <p>Connection头部，用于决定当前的事务完成后，是否会关闭网络连接。</p>
-<p>如果该值是“keep-alive”，网络连接就是持久的，不会关闭，使得对同一个服务器的请求可以继续在该连接上完成。</p>
+<p>如果该值是“keep-alive”，网络连接就是持久的，不会关闭，使得<strong>对同一个服务器的请求</strong>可以继续在该连接上完成。</p>
 <p>如果该值是“close”表明客户端或服务器想要关闭该网络连接。</p>
 <p>像这种做的比较好的优化可能就会被放到下一次的RFC规范中去。Connection头部就被HTTP/1.1规范所采用。</p>
 <h4 id="HTTP-1-1"><a href="#HTTP-1-1" class="headerlink" title="HTTP 1.1"></a>HTTP 1.1</h4><p>1999年6月发布规范 rfc2616</p>
@@ -329,9 +329,9 @@
 <p>新增MIME类型 <code>multipart/form-data</code> 等。</p>
 <p><strong>HTTP/1.1缺点：</strong></p>
 <p><strong>1.队头阻塞</strong></p>
-<p>虽然 HTTP/1.1 允许复用 TCP 连接，但是同一个 TCP 连接里面，所有的数据通信是按次序进行的。服务器只有处理完一个回应，才会进行下一个回应。要是前面的回应特别慢，后面就会有许多请求排队等着。这称为「队头堵塞」（Head-of-line blocking）。</p>
-<p>为了避免这个问题，只有两种方法：一是减少请求数，二是同时多开持久连接。这导致了很多的网页优化技巧，比如合并脚本和样式表、将图片嵌入CSS代码、域名分片（domain sharding）等等。如果HTTP协议设计得更好一些，这些额外的工作是可以避免的。</p>
-<p>另外多开持久连接也不是想开多少就开多少的，在 HTTP/1.1 协议中浏览器客户端在同一时间，针对同一域名下的请求有一定数量限制（大概4-6个）。超过限制数目的请求会被阻塞直到一些请求完成才会继续发出。所以一些优化就会把资源放在不同的域名下。</p>
+<p>在使用持久连接后，管线机制可以让客户端在上一个响应还没回来时就可以发送下一个请求。但是服务器端返回的响应的顺序必须按照接收到的请求的顺序来发送。如果第一个请求需要处理的时间非常长，那么后续的请求即使已经被服务器处理完成，响应也不能立即返回，而是存储在服务端的缓存区中，等待第一个响应的完成，才能按照FIFO顺序返回。这就是队头阻塞。</p>
+<p>为了避免这个问题，只有两种方法：一是减少请求数，二是同时多开持久连接。这导致了很多的网页优化技巧，比如合并脚本和样式表、将图片嵌入CSS代码、雪碧图、域名分片（domain sharding）等等。如果HTTP协议设计得更好一些，这些额外的工作是可以避免的。</p>
+<p>另外HTTP连接也不是想开多少就开多少的，HTTP1.1，Chrome浏览器通常允许每个域名同时发出的最大连接数为6个。这意味着在同一个页面中，您可以同时发出6个同源请求。请注意，这个限制是针对每个域名的，如果您的页面使用了多个域名（例如使用CDN），那么您可以同时发出更多的请求。对于超过限制数目的请求会被阻塞直到一些请求完成才会继续发出。所以一些优化就会把资源放在不同的域名下。</p>
 <p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/14810890/what-are-the-disadvantages-of-using-http-pipelining">What are the disadvantage(s) of using HTTP pipelining?</a>  讨论管线机制的缺点的。里面参考资料中我大苹果WWDC2015里就已经对比了HTTP1.1和HTTP2的性能，奈何自己没看WWDC。作为一个iOS开发者，WWDC必看才行。</p>
 <p><strong>2.无状态特性 – 带来巨大的 HTTP 头部</strong></p>
 <p>由于报文 Header 一般会携带”User Agent” “Cookie”“Accept””Server”等许多固定的头字段（如下图），多达几百字节甚至上千字节，但 Body 却经常只有几十字节（比如 GET 请求、 204/301/304 响应），成了不折不扣的“大头儿子”。Header 里携带的内容过大，在一定程度上增加了传输成本。更要命的是，成千上万的请求响应报文里有很多字段值都是重复的，非常浪费。</p>
@@ -349,6 +349,7 @@
 <li>消息：是指逻辑上的 HTTP 消息，比如请求、响应等，由一或多个帧组成。</li>
 <li>帧：HTTP 2.0 通信的最小单位，每个帧包含帧首部，至少也会标识出当前帧所属的流，承载着特定类型的数据，如 HTTP 首部、负荷，等等</li>
 </ul>
+<p>一个 TCP 连接（HTTP2 连接建立在 TCP 连接之上）里可以发送若干个流（stream），每个流中可以传输若干条消息（message），每条消息由若干二进制帧（frame）组成。</p>
 <p>注：流还是挺复杂的，具体可以看一下流的状态图。</p>
 <p>HTTP 2的帧布局如下：</p>
 <p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20200821155127.png" alt=""></p>
@@ -395,10 +396,7 @@
 <p><a target="_blank" rel="noopener" href="https://skyao.io/learning-http2/frame/">HTTP2/帧</a></p>
 <h4 id="QUIC和HTTP-3"><a href="#QUIC和HTTP-3" class="headerlink" title="QUIC和HTTP/3"></a>QUIC和HTTP/3</h4><p>HTTP/3 已于 2022年6月6日正式发布了，被标准化为 RFC 9114。</p>
 <p>QUIC 基于 UDP，而 UDP 是“无连接”的，根本就不需要“握手”和“挥手”，所以就比 TCP 来得快。此外，QUIC 也实现了可靠传输，保证数据一定能够抵达目的地。它还引入了类似 HTTP/2 的“流”和“多路复用”，单个“流”是有序的，可能会因为丢包而阻塞，但其他“流”不会受到影响。</p>
-<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><blockquote>
-<p> 为什么要复用连接?</p>
-</blockquote>
-<p>HTTP耗时 = TCP握手</p>
+<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><h4 id="为什么要复用连接"><a href="#为什么要复用连接" class="headerlink" title="为什么要复用连接?"></a>为什么要复用连接?</h4><p>HTTP耗时 = TCP握手</p>
 <p>HTTPS耗时 = TCP握手 + SSL握手</p>
 <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">curl</span> -w <span class="string">&quot;TCP handshake: %&#123;time_connect&#125;, SSL handshake: %&#123;time_appconnect&#125;\n&quot;</span> -so /dev/null https://www.alipay.com</span><br><span class="line"><span class="attribute">TCP</span> handshake: <span class="number">0</span>.<span class="number">035926</span>, SSL handshake: <span class="number">0</span>.<span class="number">138877</span></span><br></pre></td></tr></table></figure>
 <p>上面命令中的w参数表示指定输出格式，time_connect变量表示TCP握手的耗时，time_appconnect变量表示SSL握手的耗时（更多变量请查看<a target="_blank" rel="noopener" href="http://curl.haxx.se/docs/manpage.html">文档</a>和<a target="_blank" rel="noopener" href="https://josephscott.org/archives/2011/10/timing-details-with-curl/">实例</a>），s参数和o参数用来关闭标准输出。另外青花瓷抓包也可以看到各阶段的耗时。</p>
@@ -406,6 +404,12 @@
 <p>除了建立连接耗时外，TCP的慢启动机制也会影响传输速度。</p>
 <p>因此从HTTP1.1版本开始就支持连接的复用了，只不过HTTP1.1版本的连接复用还不成熟，毕竟技术都有一个不断优化的过程，从来都不是一蹴而就的。</p>
 <p><a target="_blank" rel="noopener" href="https://www.iteye.com/blog/a280606790-1095085">HTTP协议头部与Keep-Alive模式详解</a></p>
+<h4 id="HTTP2，帧间顺序如何保证？"><a href="#HTTP2，帧间顺序如何保证？" class="headerlink" title="HTTP2，帧间顺序如何保证？"></a>HTTP2，帧间顺序如何保证？</h4><p>（网上的博客）:流内部的帧是有严格顺序的（不确定是由协议字段来保证还是由发送端严格按照顺序发送来保证，感觉应该是由发送端来保证，因为协议里没有相关字段），但是流之间互相独立；<strong>流 ID 不能重用</strong>，只能<strong>顺序</strong>递增，客户端发起的 Stream ID 是奇数，服务器端发起的 Stream ID 是偶数；</p>
+<h4 id="HTTP1-1如何协商升级到HTTP2"><a href="#HTTP1-1如何协商升级到HTTP2" class="headerlink" title="HTTP1.1如何协商升级到HTTP2"></a>HTTP1.1如何协商升级到HTTP2</h4><figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">GET</span> <span class="string">/</span> <span class="meta">HTTP/1.1</span></span><br><span class="line"><span class="attribute">Host</span><span class="punctuation">: </span>example.com</span><br><span class="line"><span class="attribute">Connection</span><span class="punctuation">: </span>Upgrade, HTTP2-Settings</span><br><span class="line"><span class="attribute">Upgrade</span><span class="punctuation">: </span>h2c</span><br><span class="line"><span class="attribute">HTTP2-Settings</span><span class="punctuation">: </span>&lt;base64url encoding of HTTP/2 SETTINGS payload&gt;</span><br></pre></td></tr></table></figure>
+<p>如果服务端不支持 HTTP/2，它会忽略 <code>Upgrade</code> 字段，直接返回 HTTP/1.1 响应，例如：</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">HTTP/1.1</span> <span class="number">200</span> OK</span><br><span class="line"><span class="attribute">Content-Length</span><span class="punctuation">: </span>243</span><br><span class="line"><span class="attribute">Content-Type</span><span class="punctuation">: </span>text/html</span><br><span class="line"></span><br><span class="line"><span class="language-node-repl"><span class="meta prompt_">...</span></span></span><br></pre></td></tr></table></figure>
+<p>如果服务端支持 HTTP/2，那就可以回应 <code>101</code> 状态码及对应头部，并且在响应正文中可以直接使用 HTTP/2 二进制帧：</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">HTTP/1.1</span> <span class="number">101</span> Switching Protocols</span><br><span class="line"><span class="attribute">Connection</span><span class="punctuation">: </span>Upgrade</span><br><span class="line"><span class="attribute">Upgrade</span><span class="punctuation">: </span>h2c</span><br><span class="line"></span><br><span class="line"><span class="language-angelscript"><span class="string">[ HTTP/2 connection ... ]</span></span></span><br></pre></td></tr></table></figure>
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a target="_blank" rel="noopener" href="https://lixiaoyu.cc/2018/09/04/computer-network-12-http-version-differences/">HTTP 各版本差异</a>  </p>
 <p><a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2016/08/http.html">HTTP 协议入门</a>   阮一峰</p>
 <p><a target="_blank" rel="noopener" href="https://www.infoq.cn/article/kU4OkqR8vH123a8dLCCJ">解密 HTTP/2 与 HTTP/3 的新特性</a></p>
@@ -419,6 +423,7 @@
 <p><a target="_blank" rel="noopener" href="https://quicwg.org/base-drafts/draft-ietf-quic-http.html">Hypertext Transfer Protocol Version 3 (HTTP/3)</a></p>
 <p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/noKing/p/9334243.html">HTTP/HTTPS协议</a>  面试问题</p>
 <p><a target="_blank" rel="noopener" href="https://hungryturbo.com/HTTP3-explained/">HTTP/3详解</a>  4</p>
+<p><a target="_blank" rel="noopener" href="https://imququ.com/post/protocol-negotiation-in-http2.html">谈谈 HTTP/2 的协议协商机制</a></p>
 
     </div>
 
@@ -533,7 +538,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP%E5%90%84%E7%89%88%E6%9C%AC%E7%89%B9%E6%80%A7"><span class="nav-text">HTTP各版本特性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTP-0-9"><span class="nav-text">HTTP 0.9</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTP-1-0"><span class="nav-text">HTTP 1.0</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTP-1-1"><span class="nav-text">HTTP 1.1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SPDY%E5%8D%8F%E8%AE%AE"><span class="nav-text">SPDY协议</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTP-2"><span class="nav-text">HTTP 2</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#QUIC%E5%92%8CHTTP-3"><span class="nav-text">QUIC和HTTP&#x2F;3</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98"><span class="nav-text">问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-text">参考</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP%E5%90%84%E7%89%88%E6%9C%AC%E7%89%B9%E6%80%A7"><span class="nav-text">HTTP各版本特性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTP-0-9"><span class="nav-text">HTTP 0.9</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTP-1-0"><span class="nav-text">HTTP 1.0</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTP-1-1"><span class="nav-text">HTTP 1.1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SPDY%E5%8D%8F%E8%AE%AE"><span class="nav-text">SPDY协议</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTP-2"><span class="nav-text">HTTP 2</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#QUIC%E5%92%8CHTTP-3"><span class="nav-text">QUIC和HTTP&#x2F;3</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98"><span class="nav-text">问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%A4%8D%E7%94%A8%E8%BF%9E%E6%8E%A5"><span class="nav-text">为什么要复用连接?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTP2%EF%BC%8C%E5%B8%A7%E9%97%B4%E9%A1%BA%E5%BA%8F%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%EF%BC%9F"><span class="nav-text">HTTP2，帧间顺序如何保证？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTP1-1%E5%A6%82%E4%BD%95%E5%8D%8F%E5%95%86%E5%8D%87%E7%BA%A7%E5%88%B0HTTP2"><span class="nav-text">HTTP1.1如何协商升级到HTTP2</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-text">参考</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -547,7 +552,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">177</span>
+          <span class="site-state-item-count">176</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
