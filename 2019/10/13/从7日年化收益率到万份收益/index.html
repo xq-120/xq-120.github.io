@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"xq-120.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="一、 7日年化收益率今天早上被一条支付宝的通知吵醒,点进去一看发现是有新的花呗账单需要偿还了,还完花呗,刷了一下余额宝,提示昨日收益0.16元,七日年化2.3280%.7日年化?怎么这么熟悉但是细细一想却又不知道到底是什么东西,这让我感到难受.看来有必要了解一下7日年化收益率究竟是什么东西? 不过一上来就讲7日年化收益率略显深奥,还是先来看一下收益率是什么? 大家都知道收益率 &#x3D; 收益 &#x2F; 本金.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从7日年化收益率到万份收益">
+<meta property="og:url" content="https://xq-120.github.io/2019/10/13/%E4%BB%8E7%E6%97%A5%E5%B9%B4%E5%8C%96%E6%94%B6%E7%9B%8A%E7%8E%87%E5%88%B0%E4%B8%87%E4%BB%BD%E6%94%B6%E7%9B%8A/index.html">
+<meta property="og:site_name" content="芝士就是力量">
+<meta property="og:description" content="一、 7日年化收益率今天早上被一条支付宝的通知吵醒,点进去一看发现是有新的花呗账单需要偿还了,还完花呗,刷了一下余额宝,提示昨日收益0.16元,七日年化2.3280%.7日年化?怎么这么熟悉但是细细一想却又不知道到底是什么东西,这让我感到难受.看来有必要了解一下7日年化收益率究竟是什么东西? 不过一上来就讲7日年化收益率略显深奥,还是先来看一下收益率是什么? 大家都知道收益率 &#x3D; 收益 &#x2F; 本金.">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-10-13T04:05:32.000Z">
+<meta property="article:modified_time" content="2024-12-14T07:50:26.467Z">
+<meta property="article:author" content="jekyttt">
+<meta property="article:tag" content="Objective-C, Swift, C, iOS开发, 移动开发">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://xq-120.github.io/2019/10/13/%E4%BB%8E7%E6%97%A5%E5%B9%B4%E5%8C%96%E6%94%B6%E7%9B%8A%E7%8E%87%E5%88%B0%E4%B8%87%E4%BB%BD%E6%94%B6%E7%9B%8A/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>从7日年化收益率到万份收益 | 芝士就是力量</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="芝士就是力量" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">芝士就是力量</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">像风一样自由</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/xq-120/xq-120.github.io" class="github-corner" title="XQ on GitHub" aria-label="XQ on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2019/10/13/%E4%BB%8E7%E6%97%A5%E5%B9%B4%E5%8C%96%E6%94%B6%E7%9B%8A%E7%8E%87%E5%88%B0%E4%B8%87%E4%BB%BD%E6%94%B6%E7%9B%8A/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          从7日年化收益率到万份收益
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-10-13 12:05:32" itemprop="dateCreated datePublished" datetime="2019-10-13T12:05:32+08:00">2019-10-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">经济学</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h4 id="一、-7日年化收益率"><a href="#一、-7日年化收益率" class="headerlink" title="一、 7日年化收益率"></a>一、 7日年化收益率</h4><p>今天早上被一条支付宝的通知吵醒,点进去一看发现是有新的花呗账单需要偿还了,还完花呗,刷了一下余额宝,提示昨日收益0.16元,七日年化2.3280%.7日年化?怎么这么熟悉但是细细一想却又不知道到底是什么东西,这让我感到难受.看来有必要了解一下7日年化收益率究竟是什么东西?</p>
+<p>不过一上来就讲7日年化收益率略显深奥,还是先来看一下收益率是什么?</p>
+<p>大家都知道<code>收益率 = 收益 / 本金</code>.即本金在一段时间后获得的收益除以本金.收益率可以用来衡量一个理财产品的好坏.收益率越高代表到期后获得的收益也越多.</p>
+<p>年收益率就是本金在一年以后获得的收益除以本金得到的一个比值.比如银行某个定期理财产品承诺存满一年将获得4%的年收益率.那么你存10000元,到年底的时候取出来将获得10000 x 4%=400元的总收益.</p>
+<p>与其对应的是日收益率,即本金在一天后获得的收益除以本金.还是上面的例子,10000元存满一年获得400元收益,那么存一天获得的收益为400 / 365 ≈ 1.0959元.于是R<sub>d</sub> = 1.0959 / 10000 = 0.010959% = 4% / 365.</p>
+<p>因此很容易得出日收益率与年收益率存在以下关系:</p>
+<p>R<sub>d</sub> x 365 = R<sub>y</sub></p>
+<p>R<sub>d</sub> x 365就表示将日收益率进行年化,得到的结果R<sub>y</sub>就是年化收益率.如果你能保证以后的日收益率都是这么多,那R<sub>y</sub>就是年收益率了,但对于基金来说它每天的收益率是在不断变化的,所以只能称为年化收益率.</p>
+<p>OK,前戏的部分终于讲完了,现在开始正式进入主题.</p>
+<p>7日年化收益率其实是说过去七天货币基金的平均收益率.举个例子,10月11日显示的余额宝七日年化收益率是2.3280%,是指10月4日-10月10日过去这七天的平均年化收益率.即这7天的总收益除以7得到平均每天的收益,也就是平均日收益,那么平均日收益率 = 平均日收益 / 本金.接下来就是把它年化一下,根据上面的公式可得七日年化收益率 = 平均日收益率 x 365 = 7天的总收益 / 7 / 本金 x 365.</p>
+<p>让我们再深入一点:</p>
+<p>假设m为本金,存n天后获得的总收益为i.那么n日年化收益率计算如下:</p>
+<p>先计算日收益率R<sub>d</sub> = i / n / m,</p>
+<p>再年化得到年化收益率R<sub>y</sub> = R<sub>d</sub> x 365 = i / n / m x 365.</p>
+<p>n为7则R<sub>y</sub>就表示7日年化收益率.<br>n为15则R<sub>y</sub>就表示15日年化收益率.<br>n为30则R<sub>y</sub>就表示30日年化收益率.<br>…<br>n为365则R<sub>y</sub>就表示365日年化收益率.<br>n越大表明该理财产品过去的收益越平稳.值得注意的是不管n为多大它都不能预示未来也会这样平稳,只能说可能性会更高一点.因为它只代表过去是这样,和银行的定期理财承诺4%是不一样的.</p>
+<p>一只基金它的7日年化收益率和30日年化收益率可能不相等,大多数情况下也不会相等,如果30日年化收益率大于7日年化收益率说明该基金近期在下跌.反之在上涨.</p>
+<p>接下来我们计算一下,一个基金的年化收益率要多少才能”保证”10000元1天能够有1元的收益,这应该才是大伙关注的.</p>
+<p>有了上面的公式,这都不叫事.先算日收益率</p>
+<p>R<sub>d</sub> = 1 / 10000,</p>
+<p>再年化一下</p>
+<p>R<sub>y</sub> = R<sub>d</sub> x 365 = 3.65%.</p>
+<p>即一个基金的年化收益率要3.65%才能”保证”10000元1天能够有1元的收益.我们再来看一下余额宝借呗,它显示日利率万3也就是借1万元用一天要还3元.我们可以算一下放贷方的年化收益率 = 3 / 10000 x 365 = 3 x 3.65% = 10.95%.差不多11%的年化收益率.试问现在还能找到几个超过4%的<strong>稳健</strong>基金,可见放贷真的是暴利,借贷需谨慎啊!</p>
+<h4 id="二、-万份收益"><a href="#二、-万份收益" class="headerlink" title="二、 万份收益"></a>二、 万份收益</h4><p>万份收益是指货币基金1万块钱1天的收益.一般在余额宝看到的万份收益是1万块钱放在余额宝里昨天一天所得的收益,不是今天的收益.</p>
+<p>万份收益与7日年化收益率有什么关系呢?</p>
+<p>先说结论:根据7日年化收益率计算出的万份收益其实是期望万份收益并不等于(实际)万份收益.</p>
+<blockquote>
+<p>声明:以下的万份收益和7日年化收益率都是指昨日的,因为今日的万份收益与7日年化收益率在没收市之前是无法知道的,今天可能涨,跌也可能持平.</p>
+</blockquote>
+<p>举个例子:</p>
+<p>10月11日余额宝显示的七日年化收益率是2.3280%(即10月10日的7日年化收益率为2.3280%),我们可以算一下在这个收益率下10000元1天只能得到2.3280% / 365 * 10000 = 0.6378元.如果你还记得10000元1天能够有1元的收益,年化收益率为3.65%的话,你可以以这个为基准快速计算上面的结果2.3280% / 3.65% = 0.6378元,即为10月10日的”万份收益”.不过我们会发现余额宝实际显示的10月10日万份收益为0.6266元,相差0.0112元.</p>
+<p>为什么会相差0.0112呢?</p>
+<p>除了计算精度影响外,还有没有其他原因呢?我们可以算一下10月10日的1日年化收益率= 0.6266 x 3.65% = 2.2871% &lt; 2.3280%,说明前六天的比10月10日的要高,平均下来后计算出10月10日的七日年化收益率比当天的年化收益率要高,这说明余额宝对应的基金其实是在下跌.因此另一个原因就是10月10日的日收益率低于前几天的日收益率,基金在下跌.</p>
+<p>这说明了根据7日年化收益率计算出的万份收益其实是期望万份收益并不等于(实际)万份收益.</p>
+<p>引申一下可以得出以下结论:</p>
+<ol>
+<li>昨日的年化收益率可以大于、等于、小于昨日的7日年化收益率.大于说明基金昨日涨了,反之说明跌了.</li>
+<li>昨日的万份收益可以大于、等于、小于以昨日的7日年化收益率计算出的万份收益(个人把它叫做期望万份收益,反正我就这么叫了).</li>
+<li>基金的年化收益率只表明过去的收益情况,并不保证未来的收益.因此基金才有各种风险等级,风险越低的基金说明它很稳你基本上可以确定根据7日年化收益率计算出的收益就是明天的收益.反之风险越高,那它的7日年化收益率就真的只能参考了.所以不能盲目看年化收益率也要看一下风险等级.</li>
+</ol>
+<p>写到这里终于结束了,不经意间一缕阳光悄悄的穿过树叶的缝隙洒落在书桌上,心里也不再难受,但看着余额宝昨日的收益,似乎感觉到前面的路依然充满荆棘.</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>觉得文章有帮助可以打赏一下哦！</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.jpg" alt="jekyttt 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/10/03/VPN%E6%90%AD%E5%BB%BA/" rel="prev" title="VPN搭建">
+      <i class="fa fa-chevron-left"></i> VPN搭建
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/11/06/pod%20install%E6%85%A2%E8%A7%A3%E5%86%B3/" rel="next" title="pod install慢解决">
+      pod install慢解决 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80%E3%80%81-7%E6%97%A5%E5%B9%B4%E5%8C%96%E6%94%B6%E7%9B%8A%E7%8E%87"><span class="nav-text">一、 7日年化收益率</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8C%E3%80%81-%E4%B8%87%E4%BB%BD%E6%94%B6%E7%9B%8A"><span class="nav-text">二、 万份收益</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">jekyttt</p>
+  <div class="site-description" itemprop="description">涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">176</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">116</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xq-120" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xq-120" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://stackoverflow.com/yourname" title="StackOverflow → https:&#x2F;&#x2F;stackoverflow.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fa fa-fw fa-stack-overflow"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jekyttt</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v6.3.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.getAttribute('pjax') !== null) {
+      script.setAttribute('pjax', '');
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'dc6a52837746ef605a70',
+      clientSecret: '7a049bac8b7eef61e32ebcbfcc33ea9d670d3274',
+      repo        : 'commentForBlog',
+      owner       : 'xq-120',
+      admin       : ['xq-120'],
+      id          : '8fc975e1c6acd7f9b931b7fe9f1cc6d6',
+        language: 'en, zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+    </div>
+</body>
+</html>

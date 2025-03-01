@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"xq-120.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="本文基于Exposing NSMutableArray 理解和扩展。 C语言中的数组可以说是最基本的数据结构了，其他一些数据结构比如队列，循环队列等都可以基于普通C数组的进一步封装来实现。 普通C数组数组占据的是一段连续的内存空间，并根据顺序存储数据。 优点：时间效率很高 由于数组中的内存是连续的，因此可以根据下标读写任何元素，时间复杂度为O(1)。 缺点：空间效率较低 创建数组时需要先指定数组的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NSMutableArray实现原理">
+<meta property="og:url" content="https://xq-120.github.io/2020/05/17/NSMutableArray%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/index.html">
+<meta property="og:site_name" content="芝士就是力量">
+<meta property="og:description" content="本文基于Exposing NSMutableArray 理解和扩展。 C语言中的数组可以说是最基本的数据结构了，其他一些数据结构比如队列，循环队列等都可以基于普通C数组的进一步封装来实现。 普通C数组数组占据的是一段连续的内存空间，并根据顺序存储数据。 优点：时间效率很高 由于数组中的内存是连续的，因此可以根据下标读写任何元素，时间复杂度为O(1)。 缺点：空间效率较低 创建数组时需要先指定数组的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/618F53DD5E0AC45A98E4192354D0F63E.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/488D507C0EC5B5CDA656D769F25C9281.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20200517115455.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/8C560E41A5516F18BAE25E17928B9A3C.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/6C548BF9E45EA310CDBF27701E5131E7.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/667D39026317F4D61F674BB94052BA4F.jpg">
+<meta property="article:published_time" content="2020-05-17T04:57:57.000Z">
+<meta property="article:modified_time" content="2024-12-14T07:50:26.469Z">
+<meta property="article:author" content="jekyttt">
+<meta property="article:tag" content="NSMutableArray">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/618F53DD5E0AC45A98E4192354D0F63E.jpg">
+
+<link rel="canonical" href="https://xq-120.github.io/2020/05/17/NSMutableArray%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>NSMutableArray实现原理 | 芝士就是力量</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="芝士就是力量" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">芝士就是力量</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">像风一样自由</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/xq-120/xq-120.github.io" class="github-corner" title="XQ on GitHub" aria-label="XQ on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/05/17/NSMutableArray%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          NSMutableArray实现原理
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-17 12:57:57" itemprop="dateCreated datePublished" datetime="2020-05-17T12:57:57+08:00">2020-05-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Foundation/" itemprop="url" rel="index"><span itemprop="name">Foundation</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本文基于<a target="_blank" rel="noopener" href="https://ciechanow.ski/exposing-nsmutablearray/">Exposing NSMutableArray</a> 理解和扩展。</p>
+<p>C语言中的数组可以说是最基本的数据结构了，其他一些数据结构比如队列，循环队列等都可以基于普通C数组的进一步封装来实现。</p>
+<h2 id="普通C数组"><a href="#普通C数组" class="headerlink" title="普通C数组"></a>普通C数组</h2><p>数组占据的是一段连续的内存空间，并根据顺序存储数据。</p>
+<p>优点：时间效率很高</p>
+<p>由于数组中的内存是连续的，因此可以根据下标读写任何元素，时间复杂度为O(1)。</p>
+<p>缺点：空间效率较低</p>
+<p>创建数组时需要先指定数组的容量大小，然后根据大小分配内存。即使只在数组中存储一个元素也需要为所有的数据预先分配内存。因此它的空间效率不是很高，经常会有空闲区域没有被使用。</p>
+<p>另一个明显的缺点是：在下标 0 处插入或删除一个元素时，需要移动其它所有的元素。当数据量很大时，性能就变得很差。</p>
+<h2 id="循环队列"><a href="#循环队列" class="headerlink" title="循环队列"></a>循环队列</h2><p>如何避免这个问题呢？答案就是循环队列。循环队列在进行入队和出队操作时，其他元素是不需要移动的。因此可以借鉴这个思想。理解了循环队列基本上就理解了NSMutableArray的底层数据结构。</p>
+<p>循环队列里一个很重要的操作就是取模。</p>
+<p>例如，对于任何一个自然数，模上5，得到的结果都会在[0,4]之间。</p>
+<p>0%5  = 0，1%5  = 1，2%5  = 2，3%5  = 3，4%5  = 4，5%5  = 0，6%5  = 1，7%5  = 2， ……。看到没有，结果已经开始循环了。</p>
+<p>循环队列的声明：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CircularQueue</span> &#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">private(set)</span> <span class="keyword">var</span> size: <span class="type">Int</span> <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">private(set)</span> <span class="keyword">var</span> count: <span class="type">Int</span> <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">  <span class="keyword">var</span> head: <span class="type">Int</span> <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">  <span class="keyword">var</span> tail: <span class="type">Int</span> <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">  <span class="keyword">var</span> items: [<span class="type">Int</span>] <span class="operator">=</span> []</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>一般都会有head和tail两个指针，head总是指向第一个元素，tail总是指向下一个存储的元素的位置。也可以不使用tail，而使用head和count，因为tail = head + count。</p>
+<p>初始化时head==tail。另外head可以等于0也可以不等于0这个不重要，因为是循环的，所以无论从哪个点开始都是一样的。</p>
+<p>这里初始化：head==tail=0。</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/618F53DD5E0AC45A98E4192354D0F63E.jpg" style="zoom:50%;" /></p>
+<p>入队1</p>
+<p>每次入队时，tail往后移动一个位置。</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/488D507C0EC5B5CDA656D769F25C9281.jpg" style="zoom:50%;" /></p>
+<p>入4</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20200517115455.png" style="zoom:50%;" /></p>
+<p>入5</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/8C560E41A5516F18BAE25E17928B9A3C.jpg" style="zoom:50%;" /></p>
+<p>入队5时，队列就满了，tail的位置又回到了原点。此时就不再允许入队了因为已经满了。</p>
+<p>因此每次入队时，tail往后移动一个位置，对应的代码为：</p>
+<p>tail = (tail + 1) % size。模size意味着超出size时回到原来的位置。开始循环。这就是取模的魅力。</p>
+<p>再来看出队：</p>
+<p>这里连续出队1，2，3。每次出队后，head就往后移动一个位置，指向新的第一个元素的位置，对应的代码为：</p>
+<p>head = (head + 1) % size。</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/6C548BF9E45EA310CDBF27701E5131E7.jpg" style="zoom:50%;" /></p>
+<p>再入队3：</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/667D39026317F4D61F674BB94052BA4F.jpg" style="zoom:50%;" /></p>
+<p>这样head和tail就不断的循环，充分利用了空间，并且每次操作时其他元素是不动的。</p>
+<p>上面的数组的内容为[4,5,3]。如果我们想用下标来直接取出一个元素该怎么操作呢。比如a[2] = 3。</p>
+<p>利用head就可以轻松计算出实际的下标：realIndex = (head + index) % size 。</p>
+<p>即realIndex = (3 + 2) % 5 = 0，原数组下标0即为要取的元素。</p>
+<p>利用循环队列结合取模操作，我们既做到了插入或删除一个元素时，不移动其它元素。又可以通过下标来取出元素。</p>
+<p>有兴趣的可以刷一下LeetCode的<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/design-circular-queue/">622. 设计循环队列</a>，加深理解。</p>
+<h2 id="循环双端队列"><a href="#循环双端队列" class="headerlink" title="循环双端队列"></a>循环双端队列</h2><p>上面的循环队列依然遵守队头出，队尾入的规则。有时候就不太灵活，于是就有循环双端队列这一变种，它可以在两端进行插入和删除操作，但不能在中间操作。</p>
+<p>可以刷一下<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/design-circular-deque/">641. 设计循环双端队列</a>，由于和循环队列差别不大，这里就不做介绍了。</p>
+<p>循环双端队列和NSMutableArray的底层数据结构就更接近了。</p>
+<p>在头部插入：head = (head-1+size)%size</p>
+<p>在头部移除：head = (head+1)%size</p>
+<p>在尾部插入：tail = (tail+1)%size</p>
+<p>在尾部移除：tail = (tail-1+size)%size</p>
+<p>访问元素：realIndex = (head + index) % size 。</p>
+<h2 id="NSMutableArray底层数据结构"><a href="#NSMutableArray底层数据结构" class="headerlink" title="NSMutableArray底层数据结构"></a>NSMutableArray底层数据结构</h2><p>NSMutableArray借鉴了循环双端队列数据结构的思想，只不过NSMutableArray还允许在中间进行插入删除。</p>
+<p>NSMutableArray是一个类簇，实际的类型是__NSArrayM。</p>
+<p>__NSArrayM的实例布局：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">__NSArrayM</span> : <span class="title">NSMutableArray</span></span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> <span class="type">long</span> _used;</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> <span class="type">long</span> _doHardRetain:<span class="number">1</span>;</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> <span class="type">long</span> _doWeakAccess:<span class="number">1</span>;</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> <span class="type">long</span> _size:<span class="number">62</span>;</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> <span class="type">long</span> _hasObjects:<span class="number">1</span>;</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> <span class="type">long</span> _hasStrongReferences:<span class="number">1</span>;</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> <span class="type">long</span> _offset:<span class="number">62</span>;</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> <span class="type">long</span> _mutations;</span><br><span class="line">    <span class="type">id</span> *_list;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>比较重要的几个属性：</p>
+<p>_used：当前已使用的内存空间个数，即当前数组中元素的个数。</p>
+<p>_size：数组的大小</p>
+<p>_offset：数组的第一个元素索引，始终指向数组的第一个元素。相当于上面的head</p>
+<p>_list：缓冲区指针，指向分配的那一段连续的内存空间，即元素存储的地方。相当于上面的Array。</p>
+<p>_offset + _used就相当于上面的tail。</p>
+<p>下标查找时realIndex = (_offset + index) % size 。</p>
+<p><strong>在两端操作，其他元素不需要移动</strong></p>
+<p>在头部进行插入和删除操作及在尾部进行插入和删除操作，同循环双端队列，其他元素是不需要移动的，这就提高了性能。</p>
+<p><strong>在中间操作</strong></p>
+<p>delete at middle或insert at middle</p>
+<p>原则：移动较少的一端的元素。</p>
+<p>在中间插入或删除时不可避免需要移动元素否则就无法通过下标定位元素了，这里采用移动较少的一端的元素来提高性能。</p>
+<p><strong>扩容</strong></p>
+<p>普通C数组在初始化时容量就已经确定了，所谓的插入和删除操作其实都是在这个确定的容量里进行，并且插入和删除操作并不会对这个确定的容量有什么影响，只有在插入时容量不足了，才需要扩容。</p>
+<p>容量不够时，NSMutableArray会扩大到原来的1.625倍，并不是2倍，这个都是有讲究的。扩大后即使元素全部移除也不会再缩减空间。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://ciechanow.ski/exposing-nsmutablearray/">Exposing NSMutableArray</a> 译文：<a target="_blank" rel="noopener" href="http://blog.joyingx.me/2015/05/03/NSMutableArray%20%E5%8E%9F%E7%90%86%E6%8F%AD%E9%9C%B2/">NSMutableArray原理揭露</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/Deft_MKJing/article/details/82732833">NSDictionary和NSMutableArray</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/9ba8a65464dd">数据结构 第7讲 循环队列</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.im/post/5d5fb74fe51d45620346b8d0">看完这篇你还不知道这些队列，我这些图白作了</a> 讲解了各种队列。</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/72007079">堆、栈和队列如何理解与应用？</a> 主要讲数据结构中的堆和栈。</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/66922957">怎样深入理解堆和栈</a> 主要讲操作系统中<strong>内存分配方式</strong>的堆和栈。</p>
+<p><a target="_blank" rel="noopener" href="https://juejin.im/entry/58330cbfa0bb9f005a0fed62">常见数据结构 (一)- 栈, 队列, 堆, 哈希表</a></p>
+<p><strong>iOS逆向</strong></p>
+<p>知识储备</p>
+<p><a target="_blank" rel="noopener" href="https://chinafishnews.github.io/2018/05/29/class-dump%E5%92%8CMachO%E6%96%87%E4%BB%B6/">class-dump和MachO文件</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/6b6691d52e8a">iOS逆向工具之class-dump(MacOS)介绍</a> 本文作者对iOS逆向有较深入研究。</p>
+<p>class-dump安装目录：<code>/usr/local/bin</code></p>
+<p><code>class-dump -H /System/Library/Frameworks/CoreFoundation.framework -o 目的文件夹</code></p>
+<p>Xcode11不能使用下面的CoreFoundation路径。（网上的教程都是下面的路径，但实验证明不行）</p>
+<p><code>/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/CoreFoundation.framework</code></p>
+<p>库的路径整了一天，看来是路径变了。</p>
+<p>别人整好的：关于iOS SDK的所有头文件，早有专人建立了一个在线网站去分析，点击跳转：<a target="_blank" rel="noopener" href="http://developer.limneos.net/">iOS Runtime Headers</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/w0lfschild/macOS_headers">macOS_headers</a> macOS上的Frameworks class-dump。</p>
+<p>另一款工具：<a target="_blank" rel="noopener" href="https://derekselander.github.io/dsdump/">dsdump</a>：An improved nm + Objective-C &amp; Swift class-dump</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>觉得文章有帮助可以打赏一下哦！</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.jpg" alt="jekyttt 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/NSMutableArray/" rel="tag"># NSMutableArray</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/05/OC%E7%B1%BB%E5%9E%8B%E8%87%AA%E7%9C%81%E5%87%BD%E6%95%B0/" rel="prev" title="OC类型自省函数">
+      <i class="fa fa-chevron-left"></i> OC类型自省函数
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/22/OC%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B9%8B%E8%87%AA%E5%8A%A8%E9%87%8A%E6%94%BE%E6%B1%A0%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" rel="next" title="OC内存管理之自动释放池实现原理">
+      OC内存管理之自动释放池实现原理 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%99%AE%E9%80%9AC%E6%95%B0%E7%BB%84"><span class="nav-text">普通C数组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BE%AA%E7%8E%AF%E9%98%9F%E5%88%97"><span class="nav-text">循环队列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BE%AA%E7%8E%AF%E5%8F%8C%E7%AB%AF%E9%98%9F%E5%88%97"><span class="nav-text">循环双端队列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NSMutableArray%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-text">NSMutableArray底层数据结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">jekyttt</p>
+  <div class="site-description" itemprop="description">涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">176</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">116</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xq-120" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xq-120" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://stackoverflow.com/yourname" title="StackOverflow → https:&#x2F;&#x2F;stackoverflow.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fa fa-fw fa-stack-overflow"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jekyttt</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v6.3.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.getAttribute('pjax') !== null) {
+      script.setAttribute('pjax', '');
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'dc6a52837746ef605a70',
+      clientSecret: '7a049bac8b7eef61e32ebcbfcc33ea9d670d3274',
+      repo        : 'commentForBlog',
+      owner       : 'xq-120',
+      admin       : ['xq-120'],
+      id          : '00d428d23316968d6db9104200c4e7cd',
+        language: 'en, zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"xq-120.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="IP及端口检测 检测购买的vps IP是否被墙  检测IP是否被墙:站长工具或者使用ping命令。延迟太大的IP（400+ms）建议还是换一个。 检测端口在国内是否开放:在线检测域名或者ip的端口是否开放 。搭建完后可以再检查下配置的端口是否在国内开放。其他检测网址：IP可用性检测工具 检测端口在国外是否开放:you get signal 。这个其实没什么必要。 搭建ss首先你需要一台服务器，以便">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VPN搭建">
+<meta property="og:url" content="https://xq-120.github.io/2019/10/03/VPN%E6%90%AD%E5%BB%BA/index.html">
+<meta property="og:site_name" content="芝士就是力量">
+<meta property="og:description" content="IP及端口检测 检测购买的vps IP是否被墙  检测IP是否被墙:站长工具或者使用ping命令。延迟太大的IP（400+ms）建议还是换一个。 检测端口在国内是否开放:在线检测域名或者ip的端口是否开放 。搭建完后可以再检查下配置的端口是否在国内开放。其他检测网址：IP可用性检测工具 检测端口在国外是否开放:you get signal 。这个其实没什么必要。 搭建ss首先你需要一台服务器，以便">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-10-03T06:08:28.000Z">
+<meta property="article:modified_time" content="2024-12-14T07:50:26.467Z">
+<meta property="article:author" content="jekyttt">
+<meta property="article:tag" content="VPN">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://xq-120.github.io/2019/10/03/VPN%E6%90%AD%E5%BB%BA/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>VPN搭建 | 芝士就是力量</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="芝士就是力量" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">芝士就是力量</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">像风一样自由</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/xq-120/xq-120.github.io" class="github-corner" title="XQ on GitHub" aria-label="XQ on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2019/10/03/VPN%E6%90%AD%E5%BB%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          VPN搭建
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-10-03 14:08:28" itemprop="dateCreated datePublished" datetime="2019-10-03T14:08:28+08:00">2019-10-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/" itemprop="url" rel="index"><span itemprop="name">科学上网</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="IP及端口检测"><a href="#IP及端口检测" class="headerlink" title="IP及端口检测"></a>IP及端口检测</h3><blockquote>
+<p>检测购买的vps IP是否被墙</p>
+</blockquote>
+<p>检测IP是否被墙:<a target="_blank" rel="noopener" href="http://ping.chinaz.com">站长工具</a>或者使用ping命令。延迟太大的IP（400+ms）建议还是换一个。</p>
+<p>检测端口在国内是否开放:<a target="_blank" rel="noopener" href="http://coolaf.com/tool/port">在线检测域名或者ip的端口是否开放</a> 。搭建完后可以再检查下配置的端口是否在国内开放。其他检测网址：<a target="_blank" rel="noopener" href="https://www.toolsdaquan.com/ipcheck/">IP可用性检测工具</a></p>
+<p>检测端口在国外是否开放:<a target="_blank" rel="noopener" href="https://www.yougetsignal.com/tools/open-ports/">you get signal</a> 。这个其实没什么必要。</p>
+<h3 id="搭建ss"><a href="#搭建ss" class="headerlink" title="搭建ss"></a>搭建ss</h3><p>首先你需要一台服务器，以便在服务器上搭建ss。可以在vultr上购买一个vps，也可以在其他供应商购买。下面是基于vultr的vps搭建ss，用于Mac端fq.</p>
+<p>在正式配置vps之前,务必先确保vps的IP及端口22没有被墙.否则下面的操作白搭.因为首先你得在墙内能够访问你的vps.</p>
+<p>目前有两种方式搭建ss，一种是基于C的shadowsocks-libev（以下简称c-ss），一种是基于Python的Shadowsocks-Python（以下简称p-ss）。</p>
+<h3 id="基于C的shadowsocks-libev：（推荐）"><a href="#基于C的shadowsocks-libev：（推荐）" class="headerlink" title="基于C的shadowsocks-libev：（推荐）"></a>基于C的shadowsocks-libev：（推荐）</h3><p>基于Python的shadowsocks-server,目前已经不再维护，因此很容易就被q。这个是基于C的。</p>
+<p>注意：以下安装是在centos7上的，不是这个系统或版本的不建议尝试，肯定会有不兼容的地方。另外安装的库的版本最好也别随意升级，否则也会出各种兼容问题，很浪费时间。当然如果你是高手爱折腾可以试试装在centos9上或者升级安装库版本啥的。</p>
+<p>主要参考：</p>
+<p><a target="_blank" rel="noopener" href="http://fhaoer.com/20190617-shadowsocks-libev/">安装并配置shadowsocks-libev（yum源方式）</a>  没了</p>
+<p><a target="_blank" rel="noopener" href="https://www.shopee6.com/web/web-tutorial/centos7-bbr.html">CentOS7升级新版内核开启BBR加速最新图文教程</a>  没了</p>
+<p><a target="_blank" rel="noopener" href="https://www.zhoulujun.cn/html/tools/NetTools/throughGFW/8459.html">搞懂SSR(3)：Centos 7安装配置shadowsocks-libev记录—非一键脚本</a></p>
+<p><a target="_blank" rel="noopener" href="https://tie.pub/2019/11/how-to-deploy-google-bbr-on-centos-7/">怎样在 CentOS 7 上部署 Google BBR</a></p>
+<p>步骤：</p>
+<ol>
+<li>安装常用工具</li>
+<li>安装编译工具gcc</li>
+<li>安装加密库libsodium</li>
+<li>安装tls库mbedtls</li>
+<li>安装混淆插件 simple-obfs</li>
+<li>安装ss (采用的是编译源码的安装方式，和其他地方的安装方式不一样)</li>
+<li>创建账号配置文件</li>
+<li>开放防火墙端口</li>
+<li>开启服务</li>
+<li>加速优化bbr</li>
+</ol>
+<p>ps:有这么多步骤是因为采用的是源码编译安装的方式。</p>
+<p>具体如下：</p>
+<p>1.安装常用工具</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum <span class="keyword">install</span> git wget vim -y</span><br></pre></td></tr></table></figure>
+<p>这里安装了git，wget，vim。</p>
+<p>2.安装编译工具gcc</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install epel-release gcc gettext <span class="built_in">auto</span>conf libtool <span class="built_in">auto</span>make make asciidoc xmlto c-ares-devel libev-devel pcre-devel -y</span><br></pre></td></tr></table></figure>
+<p>ps:上面是一行命令。安装了很多个软件包。</p>
+<p>3.安装加密库libsodium</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> LIBSODIUM_VER=1.0.17</span><br><span class="line">wget https://download.libsodium.org/libsodium/releases/libsodium-<span class="variable">$LIBSODIUM_VER</span>.tar.gz</span><br><span class="line">tar xvf libsodium-<span class="variable">$LIBSODIUM_VER</span>.tar.gz</span><br><span class="line"><span class="built_in">pushd</span> libsodium-<span class="variable">$LIBSODIUM_VER</span></span><br><span class="line">./configure --prefix=/usr &amp;&amp; make</span><br><span class="line">sudo make install</span><br><span class="line"><span class="built_in">popd</span></span><br><span class="line">sudo ldconfig</span><br></pre></td></tr></table></figure>
+<p>4.安装mbedtls</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">wget</span> https://github.com/Mbed-TLS/mbedtls/archive/refs/tags/mbedtls-<span class="number">2</span>.<span class="number">6</span>.<span class="number">0</span>.tar.gz</span><br><span class="line"><span class="attribute">tar</span> xvf mbedtls-<span class="number">2</span>.<span class="number">6</span>.<span class="number">0</span>.tar.gz</span><br><span class="line"><span class="attribute">pushd</span> mbedtls-mbedtls-<span class="number">2</span>.<span class="number">6</span>.<span class="number">0</span></span><br><span class="line"><span class="attribute">make</span> SHARED=<span class="number">1</span> CFLAGS=-fPIC</span><br><span class="line"><span class="attribute">sudo</span> make DESTDIR=/usr install</span><br><span class="line"><span class="attribute">popd</span></span><br><span class="line"><span class="attribute">sudo</span> ldconfig</span><br></pre></td></tr></table></figure>
+<p>ps：mbedtls的版本不要下最新的，否则编译的时候会报错：“错误：只允许在 C99 模式下使用‘for’循环初始化声明”。有时候解决了这里但后面安装ss的时候sudo make install一直报错。除非你有填坑的能力，否则建议还是使用2.6.0版本的。</p>
+<p>ps：填坑网上教程。以下是网上过时的命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> MBEDTLS_VER=2.6.0</span><br><span class="line">wget https://tls.mbed.org/download/mbedtls-<span class="variable">$MBEDTLS_VER</span>-gpl.tgz</span><br><span class="line">tar xvf mbedtls-<span class="variable">$MBEDTLS_VER</span>-gpl.tgz</span><br><span class="line"><span class="built_in">pushd</span> mbedtls-<span class="variable">$MBEDTLS_VER</span></span><br><span class="line">make SHARED=1 CFLAGS=-fPIC</span><br><span class="line">sudo make DESTDIR=/usr install</span><br><span class="line"><span class="built_in">popd</span></span><br><span class="line">sudo ldconfig</span><br></pre></td></tr></table></figure>
+<p>这一步<code>wget https://tls.mbed.org/download/mbedtls-$MBEDTLS_VER-gpl.tgz</code></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">root@Tokyo6Dollor ~</span>]<span class="meta"># file mbedtls-2.6.0-gpl.tgz</span></span><br><span class="line">mbedtls<span class="number">-2.6</span><span class="number">.0</span>-gpl.tgz: HTML document, ASCII text, <span class="keyword">with</span> very <span class="built_in">long</span> lines</span><br></pre></td></tr></table></figure>
+<p>下载地址无效了，导致下载的其实是一个网页。后面解压缩自然失败。找了一圈资料，看到一个备用下载地址：</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">https</span>://down.<span class="number">24</span>kplus.com/linux/mbedtls/mbedtls-<span class="number">2</span>.<span class="number">16</span>.<span class="number">3</span>-gpl.tgz</span><br></pre></td></tr></table></figure>
+<p>结果发现现在备用地址也不行了，建议直接去github上下载，<a target="_blank" rel="noopener" href="https://github.com/Mbed-TLS/mbedtls">Mbed-TLS</a> .</p>
+<p>5.安装混淆插件</p>
+<p>首先安装编译必须的软件</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum <span class="keyword">install</span> zlib-devel openssl-devel -y</span><br></pre></td></tr></table></figure>
+<p>安装 simple-obfs</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">git clone https:<span class="string">//github.com/shadowsocks/simple-obfs.git</span></span><br><span class="line"><span class="keyword">cd</span> simple-obfs</span><br><span class="line">git submodule update <span class="params">--init</span> <span class="params">--recursive</span></span><br><span class="line"><span class="string">./autogen.sh</span></span><br><span class="line"><span class="string">./configure</span> &amp;&amp; make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+<p>6.安装ss</p>
+<p>下载源码:</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone https:<span class="string">//github.com/shadowsocks/shadowsocks-libev.git</span></span><br><span class="line"><span class="keyword">cd</span> shadowsocks-libev</span><br><span class="line">git submodule update <span class="params">--init</span> <span class="params">--recursive</span></span><br></pre></td></tr></table></figure>
+<p>编译源码并安装:</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cd</span> shadowsocks-libev <span class="string">//</span>确保是在 ss 目录中执行编译。已经在了就不用管</span><br><span class="line"><span class="string">./autogen.sh</span> &amp;&amp; <span class="string">./configure</span> &amp;&amp; make</span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
+<p>ps：sudo make install 提示。</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@centos7<span class="number">-5</span> <span class="keyword">shadowsocks-libev]# </span>sudo make <span class="keyword">install</span></span><br><span class="line"><span class="keyword"></span><span class="symbol">make:</span> *** 没有规则可以创建目标“<span class="keyword">install”。 </span>停止。</span><br></pre></td></tr></table></figure>
+<p>mbedtls版本不对，用了最新版的v3.2.1，换回2.6.0就没问题了，这里搞了一天。</p>
+<p>7.创建账号配置文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p /etc/shadowsocks-libev</span><br><span class="line">vim /etc/shadowsocks-libev/config.json</span><br></pre></td></tr></table></figure>
+<p>输入：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;server&quot;</span><span class="punctuation">:</span><span class="string">&quot;0.0.0.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;port_password&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span></span><br><span class="line">     <span class="attr">&quot;port1&quot;</span><span class="punctuation">:</span><span class="string">&quot;pass1&quot;</span><span class="punctuation">,</span></span><br><span class="line">     <span class="attr">&quot;port2&quot;</span><span class="punctuation">:</span><span class="string">&quot;pass2&quot;</span></span><br><span class="line">     <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;timeout&quot;</span><span class="punctuation">:</span><span class="number">300</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;method&quot;</span><span class="punctuation">:</span><span class="string">&quot;chacha20-ietf-poly1305&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;mode&quot;</span><span class="punctuation">:</span><span class="string">&quot;tcp_and_udp&quot;</span><span class="punctuation">,</span></span><br><span class="line">   <span class="attr">&quot;fast_open&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">   <span class="attr">&quot;workers&quot;</span><span class="punctuation">:</span> <span class="number">5</span><span class="punctuation">,</span></span><br><span class="line">   <span class="attr">&quot;plugin&quot;</span><span class="punctuation">:</span><span class="string">&quot;obfs-server&quot;</span><span class="punctuation">,</span></span><br><span class="line">   <span class="attr">&quot;plugin_opts&quot;</span><span class="punctuation">:</span><span class="string">&quot;obfs=http;fast-open&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>该替换的替换。这里是多端口的配置。</p>
+<p>注意：上面包含了 simple-obfs 混淆插件，如果没有安装该插件，请去掉最后两行。</p>
+<p>8.开放防火墙端口</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --permanent <span class="attribute">--zone</span>=public <span class="attribute">--add-port</span>=xxx/udp </span><br><span class="line">firewall-cmd --permanent <span class="attribute">--zone</span>=public <span class="attribute">--add-port</span>=xxx/tcp </span><br><span class="line">firewall-cmd --reload</span><br></pre></td></tr></table></figure>
+<p>xxx为端口号，请替换为你的实际端口。</p>
+<p>9.开启服务</p>
+<p>通过使用创建好的配置文件来启动</p>
+<p>单个端口号配置：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">nohup</span> ss-server -c /etc/shadowsocks-libev/config.json &amp;</span><br></pre></td></tr></table></figure>
+<p>多个端口号配置：（上面配的是多端口，这里使用下面的命令）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">nohup</span> ss-manager -c /etc/shadowsocks-libev/config.json &amp;</span><br></pre></td></tr></table></figure>
+<p>注意：这里并没有设置开机自启动，因此如果重启了服务器那么必须要重新启动ss服务。</p>
+<h4 id="c-ss多端口配置"><a href="#c-ss多端口配置" class="headerlink" title="c-ss多端口配置"></a>c-ss多端口配置</h4><p>上面看到采用源码的安装方式可以支持多端口的配置文件。</p>
+<p>如果使用的是别人封装的脚本安装可能不支持多端口，这时可以创建多个配置文件达到多端口的效果。这里网上也有很多教程。</p>
+<h4 id="坑"><a href="#坑" class="headerlink" title="坑"></a>坑</h4><p>坑1：shadowsocks-libev的配置文件的server被我写成了127.0.0.1结果翻不了墙，外部检测端口的结果是关闭的。</p>
+<p>正确如下，设置为0.0.0.0即可：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;server&quot;</span><span class="punctuation">:</span><span class="string">&quot;0.0.0.0&quot;</span><span class="punctuation">,</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>坑2：有时候搭建完成了，ip端口也都没被q，但是就是打不开Google，或者非常慢。不太清楚什么情况。</p>
+<p>感觉可能是shadowsocks客户端有问题，重启电脑后，可以打开Google了。还遇到一个奇葩问题，配置完后可以打开Google，但是开启bbr后就完全翻不了墙。所以现在暂时先不开起bbr了。用了一段时间后发现还是不行了，ip和端口也都没被封，不知道什么原因了。</p>
+<h3 id="防火墙"><a href="#防火墙" class="headerlink" title="防火墙"></a>防火墙</h3><p><strong>查看开启的端口:</strong>  </p>
+<p><code>firewall-cmd --list-ports</code></p>
+<p><strong>开启特定端口:</strong></p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --permanent <span class="attribute">--zone</span>=public <span class="attribute">--add-port</span>=4500/udp </span><br><span class="line">firewall-cmd --permanent <span class="attribute">--zone</span>=public <span class="attribute">--add-port</span>=4500/tcp </span><br></pre></td></tr></table></figure>
+<p>对应的<strong>删除特定端口:</strong></p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --permanent <span class="attribute">--zone</span>=public <span class="attribute">--remove-port</span>=4500/udp </span><br><span class="line">firewall-cmd --permanent <span class="attribute">--zone</span>=public <span class="attribute">--remove-port</span>=4500/tcp </span><br></pre></td></tr></table></figure>
+<p><strong>使端口生效</strong>： <code>firewall-cmd --reload</code> </p>
+<p><strong>查看防火墙状态</strong>：<code>firewall-cmd --state</code></p>
+<p><strong>启动防火墙</strong>: <code>systemctl start firewalld.service</code>  </p>
+<p><strong>重启防火墙:</strong>  <code>systemctl restart firewalld.service</code></p>
+<p>如果提示:</p>
+<p><code>Failed to start firewalld.service: Unit is masked.</code></p>
+<p>这是由于firewalld服务被锁定了.</p>
+<p>取消firewalld的锁定: <code>systemctl unmask firewalld</code>.</p>
+<p>重新锁定firewalld时执行命令: <code>systemctl mask firewalld</code></p>
+<p><strong>参考</strong>:</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/zll_0405/article/details/81208606">CentOS7开启防火墙及特定端口</a></p>
+<h3 id="BBR加速"><a href="#BBR加速" class="headerlink" title="BBR加速"></a>BBR加速</h3><p><a target="_blank" rel="noopener" href="https://blog.naibabiji.com/skill/centos7-an-zhuang-bbr.html">CentOS7安装新版内核和开启BBR加速教程_BBR2一键包</a> </p>
+<p>步骤：</p>
+<p>1.升级服务器内核版本</p>
+<p>2.安装BBR</p>
+<p>具体如下：</p>
+<p>1.升级服务器内核版本</p>
+<p>1.1首先是查看当前服务器的内核版本。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">uname</span> -sr</span><br></pre></td></tr></table></figure>
+<p>BBR内核要求是4.9+，通常来说你通过上面这个命令出来的内核版本是在3.几。比如：</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Linux</span> <span class="number">3</span>.<span class="number">10</span>.<span class="number">0</span>-<span class="number">1160</span>.<span class="number">71</span>.<span class="number">1</span>.el7.x86_64</span><br></pre></td></tr></table></figure>
+<p>1.2 升级</p>
+<p>直接参考上面的链接，很详细。</p>
+<p>2.安装BBR</p>
+<p>要在新安装好的CentOS7上面启用新内核，只需要复制下面的代码执行就可以了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;net.core.default_qdisc=fq&#x27;</span> | sudo <span class="built_in">tee</span> -a /etc/sysctl.conf</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;net.ipv4.tcp_congestion_control=bbr&#x27;</span> | sudo <span class="built_in">tee</span> -a /etc/sysctl.conf</span><br><span class="line">sudo sysctl -p</span><br></pre></td></tr></table></figure>
+<p>然后输入下面的命令查看是否开启BBR成功</p>
+<figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo sysctl <span class="built_in">net</span>.ipv4.tcp_available_congestion_control</span><br></pre></td></tr></table></figure>
+<p>成功的话应该是下面这种输出</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">net.ipv4.tcp_available_congestion_control</span> = re<span class="literal">no</span> cubic bbr</span><br></pre></td></tr></table></figure>
+<h3 id="iPhone翻墙"><a href="#iPhone翻墙" class="headerlink" title="iPhone翻墙"></a>iPhone翻墙</h3><p>手机翻墙有两种方式：</p>
+<ol>
+<li><p>通过在设置app里添加配置文件。这个比较复杂，这里就不介绍了。</p>
+</li>
+<li><p>安装专门的app，在app里填之前的配置信息，这个最简单。（推荐使用）</p>
+</li>
+</ol>
+<p>下面是第一种方式：</p>
+<p>搭建IPsec/L2TP VPN</p>
+<p><a target="_blank" rel="noopener" href="https://wistbean.github.io/ipsec,l2tp_vpn.html#%E4%BD%BF%E7%94%A8-IPsec-L2TP-%E8%84%9A%E6%9C%AC%E6%90%AD%E5%BB%BA">CentOS快速搭建一个属于自己的IPsec/L2TP VPN</a></p>
+<p>第二种方式：</p>
+<p>下载APP：potatso lite，需要登录美区账号下载。下载后填写配置信息即可。</p>
+<h3 id="基于Python的Shadowsocks-Python（不推荐，容易被封端口）"><a href="#基于Python的Shadowsocks-Python（不推荐，容易被封端口）" class="headerlink" title="基于Python的Shadowsocks-Python（不推荐，容易被封端口）"></a>基于Python的Shadowsocks-Python（不推荐，容易被封端口）</h3><p><a target="_blank" rel="noopener" href="https://wistbean.github.io/vultr-vps-bbr-ss.html">使用vultr(vps)搭建ss并开启BBR快速上网教程 超简单10分钟搞定</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.ailophy.com/2018/07/14/vpn/">从零开始于Vultr上搭建属于自己的VPN服务器【CentOS7+Shadowsocks+serverspeeder加速+防坑指北】【适合新手】</a></p>
+<h4 id="p-ss多端口配置"><a href="#p-ss多端口配置" class="headerlink" title="p-ss多端口配置"></a>p-ss多端口配置</h4><p>默认情况下只会有一个端口。</p>
+<p>多端口格式：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;server&quot;</span><span class="punctuation">:</span><span class="string">&quot;0.0.0.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;local_address&quot;</span><span class="punctuation">:</span><span class="string">&quot;127.0.0.1&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;local_port&quot;</span><span class="punctuation">:</span><span class="number">1080</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;port_password&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;xxx端口&quot;</span><span class="punctuation">:</span><span class="string">&quot;xxx密码&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;xxx端口&quot;</span><span class="punctuation">:</span><span class="string">&quot;xxx密码&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;xxx端口&quot;</span><span class="punctuation">:</span><span class="string">&quot;xxx密码&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;timeout&quot;</span><span class="punctuation">:</span><span class="number">300</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;method&quot;</span><span class="punctuation">:</span><span class="string">&quot;aes-256-cfb&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;fast_open&quot;</span><span class="punctuation">:</span><span class="literal"><span class="keyword">false</span></span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>最后要记得重启下shadowsocks：<code>service shadowsocks restart</code> </p>
+<p>相关命令：<br>启动：service shadowsocks start<br>停止：service shadowsocks stop<br>重启：service shadowsocks restart<br>状态：service shadowsocks status</p>
+<p>如果你的vps开启了防火墙,则还需要开启特定端口.否则可能连接不上.开启防火墙端口移步防火墙部分。</p>
+<h4 id="p-ss的代理端口被墙解决"><a href="#p-ss的代理端口被墙解决" class="headerlink" title="p-ss的代理端口被墙解决"></a>p-ss的代理端口被墙解决</h4><p>解决办法:登录<code>ssh root@&lt;ip&gt;</code>,更换SS服务端口.</p>
+<p>编辑ShadowSocks配置文件:<code>vi /etc/shadowsocks.json</code> 。修改端口，保存。</p>
+<p>重启服务：<code>ssserver -c /etc/shadowsocks.json -d restart</code></p>
+<p>别忘了如果你的vps开启了防火墙,则还需要在防火墙中开启上述端口.</p>
+<p>参考:</p>
+<p><a target="_blank" rel="noopener" href="https://www.flyzy2005.com/fan-qiang/tcp-blocked/">服务器IP能Ping通，SSH能连接，代理却连不上的说明与解决</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.sinocalife.com/change-ports-to-prevent-ss-from-banning">ShadowSocks：更改SS端口号防止被墙</a></p>
+<h3 id="坑-1"><a href="#坑-1" class="headerlink" title="坑"></a>坑</h3><p>坑1： <code>ssh root@&lt;ip&gt;</code> 登录不上  </p>
+<p>登录不上的原因有很多。可以分别尝试下面的解决办法：</p>
+<p>1.使用vps服务商自身提供的网页版终端登录一次，激活22端口。</p>
+<p>2.可能是重新购买的vps和上一次的IP相同导致.需要将本地 <code>/.ssh/known_hosts</code> 之前的那一条记录删除掉.重启终端.</p>
+<p>坑2：按照网上的教程步骤总是失败提示<code>[Error] libsodium-1.0.17 install failed</code>  </p>
+<p>发现是网上的脚本不支持centOS8,而购买vps时默认是centOS8,所以在购买时需要手动选择为centOS7.最好的办法是研究一下脚本内容,自己整.</p>
+<p>因此，在按照教程步骤前，一定要看清楚，操作系统的版本是不是一致，否则可能会导致各种适配问题。</p>
+<h3 id="疑问"><a href="#疑问" class="headerlink" title="疑问"></a>疑问</h3><h4 id="1-如何查看端口在被哪个程序or进程使用？"><a href="#1-如何查看端口在被哪个程序or进程使用？" class="headerlink" title="1. 如何查看端口在被哪个程序or进程使用？"></a>1. 如何查看端口在被哪个程序or进程使用？</h4><p>检查端口被哪个进程占用：<code>netstat -lnp|grep 80   #80端口，自行更换；如：8888</code> ，打印如下：</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">tcp</span>        <span class="number">0</span>      <span class="number">0</span> <span class="number">0.0.0.0:18388</span>           <span class="number">0.0.0.0</span>:*               LISTEN      <span class="number">982</span>/python</span><br><span class="line"><span class="attribute">tcp</span>        <span class="number">0</span>      <span class="number">0</span> <span class="number">0.0.0.0:8388</span>            <span class="number">0.0.0.0</span>:*               LISTEN      <span class="number">911</span>/ss-server</span><br><span class="line"><span class="attribute">udp</span>        <span class="number">0</span>      <span class="number">0</span> <span class="number">0.0.0.0:18388</span>           <span class="number">0.0.0.0</span>:*                           <span class="number">982</span>/python</span><br><span class="line"><span class="attribute">udp</span>        <span class="number">0</span>      <span class="number">0</span> <span class="number">0.0.0.0:8388</span>            <span class="number">0.0.0.0</span>:*                           <span class="number">911</span>/ss-server</span><br></pre></td></tr></table></figure>
+<p>安装：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum <span class="keyword">install</span> net-tools</span><br></pre></td></tr></table></figure>
+<h4 id="2-firewall的—add-port命令是不是真的开启了一个端口？"><a href="#2-firewall的—add-port命令是不是真的开启了一个端口？" class="headerlink" title="2. firewall的—add-port命令是不是真的开启了一个端口？"></a>2. firewall的—add-port命令是不是真的开启了一个端口？</h4><h4 id="3-服务器开启一个端口但不绑定任何应用外部能访问到吗？"><a href="#3-服务器开启一个端口但不绑定任何应用外部能访问到吗？" class="headerlink" title="3. 服务器开启一个端口但不绑定任何应用外部能访问到吗？"></a>3. 服务器开启一个端口但不绑定任何应用外部能访问到吗？</h4><p>使用 <code>firewall-cmd --zone=public --add-port=4500/udp --permanent</code> 添加了一个端口，但外部检测却是关闭什么原因？</p>
+<p>一个端口开启后但不绑定任何应用程序，那么对于外部来说这个端口依然是关闭的，因为检测肯定是依据某个协议来检测的，如果端口没有绑定任何应用，那自然就不会有任何回应，因此对于外部来说这个端口等同于关闭，虽然内部查看该端口其实是开启的。—个人猜测，可能是完全错误的。</p>
+<h4 id="4-0-0-0-0-和-127-0-0-1的区别"><a href="#4-0-0-0-0-和-127-0-0-1的区别" class="headerlink" title="4. 0.0.0.0 和 127.0.0.1的区别"></a>4. 0.0.0.0 和 127.0.0.1的区别</h4><p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/ad7cd1d5be45">彻底明白ip地址，区分localhost、127.0.0.1和0.0.0.0</a></p>
+<h4 id="5-shadowsocks是如何被检测和封锁的"><a href="#5-shadowsocks是如何被检测和封锁的" class="headerlink" title="5. shadowsocks是如何被检测和封锁的"></a>5. shadowsocks是如何被检测和封锁的</h4><p><a target="_blank" rel="noopener" href="https://pincong.rocks/article/12173">【还Shadowsocks一个清白】Shadowsocks是如何被检测和封锁的，兼谈ss配置策略</a></p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>觉得文章有帮助可以打赏一下哦！</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.jpg" alt="jekyttt 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/VPN/" rel="tag"># VPN</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/10/01/OC%20nullability%E7%89%B9%E6%80%A7/" rel="prev" title="OC nullability特性">
+      <i class="fa fa-chevron-left"></i> OC nullability特性
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/10/13/%E4%BB%8E7%E6%97%A5%E5%B9%B4%E5%8C%96%E6%94%B6%E7%9B%8A%E7%8E%87%E5%88%B0%E4%B8%87%E4%BB%BD%E6%94%B6%E7%9B%8A/" rel="next" title="从7日年化收益率到万份收益">
+      从7日年化收益率到万份收益 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#IP%E5%8F%8A%E7%AB%AF%E5%8F%A3%E6%A3%80%E6%B5%8B"><span class="nav-text">IP及端口检测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%90%AD%E5%BB%BAss"><span class="nav-text">搭建ss</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8EC%E7%9A%84shadowsocks-libev%EF%BC%9A%EF%BC%88%E6%8E%A8%E8%8D%90%EF%BC%89"><span class="nav-text">基于C的shadowsocks-libev：（推荐）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#c-ss%E5%A4%9A%E7%AB%AF%E5%8F%A3%E9%85%8D%E7%BD%AE"><span class="nav-text">c-ss多端口配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9D%91"><span class="nav-text">坑</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%98%B2%E7%81%AB%E5%A2%99"><span class="nav-text">防火墙</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BBR%E5%8A%A0%E9%80%9F"><span class="nav-text">BBR加速</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#iPhone%E7%BF%BB%E5%A2%99"><span class="nav-text">iPhone翻墙</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8EPython%E7%9A%84Shadowsocks-Python%EF%BC%88%E4%B8%8D%E6%8E%A8%E8%8D%90%EF%BC%8C%E5%AE%B9%E6%98%93%E8%A2%AB%E5%B0%81%E7%AB%AF%E5%8F%A3%EF%BC%89"><span class="nav-text">基于Python的Shadowsocks-Python（不推荐，容易被封端口）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#p-ss%E5%A4%9A%E7%AB%AF%E5%8F%A3%E9%85%8D%E7%BD%AE"><span class="nav-text">p-ss多端口配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#p-ss%E7%9A%84%E4%BB%A3%E7%90%86%E7%AB%AF%E5%8F%A3%E8%A2%AB%E5%A2%99%E8%A7%A3%E5%86%B3"><span class="nav-text">p-ss的代理端口被墙解决</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9D%91-1"><span class="nav-text">坑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%96%91%E9%97%AE"><span class="nav-text">疑问</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E5%A6%82%E4%BD%95%E6%9F%A5%E7%9C%8B%E7%AB%AF%E5%8F%A3%E5%9C%A8%E8%A2%AB%E5%93%AA%E4%B8%AA%E7%A8%8B%E5%BA%8For%E8%BF%9B%E7%A8%8B%E4%BD%BF%E7%94%A8%EF%BC%9F"><span class="nav-text">1. 如何查看端口在被哪个程序or进程使用？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-firewall%E7%9A%84%E2%80%94add-port%E5%91%BD%E4%BB%A4%E6%98%AF%E4%B8%8D%E6%98%AF%E7%9C%9F%E7%9A%84%E5%BC%80%E5%90%AF%E4%BA%86%E4%B8%80%E4%B8%AA%E7%AB%AF%E5%8F%A3%EF%BC%9F"><span class="nav-text">2. firewall的—add-port命令是不是真的开启了一个端口？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BC%80%E5%90%AF%E4%B8%80%E4%B8%AA%E7%AB%AF%E5%8F%A3%E4%BD%86%E4%B8%8D%E7%BB%91%E5%AE%9A%E4%BB%BB%E4%BD%95%E5%BA%94%E7%94%A8%E5%A4%96%E9%83%A8%E8%83%BD%E8%AE%BF%E9%97%AE%E5%88%B0%E5%90%97%EF%BC%9F"><span class="nav-text">3. 服务器开启一个端口但不绑定任何应用外部能访问到吗？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-0-0-0-0-%E5%92%8C-127-0-0-1%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-text">4. 0.0.0.0 和 127.0.0.1的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-shadowsocks%E6%98%AF%E5%A6%82%E4%BD%95%E8%A2%AB%E6%A3%80%E6%B5%8B%E5%92%8C%E5%B0%81%E9%94%81%E7%9A%84"><span class="nav-text">5. shadowsocks是如何被检测和封锁的</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">jekyttt</p>
+  <div class="site-description" itemprop="description">涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">176</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">116</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xq-120" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xq-120" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://stackoverflow.com/yourname" title="StackOverflow → https:&#x2F;&#x2F;stackoverflow.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fa fa-fw fa-stack-overflow"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jekyttt</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v6.3.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.getAttribute('pjax') !== null) {
+      script.setAttribute('pjax', '');
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+
+    </div>
+</body>
+</html>

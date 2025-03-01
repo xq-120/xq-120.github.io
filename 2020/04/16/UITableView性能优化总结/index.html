@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"xq-120.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="计算机最宝贵的资源就是CPU和内存，因此所谓的优化其实就是在”空间”和”时间”之间权衡。以空间换取更短的时间响应，表现在可能会增加额外的内存开销如：cell的重用、高度的缓存甚至布局的缓存等。 优化1.cell的重用注意重用可能导致的数据错乱问题。 参考：UITableViewCell重用导致的图片错乱问题 2.提前计算好cell的高度并且缓存起来UITableView代理方法的执行顺序：系统会先">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UITableView性能优化总结">
+<meta property="og:url" content="https://xq-120.github.io/2020/04/16/UITableView%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="芝士就是力量">
+<meta property="og:description" content="计算机最宝贵的资源就是CPU和内存，因此所谓的优化其实就是在”空间”和”时间”之间权衡。以空间换取更短的时间响应，表现在可能会增加额外的内存开销如：cell的重用、高度的缓存甚至布局的缓存等。 优化1.cell的重用注意重用可能导致的数据错乱问题。 参考：UITableViewCell重用导致的图片错乱问题 2.提前计算好cell的高度并且缓存起来UITableView代理方法的执行顺序：系统会先">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-04-16T15:30:52.000Z">
+<meta property="article:modified_time" content="2024-12-14T07:50:26.468Z">
+<meta property="article:author" content="jekyttt">
+<meta property="article:tag" content="UITableView">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://xq-120.github.io/2020/04/16/UITableView%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E6%80%BB%E7%BB%93/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>UITableView性能优化总结 | 芝士就是力量</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="芝士就是力量" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">芝士就是力量</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">像风一样自由</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/xq-120/xq-120.github.io" class="github-corner" title="XQ on GitHub" aria-label="XQ on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/04/16/UITableView%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E6%80%BB%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          UITableView性能优化总结
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-16 23:30:52" itemprop="dateCreated datePublished" datetime="2020-04-16T23:30:52+08:00">2020-04-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/UIKit/" itemprop="url" rel="index"><span itemprop="name">UIKit</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>计算机最宝贵的资源就是CPU和内存，因此所谓的优化其实就是在”空间”和”时间”之间权衡。以空间换取更短的时间响应，表现在可能会增加额外的内存开销如：cell的重用、高度的缓存甚至布局的缓存等。</p>
+<h3 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h3><h4 id="1-cell的重用"><a href="#1-cell的重用" class="headerlink" title="1.cell的重用"></a>1.cell的重用</h4><p>注意重用可能导致的数据错乱问题。</p>
+<p>参考：<a href="https://xq-120.github.io/2016/04/24/UITableViewCell%E9%87%8D%E7%94%A8%E5%AF%BC%E8%87%B4%E7%9A%84%E5%9B%BE%E7%89%87%E9%94%99%E4%B9%B1%E9%97%AE%E9%A2%98/">UITableViewCell重用导致的图片错乱问题</a></p>
+<h4 id="2-提前计算好cell的高度并且缓存起来"><a href="#2-提前计算好cell的高度并且缓存起来" class="headerlink" title="2.提前计算好cell的高度并且缓存起来"></a>2.提前计算好cell的高度并且缓存起来</h4><p>UITableView代理方法的执行顺序：<br>系统会先调用numberOfRowsInSection来获取cell的行数,然后再多次(和numberOfRow正相关)调用heightForRow来确定contentSize及cell的位置,最后才会调用cellForRow显示当前屏幕的cell. </p>
+<p>由于heightForRow会频繁的调用,因此该方法里一定不要进行大量重复的计算.所以cell的高度需要进行缓存,然后在heightForRow方法中直接返回.可采用的策略:网络请求完成后就计算好每个cell的高度,并缓存到对应的model中.更有甚者会在此时连cell的子视图布局都计算好.</p>
+<p>cell的高度计算与缓存时效问题？</p>
+<h4 id="3-避免阻塞主线程"><a href="#3-避免阻塞主线程" class="headerlink" title="3.避免阻塞主线程"></a>3.避免阻塞主线程</h4><p>比如图片的下载，图片的处理等其他耗时操作应该放在子线程执行，如果可以应该缓存起来。</p>
+<h4 id="4-按需加载"><a href="#4-按需加载" class="headerlink" title="4.按需加载"></a>4.按需加载</h4><p>比如还在滚动时,不去加载显示图片.当滚动停止时才加载显示图片.这种方式在滚动时会看不到图片,因此需要结合实际需求使用.</p>
+<h4 id="5-不要动态的add或remove子控件"><a href="#5-不要动态的add或remove子控件" class="headerlink" title="5.不要动态的add或remove子控件"></a>5.不要动态的add或remove子控件</h4><p>子控件最好在初始化时就添加完成,可采用hidden来控制是否显示。复杂的cell可以采用<a target="_blank" rel="noopener" href="https://github.com/Instagram/IGListKit">IGListKit</a>，而不是各种remake约束。</p>
+<h4 id="6-尽可能重用创建时开销比较大的对象"><a href="#6-尽可能重用创建时开销比较大的对象" class="headerlink" title="6.尽可能重用创建时开销比较大的对象"></a>6.尽可能重用创建时开销比较大的对象</h4><p>比如NSDateFormatter和NSCalendar等对象.这些对象初始化非常的慢,我们可以把它们加入到类的属性当中,或者创建单例来使用.</p>
+<h4 id="7-注意避免离屏渲染"><a href="#7-注意避免离屏渲染" class="headerlink" title="7.注意避免离屏渲染"></a>7.注意避免离屏渲染</h4><p><strong>什么是离屏渲染</strong></p>
+<p>GPU渲染机制：</p>
+<p>CPU 计算好显示内容提交到 GPU，GPU 渲染完成后将渲染结果放入帧缓冲区，随后视频控制器会按照 VSync 信号逐行读取帧缓冲区的数据传递给显示器显示。</p>
+<p>GPU屏幕渲染有以下两种方式：</p>
+<p>On-Screen Rendering意为当前屏幕渲染，指的是GPU的渲染操作是在当前用于显示的屏幕缓冲区中进行。</p>
+<p>Off-Screen Rendering意为离屏渲染，指的是GPU在当前屏幕缓冲区以外新开辟一个缓冲区进行渲染操作。</p>
+<p><strong>为什么会出现离屏渲染</strong></p>
+<p>因为有些效果不能直接在当前屏幕渲染，所以需要有离屏渲染。貌似是废话。为什么圆角，阴影，遮罩等效果不能直接在当前屏幕渲染？</p>
+<p><strong>离屏渲染代价</strong></p>
+<p>相比于当前屏幕渲染，离屏渲染的代价是很高的，主要体现在两个方面：</p>
+<ul>
+<li>创建新缓冲区</li>
+</ul>
+<p>要想进行离屏渲染，首先要创建一个新的缓冲区。</p>
+<ul>
+<li>上下文切换</li>
+</ul>
+<p>离屏渲染的整个过程，需要多次切换上下文环境：先是从当前屏幕（On-Screen）切换到离屏（Off-Screen）；等到离屏渲染结束以后，将离屏缓冲区的渲染结果显示到屏幕上又需要将上下文环境从离屏切换到当前屏幕。而上下文环境的切换是要付出很大代价的。</p>
+<p><strong>引起离屏渲染的因素</strong></p>
+<ol>
+<li><p>使用了Core Graphics里的方法.(任何CG开头的类)</p>
+</li>
+<li><p>重写了- drawRect方法，即使是空实现。</p>
+</li>
+<li><p>设置CALayers的以下属性：</p>
+<p>光栅化</p>
+<p><code>@property BOOL shouldRasterize;</code> //shouldRasterize属性设置为YES.</p>
+<p>遮罩</p>
+<p><code>@property(nullable, strong) CALayer *mask;</code> //遮罩相关</p>
+<p>阴影(shadow)</p>
+<p><code>@property(nullable) CGColorRef shadowColor;</code>等</p>
+<p>抗锯齿</p>
+<p><code>@property CAEdgeAntialiasingMask edgeAntialiasingMask;</code> //边缘抗锯齿遮罩 </p>
+<p>组不透明（Group opacity）<br><code>@property BOOL allowsGroupOpacity;</code></p>
+</li>
+<li><p>cornerRadius和maskToBounds=YES结合使用实现圆角.<br>注：layer.cornerRadius，layer.borderWidth，layer.borderColor并不会发生Offscreen Render，因为这些不需要加入Mask。设置圆角只需要设置cornerRadius的值,但是由于cornerRadius只对背景颜色和layer的border起作用,而不会对layer里的内容起作用,所以一般才需要和masksToBounds配合使用.它们独立作用的时候不会引起离屏渲染。</p>
+</li>
+</ol>
+<p>为了避免离屏渲染，对于圆角效果，我们可以将图片裁剪为圆形再显示。</p>
+<p>参考：</p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/aa8dc1a61c91">为什么产生离屏渲染</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.im/post/5d732ea96fb9a06b2d77f76a">OpenGL 图片从文件渲染到屏幕的过程</a></p>
+<p><a target="_blank" rel="noopener" href="http://imgtec.eetrend.com/d6-imgtec/blog/2018-08/17019.html">GPU屏幕渲染——离屏渲染</a></p>
+<p><a href="https://xq-120.github.io/2020/04/07/iOS%E8%AE%BE%E7%BD%AE%E5%9C%86%E8%A7%92/">iOS设置圆角</a></p>
+<h4 id="8-注意避免图层混合"><a href="#8-注意避免图层混合" class="headerlink" title="8.注意避免图层混合"></a>8.注意避免图层混合</h4><p><strong>什么是图层混合</strong></p>
+<p>如果屏幕的一块区域上有多个图层（layer），每个图层都会有一定的透明度，那么最后这块区域的显示效果就是这些图层共同作用的结果，这种结果需要cpu对每个图层的颜色进行计算，需要消耗更多的cpu资源。如果我们把最上层的layer设定为不透明，那么cpu就不需要计算底层的layer的色值，这样就可以节约cpu的计算量，节约资源。</p>
+<p><strong>应对措施</strong></p>
+<ol>
+<li>确保控件的opaque属性设置为true，确保backgroundColor不透明.关于backgroundColor说明:The default value is nil, which results in a transparent background color.  常见的就是把UILabel的背景色设置为白色（颜色根据场景需要）。</li>
+<li>如无特殊需要，不要设置低于1的alpha值.  </li>
+<li>确保UIImage没有alpha通道.  </li>
+</ol>
+<p>参考：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/b8ee7a40e219">ios性能优化—label上汉字图层混合问题</a></p>
+<h4 id="9-异步绘制"><a href="#9-异步绘制" class="headerlink" title="9.异步绘制"></a>9.异步绘制</h4><p>适合纯代码的开发.使用AsyncDisplayKit等异步绘制框架。极限优化可以尝试一下。</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a target="_blank" rel="noopener" href="https://github.com/facebookarchive/AsyncDisplayKit">AsyncDisplayKit</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/ibireme/YYText">YYText</a></p>
+<p><a target="_blank" rel="noopener" href="https://medium.com/jike-engineering/asyncdisplaykit%E4%BB%8B%E7%BB%8D-%E4%B8%80-6b871d29e005">AsyncDisplayKit介绍（一）原理和思路</a></p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>觉得文章有帮助可以打赏一下哦！</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.jpg" alt="jekyttt 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/UITableView/" rel="tag"># UITableView</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/04/16/%E5%88%B6%E4%BD%9CCocoaPods%E5%85%AC%E5%BC%80%E5%BA%93/" rel="prev" title="制作CocoaPods公开库">
+      <i class="fa fa-chevron-left"></i> 制作CocoaPods公开库
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/01/%E5%9F%BA%E9%87%91%E5%B8%B8%E8%A7%81%E6%A6%82%E5%BF%B5/" rel="next" title="基金常见概念">
+      基金常见概念 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%98%E5%8C%96"><span class="nav-text">优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-cell%E7%9A%84%E9%87%8D%E7%94%A8"><span class="nav-text">1.cell的重用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E6%8F%90%E5%89%8D%E8%AE%A1%E7%AE%97%E5%A5%BDcell%E7%9A%84%E9%AB%98%E5%BA%A6%E5%B9%B6%E4%B8%94%E7%BC%93%E5%AD%98%E8%B5%B7%E6%9D%A5"><span class="nav-text">2.提前计算好cell的高度并且缓存起来</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E9%81%BF%E5%85%8D%E9%98%BB%E5%A1%9E%E4%B8%BB%E7%BA%BF%E7%A8%8B"><span class="nav-text">3.避免阻塞主线程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E6%8C%89%E9%9C%80%E5%8A%A0%E8%BD%BD"><span class="nav-text">4.按需加载</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-%E4%B8%8D%E8%A6%81%E5%8A%A8%E6%80%81%E7%9A%84add%E6%88%96remove%E5%AD%90%E6%8E%A7%E4%BB%B6"><span class="nav-text">5.不要动态的add或remove子控件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-%E5%B0%BD%E5%8F%AF%E8%83%BD%E9%87%8D%E7%94%A8%E5%88%9B%E5%BB%BA%E6%97%B6%E5%BC%80%E9%94%80%E6%AF%94%E8%BE%83%E5%A4%A7%E7%9A%84%E5%AF%B9%E8%B1%A1"><span class="nav-text">6.尽可能重用创建时开销比较大的对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-%E6%B3%A8%E6%84%8F%E9%81%BF%E5%85%8D%E7%A6%BB%E5%B1%8F%E6%B8%B2%E6%9F%93"><span class="nav-text">7.注意避免离屏渲染</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-%E6%B3%A8%E6%84%8F%E9%81%BF%E5%85%8D%E5%9B%BE%E5%B1%82%E6%B7%B7%E5%90%88"><span class="nav-text">8.注意避免图层混合</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-%E5%BC%82%E6%AD%A5%E7%BB%98%E5%88%B6"><span class="nav-text">9.异步绘制</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">jekyttt</p>
+  <div class="site-description" itemprop="description">涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">176</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">116</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xq-120" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xq-120" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://stackoverflow.com/yourname" title="StackOverflow → https:&#x2F;&#x2F;stackoverflow.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fa fa-fw fa-stack-overflow"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jekyttt</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v6.3.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.getAttribute('pjax') !== null) {
+      script.setAttribute('pjax', '');
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+
+    </div>
+</body>
+</html>

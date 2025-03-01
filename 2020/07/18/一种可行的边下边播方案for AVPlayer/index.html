@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"xq-120.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="前言什么是边下边播？ 个人理解边下边播指的是从服务器获取到的数据一边供给播放器播放一边缓存到本地，即使用一遍的流量完成播放和缓存。下次播放时有缓存的地方则播放缓存数据，没有缓存的地方则从服务器获取再播放。 0.边下边播方案目前的边下边播实现方案大致有两种：一种是使用本地代理服务器，一种是使用系统的AVAssetResourceLoaderDelegate。 使用本地代理服务器该方案是在播放器与视频">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一种可行的边下边播方案for AVPlayer">
+<meta property="og:url" content="https://xq-120.github.io/2020/07/18/%E4%B8%80%E7%A7%8D%E5%8F%AF%E8%A1%8C%E7%9A%84%E8%BE%B9%E4%B8%8B%E8%BE%B9%E6%92%AD%E6%96%B9%E6%A1%88for%20AVPlayer/index.html">
+<meta property="og:site_name" content="芝士就是力量">
+<meta property="og:description" content="前言什么是边下边播？ 个人理解边下边播指的是从服务器获取到的数据一边供给播放器播放一边缓存到本地，即使用一遍的流量完成播放和缓存。下次播放时有缓存的地方则播放缓存数据，没有缓存的地方则从服务器获取再播放。 0.边下边播方案目前的边下边播实现方案大致有两种：一种是使用本地代理服务器，一种是使用系统的AVAssetResourceLoaderDelegate。 使用本地代理服务器该方案是在播放器与视频">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/E26B3DA6-54DC-499A-B2E1-937E65C93A8F.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20210405172404.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20210404163913.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20220113113013.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20210404163714.png">
+<meta property="article:published_time" content="2020-07-18T15:32:40.000Z">
+<meta property="article:modified_time" content="2024-12-14T07:50:26.470Z">
+<meta property="article:author" content="jekyttt">
+<meta property="article:tag" content="边下边播">
+<meta property="article:tag" content="AVPlayer">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/E26B3DA6-54DC-499A-B2E1-937E65C93A8F.png">
+
+<link rel="canonical" href="https://xq-120.github.io/2020/07/18/%E4%B8%80%E7%A7%8D%E5%8F%AF%E8%A1%8C%E7%9A%84%E8%BE%B9%E4%B8%8B%E8%BE%B9%E6%92%AD%E6%96%B9%E6%A1%88for%20AVPlayer/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>一种可行的边下边播方案for AVPlayer | 芝士就是力量</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="芝士就是力量" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">芝士就是力量</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">像风一样自由</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/xq-120/xq-120.github.io" class="github-corner" title="XQ on GitHub" aria-label="XQ on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/07/18/%E4%B8%80%E7%A7%8D%E5%8F%AF%E8%A1%8C%E7%9A%84%E8%BE%B9%E4%B8%8B%E8%BE%B9%E6%92%AD%E6%96%B9%E6%A1%88for%20AVPlayer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          一种可行的边下边播方案for AVPlayer
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-07-18 23:32:40" itemprop="dateCreated datePublished" datetime="2020-07-18T23:32:40+08:00">2020-07-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/" itemprop="url" rel="index"><span itemprop="name">音视频</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>什么是边下边播？</p>
+<p>个人理解边下边播指的是从服务器获取到的数据一边供给播放器播放一边缓存到本地，即使用一遍的流量完成播放和缓存。下次播放时有缓存的地方则播放缓存数据，没有缓存的地方则从服务器获取再播放。</p>
+<h3 id="0-边下边播方案"><a href="#0-边下边播方案" class="headerlink" title="0.边下边播方案"></a>0.边下边播方案</h3><p>目前的边下边播实现方案大致有两种：一种是使用本地代理服务器，一种是使用系统的AVAssetResourceLoaderDelegate。</p>
+<h4 id="使用本地代理服务器"><a href="#使用本地代理服务器" class="headerlink" title="使用本地代理服务器"></a>使用本地代理服务器</h4><p>该方案是在播放器与视频源服务器之间加一层代理服务器，拦截视频播放器发送的请求，根据拦截的请求，向网络服务器请求数据，然后写到本地。本地代理服务器从文件中读取数据并发送给播放器进行播放。</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/E26B3DA6-54DC-499A-B2E1-937E65C93A8F.png" style="zoom:50%;" /></p>
+<p>对于 iOS 端代理服务器的实现，可以参考和使用 CocoaHTTPServer。对于 iOS 端的视频缓存管理，可以参考和使用 KTVHTTPCache。这种方案难度较高，但自主可控性更高。</p>
+<h4 id="使用系统原生API—AVAssetResourceLoaderDelegate"><a href="#使用系统原生API—AVAssetResourceLoaderDelegate" class="headerlink" title="使用系统原生API—AVAssetResourceLoaderDelegate"></a>使用系统原生API—AVAssetResourceLoaderDelegate</h4><p>方案三跟方案二原理基本一致，但是不需要我们自己开启本地服务器，实现相对简单，只需要遵守相关协议，提供播放的数据即可。默认情况下使用AVPlayer播放音视频，系统是不会把数据缓存到本地的。但是我们可以通过设置AVAssetResourceLoader的delegate来代理系统的请求。代理系统请求后我们就可以对数据进行缓存。</p>
+<p>本文采用原生API来实现边下边播。具体实现参考我的开源库：<a target="_blank" rel="noopener" href="https://xxx">GSDMediaCache</a></p>
+<h3 id="1-边下边播的难点—空洞"><a href="#1-边下边播的难点—空洞" class="headerlink" title="1.边下边播的难点—空洞"></a>1.边下边播的难点—空洞</h3><p>一个视频在播放的时候，用户难免会快进或快退，频繁的快进或快退会造成大量的空洞，这给缓存带来了巨大的麻烦。</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20210405172404.png" style="zoom:50%;" /></p>
+<p>绿色的代表已缓存，红色的代表未缓存。</p>
+<p>这里给出的解决方案是稀疏文件+区间记录表。</p>
+<p>稀疏文件（Sparse File）其实就是一个普通文件，用于保存音视频数据，当接收到数据时，按区间填充该文件。</p>
+<p>区间记录表用于记录哪些区间是已经缓存好的。区间记录表里可能有多个区间，但当视频完全缓存时区间记录表里就只剩一个区间：[0, n-1]。</p>
+<p>这样整个工作流程就变为：</p>
+<p>1.根据系统的请求范围，查找区间记录表，将系统请求拆分为一个请求列表。</p>
+<p>如：[本地请求，远程请求，本地请求…]。</p>
+<p>2.依次执行请求列表中的每个请求，并将请求到的数据供给播放器。</p>
+<p>在得到请求列表后，我们就需要执行这些请求。对于本地请求则直接从本地音视频缓存文件中查找该区间的数据并返回。对于远程请求则发起HTTP range请求，接收到数据后提供给播放器播放并缓存到本地。</p>
+<p>3.对于远程请求接收到数据后缓存到音视频文件，并<strong>合并式更新区间记录表</strong>。</p>
+<p>远程请求会发起HTTP range请求，接收到数据后需要写入到音视频缓存文件，与此同时需要合并式更新区间记录表。所谓合并式更新：<br>比如区间记录表里有：[0, 99]、[200, 299]。如果下一次写入的是[100, 199]，则需要融合区间变为[0, 299]。</p>
+<p>这里的主要难点就是系统请求的拆分与区间记录表的维护了。当然实际开发中还会遇到各种各样的小问题，比如读写问题，内存问题，甚至是系统的坑。</p>
+<h3 id="2-GSDMediaCache"><a href="#2-GSDMediaCache" class="headerlink" title="2.GSDMediaCache"></a>2.GSDMediaCache</h3><p>一个基于AVPlayer的边下边播缓存框架。具有如下特点：</p>
+<ol>
+<li>支持边下边播，一遍的流量完成播放和缓存。</li>
+<li>极致的缓存利用，只有未缓存的区间才会从服务器获取。</li>
+<li>线程安全。</li>
+<li>高性能，低内存、低CPU消耗。</li>
+<li>最低支持iOS10。</li>
+</ol>
+<h4 id="2-1框架示意图"><a href="#2-1框架示意图" class="headerlink" title="2.1框架示意图"></a>2.1框架示意图</h4><p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20210404163913.png" style="zoom:50%;" /></p>
+<h4 id="2-2类图"><a href="#2-2类图" class="headerlink" title="2.2类图"></a>2.2类图</h4><p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20220113113013.png" alt=""></p>
+<p>说明：</p>
+<p>一个resource URL对应一个loader，一个loader管理多个loadingRequest，每个loadingRequest对应一个fetchOperation用于获取数据。fetchOperation内部根据区间记录表将range请求拆分为一个请求序列，如：[RemoteRangeTask, LocalRangeTask, RemoteRangeTask, LocalRangeTask, …]。然后依次执行RangeTask并将获取到的数据提供给播放器播放。</p>
+<p>这里需要注意的是在iOS10上最好限制一个loader管理的loadingRequest数量，必要时手动取消一些loadingRequest，一般保持在3个左右。否则在频繁seek的时候容易出现一些奇奇怪怪的问题。</p>
+<p>由于本SDK使用系统的API来实现，那么自然需要对AVAssetResourceLoaderDelegate进行一番介绍。</p>
+<h3 id="3-AVAssetResourceLoaderDelegate"><a href="#3-AVAssetResourceLoaderDelegate" class="headerlink" title="3. AVAssetResourceLoaderDelegate"></a>3. AVAssetResourceLoaderDelegate</h3><h4 id="3-1-代理系统的请求"><a href="#3-1-代理系统的请求" class="headerlink" title="3.1 代理系统的请求"></a>3.1 代理系统的请求</h4><p>在代理系统的请求前，可以通过抓包，大致了解下AVPlayer播放一个URL时的请求机制：<br>AVPlayer会先请求0-1的数据段，成功后再请求一大段数据，但只接收一小段数据就cancel掉请求。播放一小段后又请求一大段数据，但接收一小段数据后又cancel掉请求，循环这个操作直到接收所有数据。而当用户seek时会取消之前的请求，然后从seek处发起一个新请求。在整个过程中AVPlayer会不断的发起新请求，取消旧的请求，当然有的请求可能不会被取消因而可以正常完成。发起与取消是AVPlayer的内部行为，外部只能得到通知而不能主动发起一个AVAssetResourceLoadingRequest。</p>
+<p>了解这一过程对后面的实现非常有帮助，下面正式代理系统的请求。</p>
+<p>代理系统的请求非常简单，只需要将我们的对象设置为 <code>AVAssetResourceLoader</code> 的代理，并实现 <code>AVAssetResourceLoaderDelegate</code> 协议。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//1.将正常的scheme替换为自定义的scheme，并将self设置为resourceLoader的代理</span></span><br><span class="line">- (<span class="built_in">AVURLAsset</span> *)customSchemeAssetWithURL:(<span class="built_in">NSURL</span> *)URL options:(<span class="built_in">NSDictionary</span>&lt;<span class="built_in">NSString</span> *,<span class="type">id</span>&gt; *)options &#123;</span><br><span class="line">    <span class="built_in">NSURL</span> *customURL = [URL gsd_customSchemeURLByAppendingSuffix:kCustomSchemeSuffix];</span><br><span class="line">    <span class="built_in">AVURLAsset</span> *urlAsset = [[<span class="built_in">AVURLAsset</span> alloc] initWithURL:customURL options:options];</span><br><span class="line">    [urlAsset.resourceLoader setDelegate:<span class="keyword">self</span> queue:<span class="keyword">self</span>.assetDelegateQueue];</span><br><span class="line">    <span class="keyword">return</span> urlAsset;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//2.实现`AVAssetResourceLoaderDelegate`协议中的如下两个，如果有其他的需求可以实现其他几个协议。</span></span><br><span class="line"><span class="comment">//接收到一个新的loadingRequest。该方法仅在系统不知道如何处理URLAsset资源时才会回调，所以我们需要自定义scheme。如果scheme是我们自定义的则返回YES表示我们将接管资源的请求，否则返回NO。</span></span><br><span class="line">- (<span class="type">BOOL</span>)resourceLoader:(<span class="built_in">AVAssetResourceLoader</span> *)resourceLoader shouldWaitForLoadingOfRequestedResource:(<span class="built_in">AVAssetResourceLoadingRequest</span> *)loadingRequest &#123;</span><br><span class="line">    <span class="built_in">NSURL</span> *resourceURL = loadingRequest.request.URL;</span><br><span class="line">    <span class="keyword">if</span> ([resourceURL gsd_isCustomSchemeURLByContainningSuffix:kCustomSchemeSuffix]) &#123;</span><br><span class="line">        <span class="built_in">NSURL</span> *originalURL = [resourceURL gsd_recoverCustomSchemeURLByRemovingSuffix:kCustomSchemeSuffix];</span><br><span class="line">        os_unfair_lock_lock(&amp;_loaderLock);</span><br><span class="line">        GSDResourceLoader *loader = <span class="keyword">self</span>.loaderDict[originalURL];</span><br><span class="line">        <span class="keyword">if</span> (loader == <span class="literal">nil</span>) &#123;</span><br><span class="line">            loader = [[GSDResourceLoader alloc] initWithResourceURL:originalURL inSession:<span class="keyword">self</span>.session];</span><br><span class="line">            <span class="keyword">self</span>.loaderDict[originalURL] = loader;</span><br><span class="line">        &#125;</span><br><span class="line">        os_unfair_lock_unlock(&amp;_loaderLock);</span><br><span class="line">        [loader addLoadingRequest:loadingRequest];</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NO</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//系统取消加载资源后回调。在该方法里我们需要取消掉我们之前发的请求。</span></span><br><span class="line">- (<span class="type">void</span>)resourceLoader:(<span class="built_in">AVAssetResourceLoader</span> *)resourceLoader didCancelLoadingRequest:(<span class="built_in">AVAssetResourceLoadingRequest</span> *)loadingRequest &#123;</span><br><span class="line">    <span class="built_in">NSURL</span> *originalURL = [loadingRequest.request.URL gsd_recoverCustomSchemeURLByRemovingSuffix:kCustomSchemeSuffix];</span><br><span class="line">    os_unfair_lock_lock(&amp;_loaderLock);</span><br><span class="line">    GSDResourceLoader *loader = <span class="keyword">self</span>.loaderDict[originalURL];</span><br><span class="line">    os_unfair_lock_unlock(&amp;_loaderLock);</span><br><span class="line">    [loader cancelLoadingRequest:loadingRequest];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里需要注意的是 URL 必须是自定义的 URLScheme，我们需要把原始 URL 的 <code>http://</code> 或 <code>https://</code> 替换成 <code>xxx://</code>，协议方法才会生效。这里我们在原scheme后面拼接“-mine”作为自定义的scheme。选择在原scheme后面拼接的好处就是当我们自己去服务器请求的时候能够很方便的解析出原scheme。到此为止我们就成功拦截了播放器的请求，拦截请求之后我们就需要获取数据并提供给播放器。数据可以从本地缓存获取也可以从服务器获取，这是我们后面要做的事。</p>
+<p>然而非常坑人的事情来了，经过测试发现在iOS10.3.3中</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">void</span>)resourceLoader:(<span class="built_in">AVAssetResourceLoader</span> *)resourceLoader didCancelLoadingRequest:(<span class="built_in">AVAssetResourceLoadingRequest</span> *)loadingRequest API_AVAILABLE(macos(<span class="number">10.9</span>), ios(<span class="number">7.0</span>), tvos(<span class="number">9.0</span>)) API_UNAVAILABLE(watchos);</span><br></pre></td></tr></table></figure>
+<p>didCancelLoadingRequest:方法除了手机重启后的第一次运行APP会被调用，其他时候都不会被调用，非常诡异。而在iOS14上则正常，AVAssetResourceLoader会时不时调用didCancelLoadingRequest:让你有机会cancel掉之前的请求，从而不会出现同时进行的请求数过多的情况。为了适配iOS10，我们需要自己设计一种规则适时的取消掉一些loadingRequest，这里可谓是一个天坑。</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://developer.apple.com/forums/thread/29039">AVAssetResourceLoaderDelegate -resourceLoader: didCancelLoadingRequest: naver called (in the Device only)</a></p>
+<h4 id="3-2-发起请求"><a href="#3-2-发起请求" class="headerlink" title="3.2 发起请求"></a>3.2 发起请求</h4><p>在协议</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">BOOL</span>)resourceLoader:(<span class="built_in">AVAssetResourceLoader</span> *)resourceLoader shouldWaitForLoadingOfRequestedResource:(<span class="built_in">AVAssetResourceLoadingRequest</span> *)loadingRequest;</span><br></pre></td></tr></table></figure>
+<p>中根据loadingRequest参数获取本次的range请求范围，然后向本地缓存或服务器发起请求获取数据。</p>
+<p>代理系统的请求后，我们需要根据请求去获取相应的数据，而在shouldWaitForLoadingOfRequestedResource代理方法里，系统给我们提供了一个AVAssetResourceLoadingRequest对象，因此我们需要根据AVAssetResourceLoadingRequest相关的API来获取本次range请求的范围。</p>
+<p>AVAssetResourceLoadingRequest：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">AVAssetResourceLoadingRequest</span> : <span class="title">NSObject</span> </span>&#123;</span><br><span class="line"><span class="keyword">@private</span></span><br><span class="line">	<span class="built_in">AVAssetResourceLoadingRequestInternal</span> *_loadingRequest;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">AV_INIT_UNAVAILABLE</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">readonly</span>, <span class="keyword">nullable</span>) <span class="built_in">AVAssetResourceLoadingContentInformationRequest</span> *contentInformationRequest API_AVAILABLE(macos(<span class="number">10.9</span>), ios(<span class="number">7.0</span>), tvos(<span class="number">9.0</span>)) API_UNAVAILABLE(watchos);</span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">readonly</span>, <span class="keyword">nullable</span>) <span class="built_in">AVAssetResourceLoadingDataRequest</span> *dataRequest API_AVAILABLE(macos(<span class="number">10.9</span>), ios(<span class="number">7.0</span>), tvos(<span class="number">9.0</span>)) API_UNAVAILABLE(watchos);</span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)finishLoading API_AVAILABLE(macos(<span class="number">10.9</span>), ios(<span class="number">7.0</span>), tvos(<span class="number">9.0</span>)) API_UNAVAILABLE(watchos); <span class="comment">//本次LoadingRequest请求完成时调用finishLoading通知系统。</span></span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)finishLoadingWithError:(<span class="keyword">nullable</span> <span class="built_in">NSError</span> *)error; <span class="comment">//本次LoadingRequest请求出错时调用finishLoadingWithError:通知系统。</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>contentInformationRequest：视频元数据信息。如果没设置过则为nil，否则是设置的值。因此需要在接收到0-1的range请求时设置该值告诉AVPlayer视频的相关信息。</p>
+<p>dataRequest：数据请求，里面包含本次range请求的范围。</p>
+<p>AVAssetResourceLoadingContentInformationRequest：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">AVAssetResourceLoadingContentInformationRequest</span> : <span class="title">NSObject</span> </span>&#123;</span><br><span class="line"><span class="keyword">@private</span></span><br><span class="line">	<span class="built_in">AVAssetResourceLoadingContentInformationRequestInternal</span> *_contentInformationRequest;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">AV_INIT_UNAVAILABLE</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>, <span class="keyword">nullable</span>) <span class="built_in">NSString</span> *contentType; <span class="comment">//响应头的content-type，但要转为UTI才能赋值给contentType</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>) <span class="type">long</span> <span class="type">long</span> contentLength; <span class="comment">//视频长度（byte）</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">getter</span>=isByteRangeAccessSupported) <span class="type">BOOL</span> byteRangeAccessSupported; <span class="comment">//是否支持range请求。</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>AVAssetResourceLoadingDataRequest：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">AVAssetResourceLoadingDataRequest</span> : <span class="title">NSObject</span> </span>&#123;</span><br><span class="line"><span class="keyword">@private</span></span><br><span class="line">	<span class="built_in">AVAssetResourceLoadingDataRequestInternal</span> *_dataRequest;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">AV_INIT_UNAVAILABLE</span></span><br><span class="line">  </span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">readonly</span>) <span class="type">long</span> <span class="type">long</span> requestedOffset;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">readonly</span>) <span class="built_in">NSInteger</span> requestedLength;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">readonly</span>) <span class="type">BOOL</span> requestsAllDataToEndOfResource API_AVAILABLE(macos(<span class="number">10.11</span>), ios(<span class="number">9.0</span>), tvos(<span class="number">9.0</span>)) API_UNAVAILABLE(watchos);</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">readonly</span>) <span class="type">long</span> <span class="type">long</span> currentOffset;</span><br><span class="line">- (<span class="type">void</span>)respondWithData:(<span class="built_in">NSData</span> *)data; <span class="comment">//将请求到的数据塞给播放器。</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>requestedOffset：本次range请求的起始字节位置。</p>
+<p>requestedLength：本次range请求的长度。</p>
+<p>currentOffset：当前已下载的数据的偏移量。requestedOffset + data.length = currentOffset。每次调用respondWithData:方法后，currentOffset会改变。</p>
+<p>示意图：</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20210404163714.png" alt=""></p>
+<h4 id="3-3-塞数据给播放器播放"><a href="#3-3-塞数据给播放器播放" class="headerlink" title="3.3 塞数据给播放器播放"></a>3.3 塞数据给播放器播放</h4><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">AVAssetResourceLoadingDataRequest</span> : <span class="title">NSObject</span> </span></span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)respondWithData:(<span class="built_in">NSData</span> *)data;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>调用AVAssetResourceLoadingDataRequest的respondWithData方法将下载的数据提供给播放器播放。</p>
+<h4 id="3-4-取消请求"><a href="#3-4-取消请求" class="headerlink" title="3.4 取消请求"></a>3.4 取消请求</h4><p>系统内部会不断的发起请求与取消请求，当我们收到取消请求的通知时，我们需要取消掉对应的数据请求，数据的来源可能是本地缓存也有可能是服务器，因此取消请求分为两种：本地请求取消与远程请求取消。请求的取消至关重要比如系统发起一个0-300M的range请求，恰好本地缓存有这个范围的数据，但系统接收了20M就发起了取消，此时如果你的本地请求不能取消的话APP很快就会耗尽手机的内存直至OOM崩溃。</p>
+<p>在协议</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">void</span>)resourceLoader:(<span class="built_in">AVAssetResourceLoader</span> *)resourceLoader didCancelLoadingRequest:(<span class="built_in">AVAssetResourceLoadingRequest</span> *)loadingRequest;</span><br></pre></td></tr></table></figure>
+<p>中取消正在进行的请求。但在iOS10上该方法不会被回调，因此对于iOS10可以在发起请求的时机中取消掉之前的一些loadingRequest，这里不能不取消也不能全取消保留2~3个loadingRequest目前来看效果比较好。</p>
+<h4 id="3-5-完成请求"><a href="#3-5-完成请求" class="headerlink" title="3.5 完成请求"></a>3.5 完成请求</h4><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">AVAssetResourceLoadingRequest</span> : <span class="title">NSObject</span> </span></span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)finishLoading API_AVAILABLE(macos(<span class="number">10.9</span>), ios(<span class="number">7.0</span>), tvos(<span class="number">9.0</span>)) API_UNAVAILABLE(watchos); <span class="comment">//本次LoadingRequest请求完成时调用finishLoading通知系统。</span></span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)finishLoadingWithError:(<span class="keyword">nullable</span> <span class="built_in">NSError</span> *)error; <span class="comment">//本次LoadingRequest请求出错时调用finishLoadingWithError:通知系统。</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>本次LoadingRequest请求成功完成时调用 <code>finishLoading</code> 通知系统，如果失败则调用 <code>finishLoadingWithError:</code> 通知系统。</p>
+<h3 id="4-缓存数据，并建立区间记录表"><a href="#4-缓存数据，并建立区间记录表" class="headerlink" title="4.缓存数据，并建立区间记录表"></a>4.缓存数据，并建立区间记录表</h3><p>数据的缓存主要涉及音频元数据的保存，音频文件的保存，区间记录表的保存。</p>
+<p>在第一次播放的时候，是没有任何缓存的，区间记录表也没有创建，当远程请求发起HTTP range请求接收到数据后如何保存呢？这就需要用到 <code>NSFileHandle</code> 。</p>
+<p>可以调用 <code>NSFileHandle</code> 的 <code>truncateFileAtOffset:</code> ：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">void</span>)truncateFileAtOffset:(<span class="type">unsigned</span> <span class="type">long</span> <span class="type">long</span>)offset;</span><br><span class="line">- (<span class="type">void</span>)seekToFileOffset:(<span class="type">unsigned</span> <span class="type">long</span> <span class="type">long</span>)offset;</span><br><span class="line">- (<span class="type">void</span>)writeData:(<span class="built_in">NSData</span> *)data;</span><br></pre></td></tr></table></figure>
+<p>创建一个与音视频大小相等的”稀疏文件”，然后往里填充数据即可。写入完成后，同步更新区间记录表，记录本次写入的数据区间，比如[0, 99]这100个字节。往后写入的时候需要<strong>合并式更新</strong>区间记录表。</p>
+<p>比如区间记录表里有：[0, 99]、[200, 299]。如果下一次写入的是[100, 199]，则需要融合区间变为[0, 299]。</p>
+<p>注意：区间记录表需要正确维护否则依据区间记录表从缓存文件里读取相应的数据给播放器时会出现各种画面问题或声音问题。</p>
+<h3 id="5-缓存清除策略"><a href="#5-缓存清除策略" class="headerlink" title="5.缓存清除策略"></a>5.缓存清除策略</h3><p>缓存清除可以按照最大时间和最大空间两个维度来进行清除。进入后台后优先删除较旧的缓存，如果检测超出最大空间则进一步删除旧缓存直至小于最大空间的0.5倍。当然也可以实现LFU策略。</p>
+<p>注意：在删除缓存时要确保音视频数据文件和区间记录表同时删除。如果音视频数据文件删除了但却遗留下了区间记录表显然会有问题。</p>
+<h4 id="5-1-计算文件大小"><a href="#5-1-计算文件大小" class="headerlink" title="5.1 计算文件大小"></a>5.1 计算文件大小</h4><p>在实现的过程中发现文件的大小计算跟想象中的还不太一样。</p>
+<p>系统提供了一些key用于获取文件信息</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Resource keys applicable only to regular files</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">FOUNDATION_EXPORT <span class="built_in">NSURLResourceKey</span> <span class="keyword">const</span> <span class="built_in">NSURLFileSizeKey</span>                    API_AVAILABLE(macos(<span class="number">10.6</span>), ios(<span class="number">4.0</span>), watchos(<span class="number">2.0</span>), tvos(<span class="number">9.0</span>)); <span class="comment">// Total file size in bytes (Read-only, value type NSNumber)</span></span><br><span class="line">FOUNDATION_EXPORT <span class="built_in">NSURLResourceKey</span> <span class="keyword">const</span> <span class="built_in">NSURLFileAllocatedSizeKey</span>           API_AVAILABLE(macos(<span class="number">10.6</span>), ios(<span class="number">4.0</span>), watchos(<span class="number">2.0</span>), tvos(<span class="number">9.0</span>)); <span class="comment">// Total size allocated on disk for the file in bytes (number of blocks times block size) (Read-only, value type NSNumber)</span></span><br><span class="line">FOUNDATION_EXPORT <span class="built_in">NSURLResourceKey</span> <span class="keyword">const</span> <span class="built_in">NSURLTotalFileSizeKey</span>               API_AVAILABLE(macos(<span class="number">10.7</span>), ios(<span class="number">5.0</span>), watchos(<span class="number">2.0</span>), tvos(<span class="number">9.0</span>)); <span class="comment">// Total displayable size of the file in bytes (this may include space used by metadata), or nil if not available. (Read-only, value type NSNumber)</span></span><br><span class="line">FOUNDATION_EXPORT <span class="built_in">NSURLResourceKey</span> <span class="keyword">const</span> <span class="built_in">NSURLTotalFileAllocatedSizeKey</span>      API_AVAILABLE(macos(<span class="number">10.7</span>), ios(<span class="number">5.0</span>), watchos(<span class="number">2.0</span>), tvos(<span class="number">9.0</span>)); <span class="comment">// Total allocated size of the file in bytes (this may include space used by metadata), or nil if not available. This can be less than the value returned by NSURLTotalFileSizeKey if the resource is compressed. (Read-only, value type NSNumber)</span></span><br><span class="line">FOUNDATION_EXPORT <span class="built_in">NSURLResourceKey</span> <span class="keyword">const</span> <span class="built_in">NSURLIsAliasFileKey</span>                 API_AVAILABLE(macos(<span class="number">10.6</span>), ios(<span class="number">4.0</span>), watchos(<span class="number">2.0</span>), tvos(<span class="number">9.0</span>)); <span class="comment">// true if the resource is a Finder alias file or a symlink, false otherwise ( Read-only, value type boolean NSNumber)</span></span><br><span class="line">FOUNDATION_EXPORT <span class="built_in">NSURLResourceKey</span> <span class="keyword">const</span> <span class="built_in">NSURLFileProtectionKey</span>              API_AVAILABLE(macos(<span class="number">10.11</span>), ios(<span class="number">9.0</span>), watchos(<span class="number">2.0</span>), tvos(<span class="number">9.0</span>)); <span class="comment">// The protection level for this file</span></span><br></pre></td></tr></table></figure>
+<p>注意NSURLTotalFileAllocatedSizeKey的说明：This can be less than the value returned by NSURLTotalFileSizeKey if the resource is compressed. 也就是说文件大小和文件实际占用的磁盘大小有可能不一致，这得益于APFS文件系统。</p>
+<p>eg: 一个553M的视频，在缓存时会先初始化一个553M的占位文件，然后边下载边往里面填充实际数据。如果没有缓存完就停止缓存，此时用NSURLFileSizeKey 和 NSURLTotalFileAllocatedSizeKey去获取文件大小就会发现二者的值不一样。</p>
+<p>NSURLFileSizeKey 返回的是文件自身的大小。而NSURLTotalFileAllocatedSizeKey 返回的是该文件占用的磁盘大小，因为实际只缓存了一点点数据，系统会对他进行压缩。所以该值会小于NSURLFileSizeKey 返回的值。当完全缓存时，该值就会约等于NSURLFileSizeKey 返回的值（实际会稍大于，因为NSURLTotalFileAllocatedSizeKey 还会计算元数据占用的空间）。</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2021</span><span class="number">-01</span><span class="number">-26</span> <span class="number">11</span>:<span class="number">01</span>:<span class="number">24.590838</span>+<span class="number">0800</span> AudioDemo[<span class="number">6292</span>:<span class="number">586528</span>] attrs:&#123;</span><br><span class="line">    <span class="built_in">NSFileCreationDate</span> = <span class="string">&quot;2021-01-25 09:31:02 +0000&quot;</span>;</span><br><span class="line">    <span class="built_in">NSFileExtensionHidden</span> = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">NSFileGroupOwnerAccountID</span> = <span class="number">501</span>;</span><br><span class="line">    <span class="built_in">NSFileGroupOwnerAccountName</span> = mobile;</span><br><span class="line">    <span class="built_in">NSFileModificationDate</span> = <span class="string">&quot;2021-01-26 02:43:28 +0000&quot;</span>;</span><br><span class="line">    <span class="built_in">NSFileOwnerAccountID</span> = <span class="number">501</span>;</span><br><span class="line">    <span class="built_in">NSFileOwnerAccountName</span> = mobile;</span><br><span class="line">    <span class="built_in">NSFilePosixPermissions</span> = <span class="number">420</span>;</span><br><span class="line">    <span class="built_in">NSFileProtectionKey</span> = <span class="built_in">NSFileProtectionCompleteUntilFirstUserAuthentication</span>;</span><br><span class="line">    <span class="built_in">NSFileReferenceCount</span> = <span class="number">1</span>;</span><br><span class="line">    <span class="built_in">NSFileSize</span> = <span class="number">553363384</span>;</span><br><span class="line">    <span class="built_in">NSFileSystemFileNumber</span> = <span class="number">4470737601</span>;</span><br><span class="line">    <span class="built_in">NSFileSystemNumber</span> = <span class="number">16777223</span>;</span><br><span class="line">    <span class="built_in">NSFileType</span> = <span class="built_in">NSFileTypeRegular</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="number">2021</span><span class="number">-01</span><span class="number">-26</span> <span class="number">11</span>:<span class="number">03</span>:<span class="number">29.875546</span>+<span class="number">0800</span> AudioDemo[<span class="number">6292</span>:<span class="number">586700</span>] 文件：file:<span class="comment">///private/var/mobile/Containers/Data/Application/407F45FC-F6D8-411F-89FA-F014ADC5F4EA/Library/Caches/com.xq.GSDMediaCache/data/ddcada74ee08d06dda5cd13b4117ad30.mp4，totalAllocatedSize：553365504</span></span><br></pre></td></tr></table></figure>
+<p>iOS 14.3上“ iPhone存储空间”里的App“文稿与数据”只显示App沙盒Documents目录下文件占用的空间，并且展示的是文件实际占用的磁盘大小即NSURLTotalFileAllocatedSizeKey的值，而Cache目录下的文件并不会计算在内。可能是因为Cache目录下的文件在磁盘空间紧张时系统会自动清理。</p>
+<p>iOS 10.3.3上“ iPhone存储空间”里的App“文稿与数据”显示的是所有沙盒目录下的文件占用的空间。</p>
+<p><strong>文件系统</strong></p>
+<p>发展过程：分层文件系统（Hierarchical File System，HFS）—&gt; HFS Plus —&gt; APFS （Apple File System）</p>
+<p>APFS :</p>
+<p>Apple File System replaces HFS Plus as the default file system for iOS 10.3 and later, and for macOS High Sierra and later. Apple File System offers improved file system fundamentals as well as several new features, including cloning, snapshots, space sharing, fast directory sizing, atomic safe-save, and sparse files.</p>
+<p>里面提到了sparse file（稀疏文件），正是由于APFS文件系统支持稀疏文件，所以一个稀疏文件如果不往里填充数据那么它实际不会占用那么大的磁盘空间。</p>
+<p>参考：</p>
+<p><a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/foundation/file_system/about_apple_file_system?language=objc">About Apple File System</a></p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/43126760/what-is-a-sparse-file-and-why-do-we-need-it">What is a sparse file and why do we need it?</a></p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/2188469/how-can-i-calculate-the-size-of-a-folder/28660040#28660040">How can I calculate the size of a folder?</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/duyusean/article/details/78643475">“文件大小”和“占用空间”的区别</a></p>
+<h3 id="6-最后"><a href="#6-最后" class="headerlink" title="6.最后"></a>6.最后</h3><p>如果这个库有帮助到你，欢迎点赞，收藏，转发。当然支持一下也是可以的。最后转载请注明出处。</p>
+<h3 id="7-参考"><a href="#7-参考" class="headerlink" title="7.参考"></a>7.参考</h3><p><a target="_blank" rel="noopener" href="https://www.codeproject.com/Articles/875105/Audio-streaming-and-caching-in-iOS-using">Audio streaming and caching in iOS using AVAssetResourceLoader and AVPlayer</a></p>
+<p><a target="_blank" rel="noopener" href="http://sky-weihao.github.io/2015/10/06/Video-streaming-and-caching-in-iOS/">iOS音视频实现边下载边播放</a></p>
+<p><a target="_blank" rel="noopener" href="https://codertw.com/%E7%A8%8B%E5%BC%8F%E8%AA%9E%E8%A8%80/690067/">AVPlayer支持的视频格式</a>  原出处： <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/7373f07f1cbf">AVPlayer支持的视频格式</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/def926938398">音视频封装格式、编码格式</a>  </p>
+<p><a target="_blank" rel="noopener" href="http://chuquan.me/2019/12/03/ios-avplayer-support-cache/">iOS AVPlayer 视频缓存的设计与实现</a></p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/v1sw_Sb8oKeZ8sWyjBUXGA">可能是目前最好的 AVPlayer 音视频缓存方案</a></p>
+<p><a target="_blank" rel="noopener" href="https://mochangxing.github.io/2018/08/11/AVPlayer%E7%BC%93%E5%AD%98%E7%9A%84%E5%AE%9E%E7%8E%B0/">AVPlayer 视频缓存</a>  </p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/szk972092933/article/details/82771631">iOS音视频开发——-流媒体</a>  </p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/kevinpake/article/details/25626587">iOS 获取视频的任意一帧</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904115416334343">IOS音视频（四十五）HTTPS 自签名证书 实现边下边播</a> </p>
+<p><a target="_blank" rel="noopener" href="https://zltunes.github.io/2019/04/23/avplayer-best-practice/">AVPlayer 边下边播与最佳实践</a></p>
+<p><a target="_blank" rel="noopener" href="https://caisanze.com/post/swift-avplayer/">基于AVPlayer实现音视频播放和缓存，支持视频画面的同步输出</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/vitoziv/VIMediaCache/issues/19">如果视频拖动快进这时候会有声音但画面卡住了</a>  </p>
+<p><a target="_blank" rel="noopener" href="https://www.mdeditor.tw/pl/ptm8">iOS性能优化实践：头条抖音如何实现OOM崩溃率下降50%+</a>  </p>
+<p><a target="_blank" rel="noopener" href="http://www.samirchen.com/video-playback-bandwidth-cost/">点播中的流量成本优化</a> </p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MjM5MDE0Mjc4MA==&amp;mid=2650997049&amp;idx=1&amp;sn=079d954687944e74778df58f31078bd3&amp;chksm=bdbef96a8ac9707cd094f3737f6a32ce849066f50857b0b260fc2804e2eda22d3f6452b3cbfa&amp;scene=27#wechat_redirect">腾讯研发总监王辉：十亿级视频播放技术优化揭秘</a>   </p>
+<p><a target="_blank" rel="noopener" href="https://cocoapods.org/pods/NicooM3u8Downloader">NicooM3u8Downloader</a>  </p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>觉得文章有帮助可以打赏一下哦！</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.jpg" alt="jekyttt 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%BE%B9%E4%B8%8B%E8%BE%B9%E6%92%AD/" rel="tag"># 边下边播</a>
+              <a href="/tags/AVPlayer/" rel="tag"># AVPlayer</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/07/03/%E9%A2%84%E5%A4%84%E7%90%86%E5%91%BD%E4%BB%A4%E4%B9%8B%E5%AE%8F%E5%AE%9A%E4%B9%89/" rel="prev" title="预处理命令之宏定义">
+      <i class="fa fa-chevron-left"></i> 预处理命令之宏定义
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/07/20/%E5%86%85%E5%AD%98%E5%AF%B9%E9%BD%90/" rel="next" title="内存对齐">
+      内存对齐 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0-%E8%BE%B9%E4%B8%8B%E8%BE%B9%E6%92%AD%E6%96%B9%E6%A1%88"><span class="nav-text">0.边下边播方案</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%9C%AC%E5%9C%B0%E4%BB%A3%E7%90%86%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-text">使用本地代理服务器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E7%B3%BB%E7%BB%9F%E5%8E%9F%E7%94%9FAPI%E2%80%94AVAssetResourceLoaderDelegate"><span class="nav-text">使用系统原生API—AVAssetResourceLoaderDelegate</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E8%BE%B9%E4%B8%8B%E8%BE%B9%E6%92%AD%E7%9A%84%E9%9A%BE%E7%82%B9%E2%80%94%E7%A9%BA%E6%B4%9E"><span class="nav-text">1.边下边播的难点—空洞</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-GSDMediaCache"><span class="nav-text">2.GSDMediaCache</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1%E6%A1%86%E6%9E%B6%E7%A4%BA%E6%84%8F%E5%9B%BE"><span class="nav-text">2.1框架示意图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2%E7%B1%BB%E5%9B%BE"><span class="nav-text">2.2类图</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-AVAssetResourceLoaderDelegate"><span class="nav-text">3. AVAssetResourceLoaderDelegate</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-%E4%BB%A3%E7%90%86%E7%B3%BB%E7%BB%9F%E7%9A%84%E8%AF%B7%E6%B1%82"><span class="nav-text">3.1 代理系统的请求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-%E5%8F%91%E8%B5%B7%E8%AF%B7%E6%B1%82"><span class="nav-text">3.2 发起请求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-%E5%A1%9E%E6%95%B0%E6%8D%AE%E7%BB%99%E6%92%AD%E6%94%BE%E5%99%A8%E6%92%AD%E6%94%BE"><span class="nav-text">3.3 塞数据给播放器播放</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-%E5%8F%96%E6%B6%88%E8%AF%B7%E6%B1%82"><span class="nav-text">3.4 取消请求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-%E5%AE%8C%E6%88%90%E8%AF%B7%E6%B1%82"><span class="nav-text">3.5 完成请求</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E7%BC%93%E5%AD%98%E6%95%B0%E6%8D%AE%EF%BC%8C%E5%B9%B6%E5%BB%BA%E7%AB%8B%E5%8C%BA%E9%97%B4%E8%AE%B0%E5%BD%95%E8%A1%A8"><span class="nav-text">4.缓存数据，并建立区间记录表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E7%BC%93%E5%AD%98%E6%B8%85%E9%99%A4%E7%AD%96%E7%95%A5"><span class="nav-text">5.缓存清除策略</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-1-%E8%AE%A1%E7%AE%97%E6%96%87%E4%BB%B6%E5%A4%A7%E5%B0%8F"><span class="nav-text">5.1 计算文件大小</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E6%9C%80%E5%90%8E"><span class="nav-text">6.最后</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-%E5%8F%82%E8%80%83"><span class="nav-text">7.参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">jekyttt</p>
+  <div class="site-description" itemprop="description">涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">176</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">116</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xq-120" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xq-120" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://stackoverflow.com/yourname" title="StackOverflow → https:&#x2F;&#x2F;stackoverflow.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fa fa-fw fa-stack-overflow"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jekyttt</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v6.3.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.getAttribute('pjax') !== null) {
+      script.setAttribute('pjax', '');
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'dc6a52837746ef605a70',
+      clientSecret: '7a049bac8b7eef61e32ebcbfcc33ea9d670d3274',
+      repo        : 'commentForBlog',
+      owner       : 'xq-120',
+      admin       : ['xq-120'],
+      id          : '4d999a905d91592740fec558a442f176',
+        language: 'en, zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+    </div>
+</body>
+</html>

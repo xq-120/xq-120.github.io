@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"xq-120.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="HTTP各版本特性HTTP 0.91991年发布 基本上只是一个草稿，设计的初衷只是为了获取简单的HTML对象。只支持GET。没怎么使用就被HTTP 1.0代替了。 HTTP 1.01996年5月发布规范 rfc1945 第一个广泛使用的版本。 相比HTTP 0.9：  增加了对多媒体对象的处理，任何格式的内容都可以发送。这使得互联网不仅可以传输文字，还能传输图像、视频、二进制文件。  增加了一些">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTTP各版本特性">
+<meta property="og:url" content="https://xq-120.github.io/2022/03/28/HTTP%E5%90%84%E7%89%88%E6%9C%AC%E7%89%B9%E6%80%A7/index.html">
+<meta property="og:site_name" content="芝士就是力量">
+<meta property="og:description" content="HTTP各版本特性HTTP 0.91991年发布 基本上只是一个草稿，设计的初衷只是为了获取简单的HTML对象。只支持GET。没怎么使用就被HTTP 1.0代替了。 HTTP 1.01996年5月发布规范 rfc1945 第一个广泛使用的版本。 相比HTTP 0.9：  增加了对多媒体对象的处理，任何格式的内容都可以发送。这使得互联网不仅可以传输文字，还能传输图像、视频、二进制文件。  增加了一些">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/D7A734A6FA0923F4C7E86A2F647AB26B.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/MbAOA.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/sdCNX.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20200821155127.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/2860230-0c2d3d66de3e9a87.png">
+<meta property="article:published_time" content="2022-03-28T14:15:08.000Z">
+<meta property="article:modified_time" content="2024-12-14T07:50:26.471Z">
+<meta property="article:author" content="jekyttt">
+<meta property="article:tag" content="Objective-C, Swift, C, iOS开发, 移动开发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/D7A734A6FA0923F4C7E86A2F647AB26B.jpg">
+
+<link rel="canonical" href="https://xq-120.github.io/2022/03/28/HTTP%E5%90%84%E7%89%88%E6%9C%AC%E7%89%B9%E6%80%A7/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>HTTP各版本特性 | 芝士就是力量</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="芝士就是力量" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">芝士就是力量</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">像风一样自由</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/xq-120/xq-120.github.io" class="github-corner" title="XQ on GitHub" aria-label="XQ on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/03/28/HTTP%E5%90%84%E7%89%88%E6%9C%AC%E7%89%B9%E6%80%A7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          HTTP各版本特性
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-03-28 22:15:08" itemprop="dateCreated datePublished" datetime="2022-03-28T22:15:08+08:00">2022-03-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/HTTP/" itemprop="url" rel="index"><span itemprop="name">HTTP</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="HTTP各版本特性"><a href="#HTTP各版本特性" class="headerlink" title="HTTP各版本特性"></a>HTTP各版本特性</h3><h4 id="HTTP-0-9"><a href="#HTTP-0-9" class="headerlink" title="HTTP 0.9"></a>HTTP 0.9</h4><p>1991年发布</p>
+<p>基本上只是一个草稿，设计的初衷只是为了获取简单的HTML对象。只支持GET。没怎么使用就被HTTP 1.0代替了。</p>
+<h4 id="HTTP-1-0"><a href="#HTTP-1-0" class="headerlink" title="HTTP 1.0"></a>HTTP 1.0</h4><p>1996年5月发布规范 rfc1945</p>
+<p>第一个广泛使用的版本。</p>
+<p><strong>相比HTTP 0.9</strong>：</p>
+<ol>
+<li><p>增加了对多媒体对象的处理，任何格式的内容都可以发送。这使得互联网不仅可以传输文字，还能传输图像、视频、二进制文件。</p>
+</li>
+<li><p>增加了一些方法：POST，HEAD。丰富了浏览器与服务器的互动手段。</p>
+</li>
+<li><p>新增了HTTP首部。比较重要的有Content-Type ，Content-Length，Content-Encoding</p>
+</li>
+<li><p>HTTP请求和响应格式的改变。</p>
+</li>
+<li><p>其他新增功能。比如状态码的定义。</p>
+</li>
+</ol>
+<p>请求报文：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">请求行  eg：<span class="built_in">GET</span> /u/2167612f3a86 HTTP/1.1</span><br><span class="line">请求头</span><br><span class="line"></span><br><span class="line">请求体</span><br></pre></td></tr></table></figure>
+<p>响应报文：</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">响应行  eg：HTTP/<span class="number">1.1 200</span> OK</span><br><span class="line">响应头</span><br><span class="line"></span><br><span class="line">响应体</span><br></pre></td></tr></table></figure>
+<p><strong>HTTP/1.0 缺点：</strong></p>
+<p>HTTP/1.0 版的主要缺点是，每个TCP连接只能发送一个请求。发送数据完毕，连接就关闭，如果还要请求其他资源，就必须再新建一个连接。</p>
+<p>TCP连接的新建成本很高，因为需要客户端和服务器三次握手，并且开始时发送速率较慢（slow start）。所以，HTTP 1.0版本的性能比较差。随着网页加载的外部资源越来越多，这个问题就愈发突出了。</p>
+<p>为了解决这个问题，在还没出HTTP/1.1规范时，各个公司可能会有一些自己的优化手段。有些浏览器在请求时，用了一个非标准的<code>Connection</code>字段。</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Connection</span>: keep-alive</span><br><span class="line"><span class="keyword">Connection</span>: <span class="keyword">close</span></span><br></pre></td></tr></table></figure>
+<p>Connection头部，用于决定当前的事务完成后，是否会关闭网络连接。</p>
+<p>如果该值是“keep-alive”，网络连接就是持久的，不会关闭，使得<strong>对同一个服务器的请求</strong>可以继续在该连接上完成。</p>
+<p>如果该值是“close”表明客户端或服务器想要关闭该网络连接。</p>
+<p>像这种做的比较好的优化可能就会被放到下一次的RFC规范中去。Connection头部就被HTTP/1.1规范所采用。</p>
+<h4 id="HTTP-1-1"><a href="#HTTP-1-1" class="headerlink" title="HTTP 1.1"></a>HTTP 1.1</h4><p>1999年6月发布规范 rfc2616</p>
+<p>进一步完善了 HTTP 协议，一直用到了20年后的今天，直到现在还是最流行的版本。</p>
+<p><strong>相比HTTP/1.0：</strong></p>
+<p><strong>1.引入了持久连接（persistent connection）</strong></p>
+<p>通过Connection头部控制，HTTP/1.0默认是close，HTTP/1.1默认是keep-alive。请求完成后TCP连接默认不关闭，因此可以被多个请求复用。</p>
+<p>在HTTP 1.0中，没有官方的keepalive操作。通常是在现有协议上添加一个首部。如果浏览器支持keep-alive，它会在请求的包头中添加：</p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">Connection:</span> <span class="meta">Keep</span>-Alive</span><br></pre></td></tr></table></figure>
+<p>然后当服务器收到请求，作出回应的时候，它也添加一个头在响应中：</p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">Connection:</span> <span class="meta">Keep</span>-Alive</span><br></pre></td></tr></table></figure>
+<p>这样做，连接就不会中断，而是保持连接。当客户端发送另一个请求时，它会使用同一个连接。这一直继续到客户端或服务器端认为会话已经结束，其中一方中断连接。</p>
+<p>在HTTP 1.1中所有的连接默认都是持续连接，除非特殊声明不支持。</p>
+<p>持久连接的好处：</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Persistent HTTP connections have a <span class="built_in">number</span> <span class="keyword">of</span> advantages:</span><br><span class="line">• By opening <span class="keyword">and</span> closing fewer TCP connections, CPU <span class="built_in">time</span> <span class="keyword">is</span> saved <span class="keyword">in</span> routers <span class="keyword">and</span> hosts (clients, servers, proxies, gateways, tunnels, <span class="keyword">or</span> caches), <span class="keyword">and</span> memory used <span class="keyword">for</span> TCP protocol control blocks can be saved <span class="keyword">in</span> hosts.</span><br><span class="line"></span><br><span class="line">• HTTP requests <span class="keyword">and</span> responses can be pipelined <span class="keyword">on</span> a connection. Pipelining allows a client <span class="keyword">to</span> make multiple requests <span class="keyword">without</span> waiting <span class="keyword">for</span> each response, allowing a single TCP connection <span class="keyword">to</span> be used much more efficiently, <span class="keyword">with</span> much lower elapsed <span class="built_in">time</span>.</span><br><span class="line"></span><br><span class="line">• Network congestion <span class="keyword">is</span> reduced <span class="keyword">by</span> reducing <span class="keyword">the</span> <span class="built_in">number</span> <span class="keyword">of</span> packets caused <span class="keyword">by</span> TCP opens, <span class="keyword">and</span> <span class="keyword">by</span> allowing TCP sufficient <span class="built_in">time</span> <span class="keyword">to</span> determine <span class="keyword">the</span> congestion state <span class="keyword">of</span> <span class="keyword">the</span> network.</span><br><span class="line"></span><br><span class="line">• Latency <span class="keyword">on</span> subsequent requests <span class="keyword">is</span> reduced <span class="keyword">since</span> there <span class="keyword">is</span> no <span class="built_in">time</span> spent <span class="keyword">in</span> TCP’s connection opening handshake.</span><br><span class="line"></span><br><span class="line">• HTTP can evolve more gracefully, <span class="keyword">since</span> errors can be reported <span class="keyword">without</span> <span class="keyword">the</span> penalty <span class="keyword">of</span> closing <span class="keyword">the</span> TCP connection. Clients using future versions <span class="keyword">of</span> HTTP might optimistically <span class="keyword">try</span> a new feature, <span class="keyword">but</span> <span class="keyword">if</span> communicating <span class="keyword">with</span> an older server, retry <span class="keyword">with</span> old semantics <span class="keyword">after</span> an <span class="keyword">error</span> <span class="keyword">is</span> reported.</span><br><span class="line"></span><br><span class="line">HTTP implementations SHOULD implement persistent connections.</span><br></pre></td></tr></table></figure>
+<p>RFC 上列举了这么多其实就两点</p>
+<ol>
+<li>持久连接为连接的复用提供基础，从而减少了额外的TCP连接，以及TCP刚连接时的慢启动带来的损耗。</li>
+<li>持久连接为管线机制提供基础。</li>
+</ol>
+<p>注意：使用持久连接时，就不能通过连接的断开作为报文的终止符了。每个报文最好提供一个Content-Length要不然没法区分各报文的边界。而对于动态生成的文件因为无法提供content-length，所以最好采用分块（chunked）传输，chunked 编码的数据在最后有一个空 chunked 块，表明本次传输数据结束。</p>
+<p>使用了持久连接对比图：</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/D7A734A6FA0923F4C7E86A2F647AB26B.jpg" alt=""></p>
+<p><strong>2.管线机制（Pipelining）</strong></p>
+<p>在使用持久连接后，管线机制可以让客户端在上一个响应还没回来时就可以发送下一个请求。但是服务器端返回的响应的顺序必须按照接收到的请求的顺序来发送（如果服务器没有按照该规则实现的话，客户端接收到的将是混杂数据）。参考 <a target="_blank" rel="noopener" href="https://github.com/AFNetworking/AFNetworking/issues/528">AF issue #528</a></p>
+<p>比如服务器收到客服端发来的A-B-C三个请求，那么返回响应时必须A的响应发完后才能再发B的，B的发完后再发C的。</p>
+<p>聪明的你可能已经看到管线机制的缺点了，如果第一个请求需要处理的时间非常长，那么后续的请求即使已经被服务器处理完成，响应也不能立即返回，而是存储在服务端的缓存区中，等待第一个响应的完成，才能按照FIFO顺序返回。这就是队头阻塞。</p>
+<p>正是由于存在这样或那样的问题，HTTP管道技术的应用比较有限，并没有大面积推广开来，基本上是关的，即使一些支持它的浏览器也仅仅把它作为一个高级选项。这些缺点将在HTTP2中得以解决。</p>
+<p>使用了管线机制对比图：</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/MbAOA.png" alt=""></p>
+<p>这里需要对pipelining图做一点解释</p>
+<p>管线机制，A，B，C的响应数据是不可以交叉返回的。因为如果交叉的话，客户端根本无法区分收到的数据属于哪个请求。既然A，B，C的响应是顺序返回的也就是A的响应必须发完后才能再发B的，那么如果A是一个下载大文件的请求，B，C都是小数据请求，那么客户端将会等很久才能收到B，C的响应，这就是队头阻塞。</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/sdCNX.png" alt=""></p>
+<p><strong>3.新增了一些方法</strong></p>
+<p>OPTIONS，PUT，DELETE，TRACE，CONNECT。</p>
+<p><strong>4.新增了一大波状态码</strong></p>
+<p>在HTTP1.1中新增了24个错误状态响应码。</p>
+<p><strong>5.完善了缓存机制</strong></p>
+<p>在 HTTP 1.0 中主要使用 header 里的 If-Modified-Since,Expires 来做为缓存判断的标准，HTTP 1.1则引入了更多的缓存控制策略例如 Entity tag，If-Unmodified-Since, If-Match, If-None-Match等更多可供选择的缓存头来控制缓存策略。</p>
+<p>关于HTTP的缓存机制这里不做展开，因为这又是一个很大的话题。</p>
+<p><strong>6.新增了一大波首部</strong></p>
+<p>比如跟缓存控制相关的就增加了很多，还有Content-Range， Host， Range等。</p>
+<p><strong>Host首部</strong></p>
+<p>在HTTP1.0中认为每台服务器都绑定一个唯一的IP地址，因此，请求消息中的URL并没有传递主机名（hostname）。但随着虚拟主机技术的发展，在一台物理服务器上可以存在多个虚拟主机（Multi-homed Web Servers），并且它们共享一个IP地址。由于HTTP 1.0不支持Host请求头字段，WEB浏览器无法使用主机头名来明确表示要访问服务器上的哪个WEB站点，这样就无法使用WEB服务器在同一个IP地址和端口号上配置多个虚拟WEB站点。在HTTP 1.1中增加Host请求头字段后，WEB浏览器可以使用主机头名来明确表示要访问服务器上的哪个WEB站点，这才实现了在一台WEB服务器上可以在同一个IP地址和端口号上使用不同的主机名来创建多个虚拟WEB站点。</p>
+<p><strong>7.带宽优化</strong></p>
+<p>HTTP/1.0中，存在一些浪费带宽的现象，例如客户端只是需要某个对象的一部分，而服务器却将整个对象送过来了，又比如下载大文件时需要支持断点续传功能，而不是在发生断连后不得不重新下载完整的包。HTTP/1.1中在请求消息中引入了range头域，它允许只请求资源的某个部分。在响应消息中Content-Range头域声明了返回的这部分对象的偏移值和长度。如果服务器相应地返回了对象所请求范围的内容，则响应码为206（Partial Content），它可以防止Cache将响应误以为是完整的一个对象。</p>
+<p>另外一种情况是请求消息中如果包含比较大的实体内容，但不确定服务器是否能够接收该请求（如是否有权限），此时若贸然发出带实体的请求，如果被拒绝也会浪费带宽。HTTP/1.1加入了一个新的状态码100（Continue）。客户端事先发送一个只带头域的请求，如果服务器因为权限拒绝了请求，就回送响应码401（Unauthorized）；如果服务器接收此请求就回送响应码100，客户端就可以继续发送带实体的完整请求了。注意，HTTP/1.0的客户端不支持100响应码。但可以让客户端在请求消息中加入Expect头域，并将它的值设置为100-continue。</p>
+<p><strong>8.分块传输编码</strong></p>
+<p>HTTP消息中可以包含任意长度的实体，通常它们使用Content-Length来给出消息结束标志。但是，对于很多动态产生的响应，只能通过缓冲完整的消息来判断消息的大小，但这样做会加大延迟。</p>
+<p>1.1版规定可以不使用<code>Content-Length</code>字段，而使用<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/分块传输编码">“分块传输编码”</a>（chunked transfer encoding）。只要请求或回应的头信息有<code>Transfer-Encoding</code>字段，就表明回应将由数量未定的数据块组成。发送方将消息分割成若干个任意大小的数据块，每个数据块在发送时都会附上块的长度，最后用一个零长度的块作为消息结束的标志。</p>
+<p>新增MIME类型 <code>multipart/form-data</code> 等。</p>
+<p><strong>HTTP/1.1缺点：</strong></p>
+<p><strong>1.队头阻塞</strong></p>
+<p>在使用持久连接后，管线机制可以让客户端在上一个响应还没回来时就可以发送下一个请求。但是服务器端返回的响应的顺序必须按照接收到的请求的顺序来发送。如果第一个请求需要处理的时间非常长，那么后续的请求即使已经被服务器处理完成，响应也不能立即返回，而是存储在服务端的缓存区中，等待第一个响应的完成，才能按照FIFO顺序返回。这就是队头阻塞。</p>
+<p>为了避免这个问题，只有两种方法：一是减少请求数，二是同时多开持久连接。这导致了很多的网页优化技巧，比如合并脚本和样式表、将图片嵌入CSS代码、雪碧图、域名分片（domain sharding）等等。如果HTTP协议设计得更好一些，这些额外的工作是可以避免的。</p>
+<p>另外HTTP连接也不是想开多少就开多少的，HTTP1.1，Chrome浏览器通常允许每个域名同时发出的最大连接数为6个。这意味着在同一个页面中，您可以同时发出6个同源请求。请注意，这个限制是针对每个域名的，如果您的页面使用了多个域名（例如使用CDN），那么您可以同时发出更多的请求。对于超过限制数目的请求会被阻塞直到一些请求完成才会继续发出。所以一些优化就会把资源放在不同的域名下。</p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/14810890/what-are-the-disadvantages-of-using-http-pipelining">What are the disadvantage(s) of using HTTP pipelining?</a>  讨论管线机制的缺点的。里面参考资料中我大苹果WWDC2015里就已经对比了HTTP1.1和HTTP2的性能，奈何自己没看WWDC。作为一个iOS开发者，WWDC必看才行。</p>
+<p><strong>2.无状态特性 – 带来巨大的 HTTP 头部</strong></p>
+<p>由于报文 Header 一般会携带”User Agent” “Cookie”“Accept””Server”等许多固定的头字段（如下图），多达几百字节甚至上千字节，但 Body 却经常只有几十字节（比如 GET 请求、 204/301/304 响应），成了不折不扣的“大头儿子”。Header 里携带的内容过大，在一定程度上增加了传输成本。更要命的是，成千上万的请求响应报文里有很多字段值都是重复的，非常浪费。</p>
+<h4 id="SPDY协议"><a href="#SPDY协议" class="headerlink" title="SPDY协议"></a>SPDY协议</h4><p>谷歌出品，于2009 年公开</p>
+<p>因为 HTTP/1 的问题，我们会引入雪碧图、将小图内联、使用多个域名等等的方式来提高性能。不过这些优化都绕开了协议本身，直到 2009 年，谷歌公开了自行研发的 SPDY 协议，它主要解决 HTTP/1.1 效率不高的问题。</p>
+<p>直到这时，才算是正式改造了 HTTP 协议本身。SPDY 进行延迟降低、header 压缩等改进，其实践证明了这些优化的效果，也最终带来了 HTTP/2 的诞生。</p>
+<h4 id="HTTP-2"><a href="#HTTP-2" class="headerlink" title="HTTP 2"></a>HTTP 2</h4><p>2015年5月发布规范 rfc7540</p>
+<p><strong>相比HTTP/1.1：</strong></p>
+<p><strong>1.二进制协议</strong></p>
+<p>之前的HTTP版本可以说是一个文本协议，需要按照一定的书写格式，双方才能正确解析。但HTTP/2 则是一个彻底的二进制协议，头信息和数据体都是二进制，并且统称为”帧”（frame）：头信息帧和数据帧。</p>
+<p>二进制协议的一个好处是，可以定义额外的帧。HTTP/2 定义了近十种帧，为将来的高级应用打好了基础。如果使用文本实现这种功能，解析数据将会变得非常麻烦，二进制解析则方便得多。</p>
+<p>接下来我们介绍几个重要的概念：</p>
+<ul>
+<li>流（Stream）：流是连接中的一个虚拟信道，<strong>可以承载双向的消息</strong>；每个流都有一个唯一的整数标识符（1、2…N）；</li>
+<li>消息：是指逻辑上的 HTTP 消息，比如请求、响应等，由一或多个帧组成。</li>
+<li>帧：HTTP 2.0 通信的最小单位，每个帧包含帧首部，至少也会标识出当前帧所属的流，承载着特定类型的数据，如 HTTP 首部、负荷，等等</li>
+</ul>
+<p>一个 TCP 连接（HTTP2 连接建立在 TCP 连接之上）里可以发送若干个流（stream），每个流中可以传输若干条消息（message），每条消息由若干二进制帧（frame）组成。</p>
+<p>注：流还是挺复杂的，具体可以看一下流的状态图。</p>
+<p>HTTP 2的帧布局如下：</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20200821155127.png" alt=""></p>
+<p>所有的帧都以一个固定的9字节的头开始，后面跟着的是长度可变的payload。</p>
+<p>帧头字段的定义：</p>
+<p>Length：24bit，无符号整型，最大2^14 (16,384) ，帧的长度还受到SETTINGS_MAX_FRAME_SIZE帧的限制。该值不包含固定的9字节帧头，就是payload的长度。</p>
+<p>Type：8bit，代表帧的类型。比如DATA帧和HEADERS帧。对于各种帧可以抓包学习一下。</p>
+<p>Flags：具体帧的标识</p>
+<p>R：保留位。</p>
+<p>Stream Identifier：流ID。无符号31位整型。值0是保留的。每个流都有一个唯一的整数 ID。流ID就是用来标识该帧属于哪个流的，这样一个连接上传输的帧才能知道自己属于哪个流，接收方才能正确的进行拼接帧不至于拼接了别的流的帧。可以预见单个流的所有帧之间是有序的。</p>
+<p>RFC规定由客户端初始化的流使用奇数ID，由服务器初始化的流使用偶数ID，这里不是很懂，什么情况下服务器会初始化流？请求不都是由客户端发起的吗？</p>
+<p>在RFC 8.2.2.  Push Responses中有说明：</p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">After sending <span class="keyword">the</span> PUSH_PROMISE frame, <span class="keyword">the</span> server can begin delivering</span><br><span class="line"><span class="keyword">the</span> pushed response <span class="keyword">as</span> <span class="keyword">a</span> response (Section <span class="number">8.1</span><span class="number">.2</span><span class="number">.4</span>) <span class="keyword">on</span> <span class="title">a</span> <span class="title">server</span>-</span><br><span class="line">initiated stream that uses <span class="keyword">the</span> promised stream identifier.</span><br></pre></td></tr></table></figure>
+<p>果然是服务器推送时，服务器会初始化流，此时流的ID就为偶数。</p>
+<p><strong>二进制分帧层</strong></p>
+<p>在不改动 HTTP/1.1 的语义、⽅法、状态码、URI 以及⾸部字段等等的情况下, HTTP/1.1 是如何转到HTTP/2呢? </p>
+<p>答案就是HTTP/1.1 的报文先经过⼀个⼆进制分帧层将其转化为HTTP/2 二进制协议，后面的就是一样的了。</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/2860230-0c2d3d66de3e9a87.png" alt=""></p>
+<p>在 HTTP/2 中，有了二进制分帧之后，HTTP /2 不再依赖 TCP 链接去实现多流并行了，这一特性，使性能有了极大提升：</p>
+<ul>
+<li><strong>同个域名</strong>只需要占用一个 TCP 连接，使用一个连接并行发送多个请求和响应，消除了因多个 TCP 连接而带来的延时和内存消耗。</li>
+<li>可以并行交错地发送多个请求，请求之间互不影响。</li>
+<li>可以并行交错地发送多个响应，响应之间互不干扰。</li>
+<li>在 HTTP/2 中，每个请求都可以带一个 31bit 的优先值，0 表示最高优先级， 数值越大优先级越低。有了这个优先值，客户端和服务器就可以在处理不同的流时采取不同的策略，以最优的方式发送流、消息和帧。</li>
+</ul>
+<p><strong>2.多路复用</strong></p>
+<p>HTTP/2 复用TCP连接，在一个连接里，客户端可以同时发送多个请求，服务器端回复的响应也不用按照顺序一一对应，这样就避免了”队头堵塞”。</p>
+<p>客户端根据流ID来区分不同的帧从而分别得到A和B的响应。</p>
+<p><strong>3.Header 压缩</strong></p>
+<p>HTTP2.0 使用 HPACK 算法对 header 的数据进行压缩，减少请求的大小，减少流量消耗，提高效率。因为之前存在一个问题是，每次请求都要带上 header，而这个 header 中的数据通常是不变的。</p>
+<p><strong>4.Server Push</strong></p>
+<p>HTTP/2 允许服务器未经请求，主动向客户端发送资源，这叫做服务器推送（server push）。</p>
+<p>常见场景是客户端请求一个网页，这个网页里面包含很多静态资源。正常情况下，客户端必须收到网页后，解析HTML源码，发现有静态资源，再发出静态资源请求。其实，服务器可以预期到客户端请求网页后，很可能会再请求静态资源，所以就主动把这些静态资源随着网页一起发给客户端了。</p>
+<p><strong>HTTP/2 缺点：</strong></p>
+<p><strong>1.没有彻底解决队头阻塞</strong></p>
+<p>HTTP/2 并没有彻底解决队头阻塞，由于HTTP2是在一个TCP连接上发送请求，接收请求的。一旦出现丢包，丢失的包必须要等待重新传输确认，因此HTTP/2 出现丢包时，整个 TCP 都要开始等待重传，那么就会阻塞该 TCP 连接中的所有请求。而对于 HTTP/1.1 来说，可以开启多个 TCP 连接，出现这种情况反倒只会影响其中一个连接，剩余的 TCP 连接还可以正常传输数据。</p>
+<p><strong>2.TCP 和 TCP+TLS 建立连接的延时</strong></p>
+<p>HTTP/2 是使用 TCP 协议来传输的。如果使用 HTTPS 的话，还需要使用 TLS 协议进行安全传输，而使用 TLS 也需要一个握手过程，这样就需要有两个握手延迟过程。</p>
+<p>上面两个问题要动大刀才能解决，因为这是底层支撑的 TCP 协议造成的。要想优化的话，只能替换底层的TCP了。</p>
+<p>HTTP/3及谷歌的QUIC协议（主要是谷歌，毕竟只要谷歌搞完后测试正常，RFC直接将其定为规范就完事了）就是为解决上述问题而提出的方案。</p>
+<p><strong>参考</strong></p>
+<p><a target="_blank" rel="noopener" href="https://developers.google.com/web/fundamentals/performance/http2">HTTP/2 简介</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.wangriyu.wang/2018/05-HTTP2.html">HTTP2 详解</a></p>
+<p><a target="_blank" rel="noopener" href="https://skyao.io/learning-http2/frame/">HTTP2/帧</a></p>
+<h4 id="QUIC和HTTP-3"><a href="#QUIC和HTTP-3" class="headerlink" title="QUIC和HTTP/3"></a>QUIC和HTTP/3</h4><p>HTTP/3 已于 2022年6月6日正式发布了，被标准化为 RFC 9114。</p>
+<p>QUIC 基于 UDP，而 UDP 是“无连接”的，根本就不需要“握手”和“挥手”，所以就比 TCP 来得快。此外，QUIC 也实现了可靠传输，保证数据一定能够抵达目的地。它还引入了类似 HTTP/2 的“流”和“多路复用”，单个“流”是有序的，可能会因为丢包而阻塞，但其他“流”不会受到影响。</p>
+<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><h4 id="为什么要复用连接"><a href="#为什么要复用连接" class="headerlink" title="为什么要复用连接?"></a>为什么要复用连接?</h4><p>HTTP耗时 = TCP握手</p>
+<p>HTTPS耗时 = TCP握手 + SSL握手</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">curl</span> -w <span class="string">&quot;TCP handshake: %&#123;time_connect&#125;, SSL handshake: %&#123;time_appconnect&#125;\n&quot;</span> -so /dev/null https://www.alipay.com</span><br><span class="line"><span class="attribute">TCP</span> handshake: <span class="number">0</span>.<span class="number">035926</span>, SSL handshake: <span class="number">0</span>.<span class="number">138877</span></span><br></pre></td></tr></table></figure>
+<p>上面命令中的w参数表示指定输出格式，time_connect变量表示TCP握手的耗时，time_appconnect变量表示SSL握手的耗时（更多变量请查看<a target="_blank" rel="noopener" href="http://curl.haxx.se/docs/manpage.html">文档</a>和<a target="_blank" rel="noopener" href="https://josephscott.org/archives/2011/10/timing-details-with-curl/">实例</a>），s参数和o参数用来关闭标准输出。另外青花瓷抓包也可以看到各阶段的耗时。</p>
+<p>可以看到如果不复用连接，那么每次都要3次TCP握手建立TCP连接，7次SSL握手建立SSL连接，而这些连接的建立都需要耗时，特别是建立SSL连接耗时更大，差不多是TCP的2-3倍。</p>
+<p>除了建立连接耗时外，TCP的慢启动机制也会影响传输速度。</p>
+<p>因此从HTTP1.1版本开始就支持连接的复用了，只不过HTTP1.1版本的连接复用还不成熟，毕竟技术都有一个不断优化的过程，从来都不是一蹴而就的。</p>
+<p><a target="_blank" rel="noopener" href="https://www.iteye.com/blog/a280606790-1095085">HTTP协议头部与Keep-Alive模式详解</a></p>
+<h4 id="HTTP2，帧间顺序如何保证？"><a href="#HTTP2，帧间顺序如何保证？" class="headerlink" title="HTTP2，帧间顺序如何保证？"></a>HTTP2，帧间顺序如何保证？</h4><p>（网上的博客）:流内部的帧是有严格顺序的（不确定是由协议字段来保证还是由发送端严格按照顺序发送来保证，感觉应该是由发送端来保证，因为协议里没有相关字段），但是流之间互相独立；<strong>流 ID 不能重用</strong>，只能<strong>顺序</strong>递增，客户端发起的 Stream ID 是奇数，服务器端发起的 Stream ID 是偶数；</p>
+<h4 id="HTTP1-1如何协商升级到HTTP2"><a href="#HTTP1-1如何协商升级到HTTP2" class="headerlink" title="HTTP1.1如何协商升级到HTTP2"></a>HTTP1.1如何协商升级到HTTP2</h4><figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">GET</span> <span class="string">/</span> <span class="meta">HTTP/1.1</span></span><br><span class="line"><span class="attribute">Host</span><span class="punctuation">: </span>example.com</span><br><span class="line"><span class="attribute">Connection</span><span class="punctuation">: </span>Upgrade, HTTP2-Settings</span><br><span class="line"><span class="attribute">Upgrade</span><span class="punctuation">: </span>h2c</span><br><span class="line"><span class="attribute">HTTP2-Settings</span><span class="punctuation">: </span>&lt;base64url encoding of HTTP/2 SETTINGS payload&gt;</span><br></pre></td></tr></table></figure>
+<p>如果服务端不支持 HTTP/2，它会忽略 <code>Upgrade</code> 字段，直接返回 HTTP/1.1 响应，例如：</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">HTTP/1.1</span> <span class="number">200</span> OK</span><br><span class="line"><span class="attribute">Content-Length</span><span class="punctuation">: </span>243</span><br><span class="line"><span class="attribute">Content-Type</span><span class="punctuation">: </span>text/html</span><br><span class="line"></span><br><span class="line"><span class="language-node-repl"><span class="meta prompt_">...</span></span></span><br></pre></td></tr></table></figure>
+<p>如果服务端支持 HTTP/2，那就可以回应 <code>101</code> 状态码及对应头部，并且在响应正文中可以直接使用 HTTP/2 二进制帧：</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">HTTP/1.1</span> <span class="number">101</span> Switching Protocols</span><br><span class="line"><span class="attribute">Connection</span><span class="punctuation">: </span>Upgrade</span><br><span class="line"><span class="attribute">Upgrade</span><span class="punctuation">: </span>h2c</span><br><span class="line"></span><br><span class="line"><span class="language-angelscript"><span class="string">[ HTTP/2 connection ... ]</span></span></span><br></pre></td></tr></table></figure>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a target="_blank" rel="noopener" href="https://lixiaoyu.cc/2018/09/04/computer-network-12-http-version-differences/">HTTP 各版本差异</a>  </p>
+<p><a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2016/08/http.html">HTTP 协议入门</a>   阮一峰</p>
+<p><a target="_blank" rel="noopener" href="https://www.infoq.cn/article/kU4OkqR8vH123a8dLCCJ">解密 HTTP/2 与 HTTP/3 的新特性</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/34074946">HTTP/2 相比 1.0 有哪些重大改进？</a>  知乎回答</p>
+<p><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000007219256">深入研究：HTTP2 的真正性能到底如何</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/syfwhu/p/6116277.html">HTTP 1.1学习笔记</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/140739394">深入解读HTTP3的原理及应用</a></p>
+<p><a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc1945">rfc1945—Hypertext Transfer Protocol — HTTP/1.0</a></p>
+<p><a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc2616">rfc2616—Hypertext Transfer Protocol — HTTP/1.1 </a></p>
+<p><a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc7540">rfc7540—Hypertext Transfer Protocol Version 2 (HTTP/2)</a></p>
+<p><a target="_blank" rel="noopener" href="https://quicwg.org/base-drafts/draft-ietf-quic-http.html">Hypertext Transfer Protocol Version 3 (HTTP/3)</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/noKing/p/9334243.html">HTTP/HTTPS协议</a>  面试问题</p>
+<p><a target="_blank" rel="noopener" href="https://hungryturbo.com/HTTP3-explained/">HTTP/3详解</a>  4</p>
+<p><a target="_blank" rel="noopener" href="https://imququ.com/post/protocol-negotiation-in-http2.html">谈谈 HTTP/2 的协议协商机制</a></p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>觉得文章有帮助可以打赏一下哦！</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.jpg" alt="jekyttt 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>jekyttt
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://xq-120.github.io/2022/03/28/HTTP%E5%90%84%E7%89%88%E6%9C%AC%E7%89%B9%E6%80%A7/" title="HTTP各版本特性">https://xq-120.github.io/2022/03/28/HTTP各版本特性/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/12/18/%E7%B1%BB%E5%88%AB%E8%A6%86%E7%9B%96%E5%8E%9F%E5%A7%8B%E5%AE%9E%E7%8E%B0%E5%BC%95%E5%8F%91%E7%9A%84%E8%96%9B%E5%AE%9A%E8%B0%94%E7%9A%84bug/" rel="prev" title="类别覆盖原始实现引发的薛定谔的bug">
+      <i class="fa fa-chevron-left"></i> 类别覆盖原始实现引发的薛定谔的bug
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/05/01/iOS%E5%AE%9A%E6%97%B6%E5%99%A8%E6%9D%82%E8%AE%B0/" rel="next" title="iOS定时器杂记">
+      iOS定时器杂记 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP%E5%90%84%E7%89%88%E6%9C%AC%E7%89%B9%E6%80%A7"><span class="nav-text">HTTP各版本特性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTP-0-9"><span class="nav-text">HTTP 0.9</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTP-1-0"><span class="nav-text">HTTP 1.0</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTP-1-1"><span class="nav-text">HTTP 1.1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SPDY%E5%8D%8F%E8%AE%AE"><span class="nav-text">SPDY协议</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTP-2"><span class="nav-text">HTTP 2</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#QUIC%E5%92%8CHTTP-3"><span class="nav-text">QUIC和HTTP&#x2F;3</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98"><span class="nav-text">问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%A4%8D%E7%94%A8%E8%BF%9E%E6%8E%A5"><span class="nav-text">为什么要复用连接?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTP2%EF%BC%8C%E5%B8%A7%E9%97%B4%E9%A1%BA%E5%BA%8F%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%EF%BC%9F"><span class="nav-text">HTTP2，帧间顺序如何保证？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTP1-1%E5%A6%82%E4%BD%95%E5%8D%8F%E5%95%86%E5%8D%87%E7%BA%A7%E5%88%B0HTTP2"><span class="nav-text">HTTP1.1如何协商升级到HTTP2</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">jekyttt</p>
+  <div class="site-description" itemprop="description">涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">176</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">116</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xq-120" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xq-120" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://stackoverflow.com/yourname" title="StackOverflow → https:&#x2F;&#x2F;stackoverflow.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fa fa-fw fa-stack-overflow"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jekyttt</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v6.3.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.getAttribute('pjax') !== null) {
+      script.setAttribute('pjax', '');
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'dc6a52837746ef605a70',
+      clientSecret: '7a049bac8b7eef61e32ebcbfcc33ea9d670d3274',
+      repo        : 'commentForBlog',
+      owner       : 'xq-120',
+      admin       : ['xq-120'],
+      id          : '2ba2e4c779a2382ec4bcf570bb438fd4',
+        language: 'en, zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"xq-120.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="信号量原理篇源码版本：libdispatch-1173.40.5 信号量的实现主要是创建，销毁，wait和signal，四个方法。 信号量结构体： 123456789DISPATCH_CLASS_DECL(semaphore, OBJECT);struct dispatch_semaphore_s &amp;#123;	DISPATCH_OBJECT_HEADER(semaphore);	long vol">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS 信号量原理篇">
+<meta property="og:url" content="https://xq-120.github.io/2020/06/06/iOS-%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%8E%9F%E7%90%86%E7%AF%87/index.html">
+<meta property="og:site_name" content="芝士就是力量">
+<meta property="og:description" content="信号量原理篇源码版本：libdispatch-1173.40.5 信号量的实现主要是创建，销毁，wait和signal，四个方法。 信号量结构体： 123456789DISPATCH_CLASS_DECL(semaphore, OBJECT);struct dispatch_semaphore_s &amp;#123;	DISPATCH_OBJECT_HEADER(semaphore);	long vol">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-06-06T14:03:35.000Z">
+<meta property="article:modified_time" content="2024-12-14T07:50:26.469Z">
+<meta property="article:author" content="jekyttt">
+<meta property="article:tag" content="锁">
+<meta property="article:tag" content="信号量">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://xq-120.github.io/2020/06/06/iOS-%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%8E%9F%E7%90%86%E7%AF%87/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>iOS 信号量原理篇 | 芝士就是力量</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="芝士就是力量" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">芝士就是力量</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">像风一样自由</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/xq-120/xq-120.github.io" class="github-corner" title="XQ on GitHub" aria-label="XQ on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/06/06/iOS-%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%8E%9F%E7%90%86%E7%AF%87/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          iOS 信号量原理篇
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-06-06 22:03:35" itemprop="dateCreated datePublished" datetime="2020-06-06T22:03:35+08:00">2020-06-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">多线程</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="信号量原理篇"><a href="#信号量原理篇" class="headerlink" title="信号量原理篇"></a>信号量原理篇</h3><p>源码版本：libdispatch-1173.40.5</p>
+<p>信号量的实现主要是创建，销毁，wait和signal，四个方法。</p>
+<p>信号量结构体：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">DISPATCH_CLASS_DECL(semaphore, OBJECT);</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">dispatch_semaphore_s</span> &#123;</span></span><br><span class="line">	DISPATCH_OBJECT_HEADER(semaphore);</span><br><span class="line">	<span class="type">long</span> <span class="keyword">volatile</span> dsema_value;</span><br><span class="line">	<span class="type">long</span> dsema_orig;</span><br><span class="line">	<span class="type">_dispatch_sema4_t</span> dsema_sema;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="type">semaphore_t</span> <span class="type">_dispatch_sema4_t</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="信号量的创建—dispatch-semaphore-create"><a href="#信号量的创建—dispatch-semaphore-create" class="headerlink" title="信号量的创建—dispatch_semaphore_create"></a>信号量的创建—dispatch_semaphore_create</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">dispatch_semaphore_t</span></span><br><span class="line"><span class="title function_">dispatch_semaphore_create</span><span class="params">(<span class="type">long</span> value)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">dispatch_semaphore_t</span> dsema;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// If the internal value is negative, then the absolute of the value is</span></span><br><span class="line">	<span class="comment">// equal to the number of waiting threads. Therefore it is bogus to</span></span><br><span class="line">	<span class="comment">// initialize the semaphore with a negative value.</span></span><br><span class="line">	<span class="keyword">if</span> (value &lt; <span class="number">0</span>) &#123;</span><br><span class="line">		<span class="keyword">return</span> DISPATCH_BAD_INPUT;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	dsema = _dispatch_object_alloc(DISPATCH_VTABLE(semaphore),</span><br><span class="line">			<span class="keyword">sizeof</span>(<span class="keyword">struct</span> dispatch_semaphore_s));</span><br><span class="line">	dsema-&gt;do_next = DISPATCH_OBJECT_LISTLESS;</span><br><span class="line">	dsema-&gt;do_targetq = _dispatch_get_default_queue(<span class="literal">false</span>);</span><br><span class="line">	dsema-&gt;dsema_value = value;</span><br><span class="line">	_dispatch_sema4_init(&amp;dsema-&gt;dsema_sema, _DSEMA4_POLICY_FIFO);</span><br><span class="line">	dsema-&gt;dsema_orig = value;</span><br><span class="line">	<span class="keyword">return</span> dsema;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到不能传入一个小于0的值。信号量有几个重要的属性：</p>
+<p>dsema_value：记录当前计数值，后续的wait和signal函数会改变该值。</p>
+<p>dsema_sema：信号量 (真正干事情的)</p>
+<p>dsema_orig：记录创建时传入的初始计数值。在信号量销毁时有用到。</p>
+<h4 id="信号量wait操作—dispatch-semaphore-wait"><a href="#信号量wait操作—dispatch-semaphore-wait" class="headerlink" title="信号量wait操作—dispatch_semaphore_wait"></a>信号量wait操作—dispatch_semaphore_wait</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">long</span></span><br><span class="line"><span class="title function_">dispatch_semaphore_wait</span><span class="params">(<span class="type">dispatch_semaphore_t</span> dsema, <span class="type">dispatch_time_t</span> timeout)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">long</span> value = os_atomic_dec2o(dsema, dsema_value, acquire);</span><br><span class="line">	<span class="keyword">if</span> (likely(value &gt;= <span class="number">0</span>)) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> _dispatch_semaphore_wait_slow(dsema, timeout);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>os_atomic_dec2o是一个宏：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> os_atomic_dec2o(p, f, m) \</span></span><br><span class="line"><span class="meta">		os_atomic_sub2o(p, f, 1, m)</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> os_atomic_sub2o(p, f, v, m) \</span></span><br><span class="line"><span class="meta">		os_atomic_sub(&amp;(p)-&gt;f, (v), m)</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> os_atomic_sub(p, v, m) \</span></span><br><span class="line"><span class="meta">		_os_atomic_c11_op((p), (v), m, sub, -)</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> _os_atomic_c11_op(p, v, m, o, op) \</span></span><br><span class="line"><span class="meta">		(&#123; _os_atomic_basetypeof(p) _v = (v), _r = \</span></span><br><span class="line"><span class="meta">		atomic_fetch_##o##_explicit(_os_atomic_c11_atomic(p), _v, \</span></span><br><span class="line"><span class="meta">		memory_order_##m); (__typeof__(_r))(_r op _v); &#125;)</span></span><br><span class="line">		</span><br><span class="line"><span class="meta">#<span class="keyword">define</span> _os_atomic_basetypeof(p) \</span></span><br><span class="line"><span class="meta">		__typeof__(atomic_load_explicit(_os_atomic_c11_atomic(p), memory_order_relaxed))</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> _os_atomic_c11_atomic(p) \</span></span><br><span class="line"><span class="meta">		((__typeof__(*(p)) _Atomic *)(p))</span></span><br></pre></td></tr></table></figure>
+<p>展开后如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">long</span> value = (&#123; __typeof__(atomic_load_explicit(((__typeof__(*((&amp;(dsema)-&gt;dsema_value))) <span class="keyword">_Atomic</span> *)((&amp;(dsema)-&gt;dsema_value))), memory_order_relaxed)) _v = (((<span class="number">1</span>))), _r = atomic_fetch_sub_explicit(((__typeof__(*((&amp;(dsema)-&gt;dsema_value))) <span class="keyword">_Atomic</span> *)((&amp;(dsema)-&gt;dsema_value))), _v, memory_order_acquire); (__typeof__(_r))(_r - _v); &#125;);</span><br></pre></td></tr></table></figure>
+<p>简化下就是：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">long</span> value = (</span><br><span class="line">  &#123;</span><br><span class="line">    _v = <span class="number">1</span>, </span><br><span class="line">    _r = atomic_fetch_sub_explicit(*((&amp;(dsema)-&gt;dsema_value)), <span class="number">1</span>, memory_order_acquire);</span><br><span class="line">    _r - _v;</span><br><span class="line">  &#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>类似于：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">long</span> value = (&#123;</span><br><span class="line">		<span class="type">int</span> a = <span class="number">3</span>; <span class="type">int</span> b = <span class="number">1</span>; a - b;</span><br><span class="line">&#125;); <span class="comment">//value的值就等于a-b = 2;  源码里好多这样的宏</span></span><br></pre></td></tr></table></figure>
+<p>而atomic_fetch_sub_explicit函数表示dsema_value -= 1，并返回dsema_value原来的值。</p>
+<p>因此<code>long value = os_atomic_dec2o(dsema, dsema_value, acquire);</code></p>
+<p>这句代码的意思就是：</p>
+<p>原子操作，将信号量自减1，并将结果赋值给value。</p>
+<p>由于是原子操作，因此同一时刻只会有一个线程对dsema_value进行减1。多线程下不会出问题。</p>
+<p>如果value&gt;=0，则返回0，这种情况不会阻塞线程。</p>
+<p>否则调用_dispatch_semaphore_wait_slow函数：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">DISPATCH_NOINLINE</span><br><span class="line"><span class="type">static</span> <span class="type">long</span></span><br><span class="line">_dispatch_semaphore_wait_slow(<span class="type">dispatch_semaphore_t</span> dsema,</span><br><span class="line">		<span class="type">dispatch_time_t</span> timeout)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">long</span> orig;</span><br><span class="line"></span><br><span class="line">	_dispatch_sema4_create(&amp;dsema-&gt;dsema_sema, _DSEMA4_POLICY_FIFO);</span><br><span class="line">	<span class="keyword">switch</span> (timeout) &#123;</span><br><span class="line">	<span class="keyword">default</span>:</span><br><span class="line">		<span class="keyword">if</span> (!_dispatch_sema4_timedwait(&amp;dsema-&gt;dsema_sema, timeout)) &#123;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// Fall through and try to undo what the fast path did to</span></span><br><span class="line">		<span class="comment">// dsema-&gt;dsema_value</span></span><br><span class="line">	<span class="keyword">case</span> DISPATCH_TIME_NOW:</span><br><span class="line">		orig = dsema-&gt;dsema_value;</span><br><span class="line">		<span class="keyword">while</span> (orig &lt; <span class="number">0</span>) &#123;</span><br><span class="line">			<span class="keyword">if</span> (os_atomic_cmpxchgvw2o(dsema, dsema_value, orig, orig + <span class="number">1</span>,</span><br><span class="line">					&amp;orig, relaxed)) &#123; <span class="comment">//超时的系统才会自动+1</span></span><br><span class="line">				<span class="keyword">return</span> _DSEMA4_TIMEOUT();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// Another thread called semaphore_signal().</span></span><br><span class="line">		<span class="comment">// Fall through and drain the wakeup.</span></span><br><span class="line">	<span class="keyword">case</span> DISPATCH_TIME_FOREVER:</span><br><span class="line">		_dispatch_sema4_wait(&amp;dsema-&gt;dsema_sema);</span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>该方法会根据传入的dispatch_time_t进行区分：</p>
+<p>其他等待时间：比如传入dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC))，即2s。</p>
+<p>该case里主要就是_dispatch_sema4_timedwait：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">bool</span></span><br><span class="line">_dispatch_sema4_timedwait(<span class="type">_dispatch_sema4_t</span> *sema, <span class="type">dispatch_time_t</span> timeout)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">mach_timespec_t</span> _timeout;</span><br><span class="line">	<span class="type">kern_return_t</span> kr;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">do</span> &#123;</span><br><span class="line">		<span class="type">uint64_t</span> nsec = _dispatch_timeout(timeout);</span><br><span class="line">		_timeout.tv_sec = (__typeof__(_timeout.tv_sec))(nsec / NSEC_PER_SEC);</span><br><span class="line">		_timeout.tv_nsec = (__typeof__(_timeout.tv_nsec))(nsec % NSEC_PER_SEC);</span><br><span class="line">		kr = semaphore_timedwait(*sema, _timeout);</span><br><span class="line">	&#125; <span class="keyword">while</span> (unlikely(kr == KERN_ABORTED));</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (kr == KERN_OPERATION_TIMED_OUT) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	DISPATCH_SEMAPHORE_VERIFY_KR(kr);</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>计算剩余时间，调用mach内核的等待函数semaphore_timedwait()进行等待，线程进入休眠状态。如果在指定时间内没有得到通知，则会一直阻塞住，监听dsema_port等待其通知。</p>
+<p>如果kr == KERN_OPERATION_TIMED_OUT，代表等待超时，则返回true。其他情况返回false。</p>
+<p>当_dispatch_sema4_timedwait返回true时，case会掉入到DISPATCH_TIME_NOW处理。</p>
+<p>当_dispatch_sema4_timedwait返回false时，代表在等待期间收到了一个信号，线程被唤醒。case会break；dispatch_semaphore_wait也就返回0。</p>
+<p>DISPATCH_TIME_NOW：也就是不等待。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">os_atomic_cmpxchgvw2o(dsema, dsema_value, orig, orig + <span class="number">1</span>,</span><br><span class="line">					&amp;orig, relaxed)</span><br></pre></td></tr></table></figure>
+<p>该宏由以下宏组成：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> os_atomic_cmpxchgvw2o(p, f, e, v, g, m) \</span></span><br><span class="line"><span class="meta">		os_atomic_cmpxchgvw(&amp;(p)-&gt;f, (e), (v), (g), m)</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> os_atomic_cmpxchgvw(p, e, v, g, m) \</span></span><br><span class="line"><span class="meta">		(&#123; _os_atomic_basetypeof(p) _r = (e); _Bool _b = \</span></span><br><span class="line"><span class="meta">		atomic_compare_exchange_weak_explicit(_os_atomic_c11_atomic(p), \</span></span><br><span class="line"><span class="meta">		&amp;_r, v, memory_order_##m, memory_order_relaxed); *(g) = _r;  _b; &#125;)</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> _os_atomic_basetypeof(p) \</span></span><br><span class="line"><span class="meta">__typeof__(atomic_load_explicit(_os_atomic_c11_atomic(p), memory_order_relaxed))</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> _os_atomic_c11_atomic(p) \</span></span><br><span class="line"><span class="meta">		((__typeof__(*(p)) _Atomic *)(p))</span></span><br></pre></td></tr></table></figure>
+<p>将宏展开：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">(&#123; </span><br><span class="line">  __typeof__(atomic_load_explicit(((__typeof__(*(&amp;(dsema)-&gt;dsema_value)) <span class="keyword">_Atomic</span> *)(&amp;(dsema)-&gt;dsema_value)), memory_order_relaxed)) _r = ((orig)); </span><br><span class="line">  <span class="type">_Bool</span> _b = atomic_compare_exchange_weak_explicit(((__typeof__(*(&amp;(dsema)-&gt;dsema_value)) <span class="keyword">_Atomic</span> *)(&amp;(dsema)-&gt;dsema_value)), &amp;_r, (orig + <span class="number">1</span>), memory_order_relaxed, memory_order_relaxed); </span><br><span class="line">  *((&amp;orig)) = _r; </span><br><span class="line">  _b; </span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>主要是atomic_compare_exchange_weak_explicit函数的意思了：</p>
+<p><code>_Bool atomic_compare_exchange_weak_explicit（volatile A * obj，C * expected，C desired，memory_order succ，memory_order fail）;</code></p>
+<p>比较并交换被封装的值(weak)与参数 expected 所指定的值是否相等，如果：<br>相等，则用 desired 替换原子对象的旧值。<br>不相等，则用原子对象的旧值替换 expected ，因此调用该函数之后，如果被该原子对象封装的值与参数 expected 所指定的值不相等，expected 中的内容就是原子对象的旧值。<br>该函数通常会读取原子对象封装的值，如果比较为 true(即原子对象的值等于 expected)，则替换原子对象的旧值，但整个操作是原子的，在某个线程读取和修改该原子对象时，另外的线程不能读取和修改该原子对象。</p>
+<p>比较的结果：<code>true</code>如果<code>*obj</code>等于<code>*exp</code>，否则<code>false</code>。</p>
+<p>在这里，orig肯定&lt;0，所以会进入while循环，</p>
+<p>如果orig和dsema_value相等（在这里orig是等于dsema_value的），则dsema_value加1，os_atomic_cmpxchgvw2o返回true，最终<code>return _DSEMA4_TIMEOUT();</code></p>
+<p>因此DISPATCH_TIME_NOW的作用：将信号量自加1（抵消掉了前面的自减1。注意即使这里自加1，dsema_value的值也不一定就是0），然后返回<code>_DSEMA4_TIMEOUT()</code>一个非0数。</p>
+<p>DISPATCH_TIME_FOREVER：永久等待一个信号的发送。</p>
+<p>这里主要就是_dispatch_sema4_wait的作用：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span></span><br><span class="line">_dispatch_sema4_wait(<span class="type">_dispatch_sema4_t</span> *sema)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">kern_return_t</span> kr;</span><br><span class="line">	<span class="keyword">do</span> &#123;</span><br><span class="line">		kr = semaphore_wait(*sema);</span><br><span class="line">	&#125; <span class="keyword">while</span> (kr == KERN_ABORTED);</span><br><span class="line">	DISPATCH_SEMAPHORE_VERIFY_KR(kr);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>调用mach内核的等待函数semaphore_wait()进行等待。直到收到一个信号被唤醒。</p>
+<h4 id="信号量signal操作—dispatch-semaphore-signal"><a href="#信号量signal操作—dispatch-semaphore-signal" class="headerlink" title="信号量signal操作—dispatch_semaphore_signal"></a>信号量signal操作—dispatch_semaphore_signal</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">long</span></span><br><span class="line"><span class="title function_">dispatch_semaphore_signal</span><span class="params">(<span class="type">dispatch_semaphore_t</span> dsema)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">long</span> value = os_atomic_inc2o(dsema, dsema_value, release);</span><br><span class="line">	<span class="keyword">if</span> (likely(value &gt; <span class="number">0</span>)) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (unlikely(value == LONG_MIN)) &#123;</span><br><span class="line">		DISPATCH_CLIENT_CRASH(value,</span><br><span class="line">				<span class="string">&quot;Unbalanced call to dispatch_semaphore_signal()&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> _dispatch_semaphore_signal_slow(dsema);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">DISPATCH_NOINLINE</span><br><span class="line"><span class="type">long</span></span><br><span class="line">_dispatch_semaphore_signal_slow(<span class="type">dispatch_semaphore_t</span> dsema)</span><br><span class="line">&#123;</span><br><span class="line">	_dispatch_sema4_create(&amp;dsema-&gt;dsema_sema, _DSEMA4_POLICY_FIFO);</span><br><span class="line">	_dispatch_sema4_signal(&amp;dsema-&gt;dsema_sema, <span class="number">1</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span></span><br><span class="line">_dispatch_sema4_signal(<span class="type">_dispatch_sema4_t</span> *sema, <span class="type">long</span> count)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">do</span> &#123;</span><br><span class="line">		<span class="type">kern_return_t</span> kr = semaphore_signal(*sema);</span><br><span class="line">		DISPATCH_SEMAPHORE_VERIFY_KR(kr);</span><br><span class="line">	&#125; <span class="keyword">while</span> (--count);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先是宏os_atomic_inc2o，这个看字面意思很容易猜到是原子操作将dsema_value自加1，并将结果赋值给value。</p>
+<p>如果value &gt; 0,表示信号量足够，直接返回0。</p>
+<p>如果value == LONG_MIN，则崩溃。应该是过度wait了。</p>
+<p>否则调用_dispatch_semaphore_signal_slow函数，最终会调用内核函数<code>semaphore_signal(*sema);</code>发出一个信号唤醒一个wait的线程，返回1。</p>
+<p>因此dispatch_semaphore_signal的作用就是将信号量+1，如果加1后信号量还是&lt;=0，说明有wait的线程，那就唤醒最先等待的线程。</p>
+<h4 id="信号量的销毁—-dispatch-semaphore-dispose"><a href="#信号量的销毁—-dispatch-semaphore-dispose" class="headerlink" title="信号量的销毁—_dispatch_semaphore_dispose"></a>信号量的销毁—_dispatch_semaphore_dispose</h4><p>信号量对象遵守ARC内存管理，当信号量对象引用计数为0时，比如将self.semaphore = nil，或者self.semaphore = 新信号量对象，那么之前的信号量对象将销毁。所以当还有wait中的线程时千万不要把信号量对象给整销毁了。</p>
+<p>销毁时系统会调用_dispatch_semaphore_dispose函数：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span></span><br><span class="line">_dispatch_semaphore_dispose(<span class="type">dispatch_object_t</span> dou,</span><br><span class="line">		DISPATCH_UNUSED <span class="type">bool</span> *allow_free)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">dispatch_semaphore_t</span> dsema = dou._dsema;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (dsema-&gt;dsema_value &lt; dsema-&gt;dsema_orig) &#123;</span><br><span class="line">		DISPATCH_CLIENT_CRASH(dsema-&gt;dsema_orig - dsema-&gt;dsema_value,</span><br><span class="line">				<span class="string">&quot;Semaphore object deallocated while in use&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	_dispatch_sema4_dispose(&amp;dsema-&gt;dsema_sema, _DSEMA4_POLICY_FIFO);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">DISPATCH_ALWAYS_INLINE</span><br><span class="line"><span class="type">static</span> <span class="keyword">inline</span> <span class="type">void</span></span><br><span class="line">_dispatch_sema4_dispose(<span class="type">_dispatch_sema4_t</span> *sema, <span class="type">int</span> policy)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span> (_dispatch_sema4_is_created(sema)) &#123;</span><br><span class="line">		_dispatch_sema4_dispose_slow(sema, policy);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span></span><br><span class="line">_dispatch_sema4_dispose_slow(<span class="type">_dispatch_sema4_t</span> *sema, <span class="type">int</span> policy)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">semaphore_t</span> sema_port = *sema;</span><br><span class="line">	*sema = MACH_PORT_DEAD;</span><br><span class="line"><span class="meta">#<span class="keyword">if</span> DISPATCH_USE_OS_SEMAPHORE_CACHE</span></span><br><span class="line">	<span class="keyword">if</span> (policy == _DSEMA4_POLICY_FIFO) &#123;</span><br><span class="line">		<span class="keyword">return</span> os_put_cached_semaphore((<span class="type">os_semaphore_t</span>)sema_port);</span><br><span class="line">	&#125;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">	<span class="type">kern_return_t</span> kr = semaphore_destroy(mach_task_self(), sema_port);</span><br><span class="line">	DISPATCH_SEMAPHORE_VERIFY_KR(kr);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果dsema_value &lt; dsema_orig，程序会崩溃并提示Semaphore object deallocated while in use。提示这个并不一定说明还有线程阻塞和等待signal，这是系统的一种过于保守的保护措施，目的就是要让业务层平衡使用signal和wait。所以函数说明才提醒我们wait和signal要配对使用。</p>
+<p>换句话，只有当signal次数&gt;=wait的次数，dsema_value才会&gt;=dsema_orig。从实现来看，我们要保证signal次数&gt;=wait的次数。</p>
+<p>然后就是调用_dispatch_sema4_dispose进行销毁操作。</p>
+<p>eg：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">void</span>)test_semaphore_do_task_after_all_work1 &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     错误实现，没有理解dispatch_semaphore_signal的作用。</span></span><br><span class="line"><span class="comment">     signal函数的作用：1.将信号量加1。2.如果之前有线程被阻塞，则按优先级唤醒一个线程。</span></span><br><span class="line"><span class="comment">     下面的实现不仅达不到要求，并且还会崩溃.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="built_in">dispatch_async</span>(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, <span class="number">0</span>), ^&#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@&quot;current1:%@&quot;</span>,[<span class="built_in">NSThread</span> currentThread]);</span><br><span class="line">        </span><br><span class="line">        dispatch_semaphore_t semaphore = dispatch_semaphore_create(<span class="number">2</span>); <span class="comment">//初始化时信号量是2.</span></span><br><span class="line">        </span><br><span class="line">        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);</span><br><span class="line">        __block <span class="built_in">NSInteger</span> rs1 = <span class="number">0</span>;</span><br><span class="line">        [<span class="keyword">self</span> requestSomethingWithN:<span class="number">40</span> completion:^(<span class="built_in">NSInteger</span> result) &#123;</span><br><span class="line">            rs1 = result;</span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@&quot;40 rs = %ld&quot;</span>, (<span class="type">long</span>)result);</span><br><span class="line">            dispatch_semaphore_signal(semaphore);</span><br><span class="line">        &#125;];</span><br><span class="line">        </span><br><span class="line">        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);</span><br><span class="line">        __block <span class="built_in">NSInteger</span> rs2 = <span class="number">0</span>;</span><br><span class="line">        [<span class="keyword">self</span> requestSomethingWithN:<span class="number">41</span> completion:^(<span class="built_in">NSInteger</span> result) &#123;</span><br><span class="line">            rs2 = result;</span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@&quot;41 rs = %ld&quot;</span>, (<span class="type">long</span>)result);</span><br><span class="line">            <span class="comment">/**</span></span><br><span class="line"><span class="comment">             这里semaphore是等到block执行完成后才释放的。还以为block没强引用semaphore呢。</span></span><br><span class="line"><span class="comment">             崩溃：</span></span><br><span class="line"><span class="comment">             &quot;BUG IN CLIENT OF LIBDISPATCH: Semaphore object deallocated while in use (current value &lt; original value)&quot;</span></span><br><span class="line"><span class="comment">             */</span></span><br><span class="line">            dispatch_semaphore_signal(semaphore); <span class="comment">//销毁时，信号量是1，小于初始值2，因此崩溃。</span></span><br><span class="line">        &#125;];</span><br><span class="line">        </span><br><span class="line">        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);</span><br><span class="line">        <span class="built_in">NSInteger</span> rs = rs1 + rs2;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@&quot;==rs=%ld&quot;</span>, rs);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>思考</strong></p>
+<p>Q1：使用互斥锁和条件变量实现一个信号量？</p>
+<p>在实现时特别要注意条件的判断。不能使用信号量计数值作为条件的判断条件，否则很容易导致循环等待。必须要额外定义一个变量专门用于条件的判断。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">XQCustomSemaphore</span> ()</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>) pthread_mutex_t mutex;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>) pthread_cond_t cond;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>) <span class="built_in">NSInteger</span> value; <span class="comment">//信号量的值</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>) <span class="built_in">NSInteger</span> wakeups; <span class="comment">//记录唤醒次数，这个变量非常重要，条件判断时应该使用该变量</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>实现：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">XQCustomSemaphore</span></span></span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)dealloc &#123;</span><br><span class="line">    pthread_mutex_destroy(&amp;_mutex);</span><br><span class="line">    pthread_cond_destroy(&amp;_cond);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">instancetype</span>)initWithSemaphore:(<span class="built_in">NSInteger</span>)semaphore &#123;</span><br><span class="line">    <span class="keyword">self</span> = [<span class="variable language_">super</span> init];</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>) &#123;</span><br><span class="line">        pthread_mutex_init(&amp;_mutex, <span class="literal">NULL</span>);</span><br><span class="line">        pthread_cond_init(&amp;_cond, <span class="literal">NULL</span>);</span><br><span class="line">        _value = semaphore;</span><br><span class="line">        _wakeups = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)signal &#123;</span><br><span class="line">    pthread_mutex_lock(&amp;_mutex);</span><br><span class="line">    _value++;</span><br><span class="line">    <span class="keyword">if</span> (_value &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">        _wakeups++;</span><br><span class="line">        pthread_cond_signal(&amp;_cond);</span><br><span class="line">    &#125;</span><br><span class="line">    pthread_mutex_unlock(&amp;_mutex);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)wait &#123;</span><br><span class="line">    pthread_mutex_lock(&amp;_mutex);</span><br><span class="line">    _value--;</span><br><span class="line">    <span class="keyword">if</span> (_value &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">do</span> &#123;</span><br><span class="line">            pthread_cond_wait(&amp;_cond, &amp;_mutex);</span><br><span class="line">        &#125; <span class="keyword">while</span> (_wakeups &lt; <span class="number">1</span>); <span class="comment">//如果因为其他原因被唤醒，_wakeups的值必定小于 1，于是又等待。</span></span><br><span class="line">        _wakeups--;</span><br><span class="line">    &#125;</span><br><span class="line">    pthread_mutex_unlock(&amp;_mutex);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//错误实现</span></span><br><span class="line">- (<span class="type">void</span>)signal &#123;</span><br><span class="line">    pthread_mutex_lock(&amp;_mutex);</span><br><span class="line">    _value++;</span><br><span class="line">    <span class="keyword">if</span> (_value &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">        pthread_cond_signal(&amp;_cond);</span><br><span class="line">    &#125;</span><br><span class="line">    pthread_mutex_unlock(&amp;_mutex);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)wait &#123;</span><br><span class="line">    pthread_mutex_lock(&amp;_mutex);</span><br><span class="line">    _value--;</span><br><span class="line">    <span class="keyword">while</span> (_value &lt; <span class="number">0</span>) &#123; <span class="comment">//wait--wait--signal.signal之后value=-1，还是小于0.所以必须定义一个wakeups变量用于条件判断。</span></span><br><span class="line">        pthread_cond_wait(&amp;_cond, &amp;_mutex);</span><br><span class="line">    &#125;</span><br><span class="line">    pthread_mutex_unlock(&amp;_mutex);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>参考：<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000005934154">操作系统思考 第十一章 C语言中的信号量</a></p>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><p><a target="_blank" rel="noopener" href="https://xiaozhuanlan.com/topic/4365017982">深入浅出 GCD 之 dispatch_semaphore</a>  介绍信号量源码实现的，不过版本较低</p>
+<p><a target="_blank" rel="noopener" href="https://www.shangmayuan.com/a/32031a7be207483dbf4c870c.html">写给本身看的源码系列: GCD的信号量semaphore</a>   新版本的</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>觉得文章有帮助可以打赏一下哦！</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.jpg" alt="jekyttt 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%94%81/" rel="tag"># 锁</a>
+              <a href="/tags/%E4%BF%A1%E5%8F%B7%E9%87%8F/" rel="tag"># 信号量</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/06/06/iOS-%E4%BF%A1%E5%8F%B7%E9%87%8F%E4%BD%BF%E7%94%A8%E7%AF%87/" rel="prev" title="iOS 信号量使用篇">
+      <i class="fa fa-chevron-left"></i> iOS 信号量使用篇
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/06/15/OC%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B9%8Bweak%E4%BF%AE%E9%A5%B0%E7%AC%A6%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" rel="next" title="OC内存管理之weak修饰符实现原理">
+      OC内存管理之weak修饰符实现原理 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%8E%9F%E7%90%86%E7%AF%87"><span class="nav-text">信号量原理篇</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BF%A1%E5%8F%B7%E9%87%8F%E7%9A%84%E5%88%9B%E5%BB%BA%E2%80%94dispatch-semaphore-create"><span class="nav-text">信号量的创建—dispatch_semaphore_create</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BF%A1%E5%8F%B7%E9%87%8Fwait%E6%93%8D%E4%BD%9C%E2%80%94dispatch-semaphore-wait"><span class="nav-text">信号量wait操作—dispatch_semaphore_wait</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BF%A1%E5%8F%B7%E9%87%8Fsignal%E6%93%8D%E4%BD%9C%E2%80%94dispatch-semaphore-signal"><span class="nav-text">信号量signal操作—dispatch_semaphore_signal</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BF%A1%E5%8F%B7%E9%87%8F%E7%9A%84%E9%94%80%E6%AF%81%E2%80%94-dispatch-semaphore-dispose"><span class="nav-text">信号量的销毁—_dispatch_semaphore_dispose</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-text">参考</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">jekyttt</p>
+  <div class="site-description" itemprop="description">涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">176</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">116</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xq-120" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xq-120" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://stackoverflow.com/yourname" title="StackOverflow → https:&#x2F;&#x2F;stackoverflow.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fa fa-fw fa-stack-overflow"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jekyttt</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v6.3.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.getAttribute('pjax') !== null) {
+      script.setAttribute('pjax', '');
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+
+    </div>
+</body>
+</html>

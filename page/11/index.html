@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"xq-120.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="芝士就是力量">
+<meta property="og:url" content="https://xq-120.github.io/page/11/index.html">
+<meta property="og:site_name" content="芝士就是力量">
+<meta property="og:description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="jekyttt">
+<meta property="article:tag" content="Objective-C, Swift, C, iOS开发, 移动开发">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://xq-120.github.io/page/11/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false
+  };
+</script>
+
+  <title>芝士就是力量</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="芝士就是力量" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">芝士就是力量</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">像风一样自由</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/xq-120/xq-120.github.io" class="github-corner" title="XQ on GitHub" aria-label="XQ on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2019/09/13/Swift%E4%B8%AD%E7%9A%84AnyClass%E3%80%81AnyObject%E3%80%81Any/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/09/13/Swift%E4%B8%AD%E7%9A%84AnyClass%E3%80%81AnyObject%E3%80%81Any/" class="post-title-link" itemprop="url">Swift中的AnyClass、AnyObject、Any</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-09-13 12:39:40" itemprop="dateCreated datePublished" datetime="2019-09-13T12:39:40+08:00">2019-09-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>1.AnyObject</p>
+<p>定义:<br>public typealias AnyObject</p>
+<p>说明:<br>The protocol to which all classes implicitly conform.</p>
+<p>AnyObject can be used as the concrete type for an instance of any class, class type, or class-only protocol.</p>
+<p>The flexible behavior of the <code>AnyObject</code> protocol is similar to<br>Objective-C’s <code>id</code> type.</p>
+<p>AnyObject:用于表示任意类,元类的实例的具体类型.</p>
+<p>对于”123”或123这些基础数据类型在Swift中是结构体类型,所以这里需要将其强转为AnyObject类型,此时它们的类型将是<br>OC的NSTaggedPointerString和__NSCFNumber等对象类型.不强转的话编译会出错.</p>
+<p>eg:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">FDEItemModel</span> &#123;&#125;</span><br><span class="line"><span class="keyword">let</span> anyA: <span class="type">AnyObject</span> <span class="operator">=</span> <span class="type">FDEItemModel</span>.<span class="keyword">init</span>() <span class="comment">//对象，类的实例</span></span><br><span class="line"><span class="keyword">let</span> anyB: <span class="type">AnyObject</span> <span class="operator">=</span> <span class="type">FDEItemModel</span>.<span class="keyword">self</span> <span class="comment">//类对象，元类的实例</span></span><br><span class="line"><span class="keyword">let</span> anyC: <span class="type">AnyObject</span> <span class="operator">=</span> <span class="type">FDEItemModel</span>.<span class="keyword">init</span>().<span class="keyword">self</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> defaulA <span class="operator">=</span> <span class="type">FDEItemModel</span>.<span class="keyword">init</span>()  <span class="comment">//FDEItemModel</span></span><br><span class="line"><span class="keyword">let</span> defaulB <span class="operator">=</span> <span class="type">FDEItemModel</span>.<span class="keyword">self</span> <span class="comment">//FDEItemModel.Type</span></span><br><span class="line"><span class="keyword">let</span> defaulC <span class="operator">=</span> <span class="type">FDEItemModel</span>.<span class="keyword">init</span>().<span class="keyword">self</span> <span class="comment">//FDEItemModel</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> arr1: [<span class="type">AnyObject</span>] <span class="operator">=</span> [<span class="string">&quot;123&quot;</span> <span class="keyword">as</span> <span class="type">AnyObject</span>, <span class="number">123</span> <span class="keyword">as</span> <span class="type">AnyObject</span>, [<span class="number">123</span>] <span class="keyword">as</span> <span class="type">AnyObject</span>]</span><br><span class="line"> </span><br><span class="line"><span class="keyword">let</span> arr2: [<span class="type">AnyObject</span>] <span class="operator">=</span> [<span class="type">NSString</span>(<span class="string">&quot;123&quot;</span>),</span><br><span class="line">                             <span class="type">NSNumber</span>(<span class="number">123</span>),</span><br><span class="line">                             <span class="literal">true</span> <span class="keyword">as</span> <span class="type">AnyObject</span>,</span><br><span class="line">                             <span class="type">People</span>.<span class="keyword">init</span>(),</span><br><span class="line">                             <span class="type">People</span>.<span class="keyword">self</span></span><br><span class="line">                             ]</span><br><span class="line"><span class="built_in">print</span>(arr2)</span><br><span class="line"></span><br><span class="line"><span class="operator">...</span></span><br><span class="line">[<span class="number">123</span>, <span class="number">123</span>, <span class="number">1</span>, <span class="operator">&lt;</span><span class="type">OSHybridDemo</span>.<span class="type">People</span>: <span class="number">0x600002348b90</span><span class="operator">&gt;</span>, <span class="type">OSHybridDemo</span>.<span class="type">People</span>]</span><br></pre></td></tr></table></figure>
+<p>在使用AnyObject 对象时要特别注意如果你需要调用它的属性则最好先downcast为实际的类型，如果不downcast那么系统可能获取的是其他类的同名属性，得到的值将是nil。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/09/13/Swift%E4%B8%AD%E7%9A%84AnyClass%E3%80%81AnyObject%E3%80%81Any/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2019/09/12/Swift%E3%80%81OC%E5%8F%8D%E5%B0%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/09/12/Swift%E3%80%81OC%E5%8F%8D%E5%B0%84/" class="post-title-link" itemprop="url">Swift、OC反射</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-09-12 16:56:14" itemprop="dateCreated datePublished" datetime="2019-09-12T16:56:14+08:00">2019-09-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="Swift、OC反射"><a href="#Swift、OC反射" class="headerlink" title="Swift、OC反射"></a>Swift、OC反射</h3><p>反射即根据类名字符串,生成对应实例对象的过程.</p>
+<p>分为两步:</p>
+<ol>
+<li>根据字符串,得到对应的类对象.</li>
+<li>通过类对象调用初始化方法生成一个实例.</li>
+</ol>
+<h3 id="获取类对象"><a href="#获取类对象" class="headerlink" title="获取类对象"></a>获取类对象</h3><p>OC:</p>
+<figure class="highlight wren"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">+</span> (<span class="title class_">Class</span>)<span class="keyword">class</span> <span class="title class_">OBJC_SWIFT_UNAVAILABLE</span>(<span class="string">&quot;use &#x27;aClass.self&#x27; instead&quot;</span>);</span><br><span class="line"><span class="operator">-</span> (<span class="title class_">Class</span>)<span class="keyword">class</span> <span class="title class_">OBJC_SWIFT_UNAVAILABLE</span>(<span class="string">&quot;use &#x27;type(of: anObject)&#x27; instead&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>这俩方法都是返回一个类对象.    </p>
+<p>Swift:</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">aClass<span class="selector-class">.self</span></span><br><span class="line"><span class="function"><span class="title">type</span><span class="params">(of: anObject)</span></span></span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/09/12/Swift%E3%80%81OC%E5%8F%8D%E5%B0%84/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2019/09/01/OC%E6%87%92%E5%8A%A0%E8%BD%BD%E4%B8%8ESwift%E6%87%92%E5%8A%A0%E8%BD%BD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/09/01/OC%E6%87%92%E5%8A%A0%E8%BD%BD%E4%B8%8ESwift%E6%87%92%E5%8A%A0%E8%BD%BD/" class="post-title-link" itemprop="url">OC懒加载与Swift懒加载</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-09-01 12:46:18" itemprop="dateCreated datePublished" datetime="2019-09-01T12:46:18+08:00">2019-09-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="OC懒加载与Swift懒加载"><a href="#OC懒加载与Swift懒加载" class="headerlink" title="OC懒加载与Swift懒加载"></a>OC懒加载与Swift懒加载</h3><h4 id="OC懒加载"><a href="#OC懒加载" class="headerlink" title="OC懒加载"></a>OC懒加载</h4><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">-</span> (<span class="type">UIView</span> <span class="operator">*</span>)redView</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (_redView <span class="operator">==</span> <span class="literal">nil</span>) &#123;</span><br><span class="line">        _redView <span class="operator">=</span> [[<span class="type">UIView</span> alloc] <span class="keyword">init</span>];</span><br><span class="line">        _redView.frame <span class="operator">=</span> <span class="type">CGRectMake</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">100</span>, <span class="number">200</span>);</span><br><span class="line">        _redView.backgroundColor <span class="operator">=</span> <span class="type">UIColor</span>.redColor;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> _redView;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>:在懒加载的实现中尽量避免懒加载循环.即A懒加载B,B又懒加载A.这样会导致互相调用而死循环或者偏离预期结果.</p>
+<p>错误示例1:会导致调用死循环.</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">UIView</span> *)redView</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (_redView == <span class="literal">nil</span>) &#123;</span><br><span class="line">        <span class="built_in">UIView</span> *view = [[<span class="built_in">UIView</span> alloc] initWithFrame:<span class="built_in">CGRectMake</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="keyword">self</span>.blackView.frame.size.width + <span class="number">100</span>, <span class="number">200</span>)];</span><br><span class="line">        view.backgroundColor = <span class="built_in">UIColor</span>.redColor;</span><br><span class="line">        _redView = view;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> _redView;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="built_in">UIView</span> *)blackView</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (_blackView == <span class="literal">nil</span>) &#123;</span><br><span class="line">        <span class="built_in">UIView</span> *view = [[<span class="built_in">UIView</span> alloc] initWithFrame:<span class="built_in">CGRectMake</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">200</span>, <span class="keyword">self</span>.redView.frame.size.height + <span class="number">100</span>)];</span><br><span class="line">        view.backgroundColor = <span class="built_in">UIColor</span>.blackColor;</span><br><span class="line">        _blackView = view;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> _blackView;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>错误示例2:示例2其实和示例1是一回事.也会导致调用死循环.</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">UIView</span> *)redView</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (_redView == <span class="literal">nil</span>) &#123;</span><br><span class="line">        _redView = [[<span class="built_in">UIView</span> alloc] initWithFrame:<span class="built_in">CGRectMake</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="keyword">self</span>.blackView.frame.size.width + <span class="number">100</span>, <span class="number">200</span>)];</span><br><span class="line">        _redView.backgroundColor = <span class="built_in">UIColor</span>.redColor;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> _redView;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="built_in">UIView</span> *)blackView</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (_blackView == <span class="literal">nil</span>) &#123;</span><br><span class="line">        _blackView = [[<span class="built_in">UIView</span> alloc] initWithFrame:<span class="built_in">CGRectMake</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">200</span>, <span class="keyword">self</span>.redView.frame.size.height + <span class="number">100</span>)];</span><br><span class="line">        _blackView.backgroundColor = <span class="built_in">UIColor</span>.blackColor;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> _blackView;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>错误示例3:程序会在<code>[self.view addSubview:self.redView];</code>这一行崩溃:<code>Thread 1: EXC_BAD_ACCESS (code=1, address=0x0)</code></p>
+<p>原因在于:对于一个OC对象,alloc之后必须调用init方法完成初始化.对象只有在初始化完成之后才能继续使用.</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/09/01/OC%E6%87%92%E5%8A%A0%E8%BD%BD%E4%B8%8ESwift%E6%87%92%E5%8A%A0%E8%BD%BD/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2019/08/04/%E5%B5%8C%E5%A5%97%E9%A1%B5%E9%9D%A2%E6%89%8B%E5%8A%BF%E5%86%B2%E7%AA%81%E8%A7%A3%E5%86%B3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/08/04/%E5%B5%8C%E5%A5%97%E9%A1%B5%E9%9D%A2%E6%89%8B%E5%8A%BF%E5%86%B2%E7%AA%81%E8%A7%A3%E5%86%B3/" class="post-title-link" itemprop="url">嵌套页面手势冲突解决</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-08-04 08:32:44" itemprop="dateCreated datePublished" datetime="2019-08-04T08:32:44+08:00">2019-08-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bug/" itemprop="url" rel="index"><span itemprop="name">Bug</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="BUG场景"><a href="#BUG场景" class="headerlink" title="BUG场景"></a>BUG场景</h4><p>mainTableView嵌套listTableView.mainTableView的headerView里有左右滑动的collectionView(eg:轮播图).此时mainTableView的下拉刷新就会和collectionView的左右滑动起冲突.collectionView左右滑时,mainTableView可能会跟着一起动.</p>
+<p>为了实现吸顶效果,mainTableView是允许同时识别多个手势的.而这恰恰是引起手势冲突的原因.</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">MainTableView</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 允许多个手势</span></span><br><span class="line">- (<span class="type">BOOL</span>)gestureRecognizer:(<span class="built_in">UIGestureRecognizer</span> *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(<span class="built_in">UIGestureRecognizer</span> *)otherGestureRecognizer &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<h4 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h4><p>由于mainTableView只能上下滑动,因此可以判断如果otherGestureRecognizer所在的view在左右滑动则不让mainTableView的手势同时识别.</p>
+<p>这里有一个不好处理的地方就是在某些精心构造的滑动下,point可能为(0,0),</p>
+<blockquote>
+<p>偶现时的日志:</p>
+<figure class="highlight django"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="language-xml">2019-08-03 18:23:52.661593+0800 xxx[20938:1512558] </span></span><br><span class="line"><span class="language-xml">view:<span class="tag">&lt;<span class="name">MainTableView:</span> <span class="attr">0x1070c3c00</span>; <span class="attr">baseClass</span> = <span class="string">UITableView;</span> <span class="attr">frame</span> = <span class="string">(0</span> <span class="attr">0</span>; <span class="attr">414</span> <span class="attr">623</span>); <span class="attr">clipsToBounds</span> = <span class="string">YES;</span> <span class="attr">gestureRecognizers</span> = &lt;<span class="attr">NSArray:</span> <span class="attr">0x282b5dce0</span>&gt;</span>; layer = <span class="tag">&lt;<span class="name">CALayer:</span> <span class="attr">0x28258a980</span>&gt;</span>; contentOffset: &#123;0, -3.3333333333333335&#125;; contentSize: &#123;414, 1418&#125;; adjustedContentInset: &#123;0, 0, 0, 0&#125;&gt;</span></span><br><span class="line"><span class="language-xml">ges:<span class="tag">&lt;<span class="name">UIScrollViewPanGestureRecognizer:</span> <span class="attr">0x106d75500</span>; <span class="attr">state</span> = <span class="string">Changed;</span> <span class="attr">delaysTouchesEnded</span> = <span class="string">NO;</span> <span class="attr">view</span> = &lt;<span class="attr">GKPageTableView</span> <span class="attr">0x1070c3c00</span>&gt;</span>; target= &lt;(action=handlePan:, target=<span class="tag">&lt;<span class="name">GKPageTableView</span> <span class="attr">0x1070c3c00</span>&gt;</span>)&gt;&gt;</span></span><br><span class="line"><span class="language-xml">otherView:<span class="tag">&lt;<span class="name">UICollectionView:</span> <span class="attr">0x1079cea00</span>; <span class="attr">frame</span> = <span class="string">(0</span> <span class="attr">0</span>; <span class="attr">414</span> <span class="attr">165.6</span>); <span class="attr">clipsToBounds</span> = <span class="string">YES;</span> <span class="attr">gestureRecognizers</span> = &lt;<span class="attr">NSArray:</span> <span class="attr">0x282b03930</span>&gt;</span>; layer = <span class="tag">&lt;<span class="name">CALayer:</span> <span class="attr">0x2825528c0</span>&gt;</span>; contentOffset: &#123;64584, 0&#125;; contentSize: &#123;124200, 165.60000000000002&#125;; adjustedContentInset: &#123;0, 0, 0, 0&#125;&gt; collection view layout: <span class="tag">&lt;<span class="name">UICollectionViewFlowLayout:</span> <span class="attr">0x111c20eb0</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">otherGes:<span class="tag">&lt;<span class="name">UIScrollViewPanGestureRecognizer:</span> <span class="attr">0x106c7aaa0</span>; <span class="attr">state</span> = <span class="string">Began;</span> <span class="attr">delaysTouchesEnded</span> = <span class="string">NO;</span> <span class="attr">view</span> = &lt;<span class="attr">UICollectionView</span> <span class="attr">0x1079cea00</span>&gt;</span>; target= &lt;(action=handlePan:, target=<span class="tag">&lt;<span class="name">UICollectionView</span> <span class="attr">0x1079cea00</span>&gt;</span>)&gt;; must-fail = &#123;</span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">UIScrollViewPagingSwipeGestureRecognizer:</span> <span class="attr">0x111c210d0</span>; <span class="attr">state</span> = <span class="string">Failed;</span> <span class="attr">view</span> = &lt;<span class="attr">UICollectionView</span> <span class="attr">0x1079cea00</span>&gt;</span>; target= &lt;(action=_handleSwipe:, target=<span class="tag">&lt;<span class="name">UICollectionView</span> <span class="attr">0x1079cea00</span>&gt;</span>)&gt;&gt;</span></span><br><span class="line"><span class="language-xml">    &#125;&gt;</span></span><br><span class="line"><span class="language-xml">2019-08-03 18:23:52.662988+0800 EmotionCounsel[20938:1512558] </span></span><br><span class="line"><span class="language-xml">移动的位置:&#123;0, 7&#125;</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>此时就没办法判断出otherGestureRecognizer.view是不是在左右滑动了.所以加了一个else判断避免这种情况.</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">MainTableView</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 允许多个手势</span></span><br><span class="line">- (<span class="type">BOOL</span>)gestureRecognizer:(<span class="built_in">UIGestureRecognizer</span> *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(<span class="built_in">UIGestureRecognizer</span> *)otherGestureRecognizer &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> ([gestureRecognizer isKindOfClass:[<span class="built_in">UIPanGestureRecognizer</span> <span class="keyword">class</span>]] &amp;&amp; [otherGestureRecognizer isKindOfClass:[<span class="built_in">UIPanGestureRecognizer</span> <span class="keyword">class</span>]] &amp;&amp; otherGestureRecognizer.view != <span class="keyword">self</span>) &#123;</span><br><span class="line">        <span class="built_in">UIPanGestureRecognizer</span> *otherPanGes = (<span class="built_in">UIPanGestureRecognizer</span> *)otherGestureRecognizer;</span><br><span class="line">        <span class="built_in">CGPoint</span> point = [otherPanGes translationInView:otherPanGes.view];</span><br><span class="line">        <span class="built_in">UIGestureRecognizerState</span> otherState = otherPanGes.state;</span><br><span class="line">        <span class="keyword">if</span> (otherState == <span class="built_in">UIGestureRecognizerStatePossible</span> || otherState == <span class="built_in">UIGestureRecognizerStateBegan</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (fabs(point.x) &gt; <span class="number">0</span>) &#123; <span class="comment">//如果在水平左右滑动</span></span><br><span class="line">                <span class="keyword">return</span> <span class="literal">NO</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> ([otherGestureRecognizer.view isKindOfClass:[<span class="built_in">UICollectionView</span> <span class="keyword">class</span>]]) &#123;</span><br><span class="line">                    <span class="built_in">UICollectionView</span> *otherView = (<span class="built_in">UICollectionView</span> *)otherGestureRecognizer.view;</span><br><span class="line">                    <span class="keyword">if</span> ([otherView.collectionViewLayout isKindOfClass:[<span class="built_in">UICollectionViewFlowLayout</span> <span class="keyword">class</span>]] &amp;&amp; [(<span class="built_in">UICollectionViewFlowLayout</span> *)otherView.collectionViewLayout scrollDirection] == <span class="built_in">UICollectionViewScrollDirectionHorizontal</span>) &#123;</span><br><span class="line">                        <span class="built_in">NSLog</span>(<span class="string">@&quot;正在滑动左右滚动视图!!!!!!&quot;</span>);</span><br><span class="line">                        <span class="keyword">return</span> <span class="literal">NO</span>;</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        <span class="built_in">NSLog</span>(<span class="string">@&quot;UICollectionView的其他布局&quot;</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="built_in">NSLog</span>(<span class="string">@&quot;其他视图&quot;</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/08/04/%E5%B5%8C%E5%A5%97%E9%A1%B5%E9%9D%A2%E6%89%8B%E5%8A%BF%E5%86%B2%E7%AA%81%E8%A7%A3%E5%86%B3/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2019/07/12/%E9%9F%B3%E9%A2%91%E6%89%93%E6%96%AD%E5%A4%84%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/07/12/%E9%9F%B3%E9%A2%91%E6%89%93%E6%96%AD%E5%A4%84%E7%90%86/" class="post-title-link" itemprop="url">音频打断处理</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-07-12 23:39:11" itemprop="dateCreated datePublished" datetime="2019-07-12T23:39:11+08:00">2019-07-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/" itemprop="url" rel="index"><span itemprop="name">音视频</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="音频打断处理"><a href="#音频打断处理" class="headerlink" title="音频打断处理"></a>音频打断处理</h4><p>音频打断通知:</p>
+<p><code>AVAudioSessionInterruptionNotification</code></p>
+<p>音频会话被系统打断时会收到该通知.打断开始会收到该通知,打断结束也会收到该通知.可以通过userInfo里的<code>AVAudioSessionInterruptionTypeKey</code>key查看打断的类型:</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="built_in">NS_ENUM</span>(<span class="built_in">NSUInteger</span>, <span class="built_in">AVAudioSessionInterruptionType</span>)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">AVAudioSessionInterruptionTypeBegan</span> = <span class="number">1</span>,  <span class="comment">/* the system has interrupted your audio session */</span></span><br><span class="line">	<span class="built_in">AVAudioSessionInterruptionTypeEnded</span> = <span class="number">0</span>,  <span class="comment">/* the interruption has ended */</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* keys for AVAudioSessionInterruptionNotification */</span></span><br><span class="line"><span class="comment">/* Value is an NSNumber representing an AVAudioSessionInterruptionType */</span></span><br><span class="line"><span class="built_in">AVF_EXPORT</span> <span class="built_in">NSString</span> *<span class="keyword">const</span> <span class="built_in">AVAudioSessionInterruptionTypeKey</span> API_AVAILABLE(ios(<span class="number">6.0</span>), watchos(<span class="number">2.0</span>), tvos(<span class="number">9.0</span>)) API_UNAVAILABLE(macos);</span><br></pre></td></tr></table></figure>
+<p>如果是打断结束类型,则userInfo里会有一个<code>AVAudioSessionInterruptionOptions</code>key,它的值是<code>AVAudioSessionInterruptionOptions</code>枚举类型.用于表示打断结束后是否应该继续播放.</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* For use with AVAudioSessionInterruptionNotification */</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="built_in">NS_OPTIONS</span>(<span class="built_in">NSUInteger</span>, <span class="built_in">AVAudioSessionInterruptionOptions</span>)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">AVAudioSessionInterruptionOptionShouldResume</span> = <span class="number">1</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>如果打断是因为应用被挂起,则userInfo里会有一个<code>AVAudioSessionInterruptionWasSuspendedKey</code>key,并且值是true.(这个key有点奇葩)</p>
+<p>使用如下:</p>
+<p>注册<code>AVAudioSessionInterruptionNotification</code>通知:</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/07/12/%E9%9F%B3%E9%A2%91%E6%89%93%E6%96%AD%E5%A4%84%E7%90%86/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2019/05/19/iOS%20%E4%BA%8B%E4%BB%B6%E5%88%86%E5%8F%91%E4%B8%8E%E6%89%8B%E5%8A%BF%E8%AF%86%E5%88%AB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/05/19/iOS%20%E4%BA%8B%E4%BB%B6%E5%88%86%E5%8F%91%E4%B8%8E%E6%89%8B%E5%8A%BF%E8%AF%86%E5%88%AB/" class="post-title-link" itemprop="url">iOS 事件分发与手势识别</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-05-19 12:10:42" itemprop="dateCreated datePublished" datetime="2019-05-19T12:10:42+08:00">2019-05-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/UIKit/" itemprop="url" rel="index"><span itemprop="name">UIKit</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="iOS-事件分发与手势识别"><a href="#iOS-事件分发与手势识别" class="headerlink" title="iOS 事件分发与手势识别"></a>iOS 事件分发与手势识别</h3><p>在讲事件的分发之前,有三个概念不得不提:响应者对象, nextResponder, 响应者链.</p>
+<h4 id="响应者对象"><a href="#响应者对象" class="headerlink" title="响应者对象"></a>响应者对象</h4><p>在iOS系统中，能够响应并处理事件的对象称之为responder object, UIResponder是所有responder对象的基类。<br>UIApplication,UIViewController,UIView和所有继承自UIView的UIKit类(包括UIWindow,继承自UIView)都直接或间接的继承自UIResponder,所以它们的实例都是responder object对象。</p>
+<h4 id="nextResponder"><a href="#nextResponder" class="headerlink" title="nextResponder"></a>nextResponder</h4><p>有UIResponder的文档如下:</p>
+<blockquote>
+<p>The UIResponder class does not store or set the next responder automatically, so this method returns nil by default. Subclasses must override this method and return an appropriate next responder.</p>
+</blockquote>
+<p>UIResponder自身默认返回的是nil.但子类必须重写这个方法并且返回一个合适的nextResponder.UIView的默认实现:通常情况下是它的父视图,但是如果view是作为ViewController的rootView,那么它的nextResponder就是ViewController. ViewController的默认实现:返回它管理的view的父视图.</p>
+<h4 id="响应者链"><a href="#响应者链" class="headerlink" title="响应者链"></a>响应者链</h4><p>app的视图结构是一个N叉树(一个视图可以有多个子视图，一个子视图同一时刻只有一个父视图),而每一个继承UIResponder的对象都可以在这个N叉树中扮演一个节点。当叶节点成为第一响应者的时候，从这个叶节点开始往其父节点开始追朔出一条链，这一条链就是当前活跃的响应者链。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/05/19/iOS%20%E4%BA%8B%E4%BB%B6%E5%88%86%E5%8F%91%E4%B8%8E%E6%89%8B%E5%8A%BF%E8%AF%86%E5%88%AB/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2019/05/04/%E7%90%86%E8%A7%A3OC%E4%B8%AD%E7%9A%84SEL%E3%80%81IMP%E3%80%81Method/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/05/04/%E7%90%86%E8%A7%A3OC%E4%B8%AD%E7%9A%84SEL%E3%80%81IMP%E3%80%81Method/" class="post-title-link" itemprop="url">理解OC中的SEL、IMP、Method</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-05-04 23:11:34" itemprop="dateCreated datePublished" datetime="2019-05-04T23:11:34+08:00">2019-05-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/runtime/" itemprop="url" rel="index"><span itemprop="name">runtime</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="SEL"><a href="#SEL" class="headerlink" title="SEL"></a>SEL</h4><p>Defines an opaque type that represents a method selector.</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="title class_">objc_selector</span> *SEL;</span><br></pre></td></tr></table></figure>
+<p>SEL是一种数据类型,代表一个方法选择器(要是觉得不好理解,可以类比一下int,int是整型类型,代表一个整数).方法选择器就是运行时中方法的名称,它是一个注册到(或映射到)Objective-C运行时里的一个C字符串.选择器由编译器生成,在系统加载类的时候由runtime自动进行映射.</p>
+<p>按照文档说明,选择器是在编译期间生成的,在加载类的时候映射为runtime中的一个C字符串.</p>
+<p>给对象发送一条消息<code>[obj xxxMethod];</code>,其实是调用了<code>objc_msgSend(obj, @selector(xxxMethod));</code>.</p>
+<p><code>objc_msgSend</code>的声明如下:<br><code>OBJC_EXPORT id _Nullable
+objc_msgSend(id _Nullable self, SEL _Nonnull op, ...);</code><br>它的第二个参数的类型就是SEL.说明它是真实存在的.</p>
+<p>相关的API:</p>
+<figure class="highlight oxygene"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//向runtime system注册一个方法名。如果方法名已经注册，则返回已经注册的SEL</span></span><br><span class="line">SEL sel_registerName(<span class="keyword">const</span> char *str)</span><br><span class="line"></span><br><span class="line"><span class="comment">//功能同上</span></span><br><span class="line">SEL sel_getUid(<span class="keyword">const</span> char *str)</span><br><span class="line"></span><br><span class="line"><span class="comment">//使用OC编译器指令.功能同上,也是向runtime system注册一个方法名.</span></span><br><span class="line">@<span class="keyword">selector</span>(&lt;#<span class="keyword">selector</span>#&gt;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//使用OC字符串构造.功能同上</span></span><br><span class="line">SEL NSSelectorFromString(NSString *aSelectorName)</span><br><span class="line"></span><br><span class="line"><span class="comment">//根据Method结构体获取</span></span><br><span class="line">SEL _Nonnull method_getName(<span class="keyword">Method</span> _<span class="title function_">Nonnull</span> <span class="title function_">m</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//比较两个选择器</span></span><br><span class="line">BOOL sel_isEqual ( SEL lhs, SEL rhs )<span class="punctuation">;</span></span><br><span class="line"><span class="comment">//判断方法名是否映射到某个函数实现上</span></span><br><span class="line">BOOL sel_isMapped(SEL sel)<span class="punctuation">;</span></span><br></pre></td></tr></table></figure>
+<p>eg:</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/05/04/%E7%90%86%E8%A7%A3OC%E4%B8%AD%E7%9A%84SEL%E3%80%81IMP%E3%80%81Method/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2019/04/07/OC%E4%B8%8ESwift%E6%B7%B7%E7%BC%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/04/07/OC%E4%B8%8ESwift%E6%B7%B7%E7%BC%96/" class="post-title-link" itemprop="url">OC与Swift混编</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-04-07 17:16:55" itemprop="dateCreated datePublished" datetime="2019-04-07T17:16:55+08:00">2019-04-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="1-混编设置"><a href="#1-混编设置" class="headerlink" title="1.混编设置"></a>1.混编设置</h2><p>新建一个桥接文件<code>工程名-Bridging-Header.h</code>.到此为止,混编设置差不多就完事了.<br>该文件在第一次新建Swift文件时,系统会提示是否建立桥接文件,选择是即可.也可自行创建,但自行创建还需要设置路径略微麻烦.</p>
+<h3 id="1-1-Swift调用OC"><a href="#1-1-Swift调用OC" class="headerlink" title="1.1 Swift调用OC"></a>1.1 Swift调用OC</h3><p>在桥接文件中导入需要调用的OC类的头文件即可.这样就可以在Swift的类里使用OC的类了.</p>
+<p>举例:</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  Use this file to import your target&#x27;s public headers that you would like to expose to Swift.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//在Swift里调用OC,需要在桥接文件里导入OC头文件</span></span><br><span class="line"><span class="comment">//调用自身module里的OC代码</span></span><br><span class="line">#<span class="keyword">import</span> <span class="string">&quot;AppDelegate.h&quot;</span></span><br><span class="line">#<span class="keyword">import</span> <span class="string">&quot;ZAEGradientView.h&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//Pod管理的OC库</span></span><br><span class="line">#<span class="keyword">import</span> &lt;MJRefresh/MJRefresh.h&gt;</span><br><span class="line">#<span class="keyword">import</span> &lt;YYModel/YYModel.h&gt;</span><br><span class="line">#<span class="keyword">import</span> &lt;ZACommon/UIViewController+FRCustomNavigationBarItem.h&gt;</span><br><span class="line">#<span class="keyword">import</span> &lt;ZACommon/InnerBandCore.h&gt;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意:对于pod管理的OC库,导入头文件时推荐使用<code>&lt;&gt;</code>而非<code>&quot;&quot;</code>.如<code>#import &lt;ZACommon/UIViewController+FRCustomNavigationBarItem.h&gt;</code>,不要写为<code>#import &quot;UIViewController+FRCustomNavigationBarItem.h&quot;</code>,否则可能导致编译通不过.</p>
+</blockquote>
+<h3 id="1-2-OC调用Swift"><a href="#1-2-OC调用Swift" class="headerlink" title="1.2 OC调用Swift"></a>1.2 OC调用Swift</h3><p>需要在OC的类里写上<code>import &quot;xxx-Swift.h&quot;</code>.(xxx为项目名称).也可以写在PCH文件中.<br>如:<code>#import &quot;EmotionCounsel-Swift.h&quot;</code></p>
+<p>官方文档:</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/04/07/OC%E4%B8%8ESwift%E6%B7%B7%E7%BC%96/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2019/03/03/%E4%BB%8EJSONSerialization%E5%B4%A9%E6%BA%83%E5%88%B0%E6%90%9E%E6%87%82Swift%E7%9A%84try-catch/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/03/03/%E4%BB%8EJSONSerialization%E5%B4%A9%E6%BA%83%E5%88%B0%E6%90%9E%E6%87%82Swift%E7%9A%84try-catch/" class="post-title-link" itemprop="url">从JSONSerialization崩溃到搞懂Swift的try-catch</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-03-03 13:21:39" itemprop="dateCreated datePublished" datetime="2019-03-03T13:21:39+08:00">2019-03-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>今天学习了下Swift中的try-catch,突然发现在json序列化时try-catch不好使了,下面的代码依然会导致崩溃,try-catch并不能catch住.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Foundation</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">People</span>: <span class="title class_">NSObject</span>, <span class="title class_">Decodable</span> &#123;</span><br><span class="line">    <span class="keyword">@objc</span> <span class="keyword">var</span> firstName: <span class="type">String</span></span><br><span class="line">    <span class="keyword">@objc</span> <span class="keyword">var</span> lastName: <span class="type">String</span></span><br><span class="line">    <span class="keyword">@objc</span> <span class="keyword">var</span> age: <span class="type">Int</span> <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">@objc</span> <span class="keyword">var</span> height: <span class="type">Float</span> <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">@objc</span> <span class="keyword">var</span> weight: <span class="type">Float</span> <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">@objc</span> <span class="keyword">var</span> sex: <span class="type">Bool</span> <span class="operator">=</span> <span class="literal">false</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">@objc</span> <span class="keyword">init</span>(<span class="params">firstName</span>: <span class="type">String</span>, <span class="params">lastName</span>: <span class="type">String</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.firstName <span class="operator">=</span> firstName</span><br><span class="line">        <span class="keyword">self</span>.lastName <span class="operator">=</span> lastName</span><br><span class="line">        <span class="keyword">super</span>.<span class="keyword">init</span>()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> dict <span class="operator">=</span> [<span class="string">&quot;one&quot;</span>: <span class="type">People</span>.<span class="keyword">init</span>(firstName: <span class="string">&quot;x&quot;</span>, lastName: <span class="string">&quot;q&quot;</span>)]</span><br><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> jsonData <span class="operator">=</span> <span class="keyword">try</span> <span class="type">JSONSerialization</span>.data(withJSONObject: dict, options: [])</span><br><span class="line">    <span class="built_in">print</span>(jsonData)</span><br><span class="line">&#125; <span class="keyword">catch</span> <span class="keyword">let</span> error &#123;</span><br><span class="line">    <span class="built_in">print</span>(error)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>看了下方法</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">func</span> <span class="title class_">data</span>(<span class="title class_">withJSONObject</span> <span class="title class_">obj</span>: <span class="title class_">Any</span>, <span class="title class_">options</span> <span class="title class_">opt</span>: <span class="title class_">JSONSerialization</span>.<span class="title class_">WritingOptions</span> = []) <span class="title class_">throws</span> -&gt; <span class="title class_">Data</span></span><br></pre></td></tr></table></figure>
+<p>的说明:</p>
+<blockquote>
+<p>If obj will not produce valid JSON, an exception is thrown. This exception is thrown prior to parsing and represents a programming error, not an internal error. You should check whether the input will produce valid JSON before calling this method by using isValidJSONObject(_:).</p>
+</blockquote>
+<p>大意是如果obj参数不是一个合法的JSON,那么将抛出一个异常.该异常代表的是一个编程错误而不是解析时的内部错误,它在解析之前就被抛出了.估计这种异常是无法捕获的.所以最好先调用<code>isValidJSONObject</code>判断下是不是一个合法的JSON,再进行序列化.</p>
+<p>类似的这样的错误也是捕捉不到的.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ot: <span class="type">String</span>!</span><br><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> os <span class="operator">=</span> <span class="keyword">try</span> ot<span class="operator">!</span></span><br><span class="line">    <span class="built_in">print</span>(os)</span><br><span class="line">&#125; <span class="keyword">catch</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(error)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码依旧崩溃.</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/03/03/%E4%BB%8EJSONSerialization%E5%B4%A9%E6%BA%83%E5%88%B0%E6%90%9E%E6%87%82Swift%E7%9A%84try-catch/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/12/20/%E9%9F%B3%E8%A7%86%E9%A2%91%E7%BC%96%E7%A0%81%E6%A0%BC%E5%BC%8F%E5%92%8C%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/12/20/%E9%9F%B3%E8%A7%86%E9%A2%91%E7%BC%96%E7%A0%81%E6%A0%BC%E5%BC%8F%E5%92%8C%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/" class="post-title-link" itemprop="url">音视频编码格式和文件格式</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-12-20 00:23:55" itemprop="dateCreated datePublished" datetime="2018-12-20T00:23:55+08:00">2018-12-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/" itemprop="url" rel="index"><span itemprop="name">音视频</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="音视频文件格式和编码格式"><a href="#音视频文件格式和编码格式" class="headerlink" title="音视频文件格式和编码格式"></a>音视频文件格式和编码格式</h3><p>主要是搞清楚两个概念：编码格式和文件格式。</p>
+<p>由于音视频的原始数据都很大，不方便存储与传输，所以就有各种各样的编码技术或算法对其进行编码以达到减少数据的目的，这些编码技术就叫编码格式，有些编码格式解码后能够完全恢复为原始数据，因此这些编码格式也被称为无损压缩，而有些编码格式解码后不能恢复为原来的数据因此也被称为有损压缩。</p>
+<p>我们通常说的音视频格式准确地讲应该是音视频文件格式。音视频文件格式它是一个容器里面包含了音频、视频、字幕等，有时也被称为封装格式。有些文件格式只能装载特定编码格式的数据，而有些文件格式既可以装载A编码格式的数据，也可以装载B编码格式的数据，不过这也会带来一些问题比如某个播放器只能播放装载A编码格式的.mp4文件，这时如果你给他一个装载B编码格式的.mp4文件那么这个播放器就会播放失败。对于音频文件，虽然一种音频文件格式可以支持多种编码，例如AVI文件格式，但多数的音频文件仅支持一种音频编码。</p>
+<p>音视频文件的名字后面都会有一个扩展名，这个扩展名就代表它是什么文件格式，扩展名的作用就是告诉操作系统应该使用什么样的软件来打开该文件，对于音视频文件改变扩展名并不影响内部数据的编码格式，反而还会误导操作系统，导致文件打开失败，如果想改变编码格式则需要专门的格式转换软件。</p>
+<p>编码技术是会不断发展迭代的，所以经常会看到一个编码技术下面可能还会分好几个子类。另外编码格式有各个厂商推出的，也有标准组织推出的，也有个人推出的。这也导致了市面上出现了各种编码格式，每种编码格式又会对应一种文件格式，这就造成了新手在一堆格式名称里晕头转向。我们所说的格式一般指文件格式，但有些时候又是指编码格式，造成这种现象的原因主要是大部分文件格式只支持一种编码格式，这个时候文件格式和编码格式可以看做是同一个东西。</p>
+<p>一个音频文件的播放过程：</p>
+<p>音频文件——&gt;解封装——-&gt;解码———&gt;渲染播放</p>
+<p>视频播放则要复杂一些，主要是音频和视频的同步。</p>
+<p>如下图：</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/12/20/%E9%9F%B3%E8%A7%86%E9%A2%91%E7%BC%96%E7%A0%81%E6%A0%BC%E5%BC%8F%E5%92%8C%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+  </div>
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/10/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/12/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">jekyttt</p>
+  <div class="site-description" itemprop="description">涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">176</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">116</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xq-120" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xq-120" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://stackoverflow.com/yourname" title="StackOverflow → https:&#x2F;&#x2F;stackoverflow.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fa fa-fw fa-stack-overflow"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jekyttt</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v6.3.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.getAttribute('pjax') !== null) {
+      script.setAttribute('pjax', '');
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+
+    </div>
+</body>
+</html>

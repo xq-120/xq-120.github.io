@@ -1,0 +1,556 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>芝士就是力量</title>
+  <icon>https://xq-120.github.io/icon.png</icon>
+  <subtitle>像风一样自由</subtitle>
+  <link href="https://xq-120.github.io/atom.xml" rel="self"/>
+  
+  <link href="https://xq-120.github.io/"/>
+  <updated>2024-12-14T07:50:26.476Z</updated>
+  <id>https://xq-120.github.io/</id>
+  
+  <author>
+    <name>jekyttt</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="https://xq-120.github.io/2024/12/14/hello-world/"/>
+    <id>https://xq-120.github.io/2024/12/14/hello-world/</id>
+    <published>2024-12-14T07:50:26.476Z</published>
+    <updated>2024-12-14T07:50:26.476Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot;&gt;documentation&lt;/a&gt; for more info. If you get any problems when using Hexo, you can find the answer in &lt;a href=&quot;https://hexo.io/docs/troubleshooting.html&quot;&gt;troubleshooting&lt;/a&gt; or you can ask me on &lt;a href=&quot;https://github.com/hexojs/hexo/issues&quot;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&quot;Quick-Start&quot;&gt;&lt;a href=&quot;#Quick-Start&quot; class=&quot;headerlink&quot; title=&quot;Quick Start&quot;&gt;&lt;/a&gt;Quick Start&lt;/h2&gt;&lt;h3 id=&quot;Create-a-new-post&quot;&gt;&lt;a href=&quot;#Create-a-new-post&quot; class=&quot;headerlink&quot; title=&quot;Create a new post&quot;&gt;&lt;/a&gt;Create a new post&lt;/h3&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ hexo new &lt;span class=&quot;string&quot;&gt;&amp;quot;My New Post&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;More info: &lt;a href=&quot;https://hexo.io/docs/writing.html&quot;&gt;Writing&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&quot;Run-server&quot;&gt;&lt;a href=&quot;#Run-server&quot; class=&quot;headerlink&quot; title=&quot;Run server&quot;&gt;&lt;/a&gt;Run server&lt;/h3&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ hexo server&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;More info: &lt;a href=&quot;https://hexo.io/docs/server.html&quot;&gt;Server&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&quot;Generate-static-files&quot;&gt;&lt;a href=&quot;#Generate-static-files&quot; class=&quot;headerlink&quot; title=&quot;Generate static files&quot;&gt;&lt;/a&gt;Generate static files&lt;/h3&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ hexo generate&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</summary>
+    
+    
+    
+    <category term="Hexo" scheme="https://xq-120.github.io/categories/Hexo/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>homebrew介绍</title>
+    <link href="https://xq-120.github.io/2024/02/09/homebrew%E4%BB%8B%E7%BB%8D/"/>
+    <id>https://xq-120.github.io/2024/02/09/homebrew%E4%BB%8B%E7%BB%8D/</id>
+    <published>2024-02-09T07:39:58.000Z</published>
+    <updated>2025-02-23T03:22:06.070Z</updated>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;homebrew简介&quot;&gt;&lt;a href=&quot;#homebrew简介&quot; class=&quot;headerlink&quot; title=&quot;homebrew简介&quot;&gt;&lt;/a&gt;homebrew简介&lt;/h2&gt;&lt;p&gt;homebrew类似于QQ软件管家，方便我们安装卸载第三方软件。当然这里的软件指的是命令行软件，而不是我们通常使用的图形界面应用软件。&lt;/p&gt;
+&lt;h2 id=&quot;安装homebrew&quot;&gt;&lt;a href=&quot;#安装homebrew&quot; class=&quot;headerlink&quot; title=&quot;安装homebrew&quot;&gt;&lt;/a&gt;安装homebrew&lt;/h2&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;/bin/bash -c &lt;span class=&quot;string&quot;&gt;&amp;quot;&lt;span class=&quot;subst&quot;&gt;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)&lt;/span&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;Homebrew 会将软件包安装到独立目录，Homebrew 不会将文件安装到它本身目录之外，所以您可将 Homebrew 安装到任意位置，默认是安装在:&lt;/p&gt;
+&lt;figure class=&quot;highlight awk&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;regexp&quot;&gt;/opt/&lt;/span&gt;homebrew/Cellar&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;eg:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;regexp&quot;&gt;/opt/&lt;/span&gt;homebrew&lt;span class=&quot;regexp&quot;&gt;/Cellar/&lt;/span&gt;openssl@&lt;span class=&quot;number&quot;&gt;3&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;，并将其文件软链接至 &lt;code&gt;/opt/homebrew/opt/&lt;/code&gt; 。该目录下的文件则是Cellar下对应软件的一个软连接。&lt;/p&gt;
+&lt;h2 id=&quot;homebrew使用&quot;&gt;&lt;a href=&quot;#homebrew使用&quot; class=&quot;headerlink&quot; title=&quot;homebrew使用&quot;&gt;&lt;/a&gt;homebrew使用&lt;/h2&gt;&lt;h3 id=&quot;1-安装软件&quot;&gt;&lt;a href=&quot;#1-安装软件&quot; class=&quot;headerlink&quot; title=&quot;1.安装软件&quot;&gt;&lt;/a&gt;1.安装软件&lt;/h3&gt;&lt;figure class=&quot;highlight mipsasm&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;brew &lt;/span&gt;&lt;span class=&quot;keyword&quot;&gt;install &lt;/span&gt;xxx&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</summary>
+    
+    
+    
+    <category term="命令行" scheme="https://xq-120.github.io/categories/%E5%91%BD%E4%BB%A4%E8%A1%8C/"/>
+    
+    
+    <category term="homebrew" scheme="https://xq-120.github.io/tags/homebrew/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>nodejs介绍</title>
+    <link href="https://xq-120.github.io/2024/02/09/nodejs%E4%BB%8B%E7%BB%8D/"/>
+    <id>https://xq-120.github.io/2024/02/09/nodejs%E4%BB%8B%E7%BB%8D/</id>
+    <published>2024-02-09T05:31:05.000Z</published>
+    <updated>2024-12-14T07:50:26.476Z</updated>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;node简介&quot;&gt;&lt;a href=&quot;#node简介&quot; class=&quot;headerlink&quot; title=&quot;node简介&quot;&gt;&lt;/a&gt;node简介&lt;/h2&gt;&lt;p&gt;Node.js 是能够在服务器端运行JavaScript 的开放源代码、跨平台执行环境。Node.js 由 OpenJS Foundation 持有和维护，亦为Linux 基金会的项目。Node.js 是一个开源的跨平台 &lt;a href=&quot;https://nodejs.org/en/about/&quot;&gt;JavaScript 运行时环境&lt;/a&gt;，侧重于服务器端和网络应用。&lt;/p&gt;
+&lt;p&gt;Node.js 非常适合用于：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;使用 Node.js 开发的单页 Web 应用程序&lt;/li&gt;
+&lt;li&gt;Web 服务器后端&lt;/li&gt;
+&lt;li&gt;移动和桌面应用程序（包括游戏）&lt;/li&gt;
+&lt;li&gt;机器学习系统或 IoT 设备的后端&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;安装node&quot;&gt;&lt;a href=&quot;#安装node&quot; class=&quot;headerlink&quot; title=&quot;安装node&quot;&gt;&lt;/a&gt;安装node&lt;/h2&gt;&lt;p&gt;node版本是一个比较棘手的问题，比如6.3.0版的node跑不了一些新项目，升级到10.x版的node后，又跑不了旧项目。所以安装的node最好能方便切换版本。推荐先安装nvm，再使用nvm安装管理node版本。&lt;code&gt;nvm&lt;/code&gt; 是 &lt;code&gt;Node.js&lt;/code&gt; 的版本管理工具，可以创建不同版本 &lt;code&gt;Node&lt;/code&gt; 的隔离环境，从而避免不同版本包之间的干扰。&lt;/p&gt;
+&lt;p&gt;安装 &lt;code&gt;nvm&lt;/code&gt; 之前最好是将现有的全局 &lt;code&gt;Node&lt;/code&gt; 进行卸载，否则会发生冲突。&lt;/p&gt;
+&lt;p&gt;先查看一下node信息：&lt;/p&gt;
+&lt;figure class=&quot;highlight crmsh&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;➜  ~ which &lt;span class=&quot;keyword&quot;&gt;node&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;title&quot;&gt;/usr&lt;/span&gt;/local/bin/&lt;span class=&quot;keyword&quot;&gt;node&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;title&quot;&gt;➜  ~ node&lt;/span&gt; -v&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;v21.&lt;span class=&quot;number&quot;&gt;6.1&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;之前是用homebrew安装的，可以通过brew list查看：&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="命令行" scheme="https://xq-120.github.io/categories/%E5%91%BD%E4%BB%A4%E8%A1%8C/"/>
+    
+    
+    <category term="node" scheme="https://xq-120.github.io/tags/node/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ssh方式git clone报错</title>
+    <link href="https://xq-120.github.io/2024/01/20/ssh%E6%96%B9%E5%BC%8Fgit%20clone%E6%8A%A5%E9%94%99/"/>
+    <id>https://xq-120.github.io/2024/01/20/ssh%E6%96%B9%E5%BC%8Fgit%20clone%E6%8A%A5%E9%94%99/</id>
+    <published>2024-01-20T12:24:55.000Z</published>
+    <updated>2024-12-14T07:50:26.475Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;ssh类型的仓库，git clone/pull报错：kex_exchange_identification: Connection closed by remote host&lt;/p&gt;
+&lt;figure class=&quot;highlight pgsql&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;git pull &lt;span class=&quot;comment&quot;&gt;--verbose&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;kex_exchange_identification: &lt;span class=&quot;keyword&quot;&gt;Connection&lt;/span&gt; closed &lt;span class=&quot;keyword&quot;&gt;by&lt;/span&gt; remote host&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;Connection&lt;/span&gt; closed &lt;span class=&quot;keyword&quot;&gt;by&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;127.0&lt;/span&gt;&lt;span class=&quot;number&quot;&gt;.0&lt;/span&gt;&lt;span class=&quot;number&quot;&gt;.1&lt;/span&gt; port &lt;span class=&quot;number&quot;&gt;7890&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;fatal: Could &lt;span class=&quot;keyword&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;read&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;from&lt;/span&gt; remote repository.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Please make sure you have the correct &lt;span class=&quot;keyword&quot;&gt;access&lt;/span&gt; rights&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;and&lt;/span&gt; the repository &lt;span class=&quot;keyword&quot;&gt;exists&lt;/span&gt;.&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;这个报错其实跟使用梯子有关。&lt;/p&gt;
+&lt;p&gt;解决：&lt;/p&gt;
+&lt;p&gt;step 1.将~/.ssh下的id_rsa.pub(没有就先创建公私钥)公钥内容添加到github后台。&lt;/p&gt;
+&lt;p&gt;step 2.在~/.ssh/config文件（没有就先创建）中添加：&lt;/p&gt;
+&lt;figure class=&quot;highlight crmsh&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;Host github.com&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    HostName ssh.github.com&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;User&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;git&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    Port &lt;span class=&quot;number&quot;&gt;443&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;上述内容表示ssh使用443端口而不再是默认的22。&lt;/p&gt;
+&lt;p&gt;step 3.使用命令&lt;code&gt;ssh -T git@github.com&lt;/code&gt;验证&lt;/p&gt;
+&lt;figure class=&quot;highlight ada&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ ssh -T git@github.com&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Hi xq-&lt;span class=&quot;number&quot;&gt;120&lt;/span&gt;! You&lt;span class=&quot;symbol&quot;&gt;&amp;#x27;ve&lt;/span&gt; successfully authenticated, but GitHub does &lt;span class=&quot;keyword&quot;&gt;not&lt;/span&gt; provide shell &lt;span class=&quot;keyword&quot;&gt;access&lt;/span&gt;.&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</summary>
+    
+    
+    
+    <category term="Git" scheme="https://xq-120.github.io/categories/Git/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>shell科普</title>
+    <link href="https://xq-120.github.io/2023/09/07/shell%E7%A7%91%E6%99%AE/"/>
+    <id>https://xq-120.github.io/2023/09/07/shell%E7%A7%91%E6%99%AE/</id>
+    <published>2023-09-07T15:12:10.000Z</published>
+    <updated>2024-12-14T07:50:26.475Z</updated>
+    
+    
+    <summary type="html">&lt;h3 id=&quot;什么是shell&quot;&gt;&lt;a href=&quot;#什么是shell&quot; class=&quot;headerlink&quot; title=&quot;什么是shell&quot;&gt;&lt;/a&gt;什么是shell&lt;/h3&gt;&lt;p&gt;看语境，有时候Shell指连接内核和用户的一个应用程序，有时候指一种脚本编程语言。不过这个看语境对于一个小白来说其实还挺难的，大部分情况下说shell其实说的是应用程序，但如果是说shell命令，脚本文件那shell就是指一种编程语言。&lt;/p&gt;
+&lt;p&gt;macOS 系统的默认终端（shell应用程序）是 Terminal，默认使用的shell是zsh（这里的zsh就是指脚本编程语言）。iTerm2 也是一款终端软件。iTerm2只是比Terminal拥有更多的自定义设置，使用oh-my-zsh美化后都差不多。终端这个shell应用程序可以设置具体使用哪一种shell作为默认shell。使用哪种shell作为默认shell的终端就称为xxx终端，比如zsh终端，bash终端。&lt;/p&gt;
+&lt;p&gt;Shell 可以指一个应用程序，它连接了用户和 Linux 内核，让用户能够更加高效、安全、低成本地使用 Linux 内核，这就是 Shell 的本质。Shell 本身并不是内核的一部分，它只是站在内核的基础上编写的一个应用程序，它和 QQ、迅雷、Firefox 等其它软件没有什么区别。然而 Shell 也有着它的特殊性，就是开机立马启动，并呈现在用户面前；用户通过 Shell 来使用 Linux，不启动 Shell 的话，用户就没办法使用 Linux。&lt;/p&gt;
+&lt;p&gt;Shell 也可以指一种脚本编程语言。Shell 编程跟 JavaScript、php 编程一样，只要有一个能编写代码的文本编辑器和一个能解释执行的脚本解释器（解释器一般就是shell终端软件也就是Terminal或者iTerm2等等）就可以了。&lt;/p&gt;
+&lt;p&gt;Shell 主要用来开发一些实用的、自动化的小工具，而不是用来开发具有复杂业务逻辑的中大型软件，例如检测计算机的硬件参数、搭建 Web 运行环境、日志分析等，Shell 都非常合适。&lt;/p&gt;
+&lt;h3 id=&quot;有哪些shell&quot;&gt;&lt;a href=&quot;#有哪些shell&quot; class=&quot;headerlink&quot; title=&quot;有哪些shell&quot;&gt;&lt;/a&gt;有哪些shell&lt;/h3&gt;&lt;p&gt;shell是一个总称，具体shell有：bash、csh、ksh、zsh等等。Mac默认使用的是zsh。&lt;/p&gt;
+&lt;p&gt;查看安装了哪些shell：&lt;/p&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;cat&lt;/span&gt; /etc/shells&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</summary>
+    
+    
+    
+    <category term="命令行" scheme="https://xq-120.github.io/categories/%E5%91%BD%E4%BB%A4%E8%A1%8C/"/>
+    
+    
+    <category term="shell" scheme="https://xq-120.github.io/tags/shell/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>打包错误Command PhaseScriptExecution failed</title>
+    <link href="https://xq-120.github.io/2023/09/01/%E6%89%93%E5%8C%85%E9%94%99%E8%AF%AFCommand%20PhaseScriptExecution%20failed/"/>
+    <id>https://xq-120.github.io/2023/09/01/%E6%89%93%E5%8C%85%E9%94%99%E8%AF%AFCommand%20PhaseScriptExecution%20failed/</id>
+    <published>2023-09-01T11:06:20.000Z</published>
+    <updated>2024-12-14T07:50:26.475Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;打测试包的时候，提示Command PhaseScriptExecution failed with a nonzero exit code错误。&lt;/p&gt;
+&lt;p&gt;找到&lt;code&gt;/Pods/Target Support</summary>
+        
+      
+    
+    
+    
+    <category term="Xcode" scheme="https://xq-120.github.io/categories/Xcode/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>常用目录命令</title>
+    <link href="https://xq-120.github.io/2023/07/30/%E5%B8%B8%E7%94%A8%E7%9B%AE%E5%BD%95%E5%91%BD%E4%BB%A4/"/>
+    <id>https://xq-120.github.io/2023/07/30/%E5%B8%B8%E7%94%A8%E7%9B%AE%E5%BD%95%E5%91%BD%E4%BB%A4/</id>
+    <published>2023-07-30T05:00:20.000Z</published>
+    <updated>2024-12-14T07:50:26.475Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;macOS目录命令&lt;/p&gt;
+&lt;h2 id=&quot;1-新建目录mkdir&quot;&gt;&lt;a href=&quot;#1-新建目录mkdir&quot; class=&quot;headerlink&quot; title=&quot;1.新建目录mkdir&quot;&gt;&lt;/a&gt;1.新建目录mkdir&lt;/h2&gt;&lt;p&gt;语法：&lt;/p&gt;
+&lt;figure class=&quot;highlight arduino&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;mkdir [-p] dirName&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;-p: 如果中间目录不存在则创建一个。不加 -p 参数如果中间目录不存在则会报错：No such file or directory。&lt;/p&gt;
+&lt;p&gt;示例:&lt;/p&gt;
+&lt;figure class=&quot;highlight apache&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;mkdir&lt;/span&gt; 文件名&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;mkdir&lt;/span&gt; 文件名&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt; 文件名&lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;mkdir&lt;/span&gt; -p 文件名/文件名&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;通常使用md较多，md是mkdir -p的别名。&lt;/p&gt;
+&lt;h2 id=&quot;2-删除文件rm&quot;&gt;&lt;a href=&quot;#2-删除文件rm&quot; class=&quot;headerlink&quot; title=&quot;2.删除文件rm&quot;&gt;&lt;/a&gt;2.删除文件rm&lt;/h2&gt;&lt;p&gt;语法：&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="命令行" scheme="https://xq-120.github.io/categories/%E5%91%BD%E4%BB%A4%E8%A1%8C/"/>
+    
+    
+    <category term="目录命令" scheme="https://xq-120.github.io/tags/%E7%9B%AE%E5%BD%95%E5%91%BD%E4%BB%A4/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>OC对象内存布局</title>
+    <link href="https://xq-120.github.io/2023/05/18/OC%E5%AF%B9%E8%B1%A1%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80/"/>
+    <id>https://xq-120.github.io/2023/05/18/OC%E5%AF%B9%E8%B1%A1%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80/</id>
+    <published>2023-05-18T14:03:02.000Z</published>
+    <updated>2024-12-14T07:50:26.475Z</updated>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;OC对象的内存布局&quot;&gt;&lt;a href=&quot;#OC对象的内存布局&quot; class=&quot;headerlink&quot; title=&quot;OC对象的内存布局&quot;&gt;&lt;/a&gt;OC对象的内存布局&lt;/h2&gt;&lt;p&gt;如下图&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/xq-120/cloudImage/master/%E6%88%AA%E5%B1%8F2023-05-18%2022.18.30.png&quot; style=&quot;zoom:50%;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;注：子类可以拥有和父类同名的实例变量，它们是相互独立的。&lt;/p&gt;
+&lt;p&gt;isa占用8个字节，是所有对象都拥有的。OC对象最少占用16字节，一些对象可能实际只使用了8个字节，但系统在分配内存时会补足到16字节。isa的offset是0，然后按照内存对齐规则，offset一直增加下去。&lt;/p&gt;
+&lt;p&gt;由于内存对齐的原因，实例变量在内存中的顺序可能会和我们的书写顺序不一致。个人猜测：编译器会尽量和书写顺序一致，再按照内存对齐规则调整。（所以最好就别猜实例变量的顺序了）&lt;/p&gt;
+&lt;p&gt;可以使用下面的函数打印offset：&lt;/p&gt;
+&lt;figure class=&quot;highlight c&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;type&quot;&gt;static&lt;/span&gt; NSUInteger &lt;span class=&quot;title function_&quot;&gt;FBGetMinimumIvarIndex&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(__unsafe_unretained Class aCls)&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    NSUInteger minimumIndex = &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;type&quot;&gt;unsigned&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;int&lt;/span&gt; count;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    Ivar *ivars = class_copyIvarList(aCls, &amp;amp;count);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (count &amp;gt; &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        Ivar ivar = ivars[&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;type&quot;&gt;ptrdiff_t&lt;/span&gt; offset = ivar_getOffset(ivar);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        minimumIndex = offset / (&lt;span class=&quot;keyword&quot;&gt;sizeof&lt;/span&gt;(&lt;span class=&quot;type&quot;&gt;void&lt;/span&gt; *));&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; (&lt;span class=&quot;type&quot;&gt;int&lt;/span&gt; i = &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;; i &amp;lt; count; i++) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        Ivar ivar = ivars[i];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;type&quot;&gt;ptrdiff_t&lt;/span&gt; offset = ivar_getOffset(ivar);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        NSUInteger index = offset / (&lt;span class=&quot;keyword&quot;&gt;sizeof&lt;/span&gt;(&lt;span class=&quot;type&quot;&gt;void&lt;/span&gt; *));&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        NSLog(@&lt;span class=&quot;string&quot;&gt;&amp;quot;ivar:%s,offset:%td,index:%lu&amp;quot;&lt;/span&gt;, ivar_getName(ivar), offset, index);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;free&lt;/span&gt;(ivars);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; minimumIndex;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;类：&lt;/p&gt;
+&lt;figure class=&quot;highlight objc&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;@interface&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;FDEDog&lt;/span&gt; : &lt;span class=&quot;title&quot;&gt;NSObject&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;@property&lt;/span&gt; (&lt;span class=&quot;keyword&quot;&gt;nonatomic&lt;/span&gt;, &lt;span class=&quot;keyword&quot;&gt;strong&lt;/span&gt;) &lt;span class=&quot;type&quot;&gt;id&lt;/span&gt; property_1_s;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;@property&lt;/span&gt; (&lt;span class=&quot;keyword&quot;&gt;nonatomic&lt;/span&gt;, &lt;span class=&quot;keyword&quot;&gt;weak&lt;/span&gt;) &lt;span class=&quot;type&quot;&gt;id&lt;/span&gt; property_2_w;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;@property&lt;/span&gt; (&lt;span class=&quot;keyword&quot;&gt;nonatomic&lt;/span&gt;, &lt;span class=&quot;keyword&quot;&gt;unsafe_unretained&lt;/span&gt;) &lt;span class=&quot;type&quot;&gt;id&lt;/span&gt; property_3_un;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;@property&lt;/span&gt; (&lt;span class=&quot;keyword&quot;&gt;nonatomic&lt;/span&gt;, &lt;span class=&quot;keyword&quot;&gt;weak&lt;/span&gt;) &lt;span class=&quot;type&quot;&gt;id&lt;/span&gt; property_4_w;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;@property&lt;/span&gt; (&lt;span class=&quot;keyword&quot;&gt;nonatomic&lt;/span&gt;, &lt;span class=&quot;keyword&quot;&gt;strong&lt;/span&gt;) &lt;span class=&quot;type&quot;&gt;id&lt;/span&gt; property_5_s;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;@property&lt;/span&gt; (&lt;span class=&quot;keyword&quot;&gt;nonatomic&lt;/span&gt;, &lt;span class=&quot;keyword&quot;&gt;strong&lt;/span&gt;) &lt;span class=&quot;type&quot;&gt;id&lt;/span&gt; property_6_s;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;@property&lt;/span&gt; (&lt;span class=&quot;keyword&quot;&gt;nonatomic&lt;/span&gt;, &lt;span class=&quot;keyword&quot;&gt;unsafe_unretained&lt;/span&gt;) &lt;span class=&quot;type&quot;&gt;id&lt;/span&gt; property_7_un;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;@property&lt;/span&gt; (&lt;span class=&quot;keyword&quot;&gt;nonatomic&lt;/span&gt;, &lt;span class=&quot;keyword&quot;&gt;strong&lt;/span&gt;) &lt;span class=&quot;type&quot;&gt;id&lt;/span&gt; property_8_s;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;@property&lt;/span&gt; (&lt;span class=&quot;keyword&quot;&gt;nonatomic&lt;/span&gt;, &lt;span class=&quot;keyword&quot;&gt;strong&lt;/span&gt;) &lt;span class=&quot;type&quot;&gt;id&lt;/span&gt; property_9_s;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;@property&lt;/span&gt; (&lt;span class=&quot;keyword&quot;&gt;nonatomic&lt;/span&gt;, &lt;span class=&quot;keyword&quot;&gt;weak&lt;/span&gt;) &lt;span class=&quot;type&quot;&gt;id&lt;/span&gt; property_10_w;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;@property&lt;/span&gt; (&lt;span class=&quot;keyword&quot;&gt;nonatomic&lt;/span&gt;, &lt;span class=&quot;keyword&quot;&gt;weak&lt;/span&gt;) &lt;span class=&quot;type&quot;&gt;id&lt;/span&gt; property_11_w;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;@property&lt;/span&gt; (&lt;span class=&quot;keyword&quot;&gt;nonatomic&lt;/span&gt;, &lt;span class=&quot;keyword&quot;&gt;strong&lt;/span&gt;) &lt;span class=&quot;type&quot;&gt;id&lt;/span&gt; property_12_s;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;@property&lt;/span&gt; (&lt;span class=&quot;keyword&quot;&gt;nonatomic&lt;/span&gt;, &lt;span class=&quot;keyword&quot;&gt;assign&lt;/span&gt;) &lt;span class=&quot;type&quot;&gt;int&lt;/span&gt; property_13_int;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;@property&lt;/span&gt; (&lt;span class=&quot;keyword&quot;&gt;nonatomic&lt;/span&gt;, &lt;span class=&quot;keyword&quot;&gt;assign&lt;/span&gt;) &lt;span class=&quot;type&quot;&gt;short&lt;/span&gt; property_14_short;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;@property&lt;/span&gt; (&lt;span class=&quot;keyword&quot;&gt;nonatomic&lt;/span&gt;, &lt;span class=&quot;keyword&quot;&gt;weak&lt;/span&gt;) &lt;span class=&quot;type&quot;&gt;id&lt;/span&gt; property_15_w;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;@property&lt;/span&gt; (&lt;span class=&quot;keyword&quot;&gt;nonatomic&lt;/span&gt;, &lt;span class=&quot;keyword&quot;&gt;assign&lt;/span&gt;) &lt;span class=&quot;type&quot;&gt;char&lt;/span&gt; property_16_char;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;@property&lt;/span&gt; (&lt;span class=&quot;keyword&quot;&gt;nonatomic&lt;/span&gt;, &lt;span class=&quot;keyword&quot;&gt;strong&lt;/span&gt;) &lt;span class=&quot;type&quot;&gt;id&lt;/span&gt; property_17_s;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;@end&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</summary>
+    
+    
+    
+    <category term="OC" scheme="https://xq-120.github.io/categories/OC/"/>
+    
+    
+    <category term="内存布局" scheme="https://xq-120.github.io/tags/%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>iOS输入输出流</title>
+    <link href="https://xq-120.github.io/2023/05/14/iOS%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E6%B5%81/"/>
+    <id>https://xq-120.github.io/2023/05/14/iOS%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E6%B5%81/</id>
+    <published>2023-05-14T04:05:50.000Z</published>
+    <updated>2024-12-14T07:50:26.475Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;流式读写数据，所谓流式就是像小溪流一样细水长流避免峰值影响。它可以让你避免一次性将数据加载到内存，从而导致内存暴涨。比如播放一个本地视频文件，你不需要先将整个视频都加载到内存再播放，而是读取一段播放一段。&lt;/p&gt;
+&lt;p&gt;系统提供了两个子类NSInputStream和NSOutputStream用于流式处理。NSInputStream用于流式读取数据，NSOutputStream用于流式写入数据。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/xq-120/cloudImage/master/stream_src_dest.gif&quot; alt&gt;&lt;/p&gt;
+&lt;h2 id=&quot;NSInputStream&quot;&gt;&lt;a href=&quot;#NSInputStream&quot; class=&quot;headerlink&quot; title=&quot;NSInputStream&quot;&gt;&lt;/a&gt;NSInputStream&lt;/h2&gt;&lt;p&gt;输入流，按次序从仓库读取数据。这个仓库可以是一个文件，一个NSData对象或者是一个网络socket。注意：网络socket输入流和前面两种输入流的初始化步骤是不一样的。&lt;/p&gt;
+&lt;p&gt;因为是读数据，所以仓库必须存在，比如如果仓库是一个文件，则该文件必须存在，否则会打开失败提升：&lt;/p&gt;
+&lt;figure class=&quot;highlight routeros&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;读错误：&lt;span class=&quot;built_in&quot;&gt;Error&lt;/span&gt; &lt;span class=&quot;attribute&quot;&gt;Domain&lt;/span&gt;=NSPOSIXErrorDomain &lt;span class=&quot;attribute&quot;&gt;Code&lt;/span&gt;=2 &lt;span class=&quot;string&quot;&gt;&amp;quot;No such file or directory&amp;quot;&lt;/span&gt; UserInfo=&amp;#123;&lt;span class=&quot;attribute&quot;&gt;_kCFStreamErrorCodeKey&lt;/span&gt;=2, &lt;span class=&quot;attribute&quot;&gt;_kCFStreamErrorDomainKey&lt;/span&gt;=1&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;read:maxLength:&lt;/p&gt;
+&lt;figure class=&quot;highlight objc&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;- (&lt;span class=&quot;built_in&quot;&gt;NSInteger&lt;/span&gt;)read:(uint8_t *)buffer maxLength:(&lt;span class=&quot;built_in&quot;&gt;NSUInteger&lt;/span&gt;)len;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;// reads up to length bytes into the supplied buffer, which must be at least of size len. Returns the actual number of bytes read.&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;返回值说明：&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="Foundation" scheme="https://xq-120.github.io/categories/Foundation/"/>
+    
+    
+    <category term="stream" scheme="https://xq-120.github.io/tags/stream/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>OC类与元类</title>
+    <link href="https://xq-120.github.io/2023/05/07/OC%E7%B1%BB%E4%B8%8E%E5%85%83%E7%B1%BB/"/>
+    <id>https://xq-120.github.io/2023/05/07/OC%E7%B1%BB%E4%B8%8E%E5%85%83%E7%B1%BB/</id>
+    <published>2023-05-07T05:57:02.000Z</published>
+    <updated>2024-12-14T07:50:26.475Z</updated>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;实例对象、类与元类&quot;&gt;&lt;a href=&quot;#实例对象、类与元类&quot; class=&quot;headerlink&quot; title=&quot;实例对象、类与元类&quot;&gt;&lt;/a&gt;实例对象、类与元类&lt;/h2&gt;&lt;p&gt;实例对象的类称为类（类对象），类（类对象）的类称为元类（元类对象）。他们都是对象。&lt;/p&gt;
+&lt;p&gt;OC中对象、类和元类的关系如下图：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/xq-120/cloudImage/master/9ff681b9-50e6-4b55-bc2a-2f38cb21af1c.png&quot; alt&gt;&lt;/p&gt;
+&lt;p&gt;总结下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;实例对象的类是类对象,类对象的类是元类对象.元类对象的类是根元类,根元类对象的类就是自己本身.这里形成了一个闭环.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;类对象里面保存的是实例方法.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;元类对象里面保存的是类方法.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;根类对象的superClass是nil,根类对象的类是根元类对象,根元类对象的superClass是根类对象,这里也形成了一个闭环.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;代码：&lt;/p&gt;
+&lt;figure class=&quot;highlight objc&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;- (&lt;span class=&quot;type&quot;&gt;void&lt;/span&gt;)test_class_metaClass &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;//根类对象&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;NSLog&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;@&amp;quot;根类对象[NSObject class]:%@,地址:%p&amp;quot;&lt;/span&gt;, [&lt;span class=&quot;built_in&quot;&gt;NSObject&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt;], [&lt;span class=&quot;built_in&quot;&gt;NSObject&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt;]);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;//根类对象的父类&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;NSLog&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;@&amp;quot;根类对象的父类[[NSObject class] superclass]:%@,地址%p&amp;quot;&lt;/span&gt;, [[&lt;span class=&quot;built_in&quot;&gt;NSObject&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt;] superclass], [[&lt;span class=&quot;built_in&quot;&gt;NSObject&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt;] superclass]);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;char&lt;/span&gt; *nsobjectClassChar = [&lt;span class=&quot;built_in&quot;&gt;NSStringFromClass&lt;/span&gt;([&lt;span class=&quot;built_in&quot;&gt;NSObject&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt;]) UTF8String];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    Class nsobjectMetaClass = objc_getMetaClass(nsobjectClassChar);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    Class nsobjectMetaClass1 = object_getClass(&lt;span class=&quot;built_in&quot;&gt;NSObject&lt;/span&gt;.class); &lt;span class=&quot;comment&quot;&gt;//nsobjectMetaClass与nsobjectMetaClass1相等。&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;//根类对象的类即根元类对象&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;NSLog&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;@&amp;quot;根类对象的类即根元类对象(NSObject metaClass):%@,地址:%p&amp;quot;&lt;/span&gt;, nsobjectMetaClass, nsobjectMetaClass);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;//根元类对象的父类&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;NSLog&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;@&amp;quot;根元类对象的父类(NSObject metaClass superclass):%@,地址:%p&amp;quot;&lt;/span&gt;, [nsobjectMetaClass superclass], [nsobjectMetaClass superclass]);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;//根元类对象的类&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    Class root = objc_getMetaClass([&lt;span class=&quot;built_in&quot;&gt;NSStringFromClass&lt;/span&gt;(nsobjectMetaClass) UTF8String]);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;NSLog&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;@&amp;quot;根元类对象的类:%@,地址:%p&amp;quot;&lt;/span&gt;, root, root);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;打印：&lt;/p&gt;
+&lt;figure class=&quot;highlight apache&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;2023&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;05&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;07&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;14&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;28&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;18&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;507417&lt;/span&gt;+&lt;span class=&quot;number&quot;&gt;0800&lt;/span&gt; runtime方法使用Demo[&lt;span class=&quot;number&quot;&gt;20896&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;7290701&lt;/span&gt;] 根类对象[NSObject class]:NSObject,地址:&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;x1b9e44148&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;2023&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;05&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;07&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;14&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;28&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;18&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;507511&lt;/span&gt;+&lt;span class=&quot;number&quot;&gt;0800&lt;/span&gt; runtime方法使用Demo[&lt;span class=&quot;number&quot;&gt;20896&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;7290701&lt;/span&gt;] 根类对象的父类[[NSObject class] superclass]:(null),地址&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;x0&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;2023&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;05&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;07&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;14&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;28&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;18&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;507599&lt;/span&gt;+&lt;span class=&quot;number&quot;&gt;0800&lt;/span&gt; runtime方法使用Demo[&lt;span class=&quot;number&quot;&gt;20896&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;7290701&lt;/span&gt;] 根类对象的类即根元类对象(NSObject metaClass):NSObject,地址:&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;x1b9e440f8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;2023&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;05&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;07&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;14&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;28&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;18&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;507663&lt;/span&gt;+&lt;span class=&quot;number&quot;&gt;0800&lt;/span&gt; runtime方法使用Demo[&lt;span class=&quot;number&quot;&gt;20896&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;7290701&lt;/span&gt;] 根元类对象的父类(NSObject metaClass superclass):NSObject,地址:&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;x1b9e44148&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;2023&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;05&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;07&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;14&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;28&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;18&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;507762&lt;/span&gt;+&lt;span class=&quot;number&quot;&gt;0800&lt;/span&gt; runtime方法使用Demo[&lt;span class=&quot;number&quot;&gt;20896&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;7290701&lt;/span&gt;] 根元类对象的类:NSObject,地址:&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;x1b9e440f8&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</summary>
+    
+    
+    
+    <category term="OC" scheme="https://xq-120.github.io/categories/OC/"/>
+    
+    
+    <category term="class" scheme="https://xq-120.github.io/tags/class/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>OC class、superClass方法</title>
+    <link href="https://xq-120.github.io/2023/05/06/OC-class%E3%80%81superClass%E6%96%B9%E6%B3%95/"/>
+    <id>https://xq-120.github.io/2023/05/06/OC-class%E3%80%81superClass%E6%96%B9%E6%B3%95/</id>
+    <published>2023-05-06T12:02:18.000Z</published>
+    <updated>2024-12-14T07:50:26.475Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;测试代码：&lt;/p&gt;
+&lt;figure class=&quot;highlight objc&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;- (&lt;span class=&quot;type&quot;&gt;void&lt;/span&gt;)test_class_superClass &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    Person *per = [[Person alloc] init];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    Class cls = [per &lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt;]; &lt;span class=&quot;comment&quot;&gt;//Person&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    Class cls1 = [per superclass]; &lt;span class=&quot;comment&quot;&gt;//Animal&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    Class cls2 = Person.self; &lt;span class=&quot;comment&quot;&gt;//Person&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    Class cls3 = [Person &lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt;]; &lt;span class=&quot;comment&quot;&gt;//Person&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    Class cls4 = [Person superclass]; &lt;span class=&quot;comment&quot;&gt;//Animal&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    Class cls5 = object_getClass(per); &lt;span class=&quot;comment&quot;&gt;//Person&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    Class cls6 = class_getSuperclass([Person &lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt;]); &lt;span class=&quot;comment&quot;&gt;//Animal&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    Class cls7 = object_getClass([Person &lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt;]); &lt;span class=&quot;comment&quot;&gt;//Person的元类&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    Class cls8 = class_getSuperclass(cls7); &lt;span class=&quot;comment&quot;&gt;//Person元类的父类&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    Class cls9 = [cls7 superclass]; &lt;span class=&quot;comment&quot;&gt;//Person元类的父类 等于cls8&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;获取对象的类&quot;&gt;&lt;a href=&quot;#获取对象的类&quot; class=&quot;headerlink&quot; title=&quot;获取对象的类&quot;&gt;&lt;/a&gt;获取对象的类&lt;/h2&gt;&lt;p&gt;获取一个对象（实例对象或类对象）的类的核心方法就是object_getClass，实现：&lt;/p&gt;
+&lt;figure class=&quot;highlight c&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;Class &lt;span class=&quot;title function_&quot;&gt;object_getClass&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(id obj)&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (obj) &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; obj-&amp;gt;getIsa();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; Nil;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;其实就是获取objc_object结构体里的isa字段的值。因此如果传入的是类对象，那么返回的将是类对象的类即元类。&lt;/p&gt;
+&lt;p&gt;实例方法class的实现就是调用object_getClass：&lt;/p&gt;
+&lt;figure class=&quot;highlight aspectj&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;- (Class)&lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;object_getClass&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(self)&lt;/span&gt;&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;但是类方法class，并不是返回类对象的类，而是直接返回的自己。&lt;/p&gt;
+&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;+ (Class)&lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; self;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;+ (&lt;span class=&quot;built_in&quot;&gt;id&lt;/span&gt;)self &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; (&lt;span class=&quot;built_in&quot;&gt;id&lt;/span&gt;)self;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</summary>
+    
+    
+    
+    <category term="OC" scheme="https://xq-120.github.io/categories/OC/"/>
+    
+    
+    <category term="class" scheme="https://xq-120.github.io/tags/class/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>C语言整型类型长度与类型溢出</title>
+    <link href="https://xq-120.github.io/2023/04/06/C%E8%AF%AD%E8%A8%80%E6%95%B4%E5%9E%8B%E7%B1%BB%E5%9E%8B%E9%95%BF%E5%BA%A6%E4%B8%8E%E7%B1%BB%E5%9E%8B%E6%BA%A2%E5%87%BA/"/>
+    <id>https://xq-120.github.io/2023/04/06/C%E8%AF%AD%E8%A8%80%E6%95%B4%E5%9E%8B%E7%B1%BB%E5%9E%8B%E9%95%BF%E5%BA%A6%E4%B8%8E%E7%B1%BB%E5%9E%8B%E6%BA%A2%E5%87%BA/</id>
+    <published>2023-04-06T03:44:17.000Z</published>
+    <updated>2024-12-14T07:50:26.475Z</updated>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;题外话&quot;&gt;&lt;a href=&quot;#题外话&quot; class=&quot;headerlink&quot; title=&quot;题外话&quot;&gt;&lt;/a&gt;题外话&lt;/h2&gt;&lt;p&gt;C语言由Dennis M. Ritchie在1973年设计和实现。从那以后使用者逐渐增加。到1978年Ritchie和Bell实验室的另一位程序专家Kernighan合写了著名的《The C Programming Language》，将C语言推向全世界，许多国家都出了译本，国内有一些C语言书就是这本书的翻译或者编译。由这本书定义的C语言后来被人们称作K&amp;amp;R C。&lt;/p&gt;
+&lt;p&gt;随着C语言使用得越来越广泛，出现了许多新问题，人们日益强烈地要求对C语言进行标准化。这个标准化的工作在美国国家标准局（ANSI）的框架中进行（1983-1988），最终结果是1988年10月颁布的ANSI标准X3.159-1989，也就是后来人们所说的ANSIC标准。由这个标准定义的C语言被称作ANSI C。&lt;/p&gt;
+&lt;p&gt;ANSI C标准很快被采纳为国际标准和各国的标准。国际标准为ISO/IEC 9899-1990，中国国家标准GB/T15272-94是国际ISO标准的中文翻译。&lt;/p&gt;
+&lt;p&gt;ANSI C标准化工作的一个主要目标是清除原来C语言中的不安全、不合理、不精确、不完善的东西。由此也产生了ANSIC与K&amp;amp;R C之间的差异。从总体上看，这些差异反应的是C语言走向完善、走向成熟。&lt;/p&gt;
+&lt;p&gt;我们一般采用ANSI C就可以了。&lt;/p&gt;
+&lt;h2 id=&quot;整型&quot;&gt;&lt;a href=&quot;#整型&quot; class=&quot;headerlink&quot; title=&quot;整型&quot;&gt;&lt;/a&gt;整型&lt;/h2&gt;&lt;p&gt;整型包括：字符，短整型，整型，长整型。每种类型又分为有符号和无符号。&lt;/p&gt;
+&lt;p&gt;K&amp;amp;R C并没有规定长整型必须比短整型长，只是规定它不得比短整型短。&lt;/p&gt;
+&lt;figure class=&quot;highlight abnf&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;长整型 &amp;gt;&lt;span class=&quot;operator&quot;&gt;=&lt;/span&gt; 整型 &amp;gt;&lt;span class=&quot;operator&quot;&gt;=&lt;/span&gt; 短整型&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</summary>
+    
+    
+    
+    <category term="C" scheme="https://xq-120.github.io/categories/C/"/>
+    
+    
+    <category term="sizeof" scheme="https://xq-120.github.io/tags/sizeof/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>DDLog使用注意事项</title>
+    <link href="https://xq-120.github.io/2023/04/04/DDLog%E4%BD%BF%E7%94%A8%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/"/>
+    <id>https://xq-120.github.io/2023/04/04/DDLog%E4%BD%BF%E7%94%A8%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/</id>
+    <published>2023-04-04T03:32:51.000Z</published>
+    <updated>2024-12-14T07:50:26.475Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;DDOSLogger控制台打印，没有使用logMessage的时间戳而是os_log_xxx执行时的时间戳，因此会和logMessage的创建时间有个时间差。如果打印时选择的是DDLogFlagError，打印将是同步执行，这个时间差会非常小。而如果是DDLogFlagEr</summary>
+        
+      
+    
+    
+    
+    <category term="第三方库使用" scheme="https://xq-120.github.io/categories/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%BD%BF%E7%94%A8/"/>
+    
+    
+    <category term="DDLog" scheme="https://xq-120.github.io/tags/DDLog/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Swift中的Error</title>
+    <link href="https://xq-120.github.io/2023/04/02/Swift%E4%B8%AD%E7%9A%84Error/"/>
+    <id>https://xq-120.github.io/2023/04/02/Swift%E4%B8%AD%E7%9A%84Error/</id>
+    <published>2023-04-02T06:20:25.000Z</published>
+    <updated>2024-12-14T07:50:26.475Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;OC中的错误是一个类NSError：&lt;/p&gt;
+&lt;figure class=&quot;highlight swift&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;// Immutable, and NSError must be Sendable because it conforms to Error in Swift&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;open&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;title class_&quot;&gt;NSError&lt;/span&gt; : &lt;span class=&quot;title class_&quot;&gt;NSObject&lt;/span&gt;, &lt;span class=&quot;title class_&quot;&gt;NSCopying&lt;/span&gt;, &lt;span class=&quot;title class_&quot;&gt;NSSecureCoding&lt;/span&gt;, @&lt;span class=&quot;title class_&quot;&gt;unchecked&lt;/span&gt; &lt;span class=&quot;title class_&quot;&gt;Sendable&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;/* Domain cannot be nil; dict may be nil if no userInfo desired.&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;    */&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;init&lt;/span&gt;(&lt;span class=&quot;params&quot;&gt;domain&lt;/span&gt;: &lt;span class=&quot;type&quot;&gt;String&lt;/span&gt;, &lt;span class=&quot;params&quot;&gt;code&lt;/span&gt;: &lt;span class=&quot;type&quot;&gt;Int&lt;/span&gt;, &lt;span class=&quot;params&quot;&gt;userInfo&lt;/span&gt; &lt;span class=&quot;params&quot;&gt;dict&lt;/span&gt;: [&lt;span class=&quot;params&quot;&gt;String&lt;/span&gt; : &lt;span class=&quot;keyword&quot;&gt;Any&lt;/span&gt;]&lt;span class=&quot;operator&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;literal&quot;&gt;nil&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;operator&quot;&gt;....&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;而Swift中的错误则是一个协议Error：&lt;/p&gt;
+&lt;figure class=&quot;highlight swift&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;protocol&lt;/span&gt; &lt;span class=&quot;title class_&quot;&gt;Error&lt;/span&gt; : &lt;span class=&quot;title class_&quot;&gt;Sendable&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;protocol&lt;/span&gt; &lt;span class=&quot;title class_&quot;&gt;Sendable&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;extension&lt;/span&gt; &lt;span class=&quot;title class_&quot;&gt;Error&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;/// Retrieve the localized description for this error.&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; localizedDescription: &lt;span class=&quot;type&quot;&gt;String&lt;/span&gt; &amp;#123; &lt;span class=&quot;keyword&quot;&gt;get&lt;/span&gt; &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;extension&lt;/span&gt; &lt;span class=&quot;title class_&quot;&gt;NSError&lt;/span&gt; : &lt;span class=&quot;title class_&quot;&gt;Error&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;实际上这个协议没有任何内容，因此任意类、结构体、枚举都可以轻松实现Error协议。&lt;/p&gt;
+&lt;p&gt;定义Swift Error:&lt;/p&gt;
+&lt;p&gt;使用枚举&lt;/p&gt;
+&lt;figure class=&quot;highlight swift&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;enum&lt;/span&gt; &lt;span class=&quot;title class_&quot;&gt;NetworkError&lt;/span&gt;: &lt;span class=&quot;title class_&quot;&gt;Error&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;case&lt;/span&gt; domainError&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;case&lt;/span&gt; decodingError&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;case&lt;/span&gt; noDataError&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; localizedDescription: &lt;span class=&quot;type&quot;&gt;String&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;switch&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;case&lt;/span&gt; .domainError:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&amp;quot;url错误&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;case&lt;/span&gt; .decodingError:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&amp;quot;解析出错&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;case&lt;/span&gt; .noDataError:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&amp;quot;无数据&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;由于错误一般是后台接口给出，所以个人觉得使用结构体表示错误，使用是最方便的：&lt;/p&gt;
+&lt;figure class=&quot;highlight swift&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;title class_&quot;&gt;BusinessError&lt;/span&gt;: &lt;span class=&quot;title class_&quot;&gt;Error&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; code &lt;span class=&quot;operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; message &lt;span class=&quot;operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;init&lt;/span&gt;(&lt;span class=&quot;params&quot;&gt;code&lt;/span&gt;: &lt;span class=&quot;type&quot;&gt;String&lt;/span&gt;, &lt;span class=&quot;params&quot;&gt;message&lt;/span&gt;: &lt;span class=&quot;type&quot;&gt;String&lt;/span&gt;) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt;.code &lt;span class=&quot;operator&quot;&gt;=&lt;/span&gt; code&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt;.message &lt;span class=&quot;operator&quot;&gt;=&lt;/span&gt; message&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; localizedDescription: &lt;span class=&quot;type&quot;&gt;String&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; message&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</summary>
+    
+    
+    
+    <category term="Swift" scheme="https://xq-120.github.io/categories/Swift/"/>
+    
+    
+    <category term="Error" scheme="https://xq-120.github.io/tags/Error/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Swift中的枚举</title>
+    <link href="https://xq-120.github.io/2023/04/02/Swift%E4%B8%AD%E7%9A%84%E6%9E%9A%E4%B8%BE/"/>
+    <id>https://xq-120.github.io/2023/04/02/Swift%E4%B8%AD%E7%9A%84%E6%9E%9A%E4%B8%BE/</id>
+    <published>2023-04-02T05:07:50.000Z</published>
+    <updated>2024-12-14T07:50:26.475Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;1.swift的枚举只能拥有原始值和关联值的其中一种，不能同时拥有，会报错：Enum with raw type cannot have cases with arguments。&lt;/p&gt;
+&lt;p&gt;2.读取关联值时不能写参数的类型,否则编译报错。&lt;/p&gt;
+&lt;figure</summary>
+        
+      
+    
+    
+    
+    <category term="Swift" scheme="https://xq-120.github.io/categories/Swift/"/>
+    
+    
+    <category term="enum" scheme="https://xq-120.github.io/tags/enum/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>OC中的访问控制</title>
+    <link href="https://xq-120.github.io/2023/03/08/OC%E4%B8%AD%E7%9A%84%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6/"/>
+    <id>https://xq-120.github.io/2023/03/08/OC%E4%B8%AD%E7%9A%84%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6/</id>
+    <published>2023-03-08T14:51:57.000Z</published>
+    <updated>2024-12-14T07:50:26.475Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;OC中提供了4个访问控制符：@private @package @protected @public。&lt;/p&gt;
+&lt;p&gt;@private（当前类访问权限）：成员只能在当前类内部可以访问，在类实现部分定义的成员变量相当于默认使用了这种访问权限。&lt;/p&gt;
+&lt;p&gt;@package（同映像访问权限）：成员可以在当前类或和当前类实现的同一映像中使用，同一映像就是编译后生成的同一框架或同一个执行文件，跨框架不可用。简单点讲就是使用package后，该成员变量在同一个框架里的所有类里都可以访问到，别的框架访问不到。&lt;/p&gt;
+&lt;p&gt;@protected（子类访问权限）：成员可以在当前类和当前类的子类中访问。在类接口部分定义的成员变量默认是这种访问权限。&lt;/p&gt;
+&lt;p&gt;@public（公共访问权限）：成员可以在任意地方访问。&lt;/p&gt;
+&lt;p&gt;private和public比较简单，所以这里具体说一下package和protected的使用场景。&lt;/p&gt;
+&lt;p&gt;使用package修饰的成员只能在当前框架内被访问。&lt;/p&gt;
+&lt;p&gt;比如A框架里有一个类XQSheet，它有一个_buttons成员。&lt;/p&gt;
+&lt;figure class=&quot;highlight objc&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;@interface&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;XQSheet&lt;/span&gt; : &lt;span class=&quot;title&quot;&gt;JHGrandPopupView&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;   &lt;span class=&quot;keyword&quot;&gt;@package&lt;/span&gt; &lt;span class=&quot;built_in&quot;&gt;NSMutableArray&lt;/span&gt; *_buttons;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;@end&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;使用package修饰后，那么_buttons只能在A框架内部被访问到（A框架的任意类里都可以），但不能在框架B里被访问。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="OC" scheme="https://xq-120.github.io/categories/OC/"/>
+    
+    
+    <category term="访问控制" scheme="https://xq-120.github.io/tags/%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Swift中的关键字</title>
+    <link href="https://xq-120.github.io/2023/02/26/Swift%E4%B8%AD%E7%9A%84%E5%85%B3%E9%94%AE%E5%AD%97/"/>
+    <id>https://xq-120.github.io/2023/02/26/Swift%E4%B8%AD%E7%9A%84%E5%85%B3%E9%94%AE%E5%AD%97/</id>
+    <published>2023-02-26T11:49:33.000Z</published>
+    <updated>2024-12-14T07:50:26.474Z</updated>
+    
+    
+    <summary type="html">&lt;h3 id=&quot;inline&quot;&gt;&lt;a href=&quot;#inline&quot; class=&quot;headerlink&quot; title=&quot;@inline&quot;&gt;&lt;/a&gt;@inline&lt;/h3&gt;&lt;p&gt;说明：函数内联，一种编译器优化技术。声明内联的函数，编译器会把该函数调用的地方用它的实现替换有点类似C语言的宏，这样就减少了函数的调用开销，属于一种微优化，如果函数实现简单，调用非常频繁可以使用内联进行优化。由于内联是把函数调用的地方用它的实现替换，因此内联可能会让程序的二进制包变大，取决于编译优化等级，编译器可能会自动对一些频繁调用的函数进行内联，如果这个函数实现比较复杂，那么此时的内联可能弊大于利，这个时候可以使用 @inline(never) 明确告知编译器关闭这一特性。@inline的另一个应用场景就是代码混淆增加逆向难度。&lt;/p&gt;
+&lt;p&gt;用法：使用@inline(__always) 和 @inline(never) 修饰函数。函数的访问权限可以是public也可以是private。&lt;/p&gt;
+&lt;p&gt;参考：&lt;a href=&quot;https://swiftrocks.com/the-forbidden-inline-attribute-in-swift&quot;&gt;The Forbidden @inline Attribute in Swift&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&quot;inlinable&quot;&gt;&lt;a href=&quot;#inlinable&quot; class=&quot;headerlink&quot; title=&quot;@inlinable&quot;&gt;&lt;/a&gt;@inlinable&lt;/h3&gt;&lt;p&gt;说明：&lt;code&gt;@inlinable&lt;/code&gt; 属性允许您为特定方法启用&lt;strong&gt;跨模块内联&lt;/strong&gt;。这样做了之后，方法的实现将作为模块公共接口的一部分来公开，允许编译器进一步优化来自不同模块的调用。使用 &lt;code&gt;@inlinable&lt;/code&gt; 最大的收益就是有些方法可能会有性能开销，尽管大多数的方法这种开销可以忽略不计，但像那种包含泛型和闭包的，开销很大。使用&lt;code&gt;@inlinable&lt;/code&gt; 可以带来性能提升，不过包的大小会增加。&lt;/p&gt;
+&lt;p&gt;用法：’@inlinable’ 只能用于 public 函数，不能修饰private函数。&lt;/p&gt;
+&lt;p&gt;参考：&lt;a href=&quot;https://swiftrocks.com/understanding-inlinable-in-swift.html&quot;&gt;Understanding &lt;code&gt;@inlinable&lt;/code&gt; in Swift&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&quot;autoclosure&quot;&gt;&lt;a href=&quot;#autoclosure&quot; class=&quot;headerlink&quot; title=&quot;@autoclosure&quot;&gt;&lt;/a&gt;@autoclosure&lt;/h3&gt;&lt;p&gt;The &lt;code&gt;@autoclosure&lt;/code&gt; attribute can be applied to a closure parameter for a function, and automatically creates a closure from an &lt;strong&gt;expression&lt;/strong&gt; you pass in. When you call a function that uses this attribute, the code you write &lt;em&gt;isn’t&lt;/em&gt; a closure, but it &lt;em&gt;becomes&lt;/em&gt; a closure, which can be a bit confusing – even the official Swift reference guide warns that overusing autoclosures makes your code harder to understand.&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="Swift" scheme="https://xq-120.github.io/categories/Swift/"/>
+    
+    
+    <category term="Swift关键字" scheme="https://xq-120.github.io/tags/Swift%E5%85%B3%E9%94%AE%E5%AD%97/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>pod库依赖第三方OC++库编译报错问题</title>
+    <link href="https://xq-120.github.io/2023/02/20/pod%E5%BA%93%E4%BE%9D%E8%B5%96%E7%AC%AC%E4%B8%89%E6%96%B9OC++%E5%BA%93%E7%BC%96%E8%AF%91%E6%8A%A5%E9%94%99%E9%97%AE%E9%A2%98/"/>
+    <id>https://xq-120.github.io/2023/02/20/pod%E5%BA%93%E4%BE%9D%E8%B5%96%E7%AC%AC%E4%B8%89%E6%96%B9OC++%E5%BA%93%E7%BC%96%E8%AF%91%E6%8A%A5%E9%94%99%E9%97%AE%E9%A2%98/</id>
+    <published>2023-02-20T07:36:09.000Z</published>
+    <updated>2024-12-14T07:50:26.474Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;在开发pod库时，遇到了一个编译报错的问题，记录一下。&lt;/p&gt;
+&lt;p&gt;主pod是OC实现的，主pod里依赖了WCDB（一个OC++库），主pod里有一个子pod，子pod采用swift实现。当宿主工程集成子pod时，编译通不过，报错在：WCDB.h里。Since WCDB…&lt;/p&gt;
+&lt;figure class=&quot;highlight cpp&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;#&lt;span class=&quot;keyword&quot;&gt;ifndef&lt;/span&gt; WCDB_h&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;#&lt;span class=&quot;keyword&quot;&gt;define&lt;/span&gt; WCDB_h&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;#&lt;span class=&quot;keyword&quot;&gt;ifndef&lt;/span&gt; __cplusplus&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;#&lt;span class=&quot;keyword&quot;&gt;error&lt;/span&gt; Since WCDB is an Objective-C++ framework, for those files in your project that includes WCDB, you should rename their extension .m to .mm.&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;#&lt;span class=&quot;keyword&quot;&gt;endif&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;Google了半天也没搜到类似的，感觉应该是混编导致的错误。&lt;/p&gt;
+&lt;p&gt;我的podspec文件：&lt;/p&gt;
+&lt;figure class=&quot;highlight cal&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;spec.swift_versions = [&lt;span class=&quot;string&quot;&gt;&amp;#x27;5.5&amp;#x27;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&amp;#x27;5.6&amp;#x27;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&amp;#x27;5.7&amp;#x27;&lt;/span&gt;]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;spec.requires_arc = &lt;span class=&quot;literal&quot;&gt;true&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;spec.dependency &lt;span class=&quot;string&quot;&gt;&amp;quot;CocoaLumberjack&amp;quot;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&amp;quot;~&amp;gt; 3.7.4&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;spec.dependency &lt;span class=&quot;string&quot;&gt;&amp;quot;WCDB&amp;quot;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&amp;quot;~&amp;gt; 1.1.0&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;spec.default_subspecs = &lt;span class=&quot;string&quot;&gt;&amp;#x27;Core&amp;#x27;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;spec.subspec &lt;span class=&quot;string&quot;&gt;&amp;#x27;Core&amp;#x27;&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;do&lt;/span&gt; |ss|&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  ss.source_files = &lt;span class=&quot;string&quot;&gt;&amp;#x27;Sources/MATLog/**/*.&amp;#123;h,m,mm&amp;#125;&amp;#x27;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;end&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;spec.subspec &lt;span class=&quot;string&quot;&gt;&amp;#x27;Swift&amp;#x27;&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;do&lt;/span&gt; |ss|&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  ss.dependency &lt;span class=&quot;string&quot;&gt;&amp;#x27;MATLog/Core&amp;#x27;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  ss.source_files = &lt;span class=&quot;string&quot;&gt;&amp;#x27;Sources/MATLogSwift/**/*.&amp;#123;swift,h,mm&amp;#125;&amp;#x27;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;end&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;子pod里压根就没使用到WCDB，很奇怪为啥会报那个错。搜也无从搜起，冥思苦想半天，也就 &lt;code&gt;MATLogModel+WCTTableCoding.h&lt;/code&gt; 头文件里包含了WCDB.h，后来发现确实是这里引起的。&lt;/p&gt;
+&lt;p&gt;因为OC pod库头文件默认是public，所以子库能访问到主库所有暴露的头文件，修改podspec文件如下：&lt;/p&gt;
+&lt;figure class=&quot;highlight gradle&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;spec.swift_versions = [&lt;span class=&quot;string&quot;&gt;&amp;#x27;5.5&amp;#x27;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&amp;#x27;5.6&amp;#x27;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&amp;#x27;5.7&amp;#x27;&lt;/span&gt;]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;spec.requires_arc = &lt;span class=&quot;keyword&quot;&gt;true&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;spec.dependency &lt;span class=&quot;string&quot;&gt;&amp;quot;CocoaLumberjack&amp;quot;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&amp;quot;~&amp;gt; 3.7.4&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;spec.dependency &lt;span class=&quot;string&quot;&gt;&amp;quot;WCDB&amp;quot;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&amp;quot;~&amp;gt; 1.1.0&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;spec.default_subspecs = &lt;span class=&quot;string&quot;&gt;&amp;#x27;Core&amp;#x27;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;spec.subspec &lt;span class=&quot;string&quot;&gt;&amp;#x27;Core&amp;#x27;&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;do&lt;/span&gt; |ss|&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  ss.source_files = &lt;span class=&quot;string&quot;&gt;&amp;#x27;Sources/MATLog/**/*.&amp;#123;h,m,mm&amp;#125;&amp;#x27;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  ss.private_header_files = &lt;span class=&quot;string&quot;&gt;&amp;#x27;Sources/MATLog/*WCTTableCoding.&amp;#123;h&amp;#125;&amp;#x27;&lt;/span&gt; #控制OC头文件访问权限的有&lt;span class=&quot;keyword&quot;&gt;private&lt;/span&gt;、&lt;span class=&quot;keyword&quot;&gt;project&lt;/span&gt;、&lt;span class=&quot;keyword&quot;&gt;public&lt;/span&gt;三种。默认&lt;span class=&quot;keyword&quot;&gt;public&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;end&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;spec.subspec &lt;span class=&quot;string&quot;&gt;&amp;#x27;Swift&amp;#x27;&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;do&lt;/span&gt; |ss|&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  ss.dependency &lt;span class=&quot;string&quot;&gt;&amp;#x27;MATLog/Core&amp;#x27;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  ss.source_files = &lt;span class=&quot;string&quot;&gt;&amp;#x27;Sources/MATLogSwift/**/*.&amp;#123;swift,h,mm&amp;#125;&amp;#x27;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;end&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;这时 &lt;code&gt;MATLogModel+WCTTableCoding.h&lt;/code&gt; 头文件就变成private了，编译也能通过了。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="CocoaPods" scheme="https://xq-120.github.io/categories/CocoaPods/"/>
+    
+    
+    <category term="混编" scheme="https://xq-120.github.io/tags/%E6%B7%B7%E7%BC%96/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>openssl使用</title>
+    <link href="https://xq-120.github.io/2022/12/17/openssl%E4%BD%BF%E7%94%A8/"/>
+    <id>https://xq-120.github.io/2022/12/17/openssl%E4%BD%BF%E7%94%A8/</id>
+    <published>2022-12-17T03:15:49.000Z</published>
+    <updated>2024-12-14T07:50:26.474Z</updated>
+    
+    
+    <summary type="html">&lt;h3 id=&quot;1-创建私钥&quot;&gt;&lt;a href=&quot;#1-创建私钥&quot; class=&quot;headerlink&quot; title=&quot;1.创建私钥&quot;&gt;&lt;/a&gt;1.创建私钥&lt;/h3&gt;&lt;p&gt;创建不带密码的私钥：&lt;/p&gt;
+&lt;figure class=&quot;highlight ada&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;openssl genrsa -&lt;span class=&quot;keyword&quot;&gt;out&lt;/span&gt; test_rsa_private.pem &lt;span class=&quot;number&quot;&gt;1024&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;1024表示私钥的长度，长度越长安全性越高。如果对安全要求比较高可以指定私钥长度为2048。&lt;/p&gt;
+&lt;p&gt;查看私钥：&lt;/p&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;cat&lt;/span&gt; my_test_private.key&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;打印：&lt;/p&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;-----BEGIN RSA PRIVATE KEY-----&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;MIICXAIBAAKBgQCj5vQ2rQsavYxtJyNh/nugHqOvE2kmY492h8l4lPSr/zMT1I1Z&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;D/yTkh3sDSZHNThWk5UJukXZPGsKf5xlAaj6WZiaPSBw5WW/f7Pm8M1+kNBKZGeK&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;sSATuVfyPs69bTBl1Mn9YcBwHXkuu7ijqSxeE8aVlKsUSAR3JDIlFiCn0QIDAQAB&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;AoGAfRuopCeYR1QSYaszVfSzlvhsRxJQ/A2ZD4f8oH9K+BL3gRaIwkfyqw4oqusq&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;ocYc9/D1HZTDBlwY9M2NqogG28FJSMp2yVIHg8pG29FnGi5TGJBNV4kx4rmkpulr&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;/E7TL1oRVioP2I6ZWxXk5xuiNvwzm60zhyRxuDHn5DHob1UCQQDRMzaTpawx5qHj&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;p/yWLmgFyCVB07upFXF9jGOJHmZevgxgwoe6SSh9hzCEmJLY5kYo5eDW/76Nifd+&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;so9ACSD7AkEAyJGNa/B7GRLPoYyyA8YUeTTTdWtDmU7lS4D2eceLPrzJbTrKnKR6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;nijlAWry/dKPFIFOq1z28X3gwxeT8aF4owJAJIvW1/pUV69bzsKVDMN0prXtVE+h&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9Arr9avl45ls9tYqoWi6f1+ydCN+5VsmJEAuN4zZN5Yb+uwEUZzuC5jMqwJAA6Xi&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;FJyDIKme7SlJ85eet7WmQvR4fklZEk5+LSjb94Anib0QAllbgZTs1WHEmalCwPS5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;IZTHSQ0pEWNUZYiyUQJBAIr0BOB3myFPMVGBB4EvQegnTd40JSU7hKXaK3ZBbrE/&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;aHoxdlz8JJsuuufaaK4Rvkdy78QTuNu0vty9jonQQeM=&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;-----END RSA PRIVATE KEY-----&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;上述打印是base64过的。可以使用-text，以明文形式输出各个参数值&lt;/p&gt;
+&lt;figure class=&quot;highlight applescript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;openssl rsa -&lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; test_rsa_private.pem -&lt;span class=&quot;built_in&quot;&gt;text&lt;/span&gt; -noout&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</summary>
+    
+    
+    
+    <category term="密码学" scheme="https://xq-120.github.io/categories/%E5%AF%86%E7%A0%81%E5%AD%A6/"/>
+    
+    
+    <category term="openssl" scheme="https://xq-120.github.io/tags/openssl/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>KVO的使用及实现原理</title>
+    <link href="https://xq-120.github.io/2022/11/24/KVO%E7%9A%84%E4%BD%BF%E7%94%A8%E5%8F%8A%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/"/>
+    <id>https://xq-120.github.io/2022/11/24/KVO%E7%9A%84%E4%BD%BF%E7%94%A8%E5%8F%8A%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/</id>
+    <published>2022-11-24T08:32:33.000Z</published>
+    <updated>2024-12-14T07:50:26.474Z</updated>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;KVO使用&quot;&gt;&lt;a href=&quot;#KVO使用&quot; class=&quot;headerlink&quot; title=&quot;KVO使用&quot;&gt;&lt;/a&gt;KVO使用&lt;/h2&gt;&lt;p&gt;KVO,观察者与被观察者.被观察者添加某个观察者,观察自身某一属性的变化.当被观察者的属性值发生变化时,被观察者会直接将变化发送给观察者 (通过给观察者发送observeValueForKeyPath:消息),这也是和通知差别比较大的地方.&lt;/p&gt;
+&lt;p&gt;1.观察者需要实现observeValueForKeyPath:方法,并在该方法中做出相应行为.如果观察者没有实现observeValueForKeyPath:方法,且其父类也没有实现，那么最终会走到NSObject的实现，而NSObject的默认实现就是崩溃:An -observeValueForKeyPath:ofObject:change:context: message was received but not handled.如果观察者本身没有实现observeValueForKeyPath:…方法,但是其父类实现了,那么执行的就是父类的实现,这也是消息的传递过程.&lt;/p&gt;
+&lt;p&gt;2.[super observeValueForKeyPath:]&lt;/p&gt;
+&lt;p&gt;对于网上一种写法:&lt;/p&gt;
+&lt;figure class=&quot;highlight objc&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;- (&lt;span class=&quot;type&quot;&gt;void&lt;/span&gt;)observeValueForKeyPath:(&lt;span class=&quot;built_in&quot;&gt;NSString&lt;/span&gt; *)keyPath ofObject:(&lt;span class=&quot;type&quot;&gt;id&lt;/span&gt;)object&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;change:(&lt;span class=&quot;built_in&quot;&gt;NSDictionary&lt;/span&gt; *)change context:(&lt;span class=&quot;type&quot;&gt;void&lt;/span&gt; *)context&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (object == _tableView &amp;amp;&amp;amp; [keyPath isEqualToString:&lt;span class=&quot;string&quot;&gt;@&amp;quot;contentOffset&amp;quot;&lt;/span&gt;]) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      [&lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt; doSomethingWhenContentOffsetChanges];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &amp;#125; &lt;span class=&quot;keyword&quot;&gt;else&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      [&lt;span class=&quot;variable language_&quot;&gt;super&lt;/span&gt; observeValueForKeyPath:keyPath ofObject:object change:change context:context];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;这里首先要清楚[super method]的作用,[super method]表示的是去执行父类里的实现,消息的接收者还是子类对象本身.并不是说消息的接收者变成了一个父类对象在执行该方法.完整的写法确实应该在else处添加super调用。但由于这种场景很少出现，所以很少有人特意去调super，一般也不会出问题。&lt;/p&gt;
+&lt;p&gt;3.KVO的context参数取值&lt;/p&gt;
+&lt;p&gt;context参数虽然可以传入任意值,但如果传入的是一个对象,则必须保证在KVO期间该对象不会被销毁.否则在observeValueForKeyPath方法中将导致野指针访问崩溃.可以传入一些常量比如字符串常量,或类对象.&lt;/p&gt;
+&lt;figure class=&quot;highlight objc&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;[&lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt;.people addObserver:&lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt; forKeyPath:&lt;span class=&quot;string&quot;&gt;@&amp;quot;age&amp;quot;&lt;/span&gt; options:&lt;span class=&quot;built_in&quot;&gt;NSKeyValueObservingOptionNew&lt;/span&gt; | &lt;span class=&quot;built_in&quot;&gt;NSKeyValueObservingOptionOld&lt;/span&gt; context:(__bridge &lt;span class=&quot;type&quot;&gt;void&lt;/span&gt; * _Nullable)(&lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt;.class)];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;[&lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt;.people addObserver:&lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt; forKeyPath:&lt;span class=&quot;string&quot;&gt;@&amp;quot;age&amp;quot;&lt;/span&gt; options:&lt;span class=&quot;built_in&quot;&gt;NSKeyValueObservingOptionNew&lt;/span&gt; | &lt;span class=&quot;built_in&quot;&gt;NSKeyValueObservingOptionOld&lt;/span&gt; context:&lt;span class=&quot;string&quot;&gt;@&amp;quot;mycontext&amp;quot;&lt;/span&gt;];&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</summary>
+    
+    
+    
+    <category term="OC" scheme="https://xq-120.github.io/categories/OC/"/>
+    
+    
+    <category term="KVO" scheme="https://xq-120.github.io/tags/KVO/"/>
+    
+  </entry>
+  
+</feed>

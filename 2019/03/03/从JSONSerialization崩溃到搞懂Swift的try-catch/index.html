@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"xq-120.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="今天学习了下Swift中的try-catch,突然发现在json序列化时try-catch不好使了,下面的代码依然会导致崩溃,try-catch并不能catch住. 123456789101112131415161718192021222324import Foundationclass People: NSObject, Decodable &amp;#123;    @objc var firstNa">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从JSONSerialization崩溃到搞懂Swift的try-catch">
+<meta property="og:url" content="https://xq-120.github.io/2019/03/03/%E4%BB%8EJSONSerialization%E5%B4%A9%E6%BA%83%E5%88%B0%E6%90%9E%E6%87%82Swift%E7%9A%84try-catch/index.html">
+<meta property="og:site_name" content="芝士就是力量">
+<meta property="og:description" content="今天学习了下Swift中的try-catch,突然发现在json序列化时try-catch不好使了,下面的代码依然会导致崩溃,try-catch并不能catch住. 123456789101112131415161718192021222324import Foundationclass People: NSObject, Decodable &amp;#123;    @objc var firstNa">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-03-03T05:21:39.000Z">
+<meta property="article:modified_time" content="2024-12-14T07:50:26.465Z">
+<meta property="article:author" content="jekyttt">
+<meta property="article:tag" content="错误处理">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://xq-120.github.io/2019/03/03/%E4%BB%8EJSONSerialization%E5%B4%A9%E6%BA%83%E5%88%B0%E6%90%9E%E6%87%82Swift%E7%9A%84try-catch/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>从JSONSerialization崩溃到搞懂Swift的try-catch | 芝士就是力量</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="芝士就是力量" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">芝士就是力量</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">像风一样自由</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/xq-120/xq-120.github.io" class="github-corner" title="XQ on GitHub" aria-label="XQ on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2019/03/03/%E4%BB%8EJSONSerialization%E5%B4%A9%E6%BA%83%E5%88%B0%E6%90%9E%E6%87%82Swift%E7%9A%84try-catch/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          从JSONSerialization崩溃到搞懂Swift的try-catch
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-03-03 13:21:39" itemprop="dateCreated datePublished" datetime="2019-03-03T13:21:39+08:00">2019-03-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>今天学习了下Swift中的try-catch,突然发现在json序列化时try-catch不好使了,下面的代码依然会导致崩溃,try-catch并不能catch住.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Foundation</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">People</span>: <span class="title class_">NSObject</span>, <span class="title class_">Decodable</span> &#123;</span><br><span class="line">    <span class="keyword">@objc</span> <span class="keyword">var</span> firstName: <span class="type">String</span></span><br><span class="line">    <span class="keyword">@objc</span> <span class="keyword">var</span> lastName: <span class="type">String</span></span><br><span class="line">    <span class="keyword">@objc</span> <span class="keyword">var</span> age: <span class="type">Int</span> <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">@objc</span> <span class="keyword">var</span> height: <span class="type">Float</span> <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">@objc</span> <span class="keyword">var</span> weight: <span class="type">Float</span> <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">@objc</span> <span class="keyword">var</span> sex: <span class="type">Bool</span> <span class="operator">=</span> <span class="literal">false</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">@objc</span> <span class="keyword">init</span>(<span class="params">firstName</span>: <span class="type">String</span>, <span class="params">lastName</span>: <span class="type">String</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.firstName <span class="operator">=</span> firstName</span><br><span class="line">        <span class="keyword">self</span>.lastName <span class="operator">=</span> lastName</span><br><span class="line">        <span class="keyword">super</span>.<span class="keyword">init</span>()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> dict <span class="operator">=</span> [<span class="string">&quot;one&quot;</span>: <span class="type">People</span>.<span class="keyword">init</span>(firstName: <span class="string">&quot;x&quot;</span>, lastName: <span class="string">&quot;q&quot;</span>)]</span><br><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> jsonData <span class="operator">=</span> <span class="keyword">try</span> <span class="type">JSONSerialization</span>.data(withJSONObject: dict, options: [])</span><br><span class="line">    <span class="built_in">print</span>(jsonData)</span><br><span class="line">&#125; <span class="keyword">catch</span> <span class="keyword">let</span> error &#123;</span><br><span class="line">    <span class="built_in">print</span>(error)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>看了下方法</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">func</span> <span class="title class_">data</span>(<span class="title class_">withJSONObject</span> <span class="title class_">obj</span>: <span class="title class_">Any</span>, <span class="title class_">options</span> <span class="title class_">opt</span>: <span class="title class_">JSONSerialization</span>.<span class="title class_">WritingOptions</span> = []) <span class="title class_">throws</span> -&gt; <span class="title class_">Data</span></span><br></pre></td></tr></table></figure>
+<p>的说明:</p>
+<blockquote>
+<p>If obj will not produce valid JSON, an exception is thrown. This exception is thrown prior to parsing and represents a programming error, not an internal error. You should check whether the input will produce valid JSON before calling this method by using isValidJSONObject(_:).</p>
+</blockquote>
+<p>大意是如果obj参数不是一个合法的JSON,那么将抛出一个异常.该异常代表的是一个编程错误而不是解析时的内部错误,它在解析之前就被抛出了.估计这种异常是无法捕获的.所以最好先调用<code>isValidJSONObject</code>判断下是不是一个合法的JSON,再进行序列化.</p>
+<p>类似的这样的错误也是捕捉不到的.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ot: <span class="type">String</span>!</span><br><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> os <span class="operator">=</span> <span class="keyword">try</span> ot<span class="operator">!</span></span><br><span class="line">    <span class="built_in">print</span>(os)</span><br><span class="line">&#125; <span class="keyword">catch</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(error)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码依旧崩溃.</p>
+<p>看来以后使用try-catch得注意下了.</p>
+<h3 id="try-catch能够捕获什么样的错误呢"><a href="#try-catch能够捕获什么样的错误呢" class="headerlink" title="try-catch能够捕获什么样的错误呢?"></a>try-catch能够捕获什么样的错误呢?</h3><p>编程错误也就是异常都是不能捕获的.比如对nil强制解包,数组越界,非法参数等.<br>只有可恢复的错误才可以捕获.</p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/24010569/error-handling-in-swift-language">Error-Handling in Swift-Language
+</a></p>
+<p>但在OC中是可以捕获异常的:</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@try</span> &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;@try&quot;</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">NSString</span> *s = <span class="string">@&quot;xx&quot;</span>;</span><br><span class="line">    s = [s stringByAppendingString:<span class="literal">nil</span>];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;%@&quot;</span>, s);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@catch</span> (<span class="built_in">NSException</span> *exception) &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;exception:%@&quot;</span>, exception);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@finally</span> &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;@finally&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码加了try-catch后就不会崩溃.</p>
+<p>Swfit中的try-catch只是用来进行错误处理的,因此只能捕获错误,不能捕获异常.</p>
+<h3 id="Swift的错误处理（Error-handling）"><a href="#Swift的错误处理（Error-handling）" class="headerlink" title="Swift的错误处理（Error handling）"></a>Swift的错误处理（Error handling）</h3><p>错误处理（Error handling）是响应错误以及从错误中恢复的过程。Swift 提供了在运行时对可恢复错误的抛出、捕获、传递和操作的一等公民支持。</p>
+<p>某些操作无法保证总是执行完所有代码或总是生成有用的结果。可选类型可用来表示值缺失，但是当某个操作失败时，最好能得知失败的原因，从而可以作出相应的应对。</p>
+<p>举个例子，假如有个从磁盘上的某个文件读取数据并进行处理的任务，该任务会有多种可能失败的情况，包括指定路径下文件并不存在，文件不具有可读权限，或者文件编码格式不兼容。区分这些不同的失败情况可以让程序解决并处理某些错误，然后把它解决不了的错误报告给用户。</p>
+<blockquote>
+<p>Swift中的错误处理类似于其他语言中的异常处理,比如都使用try，catch和throw关键字。和其他语言中（包括 Objective-C ）的异常处理不同的是，Swift 中的错误处理并不涉及unwinding调用栈(即调用栈展开)，这是一个计算代价高昂的过程。就此而言，throw语句的性能是可以和return语句相媲美的。</p>
+</blockquote>
+<p>由此可见Swift中的错误处理和异常处理不是同一个东西,只不过使用的关键字相同.</p>
+<h3 id="throw、throws、rethrows"><a href="#throw、throws、rethrows" class="headerlink" title="throw、throws、rethrows"></a>throw、throws、rethrows</h3><p>throw：用于抛出一个错误。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">func</span> <span class="title function_">parseObject</span>&lt;<span class="type">T</span>: <span class="type">Decodable</span>&gt;(<span class="params">data</span>: <span class="type">Data</span>?) <span class="keyword">throws</span> -&gt; <span class="type">T</span> &#123;</span><br><span class="line">    <span class="keyword">guard</span> <span class="keyword">let</span> d <span class="operator">=</span> data <span class="keyword">else</span> &#123;<span class="keyword">throw</span> <span class="type">BusinessError</span>.<span class="keyword">init</span>(code: <span class="type">BusinessError</span>.<span class="type">SuperLike</span>.badParam, message: <span class="string">&quot;无数据&quot;</span>)&#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">try</span> <span class="type">JSONDecoder</span>().decode(<span class="type">T</span>.<span class="keyword">self</span>, from: d)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>throws：用于向外抛出错误。用于函数声明，表示该函数内部自身会抛出错误，调用函数时外部需要使用try对错误进行处理，如果外部函数也不想处理该错误，那么外部函数在声明时也要添加throws。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">internal</span> <span class="keyword">func</span> <span class="title function_">test_parse</span>() <span class="keyword">throws</span> -&gt; <span class="type">User</span> &#123; <span class="comment">//自身不处理，继续往外抛</span></span><br><span class="line">    <span class="keyword">let</span> user: <span class="type">User</span> <span class="operator">=</span> <span class="keyword">try</span> parseObject(data: <span class="literal">nil</span>)</span><br><span class="line">    <span class="keyword">return</span> user</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">internal</span> <span class="keyword">func</span> <span class="title function_">test_parse1</span>() -&gt; <span class="type">User</span>? &#123; <span class="comment">//自身处理。try?</span></span><br><span class="line">    <span class="keyword">let</span> user: <span class="type">User</span>? <span class="operator">=</span> <span class="keyword">try?</span> parseObject(data: <span class="literal">nil</span>)</span><br><span class="line">    <span class="keyword">return</span> user</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">internal</span> <span class="keyword">func</span> <span class="title function_">test_parse2</span>() -&gt; <span class="type">User</span>? &#123; <span class="comment">//自身处理。do-catch</span></span><br><span class="line">    <span class="keyword">do</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> user: <span class="type">User</span> <span class="operator">=</span> <span class="keyword">try</span> parseObject(data: <span class="literal">nil</span>)</span><br><span class="line">        <span class="keyword">return</span> user</span><br><span class="line">    &#125; <span class="keyword">catch</span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;<span class="subst">\(error)</span>&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">func</span> <span class="title function_">test_error</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> user <span class="operator">=</span> <span class="keyword">try?</span> test_parse()</span><br><span class="line">    <span class="keyword">let</span> user1 <span class="operator">=</span> test_parse1()</span><br><span class="line">    <span class="keyword">let</span> user2 <span class="operator">=</span> test_parse2()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> arr <span class="operator">=</span> [<span class="number">1</span>]</span><br><span class="line">    <span class="keyword">let</span> arr1 <span class="operator">=</span> arr.map &#123; ele <span class="keyword">in</span></span><br><span class="line">        <span class="keyword">return</span> <span class="type">String</span>.<span class="keyword">init</span>(ele)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> arr2 <span class="operator">=</span> arr.map &#123; ele <span class="keyword">in</span></span><br><span class="line">        <span class="keyword">let</span> user: <span class="type">User</span>? <span class="operator">=</span> <span class="keyword">try?</span> parseObject(data: <span class="literal">nil</span>)  <span class="comment">//闭包内部需要try处理，否则外部需要try处理。</span></span><br><span class="line">        <span class="keyword">return</span> user</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>rethrows：用于向外传递错误。用于函数声明，函数本身不会抛出错误，但闭包参数会抛出错误，调用函数时如果闭包内部处理了则外部不需要再使用try对错误进行处理。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@inlinable</span> <span class="keyword">public</span> <span class="keyword">func</span> <span class="title function_">map</span>&lt;<span class="type">T</span>&gt;(<span class="keyword">_</span> <span class="params">transform</span>: (<span class="type">Element</span>) <span class="keyword">throws</span> -&gt; <span class="type">T</span>) <span class="keyword">rethrows</span> -&gt; [<span class="type">T</span>]</span><br></pre></td></tr></table></figure>
+<p>使用：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr <span class="operator">=</span> [<span class="number">1</span>]</span><br><span class="line"><span class="keyword">let</span> arr1 <span class="operator">=</span> arr.map &#123; ele <span class="keyword">in</span></span><br><span class="line">    <span class="keyword">return</span> <span class="type">String</span>.<span class="keyword">init</span>(ele)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//[User?]</span></span><br><span class="line"><span class="keyword">let</span> arr2 <span class="operator">=</span> arr.map &#123; ele <span class="keyword">in</span></span><br><span class="line">    <span class="keyword">let</span> user: <span class="type">User</span>? <span class="operator">=</span> <span class="keyword">try?</span> parseObject(data: <span class="literal">nil</span>)  <span class="comment">//闭包内部需要try处理，否则外部需要try处理。</span></span><br><span class="line">    <span class="keyword">return</span> user</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>觉得文章有帮助可以打赏一下哦！</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.jpg" alt="jekyttt 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/" rel="tag"># 错误处理</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/12/20/%E9%9F%B3%E8%A7%86%E9%A2%91%E7%BC%96%E7%A0%81%E6%A0%BC%E5%BC%8F%E5%92%8C%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/" rel="prev" title="音视频编码格式和文件格式">
+      <i class="fa fa-chevron-left"></i> 音视频编码格式和文件格式
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/04/07/OC%E4%B8%8ESwift%E6%B7%B7%E7%BC%96/" rel="next" title="OC与Swift混编">
+      OC与Swift混编 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#try-catch%E8%83%BD%E5%A4%9F%E6%8D%95%E8%8E%B7%E4%BB%80%E4%B9%88%E6%A0%B7%E7%9A%84%E9%94%99%E8%AF%AF%E5%91%A2"><span class="nav-text">try-catch能够捕获什么样的错误呢?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Swift%E7%9A%84%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86%EF%BC%88Error-handling%EF%BC%89"><span class="nav-text">Swift的错误处理（Error handling）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#throw%E3%80%81throws%E3%80%81rethrows"><span class="nav-text">throw、throws、rethrows</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">jekyttt</p>
+  <div class="site-description" itemprop="description">涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">176</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">116</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xq-120" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xq-120" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://stackoverflow.com/yourname" title="StackOverflow → https:&#x2F;&#x2F;stackoverflow.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fa fa-fw fa-stack-overflow"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jekyttt</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v6.3.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.getAttribute('pjax') !== null) {
+      script.setAttribute('pjax', '');
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'dc6a52837746ef605a70',
+      clientSecret: '7a049bac8b7eef61e32ebcbfcc33ea9d670d3274',
+      repo        : 'commentForBlog',
+      owner       : 'xq-120',
+      admin       : ['xq-120'],
+      id          : 'c894af9035145d82ef75ec44a910b167',
+        language: 'en, zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+    </div>
+</body>
+</html>

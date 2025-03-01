@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"xq-120.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="源码版本：objc4-781 我们都知道OC的内存管理是通过引用计数来管理的，对象刚创建时引用计数为1，retain后+1，release后-1，当引用计数减为0时就会被销毁。那么问题就来了，操作的这个引用计数值是保存在哪的？今天就来研究一下这个问题。 先说结论：早期OC对象的引用计数都是存储在引用计数表中的，但是后来Apple的工程师可能觉得每次都从表中查找修改效率有点低，于是做了一些优化，如果">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OC内存管理之对象的引用计数">
+<meta property="og:url" content="https://xq-120.github.io/2020/09/16/OC%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B9%8B%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0/index.html">
+<meta property="og:site_name" content="芝士就是力量">
+<meta property="og:description" content="源码版本：objc4-781 我们都知道OC的内存管理是通过引用计数来管理的，对象刚创建时引用计数为1，retain后+1，release后-1，当引用计数减为0时就会被销毁。那么问题就来了，操作的这个引用计数值是保存在哪的？今天就来研究一下这个问题。 先说结论：早期OC对象的引用计数都是存储在引用计数表中的，但是后来Apple的工程师可能觉得每次都从表中查找修改效率有点低，于是做了一些优化，如果">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-09-16T02:25:52.000Z">
+<meta property="article:modified_time" content="2024-12-14T07:50:26.470Z">
+<meta property="article:author" content="jekyttt">
+<meta property="article:tag" content="内存管理">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://xq-120.github.io/2020/09/16/OC%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B9%8B%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>OC内存管理之对象的引用计数 | 芝士就是力量</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="芝士就是力量" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">芝士就是力量</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">像风一样自由</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/xq-120/xq-120.github.io" class="github-corner" title="XQ on GitHub" aria-label="XQ on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/09/16/OC%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B9%8B%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          OC内存管理之对象的引用计数
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-09-16 10:25:52" itemprop="dateCreated datePublished" datetime="2020-09-16T10:25:52+08:00">2020-09-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>源码版本：<a target="_blank" rel="noopener" href="https://opensource.apple.com/tarballs/objc4/objc4-781.tar.gz">objc4-781</a></p>
+<p>我们都知道OC的内存管理是通过引用计数来管理的，对象刚创建时引用计数为1，retain后+1，release后-1，当引用计数减为0时就会被销毁。那么问题就来了，操作的这个引用计数值是保存在哪的？今天就来研究一下这个问题。</p>
+<p>先说结论：早期OC对象的引用计数都是存储在引用计数表中的，但是后来Apple的工程师可能觉得每次都从表中查找修改效率有点低，于是做了一些优化，如果引用计数值较小时就保存在 <code>struct objc_object</code> 的isa成员变量里，只有当isa里装不下时才存放到引用计数表里，这一点可以从isa的类型变迁看出。除此之外，苹果还引入了Tagged pointer对象，这种对象实际上已经没有在堆上分配内存了，它的值就保存在指针里，这样的对象由于并没有真正在堆上分配内存因此讨论它的引用计数也就没有什么意义了。</p>
+<p>之前的文章 <code>runtime源码分析(一)--类型</code> 里专门分析了 <code>struct objc_object</code> ，<code>struct objc_class</code>，<code>isa</code> 类型的定义，这里不再赘述，仅做简单说明。</p>
+<h3 id="isa的定义"><a href="#isa的定义" class="headerlink" title="isa的定义"></a>isa的定义</h3><p>旧版本的定义：</p>
+<p>isa是一个指针类型 <code>struct objc_class *</code> 。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// An opaque type that represents an Objective-C class.</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> objc_class *Class; </span><br><span class="line"></span><br><span class="line"><span class="comment">/// Represents an instance of a class.</span></span><br><span class="line"><span class="keyword">struct</span> objc_object &#123;</span><br><span class="line">    Class _Nonnull isa  OBJC_ISA_AVAILABILITY;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> objc_class &#123;</span><br><span class="line">    Class _Nonnull isa  OBJC_ISA_AVAILABILITY; <span class="comment">//旧版本isa为一个指针指向objc_class结构体</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">if</span> !__OBJC2__</span></span><br><span class="line">    Class _Nullable super_class                              OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="keyword">const</span> <span class="type">char</span> * _Nonnull name                               OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="type">long</span> version                                             OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="type">long</span> info                                                OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="type">long</span> instance_size                                       OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="keyword">struct</span> objc_ivar_list * _Nullable ivars                  OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="keyword">struct</span> objc_method_list * _Nullable * _Nullable methodLists                    OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="keyword">struct</span> objc_cache * _Nonnull cache                       OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="keyword">struct</span> objc_protocol_list * _Nullable protocols          OBJC2_UNAVAILABLE;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">&#125; OBJC2_UNAVAILABLE;</span><br><span class="line"><span class="comment">/* Use `Class` instead of `struct objc_class *` */</span></span><br></pre></td></tr></table></figure>
+<p>新版本oc 2.0定义：</p>
+<p>isa是一个联合类型 <code>union isa_t</code> 。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//objc-private.h</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">objc_object</span> &#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="type">isa_t</span> isa; <span class="comment">//objc_object中有一个isa，但类型已经变成isa_t(union类型)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"></span><br><span class="line">    <span class="comment">// ISA() assumes this is NOT a tagged pointer object</span></span><br><span class="line">    <span class="function">Class <span class="title">ISA</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// rawISA() assumes this is NOT a tagged pointer object or a non pointer ISA</span></span><br><span class="line">    <span class="function">Class <span class="title">rawISA</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// getIsa() allows this to be a tagged pointer object</span></span><br><span class="line">    <span class="function">Class <span class="title">getIsa</span><span class="params">()</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="type">uintptr_t</span> <span class="title">isaBits</span><span class="params">()</span> <span class="type">const</span></span>;</span><br><span class="line">    </span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">union</span> <span class="title class_">isa_t</span> &#123;</span><br><span class="line">    <span class="built_in">isa_t</span>() &#123; &#125;</span><br><span class="line">    <span class="built_in">isa_t</span>(<span class="type">uintptr_t</span> value) : <span class="built_in">bits</span>(value) &#123; &#125;</span><br><span class="line"></span><br><span class="line">    Class cls;</span><br><span class="line">    <span class="type">uintptr_t</span> bits;</span><br><span class="line"><span class="meta">#<span class="keyword">if</span> defined(ISA_BITFIELD)</span></span><br><span class="line">    <span class="keyword">struct</span> &#123;</span><br><span class="line">        ISA_BITFIELD;  <span class="comment">// defined in isa.h</span></span><br><span class="line">    &#125;;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//展开isa_t</span></span><br><span class="line"><span class="keyword">union</span> <span class="title class_">isa_t</span> &#123;</span><br><span class="line">    <span class="built_in">isa_t</span>() &#123; &#125;</span><br><span class="line">    <span class="built_in">isa_t</span>(<span class="type">uintptr_t</span> value) : <span class="built_in">bits</span>(value) &#123; &#125;</span><br><span class="line"></span><br><span class="line">    Class cls; <span class="comment">//一个指针指向objc_class结构体。这样就可以兼容旧版本。</span></span><br><span class="line">    <span class="type">uintptr_t</span> bits;</span><br><span class="line">    <span class="comment">//这里展开的是arm64的</span></span><br><span class="line">    <span class="keyword">struct</span> &#123;</span><br><span class="line">        <span class="type">uintptr_t</span> nonpointer        : <span class="number">1</span>; <span class="comment">//LSB。0 is raw isa, 1 is non-pointer isa.                                      </span></span><br><span class="line">      	<span class="type">uintptr_t</span> has_assoc         : <span class="number">1</span>; <span class="comment">//对象是否有关联对象                                      </span></span><br><span class="line">        <span class="type">uintptr_t</span> has_cxx_dtor      : <span class="number">1</span>; <span class="comment">//对象是否有C++或ARC析构函数                                      </span></span><br><span class="line">        <span class="type">uintptr_t</span> shiftcls          : <span class="number">33</span>; <span class="comment">/*MACH_VM_MAX_ADDRESS 0x1000000000*/</span> <span class="comment">//Class地址。</span></span><br><span class="line">        <span class="type">uintptr_t</span> magic             : <span class="number">6</span>;  <span class="comment">//一个魔法数。用于区分是否初始化                                     </span></span><br><span class="line">        <span class="type">uintptr_t</span> weakly_referenced : <span class="number">1</span>;  <span class="comment">//是否有弱引用指针。                                      </span></span><br><span class="line">        <span class="type">uintptr_t</span> deallocating      : <span class="number">1</span>; <span class="comment">//是否正在被销毁                                      </span></span><br><span class="line">        <span class="type">uintptr_t</span> has_sidetable_rc  : <span class="number">1</span>; <span class="comment">//是否有sidetable引用计数。对象的引用计数太大而不能在内部保存时会将引用计数保存到sidetable                                      </span></span><br><span class="line">        <span class="type">uintptr_t</span> extra_rc          : <span class="number">19</span> <span class="comment">//MSB。对象的引用计数超过1时会存在这里。因此extra_rc加1后就是对象的引用计数。由于只有19位所以只有对象的引用计数不太大的时候才保存在这里</span></span><br><span class="line">    &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="meta"># <span class="keyword">if</span> __arm64__</span></span><br><span class="line"><span class="meta">#   <span class="keyword">define</span> ISA_MASK        0x0000000ffffffff8ULL</span></span><br><span class="line"><span class="meta">#   <span class="keyword">define</span> ISA_MAGIC_MASK  0x000003f000000001ULL</span></span><br><span class="line"><span class="meta">#   <span class="keyword">define</span> ISA_MAGIC_VALUE 0x000001a000000001ULL</span></span><br><span class="line"><span class="meta">#   <span class="keyword">define</span> ISA_BITFIELD                                                      \</span></span><br><span class="line"><span class="meta">      uintptr_t nonpointer        : 1;                                       \</span></span><br><span class="line"><span class="meta">      uintptr_t has_assoc         : 1;                                       \</span></span><br><span class="line"><span class="meta">      uintptr_t has_cxx_dtor      : 1;                                       \</span></span><br><span class="line"><span class="meta">      uintptr_t shiftcls          : 33; <span class="comment">/*MACH_VM_MAX_ADDRESS 0x1000000000*/</span> \</span></span><br><span class="line"><span class="meta">      uintptr_t magic             : 6;                                       \</span></span><br><span class="line"><span class="meta">      uintptr_t weakly_referenced : 1;                                       \</span></span><br><span class="line"><span class="meta">      uintptr_t deallocating      : 1;                                       \</span></span><br><span class="line"><span class="meta">      uintptr_t has_sidetable_rc  : 1;                                       \</span></span><br><span class="line"><span class="meta">      uintptr_t extra_rc          : 19</span></span><br><span class="line"><span class="meta">#   <span class="keyword">define</span> RC_ONE   (1ULL&lt;&lt;45)  <span class="comment">//刚好位于extra_rc的最低位，因此+RC_ONE，就表示extra_rc+1</span></span></span><br><span class="line"><span class="meta">#   <span class="keyword">define</span> RC_HALF  (1ULL&lt;&lt;18)</span></span><br></pre></td></tr></table></figure>
+<p>上面的注释已经写得很明白了，至于isa为什么可以用结构体位域定义，主要是因为在64位系统中指针的长度为8个字节，64位，而类的地址通常占不满64位导致会空出许多bit，于是苹果的工程师充分利用这些bit，极大的提高了引用计数的操作效率。（至于为啥类的地址达不到64位，我也不知道，从上面的定义看应该只有33位有效位。）</p>
+<p>接下来看一下retain和release的实现，进一步验证。</p>
+<h3 id="retain"><a href="#retain" class="headerlink" title="retain"></a>retain</h3><p>源码如下：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Replaced by ObjectAlloc</span></span><br><span class="line">- (<span class="type">id</span>)<span class="keyword">retain</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> _objc_rootRetain(<span class="keyword">self</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">NEVER_INLINE <span class="type">id</span></span><br><span class="line">_objc_rootRetain(<span class="type">id</span> obj)</span><br><span class="line">&#123;</span><br><span class="line">    ASSERT(obj);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> obj-&gt;rootRetain();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ALWAYS_INLINE <span class="type">id</span> </span><br><span class="line">objc_object::rootRetain()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> rootRetain(<span class="literal">false</span>, <span class="literal">false</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">NEVER_INLINE <span class="type">id</span> </span><br><span class="line">objc_object::rootRetain_overflow(<span class="type">bool</span> tryRetain)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> rootRetain(tryRetain, <span class="literal">true</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ALWAYS_INLINE <span class="type">id</span> </span><br><span class="line">objc_object::rootRetain(<span class="type">bool</span> tryRetain, <span class="type">bool</span> handleOverflow)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (isTaggedPointer()) <span class="keyword">return</span> (<span class="type">id</span>)<span class="variable language_">this</span>;</span><br><span class="line"></span><br><span class="line">    <span class="type">bool</span> sideTableLocked = <span class="literal">false</span>;</span><br><span class="line">    <span class="type">bool</span> transcribeToSideTable = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">    isa_t oldisa;</span><br><span class="line">    isa_t newisa;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">do</span> &#123;</span><br><span class="line">        transcribeToSideTable = <span class="literal">false</span>;</span><br><span class="line">        oldisa = LoadExclusive(&amp;isa.bits);</span><br><span class="line">        newisa = oldisa;</span><br><span class="line">        <span class="keyword">if</span> (slowpath(!newisa.nonpointer)) &#123; <span class="comment">//纯pointer的则调用sidetable_retain，</span></span><br><span class="line">            ClearExclusive(&amp;isa.bits);</span><br><span class="line">            <span class="keyword">if</span> (rawISA()-&gt;isMetaClass()) <span class="keyword">return</span> (<span class="type">id</span>)<span class="variable language_">this</span>;</span><br><span class="line">            <span class="keyword">if</span> (!tryRetain &amp;&amp; sideTableLocked) sidetable_unlock();</span><br><span class="line">            <span class="keyword">if</span> (tryRetain) <span class="keyword">return</span> sidetable_tryRetain() ? (<span class="type">id</span>)<span class="variable language_">this</span> : <span class="literal">nil</span>;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">return</span> sidetable_retain();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// don&#x27;t check newisa.fast_rr; we already called any RR overrides</span></span><br><span class="line">        <span class="keyword">if</span> (slowpath(tryRetain &amp;&amp; newisa.deallocating)) &#123;</span><br><span class="line">            ClearExclusive(&amp;isa.bits);</span><br><span class="line">            <span class="keyword">if</span> (!tryRetain &amp;&amp; sideTableLocked) sidetable_unlock();</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        uintptr_t carry;</span><br><span class="line">        newisa.bits = addc(newisa.bits, RC_ONE, <span class="number">0</span>, &amp;carry);  <span class="comment">// extra_rc++</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (slowpath(carry)) &#123;</span><br><span class="line">            <span class="comment">// newisa.extra_rc++ overflowed</span></span><br><span class="line">            <span class="keyword">if</span> (!handleOverflow) &#123;</span><br><span class="line">                ClearExclusive(&amp;isa.bits);</span><br><span class="line">                <span class="keyword">return</span> rootRetain_overflow(tryRetain);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// Leave half of the retain counts inline and </span></span><br><span class="line">            <span class="comment">// prepare to copy the other half to the side table.</span></span><br><span class="line">            <span class="keyword">if</span> (!tryRetain &amp;&amp; !sideTableLocked) sidetable_lock();</span><br><span class="line">            sideTableLocked = <span class="literal">true</span>;</span><br><span class="line">            transcribeToSideTable = <span class="literal">true</span>;</span><br><span class="line">            newisa.extra_rc = RC_HALF;</span><br><span class="line">            newisa.has_sidetable_rc = <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">while</span> (slowpath(!StoreExclusive(&amp;isa.bits, oldisa.bits, newisa.bits)));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (slowpath(transcribeToSideTable)) &#123;</span><br><span class="line">        <span class="comment">// Copy the other half of the retain counts to the side table.</span></span><br><span class="line">        sidetable_addExtraRC_nolock(RC_HALF);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (slowpath(!tryRetain &amp;&amp; sideTableLocked)) sidetable_unlock();</span><br><span class="line">    <span class="keyword">return</span> (<span class="type">id</span>)<span class="variable language_">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>大致流程：</p>
+<ol>
+<li>首先判断是不是TaggedPointer对象，如果是则直接返回。上面也说了TaggedPointer对象并没有真正在堆上分配内存存储对象，所以这些retain，release操作都是无意义的。</li>
+<li>如果isa是纯pointer类型则调用sidetable_retain，查询到对象的引用计数表后+1。另：slowpath表示该条件一般不会成立，用于编译器优化。</li>
+<li>如果是tryRetain并且正在销毁则返回nil，即tryRetain失败。这里稍微提一句 <code>objc_loadWeakRetained</code> 函数里面有调用 <code>obj-&gt;rootTryRetain()</code> ，如果tryRetain失败， <code>objc_loadWeakRetained</code> 会返回nil。</li>
+<li>如果isa是nonpointer，则调用<code>addc(newisa.bits, RC_ONE, 0, &amp;carry)</code> ,extra_rc++。由于extra_rc只有19bit所以需要处理进位的问题。同样进位也不是经常发生，所以进位的处理也是slowpath。</li>
+<li>处理进位情况，当发生进位时，就需要把一部分引用计数加到引用计数表里去了，所以先加好锁sidetable_lock。更新transcribeToSideTable为true表示需要将一部分引用计数加到sidetable，更新isa.extra_rc=RC_HALF, 更新has_sidetable_rc为true表明使用到了引用计数表。</li>
+</ol>
+<p>从retain的处理逻辑不难看出，引用计数值的保存与操作是有经过优化的。接下来看一下sidetable_retain的操作。</p>
+<h4 id="sidetable-retain"><a href="#sidetable-retain" class="headerlink" title="sidetable_retain"></a>sidetable_retain</h4><p>源码：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">id</span></span><br><span class="line">objc_object::sidetable_retain()</span><br><span class="line">&#123;</span><br><span class="line"><span class="meta">#<span class="keyword">if</span> SUPPORT_NONPOINTER_ISA</span></span><br><span class="line">    ASSERT(!isa.nonpointer);</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">    SideTable&amp; table = SideTables()[<span class="variable language_">this</span>];</span><br><span class="line">    </span><br><span class="line">    table.lock();</span><br><span class="line">    size_t&amp; refcntStorage = table.refcnts[<span class="variable language_">this</span>];</span><br><span class="line">    <span class="keyword">if</span> (! (refcntStorage &amp; SIDE_TABLE_RC_PINNED)) &#123;</span><br><span class="line">        refcntStorage += SIDE_TABLE_RC_ONE;</span><br><span class="line">    &#125;</span><br><span class="line">    table.unlock();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> (<span class="type">id</span>)<span class="variable language_">this</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> objc::ExplicitInit&lt;StripedMap&lt;SideTable&gt;&gt; SideTablesMap;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> StripedMap&lt;SideTable&gt;&amp; SideTables() &#123;</span><br><span class="line">    <span class="keyword">return</span> SideTablesMap.get();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>大致流程：</p>
+<ol>
+<li>将对象地址映射为索引，然后从SideTables哈希数组里取得对象的SideTable</li>
+<li>将对象地址映射为索引，从SideTable的refcnts哈希数组里取得当前引用计数值</li>
+<li>+1</li>
+</ol>
+<p>这里稍微介绍下refcnts：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">SideTable</span> &#123;</span><br><span class="line">    <span class="type">spinlock_t</span> slock;</span><br><span class="line">    RefcountMap refcnts; <span class="comment">//指向一个引用计数表</span></span><br><span class="line">    <span class="type">weak_table_t</span> weak_table; <span class="comment">//指向一个弱引用表</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">//方法</span></span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// RefcountMap disguises its pointers because we </span></span><br><span class="line"><span class="comment">// don&#x27;t want the table to act as a root for `leaks`.</span></span><br><span class="line"><span class="keyword">typedef</span> objc::DenseMap&lt;DisguisedPtr&lt;objc_object&gt;,<span class="type">size_t</span>,RefcountMapValuePurgeable&gt; RefcountMap;</span><br></pre></td></tr></table></figure>
+<p>它是SideTable的一个成员变量，是一个哈希表DenseMap，DenseMap继承自DenseMapBase。DenseMapBase里实现了扩容操作，所以不用担心引用计数表容量不够的情况。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">DenseMapBase</span> &#123;</span><br><span class="line">  ...</span><br><span class="line">    </span><br><span class="line">  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> LookupKeyT&gt;</span><br><span class="line">    <span class="function">BucketT *<span class="title">InsertIntoBucketImpl</span><span class="params">(<span class="type">const</span> KeyT &amp;Key, <span class="type">const</span> LookupKeyT &amp;Lookup,</span></span></span><br><span class="line"><span class="params"><span class="function">                                  BucketT *TheBucket)</span> </span>&#123;</span><br><span class="line">      <span class="comment">// If the load of the hash table is more than 3/4, or if fewer than 1/8 of</span></span><br><span class="line">      <span class="comment">// the buckets are empty (meaning that many are filled with tombstones),</span></span><br><span class="line">      <span class="comment">// grow the table.</span></span><br><span class="line">      <span class="comment">//</span></span><br><span class="line">      <span class="comment">// The later case is tricky.  For example, if we had one empty bucket with</span></span><br><span class="line">      <span class="comment">// tons of tombstones, failing lookups (e.g. for insertion) would have to</span></span><br><span class="line">      <span class="comment">// probe almost the entire table until it found the empty bucket.  If the</span></span><br><span class="line">      <span class="comment">// table completely filled with tombstones, no lookup would ever succeed,</span></span><br><span class="line">      <span class="comment">// causing infinite loops in lookup.</span></span><br><span class="line">      <span class="type">unsigned</span> NewNumEntries = <span class="built_in">getNumEntries</span>() + <span class="number">1</span>;</span><br><span class="line">      <span class="type">unsigned</span> NumBuckets = <span class="built_in">getNumBuckets</span>();</span><br><span class="line">      <span class="keyword">if</span> (<span class="built_in">LLVM_UNLIKELY</span>(NewNumEntries * <span class="number">4</span> &gt;= NumBuckets * <span class="number">3</span>)) &#123;</span><br><span class="line">        <span class="keyword">this</span>-&gt;<span class="built_in">grow</span>(NumBuckets * <span class="number">2</span>); <span class="comment">//扩容</span></span><br><span class="line">        <span class="built_in">LookupBucketFor</span>(Lookup, TheBucket);</span><br><span class="line">        NumBuckets = <span class="built_in">getNumBuckets</span>();</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">LLVM_UNLIKELY</span>(NumBuckets-(NewNumEntries+<span class="built_in">getNumTombstones</span>()) &lt;=</span><br><span class="line">                               NumBuckets/<span class="number">8</span>)) &#123;</span><br><span class="line">        <span class="keyword">this</span>-&gt;<span class="built_in">grow</span>(NumBuckets);</span><br><span class="line">        <span class="built_in">LookupBucketFor</span>(Lookup, TheBucket);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="built_in">ASSERT</span>(TheBucket);</span><br><span class="line"></span><br><span class="line">      <span class="comment">// Only update the state after we&#x27;ve grown our bucket space appropriately</span></span><br><span class="line">      <span class="comment">// so that when growing buckets we have self-consistent entry count.</span></span><br><span class="line">      <span class="comment">// If we are writing over a tombstone or zero value, remember this.</span></span><br><span class="line">      <span class="keyword">if</span> (KeyInfoT::<span class="built_in">isEqual</span>(TheBucket-&gt;<span class="built_in">getFirst</span>(), <span class="built_in">getEmptyKey</span>())) &#123;</span><br><span class="line">        <span class="comment">// Replacing an empty bucket.</span></span><br><span class="line">        <span class="built_in">incrementNumEntries</span>();</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (KeyInfoT::<span class="built_in">isEqual</span>(TheBucket-&gt;<span class="built_in">getFirst</span>(), <span class="built_in">getTombstoneKey</span>())) &#123;</span><br><span class="line">        <span class="comment">// Replacing a tombstone.</span></span><br><span class="line">        <span class="built_in">incrementNumEntries</span>();</span><br><span class="line">        <span class="built_in">decrementNumTombstones</span>();</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// we should be purging a zero. No accounting changes.</span></span><br><span class="line">        <span class="built_in">ASSERT</span>(ValueInfoT::<span class="built_in">isPurgeable</span>(TheBucket-&gt;<span class="built_in">getSecond</span>()));</span><br><span class="line">        TheBucket-&gt;<span class="built_in">getSecond</span>().~<span class="built_in">ValueT</span>();</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">return</span> TheBucket;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果对SideTablesMap感兴趣可以参考</p>
+<p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1586223">iOS SideTable</a></p>
+<p>这里简单说一下，SideTablesMap就是一个全局的哈希表，它的元素个数是固定的8个或64个，里面装的就是SideTable对象。</p>
+<h3 id="release"><a href="#release" class="headerlink" title="release"></a>release</h3><p>实现：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Replaced by ObjectAlloc</span></span><br><span class="line">- (<span class="keyword">oneway</span> <span class="type">void</span>)release &#123;</span><br><span class="line">    _objc_rootRelease(<span class="keyword">self</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">NEVER_INLINE <span class="type">void</span></span><br><span class="line">_objc_rootRelease(<span class="type">id</span> obj)</span><br><span class="line">&#123;</span><br><span class="line">    ASSERT(obj);</span><br><span class="line"></span><br><span class="line">    obj-&gt;rootRelease();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ALWAYS_INLINE <span class="type">bool</span> </span><br><span class="line">objc_object::rootRelease()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> rootRelease(<span class="literal">true</span>, <span class="literal">false</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ALWAYS_INLINE <span class="type">bool</span> </span><br><span class="line">objc_object::rootRelease(<span class="type">bool</span> performDealloc, <span class="type">bool</span> handleUnderflow)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (isTaggedPointer()) <span class="keyword">return</span> <span class="literal">false</span>; <span class="comment">//TaggedPointer对象不处理</span></span><br><span class="line"></span><br><span class="line">    <span class="type">bool</span> sideTableLocked = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">    isa_t oldisa;</span><br><span class="line">    isa_t newisa;</span><br><span class="line"></span><br><span class="line"> retry:</span><br><span class="line">    <span class="keyword">do</span> &#123;</span><br><span class="line">        oldisa = LoadExclusive(&amp;isa.bits);</span><br><span class="line">        newisa = oldisa;</span><br><span class="line">        <span class="keyword">if</span> (slowpath(!newisa.nonpointer)) &#123;</span><br><span class="line">            ClearExclusive(&amp;isa.bits);</span><br><span class="line">            <span class="keyword">if</span> (rawISA()-&gt;isMetaClass()) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            <span class="keyword">if</span> (sideTableLocked) sidetable_unlock();</span><br><span class="line">            <span class="keyword">return</span> sidetable_release(performDealloc);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// don&#x27;t check newisa.fast_rr; we already called any RR overrides</span></span><br><span class="line">        uintptr_t carry;</span><br><span class="line">        newisa.bits = subc(newisa.bits, RC_ONE, <span class="number">0</span>, &amp;carry);  <span class="comment">// extra_rc--</span></span><br><span class="line">        <span class="keyword">if</span> (slowpath(carry)) &#123;</span><br><span class="line">            <span class="comment">// don&#x27;t ClearExclusive()</span></span><br><span class="line">            <span class="keyword">goto</span> underflow;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">while</span> (slowpath(!StoreReleaseExclusive(&amp;isa.bits, </span><br><span class="line">                                             oldisa.bits, newisa.bits)));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (slowpath(sideTableLocked)) sidetable_unlock();</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line"> underflow:</span><br><span class="line">    <span class="comment">// newisa.extra_rc-- underflowed: borrow from side table or deallocate</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// abandon newisa to undo the decrement</span></span><br><span class="line">    newisa = oldisa; <span class="comment">//发生下溢时就保持isa不变了。</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (slowpath(newisa.has_sidetable_rc)) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!handleUnderflow) &#123;</span><br><span class="line">            ClearExclusive(&amp;isa.bits);</span><br><span class="line">            <span class="keyword">return</span> rootRelease_underflow(performDealloc);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Transfer retain count from side table to inline storage.</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!sideTableLocked) &#123;</span><br><span class="line">            ClearExclusive(&amp;isa.bits);</span><br><span class="line">            sidetable_lock();</span><br><span class="line">            sideTableLocked = <span class="literal">true</span>;</span><br><span class="line">            <span class="comment">// Need to start over to avoid a race against </span></span><br><span class="line">            <span class="comment">// the nonpointer -&gt; raw pointer transition.</span></span><br><span class="line">            <span class="keyword">goto</span> retry;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Try to remove some retain counts from the side table.        </span></span><br><span class="line">        size_t borrowed = sidetable_subExtraRC_nolock(RC_HALF);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// To avoid races, has_sidetable_rc must remain set </span></span><br><span class="line">        <span class="comment">// even if the side table count is now zero.</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (borrowed &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="comment">// Side table retain count decreased.</span></span><br><span class="line">            <span class="comment">// Try to add them to the inline count.</span></span><br><span class="line">            newisa.extra_rc = borrowed - <span class="number">1</span>;  <span class="comment">// redo the original decrement too</span></span><br><span class="line">            <span class="type">bool</span> stored = StoreReleaseExclusive(&amp;isa.bits, </span><br><span class="line">                                                oldisa.bits, newisa.bits);</span><br><span class="line">            <span class="keyword">if</span> (!stored) &#123;</span><br><span class="line">                <span class="comment">// Inline update failed. </span></span><br><span class="line">                <span class="comment">// Try it again right now. This prevents livelock on LL/SC </span></span><br><span class="line">                <span class="comment">// architectures where the side table access itself may have </span></span><br><span class="line">                <span class="comment">// dropped the reservation.</span></span><br><span class="line">                isa_t oldisa2 = LoadExclusive(&amp;isa.bits);</span><br><span class="line">                isa_t newisa2 = oldisa2;</span><br><span class="line">                <span class="keyword">if</span> (newisa2.nonpointer) &#123;</span><br><span class="line">                    uintptr_t overflow;</span><br><span class="line">                    newisa2.bits = </span><br><span class="line">                        addc(newisa2.bits, RC_ONE * (borrowed<span class="number">-1</span>), <span class="number">0</span>, &amp;overflow);</span><br><span class="line">                    <span class="keyword">if</span> (!overflow) &#123;</span><br><span class="line">                        stored = StoreReleaseExclusive(&amp;isa.bits, oldisa2.bits, </span><br><span class="line">                                                       newisa2.bits);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (!stored) &#123;</span><br><span class="line">                <span class="comment">// Inline update failed.</span></span><br><span class="line">                <span class="comment">// Put the retains back in the side table.</span></span><br><span class="line">                sidetable_addExtraRC_nolock(borrowed);</span><br><span class="line">                <span class="keyword">goto</span> retry;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Decrement successful after borrowing from side table.</span></span><br><span class="line">            <span class="comment">// This decrement cannot be the deallocating decrement - the side </span></span><br><span class="line">            <span class="comment">// table lock and has_sidetable_rc bit ensure that if everyone </span></span><br><span class="line">            <span class="comment">// else tried to -release while we worked, the last one would block.</span></span><br><span class="line">            sidetable_unlock();</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// Side table is empty after all. Fall-through to the dealloc path.</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Really deallocate.</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (slowpath(newisa.deallocating)) &#123;</span><br><span class="line">        ClearExclusive(&amp;isa.bits);</span><br><span class="line">        <span class="keyword">if</span> (sideTableLocked) sidetable_unlock();</span><br><span class="line">        <span class="keyword">return</span> overrelease_error();</span><br><span class="line">        <span class="comment">// does not actually return</span></span><br><span class="line">    &#125;</span><br><span class="line">    newisa.deallocating = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">if</span> (!StoreExclusive(&amp;isa.bits, oldisa.bits, newisa.bits)) <span class="keyword">goto</span> retry;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (slowpath(sideTableLocked)) sidetable_unlock();</span><br><span class="line"></span><br><span class="line">    __c11_atomic_thread_fence(__ATOMIC_ACQUIRE);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (performDealloc) &#123;</span><br><span class="line">        ((<span class="type">void</span>(*)(objc_object *, SEL))objc_msgSend)(<span class="variable language_">this</span>, <span class="keyword">@selector</span>(dealloc));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>代码很多但逻辑并不复杂：</p>
+<ol>
+<li>将引用计数-1</li>
+<li>当引用计数减为“0”时，调用对象的dealloc方法。</li>
+</ol>
+<p>为啥这里0打了引号，这是因为对象刚创建出来不管是引用计数表里的值还是extra_rc的值其实都是0，这时候调用release，那就是0-1会发生underflow，所以这种情况下实际上要处理underflow，所以源码里有注释：</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">newisa.<span class="keyword">extra_rc-- </span>underflowed: <span class="keyword">borrow </span>from side table <span class="keyword">or </span>deallocate</span><br></pre></td></tr></table></figure>
+<p>因此实际上是引用计数先-1，当发生下溢时可能就会调用deallocate，当然这种情况下也就不更新引用计数值为负数了。</p>
+<h4 id="sidetable-release"><a href="#sidetable-release" class="headerlink" title="sidetable_release"></a>sidetable_release</h4><p>实现：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// rdar://20206767</span></span><br><span class="line"><span class="comment">// return uintptr_t instead of bool so that the various raw-isa </span></span><br><span class="line"><span class="comment">// -release paths all return zero in eax</span></span><br><span class="line">uintptr_t</span><br><span class="line">objc_object::sidetable_release(<span class="type">bool</span> performDealloc)</span><br><span class="line">&#123;</span><br><span class="line"><span class="meta">#<span class="keyword">if</span> SUPPORT_NONPOINTER_ISA</span></span><br><span class="line">    ASSERT(!isa.nonpointer);</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">    SideTable&amp; table = SideTables()[<span class="variable language_">this</span>];</span><br><span class="line"></span><br><span class="line">    <span class="type">bool</span> do_dealloc = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">    table.lock();</span><br><span class="line">    auto it = table.refcnts.try_emplace(<span class="variable language_">this</span>, SIDE_TABLE_DEALLOCATING);</span><br><span class="line">    auto &amp;refcnt = it.first-&gt;second;</span><br><span class="line">    <span class="keyword">if</span> (it.second) &#123;</span><br><span class="line">        do_dealloc = <span class="literal">true</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (refcnt &lt; SIDE_TABLE_DEALLOCATING) &#123;</span><br><span class="line">        <span class="comment">// SIDE_TABLE_WEAKLY_REFERENCED may be set. Don&#x27;t change it.</span></span><br><span class="line">        do_dealloc = <span class="literal">true</span>;</span><br><span class="line">        refcnt |= SIDE_TABLE_DEALLOCATING;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (! (refcnt &amp; SIDE_TABLE_RC_PINNED)) &#123;</span><br><span class="line">        refcnt -= SIDE_TABLE_RC_ONE;</span><br><span class="line">    &#125;</span><br><span class="line">    table.unlock();</span><br><span class="line">    <span class="keyword">if</span> (do_dealloc  &amp;&amp;  performDealloc) &#123;</span><br><span class="line">        ((<span class="type">void</span>(*)(objc_object *, SEL))objc_msgSend)(<span class="variable language_">this</span>, <span class="keyword">@selector</span>(dealloc));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> do_dealloc;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="retainCount"><a href="#retainCount" class="headerlink" title="retainCount"></a>retainCount</h3><p>实现：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">NSUInteger</span>)retainCount &#123;</span><br><span class="line">    <span class="keyword">return</span> _objc_rootRetainCount(<span class="keyword">self</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">uintptr_t</span><br><span class="line">_objc_rootRetainCount(<span class="type">id</span> obj)</span><br><span class="line">&#123;</span><br><span class="line">    ASSERT(obj);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> obj-&gt;rootRetainCount();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">inline</span> uintptr_t </span><br><span class="line">objc_object::rootRetainCount()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (isTaggedPointer()) <span class="keyword">return</span> (uintptr_t)<span class="variable language_">this</span>;</span><br><span class="line"></span><br><span class="line">    sidetable_lock();</span><br><span class="line">    isa_t bits = LoadExclusive(&amp;isa.bits);</span><br><span class="line">    ClearExclusive(&amp;isa.bits);</span><br><span class="line">    <span class="keyword">if</span> (bits.nonpointer) &#123;</span><br><span class="line">        uintptr_t rc = <span class="number">1</span> + bits.extra_rc; <span class="comment">//加1后才是真正的引用计数，因为对象刚创建时extra_rc为0</span></span><br><span class="line">        <span class="keyword">if</span> (bits.has_sidetable_rc) &#123;</span><br><span class="line">            rc += sidetable_getExtraRC_nolock();</span><br><span class="line">        &#125;</span><br><span class="line">        sidetable_unlock();</span><br><span class="line">        <span class="keyword">return</span> rc;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    sidetable_unlock();</span><br><span class="line">    <span class="keyword">return</span> sidetable_retainCount(); <span class="comment">//纯pointer的情况直接从sidetable获取</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="sidetable-retainCount"><a href="#sidetable-retainCount" class="headerlink" title="sidetable_retainCount"></a>sidetable_retainCount</h4><p>实现：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">uintptr_t</span><br><span class="line">objc_object::sidetable_retainCount()</span><br><span class="line">&#123;</span><br><span class="line">    SideTable&amp; table = SideTables()[<span class="variable language_">this</span>];</span><br><span class="line"></span><br><span class="line">    size_t refcnt_result = <span class="number">1</span>; <span class="comment">//默认是1</span></span><br><span class="line">    </span><br><span class="line">    table.lock();</span><br><span class="line">    RefcountMap::iterator it = table.refcnts.find(<span class="variable language_">this</span>);</span><br><span class="line">    <span class="keyword">if</span> (it != table.refcnts.end()) &#123;</span><br><span class="line">        <span class="comment">// this is valid for SIDE_TABLE_RC_PINNED too</span></span><br><span class="line">        refcnt_result += it-&gt;second &gt;&gt; SIDE_TABLE_RC_SHIFT;</span><br><span class="line">    &#125;</span><br><span class="line">    table.unlock();</span><br><span class="line">    <span class="keyword">return</span> refcnt_result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>如果对象是一个nonpointer对象，则引用计数较小时会直接保存在对象的isa成员变量里，只有当isa里装不下时才存放到引用计数表里，引用计数表是一个哈希表key为对象的地址，value就是引用计数值。</p>
+<p>如果对象是一个pointer对象，则引用计数就存储在引用计数表里。</p>
+<p>本文没有对上溢和下溢的处理细节做过多分析，有兴趣的可以细细研究。</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>觉得文章有帮助可以打赏一下哦！</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.jpg" alt="jekyttt 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" rel="tag"># 内存管理</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/08/24/RSA%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E4%BB%8B%E7%BB%8D/" rel="prev" title="RSA算法原理介绍">
+      <i class="fa fa-chevron-left"></i> RSA算法原理介绍
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/03/28/iOS-stack-overflow%E5%AF%BC%E8%87%B4%E7%9A%84EXC_BAD_ACCESS%E5%B4%A9%E6%BA%83/" rel="next" title="iOS stack overflow导致的EXC_BAD_ACCESS崩溃">
+      iOS stack overflow导致的EXC_BAD_ACCESS崩溃 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#isa%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-text">isa的定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#retain"><span class="nav-text">retain</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#sidetable-retain"><span class="nav-text">sidetable_retain</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#release"><span class="nav-text">release</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#sidetable-release"><span class="nav-text">sidetable_release</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#retainCount"><span class="nav-text">retainCount</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#sidetable-retainCount"><span class="nav-text">sidetable_retainCount</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">jekyttt</p>
+  <div class="site-description" itemprop="description">涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">176</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">116</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xq-120" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xq-120" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://stackoverflow.com/yourname" title="StackOverflow → https:&#x2F;&#x2F;stackoverflow.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fa fa-fw fa-stack-overflow"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jekyttt</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v6.3.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.getAttribute('pjax') !== null) {
+      script.setAttribute('pjax', '');
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'dc6a52837746ef605a70',
+      clientSecret: '7a049bac8b7eef61e32ebcbfcc33ea9d670d3274',
+      repo        : 'commentForBlog',
+      owner       : 'xq-120',
+      admin       : ['xq-120'],
+      id          : '5817ef61d1036f82c97803eb77693782',
+        language: 'en, zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+    </div>
+</body>
+</html>

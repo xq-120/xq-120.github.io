@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"xq-120.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="芝士就是力量">
+<meta property="og:url" content="https://xq-120.github.io/page/15/index.html">
+<meta property="og:site_name" content="芝士就是力量">
+<meta property="og:description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="jekyttt">
+<meta property="article:tag" content="Objective-C, Swift, C, iOS开发, 移动开发">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://xq-120.github.io/page/15/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false
+  };
+</script>
+
+  <title>芝士就是力量</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="芝士就是力量" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">芝士就是力量</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">像风一样自由</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/xq-120/xq-120.github.io" class="github-corner" title="XQ on GitHub" aria-label="XQ on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/02/26/runtime%20+load%E4%B8%8E+initialize%E5%88%86%E6%9E%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/02/26/runtime%20+load%E4%B8%8E+initialize%E5%88%86%E6%9E%90/" class="post-title-link" itemprop="url">runtime +load与+initialize分析</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-02-26 11:31:24" itemprop="dateCreated datePublished" datetime="2018-02-26T11:31:24+08:00">2018-02-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/runtime/" itemprop="url" rel="index"><span itemprop="name">runtime</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>通过一个简单的打印实验就可以发现:</p>
+<ul>
+<li>+initialize方法和+load调用时机</li>
+<li>+initialize在父类,子类,类别之间的关系</li>
+<li>+load在父类,子类,类别之间的关系</li>
+</ul>
+<p>如下表格:</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th></th>
+<th>+load</th>
+<th>+initialize</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>调用时机</td>
+<td>被添加到 runtime 时(类被加载时)</td>
+<td>第一次调用该类的类方法或实例方法前调用,可能永远不调用</td>
+</tr>
+<tr>
+<td>调用顺序</td>
+<td>父类-&gt;子类-&gt;分类(多个分类间,则按加载顺序)</td>
+<td>父类-&gt;分类(多个分类时,是最后一个的被执行)or子类</td>
+</tr>
+<tr>
+<td>是否需要显式调用父类实现</td>
+<td>否</td>
+<td>否</td>
+</tr>
+<tr>
+<td>自身没实现是否调用父类的实现</td>
+<td>否</td>
+<td>是</td>
+</tr>
+<tr>
+<td>分类中实现产生的影响</td>
+<td>类和分类都执行</td>
+<td>覆盖类中的方法，只执行分类的实现</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>另:Swizzling should always be done in +load.</p>
+<h2 id="initialize"><a href="#initialize" class="headerlink" title="initialize"></a>initialize</h2><p>文档说明：</p>
+<figure class="highlight delphi"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">The runtime sends initialize <span class="keyword">to</span> each <span class="keyword">class</span> <span class="keyword">in</span> a <span class="keyword">program</span> just before the <span class="keyword">class</span>, <span class="keyword">or</span> any <span class="keyword">class</span> that inherits from it, <span class="keyword">is</span> sent its first <span class="keyword">message</span> from within the <span class="keyword">program</span>. Superclasses receive this <span class="keyword">message</span> before their subclasses.</span><br><span class="line"></span><br><span class="line">The runtime sends the initialize <span class="keyword">message</span> <span class="keyword">to</span> classes <span class="keyword">in</span> a thread-safe manner. That <span class="keyword">is</span>, initialize <span class="keyword">is</span> run by the first thread <span class="keyword">to</span> send a <span class="keyword">message</span> <span class="keyword">to</span> a <span class="keyword">class</span>, <span class="keyword">and</span> any other thread that tries <span class="keyword">to</span> send a <span class="keyword">message</span> <span class="keyword">to</span> that <span class="keyword">class</span> will block <span class="keyword">until</span> initialize completes.</span><br><span class="line"></span><br><span class="line">The superclass <span class="keyword">implementation</span> may be called multiple times <span class="keyword">if</span> subclasses <span class="keyword">do</span> <span class="keyword">not</span> implement initialize—the runtime will call the <span class="keyword">inherited</span> <span class="keyword">implementation</span>—<span class="keyword">or</span> <span class="keyword">if</span> subclasses explicitly call [super initialize]. <span class="keyword">If</span> you want <span class="keyword">to</span> protect yourself from being run multiple times, you can structure your <span class="keyword">implementation</span> along these lines:</span><br><span class="line">+ (void)initialize <span class="comment">&#123;</span></span><br><span class="line"><span class="comment">  if (self == [ClassName self]) &#123;</span></span><br><span class="line"><span class="comment">    // ... do the initialization ...</span></span><br><span class="line"><span class="comment">  &#125;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Because initialize <span class="keyword">is</span> called <span class="keyword">in</span> a blocking manner, it’s important <span class="keyword">to</span> limit method implementations <span class="keyword">to</span> the minimum amount <span class="keyword">of</span> work necessary possible. Specifically, any code that takes locks that might be required by other classes <span class="keyword">in</span> their initialize methods <span class="keyword">is</span> liable <span class="keyword">to</span> lead <span class="keyword">to</span> deadlocks. Therefore, you should <span class="keyword">not</span> rely <span class="keyword">on</span> initialize <span class="keyword">for</span> complex <span class="keyword">initialization</span>, <span class="keyword">and</span> should instead limit it <span class="keyword">to</span> straightforward, <span class="keyword">class</span> <span class="keyword">local</span> <span class="keyword">initialization</span>.</span><br><span class="line"></span><br><span class="line">Special Considerations</span><br><span class="line">initialize <span class="keyword">is</span> invoked only once per <span class="keyword">class</span>. <span class="keyword">If</span> you want <span class="keyword">to</span> perform independent <span class="keyword">initialization</span> <span class="keyword">for</span> the <span class="keyword">class</span> <span class="keyword">and</span> <span class="keyword">for</span> categories <span class="keyword">of</span> the <span class="keyword">class</span>, you should implement load methods.</span><br></pre></td></tr></table></figure>
+<p>有几个点值得说一下：</p>
+<p>1、initialize方法是线程安全的。当第一个线程触发initialize执行后，其他线程发送的消息都会被阻塞直到initialize执行完成。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/02/26/runtime%20+load%E4%B8%8E+initialize%E5%88%86%E6%9E%90/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/02/25/OC%20MRC%E4%B9%8B%E6%97%85/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/02/25/OC%20MRC%E4%B9%8B%E6%97%85/" class="post-title-link" itemprop="url">OC MRC之旅</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-02-25 22:38:24" itemprop="dateCreated datePublished" datetime="2018-02-25T22:38:24+08:00">2018-02-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>none</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/02/25/OC%20MRC%E4%B9%8B%E6%97%85/">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/02/14/2018-2-14-SDWebImage%E5%86%85%E5%AD%98%E6%9A%B4%E6%B6%A8%E5%88%86%E6%9E%90%E4%B8%8E%E8%A7%A3%E5%86%B3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/02/14/2018-2-14-SDWebImage%E5%86%85%E5%AD%98%E6%9A%B4%E6%B6%A8%E5%88%86%E6%9E%90%E4%B8%8E%E8%A7%A3%E5%86%B3/" class="post-title-link" itemprop="url">SDWebImage内存暴涨分析与解决</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-02-14 15:01:11" itemprop="dateCreated datePublished" datetime="2018-02-14T15:01:11+08:00">2018-02-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%BD%BF%E7%94%A8/" itemprop="url" rel="index"><span itemprop="name">第三方库使用</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>使用SDWebImage加载图片,当列表有很多页,图片很多时,可能会导致内存暴涨:<br><img src="http://7xqoji.com1.z0.glb.clouddn.com/SDWebImage_%E5%86%85%E5%AD%98%E6%9A%B4%E6%B6%A8.jpg" alt="内存暴涨"></p>
+<p>产生内存暴涨的代码:</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//从磁盘获取图片,并缓存到内存.</span></span><br><span class="line">- (<span class="keyword">nullable</span> <span class="built_in">UIImage</span> *)imageFromDiskCacheForKey:(<span class="keyword">nullable</span> <span class="built_in">NSString</span> *)key &#123;</span><br><span class="line">    <span class="built_in">UIImage</span> *diskImage = [<span class="keyword">self</span> diskImageForKey:key];</span><br><span class="line">    <span class="keyword">if</span> (diskImage &amp;&amp; <span class="keyword">self</span>.config.shouldCacheImagesInMemory) &#123;</span><br><span class="line">        <span class="built_in">NSUInteger</span> cost = SDCacheCostForImage(diskImage);</span><br><span class="line">        [<span class="keyword">self</span>.memCache setObject:diskImage forKey:key cost:cost];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> diskImage;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//解压图片</span></span><br><span class="line">- (<span class="keyword">nullable</span> <span class="built_in">UIImage</span> *)diskImageForKey:(<span class="keyword">nullable</span> <span class="built_in">NSString</span> *)key &#123;</span><br><span class="line">    <span class="built_in">NSData</span> *data = [<span class="keyword">self</span> diskImageDataBySearchingAllPathsForKey:key];</span><br><span class="line">    <span class="keyword">if</span> (data) &#123;</span><br><span class="line">        <span class="built_in">UIImage</span> *image = [[SDWebImageCodersManager sharedInstance] decodedImageWithData:data];</span><br><span class="line">        image = [<span class="keyword">self</span> scaledImageForKey:key image:image];</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">self</span>.config.shouldDecompressImages) &#123;</span><br><span class="line">            image = [[SDWebImageCodersManager sharedInstance] decompressedImageWithImage:image data:&amp;data options:@&#123;SDWebImageCoderScaleDownLargeImagesKey: @(<span class="literal">NO</span>)&#125;];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> image;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>关闭缓存图片到内存的功能:<br><code>[[SDImageCache sharedImageCache].config setShouldCacheImagesInMemory:NO];</code></p>
+<p>效果如下:<br><img src="http://7xqoji.com1.z0.glb.clouddn.com/SDWebImage_%E5%86%85%E5%AD%98%E6%AD%A3%E5%B8%B8.jpg" alt="内存正常"><br>此时虽然内存不再异常,但滑动过程中会明显看到图片填充时的闪动,用户体验想当不好.</p>
+<p>比较好的办法:</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">- (void)initSDWebImage</span><br><span class="line">&#123;</span><br><span class="line">    <span class="selector-attr">[[SDImageCache sharedImageCache]</span><span class="selector-class">.config</span> setShouldDecompressImages:NO];</span><br><span class="line">    <span class="selector-attr">[[SDWebImageDownloader sharedDownloader]</span> setShouldDecompressImages:NO];</span><br><span class="line">    <span class="selector-attr">[[SDImageCache sharedImageCache]</span> setMaxMemoryCost:<span class="number">20</span> * <span class="number">1024</span> * <span class="number">1024</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>设置一个内存缓存最大值,需要注意的是系统并不会精确的使用该值进行限定.这样设置之后,内存基本在70-90M之间浮动.不会再像之前飙到3-400M还停不下来.<br>如果设置为10 <em> 1024 </em> 1024,那么内存基本在30-50M之间.并且用户体验还行.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/01/26/%E4%BD%BF%E7%94%A8reduce%E6%A8%A1%E6%8B%9F%E5%AE%9E%E7%8E%B0map%E5%92%8Cfilter/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/01/26/%E4%BD%BF%E7%94%A8reduce%E6%A8%A1%E6%8B%9F%E5%AE%9E%E7%8E%B0map%E5%92%8Cfilter/" class="post-title-link" itemprop="url">使用reduce模拟实现map和filter</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-01-26 17:06:24" itemprop="dateCreated datePublished" datetime="2018-01-26T17:06:24+08:00">2018-01-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="使用reduce模拟实现map和filter"><a href="#使用reduce模拟实现map和filter" class="headerlink" title="使用reduce模拟实现map和filter"></a>使用reduce模拟实现map和filter</h3><p>首先看一下系统的map和filter功能:</p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> fbArr = [<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">8</span>, <span class="number">13</span>, <span class="number">21</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> mmp = fbArr.<span class="keyword">map</span> &#123; <span class="function"><span class="params">(item)</span> -&gt;</span> Int <span class="keyword">in</span></span><br><span class="line">    item + item</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span>(mmp)</span><br><span class="line">    </span><br><span class="line"><span class="keyword">let</span> cmp = fbArr.filter &#123; <span class="function"><span class="params">(item)</span> -&gt;</span> Bool <span class="keyword">in</span></span><br><span class="line">    item &gt; <span class="number">5</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span>(cmp)</span><br></pre></td></tr></table></figure>
+<p>打印如下:</p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">[2, 2, 4, 6, 10, 16, 26, 42]</span></span><br><span class="line"><span class="string">[8, 13, 21]</span></span><br></pre></td></tr></table></figure>
+<p>使用reduce模拟实现map和filter:</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">extension Array &#123;</span><br><span class="line">	func map2&lt;T&gt;(_ transform: (Element) -&gt; T) -&gt; <span class="selector-attr">[T]</span> &#123;</span><br><span class="line">        <span class="comment">//初始值为空数组, 数组+数组</span></span><br><span class="line">        return <span class="built_in">reduce</span>([], &#123; (result, item) -&gt; <span class="selector-attr">[T]</span> in</span><br><span class="line">            return result + <span class="selector-attr">[transform(item)]</span></span><br><span class="line">        &#125;)</span><br><span class="line">        <span class="comment">//简化一下</span></span><br><span class="line">        return <span class="built_in">reduce</span>([], &#123;</span><br><span class="line">            $<span class="number">0</span> + [transform($<span class="number">1</span>)]</span><br><span class="line">        &#125;)</span><br><span class="line">        <span class="comment">//再简化一下</span></span><br><span class="line">        return <span class="built_in">reduce</span>([]) &#123; $<span class="number">0</span> + <span class="selector-attr">[transform($1)]</span> &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    func <span class="built_in">filter2</span>(_ filter: (Element) -&gt; Bool) -&gt; <span class="selector-attr">[Element]</span> &#123;</span><br><span class="line">        return <span class="built_in">reduce</span>([], &#123; (result, item) -&gt; <span class="selector-attr">[Element]</span> in</span><br><span class="line">            return <span class="attribute">filter</span>(item) ? result + <span class="selector-attr">[item]</span> : result</span><br><span class="line">        &#125;)</span><br><span class="line">        <span class="comment">//简化一下</span></span><br><span class="line">        return <span class="built_in">reduce</span>([]) &#123; <span class="attribute">filter</span>($<span class="number">1</span>) ? $<span class="number">0</span> + <span class="selector-attr">[$1]</span> : $<span class="number">0</span> &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>说实话,Swift对闭包的简写有时候感觉有点过了,初次看到这样的写法<code>reduce([]) &#123; filter($1) ? $0 + [$1] : $0 &#125;</code>,有时还得缓缓才知道是啥意思.</p>
+<p>使用:</p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> ammp = fbArr.map2 &#123; <span class="function"><span class="params">(item)</span> -&gt;</span> Int <span class="keyword">in</span></span><br><span class="line">    item + item</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span>(ammp)</span><br><span class="line">    </span><br><span class="line"><span class="keyword">let</span> bm = fbArr.filter2 &#123; <span class="function"><span class="params">(item)</span> -&gt;</span> Bool <span class="keyword">in</span></span><br><span class="line">    item &gt; <span class="number">10</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span>(bm)</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/01/26/%E4%BD%BF%E7%94%A8reduce%E6%A8%A1%E6%8B%9F%E5%AE%9E%E7%8E%B0map%E5%92%8Cfilter/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/01/19/Category/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/01/19/Category/" class="post-title-link" itemprop="url">OC Category浅析</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-01-19 11:09:24" itemprop="dateCreated datePublished" datetime="2018-01-19T11:09:24+08:00">2018-01-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>category用结构体category_t表示（在objc-runtime-new.h中可以找到此定义）:</p>
+<figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="type">category_t</span> &#123;</span><br><span class="line">    const char *name;</span><br><span class="line">    classref_t <span class="keyword">cls</span>;</span><br><span class="line">    <span class="keyword">struct</span> <span class="type">method_list_t</span> *instanceMethods;</span><br><span class="line">    <span class="keyword">struct</span> <span class="type">method_list_t</span> *classMethods;</span><br><span class="line">    <span class="keyword">struct</span> <span class="type">protocol_list_t</span> *protocols;</span><br><span class="line">    <span class="keyword">struct</span> <span class="type">property_list_t</span> *instanceProperties;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>而类的结构体:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">objc_class</span> &#123;</span><br><span class="line">    Class _Nonnull isa  OBJC_ISA_AVAILABILITY;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">if</span> !__OBJC2__</span></span><br><span class="line">    Class _Nullable super_class                              OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="type">const</span> <span class="type">char</span> * _Nonnull name                               OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="type">long</span> version                                             OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="type">long</span> info                                                OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="type">long</span> instance_size                                       OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">objc_ivar_list</span> * _Nullable ivars                  OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">objc_method_list</span> * _Nullable * _Nullable methodLists                    OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">objc_cache</span> * _Nonnull cache                       OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">objc_protocol_list</span> * _Nullable protocols          OBJC2_UNAVAILABLE;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">&#125; OBJC2_UNAVAILABLE;</span><br><span class="line"><span class="comment">/* Use `Class` instead of `struct objc_class *` */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="title class_">objc_class</span> *Class;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>从category的定义也可以看出category的可为（可以添加实例方法，类方法，甚至可以实现协议，添加属性）和不可为（无法添加实例变量）。</p>
+<p>MyClass.h</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@interface</span> <span class="attribute">MyClass </span>: NSObject</span><br><span class="line"></span><br><span class="line">- (void)printName;</span><br><span class="line"></span><br><span class="line"><span class="variable">@end</span></span><br><span class="line"></span><br><span class="line"><span class="variable">@interface</span> <span class="built_in">MyClass</span>(MyAddition)</span><br><span class="line"></span><br><span class="line"><span class="variable">@property</span>(nonatomic, copy) NSString *name;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">-</span> (void)<span class="selector-tag">printName</span>;</span><br><span class="line"></span><br><span class="line">@<span class="selector-tag">end</span></span><br></pre></td></tr></table></figure>
+<p>MyClass.m</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">MyClass</span></span></span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)printName</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;%@&quot;</span>, <span class="string">@&quot;MyClass&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">MyClass</span>(<span class="title">MyAddition</span>)</span></span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)printName</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;%@&quot;</span>, <span class="string">@&quot;MyAddition&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>转换为.cpp文件:<code>clang -rewrite-objc MyClass.m</code></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/01/19/Category/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2017/12/13/%E5%93%8D%E5%BA%94%E8%80%85%E9%93%BE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/12/13/%E5%93%8D%E5%BA%94%E8%80%85%E9%93%BE/" class="post-title-link" itemprop="url">响应者链</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-12-13 23:06:54" itemprop="dateCreated datePublished" datetime="2017-12-13T23:06:54+08:00">2017-12-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/UIKit/" itemprop="url" rel="index"><span itemprop="name">UIKit</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="响应者对象"><a href="#响应者对象" class="headerlink" title="响应者对象"></a>响应者对象</h4><p>响应者对象（Responder Object）指的是有响应和处理事件能力的对象。A responder object is any instance of the UIResponder class, and common subclasses include UIView, UIViewController, and UIApplication. UIResponder是所有响应者对象的基类，在UIResponder类中定义了处理上述各种事件的接口。我们熟悉的AppDelegate、UIApplication、 UIViewController、UIWindow和所有继承自UIView的UIKit类都直接或间接的继承自UIResponder，所以它们的实例都是可以构成响应者链的响应者对象。</p>
+<h4 id="响应者链"><a href="#响应者链" class="headerlink" title="响应者链"></a>响应者链</h4><p>响应者链就是由一系列的响应者对象构成的一个层次结构。UIResponder对象能够接收触摸事件（其子类当然也能够）。每一个UIResponder对象都有一个指针nextResponder,然后这些链接在一起的对象就组成了响应者链。</p>
+<h4 id="系统是如何找到第一响应者的"><a href="#系统是如何找到第一响应者的" class="headerlink" title="系统是如何找到第一响应者的"></a>系统是如何找到第一响应者的</h4><p>当用户点击了某个视图.系统是如何找到用户点击的视图呢?</p>
+<p>答案就是对视图进行hitTest.</p>
+<p>官方文档:</p>
+<p>UIKit uses view-based hit testing to determine where touch events occur. Specifically, UIKit compares the touch location to the bounds of view objects in the view hierarchy. The hitTest:withEvent: method of UIView walks the view hierarchy, looking for the deepest subview that contains the specified touch. That view becomes the first responder for the touch event.</p>
+<p>注意:If a touch location is outside of a view’s bounds, the hitTest:withEvent: method ignores that view and all of its subviews. As a result, when a view’s clipsToBounds property is NO, subviews outside of that view’s bounds are not returned even if they happen to contain the touch.</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2017/12/13/%E5%93%8D%E5%BA%94%E8%80%85%E9%93%BE/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2017/12/11/UIScrollView%E4%BB%A3%E7%90%86%E6%96%B9%E6%B3%95%E6%B3%A8%E8%A7%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/12/11/UIScrollView%E4%BB%A3%E7%90%86%E6%96%B9%E6%B3%95%E6%B3%A8%E8%A7%A3/" class="post-title-link" itemprop="url">UIScrollView代理方法</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-12-11 10:16:24" itemprop="dateCreated datePublished" datetime="2017-12-11T10:16:24+08:00">2017-12-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/UIKit/" itemprop="url" rel="index"><span itemprop="name">UIKit</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>将要开始发生拖拽.<br><code>- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView</code></p>
+<p>将要结束拖拽,velocity:结束时的速度;targetContentOffset:想要滚动到的指定位置.(使用该方法可以让UIScrollView停在我们想要的地方)<br><code>- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset</code></p>
+<p>拖拽结束,decelerate=YES:表明拖拽结束的时候,scrollView还有速度,将会减速滑动一段距离,最终停止时会回调scrollViewDidEndDecelerating方法;=NO:表明拖拽结束,scrollView也随即停止,此时不会再回调scrollViewDidEndDecelerating方法.<br><code>- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate</code></p>
+<p>已经结束减速.表明滚动停止.只有在停止前有速度的时候才会被回调.<br><code>- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView</code></p>
+<p>已经滚动.scrollView处于滚动状态时,该方法会被频繁调用,因此该方法里面不应该有太复杂的处理.动画scrollToItemAtIndexPath:atScrollPosition:animated:;并不会使该代理方法调用.<br><code>- (void)scrollViewDidScroll:(UIScrollView *)scrollView</code></p>
+<p>called when setContentOffset/scrollRectVisible:animated: finishes. not called if not animating. 因为动画原因滚动结束.<br><code>- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView</code></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2017/12/03/OC%20block%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C--Block%E7%9A%84%E5%A3%B0%E6%98%8E%E3%80%81%E8%B5%8B%E5%80%BC%E4%B8%8E%E8%B0%83%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/12/03/OC%20block%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C--Block%E7%9A%84%E5%A3%B0%E6%98%8E%E3%80%81%E8%B5%8B%E5%80%BC%E4%B8%8E%E8%B0%83%E7%94%A8/" class="post-title-link" itemprop="url">OC block基本操作--Block的声明、赋值与调用</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-12-03 15:05:52" itemprop="dateCreated datePublished" datetime="2017-12-03T15:05:52+08:00">2017-12-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="Block的声明、赋值与调用"><a href="#Block的声明、赋值与调用" class="headerlink" title="Block的声明、赋值与调用"></a>Block的声明、赋值与调用</h3><h4 id="Block变量的声明"><a href="#Block变量的声明" class="headerlink" title="Block变量的声明"></a>Block变量的声明</h4><p>和C语言的函数指针声明几乎一样,只是将”*”改为”^”.如下:</p>
+<p><code>返回值类型</code> <code>(^变量名称)</code> <code>(变量类型 变量1, 变量类型 变量2, ...)</code></p>
+<p>例:int (^blkVar)(int a, int b);</p>
+<h4 id="Block语法"><a href="#Block语法" class="headerlink" title="Block语法"></a>Block语法</h4><p>一个Block语法代表一个Block类型变量的值.它的写法和C语言函数的定义很像.仅有两点区别:</p>
+<ul>
+<li>没有函数名.</li>
+<li>在返回值前面加上”^”. </li>
+</ul>
+<p><code>^</code> <code>返回值</code> <code>(变量类型 变量1, 变量类型 变量2, ...)</code> <code>&#123;... return xx;&#125;</code>. </p>
+<p>例:^int (int a, int b){… return 3;}.</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2017/12/03/OC%20block%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C--Block%E7%9A%84%E5%A3%B0%E6%98%8E%E3%80%81%E8%B5%8B%E5%80%BC%E4%B8%8E%E8%B0%83%E7%94%A8/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2017/12/03/OC%20block%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C--Block%E9%87%8C%E7%9A%84strongSelf/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/12/03/OC%20block%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C--Block%E9%87%8C%E7%9A%84strongSelf/" class="post-title-link" itemprop="url">OC block基本操作--Block里的strongSelf</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-12-03 13:15:20" itemprop="dateCreated datePublished" datetime="2017-12-03T13:15:20+08:00">2017-12-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="Block里的strongSelf"><a href="#Block里的strongSelf" class="headerlink" title="Block里的strongSelf"></a>Block里的strongSelf</h3><p>有时我们在看源码时,会发现作者会在block里第一行strong一下weakSelf.以下便是对这种写法的一个探究.</p>
+<p>一般在使用block的时候,都会在block外,声明一个weakSelf,来确保block不去持有self.但是这也会引发一个问题,就是如果在block执行之前,self就已经销毁了,那么block里的[weakSelf method],method方法就不会被执行,如果有返回值的话,会返回nil.如果Block里有这样的代码:[arrM addObject:nil],是会崩溃的.所以,如何让block在执行时,self不销毁?</p>
+<p>解决办法就是:在block代码块里第一行将weakSelf赋值给一个strong类型指针变量,通常是<code>__strong typeof(weakSelf) strongSelf = weakSelf;</code>.有了strongSelf这样一个强引用指针,以后的代码执行时,便不会出现self==nil的情况,且当block执行完后,局部变量strongSelf清除,self对象被释放.一切看起来似乎很完美.但是如果在<br>__strong typeof(weakSelf) strongSelf = weakSelf;<br>执行之前,self就已经销毁,那么strongSelf将等于nil.上面的崩溃还是会发生.所以必须判断一下strongSelf是否为nil.</p>
+<p>综上完整的写法应该如下:</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">__<span class="keyword">weak</span> <span class="keyword">typeof</span>(<span class="keyword">self</span>) weakSelf = <span class="keyword">self</span>;</span><br><span class="line"><span class="type">void</span> (^success)(<span class="type">id</span> data, <span class="built_in">NSString</span> *statusInfo) = ^(<span class="built_in">NSArray</span> *data, <span class="built_in">NSString</span> *statusInfo) &#123;</span><br><span class="line">    __<span class="keyword">strong</span> <span class="keyword">typeof</span>(weakSelf) strongSelf = weakSelf;</span><br><span class="line">    <span class="keyword">if</span> (strongSelf == <span class="literal">nil</span>) <span class="keyword">return</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;block回调了,strongSelf:%@&quot;</span>, strongSelf); </span><br><span class="line">    <span class="built_in">NSString</span> *sd = [strongSelf printSomething]; <span class="comment">//  如果没有前面的判断,这里有可能会因为strongSelf==nil,而导致返回值为nil.从而后面的[mA addObject:sd];会崩溃.</span></span><br><span class="line">    </span><br><span class="line">    <span class="built_in">NSMutableArray</span> *mA = [[<span class="built_in">NSMutableArray</span> alloc] initWithArray:data];</span><br><span class="line">    [mA addObject:<span class="string">@&quot;dsfds&quot;</span>];</span><br><span class="line">    [mA addObject:sd];</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;%@&quot;</span>, mA);</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;%@&quot;</span>, statusInfo);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>思考1:在Block里写<code>__strong typeof(weakSelf) strongSelf = weakSelf;</code>会不会导致self-Block引用循环?</p>
+</blockquote>
+<p>答案是不会的,因为strongSelf是Block代码块里定义的一个局部变量,当Block执行完后,局部变量就会销毁,这样就不会有强引用的指针指向self对象.self与Block之间也就不会形成一个引用循环.</p>
+<blockquote>
+<p>思考2:是不是Block里只能使用weakSelf,不能使用self?</p>
+</blockquote>
+<p>这个并不是绝对的,使用weakSelf当然是不会有问题的.而如果self不持有Block,那么即使Block里使用self,也不会形成self-Block引用循环,这种情况下在Block里直接使用self也是没有问题的,只不过此时self对象的销毁将依赖于Block的销毁,换句话说就是self对象的生命周期可能会被延长.  </p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2017/12/03/OC%20block%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C--Block%E9%87%8C%E7%9A%84strongSelf/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2017/12/02/OC%20block%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C--%E8%A7%A3%E9%99%A4%E5%BC%95%E7%94%A8%E5%BE%AA%E7%8E%AF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/12/02/OC%20block%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C--%E8%A7%A3%E9%99%A4%E5%BC%95%E7%94%A8%E5%BE%AA%E7%8E%AF/" class="post-title-link" itemprop="url">OC block基本操作--解除引用循环</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-12-02 15:35:54" itemprop="dateCreated datePublished" datetime="2017-12-02T15:35:54+08:00">2017-12-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="block截获self情况"><a href="#block截获self情况" class="headerlink" title="block截获self情况."></a>block截获self情况.</h3><p>略.</p>
+<h3 id="block截获成员变量时-避免循环引用的几种基本操作"><a href="#block截获成员变量时-避免循环引用的几种基本操作" class="headerlink" title="block截获成员变量时,避免循环引用的几种基本操作."></a>block截获成员变量时,避免循环引用的几种基本操作.</h3><p>下面这段代码如果不做任何处理,在block属性里直接使用成员变量,100%导致循环引用.</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">场景:</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="type">void</span>(^MyBlk)(<span class="type">void</span>);</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">SecondViewController</span> ()</span></span><br><span class="line">&#123;</span><br><span class="line">    Animal *_myAnimal;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) MyBlk blk;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line">_myAnimal = [[Animal alloc] init];</span><br><span class="line"><span class="keyword">self</span>.blk = ^&#123;</span><br><span class="line">   <span class="built_in">NSLog</span>(<span class="string">@&quot;%@&quot;</span>, _myAnimal); <span class="comment">//因为实例变量的访问等价于self-&gt;_myAnimal,也等价于(*self)._myAnimal;所以这里会导致block强引用self.</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>那么如何解决呢?有如下几种操作:</p>
+<ol>
+<li><p>使用__weak typeof(成员变量) weak成员变量 = 成员变量;</p>
+ <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">_myAnimal = [[Animal alloc] init];</span><br><span class="line">  __<span class="keyword">weak</span> <span class="keyword">typeof</span>(_myAnimal) weakMyAnimal = _myAnimal;</span><br><span class="line">  <span class="keyword">self</span>.blk = ^&#123;</span><br><span class="line">     <span class="built_in">NSLog</span>(<span class="string">@&quot;%@&quot;</span>, weakMyAnimal);</span><br><span class="line">  &#125;;</span><br></pre></td></tr></table></figure></li>
+<li><p>使用局部变量,这样block就不再持有self.于是循环引用便不能形成了.</p>
+ <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">_myAnimal = [[Animal alloc] init];</span><br><span class="line">  Animal *tMyAnimal = _myAnimal;</span><br><span class="line">  <span class="keyword">self</span>.blk = ^&#123;</span><br><span class="line">     <span class="built_in">NSLog</span>(<span class="string">@&quot;%@&quot;</span>, tMyAnimal);</span><br><span class="line">  &#125;;</span><br></pre></td></tr></table></figure></li>
+<li><p>对方法2进行改进,增加__block修饰符.</p>
+ <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">_myAnimal = [[Animal alloc] init];</span><br><span class="line">  __block Animal *tMyAnimal = _myAnimal;</span><br><span class="line">  <span class="keyword">self</span>.blk = ^&#123;</span><br><span class="line">     <span class="built_in">NSLog</span>(<span class="string">@&quot;%@&quot;</span>, tMyAnimal);</span><br><span class="line">     tMyAnimal = <span class="literal">nil</span>;</span><br><span class="line">  &#125;;</span><br></pre></td></tr></table></figure></li>
+<li><p>使用__weak typeof(self) weakSelf = self;</p>
+ <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">_myAnimal = [[Animal alloc] init];</span><br><span class="line">  __<span class="keyword">weak</span> <span class="keyword">typeof</span>(<span class="keyword">self</span>) weakSelf = <span class="keyword">self</span>;</span><br><span class="line">  <span class="keyword">self</span>.blk = ^&#123;</span><br><span class="line">     __<span class="keyword">strong</span> <span class="keyword">typeof</span>(weakSelf) strongSelf = weakSelf;</span><br><span class="line">     <span class="keyword">if</span> (!strongSelf) <span class="keyword">return</span> ; <span class="comment">//必须加上判断,否则一旦self在这之前被释放销毁了,那么后面的-&gt;操作将崩溃.</span></span><br><span class="line">     <span class="built_in">NSLog</span>(<span class="string">@&quot;%@&quot;</span>, strongSelf -&gt; _myAnimal); <span class="comment">//一旦block在执行中,对象被销毁了,很容易造成对NULL指针进行解引用导致崩溃.所以前面的判断是必须的.</span></span><br><span class="line">     <span class="built_in">NSLog</span>(<span class="string">@&quot;%@&quot;</span>, (*strongSelf)._myAnimal);</span><br><span class="line">  &#125;;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>那么这几种办法中哪种才是最佳实践呢?从写法上来看,第一种和第二种以及改进型的第三种要比第四种方便很多.那么第一种方法和第二种方法哪种更好呢?这里就需要知道什么是block以及为什么使用weak修饰符后就可以解除循环引用.</p>
+<blockquote>
+<p>什么是block</p>
+</blockquote>
+<p>带有自动变量(局部变量)值的匿名函数就是block.匿名函数就是不带有名称的函数.带有自动变量值在block中的表现就是”截获自动变量值”.</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2017/12/02/OC%20block%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C--%E8%A7%A3%E9%99%A4%E5%BC%95%E7%94%A8%E5%BE%AA%E7%8E%AF/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+  </div>
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/14/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/page/16/">16</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/16/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">jekyttt</p>
+  <div class="site-description" itemprop="description">涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">176</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">116</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xq-120" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xq-120" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://stackoverflow.com/yourname" title="StackOverflow → https:&#x2F;&#x2F;stackoverflow.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fa fa-fw fa-stack-overflow"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jekyttt</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v6.3.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.getAttribute('pjax') !== null) {
+      script.setAttribute('pjax', '');
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+
+    </div>
+</body>
+</html>

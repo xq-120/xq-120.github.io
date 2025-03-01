@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"xq-120.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="芝士就是力量">
+<meta property="og:url" content="https://xq-120.github.io/page/7/index.html">
+<meta property="og:site_name" content="芝士就是力量">
+<meta property="og:description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="jekyttt">
+<meta property="article:tag" content="Objective-C, Swift, C, iOS开发, 移动开发">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://xq-120.github.io/page/7/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false
+  };
+</script>
+
+  <title>芝士就是力量</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="芝士就是力量" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">芝士就是力量</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">像风一样自由</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/xq-120/xq-120.github.io" class="github-corner" title="XQ on GitHub" aria-label="XQ on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2021/04/07/MacBook%20Pro%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8(%E4%BA%8C)%E4%B9%8BMacBook%20Pro%E5%A4%96%E6%8E%A5%E9%94%AE%E7%9B%98%E6%8E%A7%E5%88%B6%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8%E4%BA%AE%E5%BA%A6%E5%92%8C%E5%A3%B0%E9%9F%B3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/04/07/MacBook%20Pro%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8(%E4%BA%8C)%E4%B9%8BMacBook%20Pro%E5%A4%96%E6%8E%A5%E9%94%AE%E7%9B%98%E6%8E%A7%E5%88%B6%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8%E4%BA%AE%E5%BA%A6%E5%92%8C%E5%A3%B0%E9%9F%B3/" class="post-title-link" itemprop="url">MacBook Pro外接显示器(二)之MacBook Pro外接键盘控制外接显示器亮度和声音</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-04-07 23:13:04" itemprop="dateCreated datePublished" datetime="2021-04-07T23:13:04+08:00">2021-04-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Life/" itemprop="url" rel="index"><span itemprop="name">Life</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>最近给我的MacBook Pro外接了显示器和键盘，显示器是三星的 LU28R55 ，键盘是惠普的。<br>但是发现外接显示器、键盘后有几个影响体验的问题：<br>1.外接的显示器是没有内置扬声器的需要额外接个音响才行，否则设置声音的输出为外接显示器也没用。<br>2.外接的显示器调节亮度和声音只能用显示器自带的按钮按，无法通过键盘控制。</p>
+<p>于是Google了一下发现使用 MonitorControl + Karabiner 这两个软件可以达到外接键盘控制外接显示器的亮度和声音。<br>MonitorControl下载地址<br><a target="_blank" rel="noopener" href="https://github.com/MonitorControl/MonitorControl/releases/tag/v2.1.0">https://github.com/MonitorControl/MonitorControl/releases/tag/v2.1.0</a></p>
+<p>Karabiner下载地址<br><a target="_blank" rel="noopener" href="https://github.com/pqrs-org/Karabiner-Elements/releases/tag/v13.4.0">https://github.com/pqrs-org/Karabiner-Elements/releases/tag/v13.4.0</a></p>
+<p>MonitorControl的作用是通过软件控制外接显示器的亮度和声音。</p>
+<p>Karabiner的作用是按键映射。为什么需要这个APP呢？因为外接显示器后笔记本基本上是合盖使用的，自然就没法使用笔记本的键盘了，而我这里外接的键盘是惠普的键盘跟苹果的键盘是不一样的，所以需要映射一下。当然如果你的外接键盘是苹果的配件那使用MonitorControl就够了。</p>
+<p>MonitorControl的安装很简单，这里主要说一下Karabiner，Karabiner安装后会多出两个APP：Karabiner-Elements 和 Karabiner-EventViewer。这里主要使用Karabiner-Elements，而Karabiner-EventViewer这里虽然使用不到但需要打开一下以允许一些权限。要不然仅使用Karabiner-Elements在Mac的一些系统上可能会出现即使设置了但却没效果的现象。<br><img src="https://upload-images.jianshu.io/upload_images/1503319-2105b2367d07d034.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>Karabiner-Elements的设置也很简单，当然对于小白的我来说也是整了一会的主要是没注意到Karabiner-EventViewer还要打开一下这个坑。<br>Karabiner-Elements最好多设置几个profile，方便切换，用回笔记本自身的键盘时就切换为默认的。<br>profile：<br><img src="https://upload-images.jianshu.io/upload_images/1503319-1bd699b1c59b2857.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>按键的映射：<br><img src="https://upload-images.jianshu.io/upload_images/1503319-7b901ef531d0eb63.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>这样就可以通过非苹果外接键盘控制苹果电脑的扬声器了。</p>
+<p>现在，你可以通过外接键盘控制声音和外接显示器的亮度了，是不是感觉体验度瞬间上升了好几楼了呢？</p>
+<p>另外吐槽下三星的 LU28R55，这款显示器亮度设为0了后感觉还是挺亮的，真不知道当初设计的人是怎么想的就不能让它继续调低吗？在我看来完全是一个缺陷。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/04/07/MacBook%20Pro%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8(%E4%BA%8C)%E4%B9%8BMacBook%20Pro%E5%A4%96%E6%8E%A5%E9%94%AE%E7%9B%98%E6%8E%A7%E5%88%B6%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8%E4%BA%AE%E5%BA%A6%E5%92%8C%E5%A3%B0%E9%9F%B3/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2021/04/05/MacBook%20Pro%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8(%E4%B8%80)%E4%B9%8B%E7%BD%91%E8%B4%AD%E6%98%BE%E7%A4%BA%E5%99%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/04/05/MacBook%20Pro%E5%A4%96%E6%8E%A5%E6%98%BE%E7%A4%BA%E5%99%A8(%E4%B8%80)%E4%B9%8B%E7%BD%91%E8%B4%AD%E6%98%BE%E7%A4%BA%E5%99%A8/" class="post-title-link" itemprop="url">MacBook Pro外接显示器(一)之网购显示器</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-04-05 13:29:08" itemprop="dateCreated datePublished" datetime="2021-04-05T13:29:08+08:00">2021-04-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Life/" itemprop="url" rel="index"><span itemprop="name">Life</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>MacBook Pro笔记本的显示器着实是小了点，想买一个外接显示器。没想到买个显示器也是有很多知识是需要学习的。在京东上随便挑了一个卖的靠前的显示器三星C24F390FHC，牌子是三星的感觉问题不大，价格999块也还能接受。参数啥的看了一下，但因为什么都不懂看了也仅仅是看了。</p>
+<p>买回来装好，心情还有点小激动，连上电脑后一看效果傻了，显示器显示的文字毛边太明显了，看着太闹心了。用久了苹果的产品以为显示器都是retina屏的。然后看了一下产品参数是1920x1080p的，但一般宣传上写的是“1920x1080p（全高清）”，看到全高清三个字对于小白的我来说以为妥了，肯定够用了，殊不知上面还有2K屏，4K屏。产品营销文案确实是一个值得玩味的东西，随便一个术语就可以把一个小白唬的一愣一愣的。装好体验了几分钟实在受不了这种模糊的感觉，只能退了，等京东退钱后再打算加点钱换个4K屏的。</p>
+<p>总结：<br>1.买电子产品前最好做一下功课。了解一下电子产品的参数，这些参数的含义。明确好自己的需求，挑出能够满足自己需求的几个关键性参数，如果产品达不到自己的硬性要求就不要买了。<br>不过这一点好像挺难，可能大多数人都不知道有哪些关键性参数需要重点考虑。比如我自己以为所有的显示器都是retina屏的，压根就没想到原来还有很多低分辨率的显示器。难道是我脱离生活太久变成了何不食肉糜的晋惠帝了？所幸在发达的互联网我们可以搜几篇科普文扫扫盲，这样就能够确定好自己需要关注的参数了。<br>2.了解下电子产品的附件。显示器是附赠HDMI线的有的还送DP线的，这是连接电脑和显示器线的。当时买的时候也没看，额外买了一根HDMI线。<br>3.网购的时候是否有必要随大流选所谓的热销的、爆款的？<br>这个我也不太清楚，网上的东西假的太多，好评基本没有参考价值。但是买东西前做下功课确定好自己想买什么而不是头脑发热掉进商家的宣传，刷爆了信用卡，空悲切。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2021/03/28/iOS-stack-overflow%E5%AF%BC%E8%87%B4%E7%9A%84EXC_BAD_ACCESS%E5%B4%A9%E6%BA%83/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/03/28/iOS-stack-overflow%E5%AF%BC%E8%87%B4%E7%9A%84EXC_BAD_ACCESS%E5%B4%A9%E6%BA%83/" class="post-title-link" itemprop="url">iOS stack overflow导致的EXC_BAD_ACCESS崩溃</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-03-28 13:03:46" itemprop="dateCreated datePublished" datetime="2021-03-28T13:03:46+08:00">2021-03-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bug/" itemprop="url" rel="index"><span itemprop="name">Bug</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>最近想学习一下mmap的使用，没想到一来就掉坑里了。</p>
+<p>测试代码如下：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">void</span>)test_mmap &#123;</span><br><span class="line">    __autoreleasing <span class="built_in">NSError</span> *err = <span class="literal">nil</span>;</span><br><span class="line"><span class="comment">//    self.videoData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@&quot;ddcada74ee08d06dda5cd13b4117ad30&quot; ofType:@&quot;mp4&quot;] options:0 error:&amp;er];</span></span><br><span class="line"><span class="comment">//    self.videoData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@&quot;ddcada74ee08d06dda5cd13b4117ad30&quot; ofType:@&quot;mp4&quot;] options:NSDataReadingUncached error:&amp;er];</span></span><br><span class="line">    <span class="keyword">self</span>.videoData = [<span class="built_in">NSData</span> dataWithContentsOfFile:[[<span class="built_in">NSBundle</span> mainBundle] pathForResource:<span class="string">@&quot;ddcada74ee08d06dda5cd13b4117ad30&quot;</span> ofType:<span class="string">@&quot;mp4&quot;</span>] options:<span class="built_in">NSDataReadingMappedIfSafe</span> error:&amp;err];  <span class="comment">//1</span></span><br><span class="line">    <span class="keyword">if</span> (err != <span class="literal">nil</span>) &#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@&quot;er:%@&quot;</span>, err);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@&quot;videoData:%lu&quot;</span>, (<span class="type">unsigned</span> <span class="type">long</span>)<span class="keyword">self</span>.videoData.length);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">//    long bufferSize = 4096;</span></span><br><span class="line">    <span class="type">long</span> bufferSize = <span class="number">1000000</span>;</span><br><span class="line"><span class="comment">//    long bufferSize = 1024 * 1024 - 30 * 1024;</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">char</span> buffer[bufferSize];</span><br><span class="line">    [<span class="keyword">self</span>.videoData getBytes:buffer range:<span class="built_in">NSMakeRange</span>(<span class="number">0</span>, bufferSize)]; <span class="comment">//2</span></span><br><span class="line">    <span class="built_in">NSData</span> *someData = [[<span class="built_in">NSData</span> alloc] initWithBytes:buffer length:bufferSize];</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;someData:%lu&quot;</span>, (<span class="type">unsigned</span> <span class="type">long</span>)someData.length);</span><br><span class="line">    [<span class="keyword">self</span> saveDataToCaches:someData];</span><br><span class="line">    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(<span class="number">5</span> * <span class="built_in">NSEC_PER_SEC</span>)), dispatch_get_main_queue(), ^&#123;</span><br><span class="line">        <span class="keyword">self</span>.videoData = <span class="literal">nil</span>;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)saveDataToCaches:(<span class="built_in">NSData</span> *)data &#123;</span><br><span class="line">    <span class="built_in">NSString</span> *cachespath = <span class="built_in">NSSearchPathForDirectoriesInDomains</span>(<span class="built_in">NSCachesDirectory</span>, <span class="built_in">NSUserDomainMask</span>, <span class="literal">YES</span>).lastObject;</span><br><span class="line">    <span class="built_in">NSString</span> *fileName = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@&quot;%@&quot;</span>, <span class="built_in">NSDate</span>.date];</span><br><span class="line">    <span class="built_in">NSString</span> *filePath = [cachespath stringByAppendingPathComponent:fileName];</span><br><span class="line">    <span class="built_in">NSError</span> *err;</span><br><span class="line">    <span class="type">BOOL</span> ret = [data writeToFile:filePath options:<span class="built_in">NSDataWritingAtomic</span> error:&amp;err];</span><br><span class="line">    <span class="keyword">if</span> (err) &#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@&quot;写入错误：%@&quot;</span>, err);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;ret:%d&quot;</span>, ret);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>1处通过mmap的方式读取一个500多兆的视频数据，2处读取视频中某一段的数据。最开始的时候bufferSize设置的是4096，运行的时候一切正常。正常之后自然想改个其他的值试试，于是就设置bufferSize为视频大小，结果一运行就崩溃了很快啊，然后就是提示EXC_BAD_ACCESS。当时觉得很奇怪怎么会EXC_BAD_ACCESS呢？也没看到哪个地方有过度释放的对象啊。最后一点点修改bufferSize的大小，发现小于1000000代码就可以正常运行，而超过则会EXC_BAD_ACCESS。不过依然搞不懂为啥会这样。百思不得其解之后只能求助Google，不过也不知道怎么搜索关键字，一通搜索之后也没找到有用的东西，期间一度想放弃，不过还是坚持了下来。</p>
+<p>直接上结论：上述崩溃的原因就是stack overflow了。</p>
+<p>我们可以验证一下，打好断点后分别<strong>p &amp;err</strong>，<strong>p &amp;cachespath</strong>得到：</p>
+<figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">(lldb)</span> p &amp;err</span><br><span class="line"><span class="comment">(NSError **)</span> $<span class="number">0</span> = <span class="number">0</span>x<span class="number">000000016</span>f<span class="number">5</span>b<span class="number">97</span>d<span class="number">0</span></span><br><span class="line"><span class="comment">(lldb)</span> p &amp;cachespath</span><br><span class="line"><span class="comment">(NSString **)</span> $<span class="number">1</span> = <span class="number">0</span>x<span class="number">000000016</span>f<span class="number">4</span>c<span class="number">5470</span></span><br></pre></td></tr></table></figure>
+<p>$0 - $1 = 0xF4360 = 1000288 = 0.954M，基本上快占满整个栈空间了（这里有点马后炮了因为很多人可能都不知道主线程的栈空间有多大，甚至都没有栈溢出这个概念自然也不会往这个方面想了）。因此代码可能会崩溃在后面的任意一行代码，具体是哪一行视栈的剩余空间大小。比如有可能崩溃在</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSError <span class="number">*e</span>rr;  Thread 1: EXC_BAD_ACCESS (<span class="attribute">code</span>=2, <span class="attribute">address</span>=0x16f4bfad0)</span><br></pre></td></tr></table></figure>
+<p>也有可能会崩溃在：</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/03/28/iOS-stack-overflow%E5%AF%BC%E8%87%B4%E7%9A%84EXC_BAD_ACCESS%E5%B4%A9%E6%BA%83/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/09/16/OC%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B9%8B%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/09/16/OC%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B9%8B%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0/" class="post-title-link" itemprop="url">OC内存管理之对象的引用计数</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-09-16 10:25:52" itemprop="dateCreated datePublished" datetime="2020-09-16T10:25:52+08:00">2020-09-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>源码版本：<a target="_blank" rel="noopener" href="https://opensource.apple.com/tarballs/objc4/objc4-781.tar.gz">objc4-781</a></p>
+<p>我们都知道OC的内存管理是通过引用计数来管理的，对象刚创建时引用计数为1，retain后+1，release后-1，当引用计数减为0时就会被销毁。那么问题就来了，操作的这个引用计数值是保存在哪的？今天就来研究一下这个问题。</p>
+<p>先说结论：早期OC对象的引用计数都是存储在引用计数表中的，但是后来Apple的工程师可能觉得每次都从表中查找修改效率有点低，于是做了一些优化，如果引用计数值较小时就保存在 <code>struct objc_object</code> 的isa成员变量里，只有当isa里装不下时才存放到引用计数表里，这一点可以从isa的类型变迁看出。除此之外，苹果还引入了Tagged pointer对象，这种对象实际上已经没有在堆上分配内存了，它的值就保存在指针里，这样的对象由于并没有真正在堆上分配内存因此讨论它的引用计数也就没有什么意义了。</p>
+<p>之前的文章 <code>runtime源码分析(一)--类型</code> 里专门分析了 <code>struct objc_object</code> ，<code>struct objc_class</code>，<code>isa</code> 类型的定义，这里不再赘述，仅做简单说明。</p>
+<h3 id="isa的定义"><a href="#isa的定义" class="headerlink" title="isa的定义"></a>isa的定义</h3><p>旧版本的定义：</p>
+<p>isa是一个指针类型 <code>struct objc_class *</code> 。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// An opaque type that represents an Objective-C class.</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> objc_class *Class; </span><br><span class="line"></span><br><span class="line"><span class="comment">/// Represents an instance of a class.</span></span><br><span class="line"><span class="keyword">struct</span> objc_object &#123;</span><br><span class="line">    Class _Nonnull isa  OBJC_ISA_AVAILABILITY;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> objc_class &#123;</span><br><span class="line">    Class _Nonnull isa  OBJC_ISA_AVAILABILITY; <span class="comment">//旧版本isa为一个指针指向objc_class结构体</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">if</span> !__OBJC2__</span></span><br><span class="line">    Class _Nullable super_class                              OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="keyword">const</span> <span class="type">char</span> * _Nonnull name                               OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="type">long</span> version                                             OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="type">long</span> info                                                OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="type">long</span> instance_size                                       OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="keyword">struct</span> objc_ivar_list * _Nullable ivars                  OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="keyword">struct</span> objc_method_list * _Nullable * _Nullable methodLists                    OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="keyword">struct</span> objc_cache * _Nonnull cache                       OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="keyword">struct</span> objc_protocol_list * _Nullable protocols          OBJC2_UNAVAILABLE;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">&#125; OBJC2_UNAVAILABLE;</span><br><span class="line"><span class="comment">/* Use `Class` instead of `struct objc_class *` */</span></span><br></pre></td></tr></table></figure>
+<p>新版本oc 2.0定义：</p>
+<p>isa是一个联合类型 <code>union isa_t</code> 。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/09/16/OC%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B9%8B%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/08/24/RSA%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E4%BB%8B%E7%BB%8D/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/08/24/RSA%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E4%BB%8B%E7%BB%8D/" class="post-title-link" itemprop="url">RSA算法原理介绍</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-08-24 15:31:24" itemprop="dateCreated datePublished" datetime="2020-08-24T15:31:24+08:00">2020-08-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AF%86%E7%A0%81%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">密码学</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h2><p><strong>质数</strong></p>
+<p><strong>质数</strong>又称素数，指<strong>在大于1的自然数中</strong>，除了1和该数自身外，无法被其他自然数整除的数（也可定义为只有1与该数本身两个正因数的数）。大于1的自然数若不是素数，则称之为合数（也称为合成数）。最小的质数为2。</p>
+<p><strong>互质关系</strong></p>
+<p>如果两个正整数，除了1以外，没有其他公因子，我们就称这两个数是<a target="_blank" rel="noopener" href="http://zh.wikipedia.org/zh-cn/互素">互质关系</a>（coprime）。比如，15和32没有公因子，所以它们是互质关系。这说明，不是质数也可以构成互质关系。</p>
+<p>关于互质关系，不难得到以下结论：</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">1</span>. 任意两个质数构成互质关系，比如<span class="number">13</span>和<span class="number">61</span>。important</span><br><span class="line"></span><br><span class="line"><span class="attribute">2</span>. 一个数是质数，另一个数只要不是前者的倍数，两者就构成互质关系，比如<span class="number">3</span>和<span class="number">10</span>。</span><br><span class="line"></span><br><span class="line"><span class="attribute">3</span>. 如果两个数之中，较大的那个数是质数，则两者构成互质关系，比如<span class="number">97</span>和<span class="number">57</span>。</span><br><span class="line"></span><br><span class="line"><span class="attribute">4</span>. <span class="number">1</span>和任意一个自然数是都是互质关系，比如<span class="number">1</span>和<span class="number">99</span>。</span><br><span class="line"></span><br><span class="line"><span class="attribute">5</span>. p是大于<span class="number">1</span>的整数，则p和p-<span class="number">1</span>构成互质关系，比如<span class="number">57</span>和<span class="number">56</span>。 important</span><br><span class="line"></span><br><span class="line"><span class="attribute">6</span>. p是大于<span class="number">1</span>的奇数，则p和p-<span class="number">2</span>构成互质关系，比如<span class="number">17</span>和<span class="number">15</span>。</span><br></pre></td></tr></table></figure>
+<h2 id="生成RSA密钥对，即公钥和私钥"><a href="#生成RSA密钥对，即公钥和私钥" class="headerlink" title="生成RSA密钥对，即公钥和私钥"></a>生成RSA密钥对，即公钥和私钥</h2><h3 id="1：随机找两个质数-p-和-q-p-与-q-越大，越安全。"><a href="#1：随机找两个质数-p-和-q-p-与-q-越大，越安全。" class="headerlink" title="1：随机找两个质数 p 和 q ,p 与 q 越大，越安全。"></a>1：随机找两个质数 p 和 q ,p 与 q 越大，越安全。</h3><p>比如 p = 3 ，q = 11。这里为了方便后面计算，选了2个很小的质数，实际应用需要选择两个非常大的质数。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/08/24/RSA%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E4%BB%8B%E7%BB%8D/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/07/20/%E5%86%85%E5%AD%98%E5%AF%B9%E9%BD%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/07/20/%E5%86%85%E5%AD%98%E5%AF%B9%E9%BD%90/" class="post-title-link" itemprop="url">内存对齐</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-07-20 09:56:55" itemprop="dateCreated datePublished" datetime="2020-07-20T09:56:55+08:00">2020-07-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">计算机基础</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="为什么要进行内存对齐"><a href="#为什么要进行内存对齐" class="headerlink" title="为什么要进行内存对齐"></a>为什么要进行内存对齐</h3><p>主要有两个原因：1.内存对齐后可以减少内存的读取次数，提高内存的访问效率。2.提高程序的可移植性，因为有的平台对寻址的起始地址有要求。</p>
+<p>现代计算机中内存空间都是按照 byte 划分的，从理论上讲似乎对任何类型的变量的访问可以从任何地址开始，但是实际的计算机系统对数据在内存中存放的位置是有限制的，它们会要求这些数据的内存首地址的值是某个数k（通常它为4或8）的倍数，这就是所谓的内存对齐。<br>注：某个数是4的倍数，不一定就是8的倍数，比如4、12、20、28、36。但反过来是8的倍数则必定是4的倍数。</p>
+<p>内存对齐主要是为了提高内存的访问效率，CPU访问内存时，并不是逐个字节访问，而是以字长（word size）为单位访问。比如32位的CPU，字长为4字节，那么CPU访问内存的单位也是4字节，即一次读取4个字节的内存。又比如intel 32位cpu，每个总线周期都是从偶数地址开始读取32位的内存数据，如果数据存放地址不是从偶数开始，则可能出现需要两个总线周期才能读取到想要的数据，因此需要在内存中存放数据时进行对齐。</p>
+<p>总之一句话，只有当数据的首地址为某个数k（通常它为4或8）的倍数时（偶数地址），CPU需要进行数据剔除的情况才会越少发生。当剔除操作无法避免时，剔除次数越少越好，如果数据的首地址是奇数，那么CPU需要剔除前后的数据。而如果是偶数则最好情况下只需要剔除前面或后面的数据。char类型的变量因为只占1个字节就随便了。</p>
+<p>假如没有内存对齐机制，数据可以在任意内存地址处开始存放：</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20200925224735.png" alt></p>
+<p>现在一个int变量存放在从地址1开始的连续四个字节地址中，该处理器去取数据时，要先从0地址开始读取第一个4字节块,剔除不想要的字节（0地址）,然后从地址4开始读取下一个4字节块,同样剔除不要的数据（5，6，7地址）,最后留下的两块数据合并放入寄存器.这需要做很多工作.</p>
+<p>如果int变量存放在从地址4开始的连续四个字节地址中，就可以一次读取完数据。</p>
+<p>所以int变量的内存首地址通常在4的倍数的地址处开始，比如上面的编号为4或8的地址处，而不可能是2或5这样的地址处。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/07/20/%E5%86%85%E5%AD%98%E5%AF%B9%E9%BD%90/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/07/18/%E4%B8%80%E7%A7%8D%E5%8F%AF%E8%A1%8C%E7%9A%84%E8%BE%B9%E4%B8%8B%E8%BE%B9%E6%92%AD%E6%96%B9%E6%A1%88for%20AVPlayer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/07/18/%E4%B8%80%E7%A7%8D%E5%8F%AF%E8%A1%8C%E7%9A%84%E8%BE%B9%E4%B8%8B%E8%BE%B9%E6%92%AD%E6%96%B9%E6%A1%88for%20AVPlayer/" class="post-title-link" itemprop="url">一种可行的边下边播方案for AVPlayer</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-07-18 23:32:40" itemprop="dateCreated datePublished" datetime="2020-07-18T23:32:40+08:00">2020-07-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/" itemprop="url" rel="index"><span itemprop="name">音视频</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>什么是边下边播？</p>
+<p>个人理解边下边播指的是从服务器获取到的数据一边供给播放器播放一边缓存到本地，即使用一遍的流量完成播放和缓存。下次播放时有缓存的地方则播放缓存数据，没有缓存的地方则从服务器获取再播放。</p>
+<h3 id="0-边下边播方案"><a href="#0-边下边播方案" class="headerlink" title="0.边下边播方案"></a>0.边下边播方案</h3><p>目前的边下边播实现方案大致有两种：一种是使用本地代理服务器，一种是使用系统的AVAssetResourceLoaderDelegate。</p>
+<h4 id="使用本地代理服务器"><a href="#使用本地代理服务器" class="headerlink" title="使用本地代理服务器"></a>使用本地代理服务器</h4><p>该方案是在播放器与视频源服务器之间加一层代理服务器，拦截视频播放器发送的请求，根据拦截的请求，向网络服务器请求数据，然后写到本地。本地代理服务器从文件中读取数据并发送给播放器进行播放。</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/E26B3DA6-54DC-499A-B2E1-937E65C93A8F.png" style="zoom:50%;"></p>
+<p>对于 iOS 端代理服务器的实现，可以参考和使用 CocoaHTTPServer。对于 iOS 端的视频缓存管理，可以参考和使用 KTVHTTPCache。这种方案难度较高，但自主可控性更高。</p>
+<h4 id="使用系统原生API—AVAssetResourceLoaderDelegate"><a href="#使用系统原生API—AVAssetResourceLoaderDelegate" class="headerlink" title="使用系统原生API—AVAssetResourceLoaderDelegate"></a>使用系统原生API—AVAssetResourceLoaderDelegate</h4>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/07/18/%E4%B8%80%E7%A7%8D%E5%8F%AF%E8%A1%8C%E7%9A%84%E8%BE%B9%E4%B8%8B%E8%BE%B9%E6%92%AD%E6%96%B9%E6%A1%88for%20AVPlayer/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/07/03/%E9%A2%84%E5%A4%84%E7%90%86%E5%91%BD%E4%BB%A4%E4%B9%8B%E5%AE%8F%E5%AE%9A%E4%B9%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/07/03/%E9%A2%84%E5%A4%84%E7%90%86%E5%91%BD%E4%BB%A4%E4%B9%8B%E5%AE%8F%E5%AE%9A%E4%B9%89/" class="post-title-link" itemprop="url">预处理命令之宏定义</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-07-03 09:57:17" itemprop="dateCreated datePublished" datetime="2020-07-03T09:57:17+08:00">2020-07-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>这里不谈宏的使用。只是突然想知道定义一个宏之后，这个宏的作用域有多大。</p>
+<h3 id="宏定义作用域"><a href="#宏定义作用域" class="headerlink" title="宏定义作用域"></a>宏定义作用域</h3><p>C语言标准中宏定义的作用域是：如果是在块作用域内，则从定义位置开始，到块作用域结束，否则到其当前文件结尾，其他文件如果没有通过#include包含这个文件，则使用该宏是无效的。</p>
+<p>比如我在a.m里面定义了一个宏<code>#define kCondTrue 1</code>，在b.m里面有如下代码：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">void</span>)btnDidClicked:(<span class="built_in">UIButton</span> *)sender &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;btnDidClicked&quot;</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="meta">#<span class="keyword">if</span> kCondTrue			<span class="comment">//不会有编译错误</span></span></span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@&quot;111&quot;</span>);</span><br><span class="line">    <span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>由于kCondTrue宏对b.m是不可见的，所以这里不会打印111。</p>
+<p>通常编译器会有一些预定义宏，预定义的宏大多会遵守命名规则：<code>__xxx_yyy__</code>，以双下划线开始和结束。比如<code>__OBJC2__</code>就是一个预定义的宏。</p>
+<p>宏定义很强大，组合起来可以实现一个很复杂的功能。but 这样的宏可读性是很差的，你可以想象一下一个由十几个宏共同组合完成的宏有多么可怕，OC开源源码里面原子操作相关的宏是真滴恐怖。感觉如果一个宏过于复杂最好还是用方法代替。</p>
+<p>完了。</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/07/03/%E9%A2%84%E5%A4%84%E7%90%86%E5%91%BD%E4%BB%A4%E4%B9%8B%E5%AE%8F%E5%AE%9A%E4%B9%89/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/06/21/%E4%BB%8E%E6%B1%87%E7%BC%96%E8%A7%92%E5%BA%A6%E7%9C%8BARC%E4%B8%AD%E7%9A%84%E6%89%80%E6%9C%89%E6%9D%83%E4%BF%AE%E9%A5%B0%E7%AC%A6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/21/%E4%BB%8E%E6%B1%87%E7%BC%96%E8%A7%92%E5%BA%A6%E7%9C%8BARC%E4%B8%AD%E7%9A%84%E6%89%80%E6%9C%89%E6%9D%83%E4%BF%AE%E9%A5%B0%E7%AC%A6/" class="post-title-link" itemprop="url">从汇编角度看ARC中的所有权修饰符</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-06-21 16:51:14" itemprop="dateCreated datePublished" datetime="2020-06-21T16:51:14+08:00">2020-06-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>环境：Xcode11</p>
+<h3 id="ARC"><a href="#ARC" class="headerlink" title="ARC"></a>ARC</h3><p>在MRC时代 <code>id obj1 = obj;</code> 这一行代码仅仅是赋值，不会引起obj对象引用计数的任何变化。而在ARC时代这一行代码会导致对象的引用计数+1。这背后究竟发生了什么？接下来让我们研究一下。</p>
+<p>ARC：自动引用计数。不再需要手动调用 retain 、release、autorelease 等方法，而是由编译器在合适的地方自动添加。那么编译器又是怎么知道是添加retain还是添加autorelease或者weak的呢？这就需要所有权修饰符了。通过不同类型的所有权修饰符，编译器就知道该添加什么语句了。</p>
+<p>ARC 有效时，<strong>id 类型和对象类型</strong>必须附加所有权修饰符，有如下几种：</p>
+<ul>
+<li>__strong 修饰符</li>
+<li>__weak 修饰符</li>
+<li>__unsafe_unretained 修饰符</li>
+<li>__autoreleasing 修饰符</li>
+</ul>
+<p>其中 <code>__strong</code> 修饰符是OC对象类型的默认修饰符。</p>
+<p>接下来从汇编角度看，当一个指针变量使用这些修饰符后，编译器会作何处理。</p>
+<h3 id="strong-修饰符"><a href="#strong-修饰符" class="headerlink" title="__strong 修饰符"></a>__strong 修饰符</h3><p>对于下面的代码：</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/06/21/%E4%BB%8E%E6%B1%87%E7%BC%96%E8%A7%92%E5%BA%A6%E7%9C%8BARC%E4%B8%AD%E7%9A%84%E6%89%80%E6%9C%89%E6%9D%83%E4%BF%AE%E9%A5%B0%E7%AC%A6/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/06/15/OC%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B9%8Bweak%E4%BF%AE%E9%A5%B0%E7%AC%A6%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/15/OC%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B9%8Bweak%E4%BF%AE%E9%A5%B0%E7%AC%A6%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" class="post-title-link" itemprop="url">OC内存管理之weak修饰符实现原理</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-06-15 13:41:14" itemprop="dateCreated datePublished" datetime="2020-06-15T13:41:14+08:00">2020-06-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>源码版本：<a target="_blank" rel="noopener" href="https://opensource.apple.com/tarballs/objc4/objc4-781.tar.gz">objc4-781</a></p>
+<h3 id="0-weak-修饰符的作用"><a href="#0-weak-修饰符的作用" class="headerlink" title="0.weak 修饰符的作用"></a>0.weak 修饰符的作用</h3><p>之前的文章提到过 <code>__weak</code> 修饰符作用：</p>
+<p>1.当我们将一个对象赋值给一个 <code>__weak</code> 修饰符的指针变量时，编译器会插入 <code>objc_initWeak</code> 或 <code>objc_storeWeak</code> 函数将该弱指针变量从旧对象的weak表剔除（如果之前有指向对象的话）并注册到新对象的weak表里，然后将弱指针指向新对象。</p>
+<p>2.当使用附有 <code>__weak</code> 修饰符的变量时，编译器会在使用前插入 <code>objc_loadWeakRetained</code> 函数将对象引用计数+1，保证对象在后面的使用过程中不被释放。并在使用后插入 <code>objc_release(tmp1);</code> 释放对象。</p>
+<p>3.当弱引用指针变量超出作用域被废弃时，编译器会插入 <code>objc_destroyWeak</code> 将该指针变量从weak表里移除。</p>
+<p>4.当对象销毁时，weak表中对象的所有弱引用指针变量会被赋值为nil，避免了野指针崩溃。比如对nil对象发送消息不会有任何反应，需要注意的是如果是对nil进行解引用还是会崩溃的。</p>
+<p>这些功能是assign所不具备的，assign唯一与weak相同的地方就是不会导致对象的引用计数+1。</p>
+<p>note：weak 只能用于修饰对象类型。并且只能用于iOS5及以上，在iOS4可以使用 <code>__unsafe_unretained</code> 代替.另外weak在MRC下也是有效果的，不过需要设置 <code>Weak References in Manual Retain Release</code> 为 YES。</p>
+<p>今天就来看一下weak的上述功能是如何实现的，在看源码之前，可以带着一些问题，比如：</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/06/15/OC%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B9%8Bweak%E4%BF%AE%E9%A5%B0%E7%AC%A6%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+  </div>
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/6/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/8/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">jekyttt</p>
+  <div class="site-description" itemprop="description">涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">176</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">116</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xq-120" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xq-120" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://stackoverflow.com/yourname" title="StackOverflow → https:&#x2F;&#x2F;stackoverflow.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fa fa-fw fa-stack-overflow"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jekyttt</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v6.3.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.getAttribute('pjax') !== null) {
+      script.setAttribute('pjax', '');
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+
+    </div>
+</body>
+</html>

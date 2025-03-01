@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"xq-120.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="响应者对象响应者对象（Responder Object）指的是有响应和处理事件能力的对象。A responder object is any instance of the UIResponder class, and common subclasses include UIView, UIViewController, and UIApplication. UIResponder是所有响应者对象">
+<meta property="og:type" content="article">
+<meta property="og:title" content="响应者链">
+<meta property="og:url" content="https://xq-120.github.io/2017/12/13/%E5%93%8D%E5%BA%94%E8%80%85%E9%93%BE/index.html">
+<meta property="og:site_name" content="芝士就是力量">
+<meta property="og:description" content="响应者对象响应者对象（Responder Object）指的是有响应和处理事件能力的对象。A responder object is any instance of the UIResponder class, and common subclasses include UIView, UIViewController, and UIApplication. UIResponder是所有响应者对象">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/%E6%88%AA%E5%B1%8F2023-03-29%2016.43.47.png">
+<meta property="article:published_time" content="2017-12-13T15:06:54.000Z">
+<meta property="article:modified_time" content="2024-12-14T07:50:26.462Z">
+<meta property="article:author" content="jekyttt">
+<meta property="article:tag" content="UIResponder">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/%E6%88%AA%E5%B1%8F2023-03-29%2016.43.47.png">
+
+<link rel="canonical" href="https://xq-120.github.io/2017/12/13/%E5%93%8D%E5%BA%94%E8%80%85%E9%93%BE/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>响应者链 | 芝士就是力量</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="芝士就是力量" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">芝士就是力量</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">像风一样自由</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/xq-120/xq-120.github.io" class="github-corner" title="XQ on GitHub" aria-label="XQ on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2017/12/13/%E5%93%8D%E5%BA%94%E8%80%85%E9%93%BE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          响应者链
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-12-13 23:06:54" itemprop="dateCreated datePublished" datetime="2017-12-13T23:06:54+08:00">2017-12-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/UIKit/" itemprop="url" rel="index"><span itemprop="name">UIKit</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h4 id="响应者对象"><a href="#响应者对象" class="headerlink" title="响应者对象"></a>响应者对象</h4><p>响应者对象（Responder Object）指的是有响应和处理事件能力的对象。A responder object is any instance of the UIResponder class, and common subclasses include UIView, UIViewController, and UIApplication. UIResponder是所有响应者对象的基类，在UIResponder类中定义了处理上述各种事件的接口。我们熟悉的AppDelegate、UIApplication、 UIViewController、UIWindow和所有继承自UIView的UIKit类都直接或间接的继承自UIResponder，所以它们的实例都是可以构成响应者链的响应者对象。</p>
+<h4 id="响应者链"><a href="#响应者链" class="headerlink" title="响应者链"></a>响应者链</h4><p>响应者链就是由一系列的响应者对象构成的一个层次结构。UIResponder对象能够接收触摸事件（其子类当然也能够）。每一个UIResponder对象都有一个指针nextResponder,然后这些链接在一起的对象就组成了响应者链。</p>
+<h4 id="系统是如何找到第一响应者的"><a href="#系统是如何找到第一响应者的" class="headerlink" title="系统是如何找到第一响应者的"></a>系统是如何找到第一响应者的</h4><p>当用户点击了某个视图.系统是如何找到用户点击的视图呢?</p>
+<p>答案就是对视图进行hitTest.</p>
+<p>官方文档:</p>
+<p>UIKit uses view-based hit testing to determine where touch events occur. Specifically, UIKit compares the touch location to the bounds of view objects in the view hierarchy. The hitTest:withEvent: method of UIView walks the view hierarchy, looking for the deepest subview that contains the specified touch. That view becomes the first responder for the touch event.</p>
+<p>注意:If a touch location is outside of a view’s bounds, the hitTest:withEvent: method ignores that view and all of its subviews. As a result, when a view’s clipsToBounds property is NO, subviews outside of that view’s bounds are not returned even if they happen to contain the touch.</p>
+<p>相关API:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">open</span> <span class="keyword">func</span> <span class="title function_">hitTest</span>(<span class="keyword">_</span> <span class="params">point</span>: <span class="type">CGPoint</span>, <span class="params">with</span> <span class="params">event</span>: <span class="type">UIEvent</span>?) -&gt; <span class="type">UIView</span>? <span class="comment">// recursively calls -pointInside:withEvent:. point is in the receiver&#x27;s coordinate system</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">open</span> <span class="keyword">func</span> <span class="title function_">point</span>(<span class="params">inside</span> <span class="params">point</span>: <span class="type">CGPoint</span>, <span class="params">with</span> <span class="params">event</span>: <span class="type">UIEvent</span>?) -&gt; <span class="type">Bool</span> <span class="comment">// default returns YES if point is in bounds</span></span><br></pre></td></tr></table></figure>
+<p>举个例子:界面如下:</p>
+<p>下面的视图为XQ1View,上面有三个子视图分别为XQ10View,XQ11View,XQ12View。</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/%E6%88%AA%E5%B1%8F2023-03-29%2016.43.47.png" style="zoom:50%;" /></p>
+<h5 id="当用户点击了XQ11View-系统是如何找到它的"><a href="#当用户点击了XQ11View-系统是如何找到它的" class="headerlink" title="当用户点击了XQ11View,系统是如何找到它的?"></a>当用户点击了XQ11View,系统是如何找到它的?</h5><p>具体来说就是:<br>系统会对XQ1View(也就是XQ11View的父视图),发送一条hitTest消息, hitTest会调用pointInside方法.如果XQ1View的pointInside方法返回false则XQ1View的子视图不会被hitTest,XQ1View的hitTest将返回nil,本次hitTest就结束了.若返回true,那么系统将对XQ1View的子视图数组进行一个反向遍历的hitTest检测.因此首先检测的是XQ12View.由于用户实际点击的是XQ11View,所以XQ12View的pointInside会返回false,XQ12View的hitTest将返回nil.接下来将对XQ11View进行hitTest检测,hitTest会调用pointInside方法,而用户恰好点击的是XQ11View,因此pointInside方法返回true,由于XQ11View没有子视图了,因此XQ11View的hitTest将返回自己.hitTest检测结束.于是就找到了.XQ1View的hitTest也将返回XQ11View.可以推断出系统最先是对UIWindow进行hitTest检测的.因此UIWindow的hitTest也将返回XQ11View.于是系统就拿到了第一响应者XQ11View.拿到之后系统会尝试让XQ11View处理事件.接下来就是事件在响应者链中传递了.</p>
+<h5 id="如果点击XQ12View超出它父视图的那部分-也让它能够响应事件-该如何实现呢"><a href="#如果点击XQ12View超出它父视图的那部分-也让它能够响应事件-该如何实现呢" class="headerlink" title="如果点击XQ12View超出它父视图的那部分,也让它能够响应事件,该如何实现呢?"></a>如果点击XQ12View超出它父视图的那部分,也让它能够响应事件,该如何实现呢?</h5><p>通过上面的分析,可以知道必须想办法让它的父视图的pointInside返回true.否则都不会对XQ12View进行hitTest检测.实现如下:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">XQ1View</span>: <span class="title class_">XQView</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="keyword">func</span> <span class="title function_">point</span>(<span class="params">inside</span> <span class="params">point</span>: <span class="type">CGPoint</span>, <span class="params">with</span> <span class="params">event</span>: <span class="type">UIEvent</span>?) -&gt; <span class="type">Bool</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> rs <span class="operator">=</span> <span class="keyword">super</span>.point(inside: point, with: event)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> <span class="operator">!</span>rs &#123;</span><br><span class="line">            <span class="keyword">for</span> subView <span class="keyword">in</span> subviews.reversed() &#123;</span><br><span class="line">                <span class="keyword">let</span> subPoint <span class="operator">=</span> subView.convert(point, from: <span class="keyword">self</span>)</span><br><span class="line">                <span class="keyword">if</span> subView.bounds.contains(subPoint) &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> rs</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>ps:对一个视图进行hitTest前,系统还会有很多判断比如会忽略隐藏(hidden=YES)的视图，禁止用户操作 (userInteractionEnabled=YES)的视图，以及alpha级别小于0.01(alpha&lt;0.01)的视图。这些视图都不会被hitTest检测.</p>
+<h4 id="事件是如何在响应者链中传递的"><a href="#事件是如何在响应者链中传递的" class="headerlink" title="事件是如何在响应者链中传递的"></a>事件是如何在响应者链中传递的</h4><p>官方解释:<br>If the text field does not handle an event, UIKit sends the event to the text field’s parent UIView object, followed by the root view of the window. From the root view, the responder chain diverts to the owning view controller before returning to the view’s window.If the window does not handle the event, UIKit delivers the event to the UIApplication object, and possibly to the app delegate if that object is an instance of UIResponder and not already part of the responder chain.</p>
+<p>当用户点击了text field,期间会经历那些过程呢?</p>
+<p>首先系统会去找第一响应者,找的过程就是上面所述,这里就是text field.找到了第一响应者,那么事件将优先由第一响应者处理.如果text field不处理,那么UIKit会将事件发送给text field的父视图.如果它的父视图也不处理则事件将会沿着响应者链一直往上传递(如果View是作为viewController的根视图,那么该View的next responder将是UIViewController),当传递给UIWindow对象时,如果window也不处理,则事件将传递给UIApplication.UIApplication可能会传给app delegate,前提是app delegate是UIResponder实例,需要注意的是app delegate已经不是响应者链里的一部分了.</p>
+<p>一般来说工程的app delegate都是UIResponder实例,所以当AppDelegate也不处理时,那么就再也没有机会处理了,事件将被系统丢弃.</p>
+<p>期间只要有一个响应者对象处理了该事件.系统默认将不再传递给next responder,本次事件就算处理成功.</p>
+<h4 id="变更响应者链"><a href="#变更响应者链" class="headerlink" title="变更响应者链"></a>变更响应者链</h4><p>You can alter the responder chain by overriding the nextResponder property of your responder objects. Many UIKit classes already override this property and return specific objects.</p>
+<p>If you override the nextResponder property for any class, the next responder is the object you return.</p>
+<p>几种类型对象的默认nextResponder.</p>
+<ol>
+<li><p>UIView</p>
+<p> If the view is the root view of a view controller, the next responder is the view controller.</p>
+<p> If the view is not the root view of a view controller, the next responder is the view’s superview.</p>
+</li>
+<li><p>UIViewController</p>
+<p> If the view controller’s view is the root view of a window, the next responder is the window object.</p>
+<p> If the view controller was presented by another view controller, the next responder is the presenting view controller.</p>
+<p> (xq注:举例,UINavigationController的根视图控制器vcA点击按钮,跳转到vcB,那么vcB的nextResponder是UIViewControllerWrapperView-&gt;UINavigationTransitionView-&gt;UILayoutContainerView-&gt;UINavigationController,UINavigationController的根视图类型确实是UILayoutContainerView,忽略中间三个系统类,那么vcB的nextResponder就是UINavigationController.注意不是vcA)</p>
+</li>
+<li><p>UIWindow. The window’s next responder is the application object.</p>
+</li>
+<li><p>UIApplication. The app object’s next responder is the app delegate, but only if the app delegate is an instance of UIResponder and is not a view, view controller, or the app object itself.</p>
+</li>
+</ol>
+<p>如何把消息发送给next responder？</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">void</span>)touchesBegan:(<span class="built_in">NSSet</span> *)touches withEvent:(<span class="built_in">UIEvent</span> *)event</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">UITouch</span> *touch = [touches anyObject];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (touch.tapCount == <span class="number">2</span>) &#123;</span><br><span class="line">        [[<span class="keyword">self</span> nextResponder] touchesBegan:touches withEvent:event];<span class="comment">//这里最好写[self nextResponder]而不是写super</span></span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    ... Go on to handle touches that are not <span class="type">double</span> taps</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>觉得文章有帮助可以打赏一下哦！</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.jpg" alt="jekyttt 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/UIResponder/" rel="tag"># UIResponder</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/12/11/UIScrollView%E4%BB%A3%E7%90%86%E6%96%B9%E6%B3%95%E6%B3%A8%E8%A7%A3/" rel="prev" title="UIScrollView代理方法">
+      <i class="fa fa-chevron-left"></i> UIScrollView代理方法
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/01/19/Category/" rel="next" title="OC Category浅析">
+      OC Category浅析 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%93%8D%E5%BA%94%E8%80%85%E5%AF%B9%E8%B1%A1"><span class="nav-text">响应者对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%93%8D%E5%BA%94%E8%80%85%E9%93%BE"><span class="nav-text">响应者链</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E6%98%AF%E5%A6%82%E4%BD%95%E6%89%BE%E5%88%B0%E7%AC%AC%E4%B8%80%E5%93%8D%E5%BA%94%E8%80%85%E7%9A%84"><span class="nav-text">系统是如何找到第一响应者的</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%BD%93%E7%94%A8%E6%88%B7%E7%82%B9%E5%87%BB%E4%BA%86XQ11View-%E7%B3%BB%E7%BB%9F%E6%98%AF%E5%A6%82%E4%BD%95%E6%89%BE%E5%88%B0%E5%AE%83%E7%9A%84"><span class="nav-text">当用户点击了XQ11View,系统是如何找到它的?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A6%82%E6%9E%9C%E7%82%B9%E5%87%BBXQ12View%E8%B6%85%E5%87%BA%E5%AE%83%E7%88%B6%E8%A7%86%E5%9B%BE%E7%9A%84%E9%82%A3%E9%83%A8%E5%88%86-%E4%B9%9F%E8%AE%A9%E5%AE%83%E8%83%BD%E5%A4%9F%E5%93%8D%E5%BA%94%E4%BA%8B%E4%BB%B6-%E8%AF%A5%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%91%A2"><span class="nav-text">如果点击XQ12View超出它父视图的那部分,也让它能够响应事件,该如何实现呢?</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6%E6%98%AF%E5%A6%82%E4%BD%95%E5%9C%A8%E5%93%8D%E5%BA%94%E8%80%85%E9%93%BE%E4%B8%AD%E4%BC%A0%E9%80%92%E7%9A%84"><span class="nav-text">事件是如何在响应者链中传递的</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%98%E6%9B%B4%E5%93%8D%E5%BA%94%E8%80%85%E9%93%BE"><span class="nav-text">变更响应者链</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">jekyttt</p>
+  <div class="site-description" itemprop="description">涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">176</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">116</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xq-120" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xq-120" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://stackoverflow.com/yourname" title="StackOverflow → https:&#x2F;&#x2F;stackoverflow.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fa fa-fw fa-stack-overflow"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jekyttt</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v6.3.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.getAttribute('pjax') !== null) {
+      script.setAttribute('pjax', '');
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'dc6a52837746ef605a70',
+      clientSecret: '7a049bac8b7eef61e32ebcbfcc33ea9d670d3274',
+      repo        : 'commentForBlog',
+      owner       : 'xq-120',
+      admin       : ['xq-120'],
+      id          : '05a7ef26e41e05f951efc6fde5ff0232',
+        language: 'en, zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+    </div>
+</body>
+</html>

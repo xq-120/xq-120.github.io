@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"xq-120.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="本文主要分析支付宝里的花呗，借呗，备用金背后的年化收益率。 在使用支付宝花呗的时候，还款页面除了正常还款外还有一些什么账单分期、最低还款、延期还款之类烂七八糟的东西：  似乎是在替用户着想，但真实情况是不是如此呢？下面将仔细分析一下花呗分期的真实年利率。 账单分期花呗分期数与手续费率如下：      花呗     3期 2.50%   6期 4.50%   9期 6.50%   12期 8.80%">
+<meta property="og:type" content="article">
+<meta property="og:title" content="支付宝花呗与借呗背后的利率">
+<meta property="og:url" content="https://xq-120.github.io/2020/04/06/%E6%94%AF%E4%BB%98%E5%AE%9D%E8%8A%B1%E5%91%97%E4%B8%8E%E5%80%9F%E5%91%97%E8%83%8C%E5%90%8E%E7%9A%84%E5%88%A9%E7%8E%87/index.html">
+<meta property="og:site_name" content="芝士就是力量">
+<meta property="og:description" content="本文主要分析支付宝里的花呗，借呗，备用金背后的年化收益率。 在使用支付宝花呗的时候，还款页面除了正常还款外还有一些什么账单分期、最低还款、延期还款之类烂七八糟的东西：  似乎是在替用户着想，但真实情况是不是如此呢？下面将仔细分析一下花呗分期的真实年利率。 账单分期花呗分期数与手续费率如下：      花呗     3期 2.50%   6期 4.50%   9期 6.50%   12期 8.80%">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/DBCA822F-CA14-4D45-BA99-5592A7D39D4A.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/%E8%8A%B1%E5%91%97%E5%88%86%E6%9C%9F.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20200406154713.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/8BED5EEF-7720-4D2F-A633-CCE525989358.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20200406163840.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20200406164954.png">
+<meta property="article:published_time" content="2020-04-06T09:32:50.000Z">
+<meta property="article:modified_time" content="2024-12-14T07:50:26.468Z">
+<meta property="article:author" content="jekyttt">
+<meta property="article:tag" content="Objective-C, Swift, C, iOS开发, 移动开发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/DBCA822F-CA14-4D45-BA99-5592A7D39D4A.png">
+
+<link rel="canonical" href="https://xq-120.github.io/2020/04/06/%E6%94%AF%E4%BB%98%E5%AE%9D%E8%8A%B1%E5%91%97%E4%B8%8E%E5%80%9F%E5%91%97%E8%83%8C%E5%90%8E%E7%9A%84%E5%88%A9%E7%8E%87/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>支付宝花呗与借呗背后的利率 | 芝士就是力量</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="芝士就是力量" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">芝士就是力量</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">像风一样自由</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/xq-120/xq-120.github.io" class="github-corner" title="XQ on GitHub" aria-label="XQ on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/04/06/%E6%94%AF%E4%BB%98%E5%AE%9D%E8%8A%B1%E5%91%97%E4%B8%8E%E5%80%9F%E5%91%97%E8%83%8C%E5%90%8E%E7%9A%84%E5%88%A9%E7%8E%87/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          支付宝花呗与借呗背后的利率
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-06 17:32:50" itemprop="dateCreated datePublished" datetime="2020-04-06T17:32:50+08:00">2020-04-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">经济学</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本文主要分析支付宝里的花呗，借呗，备用金背后的年化收益率。</p>
+<p>在使用支付宝花呗的时候，还款页面除了正常还款外还有一些什么账单分期、最低还款、延期还款之类烂七八糟的东西：</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/DBCA822F-CA14-4D45-BA99-5592A7D39D4A.png" style="zoom:50%;" /></p>
+<p>似乎是在替用户着想，但真实情况是不是如此呢？下面将仔细分析一下花呗分期的真实年利率。</p>
+<h4 id="账单分期"><a href="#账单分期" class="headerlink" title="账单分期"></a>账单分期</h4><p>花呗分期数与手续费率如下：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th></th>
+<th>花呗</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3期</td>
+<td>2.50%</td>
+</tr>
+<tr>
+<td>6期</td>
+<td>4.50%</td>
+</tr>
+<tr>
+<td>9期</td>
+<td>6.50%</td>
+</tr>
+<tr>
+<td>12期</td>
+<td>8.80%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>每期手续费 = 分期金额 / 分期期数 * 手续费率</p>
+<p>每期还款数 = 分期金额 / 分期期数 + 每期手续费 = 每期手续费 * (1 + 手续费率 ) / 手续费率</p>
+<p>总手续费 = 分期金额 * 手续费率</p>
+<p>以12期为例，分期金额1244.55元：</p>
+<p>每期手续费 = 1244.55  / 12 * 8.8% = 9.1267 ≈ 9.13</p>
+<p>每期还款数 = 1244.55 / 12 + 9.13 = 112.8425 ≈ 112.84</p>
+<p>总手续费 = 1244.55 * 8.8% ≈ 109.52</p>
+<p>每期本金 = 1244.55 / 12 = 103.7125 ≈ 103.71</p>
+<p>花呗的12期分期：</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/花呗分期.jpg" style="zoom:50%;" /></p>
+<p>发现支付宝第一期居然是112.87，其他期都是112.84，第一期多出的0.03元怎么来的呢</p>
+<p>事实就是(112.8425 - 112.84 ) <em> 12 = 0.0025 </em> 12 = 0.03，看来被安排的明明白白。</p>
+<p>1244.55元一年总手续费 = 1244.55 * 8.80% = 109.5204 ≈ 109.52。</p>
+<p>站在花呗的角度貌似借我1244.55元一年得到利息109.52元，年利率 = 109.52 / 1244.55 = 8.80% = 手续费率。这样看来花呗的年利率8.80%似乎并不太高。</p>
+<p>但实际情况并不是这样，因为这1244.55元你并没有真正使用一整年，事实是1244.55元你只占有了一个月，真正占有了一年的是最后一期的103.71元。随着每一期的还款，欠款会越来越少但每期的手续费却还是以最初的分期金额计算的。</p>
+<p>因此要想知道花呗分期的真实年利率，就需要计算它的IRR（内部收益率）如下图：</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20200406154713.png" style="zoom:50%;" /></p>
+<p>可以看到花呗分期3期年利率为14.95%，6期年利率为15.26%，9期年利率为15.34%，12期年利率为15.87%，这个收益率估计大多数人都达不到，我自己4%（3.17%）都不到，所以最好不要使用什么分期支付，这只会慢慢侵蚀掉你的财富。</p>
+<p>再来看一下延期还款</p>
+<h4 id="延期还款"><a href="#延期还款" class="headerlink" title="延期还款"></a>延期还款</h4><p>延期还款就是延期到下个月再还，支付宝收取一定的手续费。</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/8BED5EEF-7720-4D2F-A633-CCE525989358.png" style="zoom:50%;" /></p>
+<p>可以计算一下它的年化收益率：20 / 1244.55 <em> 12 </em> 100% = 19.28%，虽然看上去只有20元的手续费但对应到年化收益率就是19.28%已经超过分期支付了，你自己拿1244.55去投资一个月基本上不可能得到20元的收益，想一想余额宝里的七日年化才1.89%，1万块钱一个月也只有15.5元的收益，所以不要被表面的数字迷惑。</p>
+<h4 id="最低还款"><a href="#最低还款" class="headerlink" title="最低还款"></a>最低还款</h4><p>最低还款说明是这样的：剩余xxx元下期还，日利率0.05%计息，可提前还款。</p>
+<p>计算一下它的年化收益率：0.05% <em> 12 </em> 100% = 18.25%，只比延期还款低了一点点。</p>
+<p>小记：对于花呗尽量在还款日前一次性还完，这样使用花呗还是不错的。</p>
+<h4 id="借呗"><a href="#借呗" class="headerlink" title="借呗"></a>借呗</h4><p>如下图：</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20200406163840.png" style="zoom:50%;" /></p>
+<p>日利率万3（1千元用1天只需0.3元），其实后面那句“1千元用1天只需0.3元”只是用来迷惑你的，让你觉得一天的利息很低啊，但凡事都得动动脑子。计算一下它的年化收益率：3.65% * 3 = 10.95%，差不多11个点，基本上还算可以。如果你的投资年化收益率能够有20%，那么借呗就是你的商机。</p>
+<h4 id="备用金"><a href="#备用金" class="headerlink" title="备用金"></a>备用金</h4><p>如下图：</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20200406164954.png" style="zoom:50%;" /></p>
+<p>用7天，推广价1.99元（原价2.29元）</p>
+<p>计算一下它的年化收益率：</p>
+<p>推广价的年化收益率：1.99 / 7 / 500 <em> 365 </em> 100% = 20.75%</p>
+<p>原价的年化收益率：2.29 / 7 / 500 <em> 365 </em> 100% = 23.88%</p>
+<p>年化收益率23.88%什么概念？</p>
+<p>先来看一下法律对于高利贷的定义：</p>
+<p><strong>高利贷定义：</strong></p>
+<p>借贷双方约定的利率不得超过中国人民银行公布的金融机构同期、同档次贷款利率(不含浮动)的4倍。超过上述标准的，应界定为高利借贷行为。</p>
+<p><strong>法律规定：</strong></p>
+<p>1、对于年利率在百分之二十四及其以下的民间借贷利息属于“司法保护区”，法院应当予以保护;</p>
+<p>2、对于年利率在百分之二十四到百分之三十六之间的部分属于“自然保护区”，如果借款人已经偿还，法院也不会判决他讨回这部分利息;</p>
+<p>3、对于年利率超过百分之三十六的民间借贷利息，其超出部分属于“无效区”，法院将对超出部分的约定认定为无效，即便债务人已经偿还亦可请求债权人予以返还，情节严重的，可以处以一定的罚款。</p>
+<p>你以为的用7天才2.29元其实已经卡在高利贷的边缘了，所以没事就不要用备用金。除非你实在借不到钱了。</p>
+<p>到此为止支付宝里面的各种花招都分析完了，了解一点经济学还是有用的，至少让你明白免费的午餐是没有的，不要被表面的现象迷惑，多动脑分析，可以少走很多套路。</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>觉得文章有帮助可以打赏一下哦！</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.jpg" alt="jekyttt 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/23/%E5%AD%90%E7%B1%BB%E5%90%8C%E5%90%8D%E7%88%B6%E7%B1%BB%E7%A7%81%E6%9C%89%E5%B1%9E%E6%80%A7%E5%92%8C%E6%96%B9%E6%B3%95/" rel="prev" title="子类同名父类私有属性和方法">
+      <i class="fa fa-chevron-left"></i> 子类同名父类私有属性和方法
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/04/06/IRR%E5%86%85%E9%83%A8%E6%94%B6%E7%9B%8A%E7%8E%87/" rel="next" title="IRR内部收益率">
+      IRR内部收益率 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B4%A6%E5%8D%95%E5%88%86%E6%9C%9F"><span class="nav-text">账单分期</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BB%B6%E6%9C%9F%E8%BF%98%E6%AC%BE"><span class="nav-text">延期还款</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%80%E4%BD%8E%E8%BF%98%E6%AC%BE"><span class="nav-text">最低还款</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%80%9F%E5%91%97"><span class="nav-text">借呗</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%87%E7%94%A8%E9%87%91"><span class="nav-text">备用金</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">jekyttt</p>
+  <div class="site-description" itemprop="description">涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">176</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">116</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xq-120" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xq-120" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://stackoverflow.com/yourname" title="StackOverflow → https:&#x2F;&#x2F;stackoverflow.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fa fa-fw fa-stack-overflow"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jekyttt</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v6.3.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.getAttribute('pjax') !== null) {
+      script.setAttribute('pjax', '');
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'dc6a52837746ef605a70',
+      clientSecret: '7a049bac8b7eef61e32ebcbfcc33ea9d670d3274',
+      repo        : 'commentForBlog',
+      owner       : 'xq-120',
+      admin       : ['xq-120'],
+      id          : '3e1f80461cff44cce5b681b1c49a12c6',
+        language: 'en, zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+    </div>
+</body>
+</html>

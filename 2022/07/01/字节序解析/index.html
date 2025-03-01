@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"xq-120.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="字节序字节间的顺序。主要有两种：大端序和小端序。当然你也可以规定其他的顺序，但这两种顺序是规则最简单的了。 内存： 12内存：   -------------------------------&gt;内存地址：0       1       2       3 大端序：从左往右读，最左边为最高位。反映在内存即最低地址为最高位，最高地址为最低位。小端序：从右往左读，最右边为最高位。反映在内存即最低">
+<meta property="og:type" content="article">
+<meta property="og:title" content="字节序解析">
+<meta property="og:url" content="https://xq-120.github.io/2022/07/01/%E5%AD%97%E8%8A%82%E5%BA%8F%E8%A7%A3%E6%9E%90/index.html">
+<meta property="og:site_name" content="芝士就是力量">
+<meta property="og:description" content="字节序字节间的顺序。主要有两种：大端序和小端序。当然你也可以规定其他的顺序，但这两种顺序是规则最简单的了。 内存： 12内存：   -------------------------------&gt;内存地址：0       1       2       3 大端序：从左往右读，最左边为最高位。反映在内存即最低地址为最高位，最高地址为最低位。小端序：从右往左读，最右边为最高位。反映在内存即最低">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/image-20221020110929974.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20221020110814.png">
+<meta property="article:published_time" content="2022-07-01T03:38:42.000Z">
+<meta property="article:modified_time" content="2024-12-14T07:50:26.472Z">
+<meta property="article:author" content="jekyttt">
+<meta property="article:tag" content="字节序">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/image-20221020110929974.png">
+
+<link rel="canonical" href="https://xq-120.github.io/2022/07/01/%E5%AD%97%E8%8A%82%E5%BA%8F%E8%A7%A3%E6%9E%90/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>字节序解析 | 芝士就是力量</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="芝士就是力量" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">芝士就是力量</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">像风一样自由</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/xq-120/xq-120.github.io" class="github-corner" title="XQ on GitHub" aria-label="XQ on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2022/07/01/%E5%AD%97%E8%8A%82%E5%BA%8F%E8%A7%A3%E6%9E%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          字节序解析
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-07-01 11:38:42" itemprop="dateCreated datePublished" datetime="2022-07-01T11:38:42+08:00">2022-07-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">计算机基础</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="字节序"><a href="#字节序" class="headerlink" title="字节序"></a>字节序</h3><p>字节间的顺序。主要有两种：大端序和小端序。当然你也可以规定其他的顺序，但这两种顺序是规则最简单的了。</p>
+<p>内存：</p>
+<figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">内存：   -------------------------------&gt;</span><br><span class="line">内存地址：0      <span class="number"> 1 </span>     <span class="number"> 2 </span>      3</span><br></pre></td></tr></table></figure>
+<p>大端序：从左往右读，最左边为最高位。反映在内存即最低地址为最高位，最高地址为最低位。<br>小端序：从右往左读，最右边为最高位。反映在内存即最低地址为最低位，最高地址为最高位。<br>可以看到，大端序和小端序最高位到最低位的顺序刚好相反，是翻转的关系。</p>
+<p>为什么会有字节序？<br>因为一串数字可以从左开始读，也可以从右开始读。如果不规定读的顺序，那么就无法得知正确的信息。<br>比如：一张纸上写着1234<br>按大端序读，最左边的1就是最高位，结果就是一千两百三十四<br>按小端序读，最右边4就是最高位，最左边的1反而是最低位，结果就是四千三百二十一<br>可以看到对于同一串文本，读的顺序不同，得到的结果也会不同。大部分国家都是从左到右读，但也有的国家是从右到左读的。没有好坏，纯属习惯问题。因此数字“一千两百三十四”，对于从左到右读的国家，书写出来就是1234。而对于从右到左读的国家，书写出来就是4321。大小端只是记法不同，表达的数字还是同一个。</p>
+<p>CPU读取内存中的数据时，是从低地址向高地址方向进行读取的。所以一般计算机的内部处理都是小端字节序（目前为止我就还没遇到过采用大端存储的机器）。但是，人类还是习惯读写大端字节序。所以，除了计算机的内部处理，其他的场合比如网络传输和文件储存，几乎都是用的大端字节序。</p>
+<p>举例：</p>
+<p>0x1234<br>0001 0010 0011 0100 （采用大端序存储）-&gt; 0010 1100 0100 1000（采用小端序存储，根据大端翻转即可）<br>1234                                                            -&gt;  3412（第一个字节代表的就是0x34，小端从右往左读）</p>
+<p>0x01<br>0000 0000 0000 0000 0000 0000 0000 0001（大端序）<br>-&gt;<br>1000 0000 0000 0000 0000 0000 0000 0000（小端序）</p>
+<h4 id="判断当前机器的端序"><a href="#判断当前机器的端序" class="headerlink" title="判断当前机器的端序"></a>判断当前机器的端序</h4><p>可以采用以下代码判断：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">union</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">int</span>  a;</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">char</span> b;</span><br><span class="line">&#125;c;</span><br><span class="line">c.a = <span class="number">1</span>;</span><br><span class="line"><span class="type">bool</span> isLittleEndian = <span class="number">1</span> == c.b;</span><br></pre></td></tr></table></figure>
+<p>如果是小端序那么最低位1在最低地址，char占一个字节，c.b就等于1。<br>如果是大端序那么最低位1在最高地址，char占一个字节，c.b就等于0。</p>
+<p>虽然大部分计算机的内部处理都是采用小端字节序，但还是有一些计算机采用的是大端字节序。那么这两台计算机通信时该如何确保正确性呢？<br>很简单，可以规定网络传输时必须采用大端字节序传输即先传输最高字节依此类推直到最低字节，两端收到后各自自行转换即可。这样就不必增加协议传递字节序信息了。</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hton端转换器  &lt;--&gt;  网络传输 &lt;--&gt; ntoh端转换器</span><br><span class="line">   |　　　　　　　　　　　　　　　　　　|</span><br><span class="line"> A电脑　　　　　　　　　　　　　　　　B电脑</span><br></pre></td></tr></table></figure>
+<p>通过端转换器，以及规定网络传输时必须采用大端字节序，就可以屏蔽电脑的具体字节序了。所以如果你要发送一个数字给对方，你要先用端转换器将host端转为大端，另一端收到后再将大端转换为host端，这样你们两个理解的才是同一个数字。测试代码如下：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> test_bit_data1(<span class="type">void</span>) &#123;</span><br><span class="line">    <span class="type">short</span> a = <span class="number">0x5678</span>;</span><br><span class="line">    <span class="built_in">NSData</span> *dataA = [[<span class="built_in">NSData</span> alloc] initWithBytes:&amp;a length:<span class="keyword">sizeof</span>(<span class="type">short</span>)];</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;a = %d, hex:0x%x, data:%@&quot;</span>, a, a, dataA); <span class="comment">//hex:0x5678 data:0x7856</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">//传输时将host端序转为大端序</span></span><br><span class="line">    <span class="type">short</span> b = <span class="built_in">NSSwapHostShortToBig</span>(a);</span><br><span class="line">    <span class="built_in">NSData</span> *dataB = [[<span class="built_in">NSData</span> alloc] initWithBytes:&amp;b length:<span class="keyword">sizeof</span>(<span class="type">short</span>)];</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;b = %d, hex:0x%x, data:%@&quot;</span>, b, b, dataB); <span class="comment">//hex:0x7856 data:0x5678</span></span><br><span class="line">    </span><br><span class="line">    <span class="type">short</span> c;</span><br><span class="line">    [dataB getBytes:&amp;c range:<span class="built_in">NSMakeRange</span>(<span class="number">0</span>, <span class="keyword">sizeof</span>(<span class="type">short</span>))];</span><br><span class="line">    <span class="built_in">NSData</span> *dataC = [[<span class="built_in">NSData</span> alloc] initWithBytes:&amp;c length:<span class="keyword">sizeof</span>(<span class="type">short</span>)];</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;c = %d, hex:0x%x, data:%@&quot;</span>, c, c, dataC); <span class="comment">//hex:0x7856 data:0x5678</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">//收到后将大端序转为host端序</span></span><br><span class="line">    <span class="type">short</span> d = <span class="built_in">NSSwapBigShortToHost</span>(c);</span><br><span class="line">    <span class="built_in">NSData</span> *dataD = [[<span class="built_in">NSData</span> alloc] initWithBytes:&amp;d length:<span class="keyword">sizeof</span>(<span class="type">short</span>)];</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;d = %d, hex:0x%x, data:%@&quot;</span>, d, d, dataD); <span class="comment">//hex:0x5678 data:0x7856</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="比特序"><a href="#比特序" class="headerlink" title="比特序"></a>比特序</h3><p>比特间的顺序。事实上只要有两位bit，就需要规定读顺序了。比特序同样分为大端比特序和小端比特序。通常小端字节序的CPU也采用小端比特序，大端字节序的CPU采用大端比特序。但是这个不绝对，也有大端字节序的CPU采用小端比特序。比特序对于软件层是个黑箱通常不需要关心，不必纠结机器到底是采用哪种比特序存储一个字节的。</p>
+<p>对于一个字节的整型值机器到底是采用哪种比特序存储的，我曾经花了很长的时间去查资料，但是说啥的都有。最后还是自己写了个程序验证一下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">test_bit_order_in_byte</span><span class="params">(<span class="type">void</span>)</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="class"><span class="keyword">union</span> &#123;</span></span><br><span class="line">        <span class="type">unsigned</span> <span class="type">char</span> a;</span><br><span class="line">        </span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">bs</span> &#123;</span></span><br><span class="line">            <span class="type">unsigned</span> <span class="type">char</span> b0: <span class="number">1</span>,</span><br><span class="line">                          b1: <span class="number">1</span>,</span><br><span class="line">                          b2: <span class="number">1</span>,</span><br><span class="line">                          b3: <span class="number">1</span>,</span><br><span class="line">                          b4: <span class="number">1</span>,</span><br><span class="line">                          b5: <span class="number">1</span>,</span><br><span class="line">                          b6: <span class="number">1</span>,</span><br><span class="line">                          b7: <span class="number">1</span>;</span><br><span class="line">        &#125;data;</span><br><span class="line">        </span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">bs1</span> &#123;</span></span><br><span class="line">            <span class="type">unsigned</span> <span class="type">char</span> b0_1: <span class="number">2</span>,</span><br><span class="line">                          b2_3: <span class="number">2</span>,</span><br><span class="line">                          b4_5: <span class="number">2</span>,</span><br><span class="line">                          b6_7: <span class="number">2</span>;</span><br><span class="line">        &#125;data1;</span><br><span class="line">        </span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">bs2</span> &#123;</span></span><br><span class="line">            <span class="type">unsigned</span> <span class="type">char</span> b0_3: <span class="number">4</span>,</span><br><span class="line">                          b4_7: <span class="number">4</span>;</span><br><span class="line">        &#125;data2;</span><br><span class="line">    &#125;ua;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     0x34</span></span><br><span class="line"><span class="comment">     大端：0011 0100</span></span><br><span class="line"><span class="comment">     小端：0010 1100</span></span><br><span class="line"><span class="comment">     </span></span><br><span class="line"><span class="comment">     //0010 1100</span></span><br><span class="line"><span class="comment">     //0 1 3 0</span></span><br><span class="line"><span class="comment">     //4 3</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    ua.a = <span class="number">0x34</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;a:%d\n&quot;</span>, ua.a);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;b0:%d\n&quot;</span>, ua.data.b0);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;b1:%d\n&quot;</span>, ua.data.b1);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;b2:%d\n&quot;</span>, ua.data.b2);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;b3:%d\n&quot;</span>, ua.data.b3);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;b4:%d\n&quot;</span>, ua.data.b4);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;b5:%d\n&quot;</span>, ua.data.b5);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;b6:%d\n&quot;</span>, ua.data.b6);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;b7:%d\n&quot;</span>, ua.data.b7);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;b0_1:%d\n&quot;</span>, ua.data1.b0_1);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;b2_3:%d\n&quot;</span>, ua.data1.b2_3);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;b4_5:%d\n&quot;</span>, ua.data1.b4_5);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;b6_7:%d\n&quot;</span>, ua.data1.b6_7);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;b0_3:%d\n&quot;</span>, ua.data2.b0_3);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;b4_7:%d\n&quot;</span>, ua.data2.b4_7);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>小端字节序机器运行：</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">a</span>:<span class="number">52</span></span><br><span class="line"><span class="attribute">b0</span>:<span class="number">0</span></span><br><span class="line"><span class="attribute">b1</span>:<span class="number">0</span></span><br><span class="line"><span class="attribute">b2</span>:<span class="number">1</span></span><br><span class="line"><span class="attribute">b3</span>:<span class="number">0</span></span><br><span class="line"><span class="attribute">b4</span>:<span class="number">1</span></span><br><span class="line"><span class="attribute">b5</span>:<span class="number">1</span></span><br><span class="line"><span class="attribute">b6</span>:<span class="number">0</span></span><br><span class="line"><span class="attribute">b7</span>:<span class="number">0</span></span><br><span class="line"><span class="attribute">b0_1</span>:<span class="number">0</span></span><br><span class="line"><span class="attribute">b2_3</span>:<span class="number">1</span></span><br><span class="line"><span class="attribute">b4_5</span>:<span class="number">3</span></span><br><span class="line"><span class="attribute">b6_7</span>:<span class="number">0</span></span><br><span class="line"><span class="attribute">b0_3</span>:<span class="number">4</span></span><br><span class="line"><span class="attribute">b4_7</span>:<span class="number">3</span></span><br></pre></td></tr></table></figure>
+<p>可以看到小端字节序机器，对于0x34，它的比特顺序是0010 1100，还是小端。如果小端字节序的CPU采用大端比特序这不疯了吗。所以我更倾向于：小端字节序的CPU也采用小端比特序，大端字节序的CPU采用大端比特序。</p>
+<p>但是网络传输的时候还是一个bit接一个bit发送的，那比特顺序不一样的两台机器收发不会出问题吗？比如发一个unsigned char 整型值0x34。从实际情况来看，确实没有问题，怎么做到的？查了很多资料，比较可信的说法：<br>在以太网(Ethernet)中，发送一个字节是从最低有效比特位到最高有效比特位的发送顺序，也就是最低有效比特位首先发送。接收方接收到的数据顺序和发送方发送的bit顺序一致，收到后网卡会把接收到的比特序转换成主机的比特序。这一过程对CPU、软件都是不可见的，所以一般不需要关心比特间的顺序，只需要关心字节间的顺序。比如单字节0x34，不管发送方是大端还是小端，对端收到后肯定还是0x34。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">发送端大端:</span> <span class="number">0011 </span><span class="number">0100</span>      </span><br><span class="line"><span class="string">网络传输:</span>   <span class="number">0010 </span><span class="number">1100</span>    </span><br><span class="line"><span class="string">接收端小端:</span> <span class="number">0010 </span><span class="number">1100</span>    </span><br><span class="line"></span><br><span class="line"><span class="string">发送端小端:</span> <span class="number">0010 </span><span class="number">1100</span> </span><br><span class="line"><span class="string">网络传输:</span>   <span class="number">0010 </span><span class="number">1100</span></span><br><span class="line"><span class="string">接收端大端:</span> <span class="number">0011 </span><span class="number">0100</span></span><br></pre></td></tr></table></figure>
+<p>单个字节不需要端序转换，两端也能正确理解，两端中的比特顺序可能不一致，但表达的是同一个数字。</p>
+<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>Q1：真机查看一下整数、字符串在内存里的二进制表示？</p>
+<p>测试代码：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">test_number_and_char</span><span class="params">(<span class="type">void</span>)</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> a = <span class="number">0x1234</span>;</span><br><span class="line">    <span class="type">char</span> *p = <span class="string">&quot;1234&quot;</span>; <span class="comment">//字符1对应的ascii码就是0x31</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;a = 0x%x, ch = %s\n&quot;</span>, a, p);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>小端机器运行</p>
+<p>int整型0x1234</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/image-20221020110929974.png" alt=""></p>
+<p>数字在内存里是按小端字节序存储的。</p>
+<p>字符串”1234”</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20221020110814.png" alt=""></p>
+<p>可以看到小端机器，字符串在内存里是按大端字节序存储的。</p>
+<p>Q2：查看文本文件的字节序？</p>
+<p>作为一个文本文件，个人觉得是要说明编码规则和字节序的。当然有的编码不需要特别说明字节序比如utf-8。（有空再研究吧）</p>
+<p>Q3：一段字符串从A电脑网络传输到B电脑需要考虑字节序吗？</p>
+<p>不需要，因为字符串无论在大端还是小端机器都是以大端字节序存储的，网络传输时也是按大端字节序传输的，对端收到后同样是大端字节顺序，所以两端理解的是同一个东西。至于单字节里的比特序可能会不一样。</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1476226">字节序: 一个不是很重要的概念</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.wikiwand.com/en/Bit_numbering">Bit numbering</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/544398250">一文带你秒懂 字节序(byte order)，比特序(bit order)，位域(bit field)</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/shaohui973/article/details/115766497">Ethernet下字节序和bit序的总结</a>   这两篇文章bit发送顺序的观点刚好相反。</p>
+<p><a target="_blank" rel="noopener" href="https://www.linecall.de/wp-content/uploads/2016/11/802.3-2015_SECTION1.pdf">MAC帧的八位字节发送顺序</a>  优先发送最低位。Each octet of the MAC frame, with the exception of the FCS, is transmitted least significant bit first.</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/liuxingen/article/details/45420455">字节序(byte order)和位序(bit order)</a>  3⭐️</p>
+<p><a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2016/11/byte-order.html">理解字节序</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.erratasec.com/2016/11/how-to-teach-endian.html#.Y05SIexBxvc">How to teach endian</a></p>
+<p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1673920">C语言打印数据的二进制格式-原理解析与编程实现</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/leesf456/p/5317574.html">【字符编码】彻底理解字符编码</a></p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>觉得文章有帮助可以打赏一下哦！</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.jpg" alt="jekyttt 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>jekyttt
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://xq-120.github.io/2022/07/01/%E5%AD%97%E8%8A%82%E5%BA%8F%E8%A7%A3%E6%9E%90/" title="字节序解析">https://xq-120.github.io/2022/07/01/字节序解析/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%97%E8%8A%82%E5%BA%8F/" rel="tag"># 字节序</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/06/19/%E8%87%AA%E5%8A%A8%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87--%E4%BD%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E8%84%9A%E6%9C%AC/" rel="prev" title="自动压缩图片--你的第一个脚本">
+      <i class="fa fa-chevron-left"></i> 自动压缩图片--你的第一个脚本
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/07/15/runloop%E4%BD%BF%E7%94%A8/" rel="next" title="runloop使用">
+      runloop使用 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E8%8A%82%E5%BA%8F"><span class="nav-text">字节序</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A4%E6%96%AD%E5%BD%93%E5%89%8D%E6%9C%BA%E5%99%A8%E7%9A%84%E7%AB%AF%E5%BA%8F"><span class="nav-text">判断当前机器的端序</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AF%94%E7%89%B9%E5%BA%8F"><span class="nav-text">比特序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98"><span class="nav-text">问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">jekyttt</p>
+  <div class="site-description" itemprop="description">涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">176</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">116</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xq-120" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xq-120" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://stackoverflow.com/yourname" title="StackOverflow → https:&#x2F;&#x2F;stackoverflow.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fa fa-fw fa-stack-overflow"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jekyttt</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v6.3.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.getAttribute('pjax') !== null) {
+      script.setAttribute('pjax', '');
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'dc6a52837746ef605a70',
+      clientSecret: '7a049bac8b7eef61e32ebcbfcc33ea9d670d3274',
+      repo        : 'commentForBlog',
+      owner       : 'xq-120',
+      admin       : ['xq-120'],
+      id          : 'a0903f708e33bb08e4574c0052c5d183',
+        language: 'en, zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+    </div>
+</body>
+</html>

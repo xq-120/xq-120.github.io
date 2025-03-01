@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"xq-120.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="版本：SDWebImage v5.11.1 SDWebImage源码分析 本文主要分析解决以下几个疑问:  同一图片的请求,SD如何从缓存中查找出来(key的命名规则)?或者说查找过程是怎样的? SD工作过程以及是如何从服务器下载的? SD是如何缓存图片的? 当空间不足时,它的删除策略是什么(按时间顺序,还是图片质量)? SD图片缓存机制与系统的NSURLCache的区别,为什么SD说自己的性能要">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SDWebImage源码分析">
+<meta property="og:url" content="https://xq-120.github.io/2018/03/10/SDWebImage%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="芝士就是力量">
+<meta property="og:description" content="版本：SDWebImage v5.11.1 SDWebImage源码分析 本文主要分析解决以下几个疑问:  同一图片的请求,SD如何从缓存中查找出来(key的命名规则)?或者说查找过程是怎样的? SD工作过程以及是如何从服务器下载的? SD是如何缓存图片的? 当空间不足时,它的删除策略是什么(按时间顺序,还是图片质量)? SD图片缓存机制与系统的NSURLCache的区别,为什么SD说自己的性能要">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-03-10T13:08:37.000Z">
+<meta property="article:modified_time" content="2024-12-14T07:50:26.462Z">
+<meta property="article:author" content="jekyttt">
+<meta property="article:tag" content="SDWebImage">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://xq-120.github.io/2018/03/10/SDWebImage%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>SDWebImage源码分析 | 芝士就是力量</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="芝士就是力量" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">芝士就是力量</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">像风一样自由</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/xq-120/xq-120.github.io" class="github-corner" title="XQ on GitHub" aria-label="XQ on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/03/10/SDWebImage%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SDWebImage源码分析
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-03-10 21:08:37" itemprop="dateCreated datePublished" datetime="2018-03-10T21:08:37+08:00">2018-03-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" itemprop="url" rel="index"><span itemprop="name">源码分析</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>版本：SDWebImage v5.11.1</p>
+<h3 id="SDWebImage源码分析"><a href="#SDWebImage源码分析" class="headerlink" title="SDWebImage源码分析"></a>SDWebImage源码分析</h3><blockquote>
+<p>本文主要分析解决以下几个疑问:</p>
+<ol>
+<li>同一图片的请求,SD如何从缓存中查找出来(key的命名规则)?或者说查找过程是怎样的?</li>
+<li>SD工作过程以及是如何从服务器下载的?</li>
+<li>SD是如何缓存图片的?</li>
+<li>当空间不足时,它的删除策略是什么(按时间顺序,还是图片质量)?</li>
+<li>SD图片缓存机制与系统的NSURLCache的区别,为什么SD说自己的性能要略高于系统的性能?</li>
+</ol>
+</blockquote>
+<h4 id="SDWebImageOptions的枚举值解释"><a href="#SDWebImageOptions的枚举值解释" class="headerlink" title="SDWebImageOptions的枚举值解释"></a>SDWebImageOptions的枚举值解释</h4><p>在使用SD提供的UIImageView类别方法: </p>
+<figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- <span class="params">(void)</span>sd_setImageWithURL:<span class="params">(NSURL *)</span>url placeholderImage:<span class="params">(UIImage *)</span>placeholder options:<span class="params">(SDWebImageOptions)</span>options progress:<span class="params">(SDWebImageDownloaderProgressBlock)</span>progressBlock completed:<span class="params">(SDWebImageCompletionBlock)</span>completedBlock;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>下载图片时,有一个<code>SDWebImageOptions</code>参数,它可以用来配置SD的下载、缓存等行为.该参数是一个枚举,它有很多可选的值.<br>下面将分析每个值的含义:<br><code>SDWebImageRetryFailed = 1 &lt;&lt; 0</code>,SD的注释</p>
+<figure class="highlight vbnet"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">     * <span class="keyword">By</span> <span class="keyword">default</span>, <span class="keyword">when</span> a URL fail <span class="keyword">to</span> be downloaded, the URL <span class="built_in">is</span> blacklisted so the library won<span class="comment">&#x27;t keep trying.</span></span><br><span class="line">     * This flag disable this blacklisting.</span><br><span class="line">*/</span><br></pre></td></tr></table></figure>
+<p>翻译:<br>SD默认,当一个URL下载失败后(网址无效的情况导致的下载失败才会进入,其他比如网络差原因导致的失败不会进入黑名单),该URL将会进入黑名单,SD将不会继续尝试下载.该选项将不使能黑名单.即即使该URL下载失败了,也不会进入黑名单,以后可以继续尝试下载.</p>
+<p><code>SDWebImageLowPriority = 1 &lt;&lt; 1</code>,SD的注释</p>
+<figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * By default, image downloads are started during UI interactions, this flags disable this feature,</span></span><br><span class="line"><span class="comment">     * leading to delayed download on UIScrollView deceleration for instance.</span></span><br><span class="line"><span class="comment">     */</span></span><br></pre></td></tr></table></figure>
+<p>翻译:<br>SD默认,当用户点击下载时就开始下载了,但该枚举值将不使能该特性.比如UIScrollView还在减速的时候,即使UI的交互指示要开始下载了,但该枚举值会使SD延后下载.</p>
+<p><code>SDWebImageCacheMemoryOnly = 1 &lt;&lt; 2</code>,下载的图片不缓存到磁盘,仅缓存到内存.</p>
+<p><code>SDWebImageProgressiveDownload = 1 &lt;&lt; 3</code>,SD的注释</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * This flag enables progressive download, the image is displayed progressively during download as a browser would do.</span></span><br><span class="line"><span class="comment">     * By default, the image is only displayed once completely downloaded.</span></span><br><span class="line"><span class="comment">     */</span></span><br></pre></td></tr></table></figure>
+<p>翻译:<br>该枚举值使能了progressive download(显示进度的下载),图片将随着进度一点点显示.SD默认只有当图片完全下载完成后才一次性显示.</p>
+<p><code>SDWebImageRefreshCached = 1 &lt;&lt; 4</code>,SD的注释</p>
+<figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Even if the image is cached, respect the HTTP response cache control, and refresh the image from remote location if needed.</span></span><br><span class="line"><span class="comment">     * The disk caching will be handled by NSURLCache instead of SDWebImage leading to slight performance degradation.</span></span><br><span class="line"><span class="comment">     * This option helps deal with images changing behind the same request URL, e.g. Facebook graph api profile pics.</span></span><br><span class="line"><span class="comment">     * If a cached image is refreshed, the completion block is called once with the cached image and again with the final image.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * Use this flag only if you can&#x27;t make your URLs static with embedded cache busting parameter.</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+<p>翻译:  </p>
+<ul>
+<li>即使图片已经被缓存了,但是根据HTTP响应缓存控制,如果必要的话还是会用远程的图片刷新本地的缓存的图片.</li>
+<li>磁盘的缓存将使用系统的NSURLCache处理而不是SDWebImage,所以会导致一个轻微的性能下降.</li>
+<li>该枚举值用于处理图片改变但其对应的URL没变的情况.</li>
+<li>如果缓存的图片被刷新,那么the completion block会调用两次,第一次是缓存的图片,接着的第二次是最终的图片.</li>
+<li>仅当你不能让你的URL为一个静态的地址时(旧图片是网址A,新图片还是网址A)才使用该枚举值.</li>
+</ul>
+<p><code>SDWebImageContinueInBackground = 1 &lt;&lt; 5</code>,SD的注释</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * In iOS 4+, continue the download of the image if the app goes to background. This is achieved by asking the system for</span></span><br><span class="line"><span class="comment">     * extra time in background to let the request finish. If the background task expires the operation will be cancelled.</span></span><br><span class="line"><span class="comment">     */</span></span><br></pre></td></tr></table></figure>
+<p>翻译:<br>需要iOS4+,当APP进入后台时,继续图片的下载.该功能的实现是:进入后台时,通过向系统申请额外的时间来让请求完成.如果后台任务到期,操作将被取消.(xq注:有可能取消时,图片还没下载完成.这种情况应该比较少见,主要发生在下载高清图,但网速又不好的情况)</p>
+<p><code>SDWebImageHandleCookies = 1 &lt;&lt; 6</code>,处理存储在NSHTTPCookieStore里的cookie.内部通过设置NSMutableURLRequest.HTTPShouldHandleCookies = YES;实现.</p>
+<p><code>SDWebImageAllowInvalidSSLCertificates = 1 &lt;&lt; 7</code>,使能允许未信任的SSL证书.主要用于测试环境.生产环境谨慎使用.</p>
+<p><code>SDWebImageHighPriority = 1 &lt;&lt; 8</code>,SD的注释</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * By default, images are loaded in the order in which they were queued. This flag moves them to</span></span><br><span class="line"><span class="comment">     * the front of the queue.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>翻译:<br>SD默认,图片是以它们入列时的顺序下载.该枚举值会将它们移到队列的前面.</p>
+<p><code>SDWebImageAvoidAutoSetImage = 1 &lt;&lt; 11</code>,SD默认图片下载完成后自动设置imageView,但该枚举值可以让SD不自动设置,而是让程序员手动设置.比如下载完成后还要处理一下才设置到imageView上去.</p>
+<h4 id="SD的缓存路径"><a href="#SD的缓存路径" class="headerlink" title="SD的缓存路径"></a>SD的缓存路径</h4><p>SD默认的缓存路径:</p>
+<figure class="highlight delphi"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Library</span>/Caches/<span class="keyword">default</span>/com.hackemist.SDWebImageCache.<span class="keyword">default</span>/cf00214b25574df24d89120a11424121.jpg</span><br></pre></td></tr></table></figure>
+<p>它是在<code>Library/Caches/</code>目录下创建了<code>default/com.hackemist.SDWebImageCache.default/</code>路径,以后缓存的图片将存储在该路径下.<strong>SD保存图片的命名规则:</strong>通过对URLString md5后,再拼接可能有的后缀名得来.如:cf00214b25574df24d89120a11424121.jpg</p>
+<p>系统<code>NSURLCache</code>缓存的路径:<br><code>Library/Caches/bundleIdXXX(APP bundle id)/</code>,然后在<code>bundleIdXXX</code>文件夹下存放缓存:<br><code>Cache.db,Cache.db-shm,Cache.db-wal,fsCachedData/A755FD02-64B3-430C-899D-6AD44E4D3229(图片的名称)</code>.</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SDWebImageDownloader *downloader = [SDWebImageDownloader sharedDownloader];</span><br><span class="line">[downloader downloadImageWithURL:[<span class="built_in">NSURL</span> URLWithString:<span class="string">@&quot;http://b.zol-img.com.cn/sjbizhi/images/9/230x350/1469533909506.jpg&quot;</span>] options:SDWebImageDownloaderUseNSURLCache progress:<span class="literal">nil</span> completed:^(<span class="built_in">UIImage</span> *image, <span class="built_in">NSData</span> *data, <span class="built_in">NSError</span> *error, <span class="type">BOOL</span> finished) &#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@&quot;error:%@, finished:%d&quot;</span>, error, finished);</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@&quot;%@&quot;</span>, image);</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+<p>当<code>SDWebImageDownloaderOptions</code>选择<code>SDWebImageDownloaderUseNSURLCache</code>时,SD将采用系统的<code>NSURLCache</code>缓存图片,所以这里即使下载了,但使用SD的类别下载时[self.myImageView sd_setImageWithURL:]由于采用的是另一套查找机制,它没有去查找系统的缓存,所以还得重新下载.</p>
+<h4 id="同一图片的请求-SD如何从缓存中查找出来-key的命名规则-或者说查找过程是怎样的"><a href="#同一图片的请求-SD如何从缓存中查找出来-key的命名规则-或者说查找过程是怎样的" class="headerlink" title="同一图片的请求,SD如何从缓存中查找出来(key的命名规则)?或者说查找过程是怎样的?"></a>同一图片的请求,SD如何从缓存中查找出来(key的命名规则)?或者说查找过程是怎样的?</h4><p>SD key的命名规则是怎样的?<br><code>NSString *key = [self cacheKeyForURL:url];</code></p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">NSString</span> *)cacheKeyForURL:(<span class="built_in">NSURL</span> *)url &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>.cacheKeyFilter) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">self</span>.cacheKeyFilter(url);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> [url absoluteString];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>SD命名cache的key是通过返回URL的absoluteString属性的值.该key在后面的内存查找缓存和磁盘查找缓存都有用到的.</p>
+<p>SD自定义了一个缓存类SDImageCache,该类维护着一个内存缓存和一个可选的磁盘缓存.Disk cache的写操作是异步的因此不用担心影响到UI.</p>
+<p>维护的内存缓存是一个AutoPurgeCache对象.<code>@interface AutoPurgeCache : NSCache</code>.AutoPurageCache主要是在初始化的时候注册了一个UIApplicationDidReceiveMemoryWarningNotification内存警告的通知.如果收到内存警告通知,则调用<code>-removeAllObjects</code>清空缓存.</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@interface</span> SDImageCache ()</span><br><span class="line"></span><br><span class="line"><span class="variable">@property</span> (strong, nonatomic) NSCache *memCache;</span><br><span class="line"><span class="variable">@property</span> (strong, nonatomic) NSString *diskCachePath;</span><br><span class="line"><span class="variable">@property</span> (strong, nonatomic) NSMutableArray *customPaths;</span><br><span class="line"><span class="variable">@property</span> (SDDispatchQueueSetterSementics, nonatomic) dispatch_queue_t ioQueue;</span><br><span class="line"></span><br><span class="line"><span class="variable">@end</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sqf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Init the memory cache</span></span><br><span class="line"><span class="variable">_memCache</span> = [[AutoPurgeCache alloc] init];</span><br><span class="line"><span class="variable">_memCache</span>.<span class="built_in">name</span> = fullNamespace;</span><br></pre></td></tr></table></figure>
+<p>SD下载图片时是将下载封装到一个操作里面的.</p>
+<p>SD的主类<code>SDWebImageManager</code>有两个重要的属性</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@property</span> (<span class="keyword">strong</span>, <span class="keyword">nonatomic</span>, <span class="keyword">readonly</span>) SDImageCache *imageCache;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">strong</span>, <span class="keyword">nonatomic</span>, <span class="keyword">readonly</span>) SDWebImageDownloader *imageDownloader;</span><br></pre></td></tr></table></figure>
+<p><code>SDImageCache</code>是用来操作缓存的,<code>SDWebImageDownloader</code>是用来下载图片的.</p>
+<p>SD通过上面的Key参数和方法<code>- (NSOperation *)queryDiskCacheForKey:(NSString *)key done:(SDWebImageQueryCompletedBlock)doneBlock</code>来查找缓存.</p>
+<h4 id="同步查找内存缓存"><a href="#同步查找内存缓存" class="headerlink" title="同步查找内存缓存"></a>同步查找内存缓存</h4><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">UIImage</span> *)imageFromMemoryCacheForKey:(<span class="built_in">NSString</span> *)key &#123;</span><br><span class="line">    <span class="keyword">return</span> [<span class="keyword">self</span>.memCache objectForKey:key];</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>内存查找比较简单,就是使用NSCache的方法<code>-objectForKey:</code>,如果在内存里找到那么就直接返回图片了.如果没查到,就<strong>异步的从磁盘里查找</strong>.也就是说SD的<code>- (NSOperation *)queryDiskCacheForKey:(NSString *)key done:(SDWebImageQueryCompletedBlock)doneBlock</code>方法是同步的查找内存中缓存,异步的查找磁盘中的缓存.<br>PS:NSCache类似于NSDictionary.它里面存放的对象都是位于内存的.</p>
+<h4 id="异步查找磁盘缓存"><a href="#异步查找磁盘缓存" class="headerlink" title="异步查找磁盘缓存"></a>异步查找磁盘缓存</h4><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">dispatch_async</span>(<span class="keyword">self</span>.ioQueue, ^&#123;</span><br><span class="line">	<span class="keyword">if</span> (operation.isCancelled) &#123;</span><br><span class="line">	    <span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">@autoreleasepool</span> &#123;</span><br><span class="line">	    <span class="built_in">UIImage</span> *diskImage = [<span class="keyword">self</span> diskImageForKey:key];</span><br><span class="line">	    <span class="keyword">if</span> (diskImage &amp;&amp; <span class="keyword">self</span>.shouldCacheImagesInMemory) &#123;</span><br><span class="line">	        <span class="built_in">NSUInteger</span> cost = SDCacheCostForImage(diskImage);</span><br><span class="line">	        [<span class="keyword">self</span>.memCache setObject:diskImage forKey:key cost:cost];</span><br><span class="line">	    &#125;</span><br><span class="line">	</span><br><span class="line">	    <span class="built_in">dispatch_async</span>(dispatch_get_main_queue(), ^&#123;</span><br><span class="line">	        doneBlock(diskImage, SDImageCacheTypeDisk);</span><br><span class="line">	    &#125;);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h4 id="根据Key在磁盘中找到对应的缓存图片"><a href="#根据Key在磁盘中找到对应的缓存图片" class="headerlink" title="根据Key在磁盘中找到对应的缓存图片"></a>根据Key在磁盘中找到对应的缓存图片</h4><p>主要方法:<code>UIImage *diskImage = [self diskImageForKey:key];</code></p>
+<p>SD是通过Key得到文件(图片)名的,<code>NSString *filename = [self cachedFileNameForKey:key];</code>方法内部是对key进行md5签名,得到一个签名串,然后再拼接后缀名(如果key里面有后缀的话).这个时候就得到了文件名,再拼接SD自己的存储路径self.diskCachePath(<code>/Library/Caches/default/com.hackemist.SDWebImageCache.default</code>事先指定好的路径名).到这一步就获得了指定key的缓存图片的路径(<code>/Library/Caches/default/com.hackemist.SDWebImageCache.default/cf00214b25574df24d89120a11424121.jpg</code>).通过<code>NSData *data = [NSData dataWithContentsOfFile:defaultPath];</code>读取出文件的数据.最后将NSData转化为UIImage.至此从磁盘查找指定key的缓存图片就到此结束了.<br>PS:<code>[result appendFormat:@&quot;%02x&quot;, digest[i]];</code><br>x/X:表示以十六进制形式输出.<br>02:表示不足两位,前面补0输出;超过两位,则直接输出.</p>
+<h3 id="SD是如何缓存图片的"><a href="#SD是如何缓存图片的" class="headerlink" title="SD是如何缓存图片的?"></a>SD是如何缓存图片的?</h3><p>主要是通过<code>SDImageCache</code>类完成缓存功能.<code>SDImageCache</code>提供的接口有:</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">SDImageCache</span> ()</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> mark - Properties</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">strong</span>, <span class="keyword">nonatomic</span>, <span class="keyword">nonnull</span>) <span class="built_in">NSCache</span> *memCache; <span class="comment">//里面是关联了一个系统的NSCache对象.</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">strong</span>, <span class="keyword">nonatomic</span>, <span class="keyword">nonnull</span>) <span class="built_in">NSString</span> *diskCachePath;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">strong</span>, <span class="keyword">nonatomic</span>, <span class="keyword">nullable</span>) <span class="built_in">NSMutableArray</span>&lt;<span class="built_in">NSString</span> *&gt; *customPaths;</span><br><span class="line"><span class="keyword">@property</span> (SDDispatchQueueSetterSementics, <span class="keyword">nonatomic</span>, <span class="keyword">nullable</span>) <span class="built_in">dispatch_queue_t</span> ioQueue;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>初始化方法:<br><code>+ (SDImageCache *)sharedImageCache;</code>、<code>- (id)initWithNamespace:(NSString *)ns diskCacheDirectory:(NSString *)directory;</code>提供缓存路径的设置.</p>
+</li>
+<li><p>存储缓存方法:<br><code>- (void)storeImage:(UIImage *)image forKey:(NSString *)key toDisk:(BOOL)toDisk;</code></p>
+</li>
+<li><p>获取缓存方法:</p>
+<ol>
+<li><code>- (NSOperation *)queryDiskCacheForKey:(NSString *)key done:(SDWebImageQueryCompletedBlock)doneBlock;</code></li>
+<li><code>- (UIImage *)imageFromMemoryCacheForKey:(NSString *)key;</code></li>
+<li><code>- (UIImage *)imageFromDiskCacheForKey:(NSString *)key;</code></li>
+</ol>
+</li>
+<li><p>移除缓存的方法:</p>
+<ol>
+<li><code>- (void)removeImageForKey:(NSString *)key fromDisk:(BOOL)fromDisk withCompletion:(SDWebImageNoParamsBlock)completion;</code></li>
+<li><code>- (void)clearDisk;</code></li>
+<li><code>- (void)cleanDiskWithCompletionBlock:(SDWebImageNoParamsBlock)completionBlock;</code></li>
+</ol>
+</li>
+<li><p>查询信息方法(查询某个key的缓存是否存在,查询缓存占用了多少空间):</p>
+<ol>
+<li><code>- (NSUInteger)getSize;</code></li>
+<li><code>- (BOOL)diskImageExistsWithKey:(NSString *)key;</code></li>
+<li><code>- (void)calculateSizeWithCompletionBlock:(SDWebImageCalculateSizeBlock)completionBlock;</code></li>
+</ol>
+</li>
+</ul>
+<p>可以看到这个类的接口功能是比较完善的,有初始化方法、存、取、删、查询信息等方法.并且基本都提供了一个同步的,一个异步的.</p>
+<p>当图片下载完成后,就进行缓存:</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (downloadedImage &amp;&amp; finished) &#123;</span><br><span class="line">	[<span class="keyword">self</span>.imageCache storeImage:downloadedImage recalculateFromImage:<span class="literal">NO</span> imageData:data forKey:key toDisk:cacheOnDisk];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">dispatch_main_sync_safe(^&#123;</span><br><span class="line">	<span class="keyword">if</span> (strongOperation &amp;&amp; !strongOperation.isCancelled) &#123;</span><br><span class="line">	    completedBlock(downloadedImage, <span class="literal">nil</span>, SDImageCacheTypeNone, finished, url);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">//最终是将图片的二进制数据写入文件</span></span><br><span class="line"><span class="comment">// Make sure to call form io queue by caller</span></span><br><span class="line">- (<span class="type">void</span>)_storeImageDataToDisk:(<span class="keyword">nullable</span> <span class="built_in">NSData</span> *)imageData forKey:(<span class="keyword">nullable</span> <span class="built_in">NSString</span> *)key &#123;</span><br><span class="line">    <span class="keyword">if</span> (!imageData || !key) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (![<span class="keyword">self</span>.fileManager fileExistsAtPath:_diskCachePath]) &#123;</span><br><span class="line">        [<span class="keyword">self</span>.fileManager createDirectoryAtPath:_diskCachePath withIntermediateDirectories:<span class="literal">YES</span> attributes:<span class="literal">nil</span> error:<span class="literal">NULL</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// get cache Path for image key</span></span><br><span class="line">    <span class="built_in">NSString</span> *cachePathForKey = [<span class="keyword">self</span> defaultCachePathForKey:key];</span><br><span class="line">    <span class="comment">// transform to NSUrl</span></span><br><span class="line">    <span class="built_in">NSURL</span> *fileURL = [<span class="built_in">NSURL</span> fileURLWithPath:cachePathForKey];</span><br><span class="line">    </span><br><span class="line">    [imageData writeToURL:fileURL options:<span class="keyword">self</span>.config.diskCacheWritingOptions error:<span class="literal">nil</span>];</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// disable iCloud backup</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>.config.shouldDisableiCloud) &#123;</span><br><span class="line">        [fileURL setResourceValue:@YES forKey:<span class="built_in">NSURLIsExcludedFromBackupKey</span> error:<span class="literal">nil</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="SD清除缓存规则"><a href="#SD清除缓存规则" class="headerlink" title="SD清除缓存规则"></a>SD清除缓存规则</h4><p>SD的缓存清理涉及到两个关键的配置属性:</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//最大缓存时间</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * The maximum length of time to keep an image in the cache, in seconds.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">assign</span>, <span class="keyword">nonatomic</span>) <span class="built_in">NSInteger</span> maxCacheAge;</span><br><span class="line"></span><br><span class="line"><span class="comment">//最大缓存空间</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * The maximum size of the cache, in bytes.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">assign</span>, <span class="keyword">nonatomic</span>) <span class="built_in">NSUInteger</span> maxCacheSize;</span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)setMaxMemoryCost:(<span class="built_in">NSUInteger</span>)maxMemoryCost &#123;</span><br><span class="line">    <span class="keyword">self</span>.memCache.totalCostLimit = maxMemoryCost;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="built_in">NSUInteger</span>)maxMemoryCost &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>.memCache.totalCostLimit;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>SD根据这两个属性的值,先删除最旧的文件.删除后若还超出了maxCacheSize,则进一步删除旧文件.不难看出SD清除缓存的策略就是删除旧文件.而其他框架可能会有所不同.比如采用LFU(Least Frequently Used)算法.它是根据数据的历史访问频率来淘汰数据，其核心思想是“如果数据过去被访问多次，那么将来被访问的频率也更高”。</p>
+<p>缓存清除时机:app即将干掉,或进入后台时.</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Subscribe to app events</span></span><br><span class="line">[[<span class="built_in">NSNotificationCenter</span> defaultCenter] addObserver:<span class="keyword">self</span></span><br><span class="line">                                         selector:<span class="keyword">@selector</span>(deleteOldFiles)</span><br><span class="line">                                             name:<span class="built_in">UIApplicationWillTerminateNotification</span></span><br><span class="line">                                           object:<span class="literal">nil</span>];</span><br><span class="line"></span><br><span class="line">[[<span class="built_in">NSNotificationCenter</span> defaultCenter] addObserver:<span class="keyword">self</span></span><br><span class="line">                                         selector:<span class="keyword">@selector</span>(backgroundDeleteOldFiles)</span><br><span class="line">                                             name:<span class="built_in">UIApplicationDidEnterBackgroundNotification</span></span><br><span class="line">                                           object:<span class="literal">nil</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">// Start the long-running task and return immediately.</span></span><br><span class="line">[<span class="keyword">self</span> deleteOldFilesWithCompletionBlock:^&#123;</span><br><span class="line">    [application endBackgroundTask:bgTask];</span><br><span class="line">    bgTask = <span class="built_in">UIBackgroundTaskInvalid</span>;</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+<h3 id="SD图片下载"><a href="#SD图片下载" class="headerlink" title="SD图片下载"></a>SD图片下载</h3><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@interface</span> <span class="attribute">SDWebImageCombinedOperation </span>: NSObject &lt;SDWebImageOperation&gt;</span><br><span class="line"></span><br><span class="line"><span class="variable">@property</span> (assign, nonatomic, getter = isCancelled) BOOL cancelled;</span><br><span class="line"><span class="variable">@property</span> (copy, nonatomic) SDWebImageNoParamsBlock cancelBlock;</span><br><span class="line"><span class="variable">@property</span> (strong, nonatomic) NSOperation *cacheOperation;</span><br><span class="line"></span><br><span class="line"><span class="variable">@end</span></span><br></pre></td></tr></table></figure>
+<p><code>__block SDWebImageCombinedOperation *operation = [SDWebImageCombinedOperation new];</code><br><code>operation.cacheOperation = [self.imageCache queryDiskCacheForKey:key done:^(UIImage *image, SDImageCacheType cacheType) &#123;...&#125;];</code><br><strong>不太明白<code>SDWebImageCombinedOperation</code>的cacheOperation赋值以后有什么用</strong>,好像没有哪个地方将它添加到队列里.仅仅在<code>SDWebImageCombinedOperation</code>的cancel方法里看到用了一下.</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">void</span>)cancel &#123;</span><br><span class="line">    <span class="keyword">self</span>.cancelled = <span class="literal">YES</span>;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>.cacheOperation) &#123;</span><br><span class="line">        [<span class="keyword">self</span>.cacheOperation cancel];</span><br><span class="line">        <span class="keyword">self</span>.cacheOperation = <span class="literal">nil</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>.cancelBlock) &#123;</span><br><span class="line">        <span class="keyword">self</span>.cancelBlock();</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// <span class="doctag">TODO:</span> this is a temporary fix to #809.</span></span><br><span class="line">        <span class="comment">// Until we can figure the exact cause of the crash, going with the ivar instead of the setter</span></span><br><span class="line"><span class="comment">//        self.cancelBlock = nil;</span></span><br><span class="line">        _cancelBlock = <span class="literal">nil</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">- <span class="params">(id &lt;SDWebImageOperation&gt;)</span>loadImageWithURL:<span class="params">(nullable NSURL *)</span>url</span><br><span class="line">                                     options:<span class="params">(SDWebImageOptions)</span>options</span><br><span class="line">                                    progress:<span class="params">(nullable SDWebImageDownloaderProgressBlock)</span>progressBlock</span><br><span class="line">                                   completed:<span class="params">(nullable SDInternalCompletionBlock)</span>completedBlock;</span><br><span class="line">                                   </span><br><span class="line">- <span class="params">(nullable SDWebImageDownloadToken *)</span>addProgressCallback:<span class="params">(SDWebImageDownloaderProgressBlock)</span>progressBlock</span><br><span class="line">                                           completedBlock:<span class="params">(SDWebImageDownloaderCompletedBlock)</span>completedBlock</span><br><span class="line">                                                   forURL:<span class="params">(nullable NSURL *)</span>url</span><br><span class="line">                                           createCallback:<span class="params">(SDWebImageDownloaderOperation *(^)</span><span class="params">(void)</span>)createCallback;</span><br></pre></td></tr></table></figure>
+<p>下载的操作就是在该方法中加入到队列里的,代码片段:</p>
+<figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// Add operation to operation queue only after all configuration done according to Apple&#x27;s doc.</span><br><span class="line">// `addOperation:` does<span class="built_in"> not </span>synchronously<span class="built_in"> execute </span>the `operation.completionBlock` so this will<span class="built_in"> not </span>cause deadlock.</span><br><span class="line">[self.downloadQueue addOperation:operation];</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>觉得文章有帮助可以打赏一下哦！</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.jpg" alt="jekyttt 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/SDWebImage/" rel="tag"># SDWebImage</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/02/28/%E5%93%8D%E5%BA%94%E8%80%85%E9%93%BEhitTest%E9%87%8A%E7%96%91/" rel="prev" title="响应者链hitTest释疑">
+      <i class="fa fa-chevron-left"></i> 响应者链hitTest释疑
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/03/22/%E7%A7%81%E6%9C%89pod%E5%88%B6%E4%BD%9C/" rel="next" title="私有Pod制作">
+      私有Pod制作 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#SDWebImage%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90"><span class="nav-text">SDWebImage源码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#SDWebImageOptions%E7%9A%84%E6%9E%9A%E4%B8%BE%E5%80%BC%E8%A7%A3%E9%87%8A"><span class="nav-text">SDWebImageOptions的枚举值解释</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SD%E7%9A%84%E7%BC%93%E5%AD%98%E8%B7%AF%E5%BE%84"><span class="nav-text">SD的缓存路径</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%8C%E4%B8%80%E5%9B%BE%E7%89%87%E7%9A%84%E8%AF%B7%E6%B1%82-SD%E5%A6%82%E4%BD%95%E4%BB%8E%E7%BC%93%E5%AD%98%E4%B8%AD%E6%9F%A5%E6%89%BE%E5%87%BA%E6%9D%A5-key%E7%9A%84%E5%91%BD%E5%90%8D%E8%A7%84%E5%88%99-%E6%88%96%E8%80%85%E8%AF%B4%E6%9F%A5%E6%89%BE%E8%BF%87%E7%A8%8B%E6%98%AF%E6%80%8E%E6%A0%B7%E7%9A%84"><span class="nav-text">同一图片的请求,SD如何从缓存中查找出来(key的命名规则)?或者说查找过程是怎样的?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%8C%E6%AD%A5%E6%9F%A5%E6%89%BE%E5%86%85%E5%AD%98%E7%BC%93%E5%AD%98"><span class="nav-text">同步查找内存缓存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BC%82%E6%AD%A5%E6%9F%A5%E6%89%BE%E7%A3%81%E7%9B%98%E7%BC%93%E5%AD%98"><span class="nav-text">异步查找磁盘缓存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%B9%E6%8D%AEKey%E5%9C%A8%E7%A3%81%E7%9B%98%E4%B8%AD%E6%89%BE%E5%88%B0%E5%AF%B9%E5%BA%94%E7%9A%84%E7%BC%93%E5%AD%98%E5%9B%BE%E7%89%87"><span class="nav-text">根据Key在磁盘中找到对应的缓存图片</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SD%E6%98%AF%E5%A6%82%E4%BD%95%E7%BC%93%E5%AD%98%E5%9B%BE%E7%89%87%E7%9A%84"><span class="nav-text">SD是如何缓存图片的?</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#SD%E6%B8%85%E9%99%A4%E7%BC%93%E5%AD%98%E8%A7%84%E5%88%99"><span class="nav-text">SD清除缓存规则</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SD%E5%9B%BE%E7%89%87%E4%B8%8B%E8%BD%BD"><span class="nav-text">SD图片下载</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">jekyttt</p>
+  <div class="site-description" itemprop="description">涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">176</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">116</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xq-120" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xq-120" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://stackoverflow.com/yourname" title="StackOverflow → https:&#x2F;&#x2F;stackoverflow.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fa fa-fw fa-stack-overflow"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jekyttt</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v6.3.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.getAttribute('pjax') !== null) {
+      script.setAttribute('pjax', '');
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'dc6a52837746ef605a70',
+      clientSecret: '7a049bac8b7eef61e32ebcbfcc33ea9d670d3274',
+      repo        : 'commentForBlog',
+      owner       : 'xq-120',
+      admin       : ['xq-120'],
+      id          : 'e3ab2b09e39f5204071bab35665da018',
+        language: 'en, zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+    </div>
+</body>
+</html>

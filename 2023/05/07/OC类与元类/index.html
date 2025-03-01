@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"xq-120.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="实例对象、类与元类实例对象的类称为类（类对象），类（类对象）的类称为元类（元类对象）。他们都是对象。 OC中对象、类和元类的关系如下图：  总结下：  实例对象的类是类对象,类对象的类是元类对象.元类对象的类是根元类,根元类对象的类就是自己本身.这里形成了一个闭环.  类对象里面保存的是实例方法.  元类对象里面保存的是类方法.  根类对象的superClass是nil,根类对象的类是根元类对象,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OC类与元类">
+<meta property="og:url" content="https://xq-120.github.io/2023/05/07/OC%E7%B1%BB%E4%B8%8E%E5%85%83%E7%B1%BB/index.html">
+<meta property="og:site_name" content="芝士就是力量">
+<meta property="og:description" content="实例对象、类与元类实例对象的类称为类（类对象），类（类对象）的类称为元类（元类对象）。他们都是对象。 OC中对象、类和元类的关系如下图：  总结下：  实例对象的类是类对象,类对象的类是元类对象.元类对象的类是根元类,根元类对象的类就是自己本身.这里形成了一个闭环.  类对象里面保存的是实例方法.  元类对象里面保存的是类方法.  根类对象的superClass是nil,根类对象的类是根元类对象,">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/9ff681b9-50e6-4b55-bc2a-2f38cb21af1c.png">
+<meta property="article:published_time" content="2023-05-07T05:57:02.000Z">
+<meta property="article:modified_time" content="2024-12-14T07:50:26.475Z">
+<meta property="article:author" content="jekyttt">
+<meta property="article:tag" content="class">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/9ff681b9-50e6-4b55-bc2a-2f38cb21af1c.png">
+
+<link rel="canonical" href="https://xq-120.github.io/2023/05/07/OC%E7%B1%BB%E4%B8%8E%E5%85%83%E7%B1%BB/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>OC类与元类 | 芝士就是力量</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="芝士就是力量" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">芝士就是力量</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">像风一样自由</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/xq-120/xq-120.github.io" class="github-corner" title="XQ on GitHub" aria-label="XQ on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2023/05/07/OC%E7%B1%BB%E4%B8%8E%E5%85%83%E7%B1%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          OC类与元类
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-05-07 13:57:02" itemprop="dateCreated datePublished" datetime="2023-05-07T13:57:02+08:00">2023-05-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="实例对象、类与元类"><a href="#实例对象、类与元类" class="headerlink" title="实例对象、类与元类"></a>实例对象、类与元类</h2><p>实例对象的类称为类（类对象），类（类对象）的类称为元类（元类对象）。他们都是对象。</p>
+<p>OC中对象、类和元类的关系如下图：</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/9ff681b9-50e6-4b55-bc2a-2f38cb21af1c.png" alt=""></p>
+<p>总结下：</p>
+<ol>
+<li><p>实例对象的类是类对象,类对象的类是元类对象.元类对象的类是根元类,根元类对象的类就是自己本身.这里形成了一个闭环.</p>
+</li>
+<li><p>类对象里面保存的是实例方法.</p>
+</li>
+<li><p>元类对象里面保存的是类方法.</p>
+</li>
+<li><p>根类对象的superClass是nil,根类对象的类是根元类对象,根元类对象的superClass是根类对象,这里也形成了一个闭环.</p>
+</li>
+</ol>
+<p>代码：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">void</span>)test_class_metaClass &#123;</span><br><span class="line">    <span class="comment">//根类对象</span></span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;根类对象[NSObject class]:%@,地址:%p&quot;</span>, [<span class="built_in">NSObject</span> <span class="keyword">class</span>], [<span class="built_in">NSObject</span> <span class="keyword">class</span>]);</span><br><span class="line">    <span class="comment">//根类对象的父类</span></span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;根类对象的父类[[NSObject class] superclass]:%@,地址%p&quot;</span>, [[<span class="built_in">NSObject</span> <span class="keyword">class</span>] superclass], [[<span class="built_in">NSObject</span> <span class="keyword">class</span>] superclass]);</span><br><span class="line">    <span class="keyword">const</span> <span class="type">char</span> *nsobjectClassChar = [<span class="built_in">NSStringFromClass</span>([<span class="built_in">NSObject</span> <span class="keyword">class</span>]) UTF8String];</span><br><span class="line">    Class nsobjectMetaClass = objc_getMetaClass(nsobjectClassChar);</span><br><span class="line">    Class nsobjectMetaClass1 = object_getClass(<span class="built_in">NSObject</span>.class); <span class="comment">//nsobjectMetaClass与nsobjectMetaClass1相等。</span></span><br><span class="line">    <span class="comment">//根类对象的类即根元类对象</span></span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;根类对象的类即根元类对象(NSObject metaClass):%@,地址:%p&quot;</span>, nsobjectMetaClass, nsobjectMetaClass);</span><br><span class="line">    <span class="comment">//根元类对象的父类</span></span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;根元类对象的父类(NSObject metaClass superclass):%@,地址:%p&quot;</span>, [nsobjectMetaClass superclass], [nsobjectMetaClass superclass]);</span><br><span class="line">    <span class="comment">//根元类对象的类</span></span><br><span class="line">    Class root = objc_getMetaClass([<span class="built_in">NSStringFromClass</span>(nsobjectMetaClass) UTF8String]);</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;根元类对象的类:%@,地址:%p&quot;</span>, root, root);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>打印：</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">2023</span>-<span class="number">05</span>-<span class="number">07</span> <span class="number">14</span>:<span class="number">28</span>:<span class="number">18</span>.<span class="number">507417</span>+<span class="number">0800</span> runtime方法使用Demo[<span class="number">20896</span>:<span class="number">7290701</span>] 根类对象[NSObject class]:NSObject,地址:<span class="number">0</span>x1b9e44148</span><br><span class="line"><span class="attribute">2023</span>-<span class="number">05</span>-<span class="number">07</span> <span class="number">14</span>:<span class="number">28</span>:<span class="number">18</span>.<span class="number">507511</span>+<span class="number">0800</span> runtime方法使用Demo[<span class="number">20896</span>:<span class="number">7290701</span>] 根类对象的父类[[NSObject class] superclass]:(null),地址<span class="number">0</span>x0</span><br><span class="line"><span class="attribute">2023</span>-<span class="number">05</span>-<span class="number">07</span> <span class="number">14</span>:<span class="number">28</span>:<span class="number">18</span>.<span class="number">507599</span>+<span class="number">0800</span> runtime方法使用Demo[<span class="number">20896</span>:<span class="number">7290701</span>] 根类对象的类即根元类对象(NSObject metaClass):NSObject,地址:<span class="number">0</span>x1b9e440f8</span><br><span class="line"><span class="attribute">2023</span>-<span class="number">05</span>-<span class="number">07</span> <span class="number">14</span>:<span class="number">28</span>:<span class="number">18</span>.<span class="number">507663</span>+<span class="number">0800</span> runtime方法使用Demo[<span class="number">20896</span>:<span class="number">7290701</span>] 根元类对象的父类(NSObject metaClass superclass):NSObject,地址:<span class="number">0</span>x1b9e44148</span><br><span class="line"><span class="attribute">2023</span>-<span class="number">05</span>-<span class="number">07</span> <span class="number">14</span>:<span class="number">28</span>:<span class="number">18</span>.<span class="number">507762</span>+<span class="number">0800</span> runtime方法使用Demo[<span class="number">20896</span>:<span class="number">7290701</span>] 根元类对象的类:NSObject,地址:<span class="number">0</span>x1b9e440f8</span><br></pre></td></tr></table></figure>
+<p>可以看到根类对象的类是根元类对象0x1b9e440f8。根元类对象的父类是根类对象0x1b9e44148。根元类对象的类是它本身0x1b9e440f8。</p>
+<h2 id="类对象响应根类对象的实例方法"><a href="#类对象响应根类对象的实例方法" class="headerlink" title="类对象响应根类对象的实例方法"></a>类对象响应根类对象的实例方法</h2><p>不知道大家有没有发现，给类对象发送根类对象的实例方法，编译器是不会报错的，并且执行时也不会崩溃。这是怎么回事呢？</p>
+<p>还是看上图，因为根元类对象的superClass是根类对象，当给类对象发送实例方法时，根据方法的查找顺序，查找到根元类对象时，由于根元类对象里也没有该实例方法，所以继续往上查找，于是查找到根类这里，根类里保存的是实例方法并且包含该实例方法，于是进行调用。因此类是可以响应根类的实例方法的。</p>
+<p>我们可以写一些代码验证一下：给ViewController发送NSObject的一些实例方法</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">void</span>)test_class_metaClass1 &#123;</span><br><span class="line">    Class vcCls = [ViewController <span class="keyword">copy</span>];</span><br><span class="line">  	<span class="comment">//copy是根类NSObject的实例方法,但是类对象ViewController依然能够“响应”.</span></span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;vcCls:%p,self.class:%p&quot;</span>, vcCls, [<span class="keyword">self</span> <span class="keyword">class</span>]); <span class="comment">//打印的地址一样,是同一个对象.</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> ([ViewController respondsToSelector:<span class="keyword">@selector</span>(viewDidLoad)]) &#123; <span class="comment">//不能响应</span></span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@&quot;ViewController respondsToSelector -viewDidLoad&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector OBJC_SWIFT_UNAVAILABLE(&quot;&quot;);</span></span><br><span class="line">    <span class="built_in">NSMethodSignature</span> *msig = [ViewController methodSignatureForSelector:<span class="keyword">@selector</span>(viewDidLoad)];</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;msig:%@&quot;</span>, msig);</span><br><span class="line">    <span class="built_in">NSMethodSignature</span> *msig1 = [<span class="keyword">self</span> methodSignatureForSelector:<span class="keyword">@selector</span>(viewDidLoad)];</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;msig1:%@&quot;</span>, msig1);</span><br><span class="line">    <span class="comment">//- (IMP)methodForSelector:(SEL)aSelector;</span></span><br><span class="line">    IMP imp = [ViewController methodForSelector:<span class="keyword">@selector</span>(viewDidLoad)]; <span class="comment">//这里为啥会有值？不懂。估计走了消息转发。</span></span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;imp:%p&quot;</span>, imp); <span class="comment">//(IMP) imp = 0x000000018002f440 (libobjc.A.dylib`_objc_msgForward)</span></span><br><span class="line">    IMP imp1 = [<span class="keyword">self</span> methodForSelector:<span class="keyword">@selector</span>(viewDidLoad)];</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;imp1:%p&quot;</span>, imp1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>打印：</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">2023</span>-<span class="number">05</span>-<span class="number">07</span> <span class="number">14</span>:<span class="number">18</span>:<span class="number">44</span>.<span class="number">308901</span>+<span class="number">0800</span> runtime方法使用Demo[<span class="number">20472</span>:<span class="number">7278793</span>] vcCls:<span class="number">0</span>x104d452d8,self.class:<span class="number">0</span>x104d452d8</span><br><span class="line"><span class="attribute">2023</span>-<span class="number">05</span>-<span class="number">07</span> <span class="number">14</span>:<span class="number">18</span>:<span class="number">44</span>.<span class="number">309072</span>+<span class="number">0800</span> runtime方法使用Demo[<span class="number">20472</span>:<span class="number">7278793</span>] msig:(null)</span><br><span class="line"><span class="attribute">2023</span>-<span class="number">05</span>-<span class="number">07</span> <span class="number">14</span>:<span class="number">18</span>:<span class="number">44</span>.<span class="number">309131</span>+<span class="number">0800</span> runtime方法使用Demo[<span class="number">20472</span>:<span class="number">7278793</span>] msig1:&lt;NSMethodSignature: <span class="number">0</span>xa1d3a9acc0fd100f&gt;</span><br><span class="line"><span class="attribute">2023</span>-<span class="number">05</span>-<span class="number">07</span> <span class="number">14</span>:<span class="number">18</span>:<span class="number">44</span>.<span class="number">309171</span>+<span class="number">0800</span> runtime方法使用Demo[<span class="number">20472</span>:<span class="number">7278793</span>] imp:<span class="number">0</span>x18002f440</span><br><span class="line"><span class="attribute">2023</span>-<span class="number">05</span>-<span class="number">07</span> <span class="number">14</span>:<span class="number">18</span>:<span class="number">44</span>.<span class="number">309209</span>+<span class="number">0800</span> runtime方法使用Demo[<span class="number">20472</span>:<span class="number">7278793</span>] imp1:<span class="number">0</span>x104d3a940</span><br></pre></td></tr></table></figure>
+<p>可以看到，类ViewController都可以响应。不过NSObject根类是比较特殊的，事实上NSObject所有暴露的实例方法都有对应的一份类方法实现，只不过大部分这样的类方法都没有暴露出来。所以根元类里面是有这些类方法的，根据方法的查找顺序，最终会在根元类这里找到而不会继续往根类里找，于是调用相应类方法。这在外部看起来像是类响应了一个实例方法，实际上只是因为NSObject没有暴露对应的类方法。</p>
+<p>可以看NSObject的源码实现：performSelector，copy等都只暴露了实例方法接口，但实际上内部有对应的类方法接口。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">id</span>)performSelector:(SEL)aSelector;</span><br><span class="line">- (<span class="type">id</span>)performSelector:(SEL)aSelector withObject:(<span class="type">id</span>)object;</span><br><span class="line">- (<span class="type">id</span>)performSelector:(SEL)aSelector withObject:(<span class="type">id</span>)object1 withObject:(<span class="type">id</span>)object2;</span><br><span class="line"></span><br><span class="line">- (<span class="type">id</span>)<span class="keyword">copy</span>;</span><br><span class="line">- (<span class="type">id</span>)mutableCopy;</span><br><span class="line"></span><br><span class="line">- (<span class="type">id</span>)forwardingTargetForSelector:(SEL)aSelector OBJC_AVAILABLE(<span class="number">10.5</span>, <span class="number">2.0</span>, <span class="number">9.0</span>, <span class="number">1.0</span>, <span class="number">2.0</span>);</span><br><span class="line">- (<span class="type">void</span>)forwardInvocation:(<span class="built_in">NSInvocation</span> *)anInvocation OBJC_SWIFT_UNAVAILABLE(<span class="string">&quot;&quot;</span>);</span><br><span class="line">- (<span class="built_in">NSMethodSignature</span> *)methodSignatureForSelector:(SEL)aSelector OBJC_SWIFT_UNAVAILABLE(<span class="string">&quot;&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>内部实现：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//performSelector相关</span></span><br><span class="line">+ (<span class="type">id</span>)performSelector:(SEL)sel &#123;</span><br><span class="line">    <span class="keyword">if</span> (!sel) [<span class="keyword">self</span> doesNotRecognizeSelector:sel];</span><br><span class="line">    <span class="keyword">return</span> ((<span class="type">id</span>(*)(<span class="type">id</span>, SEL))objc_msgSend)((<span class="type">id</span>)<span class="keyword">self</span>, sel);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (<span class="type">id</span>)performSelector:(SEL)sel withObject:(<span class="type">id</span>)obj &#123;</span><br><span class="line">    <span class="keyword">if</span> (!sel) [<span class="keyword">self</span> doesNotRecognizeSelector:sel];</span><br><span class="line">    <span class="keyword">return</span> ((<span class="type">id</span>(*)(<span class="type">id</span>, SEL, <span class="type">id</span>))objc_msgSend)((<span class="type">id</span>)<span class="keyword">self</span>, sel, obj);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (<span class="type">id</span>)performSelector:(SEL)sel withObject:(<span class="type">id</span>)obj1 withObject:(<span class="type">id</span>)obj2 &#123;</span><br><span class="line">    <span class="keyword">if</span> (!sel) [<span class="keyword">self</span> doesNotRecognizeSelector:sel];</span><br><span class="line">    <span class="keyword">return</span> ((<span class="type">id</span>(*)(<span class="type">id</span>, SEL, <span class="type">id</span>, <span class="type">id</span>))objc_msgSend)((<span class="type">id</span>)<span class="keyword">self</span>, sel, obj1, obj2);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">id</span>)performSelector:(SEL)sel &#123;</span><br><span class="line">    <span class="keyword">if</span> (!sel) [<span class="keyword">self</span> doesNotRecognizeSelector:sel];</span><br><span class="line">    <span class="keyword">return</span> ((<span class="type">id</span>(*)(<span class="type">id</span>, SEL))objc_msgSend)(<span class="keyword">self</span>, sel);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">id</span>)performSelector:(SEL)sel withObject:(<span class="type">id</span>)obj &#123;</span><br><span class="line">    <span class="keyword">if</span> (!sel) [<span class="keyword">self</span> doesNotRecognizeSelector:sel];</span><br><span class="line">    <span class="keyword">return</span> ((<span class="type">id</span>(*)(<span class="type">id</span>, SEL, <span class="type">id</span>))objc_msgSend)(<span class="keyword">self</span>, sel, obj);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">id</span>)performSelector:(SEL)sel withObject:(<span class="type">id</span>)obj1 withObject:(<span class="type">id</span>)obj2 &#123;</span><br><span class="line">    <span class="keyword">if</span> (!sel) [<span class="keyword">self</span> doesNotRecognizeSelector:sel];</span><br><span class="line">    <span class="keyword">return</span> ((<span class="type">id</span>(*)(<span class="type">id</span>, SEL, <span class="type">id</span>, <span class="type">id</span>))objc_msgSend)(<span class="keyword">self</span>, sel, obj1, obj2);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//copy相关</span></span><br><span class="line">+ (<span class="type">id</span>)<span class="keyword">copy</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> (<span class="type">id</span>)<span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (<span class="type">id</span>)copyWithZone:(<span class="keyword">struct</span> _NSZone *)zone &#123;</span><br><span class="line">    <span class="keyword">return</span> (<span class="type">id</span>)<span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">id</span>)<span class="keyword">copy</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> [(<span class="type">id</span>)<span class="keyword">self</span> copyWithZone:<span class="literal">nil</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (<span class="type">id</span>)mutableCopy &#123;</span><br><span class="line">    <span class="keyword">return</span> (<span class="type">id</span>)<span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (<span class="type">id</span>)mutableCopyWithZone:(<span class="keyword">struct</span> _NSZone *)zone &#123;</span><br><span class="line">    <span class="keyword">return</span> (<span class="type">id</span>)<span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">id</span>)mutableCopy &#123;</span><br><span class="line">    <span class="keyword">return</span> [(<span class="type">id</span>)<span class="keyword">self</span> mutableCopyWithZone:<span class="literal">nil</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//消息转发相关</span></span><br><span class="line"><span class="comment">// Replaced by CF (returns an NSMethodSignature)</span></span><br><span class="line">+ (<span class="built_in">NSMethodSignature</span> *)instanceMethodSignatureForSelector:(SEL)sel &#123;</span><br><span class="line">    _objc_fatal(<span class="string">&quot;+[NSObject instanceMethodSignatureForSelector:] &quot;</span></span><br><span class="line">                <span class="string">&quot;not available without CoreFoundation&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Replaced by CF (returns an NSMethodSignature)</span></span><br><span class="line">+ (<span class="built_in">NSMethodSignature</span> *)methodSignatureForSelector:(SEL)sel &#123;</span><br><span class="line">    _objc_fatal(<span class="string">&quot;+[NSObject methodSignatureForSelector:] &quot;</span></span><br><span class="line">                <span class="string">&quot;not available without CoreFoundation&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Replaced by CF (returns an NSMethodSignature)</span></span><br><span class="line">- (<span class="built_in">NSMethodSignature</span> *)methodSignatureForSelector:(SEL)sel &#123;</span><br><span class="line">    _objc_fatal(<span class="string">&quot;-[NSObject methodSignatureForSelector:] &quot;</span></span><br><span class="line">                <span class="string">&quot;not available without CoreFoundation&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (<span class="type">void</span>)forwardInvocation:(<span class="built_in">NSInvocation</span> *)invocation &#123;</span><br><span class="line">    [<span class="keyword">self</span> doesNotRecognizeSelector:(invocation ? [invocation selector] : <span class="number">0</span>)];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)forwardInvocation:(<span class="built_in">NSInvocation</span> *)invocation &#123;</span><br><span class="line">    [<span class="keyword">self</span> doesNotRecognizeSelector:(invocation ? [invocation selector] : <span class="number">0</span>)];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (<span class="type">id</span>)forwardingTargetForSelector:(SEL)sel &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">id</span>)forwardingTargetForSelector:(SEL)sel &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>为了避免上述影响，我们可以通过类别给NSObject添加一个实例方法，这样就可以保证根元类里没有对应的类方法。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">NSObject</span> (<span class="title">XQPrint</span>)</span></span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)printSomething;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">NSObject</span> (<span class="title">XQPrint</span>)</span></span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)printSomething &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;printSomething:%@&quot;</span>, <span class="keyword">self</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> ([<span class="keyword">self</span> isKindOfClass:ViewController.class]) &#123; <span class="comment">//根类里的方法如果不进行downcast作用很有限。</span></span><br><span class="line">        ViewController *vc = (ViewController *)<span class="keyword">self</span>;</span><br><span class="line">        [vc handleBtnClicked];</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@&quot;not work&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line"><span class="comment">//    ViewController *vc = (ViewController *)self;</span></span><br><span class="line"><span class="comment">//    [vc handleBtnClicked]; //如果self是类对象这里会直接崩溃。</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>调用printSomething方法</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">void</span>)test_class_respond_instance_method &#123;</span><br><span class="line">    [ViewController printSomething];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>打印：</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">2023</span>-<span class="number">05</span>-<span class="number">08</span> <span class="number">12</span>:<span class="number">12</span>:<span class="number">58</span>.<span class="number">795626</span>+<span class="number">0800</span> runtime方法使用Demo[<span class="number">45319</span>:<span class="number">7748354</span>] printSomething:ViewController</span><br><span class="line"><span class="attribute">2023</span>-<span class="number">05</span>-<span class="number">08</span> <span class="number">12</span>:<span class="number">12</span>:<span class="number">58</span>.<span class="number">795700</span>+<span class="number">0800</span> runtime方法使用Demo[<span class="number">45319</span>:<span class="number">7748354</span>] not work</span><br></pre></td></tr></table></figure>
+<p>神奇的事情来了，实例方法printSomething还是被调用了，需要注意的是虽然在实例方法里面但self却是一个类对象。到此为止我们就验证了类可以响应根类的实例方法。</p>
+<p>注意1:类对象只能响应根类的实例方法,不能响应其父类的实例方法.</p>
+<p>举例：isBeingPresented是UIViewController的实例方法。现在让ViewController执行isBeingPresented，会崩溃。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[ViewController performSelector:<span class="meta">@selector(isBeingPresented)</span>];<span class="comment">//崩溃.</span></span><br></pre></td></tr></table></figure>
+<p>注意2：不能给实例对象发送类方法。编译器会报错，即使使用下面的performSelector规避报错最终还是会崩溃。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[obj performSelector:<span class="meta">@selector(someClassMethod)</span>]; <span class="comment">//崩溃</span></span><br></pre></td></tr></table></figure>
+<p>这是因为给实例对象发送消息是沿着类对象的继承链查找的，而NSObject的父类是nil，最终肯定是找不到这个类方法的，因此会崩溃。</p>
+<p>总结：</p>
+<p>1.类可以响应根类的实例方法。不过不建议这么做，因为没什么意义。所以最好还是类对象发送类方法，实例对象发送实例方法。</p>
+<p>2.不能给实例对象发送类方法。</p>
+<p>问题</p>
+<p>Q：为什么根元类的父类要设置为根类？是为了解决什么问题吗，还是啥原因？</p>
+<p>A：就是为了让类可以响应根类的实例方法？</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="http://sealiesoftware.com/blog/archive/2009/04/14/objc_explain_Classes_and_metaclasses.html">objc explain: Classes and metaclasses</a>  远古大神</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>觉得文章有帮助可以打赏一下哦！</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.jpg" alt="jekyttt 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>jekyttt
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://xq-120.github.io/2023/05/07/OC%E7%B1%BB%E4%B8%8E%E5%85%83%E7%B1%BB/" title="OC类与元类">https://xq-120.github.io/2023/05/07/OC类与元类/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/class/" rel="tag"># class</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/05/06/OC-class%E3%80%81superClass%E6%96%B9%E6%B3%95/" rel="prev" title="OC class、superClass方法">
+      <i class="fa fa-chevron-left"></i> OC class、superClass方法
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/05/14/iOS%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E6%B5%81/" rel="next" title="iOS输入输出流">
+      iOS输入输出流 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B%E5%AF%B9%E8%B1%A1%E3%80%81%E7%B1%BB%E4%B8%8E%E5%85%83%E7%B1%BB"><span class="nav-text">实例对象、类与元类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E5%AF%B9%E8%B1%A1%E5%93%8D%E5%BA%94%E6%A0%B9%E7%B1%BB%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%AE%9E%E4%BE%8B%E6%96%B9%E6%B3%95"><span class="nav-text">类对象响应根类对象的实例方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">jekyttt</p>
+  <div class="site-description" itemprop="description">涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">176</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">116</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xq-120" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xq-120" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://stackoverflow.com/yourname" title="StackOverflow → https:&#x2F;&#x2F;stackoverflow.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fa fa-fw fa-stack-overflow"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jekyttt</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v6.3.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.getAttribute('pjax') !== null) {
+      script.setAttribute('pjax', '');
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'dc6a52837746ef605a70',
+      clientSecret: '7a049bac8b7eef61e32ebcbfcc33ea9d670d3274',
+      repo        : 'commentForBlog',
+      owner       : 'xq-120',
+      admin       : ['xq-120'],
+      id          : 'fde35a92b69fc6b719d0da2f36eb246d',
+        language: 'en, zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+    </div>
+</body>
+</html>

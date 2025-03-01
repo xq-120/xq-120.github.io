@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"xq-120.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="ROIreturn on investment，投资回报率。 投资回报率的计算公式： 1投资回报率 &#x3D; （收益 - 成本）&#x2F; 成本 * 100% eg: 项目A投入本金100，最后可以110，那么ROI &#x3D; （110 - 100）&#x2F; 100 * 100% &#x3D; 10% 项目B投入本金100，最后可以105，那么ROI &#x3D; （105 - 100）&#x2F; 100 * 100% &#x3D; 5% 通过计算应该选择项目">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IRR内部收益率">
+<meta property="og:url" content="https://xq-120.github.io/2020/04/06/IRR%E5%86%85%E9%83%A8%E6%94%B6%E7%9B%8A%E7%8E%87/index.html">
+<meta property="og:site_name" content="芝士就是力量">
+<meta property="og:description" content="ROIreturn on investment，投资回报率。 投资回报率的计算公式： 1投资回报率 &#x3D; （收益 - 成本）&#x2F; 成本 * 100% eg: 项目A投入本金100，最后可以110，那么ROI &#x3D; （110 - 100）&#x2F; 100 * 100% &#x3D; 10% 项目B投入本金100，最后可以105，那么ROI &#x3D; （105 - 100）&#x2F; 100 * 100% &#x3D; 5% 通过计算应该选择项目">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/IRR%E8%AE%A1%E7%AE%97.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/IRR%E8%AE%A1%E7%AE%97%E6%AD%A5%E9%AA%A4.jpg">
+<meta property="article:published_time" content="2020-04-06T09:34:31.000Z">
+<meta property="article:modified_time" content="2024-12-14T07:50:26.468Z">
+<meta property="article:author" content="jekyttt">
+<meta property="article:tag" content="Objective-C, Swift, C, iOS开发, 移动开发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/IRR%E8%AE%A1%E7%AE%97.jpg">
+
+<link rel="canonical" href="https://xq-120.github.io/2020/04/06/IRR%E5%86%85%E9%83%A8%E6%94%B6%E7%9B%8A%E7%8E%87/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>IRR内部收益率 | 芝士就是力量</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="芝士就是力量" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">芝士就是力量</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">像风一样自由</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/xq-120/xq-120.github.io" class="github-corner" title="XQ on GitHub" aria-label="XQ on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/04/06/IRR%E5%86%85%E9%83%A8%E6%94%B6%E7%9B%8A%E7%8E%87/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          IRR内部收益率
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-06 17:34:31" itemprop="dateCreated datePublished" datetime="2020-04-06T17:34:31+08:00">2020-04-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">经济学</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h4 id="ROI"><a href="#ROI" class="headerlink" title="ROI"></a>ROI</h4><p>return on investment，投资回报率。</p>
+<p>投资回报率的计算公式：</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">投资回报率 <span class="operator">=</span> （收益 - 成本）/ 成本 * <span class="number">100</span>%</span><br></pre></td></tr></table></figure>
+<p>eg:</p>
+<p>项目A投入本金100，最后可以110，那么ROI = （110 - 100）/ 100 * 100% = 10%</p>
+<p>项目B投入本金100，最后可以105，那么ROI = （105 - 100）/ 100 * 100% = 5%</p>
+<p>通过计算应该选择项目A。</p>
+<p><strong>投资报酬率的优缺点</strong></p>
+<p>优点：</p>
+<p>计算方便，可以简单粗暴的对不同项目进行横向比较。</p>
+<p>缺点：</p>
+<p>没有考虑资金时间价值因素，不能正确反映建设期长短及投资方式不同和回收额的有无等条件对项目的影响，分子、分母计算口径的可比性较差，无法直接利用<a target="_blank" rel="noopener" href="https://wiki.mbalib.com/wiki/净现金流量">净现金流量</a>信息。一句话就是太粗糙了，无法体现投资期间的一些细节。</p>
+<p>为了解决ROI的缺点，需要引入下一个概念NPV。</p>
+<h4 id="NPV"><a href="#NPV" class="headerlink" title="NPV"></a>NPV</h4><p><em>Net present value</em> 净现值，指一项投资所产生的未来现金流的折现值与项目投资成本之间的差值。净现值指标是反映项目投资获利能力的指标，净现值&gt;=0表示方案可行，&lt;0表示不可行，净现值越大越好。</p>
+<p>简单点讲就是将未来的现金折现为当前的现金再与本金相比较。假设拿100块钱去做投资，可以接受的最低收益率是5%（即折现率），一年后拿回110块则NPV = 110 / (1 + 5%) - 100 = 104.76 - 100 = 4.76。<code>110 / (1 + 5%)</code>表示的就是将未来的现金折现为当前的现金，计算过程跟利息相反（计算利息：100元，假设收益率为5%则一年后可获得100 * （1 + 5%） = 105）。</p>
+<p>举个复杂点的例子：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center">本金</th>
+<th style="text-align:center">第一年净现金流</th>
+<th style="text-align:center">第二年净现金流</th>
+<th style="text-align:center">本利和</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">项目A</td>
+<td style="text-align:center">100</td>
+<td style="text-align:center">80</td>
+<td style="text-align:center">30</td>
+<td style="text-align:center">110</td>
+</tr>
+<tr>
+<td style="text-align:center">项目B</td>
+<td style="text-align:center">100</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">106</td>
+<td style="text-align:center">110</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>如果通过ROI法计算，项目A和项目B得到的结果是完全一致的，总回报率是10%，年均回报率是5%。</p>
+<p>那么究竟哪个项目好一点呢？我想大多数人应该都会选择项目A，因为如果我们拿项目第一年的回款进行再投资时项目A明显更多一些。这就是考虑到了现金的时间价值。</p>
+<p>我们再来计算一下NPV，假设折现率为5%。</p>
+<p>项目A的NPV = 80 / (1 + 5% ) + 30 / (1 + 5%)² - 100 = 103.40 - 100 = 3.40</p>
+<p>项目B的NPV = 4 / (1 + 5% ) + 106 / (1 + 5%)² - 100 = 99.95 - 100 = -0.05</p>
+<p>在考虑到现金时间价值的情况下，投资A项目实际能多赚3.40元，投资B项目要少赚0.05元。</p>
+<h4 id="IRR"><a href="#IRR" class="headerlink" title="IRR"></a>IRR</h4><p>内部收益率（Internal Rate of Return，IRR）就是资金流入现值总额与资金流出现值总额相等，即使得NPV等于0时的那个折现率。</p>
+<p>上面计算NPV时我们都假设了一个折现率，但现实应用中通常是已知净现金流和本金计算折现率（最常见的就是商家的分期套路）。</p>
+<p>还是上面的例子我们计算一下各项目的IRR。</p>
+<p>项目A：</p>
+<p>80 / (1 + x ) + 30 / (1 + x)² - 100 = 0</p>
+<p>x = 0.07823，即IRR = 7.82%</p>
+<p>项目B: </p>
+<p>4 / (1 + x ) + 106 / (1 + x)² - 100 = 0</p>
+<p>x = 0.04976，即IRR = 4.98%</p>
+<p>通过计算得出，项目A的IRR为7.82%，项目B的IRR为4.98%，于是我们发现，按照ROI计算出的5%并不完全靠谱，A项目确实要优于B项目。</p>
+<p>由此可以看出IRR考虑了货币时间价值的收益率，是综合考虑了每期的流入流出现金的量和时间，加权出来的结果。</p>
+<p>不难看出IRR的计算还是挺复杂的，上述的例子还只是两期的现金流，如果是3期，6期或者12期那么手工计算几乎不太可能，这个时候使用Excel的IRR计算公式就可以轻松搞定。</p>
+<h4 id="Numbers的IRR计算器"><a href="#Numbers的IRR计算器" class="headerlink" title="Numbers的IRR计算器"></a>Numbers的IRR计算器</h4><p>我这里是Mac电脑所以使用的是Numbers软件对应的PC电脑就是Excel软件。</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/IRR计算.jpg" style="zoom:50%;" /></p>
+<p>输入：IRR(C32:C34)，如下：</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/IRR计算步骤.jpg" style="zoom:50%;" /></p>
+<p>使用到的函数：<strong>IRR</strong>(<em>现金流范围, 估计</em>)</p>
+<p>第一个参数为现金流范围：包含现金流值的集合。 现金流范围必须包含数字值。收入（现金流入量）指定为正数，而支出（现金流出量）指定为负数。集合中必须至少包括一个正值和一个负值。现金流量必须按时间顺序指定，且在时间上等距（如每月）。如果某个期间没有现金流量，则该期间使用 0。</p>
+<p>-100表示是投入所以是负数。</p>
+<p>第二个参数是可选的。所以这里就不填了。</p>
+<p>学会了计算IRR，我们就可以计算各个商家给出的分期策略的实际年化收益率了，绝对会让你感叹一句社会，社会！相信你再也不会被商家的分期套路了。</p>
+<p><strong>其他</strong></p>
+<p>单利：</p>
+<p>即利息不作为下一次的投资。</p>
+<p><code>到期总收益 = 本金 * (1 + 收益率 * n)</code></p>
+<p>复利：</p>
+<p>即利息再投资。</p>
+<p><code>到期总收益 = 本金 * (1 + 收益率)^n</code></p>
+<p>eg:</p>
+<p>本金10000，年利率10%，分别计算单利和复利到期后获得的总收益</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th></th>
+<th>本金</th>
+<th>1年</th>
+<th>2年</th>
+<th>3年</th>
+<th>4年</th>
+<th>5年</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>单利</td>
+<td>10000</td>
+<td>11000</td>
+<td>12000</td>
+<td>13000</td>
+<td>14000</td>
+<td>15000</td>
+</tr>
+<tr>
+<td>复利</td>
+<td>10000</td>
+<td>11000</td>
+<td>12100</td>
+<td>13310</td>
+<td>14641</td>
+<td>16105</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>感觉5年也差别不是很大，但是20年复利就是67275，单利却只有30000，已经差了2倍多了。单利是线性增长的，但复利却是指数增长的，越往后相差越大。所以不要小看复利的效果。</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>觉得文章有帮助可以打赏一下哦！</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.jpg" alt="jekyttt 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/04/06/%E6%94%AF%E4%BB%98%E5%AE%9D%E8%8A%B1%E5%91%97%E4%B8%8E%E5%80%9F%E5%91%97%E8%83%8C%E5%90%8E%E7%9A%84%E5%88%A9%E7%8E%87/" rel="prev" title="支付宝花呗与借呗背后的利率">
+      <i class="fa fa-chevron-left"></i> 支付宝花呗与借呗背后的利率
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/04/07/iOS%E8%AE%BE%E7%BD%AE%E5%9C%86%E8%A7%92/" rel="next" title="iOS设置圆角">
+      iOS设置圆角 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#ROI"><span class="nav-text">ROI</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NPV"><span class="nav-text">NPV</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IRR"><span class="nav-text">IRR</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Numbers%E7%9A%84IRR%E8%AE%A1%E7%AE%97%E5%99%A8"><span class="nav-text">Numbers的IRR计算器</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">jekyttt</p>
+  <div class="site-description" itemprop="description">涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">176</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">116</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xq-120" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xq-120" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://stackoverflow.com/yourname" title="StackOverflow → https:&#x2F;&#x2F;stackoverflow.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fa fa-fw fa-stack-overflow"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jekyttt</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v6.3.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.getAttribute('pjax') !== null) {
+      script.setAttribute('pjax', '');
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'dc6a52837746ef605a70',
+      clientSecret: '7a049bac8b7eef61e32ebcbfcc33ea9d670d3274',
+      repo        : 'commentForBlog',
+      owner       : 'xq-120',
+      admin       : ['xq-120'],
+      id          : 'c4d8c4961793645b390861c2b6690758',
+        language: 'en, zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+    </div>
+</body>
+</html>

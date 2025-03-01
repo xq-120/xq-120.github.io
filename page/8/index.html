@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"xq-120.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="芝士就是力量">
+<meta property="og:url" content="https://xq-120.github.io/page/8/index.html">
+<meta property="og:site_name" content="芝士就是力量">
+<meta property="og:description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="jekyttt">
+<meta property="article:tag" content="Objective-C, Swift, C, iOS开发, 移动开发">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://xq-120.github.io/page/8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false
+  };
+</script>
+
+  <title>芝士就是力量</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="芝士就是力量" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">芝士就是力量</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">像风一样自由</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/xq-120/xq-120.github.io" class="github-corner" title="XQ on GitHub" aria-label="XQ on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/06/06/iOS-%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%8E%9F%E7%90%86%E7%AF%87/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/06/iOS-%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%8E%9F%E7%90%86%E7%AF%87/" class="post-title-link" itemprop="url">iOS 信号量原理篇</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-06-06 22:03:35" itemprop="dateCreated datePublished" datetime="2020-06-06T22:03:35+08:00">2020-06-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">多线程</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="信号量原理篇"><a href="#信号量原理篇" class="headerlink" title="信号量原理篇"></a>信号量原理篇</h3><p>源码版本：libdispatch-1173.40.5</p>
+<p>信号量的实现主要是创建，销毁，wait和signal，四个方法。</p>
+<p>信号量结构体：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">DISPATCH_CLASS_DECL(semaphore, OBJECT);</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">dispatch_semaphore_s</span> &#123;</span></span><br><span class="line">	DISPATCH_OBJECT_HEADER(semaphore);</span><br><span class="line">	<span class="type">long</span> <span class="keyword">volatile</span> dsema_value;</span><br><span class="line">	<span class="type">long</span> dsema_orig;</span><br><span class="line">	<span class="type">_dispatch_sema4_t</span> dsema_sema;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="type">semaphore_t</span> <span class="type">_dispatch_sema4_t</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="信号量的创建—dispatch-semaphore-create"><a href="#信号量的创建—dispatch-semaphore-create" class="headerlink" title="信号量的创建—dispatch_semaphore_create"></a>信号量的创建—dispatch_semaphore_create</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">dispatch_semaphore_t</span></span><br><span class="line"><span class="title function_">dispatch_semaphore_create</span><span class="params">(<span class="type">long</span> value)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">dispatch_semaphore_t</span> dsema;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// If the internal value is negative, then the absolute of the value is</span></span><br><span class="line">	<span class="comment">// equal to the number of waiting threads. Therefore it is bogus to</span></span><br><span class="line">	<span class="comment">// initialize the semaphore with a negative value.</span></span><br><span class="line">	<span class="keyword">if</span> (value &lt; <span class="number">0</span>) &#123;</span><br><span class="line">		<span class="keyword">return</span> DISPATCH_BAD_INPUT;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	dsema = _dispatch_object_alloc(DISPATCH_VTABLE(semaphore),</span><br><span class="line">			<span class="keyword">sizeof</span>(<span class="keyword">struct</span> dispatch_semaphore_s));</span><br><span class="line">	dsema-&gt;do_next = DISPATCH_OBJECT_LISTLESS;</span><br><span class="line">	dsema-&gt;do_targetq = _dispatch_get_default_queue(<span class="literal">false</span>);</span><br><span class="line">	dsema-&gt;dsema_value = value;</span><br><span class="line">	_dispatch_sema4_init(&amp;dsema-&gt;dsema_sema, _DSEMA4_POLICY_FIFO);</span><br><span class="line">	dsema-&gt;dsema_orig = value;</span><br><span class="line">	<span class="keyword">return</span> dsema;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到不能传入一个小于0的值。信号量有几个重要的属性：</p>
+<p>dsema_value：记录当前计数值，后续的wait和signal函数会改变该值。</p>
+<p>dsema_sema：信号量 (真正干事情的)</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/06/06/iOS-%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%8E%9F%E7%90%86%E7%AF%87/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/06/06/iOS-%E4%BF%A1%E5%8F%B7%E9%87%8F%E4%BD%BF%E7%94%A8%E7%AF%87/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/06/iOS-%E4%BF%A1%E5%8F%B7%E9%87%8F%E4%BD%BF%E7%94%A8%E7%AF%87/" class="post-title-link" itemprop="url">iOS 信号量使用篇</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-06-06 21:59:36" itemprop="dateCreated datePublished" datetime="2020-06-06T21:59:36+08:00">2020-06-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">多线程</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="信号量使用篇"><a href="#信号量使用篇" class="headerlink" title="信号量使用篇"></a>信号量使用篇</h3><h4 id="操作GCD信号量的函数"><a href="#操作GCD信号量的函数" class="headerlink" title="操作GCD信号量的函数"></a>操作GCD信号量的函数</h4><p>在iOS中有三个函数可以操作GCD信号量：</p>
+<p><code>dispatch_semaphore_t dispatch_semaphore_create(long value);</code> 创建一个信号量。</p>
+<p><code>long dispatch_semaphore_signal(dispatch_semaphore_t dsema);</code> 发送一个信号.</p>
+<p><code>long dispatch_semaphore_wait(dispatch_semaphore_t dsema, dispatch_time_t timeout);</code> 等待一个信号。</p>
+<h4 id="函数说明"><a href="#函数说明" class="headerlink" title="函数说明"></a>函数说明</h4><ol>
+<li><p><code>dispatch_semaphore_t semaphoreTask1 = dispatch_semaphore_create(0);</code><br>创建一个信号量，并赋予初始值(必须传一个&gt;=0的值)。eg：传入2则表示同时最多两个线程可以访问临界区。</p>
+</li>
+<li><p><code>long signalRs = dispatch_semaphore_signal(semaphoreTask1);</code><br>发出一个信号，将信号量加1。如果之前的信号量小于0，说明有等待dispatch semaphore的计数值增加的线程，那么该函数在返回前将唤醒最先处于等待状态的线程。</p>
+<p>返回值：This function returns non-zero if a thread is woken. Otherwise, zero is returned。如果有线程被唤醒则返回一个非0值，否则返回0。</p>
+</li>
+<li><p><code>long waitRs = dispatch_semaphore_wait(semaphoreTask1, DISPATCH_TIME_FOREVER);</code><br>将信号量-1。减去1后如果得到的值<0，则该函数在返回前将一直等待信号的发出，线程会被阻塞。减去1后如果得到的值>=0，则正常返回0，不阻塞线程。</p>
+<p> timeout：指定等待的时间。如果线程要被阻塞该值表明将阻塞该线程多久。传DISPATCH_TIME_FOREVER意味着该线程永久等待一个信号的发出。 传一个其他值如：dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC))，表明将阻塞该线程2s，2s后函数将返回，线程继续执行（不一定就是执行临界区的代码，可以判断如果返回的是非0表明是等待超时了可以做其他处理）。</p>
+<p>返回值：Returns zero on success, or non-zero if the timeout occurred。</p>
+</li>
+</ol>
+<p>eg:使用信号量控制多线程添加数组元素。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">void</span>)testSemaphoreLock &#123;</span><br><span class="line">    <span class="built_in">dispatch_queue_t</span> globalQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, <span class="number">0</span>);</span><br><span class="line">    <span class="built_in">NSMutableArray</span> *arr = [[<span class="built_in">NSMutableArray</span> alloc] init];</span><br><span class="line">    <span class="keyword">self</span>.semaphoreLock = dispatch_semaphore_create(<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">        <span class="built_in">dispatch_async</span>(globalQueue, ^&#123;</span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@&quot;线程：%@ 执行  i = %d&quot;</span>, [<span class="built_in">NSThread</span> currentThread], i);</span><br><span class="line">            <span class="type">long</span> waitRs = dispatch_semaphore_wait(<span class="keyword">self</span>.semaphoreLock, DISPATCH_TIME_FOREVER);</span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@&quot;线程：%@，dispatch_semaphore_wait:%ld&quot;</span>, [<span class="built_in">NSThread</span> currentThread], waitRs);</span><br><span class="line">            <span class="built_in">NSNumber</span> *number = [<span class="built_in">NSNumber</span> numberWithInt:i];</span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@&quot;线程：%@，将要添加：%@&quot;</span>, [<span class="built_in">NSThread</span> currentThread], number);</span><br><span class="line">            [arr addObject:number];</span><br><span class="line">            <span class="type">long</span> signalRs = dispatch_semaphore_signal(<span class="keyword">self</span>.semaphoreLock);</span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@&quot;线程：%@，dispatch_semaphore_signal:%ld&quot;</span>, [<span class="built_in">NSThread</span> currentThread], signalRs);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(<span class="number">5</span> * <span class="built_in">NSEC_PER_SEC</span>)), dispatch_get_main_queue(), ^&#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@&quot;count:%ld, %@&quot;</span>,arr.count, arr);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/06/06/iOS-%E4%BF%A1%E5%8F%B7%E9%87%8F%E4%BD%BF%E7%94%A8%E7%AF%87/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/06/06/OC-atomic%E4%BF%AE%E9%A5%B0%E7%AC%A6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/06/OC-atomic%E4%BF%AE%E9%A5%B0%E7%AC%A6/" class="post-title-link" itemprop="url">OC atomic修饰符</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-06-06 21:56:32" itemprop="dateCreated datePublished" datetime="2020-06-06T21:56:32+08:00">2020-06-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>源码版本：objc4-781，<code>objc-accessors.mm</code>文件中。</p>
+<p>原子操作是指操作是不可分割的，要么发生，要么不发生。事物只会处于原始状态和成功状态两种中的一种，不会处于一种半完成状态。</p>
+<h3 id="OC-中的atomic修饰符"><a href="#OC-中的atomic修饰符" class="headerlink" title="OC 中的atomic修饰符"></a>OC 中的atomic修饰符</h3><p>源码实现：</p>
+<p>getter 方法：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">id <span class="title">objc_getProperty</span><span class="params">(id self, SEL _cmd, <span class="type">ptrdiff_t</span> offset, BOOL atomic)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (offset == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">object_getClass</span>(self);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Retain release world</span></span><br><span class="line">    id *slot = (id*) ((<span class="type">char</span>*)self + offset);</span><br><span class="line">    <span class="keyword">if</span> (!atomic) <span class="keyword">return</span> *slot;</span><br><span class="line">        </span><br><span class="line">    <span class="comment">// Atomic retain release world</span></span><br><span class="line">    <span class="type">spinlock_t</span>&amp; slotlock = PropertyLocks[slot];</span><br><span class="line">    slotlock.<span class="built_in">lock</span>();</span><br><span class="line">    id value = <span class="built_in">objc_retain</span>(*slot); <span class="comment">//+1</span></span><br><span class="line">    slotlock.<span class="built_in">unlock</span>();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// for performance, we (safely) issue the autorelease OUTSIDE of the spinlock.</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">objc_autoreleaseReturnValue</span>(value); <span class="comment">//注册到自动释放池中，延迟-1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对于none atomic属性，getter方法只是简单的返回对象地址。<br>对于atomic属性，getter方法会加锁进行retain操作，并返回一个注册到自动释放池里的对象地址。这样就可以防止getter的对象不会因为其他线程的setter操作导致销毁。</p>
+<p>setter 方法：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">static</span> <span class="keyword">inline</span> <span class="type">void</span> <span class="title">reallySetProperty</span><span class="params">(id self, SEL _cmd, id newValue, <span class="type">ptrdiff_t</span> offset, <span class="type">bool</span> atomic, <span class="type">bool</span> copy, <span class="type">bool</span> mutableCopy)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (offset == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="built_in">object_setClass</span>(self, newValue);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    id oldValue;</span><br><span class="line">    id *slot = (id*) ((<span class="type">char</span>*)self + offset);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (copy) &#123;</span><br><span class="line">        newValue = [newValue copyWithZone:nil];</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mutableCopy) &#123;</span><br><span class="line">        newValue = [newValue mutableCopyWithZone:nil];</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (*slot == newValue) <span class="keyword">return</span>;</span><br><span class="line">        newValue = <span class="built_in">objc_retain</span>(newValue); <span class="comment">//retain新值</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!atomic) &#123;</span><br><span class="line">        oldValue = *slot; <span class="comment">//获取旧值</span></span><br><span class="line">        *slot = newValue; <span class="comment">//赋予新值</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="type">spinlock_t</span>&amp; slotlock = PropertyLocks[slot];</span><br><span class="line">        slotlock.<span class="built_in">lock</span>();  </span><br><span class="line">        oldValue = *slot; <span class="comment">//</span></span><br><span class="line">        *slot = newValue;        </span><br><span class="line">        slotlock.<span class="built_in">unlock</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">objc_release</span>(oldValue); <span class="comment">//release 旧值</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">objc_setProperty_atomic</span><span class="params">(id self, SEL _cmd, id newValue, <span class="type">ptrdiff_t</span> offset)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">reallySetProperty</span>(self, _cmd, newValue, offset, <span class="literal">true</span>, <span class="literal">false</span>, <span class="literal">false</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">objc_setProperty_nonatomic</span><span class="params">(id self, SEL _cmd, id newValue, <span class="type">ptrdiff_t</span> offset)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">reallySetProperty</span>(self, _cmd, newValue, offset, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">false</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">objc_setProperty_atomic_copy</span><span class="params">(id self, SEL _cmd, id newValue, <span class="type">ptrdiff_t</span> offset)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">reallySetProperty</span>(self, _cmd, newValue, offset, <span class="literal">true</span>, <span class="literal">true</span>, <span class="literal">false</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">objc_setProperty_nonatomic_copy</span><span class="params">(id self, SEL _cmd, id newValue, <span class="type">ptrdiff_t</span> offset)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">reallySetProperty</span>(self, _cmd, newValue, offset, <span class="literal">false</span>, <span class="literal">true</span>, <span class="literal">false</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述锁从何而来：从objc-accessors.mm中定义的全局PropertyLocks哈希表中获取。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/06/06/OC-atomic%E4%BF%AE%E9%A5%B0%E7%AC%A6/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/05/22/OC%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B9%8B%E8%87%AA%E5%8A%A8%E9%87%8A%E6%94%BE%E6%B1%A0%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/22/OC%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B9%8B%E8%87%AA%E5%8A%A8%E9%87%8A%E6%94%BE%E6%B1%A0%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" class="post-title-link" itemprop="url">OC内存管理之自动释放池实现原理</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-22 22:34:25" itemprop="dateCreated datePublished" datetime="2020-05-22T22:34:25+08:00">2020-05-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>整了8个小时，基本上算整明白了。</p>
+<p>环境：</p>
+<p><a target="_blank" rel="noopener" href="https://opensource.apple.com/source/objc4/objc4-781/runtime/NSObject.mm.auto.html">NSObject.mm源码</a> 版本为objc4-781。</p>
+<p>对代码</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">const</span> <span class="type">char</span> * argv[])</span> &#123;</span><br><span class="line">    @autoreleasepool &#123;</span><br><span class="line">        NSLog(@<span class="string">&quot;Hello, World!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>进行</p>
+<figure class="highlight coq"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clang -<span class="built_in">rewrite</span>-objc main.m</span><br></pre></td></tr></table></figure>
+<p>得到</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">const</span> <span class="type">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="comment">/* @autoreleasepool */</span> </span><br><span class="line">    &#123; </span><br><span class="line">    __AtAutoreleasePool __autoreleasepool; </span><br><span class="line">        <span class="built_in">NSLog</span>((NSString *)&amp;__NSConstantStringImpl__var_folders_46_lys08y0137d41lbysrxxd0h80000gn_T_main_8ccfab_mi_0);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>看一下：</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/05/22/OC%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B9%8B%E8%87%AA%E5%8A%A8%E9%87%8A%E6%94%BE%E6%B1%A0%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/05/17/NSMutableArray%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/17/NSMutableArray%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" class="post-title-link" itemprop="url">NSMutableArray实现原理</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-17 12:57:57" itemprop="dateCreated datePublished" datetime="2020-05-17T12:57:57+08:00">2020-05-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Foundation/" itemprop="url" rel="index"><span itemprop="name">Foundation</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>本文基于<a target="_blank" rel="noopener" href="https://ciechanow.ski/exposing-nsmutablearray/">Exposing NSMutableArray</a> 理解和扩展。</p>
+<p>C语言中的数组可以说是最基本的数据结构了，其他一些数据结构比如队列，循环队列等都可以基于普通C数组的进一步封装来实现。</p>
+<h2 id="普通C数组"><a href="#普通C数组" class="headerlink" title="普通C数组"></a>普通C数组</h2><p>数组占据的是一段连续的内存空间，并根据顺序存储数据。</p>
+<p>优点：时间效率很高</p>
+<p>由于数组中的内存是连续的，因此可以根据下标读写任何元素，时间复杂度为O(1)。</p>
+<p>缺点：空间效率较低</p>
+<p>创建数组时需要先指定数组的容量大小，然后根据大小分配内存。即使只在数组中存储一个元素也需要为所有的数据预先分配内存。因此它的空间效率不是很高，经常会有空闲区域没有被使用。</p>
+<p>另一个明显的缺点是：在下标 0 处插入或删除一个元素时，需要移动其它所有的元素。当数据量很大时，性能就变得很差。</p>
+<h2 id="循环队列"><a href="#循环队列" class="headerlink" title="循环队列"></a>循环队列</h2>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/05/17/NSMutableArray%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/05/05/OC%E7%B1%BB%E5%9E%8B%E8%87%AA%E7%9C%81%E5%87%BD%E6%95%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/05/OC%E7%B1%BB%E5%9E%8B%E8%87%AA%E7%9C%81%E5%87%BD%E6%95%B0/" class="post-title-link" itemprop="url">OC类型自省函数</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-05 12:32:33" itemprop="dateCreated datePublished" datetime="2020-05-05T12:32:33+08:00">2020-05-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>先上测试代码:</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">ZAEImageView *img = [ZAEImageView new];</span><br><span class="line"><span class="type">BOOL</span> isMember1 = [img isMemberOfClass:ZAEImageView.class];</span><br><span class="line"><span class="type">BOOL</span> isMember2 = [img isMemberOfClass:<span class="built_in">UIImageView</span>.class];</span><br><span class="line"><span class="type">BOOL</span> isMember3 = [ZAEImageView isMemberOfClass:ZAEImageView.class];</span><br><span class="line"><span class="type">BOOL</span> isMember4 = [ZAEImageView isMemberOfClass:<span class="built_in">UIImageView</span>.class];</span><br><span class="line"><span class="type">BOOL</span> isMember5 = [ZAEImageView isMemberOfClass:object_getClass(ZAEImageView.class)];</span><br><span class="line"><span class="type">BOOL</span> isMember6 = [ZAEImageView isMemberOfClass:object_getClass(<span class="built_in">UIImageView</span>.class)];</span><br><span class="line"><span class="type">BOOL</span> isKind1 = [img isKindOfClass:ZAEImageView.class];</span><br><span class="line"><span class="type">BOOL</span> isKind2 = [img isKindOfClass:<span class="built_in">UIImageView</span>.class];</span><br><span class="line"><span class="type">BOOL</span> isKind3 = [ZAEImageView isKindOfClass:ZAEImageView.class];</span><br><span class="line"><span class="type">BOOL</span> isKind4 = [ZAEImageView isKindOfClass:<span class="built_in">UIImageView</span>.class];</span><br><span class="line"><span class="type">BOOL</span> isKind5 = [ZAEImageView isKindOfClass:object_getClass(ZAEImageView.class)];</span><br><span class="line"><span class="type">BOOL</span> isKind6 = [ZAEImageView isKindOfClass:object_getClass(<span class="built_in">UIImageView</span>.class)];</span><br></pre></td></tr></table></figure>
+<p>结果:</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/OC%E7%B1%BB%E5%9E%8B%E8%87%AA%E7%9C%81_%E7%BB%93%E6%9E%9C.jpg" alt="结果"></p>
+<p>OC类型自省的函数如下:</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">BOOL</span>)isKindOfClass:(Class)aClass;</span><br><span class="line">- (<span class="type">BOOL</span>)isMemberOfClass:(Class)aClass;</span><br></pre></td></tr></table></figure>
+<p>它们声明在<code>@protocol NSObject</code>中,NSObject类实现了NSObject协议<code>@interface NSObject &lt;NSObject&gt;</code>.</p>
+<p>可以看到它们都是实例方法,但是为什么可以发送给类对象?和元类有关.</p>
+<p><code>- (BOOL)isMemberOfClass:(Class)aClass;</code></p>
+<p>Returns a Boolean value that indicates whether the receiver is an instance of a given class.</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/05/05/OC%E7%B1%BB%E5%9E%8B%E8%87%AA%E7%9C%81%E5%87%BD%E6%95%B0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/05/04/%E8%87%AA%E5%AE%9A%E4%B9%89Xcode%E6%A8%A1%E6%9D%BF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/04/%E8%87%AA%E5%AE%9A%E4%B9%89Xcode%E6%A8%A1%E6%9D%BF/" class="post-title-link" itemprop="url">自定义Xcode模板</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-04 21:12:40" itemprop="dateCreated datePublished" datetime="2020-05-04T21:12:40+08:00">2020-05-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Xcode/" itemprop="url" rel="index"><span itemprop="name">Xcode</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>很多时候我们需要一个较复杂场景的Demo工程来验证点东西或者研究某个技术，直接在公司项目工程中实验运行又太慢，并且还可能受到其他代码的影响。而Xcode自身提供的工程模板又太过简单，导致每次都要浪费很多时间编写重复的代码来搭建环境。为了提高效率，我们可以自定义工程模板和文件模板。</p>
+<p>如下图，系统提供的默认模板其实都在<code>Xcode.app</code>中，自定义工程模板和文件模板最好的办法就是参考系统的模板。</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/%E5%B7%A5%E7%A8%8B%E6%A8%A1%E6%9D%BF%E5%B1%95%E7%A4%BA%E6%95%88%E6%9E%9C.png" style="zoom:50%;"></p>
+<p>系统的工程模板位置:</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="regexp">/Applications/</span>Xcode.app<span class="regexp">/Contents/</span>Developer<span class="regexp">/Platforms/i</span>PhoneOS.platform<span class="regexp">/Developer/</span>Library<span class="regexp">/Xcode/</span>Templates<span class="regexp">/Project Templates/i</span>OS</span><br></pre></td></tr></table></figure>
+<p>系统的文件模板位置:</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="regexp">/Applications/</span>Xcode.app<span class="regexp">/Contents/</span>Developer<span class="regexp">/Platforms/i</span>PhoneOS.platform<span class="regexp">/Developer/</span>Library<span class="regexp">/Xcode/</span>Templates/<span class="keyword">File</span> Templates</span><br></pre></td></tr></table></figure>
+<p>以上是系统默认的模板存储路径，对于自定义的模板则需要存放在其他路径：</p>
+<p>自定义工程模板的路径需要存放在:<code>~/Library/Developer/Xcode/Templates/Project Templates/Application/</code>.</p>
+<p>自定义文件模板的路径需要存放在:<code>~/Library/Developer/Xcode/Templates/File Templates/</code>.</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/05/04/%E8%87%AA%E5%AE%9A%E4%B9%89Xcode%E6%A8%A1%E6%9D%BF/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/05/03/Swift%E6%95%B0%E7%BB%84%E6%88%AA%E5%8F%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/03/Swift%E6%95%B0%E7%BB%84%E6%88%AA%E5%8F%96/" class="post-title-link" itemprop="url">Swift数组截取</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-03 15:20:11" itemprop="dateCreated datePublished" datetime="2020-05-03T15:20:11+08:00">2020-05-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>数组截取的一些方法：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr <span class="operator">=</span> [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]</span><br><span class="line"><span class="comment">//startIndex:0, endIndex:5</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;startIndex:<span class="subst">\(arr.startIndex)</span>, endIndex:<span class="subst">\(arr.endIndex)</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> slice1 <span class="operator">=</span> arr.dropFirst(<span class="number">2</span>)</span><br><span class="line"><span class="comment">//startIndex:2, endIndex:5</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;startIndex:<span class="subst">\(slice1.startIndex)</span>, endIndex:<span class="subst">\(slice1.endIndex)</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> slice2 <span class="operator">=</span> arr.dropFirst().dropLast()</span><br><span class="line"><span class="comment">//startIndex:1, endIndex:4</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;startIndex:<span class="subst">\(slice2.startIndex)</span>, endIndex:<span class="subst">\(slice2.endIndex)</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> rs <span class="operator">=</span> arr.dropFirst().prefix(upTo: <span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span>(rs) <span class="comment">//[2, 3]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> rs1 <span class="operator">=</span> arr.dropFirst().prefix(<span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span>(rs1) <span class="comment">//[2, 3, 4]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> fib <span class="operator">=</span> [<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">8</span>, <span class="number">13</span>, <span class="number">21</span>]</span><br><span class="line"><span class="keyword">let</span> slfib <span class="operator">=</span> fib[<span class="number">1</span><span class="operator">...</span><span class="number">5</span>]</span><br><span class="line"><span class="comment">//startIndex:1, endIndex:6</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;startIndex:<span class="subst">\(slfib.startIndex)</span>, endIndex:<span class="subst">\(slfib.endIndex)</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(slfib) <span class="comment">//[1, 2, 3, 5, 8]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> prefix(upTo end: Int)</span></span><br><span class="line"><span class="comment"> 表示从集合的索引startIndex开始截取到索引n之间的元素，不包含索引n元素。n取值范围：[startIndex, endIndex]，传startIndex则返回空数组，传endIndex则返回整个数组。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">let</span> prefixArr0 <span class="operator">=</span> arr.prefix(upTo: arr.startIndex)</span><br><span class="line"><span class="built_in">print</span>(prefixArr0) <span class="comment">//[]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> prefixArr <span class="operator">=</span> arr.prefix(upTo: <span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span>(prefixArr) <span class="comment">//[1, 2, 3]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> prefixArr1 <span class="operator">=</span> arr.prefix(upTo: arr.endIndex)</span><br><span class="line"><span class="built_in">print</span>(prefixArr1) <span class="comment">//[1, 2, 3, 4, 5]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> prefixArr2 <span class="operator">=</span> slfib.prefix(upTo: <span class="number">3</span>) <span class="comment">//根据上面说明这里只能取[1, 6],取0会崩溃</span></span><br><span class="line"><span class="built_in">print</span>(prefixArr2) <span class="comment">//[1, 2]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//prefix(_ maxLength: Int)，表示截取集合前n个元素，n取值范围：n&gt;=0，当n = 0时，返回空数组；当n&gt;数组个数时，则返回全部。</span></span><br><span class="line"><span class="keyword">let</span> preArr2 <span class="operator">=</span> arr.prefix(<span class="number">2</span>)</span><br><span class="line"><span class="built_in">print</span>(preArr2) <span class="comment">//[1, 2]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> prefix(through position: Int)</span></span><br><span class="line"><span class="comment"> 表示从集合的索引startIndex开始截取到索引n之间的元素，包含索引n元素。n取值范围：[startIndex, endIndex)。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">let</span> preArr3 <span class="operator">=</span> arr.prefix(through: <span class="number">4</span>)</span><br><span class="line"><span class="built_in">print</span>(preArr3) <span class="comment">//[1, 2, 3, 4, 5]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//suffix(from start: Int)：从集合的索引n元素开始截取到末尾，包含索引n元素，n取值范围：[startIndex, endIndex]，当n为endIndex时，结果为空数组。</span></span><br><span class="line"><span class="keyword">let</span> suffixArr0 <span class="operator">=</span> arr.suffix(from: arr.startIndex)</span><br><span class="line"><span class="built_in">print</span>(suffixArr0) <span class="comment">//[1, 2, 3, 4, 5]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> suffixArr00 <span class="operator">=</span> arr.suffix(from: arr.endIndex)</span><br><span class="line"><span class="built_in">print</span>(suffixArr00) <span class="comment">//[]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> suffixArr <span class="operator">=</span> arr.suffix(from: <span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span>(suffixArr) <span class="comment">//[4, 5]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> suffixArr2 <span class="operator">=</span> slfib.suffix(from: <span class="number">3</span>) <span class="comment">//这里参数也不能取0，因为startIndex==1。</span></span><br><span class="line"><span class="built_in">print</span>(suffixArr2) <span class="comment">//[3, 5, 8]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//suffix(_ maxLength: Int)：截取集合的最后n个元素，n取值范围：n&gt;=0，当n = 0时，返回空数组；当n&gt;数组元素个数时，则返回全部。</span></span><br><span class="line"><span class="keyword">let</span> suffixArr1 <span class="operator">=</span> arr.suffix(<span class="number">0</span>)</span><br><span class="line"><span class="built_in">print</span>(suffixArr1) <span class="comment">//[]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//使用range时，参数取值范围为[0, 数组个数]，且start&lt;=end。当start 或 end 等于count时，右边只能用&quot;&lt;&quot;或省略end了。不能等于，否则越界了。</span></span><br><span class="line"><span class="keyword">let</span> rangeArr <span class="operator">=</span> arr[<span class="number">3</span><span class="operator">...</span><span class="number">3</span>]</span><br><span class="line"><span class="built_in">print</span>(rangeArr) <span class="comment">//[4]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> rangeArr1 <span class="operator">=</span> arr[<span class="number">2</span><span class="operator">..&lt;</span><span class="number">4</span>]</span><br><span class="line"><span class="built_in">print</span>(rangeArr1) <span class="comment">//[3, 4]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> rangeArr2 <span class="operator">=</span> arr[<span class="number">2</span><span class="operator">...</span>]</span><br><span class="line"><span class="built_in">print</span>(rangeArr2) <span class="comment">//[3, 4, 5]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> rangeArr3 <span class="operator">=</span> arr[<span class="operator">..&lt;</span><span class="number">3</span>]</span><br><span class="line"><span class="built_in">print</span>(rangeArr3) <span class="comment">//[1, 2, 3]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> rangeArr4 <span class="operator">=</span> arr[<span class="number">5</span><span class="operator">..&lt;</span><span class="number">5</span>]</span><br><span class="line"><span class="built_in">print</span>(rangeArr4) <span class="comment">//[]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> rangeArr5 <span class="operator">=</span> arr[<span class="number">5</span><span class="operator">...</span>]</span><br><span class="line"><span class="built_in">print</span>(rangeArr5) <span class="comment">//[]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//从头部开始删除n个元素，当n&gt;数组元素个数时表示删除全部，结果返回空数组。</span></span><br><span class="line"><span class="keyword">let</span> dropFirstArr <span class="operator">=</span> arr.dropFirst(<span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span>(dropFirstArr) <span class="comment">//[4, 5]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//从尾部开始删除n个元素，当n&gt;数组元素个数时表示删除全部，结果返回空数组。</span></span><br><span class="line"><span class="keyword">let</span> dropLastArr <span class="operator">=</span> arr.dropLast(<span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span>(dropLastArr) <span class="comment">//[1, 2]</span></span><br></pre></td></tr></table></figure>
+<p>上述操作之后得到的都是数组切片类型，而不是数组类型。这里简单介绍一下<code>ArraySlice</code> 类型，因为上面有些方法是跟索引相关的，比如方法<code>prefix(upTo end: Int)</code>，而<code>ArraySlice</code> 类型的startIndex并不总是从0开始，所以得到的结果可能出乎你的预料。</p>
+<p><code>ArraySlice</code> 类型官方文档：</p>
+<p>The <code>ArraySlice</code> type makes it fast and efficient for you to perform operations on sections of a larger array. Instead of copying over the elements of a slice to new storage, an <code>ArraySlice</code>instance presents a view onto the storage of a larger array. And because <code>ArraySlice</code> presents the same interface as <code>Array</code>, you can generally perform the same operations on a slice as you could on the original array.</p>
+<p>Unlike <code>Array</code> and <code>ContiguousArray</code>, the starting index for an <code>ArraySlice</code> instance isn’t always zero. Slices maintain the same indices of the larger array for the same elements, so the starting index of a slice depends on how it was created, letting you perform index-based operations on either a full array or a slice.</p>
+<p><code>ArraySlice</code>是<code>Array</code>, <code>ContiguousArray</code>, or <code>ArraySlice</code> 实例的一个切片。但是它并不会将切片中的元素拷贝到一个新的存储空间，而是依然指向原始数组。</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/ArraySlice1.jpg" style="zoom:50%;"></p>
+<p>注意：endIndex始终指向集合最后一个元素的后一个位置。系统的很多方法涉及到索引时都会跟startIndex和endIndex相关。而不是0和数组个数。</p>
+<p><strong><code>ArraySlice</code>的startIndex并不总是从0开始</strong>，而是取决于它的创建方式。下面的例子中可以看到slice1的startIndex是2而不是0。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/05/03/Swift%E6%95%B0%E7%BB%84%E6%88%AA%E5%8F%96/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/05/01/%E4%B9%B0%E5%9F%BA%E5%AE%9E%E8%B7%B5%E6%80%BB%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/01/%E4%B9%B0%E5%9F%BA%E5%AE%9E%E8%B7%B5%E6%80%BB%E7%BB%93/" class="post-title-link" itemprop="url">买基实践总结</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-01 16:07:36" itemprop="dateCreated datePublished" datetime="2020-05-01T16:07:36+08:00">2020-05-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">经济学</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>之前买了个基金：天添金稳健型，刚开始觉得还挺不错的。但几天过后才发现并不是那么划算，今天就来分析一下：</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/IMG_2655.jpg" style="zoom:50%;"></p>
+<p>成立以来年化4.53%，购买费率0，赎回费率:持有<360日则0.1%，>=360日则0.05%。即使减去0.1%的赎回费率，也有4.43%，看起来挺不错的。</p>
+<p>实际上4.53%是成立以来年化，它的近三年的累计收益率为13.38%，平均每年为4.46%小于成立以来的4.53%，说明该基金没以前那么好了，走势有下降的趋势。再看一下近1年累计收益率只有3.8%，减去手续费0.05%，就只有3.75%了。也就是你放一年只有3.75%的收益率，这个收益率其实还稍稍低于其他的定期基金。虽然写着随时申赎但是如果没满一年的话是很亏的。</p>
+<p>比如只持有1个月那么你的月收益率为3.8% / 12 = 0.3167%，再扣除0.1%的赎回费率那么就只有0.2167%。年化一下就是2.6%，已经非常低了。如果你只持有10天，那么收益刚好抵消手续费，你被白嫖。如果小于10天那就是在亏钱了。</p>
+<p>所以这里的随时申赎其实就是一个诱饵，如果不加分析很容易上钩。当然也不是说该基金在骗人，而是不划算。想要达到它说的4.53%，以R2较低风险来看，基本上要长期持有3年左右。说是随时申赎实际上是不能“随时申赎”的。</p>
+<p>上述的分析告诉了我们：</p>
+<p>1.买基金不能只看成立以来的年化，要看走势图里的1月，3月，1年，3年。</p>
+<p>2.有手续费的基金如果收益率不高的话就不要买了。就像上面的基金满一年扣除手续费后还不如定期的基金了。</p>
+<p>个人将年化3.65%作为一个参考值，也就是1万元1天收益1元。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/05/01/%E4%B9%B0%E5%9F%BA%E5%AE%9E%E8%B7%B5%E6%80%BB%E7%BB%93/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2020/05/01/%E5%9F%BA%E9%87%91%E5%B8%B8%E8%A7%81%E6%A6%82%E5%BF%B5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/01/%E5%9F%BA%E9%87%91%E5%B8%B8%E8%A7%81%E6%A6%82%E5%BF%B5/" class="post-title-link" itemprop="url">基金常见概念</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-01 16:00:03" itemprop="dateCreated datePublished" datetime="2020-05-01T16:00:03+08:00">2020-05-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">经济学</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><strong>基金的一些概念</strong></p>
+<p>如下图：</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/5C9E117C940FCD96FFFDB344982570E9.png" style="zoom:25%;"></p>
+<p><strong>日涨幅</strong></p>
+<p>（当日净值 - 昨日净值）/ 昨日净值 x 100%</p>
+<p>比如要计算4.30的日涨幅，那么当日净值需要取4.30的净值，昨日净值取的就是4.29的净值。</p>
+<p>eg:</p>
+<p>4月29日的单位净值为1.8470，4月30日的单位净值为1.8450，这样4月30日的日涨幅就是：</p>
+<p>（1.8450 - 1.8470）/ 1.8470 x 100% = -0.108284% ≈ -0.11%，负数说明亏了。</p>
+<p><strong>昨日收益</strong></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/05/01/%E5%9F%BA%E9%87%91%E5%B8%B8%E8%A7%81%E6%A6%82%E5%BF%B5/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+  </div>
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/7/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/9/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">jekyttt</p>
+  <div class="site-description" itemprop="description">涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">176</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">116</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xq-120" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xq-120" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://stackoverflow.com/yourname" title="StackOverflow → https:&#x2F;&#x2F;stackoverflow.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fa fa-fw fa-stack-overflow"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jekyttt</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v6.3.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.getAttribute('pjax') !== null) {
+      script.setAttribute('pjax', '');
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+
+    </div>
+</body>
+</html>

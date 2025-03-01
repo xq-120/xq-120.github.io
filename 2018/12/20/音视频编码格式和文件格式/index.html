@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"xq-120.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="音视频文件格式和编码格式主要是搞清楚两个概念：编码格式和文件格式。 由于音视频的原始数据都很大，不方便存储与传输，所以就有各种各样的编码技术或算法对其进行编码以达到减少数据的目的，这些编码技术就叫编码格式，有些编码格式解码后能够完全恢复为原始数据，因此这些编码格式也被称为无损压缩，而有些编码格式解码后不能恢复为原来的数据因此也被称为有损压缩。 我们通常说的音视频格式准确地讲应该是音视频文件格式。音">
+<meta property="og:type" content="article">
+<meta property="og:title" content="音视频编码格式和文件格式">
+<meta property="og:url" content="https://xq-120.github.io/2018/12/20/%E9%9F%B3%E8%A7%86%E9%A2%91%E7%BC%96%E7%A0%81%E6%A0%BC%E5%BC%8F%E5%92%8C%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/index.html">
+<meta property="og:site_name" content="芝士就是力量">
+<meta property="og:description" content="音视频文件格式和编码格式主要是搞清楚两个概念：编码格式和文件格式。 由于音视频的原始数据都很大，不方便存储与传输，所以就有各种各样的编码技术或算法对其进行编码以达到减少数据的目的，这些编码技术就叫编码格式，有些编码格式解码后能够完全恢复为原始数据，因此这些编码格式也被称为无损压缩，而有些编码格式解码后不能恢复为原来的数据因此也被称为有损压缩。 我们通常说的音视频格式准确地讲应该是音视频文件格式。音">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/%E6%88%AA%E5%B1%8F2024-05-22%2013.02.10.png">
+<meta property="article:published_time" content="2018-12-19T16:23:55.000Z">
+<meta property="article:modified_time" content="2024-12-14T07:50:26.465Z">
+<meta property="article:author" content="jekyttt">
+<meta property="article:tag" content="Objective-C, Swift, C, iOS开发, 移动开发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/%E6%88%AA%E5%B1%8F2024-05-22%2013.02.10.png">
+
+<link rel="canonical" href="https://xq-120.github.io/2018/12/20/%E9%9F%B3%E8%A7%86%E9%A2%91%E7%BC%96%E7%A0%81%E6%A0%BC%E5%BC%8F%E5%92%8C%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>音视频编码格式和文件格式 | 芝士就是力量</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="芝士就是力量" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">芝士就是力量</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">像风一样自由</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/xq-120/xq-120.github.io" class="github-corner" title="XQ on GitHub" aria-label="XQ on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xq-120.github.io/2018/12/20/%E9%9F%B3%E8%A7%86%E9%A2%91%E7%BC%96%E7%A0%81%E6%A0%BC%E5%BC%8F%E5%92%8C%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jekyttt">
+      <meta itemprop="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="芝士就是力量">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          音视频编码格式和文件格式
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-12-20 00:23:55" itemprop="dateCreated datePublished" datetime="2018-12-20T00:23:55+08:00">2018-12-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-12-14 15:50:26" itemprop="dateModified" datetime="2024-12-14T15:50:26+08:00">2024-12-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%9F%B3%E8%A7%86%E9%A2%91/" itemprop="url" rel="index"><span itemprop="name">音视频</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="音视频文件格式和编码格式"><a href="#音视频文件格式和编码格式" class="headerlink" title="音视频文件格式和编码格式"></a>音视频文件格式和编码格式</h3><p>主要是搞清楚两个概念：编码格式和文件格式。</p>
+<p>由于音视频的原始数据都很大，不方便存储与传输，所以就有各种各样的编码技术或算法对其进行编码以达到减少数据的目的，这些编码技术就叫编码格式，有些编码格式解码后能够完全恢复为原始数据，因此这些编码格式也被称为无损压缩，而有些编码格式解码后不能恢复为原来的数据因此也被称为有损压缩。</p>
+<p>我们通常说的音视频格式准确地讲应该是音视频文件格式。音视频文件格式它是一个容器里面包含了音频、视频、字幕等，有时也被称为封装格式。有些文件格式只能装载特定编码格式的数据，而有些文件格式既可以装载A编码格式的数据，也可以装载B编码格式的数据，不过这也会带来一些问题比如某个播放器只能播放装载A编码格式的.mp4文件，这时如果你给他一个装载B编码格式的.mp4文件那么这个播放器就会播放失败。对于音频文件，虽然一种音频文件格式可以支持多种编码，例如AVI文件格式，但多数的音频文件仅支持一种音频编码。</p>
+<p>音视频文件的名字后面都会有一个扩展名，这个扩展名就代表它是什么文件格式，扩展名的作用就是告诉操作系统应该使用什么样的软件来打开该文件，对于音视频文件改变扩展名并不影响内部数据的编码格式，反而还会误导操作系统，导致文件打开失败，如果想改变编码格式则需要专门的格式转换软件。</p>
+<p>编码技术是会不断发展迭代的，所以经常会看到一个编码技术下面可能还会分好几个子类。另外编码格式有各个厂商推出的，也有标准组织推出的，也有个人推出的。这也导致了市面上出现了各种编码格式，每种编码格式又会对应一种文件格式，这就造成了新手在一堆格式名称里晕头转向。我们所说的格式一般指文件格式，但有些时候又是指编码格式，造成这种现象的原因主要是大部分文件格式只支持一种编码格式，这个时候文件格式和编码格式可以看做是同一个东西。</p>
+<p>一个音频文件的播放过程：</p>
+<p>音频文件——&gt;解封装——-&gt;解码———&gt;渲染播放</p>
+<p>视频播放则要复杂一些，主要是音频和视频的同步。</p>
+<p>如下图：</p>
+<p><img src="https://raw.githubusercontent.com/xq-120/cloudImage/master/%E6%88%AA%E5%B1%8F2024-05-22%2013.02.10.png" style="zoom:50%;" /></p>
+<p>图片文件，音频文件，视频文件感觉都是一个套路。</p>
+<p>常见音频文件格式：</p>
+<ul>
+<li>无损格式，例如WAV，PCM，ALS，ALAC，TAK，FLAC，APE，WavPack(WV)</li>
+<li>有损格式，例如MP3，AAC，WMA，Ogg Vorbis</li>
+</ul>
+<h3 id="AVPlayer支持的格式"><a href="#AVPlayer支持的格式" class="headerlink" title="AVPlayer支持的格式"></a>AVPlayer支持的格式</h3><p>可以通过这几个API查看文件是否支持播放</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*!</span></span><br><span class="line"><span class="comment">  @method		audiovisualTypes</span></span><br><span class="line"><span class="comment">  @abstract		Provides the file types the AVURLAsset class understands.</span></span><br><span class="line"><span class="comment">  @result		An NSArray of UTIs identifying the file types the AVURLAsset class understands.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">+ (<span class="built_in">NSArray</span>&lt;<span class="built_in">AVFileType</span>&gt; *)audiovisualTypes API_AVAILABLE(macos(<span class="number">10.7</span>), ios(<span class="number">5.0</span>), tvos(<span class="number">9.0</span>), watchos(<span class="number">1.0</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">/*!</span></span><br><span class="line"><span class="comment">  @method		audiovisualMIMETypes</span></span><br><span class="line"><span class="comment">  @abstract		Provides the MIME types the AVURLAsset class understands.</span></span><br><span class="line"><span class="comment">  @result		An NSArray of NSStrings containing MIME types the AVURLAsset class understands.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">+ (<span class="built_in">NSArray</span>&lt;<span class="built_in">NSString</span> *&gt; *)audiovisualMIMETypes API_AVAILABLE(macos(<span class="number">10.7</span>), ios(<span class="number">5.0</span>), tvos(<span class="number">9.0</span>), watchos(<span class="number">1.0</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">/*!</span></span><br><span class="line"><span class="comment">  @method		isPlayableExtendedMIMEType:</span></span><br><span class="line"><span class="comment">  @abstract		Returns YES if asset is playable with the codec(s) and container type specified in extendedMIMEType. Returns NO otherwise.</span></span><br><span class="line"><span class="comment">  @param		extendedMIMEType</span></span><br><span class="line"><span class="comment">  @result		YES or NO.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">+ (<span class="type">BOOL</span>)isPlayableExtendedMIMEType: (<span class="built_in">NSString</span> *)extendedMIMEType API_AVAILABLE(macos(<span class="number">10.7</span>), ios(<span class="number">5.0</span>), tvos(<span class="number">9.0</span>), watchos(<span class="number">1.0</span>));</span><br></pre></td></tr></table></figure>
+<p>支持的格式，MIME打印：</p>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;audio/vnd.wave&quot;</span>,</span><br><span class="line"><span class="string">&quot;audio/aacp&quot;</span>,</span><br><span class="line"><span class="string">&quot;video/3gpp2&quot;</span>,</span><br><span class="line"><span class="string">&quot;audio/mpeg3&quot;</span>,</span><br><span class="line"><span class="string">&quot;audio/mp3&quot;</span>,</span><br><span class="line"><span class="string">&quot;audio/x-caf&quot;</span>,</span><br><span class="line"><span class="string">&quot;audio/mpeg&quot;</span>,</span><br><span class="line"><span class="string">&quot;video/quicktime&quot;</span>,</span><br><span class="line"><span class="string">&quot;audio/x-mpeg3&quot;</span>,</span><br><span class="line"><span class="string">&quot;video/mp4&quot;</span>,</span><br><span class="line"><span class="string">&quot;audio/wav&quot;</span>,</span><br><span class="line"><span class="string">&quot;video/avi&quot;</span>,</span><br><span class="line"><span class="string">&quot;audio/flac&quot;</span>,</span><br><span class="line"><span class="string">&quot;audio/mp4&quot;</span>,</span><br><span class="line"><span class="string">&quot;audio/x-mpg&quot;</span>,</span><br><span class="line"><span class="string">&quot;audio/scpls&quot;</span>,</span><br><span class="line"><span class="string">&quot;video/x-m4v&quot;</span>,</span><br><span class="line"><span class="string">&quot;audio/x-wav&quot;</span>,</span><br><span class="line"><span class="string">&quot;audio/x-aiff&quot;</span>,</span><br><span class="line"><span class="string">&quot;application/ttml+xml&quot;</span>,</span><br><span class="line"><span class="string">&quot;application/vnd.apple.mpegurl&quot;</span>,</span><br><span class="line"><span class="string">&quot;video/3gpp&quot;</span>,</span><br><span class="line"><span class="string">&quot;text/vtt&quot;</span>,</span><br><span class="line"><span class="string">&quot;audio/usac&quot;</span>,</span><br><span class="line"><span class="string">&quot;audio/x-mpeg&quot;</span>,</span><br><span class="line"><span class="string">&quot;audio/wave&quot;</span>,</span><br><span class="line"><span class="string">&quot;audio/x-m4r&quot;</span>,</span><br><span class="line"><span class="string">&quot;audio/x-mp3&quot;</span>,</span><br><span class="line"><span class="string">&quot;audio/AMR&quot;</span>,</span><br><span class="line"><span class="string">&quot;audio/aiff&quot;</span>,</span><br><span class="line"><span class="string">&quot;audio/3gpp2&quot;</span>,</span><br><span class="line"><span class="string">&quot;audio/aac&quot;</span>,</span><br><span class="line"><span class="string">&quot;audio/mpg&quot;</span>,</span><br><span class="line"><span class="string">&quot;audio/mpegurl&quot;</span>,</span><br><span class="line"><span class="string">&quot;audio/x-m4b&quot;</span>,</span><br><span class="line"><span class="string">&quot;application/mp4&quot;</span>,</span><br><span class="line"><span class="string">&quot;audio/x-m4p&quot;</span>,</span><br><span class="line"><span class="string">&quot;audio/x-scpls&quot;</span>,</span><br><span class="line"><span class="string">&quot;audio/x-mpegurl&quot;</span>,</span><br><span class="line"><span class="string">&quot;audio/x-aac&quot;</span>,</span><br><span class="line"><span class="string">&quot;audio/3gpp&quot;</span>,</span><br><span class="line"><span class="string">&quot;audio/basic&quot;</span>,</span><br><span class="line"><span class="string">&quot;audio/x-m4a&quot;</span>,</span><br><span class="line"><span class="string">&quot;application/x-mpegurl&quot;</span></span><br></pre></td></tr></table></figure>
+<p>很明显不支持ogg、wma、ape(一种无损压缩编码格式)、flv、rm这些音频格式。网上很多文章都是瞎写的拷贝的百度百科的，只因为百度百科有一个词条AVPlayer，但是此AVPlayer（是一个播放器）不是彼AVPlayer（iOS里的一个框架）。所以还是用系统API检查一下看看是不是支持。</p>
+<p>iOS支持的音频文件格式  </p>
+<p>iOS supports the audio file formats listed in Table 2-1. For information on audio data formats available in iOS, see Codecs.</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Format name</th>
+<th>Format filename extensions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AIFF</td>
+<td>.aif, .aiff</td>
+</tr>
+<tr>
+<td>CAF</td>
+<td>.caf</td>
+</tr>
+<tr>
+<td>MPEG-1, layer 3</td>
+<td>.mp3</td>
+</tr>
+<tr>
+<td>MPEG-2 or MPEG-4 ADTS</td>
+<td>.aac</td>
+</tr>
+<tr>
+<td>MPEG-4</td>
+<td>.m4a, .mp4</td>
+</tr>
+<tr>
+<td>WAV</td>
+<td>.wav</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>基本上就是mpeg系列再加上少数几个其他格式。</p>
+<h3 id="PCM"><a href="#PCM" class="headerlink" title="PCM"></a>PCM</h3><p>PCM：又称脉冲编码调制（也叫音频裸数据）。<strong>PCM音频数据是未经压缩的音频采样数据裸流</strong>，它是由模拟信号经过采样、量化、编码转换成的标准的数字音频数据。</p>
+<h3 id="AIFF"><a href="#AIFF" class="headerlink" title="AIFF"></a>AIFF</h3><p>音频交换文件格式（Audio Interchange File Format，缩写为AIFF）,苹果公司开发。一个标准的AIFF文件中的音频应是线性PCM，还有一种被称为AIFF-C或AIFC的使用各种压缩编解码器的变体。</p>
+<p><strong>是否压缩</strong></p>
+<p>无压缩。</p>
+<p><strong>文件扩展名</strong></p>
+<p>标准AIFF文件的扩展名是.aiff或.aif，压缩过的AIFF文件的扩展名应是.aifc。</p>
+<h3 id="WAV"><a href="#WAV" class="headerlink" title="WAV"></a>WAV</h3><p>WAV 是 Microsoft 和 IBM 为 PC 开发的一种声音文件格式，它符合 RIFF（Resource Interchange File Format）文件规范，用于保存 Windows 平台的音频信息资源，被 Windows 平台及其应用程序所广泛支持。WAVE 文件通常只是一个具有单个 “WAVE” 块的 RIFF 文件，该块有两个子块（”fmt” 子数据块和 ”data” 子数据块）</p>
+<p>该格式的实质就是在 PCM 文件的前面加了一个文件头。</p>
+<p><strong>是否压缩</strong></p>
+<p>无压缩。</p>
+<p><strong>文件扩展名</strong></p>
+<p>.wav</p>
+<h3 id="CAF"><a href="#CAF" class="headerlink" title="CAF"></a>CAF</h3><p>Core Audio Format，即核心音频格式，是苹果公司为了消除<a target="_blank" rel="noopener" href="https://www.wenjianbaike.com/aiff.html">.AIFF</a>和<a target="_blank" rel="noopener" href="https://www.wenjianbaike.com/wav.html">.WAV</a>格式的局限而开发的音频格式。CAF文件结构的灵活性以及可以记录的多种类型的元数据使它几乎可以与任何类型的音频数据一起使用。</p>
+<p>这种文件格式就是典型的一对多的文件格式。你不知道它里面存储的是啥类型的编码格式数据。</p>
+<p><strong>文件扩展名</strong></p>
+<p>.caf</p>
+<h3 id="WMA"><a href="#WMA" class="headerlink" title="WMA"></a><strong>WMA</strong></h3><p>Windows Media Audio，是微软公司开发的一系列音频编解码器，也指相应的数字音频编码格式。</p>
+<p><strong>是否压缩</strong></p>
+<p>有损压缩。(并不绝对，因为一种编解码格式下面可能有好几种子类型，而其中一种子类型可能支持无损压缩。为了方便如果大部分都是有损压缩，就当做有损压缩了)</p>
+<p><strong>文件扩展名</strong></p>
+<p>.wma</p>
+<h3 id="MPEG"><a href="#MPEG" class="headerlink" title="MPEG"></a>MPEG</h3><p>MPEG：动态影像专家小组，Moving Picture Experts Group，简称MPEG，是一个源自ISO与IEC等国际组织的工作小组，用以制定影音压缩及传输的规格标准。</p>
+<p>MPEG小组到目前为止，已有以下和音视频相关的标准：MPEG-1、MPEG-2、MPEG-3、MPEG-4、MPEG-7、MPEG-21。MPEG-1是MPEG组织制定的第一个视频和音频有损压缩标准。</p>
+<p>可以看到MPEG已经制定了很多标准了，这些标准涵盖了很多方面，因此每个标准下面又包含很多个部分。比如MPEG-1包含5个part，Part 2是video部分，Part 3是audio部分，audio部分下面又包含3个Layer，其中MPEG-1 Audio Layer III，就是第一版的MP3。</p>
+<p>MPEG-2标准是对MPEG-1标准的补充和扩展。MPEG-2 Part7部分引入了AAC，AAC在MPEG-4的Part 3中也有定义。</p>
+<h4 id="MP3"><a href="#MP3" class="headerlink" title="MP3"></a>MP3</h4><p>MPEG-1 Audio Layer III</p>
+<p><strong>是否压缩</strong></p>
+<p>有损压缩。</p>
+<p><strong>文件扩展名</strong></p>
+<p>.mp3，实际上由于MPEG-1标准下包含很多子标准所以跟MPEG-1有关的文件扩展名非常多。</p>
+<p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/MPEG-1">MPEG-1</a> </p>
+<p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/MPEG-2">MPEG-2</a></p>
+<p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/MPEG-4">MPEG-4</a></p>
+<p>MPEG-4相关的文件扩展名可以参考：<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/MPEG-4_Part_14">MPEG-4_Part_14的Filename extensions</a> ，扩展名是真的多。</p>
+<h3 id="AAC"><a href="#AAC" class="headerlink" title="AAC"></a>AAC</h3><p>AAC是高级音频编码（Advanced Audio Coding）的缩写，出现于1997年，最初是基于MPEG-2的音频编码技术，目的是取代MP3格式。2000年，MPEG-4标准出台，AAC重新集成了其它技术包括SBR或PS特性，目前AAC可以定义为⼀种由 MPEG-4 标准定义的有损音频压缩格式。</p>
+<p><strong>是否压缩</strong></p>
+<p>有损压缩。</p>
+<p><strong>ACC 音频文件格式类型</strong></p>
+<p>AAC的音频文件格式有ADIF 和 ADTS：</p>
+<p><strong>ADIF</strong>：Audio Data Interchange Format 音频数据交换格式。这种格式的特征是可以确定的找到这个音频数据的开始，不需进行在音频数据流中间开始的解码，即它的解码必须在明确定义的开始处进行，这种格式常用在磁盘文件中。</p>
+<p><strong>ADTS</strong>：Audio Data Transport Stream 音频数据传输流。这种格式的特征是它是一个有同步字的比特流，解码可以在这个流中任何位置开始。它的特征类似于mp3数据流格式。</p>
+<p>简单说，ADTS可以在任意帧解码，也就是说它每一帧都有头信息。ADIF只有一个统一的头，所以必须得到所有的数据后解码。这两种的header的格式也是不同的，一般编码后的和抽取出的都是ADTS格式的音频流。</p>
+<p><strong>文件扩展名</strong></p>
+<p>.aac</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903725291552775">AVPlayer支持的视频格式</a>   ⭐️⭐️⭐️</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/booksky/p/5213198.html">浅谈iOS视频开发</a>  ⭐️⭐️⭐️</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/bsplover/article/details/7426480">常见音频编码格式总结</a></p>
+<p><a target="_blank" rel="noopener" href="http://blog.51cto.com/huangfu3342/1613795">音视频封装格式、编码格式知识</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/renhui/p/10412630.html">音视频编解码技术（二）：AAC 音频编码技术</a>  比较详细</p>
+<p><a target="_blank" rel="noopener" href="https://www.wenjianbaike.com/aac.html">.AAC文件扩展名</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/renhui/p/12148330.html">多媒体文件格式（五）：PCM / WAV 格式</a>   比较详细</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/396273481">PCM数据格式你该知道一切</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/e568f94cdf6a">PCM数据格式</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/u010650845/article/details/53520426">MP3文件结构解析(超详细)</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/ranson7zop/p/7655474.html#!comments">MP3格式音频文件结构解析</a></p>
+<p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Comparison_of_audio_coding_formats">Comparison of audio coding formats</a></p>
+<p><a target="_blank" rel="noopener" href="https://damiansheldon.github.io/blog/audio-and-video-file-format.html">音频和视频格式</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/4d611897526b">关于CAF文件</a></p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>觉得文章有帮助可以打赏一下哦！</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.jpg" alt="jekyttt 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/12/19/UIBarButtonItem%E5%9D%91/" rel="prev" title="UIBarButtonItem坑">
+      <i class="fa fa-chevron-left"></i> UIBarButtonItem坑
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/03/03/%E4%BB%8EJSONSerialization%E5%B4%A9%E6%BA%83%E5%88%B0%E6%90%9E%E6%87%82Swift%E7%9A%84try-catch/" rel="next" title="从JSONSerialization崩溃到搞懂Swift的try-catch">
+      从JSONSerialization崩溃到搞懂Swift的try-catch <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9F%B3%E8%A7%86%E9%A2%91%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%92%8C%E7%BC%96%E7%A0%81%E6%A0%BC%E5%BC%8F"><span class="nav-text">音视频文件格式和编码格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AVPlayer%E6%94%AF%E6%8C%81%E7%9A%84%E6%A0%BC%E5%BC%8F"><span class="nav-text">AVPlayer支持的格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PCM"><span class="nav-text">PCM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AIFF"><span class="nav-text">AIFF</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WAV"><span class="nav-text">WAV</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CAF"><span class="nav-text">CAF</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WMA"><span class="nav-text">WMA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MPEG"><span class="nav-text">MPEG</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#MP3"><span class="nav-text">MP3</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AAC"><span class="nav-text">AAC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">jekyttt</p>
+  <div class="site-description" itemprop="description">涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">176</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">116</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xq-120" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xq-120" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://stackoverflow.com/yourname" title="StackOverflow → https:&#x2F;&#x2F;stackoverflow.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fa fa-fw fa-stack-overflow"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jekyttt</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v6.3.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.getAttribute('pjax') !== null) {
+      script.setAttribute('pjax', '');
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'dc6a52837746ef605a70',
+      clientSecret: '7a049bac8b7eef61e32ebcbfcc33ea9d670d3274',
+      repo        : 'commentForBlog',
+      owner       : 'xq-120',
+      admin       : ['xq-120'],
+      id          : 'f8e9caee64799ba9f410c6c376962705',
+        language: 'en, zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+    </div>
+</body>
+</html>
