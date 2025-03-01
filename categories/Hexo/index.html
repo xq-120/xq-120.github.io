@@ -23,7 +23,7 @@
   <meta name="description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="芝士就是力量">
-<meta property="og:url" content="https://xq-120.github.io/categories/Hexo/index.html">
+<meta property="og:url" content="https://xq-120.github.io/categories/hexo/index.html">
 <meta property="og:site_name" content="芝士就是力量">
 <meta property="og:description" content="涉猎的编程语言为Objective-C、Swift、C,主要领域为iOS开发.">
 <meta property="og:locale" content="zh_CN">
@@ -31,7 +31,7 @@
 <meta property="article:tag" content="Objective-C, Swift, C, iOS开发, 移动开发">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://xq-120.github.io/categories/Hexo/">
+<link rel="canonical" href="https://xq-120.github.io/categories/hexo/">
 
 
 <script id="page-configurations">
@@ -43,7 +43,7 @@
   };
 </script>
 
-  <title>分类: Hexo | 芝士就是力量</title>
+  <title>分类: hexo | 芝士就是力量</title>
   
 
 
@@ -188,14 +188,14 @@
   <div class="post-block">
     <div class="posts-collapse">
       <div class="collection-title">
-        <h1 class="collection-header">Hexo
+        <h1 class="collection-header">hexo
           <small>分类</small>
         </h1>
       </div>
 
       
     <div class="collection-year">
-      <h1 class="collection-header">2024</h1>
+      <h1 class="collection-header">2020</h1>
     </div>
 
   <article itemscope itemtype="http://schema.org/Article">
@@ -203,61 +203,15 @@
 
       <div class="post-meta">
         <time itemprop="dateCreated"
-              datetime="2024-12-14T15:50:26+08:00"
-              content="2024-12-14">
-          12-14
+              datetime="2020-02-29T21:37:50+08:00"
+              content="2020-02-29">
+          02-29
         </time>
       </div>
 
       <h2 class="post-title">
-          <a class="post-title-link" href="/2024/12/14/hello-world/" itemprop="url">
-            <span itemprop="name">Hello World</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-    <div class="collection-year">
-      <h1 class="collection-header">2022</h1>
-    </div>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2022-05-07T17:17:12+08:00"
-              content="2022-05-07">
-          05-07
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2022/05/07/hexo-next%E4%B8%BB%E9%A2%98%E7%BB%99%E6%96%87%E7%AB%A0%E6%B7%BB%E5%8A%A0%E7%89%88%E6%9D%83%E4%BF%A1%E6%81%AF/" itemprop="url">
-            <span itemprop="name">hexo next主题给文章添加版权信息</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-    <div class="collection-year">
-      <h1 class="collection-header">2017</h1>
-    </div>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2017-07-20T00:00:00+08:00"
-              content="2017-07-20">
-          07-20
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2017/07/20/next-tutorial/" itemprop="url">
-            <span itemprop="name">Next Theme Tutorial</span>
+          <a class="post-title-link" href="/2020/02/29/github%20pages+hexo+next%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/" itemprop="url">
+            <span itemprop="name">github pages+hexo+next搭建博客</span>
           </a>
       </h2>
 
@@ -342,7 +296,7 @@
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-count">39</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -444,6 +398,80 @@ var pjax = new Pjax({
 
 window.addEventListener('pjax:success', () => {
   document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.getAttribute('pjax') !== null) {
+      script.setAttribute('pjax', '');
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+
+    </div>
+</body>
+</html>
+All('script[pjax], script#page-configurations, #pjax script').forEach(element => {
     var code = element.text || element.textContent || element.innerHTML || '';
     var parent = element.parentNode;
     parent.removeChild(element);
