@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.3.0">
+<meta name="generator" content="Hexo 7.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -266,7 +266,7 @@
 </li>
 </ol>
 <p>请求报文：</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">请求行  eg：<span class="built_in">GET</span> /u/2167612f3a86 HTTP/1.1</span><br><span class="line">请求头</span><br><span class="line"></span><br><span class="line">请求体</span><br></pre></td></tr></table></figure>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">请求行  eg：GET <span class="symbol">/u/2167612f3a86</span> HTTP<span class="symbol">/1.1</span></span><br><span class="line">请求头</span><br><span class="line"></span><br><span class="line">请求体</span><br></pre></td></tr></table></figure>
 <p>响应报文：</p>
 <figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">响应行  eg：HTTP/<span class="number">1.1 200</span> OK</span><br><span class="line">响应头</span><br><span class="line"></span><br><span class="line">响应体</span><br></pre></td></tr></table></figure>
 <p><strong>HTTP/1.0 缺点：</strong></p>
@@ -398,7 +398,7 @@
 <p>QUIC 基于 UDP，而 UDP 是“无连接”的，根本就不需要“握手”和“挥手”，所以就比 TCP 来得快。此外，QUIC 也实现了可靠传输，保证数据一定能够抵达目的地。它还引入了类似 HTTP/2 的“流”和“多路复用”，单个“流”是有序的，可能会因为丢包而阻塞，但其他“流”不会受到影响。</p>
 <h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><h4 id="为什么要复用连接"><a href="#为什么要复用连接" class="headerlink" title="为什么要复用连接?"></a>为什么要复用连接?</h4><p>HTTP耗时 = TCP握手</p>
 <p>HTTPS耗时 = TCP握手 + SSL握手</p>
-<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">curl</span> -w <span class="string">&quot;TCP handshake: %&#123;time_connect&#125;, SSL handshake: %&#123;time_appconnect&#125;\n&quot;</span> -so /dev/null https://www.alipay.com</span><br><span class="line"><span class="attribute">TCP</span> handshake: <span class="number">0</span>.<span class="number">035926</span>, SSL handshake: <span class="number">0</span>.<span class="number">138877</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl <span class="operator">-</span>w <span class="string">&quot;TCP handshake: %&#123;time_connect&#125;, SSL handshake: %&#123;time_appconnect&#125;<span class="char escape_">\n</span>&quot;</span> <span class="operator">-</span>so <span class="symbol">/dev/null</span> https:<span class="symbol">//www.alipay.com</span></span><br><span class="line">TCP <span class="params">handshake:</span> <span class="number">0.035926</span>, SSL <span class="params">handshake:</span> <span class="number">0.138877</span></span><br></pre></td></tr></table></figure>
 <p>上面命令中的w参数表示指定输出格式，time_connect变量表示TCP握手的耗时，time_appconnect变量表示SSL握手的耗时（更多变量请查看<a target="_blank" rel="noopener" href="http://curl.haxx.se/docs/manpage.html">文档</a>和<a target="_blank" rel="noopener" href="https://josephscott.org/archives/2011/10/timing-details-with-curl/">实例</a>），s参数和o参数用来关闭标准输出。另外青花瓷抓包也可以看到各阶段的耗时。</p>
 <p>可以看到如果不复用连接，那么每次都要3次TCP握手建立TCP连接，7次SSL握手建立SSL连接，而这些连接的建立都需要耗时，特别是建立SSL连接耗时更大，差不多是TCP的2-3倍。</p>
 <p>除了建立连接耗时外，TCP的慢启动机制也会影响传输速度。</p>
@@ -607,7 +607,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">jekyttt</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v6.3.0
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v7.3.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2

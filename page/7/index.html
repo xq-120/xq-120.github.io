@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.3.0">
+<meta name="generator" content="Hexo 7.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -413,7 +413,7 @@
 <p>1处通过mmap的方式读取一个500多兆的视频数据，2处读取视频中某一段的数据。最开始的时候bufferSize设置的是4096，运行的时候一切正常。正常之后自然想改个其他的值试试，于是就设置bufferSize为视频大小，结果一运行就崩溃了很快啊，然后就是提示EXC_BAD_ACCESS。当时觉得很奇怪怎么会EXC_BAD_ACCESS呢？也没看到哪个地方有过度释放的对象啊。最后一点点修改bufferSize的大小，发现小于1000000代码就可以正常运行，而超过则会EXC_BAD_ACCESS。不过依然搞不懂为啥会这样。百思不得其解之后只能求助Google，不过也不知道怎么搜索关键字，一通搜索之后也没找到有用的东西，期间一度想放弃，不过还是坚持了下来。</p>
 <p>直接上结论：上述崩溃的原因就是stack overflow了。</p>
 <p>我们可以验证一下，打好断点后分别<strong>p &amp;err</strong>，<strong>p &amp;cachespath</strong>得到：</p>
-<figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">(lldb)</span> p &amp;err</span><br><span class="line"><span class="comment">(NSError **)</span> $<span class="number">0</span> = <span class="number">0</span>x<span class="number">000000016</span>f<span class="number">5</span>b<span class="number">97</span>d<span class="number">0</span></span><br><span class="line"><span class="comment">(lldb)</span> p &amp;cachespath</span><br><span class="line"><span class="comment">(NSString **)</span> $<span class="number">1</span> = <span class="number">0</span>x<span class="number">000000016</span>f<span class="number">4</span>c<span class="number">5470</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(lldb) p <span class="operator">&amp;</span>err</span><br><span class="line">(<span class="type">NSError</span> <span class="operator">**</span>) <span class="variable">$0</span> <span class="operator">=</span> <span class="number">0x000000016f5b97d0</span></span><br><span class="line">(lldb) p <span class="operator">&amp;</span>cachespath</span><br><span class="line">(<span class="type">NSString</span> <span class="operator">**</span>) <span class="variable">$1</span> <span class="operator">=</span> <span class="number">0x000000016f4c5470</span></span><br></pre></td></tr></table></figure>
 <p>$0 - $1 = 0xF4360 = 1000288 = 0.954M，基本上快占满整个栈空间了（这里有点马后炮了因为很多人可能都不知道主线程的栈空间有多大，甚至都没有栈溢出这个概念自然也不会往这个方面想了）。因此代码可能会崩溃在后面的任意一行代码，具体是哪一行视栈的剩余空间大小。比如有可能崩溃在</p>
 <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSError <span class="number">*e</span>rr;  Thread 1: EXC_BAD_ACCESS (<span class="attribute">code</span>=2, <span class="attribute">address</span>=0x16f4bfad0)</span><br></pre></td></tr></table></figure>
 <p>也有可能会崩溃在：</p>
@@ -1187,7 +1187,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">jekyttt</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v6.3.0
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v7.3.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2

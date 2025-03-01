@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.3.0">
+<meta name="generator" content="Hexo 7.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -247,7 +247,7 @@
 <p>note:在Podfile文件中的<code>platform :ios, &#39;7.0&#39;</code>,如果你设置的iOS系统过低,可能有的第三方库会下载不下来.所以还是要看一下第三方库的最低版本支持说明.</p>
 <p>Q:RuntimeError - [Xcodeproj] Unknown object version.然后是一大堆错误日志.不管是重新从svn checkout一份新的还是怎样,pod install都不能成功.<br>A:一种解决办法:重新安装cocoapods.</p>
 <p>Q:pod search xxx，总是失败，提示CDN: trunk URL couldn’t be downloaded … Response: SSL connect error</p>
-<figure class="highlight vbnet"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[!] CDN: trunk Repo update failed - <span class="number">2</span> <span class="keyword">error</span>(s):</span><br><span class="line"><span class="symbol">CDN:</span> trunk URL couldn<span class="comment">&#x27;t be downloaded: https://cdn.jsdelivr.net/cocoa/Specs/7/1/d/lottie-ios/4.4.0/lottie-ios.podspec.json Response: SSL connect error</span></span><br><span class="line"><span class="symbol">CDN:</span> trunk URL couldn<span class="comment">&#x27;t be downloaded: https://cdn.jsdelivr.net/cocoa/Specs/7/1/d/lottie-ios/4.4.1/lottie-ios.podspec.json Response: SSL connect error</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[<span class="operator">!</span>] <span class="params">CDN:</span> trunk Repo update failed <span class="operator">-</span> <span class="number">2</span> error(s):</span><br><span class="line"><span class="params">CDN:</span> trunk URL couldn&#x27;t be <span class="params">downloaded:</span> https:<span class="symbol">//cdn.jsdelivr.net/cocoa/Specs/7/1/d/lottie-ios/4.4.0/lottie-ios.podspec.json</span> <span class="params">Response:</span> SSL connect error</span><br><span class="line"><span class="params">CDN:</span> trunk URL couldn&#x27;t be <span class="params">downloaded:</span> https:<span class="symbol">//cdn.jsdelivr.net/cocoa/Specs/7/1/d/lottie-ios/4.4.1/lottie-ios.podspec.json</span> <span class="params">Response:</span> SSL connect error</span><br></pre></td></tr></table></figure>
 <p>解决办法：</p>
 <p>The workaround to get working locally during this outage or CDN issue - guessing a DNS change or something?:</p>
 <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod repo <span class="built_in">remove</span> trunk</span><br></pre></td></tr></table></figure>
@@ -425,7 +425,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">jekyttt</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v6.3.0
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v7.3.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2

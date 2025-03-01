@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.3.0">
+<meta name="generator" content="Hexo 7.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -286,7 +286,7 @@
 <p>GitHub 上有个<code>dSYMTools</code>工具封装了<code>atos</code>命令，可以辅助我们解析.</p>
 <p>使用很方便,只要拖入dSYM文件,然后将错误地址以及Slide Address输入工具的文本框中即可.</p>
 <h4 id="Slide-address查看"><a href="#Slide-address查看" class="headerlink" title="Slide address查看"></a>Slide address查看</h4><p>在崩溃日志里面找到 Binary IImages: 这一块，Binary IImages: 下面第一行就是加载应用可执行文件的信息，大致如下：</p>
-<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Binary Images:</span><br><span class="line">0x100878000 - 0x10087ffff myCrashDemo arm64  &lt;dc8bc710db863d2ca08180537af8015e&gt; <span class="string">/var/containers/Bundle/Application/3BCB5A1C-9BD8-44CD-84EE-39128C005B9F/myCrashDemo.app/myCrashDemo</span></span><br><span class="line">0x100938000 - 0x10099bfff dyld arm64  &lt;fc36be383ccf330abe42940868e68937&gt; <span class="string">/usr/lib/dyld</span></span><br><span class="line">0x102478000 - 0x102483fff libobjc-trampolines.dylib arm64  &lt;a8<span class="keyword">cd</span>788cc9113887ae254bd47d58c7c1&gt; <span class="string">/usr/lib/libobjc-trampolines.dylib</span></span><br><span class="line">0x239546000 - 0x239547fff libSystem.B.dylib arm64  &lt;b3dbcc8e41b03e51b7e65d2800dcdea9&gt; <span class="string">/usr/lib/libSystem.B.dylib</span></span><br><span class="line">0x239548000 - 0x2395a2fff libc++<span class="string">.1.dylib</span> arm64  &lt;c406443c983a33829b164c441b7c2af4&gt; <span class="string">/usr/lib/libc</span>++<span class="string">.1.dylib</span></span><br><span class="line"><span class="string">...</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Binary <span class="params">Images:</span></span><br><span class="line"><span class="number">0</span>x100878000 <span class="operator">-</span> <span class="number">0</span>x10087ffff myCrashDemo arm64  <span class="symbol">&lt;dc8bc710db863d2ca08180537af8015e&gt;</span> <span class="symbol">/var/containers/Bundle/Application/3BCB5A1C-9BD8-44CD-84EE-39128C005B9F/myCrashDemo.app/myCrashDemo</span></span><br><span class="line"><span class="number">0</span>x100938000 <span class="operator">-</span> <span class="number">0</span>x10099bfff dyld arm64  <span class="symbol">&lt;fc36be383ccf330abe42940868e68937&gt;</span> <span class="symbol">/usr/lib/dyld</span></span><br><span class="line"><span class="number">0</span>x102478000 <span class="operator">-</span> <span class="number">0</span>x102483fff libobjc-trampolines.dylib arm64  <span class="symbol">&lt;a8cd788cc9113887ae254bd47d58c7c1&gt;</span> <span class="symbol">/usr/lib/libobjc-trampolines.dylib</span></span><br><span class="line"><span class="number">0</span>x239546000 <span class="operator">-</span> <span class="number">0</span>x239547fff libSystem.B.dylib arm64  <span class="symbol">&lt;b3dbcc8e41b03e51b7e65d2800dcdea9&gt;</span> <span class="symbol">/usr/lib/libSystem.B.dylib</span></span><br><span class="line"><span class="number">0</span>x239548000 <span class="operator">-</span> <span class="number">0</span>x2395a2fff libc<span class="operator">++</span>.<span class="number">1</span>.dylib arm64  <span class="symbol">&lt;c406443c983a33829b164c441b7c2af4&gt;</span> <span class="symbol">/usr/lib/libc++.1.dylib</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
 <p>其中 0x100878000 就是 slide address。<br>arm64 指的是 arm64 架构下，uuid 是 dc8bc710db863d2ca08180537af8015e.</p>
 <h4 id="错误的内存地址查看"><a href="#错误的内存地址查看" class="headerlink" title="错误的内存地址查看"></a>错误的内存地址查看</h4><p>内存地址是 Last Exception Backtraces 中每一行的第一个地址，分析其他行的时候你要看下是不是自己应用可执行文件那行，因为你这个 slide address 只对应到自己那个可执行文件，系统的一些库的 slide address 都不一样的。<br>其实分析一个 crash 文件并不要很长时间，只需要找到自己可执行文件对应的那行内存地址，slide address，和 arch type 这三个信息就可以了，并不是每一行错误信息都需要看。</p>
 
@@ -458,7 +458,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">jekyttt</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v6.3.0
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v7.3.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.3.0">
+<meta name="generator" content="Hexo 7.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -274,7 +274,7 @@
 <figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">cas</span><span class="params">(<span class="type">long</span> *addr, <span class="type">long</span> old, <span class="type">long</span> <span class="keyword">new</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">/* Executes atomically. */</span></span><br><span class="line">    <span class="keyword">if</span>(*addr != old)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    *addr = <span class="keyword">new</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>以上过程在CAS指令中是原子操作。</p>
 <p>CAS应用示例：</p>
-<figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">do</span>&#123;  </span><br><span class="line">   备份旧数据； </span><br><span class="line">   基于旧数据构造新数据； </span><br><span class="line">&#125;<span class="keyword">while</span><span class="comment">(!CAS( 内存地址，备份的旧数据，新数据 )</span>)  <span class="comment">//CAS修改失败则继续尝试，线程并不会被挂起阻塞。</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">do</span>&#123;  </span><br><span class="line">   备份旧数据； </span><br><span class="line">   基于旧数据构造新数据； </span><br><span class="line">&#125;<span class="keyword">while</span>(!<span class="built_in">CAS</span>( 内存地址，备份的旧数据，新数据 ))  <span class="comment">//CAS修改失败则继续尝试，线程并不会被挂起阻塞。</span></span><br></pre></td></tr></table></figure>
 <p><strong>ABA 现象</strong></p>
 <p>ABA 现象指的是线程 1 先读取了变量的值为A作为期望旧值，然后将要执行 CAS 指令时，变量的值在其他线程已经由 A 改为 B，又改回了 A。但是当线程 1 执行 CAS 时是无法感知这一变化的，因此它判断是相等的所以依然执行成功。</p>
 <p>ABA 现象不一定就会出问题，取决于具体的场景，在某些场景下 ABA 现象就会变成 ABA 问题。</p>
@@ -288,7 +288,7 @@
 <figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">线程<span class="number">1</span>：<span class="built_in">TAS</span>(v)</span><br><span class="line">线程<span class="number">2</span>：<span class="built_in">CAS</span>(v, <span class="number">0</span>, <span class="number">3</span>)</span><br><span class="line">线程<span class="number">1</span>还没有写入<span class="number">1</span>时，线程<span class="number">2</span>比较发现相等写入了<span class="number">3</span>，线程<span class="number">1</span>继续执行写入了<span class="number">1</span>.那么v最终是<span class="number">1</span>？</span><br></pre></td></tr></table></figure>
 <p>Q3：在执行类似CAS这种复杂原子指令期间，其他线程能不能读写该变量的内存？</p>
 <p>不太确定的结论：貌似可以。可能上面的结论是错误，没查到资料，也可能是：在执行原子指令时，其他线程不能访问该变量的内存。</p>
-<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">线程<span class="number">1</span>：fetch_and_add(<span class="keyword">x</span><span class="punctuation">,</span> <span class="number">1</span>)</span><br><span class="line">线程<span class="number">2</span>：<span class="keyword">x</span> <span class="operator">=</span> <span class="number">3</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">线程<span class="number">1</span>：<span class="built_in">fetch_and_add</span>(<span class="attribute">x</span>, <span class="number">1</span>)</span><br><span class="line">线程<span class="number">2</span>：<span class="attribute">x</span> = <span class="number">3</span></span><br></pre></td></tr></table></figure>
 <p>Q：一条汇编指令能不能被多核 CPU 同时执行？</p>
 <p>可以。但如果锁内存总线后，就可以保证同时只有一个核来执行该指令，从而避免了多核下发生的问题。</p>
 <p>上面的结论有些可能是错误的，知道的老铁可以留言指明一下。</p>
@@ -473,7 +473,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">jekyttt</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v6.3.0
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v7.3.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2

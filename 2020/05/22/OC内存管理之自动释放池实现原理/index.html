@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.3.0">
+<meta name="generator" content="Hexo 7.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"xq-120.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="整了8个小时，基本上算整明白了。 环境： NSObject.mm源码 版本为objc4-781。 对代码 123456int main(int argc, const char * argv[]) &amp;#123;    @autoreleasepool &amp;#123;        NSLog(@&quot;Hello, World!&quot;);    &amp;#125;    return 0;&amp;#1">
+  <meta name="description" content="整了8个小时，基本上算整明白了。 环境： NSObject.mm源码 版本为objc4-781。 对代码 123456int main(int argc, const char * argv[]) &#123;    @autoreleasepool &#123;        NSLog(@&quot;Hello, World!&quot;);    &#125;    return 0;&amp;#1">
 <meta property="og:type" content="article">
 <meta property="og:title" content="OC内存管理之自动释放池实现原理">
 <meta property="og:url" content="https://xq-120.github.io/2020/05/22/OC%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B9%8B%E8%87%AA%E5%8A%A8%E9%87%8A%E6%94%BE%E6%B1%A0%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/index.html">
 <meta property="og:site_name" content="芝士就是力量">
-<meta property="og:description" content="整了8个小时，基本上算整明白了。 环境： NSObject.mm源码 版本为objc4-781。 对代码 123456int main(int argc, const char * argv[]) &amp;#123;    @autoreleasepool &amp;#123;        NSLog(@&quot;Hello, World!&quot;);    &amp;#125;    return 0;&amp;#1">
+<meta property="og:description" content="整了8个小时，基本上算整明白了。 环境： NSObject.mm源码 版本为objc4-781。 对代码 123456int main(int argc, const char * argv[]) &#123;    @autoreleasepool &#123;        NSLog(@&quot;Hello, World!&quot;);    &#125;    return 0;&amp;#1">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20200916214437.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/xq-120/cloudImage/master/pictures/20200917095746.png">
@@ -394,7 +394,7 @@
 <p>而在ARC中<code>__autoreleasing修饰符</code>,如果是创建一个对象并赋值给__autoreleasing 的指针变量，则仅仅是将对象注册到自动释放池。其他情况则会retain对象再注册到自动释放池中。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">@autoreleasepool &#123;</span><br><span class="line">  id obj = [NSObject new];</span><br><span class="line">  &#123;</span><br><span class="line">    id __autoreleasing obj1 = obj; <span class="comment">//2</span></span><br><span class="line">    NSLog(@<span class="string">&quot;obj1:%@&quot;</span>, obj1);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">    </span><br><span class="line">id obj = msg_Send(NSObject, <span class="string">&quot;new&quot;</span>);</span><br><span class="line">id obj1 = objc_retainAutorelease(obj); <span class="comment">//retain对象+注册对象到自动释放池</span></span><br><span class="line">NSLog(@<span class="string">&quot;obj1:%@&quot;</span>, obj1);</span><br><span class="line">objc_storeStrong(&amp;obj, nil);</span><br><span class="line"></span><br><span class="line">id</span><br><span class="line"><span class="title function_">objc_retainAutorelease</span><span class="params">(id obj)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> objc_autorelease(objc_retain(obj));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="Q1：如何获取创建的自动释放池？"><a href="#Q1：如何获取创建的自动释放池？" class="headerlink" title="Q1：如何获取创建的自动释放池？"></a>Q1：如何获取创建的自动释放池？</h4><p>自动释放池都是new出来的，获取的时候怎么找到这个自动释放池呢？从上面的代码可以看到new了一个自动释放池页后，会调用setHotPage(page);这个函数就是往线程的TLS上写入key（key=43）—page地址。这样下次我们只需要读取TLS上的key就可以得到当前正在使用的自动释放池页。系统内部会一直更新key的值，确保key始终指向当前正在使用的自动释放池页。有了hotPage的地址，再加上双链表就可以找到第一页coldPage的地址。</p>
-<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">static inline void <span class="built_in">setHotPage</span>(AutoreleasePoolPage *page) </span><br><span class="line">&#123;</span><br><span class="line">    if (page) page-&gt;<span class="built_in">fastcheck</span>();</span><br><span class="line">    <span class="built_in">tls_set_direct</span>(key, (void *)page);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">static inline void <span class="built_in">setHotPage</span>(AutoreleasePoolPage *page) </span><br><span class="line">&#123;</span><br><span class="line">    if (page) <span class="attribute">page</span>-&gt;<span class="built_in">fastcheck</span>();</span><br><span class="line">    <span class="built_in">tls_set_direct</span>(key, (void *)<span class="attribute">page</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>注意一个线程只会有一个双链表自动释放池。push的作用：</p>
 <p>1.懒加载page，如果此时还没有page或者page满了则会创建一个新的page链接在之前的双链表上，而不是创建另一个双链表。</p>
 <p>2.返回一个token地址。</p>
@@ -599,7 +599,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">jekyttt</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v6.3.0
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v7.3.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.3.0">
+<meta name="generator" content="Hexo 7.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -263,7 +263,7 @@
 <p><strong>atomic保证了赋值/取值的整个过程的完整性，并且不受其他线程的干扰</strong>。比如线程A在setter时，线程B如果想setter那么就需要等待，线程C想getter也需要等待。</p>
 <p>再来看一下使用nonatomic在多线程环境下，下面的场景会出现什么问题：</p>
 <p>1、A，B线程同时调用setter方法会怎样。</p>
-<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (!atomic) &#123;</span><br><span class="line"><span class="number">1</span>    oldValue = *slot; <span class="comment">//获取旧值</span></span><br><span class="line"><span class="number">2</span>    *slot = <span class="keyword">new</span><span class="type">Value</span>; <span class="comment">//赋予新值</span></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    spinlock_t&amp; slotlock = PropertyLocks[slot];</span><br><span class="line">    slotlock.lock();  </span><br><span class="line">    oldValue = *slot; <span class="comment">//</span></span><br><span class="line">    *slot = <span class="keyword">new</span><span class="type">Value</span>;        </span><br><span class="line">    slotlock.unlock();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="number">3</span> objc_release(oldValue); <span class="comment">//release 旧值</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (!atomic) &#123;</span><br><span class="line"><span class="number">1</span>    oldValue = *slot; <span class="comment">//获取旧值</span></span><br><span class="line"><span class="number">2</span>    *slot = newValue; <span class="comment">//赋予新值</span></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="type">spinlock_t</span>&amp; slotlock = PropertyLocks[slot];</span><br><span class="line">    slotlock.<span class="built_in">lock</span>();  </span><br><span class="line">    oldValue = *slot; <span class="comment">//</span></span><br><span class="line">    *slot = newValue;        </span><br><span class="line">    slotlock.<span class="built_in">unlock</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="number">3</span> <span class="built_in">objc_release</span>(oldValue); <span class="comment">//release 旧值</span></span><br></pre></td></tr></table></figure>
 <p>A，B同时执行1，因此获得了同一个旧值对象，然后各自执行2因此属性的值是不确定的（这里倒没有什么致命关系），最后执行3，于是一个对象被释放了两次，这有可能会导致野指针崩溃。而atomic有加锁保护所以不会有问题。</p>
 <p>2、线程A调用getter方法获得对象地址，在对象使用期间，线程B调用setter方法，会怎样？</p>
 <p>getter方法实现</p>
@@ -482,7 +482,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">jekyttt</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v6.3.0
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v7.3.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2

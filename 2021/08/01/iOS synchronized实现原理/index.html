@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.3.0">
+<meta name="generator" content="Hexo 7.3.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -298,7 +298,7 @@
 <p>allocated：分配的SyncCacheItem内存空间个数，默认是4个。当used==allocated时，会扩容为原来的2倍。</p>
 <p>used：已使用的SyncCacheItem内存空间个数</p>
 <p>list：数组，保存已使用的SyncCacheItem</p>
-<h5 id="SyncList"><a href="#SyncList" class="headerlink" title="SyncList"></a>SyncList</h5><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">SyncList</span> &#123;</span></span><br><span class="line">    SyncData *data;</span><br><span class="line">    <span class="type">spinlock_t</span> lock;</span><br><span class="line"></span><br><span class="line">    constexpr <span class="title function_">SyncList</span><span class="params">()</span> : <span class="title function_">data</span><span class="params">(nil)</span>, <span class="title function_">lock</span><span class="params">(fork_unsafe_lock)</span> &#123; &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h5 id="SyncList"><a href="#SyncList" class="headerlink" title="SyncList"></a>SyncList</h5><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">SyncList</span> &#123;</span></span><br><span class="line">    SyncData *data;</span><br><span class="line">    <span class="type">spinlock_t</span> lock;</span><br><span class="line"></span><br><span class="line">    <span class="type">constexpr</span> <span class="title function_">SyncList</span><span class="params">()</span> : <span class="title function_">data</span><span class="params">(nil)</span>, <span class="title function_">lock</span><span class="params">(fork_unsafe_lock)</span> &#123; &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>包裹了一个链表和自旋锁，用于处理多线程操作链表。</p>
 <h5 id="StripedMap-lt-SyncList-gt"><a href="#StripedMap-lt-SyncList-gt" class="headerlink" title="StripedMap&lt;SyncList&gt;"></a>StripedMap<code>&lt;SyncList&gt;</code></h5><p>另外还有一个类型为StripedMap的全局变量sDataLists，StripedMap里面有一个数组总长度为8（iPhone），数组的元素是SyncList。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Use multiple parallel lists to decrease contention among unrelated objects.</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> LOCK_FOR_OBJ(obj) sDataLists[obj].lock</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> LIST_FOR_OBJ(obj) sDataLists[obj].data</span></span><br><span class="line"><span class="type">static</span> StripedMap&lt;SyncList&gt; sDataLists; <span class="comment">//是在哪里初始化的？</span></span><br></pre></td></tr></table></figure>
@@ -586,7 +586,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">jekyttt</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v6.3.0
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v7.3.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
